@@ -15,7 +15,7 @@
 - name: Check previous installation
   stat: path={{ mariadb_client_config }}
   register: cfg
-- include: initial_config.yml
+- include_tasks: initial_config.yml
   when: cfg.stat.exists is defined and cfg.stat.exists == false
 - name: Open the firewall
   firewalld: service=mysql permanent=true state=enabled

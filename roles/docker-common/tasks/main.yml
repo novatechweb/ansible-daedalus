@@ -12,10 +12,10 @@
     state: restarted
     enabled: yes
 
-- include: ip_addr.yml
-- include: packages.yml
-- include: sshd_settings.yml
-- include: mariadb_settings.yml
+- import_tasks: ip_addr.yml
+- import_tasks: packages.yml
+- import_tasks: sshd_settings.yml
+- import_tasks: mariadb_settings.yml
 
 - name: restores base dir
   file:
@@ -49,7 +49,7 @@
     clone: yes
     recursive: yes
     update: yes
-  with_items: docker_projects
+  with_items: "{{ docker_projects }}"
   tags:
     - docker_repositories
 
@@ -59,7 +59,7 @@
   register: docker_bacula_pp
   when: ansible_os_family == "RedHat"
 
-- include: selinux-backula-policy.yml
+- include_tasks: selinux-backula-policy.yml
   when: (docker_bacula_pp.stat.exists is defined) and (docker_bacula_pp.stat.exists == false)
 
 # *****************************************************************************
