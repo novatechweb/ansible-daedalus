@@ -93,7 +93,7 @@
     data_volume_container_name: '{{ wiki_db_dv_name }}'
 
 - name: stop prev container (mysql)
-  docker:
+  docker_container:
     image: '{{ wiki_db_image_name }}'
     name: '{{ wiki_db_container_name }}'
     state: stopped
@@ -125,5 +125,5 @@
 # *****************************************************************************
 # restore?
 
-- include: restore.yml
+- include_tasks: restore.yml
   when: st_mediawiki_restore.stat.exists == False

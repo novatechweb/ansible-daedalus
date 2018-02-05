@@ -111,8 +111,8 @@
     data_volume_container_name: '{{ mantisbt_db_dv_name }}'
 
 - name: stop prev container (mysql)
-  docker:
-    image: '{{ mantisbt_db_image_name }}'
+  docker_container:
+    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
     name: '{{ mantisbt_db_container_name }}'
     state: stopped
 
@@ -157,5 +157,5 @@
 # *****************************************************************************
 # restore?
 
-- include: restore.yml
+- include_tasks: restore.yml
   when: st_mantisbt_restore.stat.exists == False
