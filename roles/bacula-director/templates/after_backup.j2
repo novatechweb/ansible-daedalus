@@ -1,6 +1,0 @@
-{% if bacula_director_backup_vms is defined %}
-
-# *****************************************************************************
-# Clean up VMs
-/usr/bin/virt-backup --action cleanup --vm={{ bacula_director_backup_vms }}
-{% endif %}
