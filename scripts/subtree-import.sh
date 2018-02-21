@@ -20,8 +20,6 @@ roles , docker-openldap                              , origin       , git@github
 roles , docker-openssl                               , origin       , git@github.com:novatechweb/ansible-docker-openssl.git                                          , master
 roles , docker-pull-images                           , origin       , git@github.com:novatechweb/ansible-docker-pull-images.git                                      , master
 roles , docker-svn                                   , origin       , git@github.com:novatechweb/ansible-docker-svn.git                                              , master
-roles , libvirt-lvmpool                              , origin       , git@github.com:novatechweb/ansible-libvirt-lvmpool.git                                         , master
-roles , libvirt-vm                                   , origin       , git@github.com:novatechweb/ansible-libvirt-vm.git                                              , master
 roles , mariadb                                      , origin       , git@github.com:novatechweb/ansible-mariadb.git                                                 , master
 roles , setup-remote-user                            , origin       , git@github.com:novatechweb/ansible-setup-remote-user.git                                       , master
 docker, docker-exim4                                 , origin       , git@github.com:novatechweb/docker-exim4                                                        , master
