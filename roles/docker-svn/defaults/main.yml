@@ -15,3 +15,6 @@ container_port_map:
 
 # The repositories that will be created/imported durring a data-volume restore
 svn_repos: 'example'
+
+# Network names
+docker_network_frontend: 'frontend'
