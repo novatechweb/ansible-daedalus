@@ -19,3 +19,6 @@ gitlab_db_user: novatech
 
 # must pass in the following variables
 # gitlab_db_password: ''
+
+# Network names
+docker_network_frontend: 'frontend'
