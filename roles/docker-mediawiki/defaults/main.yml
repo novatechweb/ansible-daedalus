@@ -17,3 +17,6 @@ wiki_db_user: novatech
 # must pass in the following variables
 # wiki_db_root_password: ''
 # wiki_db_password: ''
+
+# Network names
+docker_network_frontend: 'frontend'
