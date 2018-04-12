@@ -9,4 +9,7 @@ container_addr_map:
 # the port mappings used when starting the container
 container_port_map:
   exim4:
-    port_args: '-p {{ container_addr_map.exim4.ip_addr }}:25:25 -p {{ container_addr_map.exim4.ip_addr }}:465:465 -p {{ container_addr_map.exim4.ip_addr }}:587:587'
+    port_args: 
+      - '{{ container_addr_map.exim4.ip_addr }}:25:25'
+      - '{{ container_addr_map.exim4.ip_addr }}:465:465'
+      - '{{ container_addr_map.exim4.ip_addr }}:587:587'
