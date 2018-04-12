@@ -145,6 +145,7 @@
 
 - include_tasks: restore.yml
   when: st_openldap_restore.stat.exists == False
+  tags: restore
 
 # *****************************************************************************
 # Set the LDAP passwords

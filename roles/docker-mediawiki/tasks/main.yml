@@ -147,3 +147,4 @@
 
 - include_tasks: restore.yml
   when: st_mediawiki_restore.stat.exists == False
+  tags: restore

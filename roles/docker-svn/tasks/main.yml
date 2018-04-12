@@ -98,3 +98,4 @@
 
 - include_tasks: restore.yml
   when: st_svn_restore.stat.exists == False
+  tags: restore
