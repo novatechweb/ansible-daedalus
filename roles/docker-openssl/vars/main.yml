@@ -1,6 +1,7 @@
 ---
 
 # the name of the image being duilt and used for the container
+openssl_image_repo: https://github.com/novatechweb/docker-openssl.git
 openssl_image_name: '{{ docker_registry_username }}/openssl'
 
 # the name of the data-volume used by the container

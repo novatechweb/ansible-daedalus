@@ -71,6 +71,12 @@
 # *****************************************************************************
 # Update or make the image.
 
+- name: Checkout image repo
+  git:
+    repo: '{{ wiki_image_repo }}'
+    version: master
+    dest: '{{ docker_projects_dir }}/docker-mediawiki'
+
 - name: build image
   docker_build:
     image_name: '{{ wiki_image_name }}'
