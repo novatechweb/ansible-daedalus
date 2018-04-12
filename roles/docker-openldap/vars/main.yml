@@ -1,6 +1,7 @@
 ---
 
 # the name of the image being duilt and used for the container
+openldap_image_repo: https://github.com/novatechweb/docker-openldap.git
 openldap_image_name: '{{ docker_registry_username }}/ldap'
 
 # the name of the container being started
