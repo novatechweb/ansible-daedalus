@@ -1,0 +1,35 @@
+# global configuration entry
+dn: cn=config
+objectClass: olcGlobal
+cn: config
+structuralObjectClass: olcGlobal
+olcIdleTimeout: 0
+olcLogLevel: -1
+olcToolThreads: 1
+olcArgsFile: /var/run/slapd/slapd.args
+olcPidFile: /var/run/slapd/slapd.pid
+
+# internal schema
+dn: cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: schema
+structuralObjectClass: olcSchemaConfig
+
+# include the core schema
+include: file:///etc/ldap/schema/core.ldif
+
+# global database parameters
+dn: olcDatabase=frontend,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcFrontendConfig
+olcDatabase: frontend
+olcReadOnly: FALSE
+olcAccess: to * by * read
+
+## set a rootpw for the config database so we can bind.
+##     deny access to everyone else.
+#dn: olcDatabase=config,cn=config
+#objectClass: olcDatabaseConfig
+#olcDatabase: config
+#olcRootPW: secret
+#olcAccess: to * by * none
