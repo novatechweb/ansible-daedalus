@@ -1,0 +1,112 @@
+---
+# file: roles/docker-openldap/tasks/main.yaml
+
+# This will generate passwords for these accounts.
+# A manuel step of setting the passwords into the LDAP database is required
+- assert:
+    that:
+    - ldap_admin_password is defined
+    - ldap_proxyagent_password is defined
+
+# *****************************************************************************
+# Setup the directory where the backup and restore is to take place
+
+- name: restore dir
+  file:
+    state: directory
+    path: '{{ host_openldap_docker_restore_dir }}'
+    owner: root
+    group: tape
+    mode: 'u=rwx,g=rwx,o=rx'
+    recurse: no
+    setype: svirt_sandbox_file_t
+
+- name: docker_container.conf dir
+  file:
+    state: directory
+    path: '{{ docker_restore_config_base_dir }}/{{ openldap_dv_name }}'
+    owner: root
+    group: root
+    mode: 'u=rwx,g=rx,o=rx'
+    recurse: no
+
+# *****************************************************************************
+# backup script part
+
+- name: Assemble dir for backup scripts
+  file:
+    path: /usr/libexec/bacula/backup-scripts
+    state: directory
+
+- name: before_backup script part
+  template:
+    src: before_backup.j2
+    dest: /usr/libexec/bacula/backup-scripts/55.before_backup.openldap
+
+- name: after_backup script part
+  template:
+    src: after_backup.j2
+    dest: /usr/libexec/bacula/backup-scripts/55.after_backup.openldap
+
+# *****************************************************************************
+# update the Docker restore config
+
+- name: exists - state file
+  stat:
+    path: '{{ docker_restore_config_base_dir }}/{{ openldap_dv_name }}/restore.date.txt'
+    get_checksum: False
+    get_md5: False
+  register: st_openldap_restore
+
+# *****************************************************************************
+# Update or make the image.
+
+- name: build image
+  docker_build:
+    image_name: '{{ openldap_image_name }}'
+    image_tag: '{{ docker_image_tag }}'
+    dockerfile_dir: '{{ docker_projects_dir }}/docker-openldap'
+
+# *****************************************************************************
+# Create the data volumes
+
+- name: data-volume container
+  docker_datavolume:
+    image_name: '{{ openldap_image_name }}'
+    image_tag: '{{ docker_image_tag }}'
+    data_volume_container_name: '{{ openldap_dv_name }}'
+
+# *****************************************************************************
+# Populate the ldap data-volume with default data
+
+- name: initial populate
+  command: 'docker run --rm --volumes-from {{ openldap_dv_name }} {{ openldap_image_name }}:{{ docker_image_tag }} init_data_volumes'
+  when: st_openldap_restore.stat.exists == False
+
+# *****************************************************************************
+# Start the data container running
+
+- name: start container (ldap)
+  docker_run:
+    container_name: '{{ openldap_container_name }}'
+    docker_run_arguments: '--hostname={{ container_addr_map.ldap.hostname }} {{ container_port_map.ldap.port_args }} --volumes-from {{ openssl_dv_name }} --volumes-from {{ openldap_dv_name }} --env LDAP_HOSTNAME={{ container_addr_map.ldap.hostname }} {{ openldap_image_name }}:{{ docker_image_tag }}'
+
+- name: start container (phpldapadmin)
+  docker_run:
+    container_name: '{{ phpldapadmin_container_name }}'
+    docker_run_arguments: '--hostname={{ container_addr_map.ldap.hostname }} {{ container_port_map.phpldapadmin.port_args }} --volumes-from {{ openssl_dv_name }} --env PHPLDAPADMIN_HTTPS=false --env PHPLDAPADMIN_LDAP_HOSTS=ldap --env LDAP_HOSTNAME={{ container_addr_map.phpldapadmin.hostname }} --link {{ openldap_container_name }}:ldap {{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
+
+# *****************************************************************************
+# restore?
+
+- include: restore.yml
+  when: st_openldap_restore.stat.exists == False
+
+# *****************************************************************************
+# Set the LDAP passwords
+
+- name: set LDAP admin password
+  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ ldap_admin_password | quote }}'
+
+- name: set LDAP proxyagent password
+  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_proxyagent_pass {{ ldap_admin_password | quote }} {{ ldap_proxyagent_password | quote }}'
