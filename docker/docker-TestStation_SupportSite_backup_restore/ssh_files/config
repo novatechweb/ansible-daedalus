@@ -1,0 +1,24 @@
+host buildsystem_docker_container
+	HostName 172.16.64.105
+	Port 22
+	User root
+	Identityfile ~/.ssh/id_rsa_buildsystem
+	StrictHostKeyChecking no
+	UserKnownHostsFile=/dev/null
+
+host supportsite_server
+	HostName 23.253.56.181
+	Port 29322
+	User deploy
+	IdentityFile ~/.ssh/id_rsa_new_supportsite_deploy
+	StrictHostKeyChecking no
+	UserKnownHostsFile=/dev/null
+
+host supportsite_docker_container
+	HostName 127.0.0.1
+	Port 22
+	User root
+	Identityfile ~/.ssh/id_rsa_buildsystem
+	StrictHostKeyChecking no
+	UserKnownHostsFile=/dev/null
+	ProxyCommand ssh -q supportsite_server nc %h %p
