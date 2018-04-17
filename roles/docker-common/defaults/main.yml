@@ -1,0 +1,10 @@
+---
+
+# The tag of the immage currently being used to build the container
+docker_image_tag: production
+
+# A prefix to seperate containers and images without removing running containers
+docker_name_prefix: ''
+
+# the user name portion of the docker image name
+docker_registry_username: novatechweb
