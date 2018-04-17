@@ -1,0 +1,10 @@
+---
+
+docker_build_base_images:
+  php:
+    repo: https://github.com/docker-library/php.git
+    commit_id: cc37392e0c16d83c6b7a2ef77f339a880536224f
+    image_name: php
+    image_tag: 5.6-apache
+    relative_dir: 5.6/apache/
+
