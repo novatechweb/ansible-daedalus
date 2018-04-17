@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Juan Orti
+  description: MariaDB for Fedora
+  license: GPLv3
+  min_ansible_version: 1.3
+  platforms:
+  - name: EL
+    versions:
+      - 7
+  - name: Fedora
+    versions:
+      - all
+  categories:
+  - database
+  - database:sql
+dependencies: []
