@@ -1,0 +1,48 @@
+---
+- assert:
+    that:
+    - bacula_director_password is defined
+    - bacula_monitor_password is defined
+    - mariadb_bacula_password is defined
+- name: Install/setup Bacula Director
+  yum: name={{ item }} state=present
+  with_items:
+    - bacula-director
+- name: Assemble dir for backup scripts
+  file: path=/usr/libexec/bacula/backup-scripts state=directory
+- name: before_backup script part
+  template: src=before_backup.j2 dest=/usr/libexec/bacula/backup-scripts/30.before_backup.vm.{{ bacula_director_backup_vms }}
+- name: after_backup script part
+  template: src=after_backup.j2 dest=/usr/libexec/bacula/backup-scripts/30.after_backup.vm.{{ bacula_director_backup_vms }}
+- name: Configure Bacula Director
+  template: src=bacula-dir.conf.j2 dest={{ bacula_director_config_dir }}/bacula-dir.conf
+          owner=bacula group=bacula mode=0640 backup=yes
+  register: bacula_director_config_status
+- name: Use libbaccats-mysql
+  command: alternatives --set libbaccats.so /usr/lib64/libbaccats-mysql.so
+- include: bacula-user.yml
+- name: libvirt polkit
+  copy: src=50-bacula-libvirt-access.pkla
+        dest=/etc/polkit-1/localauthority/50-local.d/50-bacula-libvirt-access.pkla
+  when: bacula_director_backup_vms is defined
+- name: Check if baculavirt selinux module exists
+  stat: path=/etc/selinux/targeted/modules/active/modules/baculavirt.pp
+  register: baculavirt_pp
+  when: bacula_director_backup_vms is defined
+- include: selinux-virt-policy.yml
+  when: bacula_director_backup_vms is defined and
+        baculavirt_pp.stat.exists is defined and
+        baculavirt_pp.stat.exists == false
+- name: Check if bacula mysql database exists
+  command: mysql -u root -e "SHOW DATABASES;"
+  register: databases
+- include: mariadb_setup.yml
+  when: databases.stdout.find('bacula') == -1
+- name: Test Bacula Director configuration
+  command: /usr/sbin/bacula-dir -t -c {{ bacula_director_config_dir }}/bacula-dir.conf
+- name: Enable and restart Bacula Director
+  service: name=bacula-dir enabled=yes state=restarted
+  when: bacula_director_config_status.changed
+- name: Enable and start Bacula Director
+  service: name=bacula-dir enabled=yes state=started
+  when: not bacula_director_config_status.changed

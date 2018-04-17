@@ -1,0 +1,6 @@
+{% if bacula_director_backup_vms is defined %}
+
+# *****************************************************************************
+# Backup VMs
+/usr/bin/virt-backup --action dump --vm={{ bacula_director_backup_vms }}
+{% endif %}

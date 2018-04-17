@@ -1,0 +1,75 @@
+---
+
+- name: Make sure bacula user is in the tape group
+  user:
+    name: bacula
+    groups: tape
+    append: yes
+
+- name: Make sure bacula user is in the qemu group
+  user:
+    name: bacula
+    groups: qemu
+    append: yes
+
+- name: Create the docker group
+  group:
+    name: docker
+    system: yes
+
+- name: Make sure bacula user is in the docker group
+  user:
+    name: bacula
+    groups: docker
+    append: yes
+
+- name: make dir - /var/spool/bacula/.ssh/
+  file:
+    path: /var/spool/bacula/.ssh/
+    state: directory
+    owner: bacula
+    group: bacula
+    mode: 'u=rwx,g=,o='
+
+- name: template - /var/spool/bacula/.ssh/config
+  template:
+    src: config
+    dest: /var/spool/bacula/.ssh/config
+    mode: 'u=rw,g=,o='
+    owner: bacula
+    group: bacula
+    force: no
+
+- name: touch - /var/spool/bacula/.ssh/known_hosts
+  file:
+    path: /var/spool/bacula/.ssh/known_hosts
+    state: touch
+    mode: 'u=rw,g=rw,o='
+    owner: bacula
+    group: bacula
+
+- name: Check if the keyfile exists
+  stat:
+    path: /var/spool/bacula/.ssh/bacula@{{ ansible_fqdn }}-git@github.com
+    get_checksum: False
+    get_md5: False
+  register: st_bacula_key
+
+- name: Generate git@github.com ssh key
+  command: 'ssh-keygen -b 4098 -t rsa -P "" -f /var/spool/bacula/.ssh/bacula@{{ ansible_fqdn }}-git@github.com -C "from: bacula@{{ ansible_fqdn }} to: git@github.com"'
+  args:
+    creates: /var/spool/bacula/.ssh/bacula@{{ ansible_fqdn }}-git@github.com
+  become: true
+  become_user: bacula
+  become_method: sudo
+
+- name: Read public key
+  command: cat /var/spool/bacula/.ssh/bacula@{{ ansible_fqdn }}-git@github.com.pub
+  register: bacula_key
+
+- debug:
+    var: bacula_key.stdout_lines[0]
+
+- pause:
+    prompt: "Verify or install the git@github.com key for the bacula user (/var/spool/bacula/.ssh/bacula@{{ ansible_fqdn }}-git@github.com.pub)"
+  when: st_bacula_key.stat.exists == False

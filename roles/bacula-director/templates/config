@@ -1,0 +1,5 @@
+Host github.com
+	HostName github.com
+	User git
+	Port 22
+	IdentityFile ~/.ssh/bacula@{{ ansible_fqdn }}-git@github.com
