@@ -1,0 +1,13 @@
+# Variables that are used by the role, but defined at the playbook level.
+# buildsystem_database_root_password
+# buildsystem_database_build_password
+# svn_username
+# svn_password
+
+local_working_directory: ~/ansible_workspace/
+
+ncd_repo: https://svn.novatech-llc.com/NCD_Release
+
+buildsystem_repo: https://git.novatech-llc.com/NovaTech-Testing/BuildSystem.git
+buildsystem_database_name: protocol
+buildsystem_directory: /opt/protocol
