@@ -1,0 +1,10 @@
+{% if gitlab_docker_backup_dir is defined %}
+
+# *****************************************************************************
+# Backup gitlab
+docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z {{ repository_images.debian.image }}:{{ repository_images.debian.tag }} bash -c "rm -rf /tmp/import_export/GIT"
+mkdir -p -m u=rwx,g=rwx,o= {{ gitlab_docker_backup_dir }}
+pushd {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}
+./gitlab.sh backup
+popd
+{% endif %}
