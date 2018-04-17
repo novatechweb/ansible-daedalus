@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Ansible transports arguments to modules in a file. The
+# path to the arguments file is in $1, and the file
+# contains the module's arguments like this:
+#
+#       image_name=debian pull_image_tag=8 working_image_tag=current
+#
+# Arguments:
+#    container_name
+#    docker_run_arguments
+
+eval $(sed -e "s/\s?\([^=]+\)\s?=\s?\(\x22\([^\x22]+\)\x22|\x27\([^\x27]+\)\x27|\(\S+\)\)\s?/\1='\2'/p" $1)
+
+if [[ -z "${container_name}" ]]; then
+    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs container_name= argument\"}"
+    exit 1
+fi
+
+if [[ -z "${docker_run_arguments}" ]]; then
+    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs docker_run_arguments= argument\"}"
+    exit 1
+fi
+
+changed='false'
+
+# *****************************************************************************
+# Check if container exists, remove container if it exists
+
+docker inspect ${container_name} &> /dev/null
+exist_result="${?}"
+
+if [[ "${exist_result}" == "0" ]]; then
+    if [[ "$(docker 2>&1 inspect -f '{{ .State.Running }}' ${container_name})" == 'true' ]]; then
+
+        docker stop ${container_name} &> /dev/null
+        stop_result="${?}"
+
+        if [[ "${stop_result}" != "0" ]]; then
+            printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"Failed to determine if container is running.\"}"
+            exit 1
+        fi
+
+        changed='true'
+    fi
+
+    docker rm -v ${container_name} &> /dev/null
+    remove_result="${?}"
+
+    if [[ "${remove_result}" != "0" ]]; then
+        printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"Failed to remove container.\"}"
+        exit 1
+    fi
+
+    changed='true'
+fi
+
+run_command=$(docker 2>&1 run -d --restart=always --name ${container_name} ${docker_run_arguments})
+result="${?}"
+
+if [[ "${result}" == "0" ]]; then
+    if [[ "${exist_result}" == "0" ]]; then
+        printf "{\"failed\": false, \"changed\": false, \"msg\": \"Restarted container ${container_name}\"}"
+        exit 0
+    else
+        printf "{\"failed\": false, \"changed\": true, \"msg\": \"Started container ${container_name}\"}"
+        exit 0
+    fi
+else
+    printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"${run_command}\"}"
+    exit 1
+fi

@@ -1,0 +1,151 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+- name: Bacula
+  hosts: bacula
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+  - role: mariadb
+    mariadb_open_firewall: true
+    mariadb_remote_root_access: false
+  - role: bacula-director
+    bacula_director_backup_vms: 'freeipa-centos7,win2012test,ADServer,accounting,sqlserver'
+  - role: bacula-storage
+  - role: bacula-client
+  - role: bacula-console
+  - role: bacula-script
+    assemble_scripts: false
+  - role: bacula-catalog
+
+- name: Virtual machines
+  hosts: virtual-machine-hosts
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+  - role: libvirt-lvmpool
+  - role: libvirt-vm
+    vm_name: freeipa-centos7
+    vm_pool: virtstorage
+    vm_vol: freeipa-centos7-vol
+    vm_capacity: 40000M
+    vm_image: freeipa-centos7_vda.img
+    vm_start: True
+  - role: libvirt-vm
+    vm_name: win2012test
+    vm_pool: virtstorage
+    vm_vol: win2012test-vol
+    vm_capacity: 102400M
+    vm_image: win2012test_vda.img
+    vm_start: True
+  - role: libvirt-vm
+    vm_name: ADServer
+    vm_pool: virtstorage
+    vm_vol: ADServer-vol
+    vm_capacity: 65000M
+    vm_image: ADServer_vda.img
+    vm_start: True
+  - role: libvirt-vm
+    vm_name: accounting
+    vm_pool: virtstorage
+    vm_vol: accounting-vol
+    vm_capacity: 65000M
+    vm_image: accounting_vda.img
+    vm_start: True
+  - role: libvirt-vm
+    vm_name: sqlserver
+    vm_pool: virtstorage
+    vm_vol: sqlserver-vol
+    vm_capacity: 210000M
+    vm_image: sqlserver_vda.img
+    vm_start: True
+
+- name: Install/Setup Docker images and containers
+  hosts: docker-hosts
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+  - name: Build base images that are not on Docker Hub
+    role: docker-build-base-image
+    tags:
+    - base_images
+  - name: Build and start the SVN Docker container
+    role: docker-svn
+    svn_repos: 'ddio NCD_Release'
+    tags:
+    - svn_container
+  - name: Build and start the GitLab Docker container
+    role: docker-gitlab
+    gitlab_db_user: novatech
+    tags:
+    - gitlab_container
+  - name: Build and start the MediaWIKI Docker container
+    role: docker-mediawiki
+    wiki_db_user: novatech
+    tags:
+    - wiki_container
+  - name: Build and start the MantisBT Docker container
+    role: docker-mantisbt
+    tags:
+    - mantisbt_container
+  - name: Build and start Build System (Test Station) containers
+    role: docker-buildsystem
+    tags:
+    - buildsystem_container
+
+- name: Setup the Build System (Test Station) with repo data
+  hosts: buildsystem
+  roles:
+  - role: buildsystem
+    tags:
+     - buildsystem_container
+
+- name: Assemble Bacula backup scripts
+  hosts: bacula
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+  - role: bacula-script
+    assemble_scripts: true
+
+- name: Cleanup tasks
+  hosts: all
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: Copy credentials to the /etc dir
+    copy:
+      src: ./credentials/{{ inventory_hostname }}
+      dest: /etc/ansible-credentials/
+      owner: root
+      group: root
+      mode: 'u=rw,g=,o='
+  - name: Copy build system credentials to /etc dir
+    copy:
+      src: ./credentials/buildsystem.novatech-llc.com
+      dest: /etc/ansible-credentials/
+      owner: root
+      group: root
+      mode: 'u=rw,g=,o='
+  - name: set directory permissions for /etc/ansible-credentials/
+    file:
+      state: directory
+      path: /etc/ansible-credentials/
+      owner: root
+      group: root
+      mode: 'u=rw,g=,o='
+      recurse: yes
+  - name: Remove bacula-restores dir
+    file:
+      path: /tmp/bacula-restores/
+      state: absent
