@@ -1,0 +1,10 @@
+module baculatape 1.0;
+
+require {
+	type tape_device_t;
+	type bacula_t;
+	class chr_file { read open write ioctl };
+}
+
+#============= bacula_t ==============
+allow bacula_t tape_device_t:chr_file { read open write ioctl };
