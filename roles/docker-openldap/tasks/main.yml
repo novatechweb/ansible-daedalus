@@ -110,7 +110,7 @@
   docker_container:
     name: '{{ openldap_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ container_addr_map.ldap.hostname }}'
     ports: '{{ container_port_map.ldap.port_args }}'
     volumes:
@@ -127,7 +127,7 @@
   docker_container:
     name: '{{ phpldapadmin_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ container_addr_map.ldap.hostname }}'
     ports: '{{ container_port_map.phpldapadmin.port_args }}'
     volumes:

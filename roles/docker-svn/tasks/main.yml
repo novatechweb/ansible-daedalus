@@ -80,7 +80,7 @@
   docker_container:
     name: '{{ svn_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ container_addr_map.svn.hostname }}'
     ports: '{{ container_port_map.svn.port_args }}'
     networks:

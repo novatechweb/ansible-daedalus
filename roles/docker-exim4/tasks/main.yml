@@ -106,7 +106,7 @@
       - name: '{{ docker_network_frontend }}'
     ports: '{{ exim4_ports }}'
     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
-    restart_policy: always
+    restart_policy: no
     state: started
     volumes:
       - '{{ exim4_dv_name }}:/var/spool/exim4:z'
