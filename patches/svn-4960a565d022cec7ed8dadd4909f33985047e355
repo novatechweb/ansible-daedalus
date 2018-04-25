@@ -1,0 +1,25 @@
+Bottom: 84133e8ec0c2b3a2f956da8b2c3ca1f550bf689d
+Top:    fd4ca39fd4387fee882ef07a0299081458b7e730
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-25 15:24:10 -0500
+
+Start correctly with empty svn repos dir
+
+The way the entrypoint script was listing SVN_BASE_DIR caused an error
+if the directory was empty.
+
+
+---
+diff --git a/docker/docker-svn/docker-entrypoint.sh b/docker/docker-svn/docker-entrypoint.sh
+index 02fd154..1da39e4 100755
+--- a/docker/docker-svn/docker-entrypoint.sh
++++ b/docker/docker-svn/docker-entrypoint.sh
+@@ -41,7 +41,7 @@ case ${1} in
+         [[ -e ${repo_conf_dir} ]] && \
+             rm -rf ${repo_conf_dir}
+         mkdir ${repo_conf_dir}
+-        svn_repos="$(cd ${SVN_BASE_DIR};ls -1d *)"
++        svn_repos="$(cd ${SVN_BASE_DIR};ls -1)"
+         for repo_path in ${svn_repos} ; do
+             if [[ ! -f ${repo_path}/format ]]; then
+                 echo >&2 "  ==> <SKIPPED>    ${repo_path}"
