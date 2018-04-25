@@ -1,0 +1,133 @@
+Bottom: 789096427089187662fe2b52168411eeb81bc137
+Top:    22a37ba3e73f17db82f543032a42b6f9cbf30a6a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-25 15:24:10 -0500
+
+Update Dockerfile and entrypoint
+
+
+---
+diff --git a/docker/docker-openssl/Dockerfile b/docker/docker-openssl/Dockerfile
+index 8ffc625..7223a00 100644
+--- a/docker/docker-openssl/Dockerfile
++++ b/docker/docker-openssl/Dockerfile
+@@ -3,20 +3,17 @@
+ #
+ # Version 0.0
+ 
+-FROM debian:8
+-MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
++FROM debian:latest
+ 
+ RUN apt-get update && \
+   DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+-    openssl \
+-    ca-certificates && \
+-  apt-get clean && \
++    openssl && \
+   rm -rf /var/lib/apt/lists/*
+ 
+ # copy over files
+ COPY ./docker-entrypoint.sh /
+ 
+ # create the openssl directory volumes
+-VOLUME ["/etc/ssl", "/usr/share/ca-certificates", "/usr/local/share/ca-certificates", "/etc/grid-security"]
++VOLUME ["/etc/ssl/private"]
+ 
+ ENTRYPOINT ["/docker-entrypoint.sh"]
+diff --git a/docker/docker-openssl/docker-entrypoint.sh b/docker/docker-openssl/docker-entrypoint.sh
+index edb1339..1096faf 100755
+--- a/docker/docker-openssl/docker-entrypoint.sh
++++ b/docker/docker-openssl/docker-entrypoint.sh
+@@ -8,34 +8,30 @@ set -e
+ # import   : imports the certificate authority from the IMPORT_EXPORT_PATH
+ # generate : generates a self signed certificate authority
+ 
+-SSL_BASE_DIR="/etc/ssl"
+-VOLUME_DIR_CONTENTS="${SSL_BASE_DIR}/openssl.cnf ${SSL_BASE_DIR}/certs/* ${SSL_BASE_DIR}/private/* /usr/share/ca-certificates/* /usr/local/share/ca-certificates/* /etc/grid-security/*"
++CMD="$1"
++FILE="$2"
++SSL_BASE_DIR="/etc/ssl/private"
+ 
+-[[ ! -s ${SSL_BASE_DIR}/dhparam.pem ]] && \
+-    openssl dhparam -out ${SSL_BASE_DIR}/dhparam.pem 2048
+-
+-case ${1} in
++case ${CMD} in
+     backup)
+         /bin/tar \
+             --create \
+             --preserve-permissions \
+             --same-owner \
+-            --directory=/ \
+-            --to-stdout \
+-            ${VOLUME_DIR_CONTENTS}
+-            #--sort=name \
++            --directory="${SSL_BASE_DIR}" \
++            --file="${FILE}" \
++            "."
+         ;;
+ 
+     extract)
+-        rm -rf ${VOLUME_DIR_CONTENTS}
++        rm -rf "${SSL_BASE_DIR}/*"
+         /bin/tar \
+             --extract \
+             --preserve-permissions \
+             --preserve-order \
+             --same-owner \
+-            --directory=/ \
+-            -f -
+-        update-ca-certificates --fresh
++            --directory="${SSL_BASE_DIR}" \
++            --file="${FILE}"
+         ;;
+ 
+     generate)
+@@ -47,13 +43,11 @@ case ${1} in
+         for base_filename in ${SSL_BASE_FILES}
+         do
+             openssl req -newkey rsa:${BYTES} -x509 -days ${DAYS} -nodes \
+-                -keyout ${SSL_BASE_DIR}/private/${base_filename}.key \
+-                -out ${SSL_BASE_DIR}/private/${base_filename}.crt \
++                -keyout ${SSL_BASE_DIR}/${base_filename}.key \
++                -out ${SSL_BASE_DIR}/${base_filename}.crt \
+                 -subj ${SUBJ}
+-            cp ${SSL_BASE_DIR}/private/${base_filename}.crt ${SSL_BASE_DIR}/private/${base_filename}_bundle.crt
++            cp ${SSL_BASE_DIR}/${base_filename}.crt ${SSL_BASE_DIR}/${base_filename}_bundle.crt
+         done
+-        mkdir -p /etc/grid-security/certificates
+-        update-ca-certificates --fresh
+         ;;
+ 
+     *)
+diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
+index 6bba3cf..0babd1d 100644
+--- a/roles/docker-openssl/tasks/restore.yml
++++ b/roles/docker-openssl/tasks/restore.yml
+@@ -46,7 +46,7 @@
+     volumes:
+       - '{{ host_openssl_docker_restore_dir }}:{{ host_openssl_docker_restore_dir }}:z'
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+-    command: ['extract', '{{ host_openssl_docker_restore_dir }}/{{ openssl_backup_file }}']
++    command: ['extract', '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}']
+ 
+ - name: extract archive
+   docker_container:
+diff --git a/roles/docker-openssl/templates/before_backup.j2 b/roles/docker-openssl/templates/before_backup.j2
+index d07e5ef..102d9f6 100644
+--- a/roles/docker-openssl/templates/before_backup.j2
++++ b/roles/docker-openssl/templates/before_backup.j2
+@@ -5,8 +5,10 @@
+ docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/openssl"
+ mkdir -p -m u=rwx,g=rwx,o= {{ openssl_docker_backup_dir }}
+ docker run --rm \
++    --volume {{ openssl_docker_backup_dir}}:{{ openssl_docker_backup_dir}}:z \
+     --volume {{ openssl_dv_name }}:/etc/ssl/private:z \
+-    {{ openssl_image_name }}:{{ docker_image_tag }} backup > \
+-        {{ openssl_docker_backup_dir }}{{ openssl_backup_file }}
++    {{ openssl_image_name }}:{{ docker_image_tag }} \
++    backup \
++    {{ openssl_docker_backup_dir }}{{ openssl_backup_file }}
+ 
+ {% endif %}
