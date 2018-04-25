@@ -1,5 +1,5 @@
 Version: 1
-Previous: e88e4ddc062f7fe643880df8e8f86c8a988369a4
+Previous: 6a07efc8d3422effc4fa8ab529eca21deccfd702
 Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -10,7 +10,7 @@ Applied:
   common-ip-addresses: 6eb6949af02a05fb648972ca7e2d36290a725cd2
   playbook-bringup_sh: fe9137ac7c70615cbf16755e6fe8b2d955758864
   playbook-fix-printf-in-docker_build: c8e349cd8cff5c2c61ece0ccf45ae9e528285629
-  fix-bacula-list-jobs-pexpect: 9ee3f25ba283fe91d08624750bf5fbf97af9b20e
+  bacula-fix-bacula-list-jobs-pexpect: 9ee3f25ba283fe91d08624750bf5fbf97af9b20e
   remove-unused-pools: 3a24a261aaa249eed555761f2beb6435b9cdd288
   force-sha256-fingerprint-check: 00bdc9f443140127440e2b6c2acc89271acf4bc6
   move-git-checkouts-to: f9b4918085377126b0594542201c94cbcd772942
