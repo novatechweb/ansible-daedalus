@@ -1,6 +1,6 @@
 Version: 1
-Previous: fe44f9257905dc317d4a1cf194a8c1cd7543c35d
-Head: 605eec8ed366f13f3470bad035ba63389516b9e6
+Previous: b989850fb2dd6c195fc726ac1efec6da399c9172
+Head: c6c78f471cccaefdac28b2d889ec2c58b6d9eb55
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -15,8 +15,7 @@ Applied:
   bacula-force-sha256-fingerprint-check: 00bdc9f443140127440e2b6c2acc89271acf4bc6
   all-docker-image-repositories: f9b4918085377126b0594542201c94cbcd772942
   common-common-variables: d984dfeef5e51977dd5d7353aec7a04f7b4a1210
-  all-debian-backup-script: 6e0f78a0d1c0f1cd505d341f9ee5894216a24b40
-  playbook-remove-docker-pull-images: 605eec8ed366f13f3470bad035ba63389516b9e6
+  playbook-remove-docker-pull-images: c6c78f471cccaefdac28b2d889ec2c58b6d9eb55
 Unapplied:
   all-move-container-port: 1bde61897eb2a81a1305657d5ffc436cc6f653d5
   all-docker_container: f2fef3400719eba9c44be888ba185c07202f10a0
