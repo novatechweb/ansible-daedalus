@@ -1,5 +1,5 @@
-Bottom: 1baa72de879daa8df14ff9358cd5594f2a193fea
-Top:    e9868da3a05978c9a9d2d20b286968f83403e832
+Bottom: 47f05af892ed3ce9580617dc54f45e36d05932d7
+Top:    77d617c666a85a480e2df949197e53c8a0c3e15d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-12 09:18:56 -0500
 
@@ -9,7 +9,6 @@ Cleaner than a single long docker run invocation
 
 
 ---
-
 diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
 index e7932ae..e50748f 100644
 --- a/roles/docker-exim4/defaults/main.yml
