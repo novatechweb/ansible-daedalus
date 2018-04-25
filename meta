@@ -1,5 +1,5 @@
 Version: 1
-Previous: 617391e5e82e3b1b1e8241d8d91f86bb07322650
+Previous: 755aa197a5a93d7c6850aaa0a5cbce02117283d9
 Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -28,7 +28,7 @@ Applied:
   testing-run-ansible-provisioning: 80d985451e47c4953409111058c00073f2df531b
   testing-add-restore-tag-to-tasks: ceac81818da957311018f443635694d128c7bbb5
   buildbot-add-buildbot-role: ed1e025b311135a2b56f8194f16c5ad6a171cc0b
-  improve-bacula-bootstrap: ec38573589c3abf0406e4018c567f137d7fafc70
+  bacula-improve-bacula-bootstrap-script: ec38573589c3abf0406e4018c567f137d7fafc70
   add-vagrant-configuration: 6b243c30aadc42c162cbcc2a99985f748c4b4def
   do-not-submit-restart_policy: ce0dcd029f1a89125d52edbbc80ae686367fd362
   common-update-python-docker-client: d50353febe099393e609de3180fb0b665c9d73dc
