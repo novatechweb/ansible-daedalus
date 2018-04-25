@@ -1,5 +1,5 @@
 Version: 1
-Previous: dae9bc4ade2620d4ff2570947cc9fd949d18baa0
+Previous: d2e4a20b02495b94bd63eb05772b829ad2b86dca
 Head: 822de3134a5bb97218a53f94a3ebe13d1153c8ee
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -40,7 +40,7 @@ Applied:
   common-move-sshd-config-to-setup: cd63bbcc733006ba7d98af0d21720de7cecd08e7
   buildsystem-credentials: d67804dbaee0e9c3ad2e9796a250326b2f779336
   buildsystem-apache2-version-string: c8df25bd149acc493d6c89d98a7064ccb894ee20
-  buildsystem-e484de1d5c7ebce1402a1c0ece6d731fa974b571: 1ec996c19a86cd194d8fba74edef4a6f19ccb6fb
+  buildsystem-limit-mysql-backups: 1ec996c19a86cd194d8fba74edef4a6f19ccb6fb
   exim4-223d35c69b48db013b3f8dc77de6acb7ab79c136: 58f607a10701d71f5547d8e2063e57e4b3a69290
   exim4-f049dd4cc599afa3d254a05bed1ba2a682f7538c: f0990bb80ada8917cbec48a8299e8d4288c0b1cb
   exim4-1f2b66982bb1a3ec3d5a0f5b1516ec43fed80828: 55432cc39e81c70bca02d0ee2c10555329f1a960
