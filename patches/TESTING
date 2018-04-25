@@ -1,0 +1,589 @@
+Bottom: 186aa5f519d8a7461ee49b189061a87c5536780a
+Top:    8a1d09ce3ff30de2799b11fc27a9ab425c1911df
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-25 16:02:10 -0500
+
+Add vmdaedalus inventory
+
+Run ansible provisioning through Docker
+
+Add 'restore' tag to tasks. By tagging the tasks, restoration can be skipped using --skip-tags
+option to ansible-playbook. This is useful for testing ansible plays
+on systems without tapedrives or established backups.
+
+Add Vagrant configuration
+
+Set docker container restart_policy to no for testing purposes
+
+---
+diff --git a/.gitignore b/.gitignore
+index e69de29..c1a0118 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -0,0 +1 @@
++/.vagrant/
+diff --git a/Vagrantfile b/Vagrantfile
+new file mode 100644
+index 0000000..9137e60
+--- /dev/null
++++ b/Vagrantfile
+@@ -0,0 +1,29 @@
++Vagrant.configure("2") do |config|
++    config.vm.box = "daedalus"
++    config.vm.box_url = "vmdaedalus/vmdaedalus-virtualbox.box"
++    config.vm.define "vmdaedalus.novatech-llc.com"
++    config.vm.hostname = "vmdaedalus.novatech-llc.com"
++    config.vm.provider "virtualbox" do |vb|
++        vb.name = "vmdaedalus"
++    end
++#    config.vm.network "public_network", ip: "192.168.0.100", netmask:"255.255.0.0", bridge: "enp0s31f6"
++    config.vm.network "private_network", ip: "192.168.0.100", netmask:"255.255.0.0"
++    config.vm.synced_folder "vmdaedalus/bacula-restores", "/tmp/bacula-restores", type: "rsync"
++
++    config.vm.provision "ansible" do |ansible|
++        ansible.verbose = "v"
++        ansible.playbook = "ansible-playbook/site.yml"
++        ansible.groups = {
++            "bacula" => ["vmdaedalus.novatech-llc.com"],
++            "docker-hosts" => ["vmdaedalus.novatech-llc.com"]
++        }
++        # ansible.tags = []
++        # ansible.skip_tags = ["restore"]
++        ansible.host_vars = {
++            "vmdaedalus.novatech-llc.com" => {
++                "network_connection" => "System enp0s8"
++            }
++        }
++    end
++    
++end
+diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+new file mode 100644
+index 0000000..53b96f8
+--- /dev/null
++++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -0,0 +1,33 @@
++---
++
++container_addr_map:
++  svn:
++    ip_addr: 192.168.0.101
++    hostname: svn.novatech-llc.com
++  git:
++    ip_addr: 192.168.0.102
++    hostname: git.novatech-llc.com
++  wiki:
++    ip_addr: 192.168.0.103
++    hostname: wiki.novatech-llc.com
++  mantisbt:
++    ip_addr: 192.168.0.104
++    hostname: mantis.novatech-llc.com
++  build:
++    ip_addr: 192.168.0.105
++    hostname: buildsystem.novatech-llc.com
++  testssh:
++    ip_addr: 192.168.0.106
++    hostname: testssh.novatech-llc.com
++  exim4:
++    ip_addr: 192.168.0.107
++    hostname: mail.novatech-llc.com
++  ldap:
++    ip_addr: 192.168.0.108
++    hostname: ldap.novatech-llc.com
++  phpldapadmin:
++    ip_addr: 192.168.0.108
++    hostname: ldap.novatech-llc.com
++  phpmyadmin:
++    ip_addr: 192.168.0.109
++    hostname: phpmyadmin.novatech-llc.com
+diff --git a/ansible-playbook/vm b/ansible-playbook/vm
+new file mode 100644
+index 0000000..aef25a1
+--- /dev/null
++++ b/ansible-playbook/vm
+@@ -0,0 +1,5 @@
++[bacula]
++vmdaedalus.novatech-llc.com
++
++[docker-hosts]
++vmdaedalus.novatech-llc.com
+diff --git a/ansible-runner/Dockerfile b/ansible-runner/Dockerfile
+new file mode 100644
+index 0000000..288b5ff
+--- /dev/null
++++ b/ansible-runner/Dockerfile
+@@ -0,0 +1,40 @@
++FROM ubuntu:latest
++
++RUN apt-get update \
++&&  DEBIAN_FRONTEND=noninteractive apt-get install \
++    -y \
++    curl \
++    git \
++    openssh-client \
++    python \
++    python-svn \
++    rsync \
++    sshpass \
++    subversion \
++    vim
++    
++# Install pip
++RUN curl -O https://bootstrap.pypa.io/get-pip.py \
++&&  python get-pip.py --no-cache-dir
++
++RUN pip --no-cache-dir install \
++    'ansible'
++
++ARG UID=1000
++ARG GID=1000
++
++RUN groupadd \
++    --gid ${GID} \
++    --system \
++    ansible \
++&&  useradd \
++    --comment "Ansible User" \
++    --create-home \
++    --gid ${GID} \
++    --uid ${UID} \
++    --system \
++    ansible
++
++WORKDIR /ansible
++VOLUME /ansible
++USER ansible
+diff --git a/ansible-runner/build.sh b/ansible-runner/build.sh
+new file mode 100755
+index 0000000..96e80c6
+--- /dev/null
++++ b/ansible-runner/build.sh
+@@ -0,0 +1,12 @@
++#!/bin/bash
++
++PWD=$(readlink -f $(dirname $0))
++CONTEXT=$(readlink -f "$PWD/..")
++cd $PWD
++
++docker build \
++--build-arg UID="$(id -u)" \
++--build-arg GID="$(id -g)" \
++--pull \
++--tag "daedalus-provisioner:latest" \
++"$PWD"
+diff --git a/ansible-runner/run.sh b/ansible-runner/run.sh
+new file mode 100755
+index 0000000..f80680f
+--- /dev/null
++++ b/ansible-runner/run.sh
+@@ -0,0 +1,19 @@
++#!/bin/bash
++
++PWD=$(readlink -f $(dirname $0))
++CONTEXT=$(readlink -f "$PWD/..")
++cd $PWD
++
++exec docker run \
++--env ANSIBLE_ROLES_PATH=/ansible \
++--init \
++--interactive \
++--mount type=bind,src="$CONTEXT",dst="/ansible" \
++--mount type=bind,src="$HOME/.ssh",dst="/home/ansible/.ssh" \
++--network=host \
++--rm \
++--tty \
++--user ansible \
++--workdir "/ansible/ansible-playbook" \
++daedalus-provisioner \
++"$@"
+diff --git a/roles/bacula-catalog/tasks/main.yml b/roles/bacula-catalog/tasks/main.yml
+index 2d22328..3deb3fa 100644
+--- a/roles/bacula-catalog/tasks/main.yml
++++ b/roles/bacula-catalog/tasks/main.yml
+@@ -4,3 +4,4 @@
+   register: filecount
+ - include_tasks: restore-catalog-with-bsr.yml
+   when: filecount.stdout_lines[1] == "0"
++  tags: restore
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+index 1ab1133..6bd47d7 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+@@ -27,6 +27,6 @@
+     name: "{{ name_prefix }}TestStation_database_server"
+     ports: "{{ container_addr_map.build.ip_addr }}:3306:3306"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: no
+     volumes_from:
+       - "{{ name_prefix }}TestStation_database_data"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+index 883d3f4..d07fff6 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+@@ -16,7 +16,7 @@
+     name: "{{ name_prefix }}TestStation_http_server"
+     ports: "{{ container_addr_map.build.ip_addr }}:80:80"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: no
+     volumes_from:
+       - "{{ name_prefix }}TestStation_http_data_buildsystem"
+ #      - "{{ name_prefix }}TestStation_http_data_ipkg"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+index 1e3333b..1113824 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+@@ -21,7 +21,7 @@
+     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
+     name: "{{ name_prefix }}TestStation_ssh_server"
+     ports: "{{ container_addr_map.build.ip_addr }}:22:22"
+-    restart_policy: always
++    restart_policy: no
+     state: "{{ container_start_state_nondata }}"
+     volumes_from:
+       - "{{ name_prefix }}TestStation_database_data"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+index 6f95f9e..87cb714 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+@@ -33,4 +33,4 @@
+     name: "{{ name_prefix }}TestStation_ssh_server_manualtest"
+     ports: "{{ container_addr_map.testssh.ip_addr }}:22:22"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: no
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+index a6498fc..c036e3f 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+@@ -15,6 +15,6 @@
+     name: "{{ name_prefix }}TestStation_tftp_server"
+     ports: "{{ container_addr_map.build.ip_addr }}:69:69/udp"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: no
+     volumes_from:
+       - "{{ name_prefix }}TestStation_tftp_data"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
+index 9424667..b692d16 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
+@@ -14,6 +14,6 @@
+     image: "{{ name_prefix }}teststation_cron_image"
+     name: "{{ name_prefix }}TestStation_cron_service"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: no
+     volumes_from:
+       - "{{ name_prefix }}TestStation_http_data_ncdiso"
+diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
+index b62739e..382a979 100644
+--- a/roles/docker-buildsystem/tasks/main.yml
++++ b/roles/docker-buildsystem/tasks/main.yml
+@@ -133,3 +133,4 @@
+ 
+ - import_tasks: restore.yml
+   when: st_buildsystem_restore.stat.exists == False
++  tags: restore
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 5240723..3fb5502 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -106,7 +106,7 @@
+       - name: '{{ docker_network_frontend }}'
+     ports: '{{ exim4_ports }}'
+     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
+-    restart_policy: always
++    restart_policy: no
+     state: started
+     volumes:
+       - '{{ exim4_dv_name }}:/var/spool/exim4:z'
+@@ -117,6 +117,7 @@
+ 
+ - include_tasks: restore.yml
+   when: st_exim4_restore.stat.exists == False
++  tags: restore
+ 
+ # *****************************************************************************
+ # Email accounts
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 50f71c6..ac5ffcc 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -128,7 +128,7 @@
+   docker_container:
+     name: '{{ gitlab_redis_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
+     networks:
+       - name: '{{ docker_network_frontend }}'
+@@ -137,7 +137,7 @@
+   docker_container:
+     name: '{{ gitlab_db_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     volumes_from: '{{ gitlab_db_dv_name }}'
+     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
+     networks:
+@@ -147,7 +147,7 @@
+   docker_container:
+     name: '{{ gitlab_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     hostname: '{{ container_addr_map.git.hostname }}'
+     ports: '{{ container_port_map.git.port_args }}'
+     networks:
+@@ -181,3 +181,4 @@
+ 
+ - include_tasks: restore.yml
+   when: st_gitlab_restore.stat.exists == False
++  tags: restore
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index df44519..3ee9591 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -144,7 +144,7 @@
+   docker_container:
+     name: '{{ mantisbt_db_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     volumes_from:
+       - '{{ mantisbt_db_dv_name }}'
+     image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
+@@ -155,7 +155,7 @@
+   docker_container:
+     name: '{{ mantisbt_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     hostname: '{{ container_addr_map.mantisbt.hostname }}'
+     ports: '{{ container_port_map.mantisbt.port_args }}'
+     networks:
+@@ -186,3 +186,4 @@
+ 
+ - include_tasks: restore.yml
+   when: st_mantisbt_restore.stat.exists == False
++  tags: restore
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 251ba34..580c03f 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -118,7 +118,7 @@
+   docker_container:
+     name: '{{ wiki_db_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     volumes_from: '{{ wiki_db_dv_name }}'
+     image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
+     networks:
+@@ -128,7 +128,7 @@
+   docker_container:
+     name: '{{ wiki_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     hostname: '{{ container_addr_map.wiki.hostname }}' 
+     ports: '{{ container_port_map.wiki.port_args }}'
+     networks:
+@@ -147,3 +147,4 @@
+ 
+ - include_tasks: restore.yml
+   when: st_mediawiki_restore.stat.exists == False
++  tags: restore
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index e771b77..216fecc 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -110,7 +110,7 @@
+   docker_container:
+     name: '{{ openldap_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     hostname: '{{ container_addr_map.ldap.hostname }}'
+     ports: '{{ container_port_map.ldap.port_args }}'
+     volumes:
+@@ -127,7 +127,7 @@
+   docker_container:
+     name: '{{ phpldapadmin_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     hostname: '{{ container_addr_map.ldap.hostname }}'
+     ports: '{{ container_port_map.phpldapadmin.port_args }}'
+     volumes:
+@@ -145,6 +145,7 @@
+ 
+ - include_tasks: restore.yml
+   when: st_openldap_restore.stat.exists == False
++  tags: restore
+ 
+ # *****************************************************************************
+ # Set the LDAP passwords
+diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
+index 7bb3bf8..a3828f6 100644
+--- a/roles/docker-openssl/tasks/main.yml
++++ b/roles/docker-openssl/tasks/main.yml
+@@ -97,3 +97,4 @@
+ 
+ - include_tasks: restore.yml
+   when: st_openssl_restore.stat.exists == False
++  tags: restore
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index f87afb7..2fc8540 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -80,7 +80,7 @@
+   docker_container:
+     name: '{{ svn_container_name }}'
+     detach: true
+-    restart_policy: always
++    restart_policy: no
+     hostname: '{{ container_addr_map.svn.hostname }}'
+     ports: '{{ container_port_map.svn.port_args }}'
+     networks:
+@@ -98,3 +98,4 @@
+ 
+ - include_tasks: restore.yml
+   when: st_svn_restore.stat.exists == False
++  tags: restore
+diff --git a/vmdaedalus/.gitignore b/vmdaedalus/.gitignore
+new file mode 100644
+index 0000000..c148b6f
+--- /dev/null
++++ b/vmdaedalus/.gitignore
+@@ -0,0 +1,2 @@
++bacula-restores/
++vmdaedalus-virtualbox.box
+diff --git a/vmdaedalus/vmdaedalus.cfg b/vmdaedalus/vmdaedalus.cfg
+new file mode 100644
+index 0000000..5d5fdee
+--- /dev/null
++++ b/vmdaedalus/vmdaedalus.cfg
+@@ -0,0 +1,71 @@
++install
++text
++cdrom
++skipx
++lang en_US.UTF-8
++keyboard us
++timezone UTC
++rootpw vagrant
++user --name=vagrant --password=vagrant
++auth --enableshadow --passalgo=sha512 --kickstart
++firewall --disabled
++selinux --permissive
++bootloader --location=mbr
++zerombr
++clearpart --all --initlabel
++autopart
++firstboot --disable
++reboot
++repo --name=epel   --baseurl=http://download.fedoraproject.org/pub/epel/7/x86_64/
++repo --name=extras --baseurl=http://mirror.centos.org/centos/7/extras/x86_64/
++repo --name=docker --baseurl=http://download.docker.com/linux/centos/7/x86_64/stable/
++
++%packages --instLangs=en_US.utf8 --nobase --ignoremissing --excludedocs
++@base
++@core
++@hardware-monitoring
++@input-methods
++@performance
++@mariadb
++@mariadb-client
++epel-release
++bacula-client
++bacula-common
++bacula-console
++bacula-director
++bacula-libs
++bacula-libs-sql
++bacula-storage
++bacula-console-bat
++docker-ce
++git
++subversion
++pexpect
++yum-utils
++%end
++ 
++ 
++%post --log=/root/ks.log
++ 
++echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/vagrant
++echo "Defaults:vagrant !requiretty" >> /etc/sudoers.d/vagrant
++chmod 0440 /etc/sudoers.d/vagrant
++mkdir -pm 700 /home/vagrant/.ssh
++#curl -o /home/vagrant/.ssh/authorized_keys https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub
++cat <<EOK >/home/vagrant/.ssh/authorized_keys
++ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8Y\
++Vr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdO\
++KLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7Pt\
++ixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmC\
++P3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcW\
++yLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
++EOK
++chmod 0600 /home/vagrant/.ssh/authorized_keys
++chown -R vagrant.vagrant /home/vagrant/.ssh
++yum -y update
++yum -y remove linux-firmware
++yum-config-manager \
++    --add-repo \
++    https://download.docker.com/linux/centos/docker-ce.repo
++
++%end
+diff --git a/vmdaedalus/vmdaedalus.json b/vmdaedalus/vmdaedalus.json
+new file mode 100644
+index 0000000..703e2b6
+--- /dev/null
++++ b/vmdaedalus/vmdaedalus.json
+@@ -0,0 +1,42 @@
++{
++    "variables": {
++    },
++    "builders": [{
++        "type": "virtualbox-iso",
++        "guest_os_type": "RedHat_64",
++        "iso_url": "/home/coopera/Downloads/CentOS-7-x86_64-DVD-1708/CentOS-7-x86_64-DVD-1708.iso",
++        "iso_checksum": "ec7500d4b006702af6af023b1f8f1b890b6c7ee54400bb98cef968b883cd6546",
++        "iso_checksum_type": "sha256",
++        "ssh_username": "vagrant",
++        "ssh_password": "vagrant",
++        "ssh_wait_timeout": "600s",
++        "vm_name": "vmdaedalus",
++        "http_directory": "./",
++        "boot_wait": "10s",
++        "boot_command": [
++            "<esc><wait>",
++            "linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/vmdaedalus.cfg",
++            "<enter><wait>"
++        ],
++        "shutdown_command": "echo 'vagrant' |sudo -S shutdown -P now",
++        "vboxmanage": [
++            ["modifyvm", "{{.Name}}", "--memory", "512"],
++            ["modifyvm", "{{.Name}}", "--usb", "off"],
++            ["modifyvm", "{{.Name}}", "--audio", "none"]
++        ]
++    }],
++    "provisioners": [{
++        "type": "shell",
++        "inline": [
++            "sudo yum -y install gcc make bzip2 kernel-headers kernel-devel dkms",
++            "sudo yum clean all",
++            "sudo mount -o loop /home/vagrant/VBoxGuestAdditions.iso /mnt",
++            "sudo sh /mnt/VBoxLinuxAdditions.run",
++            "sudo umount /mnt"
++        ]
++    }],
++    "post-processors": [{
++        "type": "vagrant",
++        "output": "./vmdaedalus-{{.Provider}}.box"
++    }]
++}

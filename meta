@@ -1,5 +1,5 @@
 Version: 1
-Previous: 0e9bb38d4a65bcea3967f790e6069d479ca2feb1
+Previous: cdaecd0e6ecbd85de71c890dd735edf194dec9fd
 Head: 566863b8c3ece75f42501ba3b4a87689a59728c0
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -18,18 +18,14 @@ Applied:
   playbook-remove-docker-pull-images: c6c78f471cccaefdac28b2d889ec2c58b6d9eb55
   all-docker_container: 566863b8c3ece75f42501ba3b4a87689a59728c0
 Unapplied:
+  TESTING: 96b445ba198cad9d1d57f9ce0690a861a082d493
   all-docker_volume: 900fc07ebdfb64b7de4d14b702dcb8363a9d5eba
   all-docker_network: 537df9d48bfe044c699b5322dfd58cd61ed52948
   all-docker_image: 8ee14ef3ce172a756820b17a93c94e9b2504bddc
   playbook-remove-docker-build-base-image: 06c54b94a07e800d2096b6cdeb76b8f7f1713e3a
   all-cut-dependencies: 161e7bf0ab9f1abf8bd3940a2dc95a75067307be
-  testing-TESTING: 15f5ea83df47133c1a5475c590f9b2d4d5a37c89
-  testing-run-ansible-provisioning: 80d985451e47c4953409111058c00073f2df531b
-  testing-add-restore-tag-to-tasks: ceac81818da957311018f443635694d128c7bbb5
   buildbot-add-buildbot-role: ed1e025b311135a2b56f8194f16c5ad6a171cc0b
   bacula-improve-bacula-bootstrap-script: ec38573589c3abf0406e4018c567f137d7fafc70
-  testing-add-vagrant-configuration: 6b243c30aadc42c162cbcc2a99985f748c4b4def
-  testing-do-not-submit-restart_policy: ce0dcd029f1a89125d52edbbc80ae686367fd362
   common-update-python-docker-client: d50353febe099393e609de3180fb0b665c9d73dc
   common-install-latest-available: 44985b82582c867c21fec1eb18b34ccdfd4a420e
   common-remove-backup-directory: 9eeab7350e51ff55c7fd549420195b333bd98f83
