@@ -1,5 +1,5 @@
-Bottom: bfdb76c7bd1e0a0ed0a7edbb19bffac4d563b9f4
-Top:    1baa72de879daa8df14ff9358cd5594f2a193fea
+Bottom: 5b2e1ae909571365bc2fc4b842508160c798a6f0
+Top:    47f05af892ed3ce9580617dc54f45e36d05932d7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-10 15:23:00 -0500
 
@@ -9,7 +9,6 @@ The roles know what ports need to be exposed.
 
 
 ---
-
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 index b084bfe..061495c 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
