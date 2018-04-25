@@ -1,6 +1,6 @@
 Version: 1
-Previous: b6642e8582b8cb2337d0a38c161d3e5eea9372dd
-Head: d67804dbaee0e9c3ad2e9796a250326b2f779336
+Previous: 968eda1666e5a028cbfd852e6d4d205c7c1e5321
+Head: c8df25bd149acc493d6c89d98a7064ccb894ee20
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -39,5 +39,6 @@ Applied:
   common-move-mariadb-config-to-maria: 35c71f72137466a1ce609ccd7116ed1c095ba39a
   common-move-sshd-config-to-setup: cd63bbcc733006ba7d98af0d21720de7cecd08e7
   buildsystem-82aa4889104fa3d8c70d86eaa8dbcb40f75fd820: d67804dbaee0e9c3ad2e9796a250326b2f779336
+  buildsystem-c180de33bb144a6ead9642a42f0c2cc46b8c76e9: c8df25bd149acc493d6c89d98a7064ccb894ee20
 Unapplied:
 Hidden:
