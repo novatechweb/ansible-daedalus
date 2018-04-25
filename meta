@@ -1,5 +1,5 @@
 Version: 1
-Previous: 7b4fecc3ec004962d7f60220cb0efa0f0e98a0c4
+Previous: 26cfc1b028c73aa1028786fd400cabeb03d19d5a
 Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -24,7 +24,7 @@ Applied:
   playbook-remove-docker-build-base-image: 06c54b94a07e800d2096b6cdeb76b8f7f1713e3a
   playbook-remove-docker-pull-images: 1b12b979ef0ab18ae5cce86d7550b15f370c4b97
   all-cut-dependencies: 161e7bf0ab9f1abf8bd3940a2dc95a75067307be
-  add-vmdaedalus-inventory: 15f5ea83df47133c1a5475c590f9b2d4d5a37c89
+  testing-TESTING: 15f5ea83df47133c1a5475c590f9b2d4d5a37c89
   run-ansible-provisioning: 80d985451e47c4953409111058c00073f2df531b
   add-restore-tag-to-tasks: ceac81818da957311018f443635694d128c7bbb5
   add-buildbot-role: ed1e025b311135a2b56f8194f16c5ad6a171cc0b
