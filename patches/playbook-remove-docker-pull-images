@@ -1,5 +1,5 @@
-Bottom: 5e76f0cfee526241d47e141465ee945ad0fea5b4
-Top:    9b18ba12125e8523a1447e542bc95185ad59b957
+Bottom: bfdb76c7bd1e0a0ed0a7edbb19bffac4d563b9f4
+Top:    5b2e1ae909571365bc2fc4b842508160c798a6f0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-11 15:37:36 -0500
 
@@ -10,7 +10,6 @@ introducing unnecessary dependencies into other roles.
 
 
 ---
-
 diff --git a/roles/docker-exim4/meta/main.yml b/roles/docker-exim4/meta/main.yml
 index 1543e98..ba8e883 100644
 --- a/roles/docker-exim4/meta/main.yml
@@ -110,10 +109,10 @@ index 1543e98..ba8e883 100644
    role: docker-openssl
    tags:
 diff --git a/roles/docker-openldap/vars/main.yml b/roles/docker-openldap/vars/main.yml
-index d5d16cc..8e02ed0 100644
+index 516cb9a..3dd1df3 100644
 --- a/roles/docker-openldap/vars/main.yml
 +++ b/roles/docker-openldap/vars/main.yml
-@@ -21,7 +21,7 @@ host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_di
+@@ -20,7 +20,7 @@ host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_di
  # Utility container - phpldapadmin
  
  # the name of the image used for the container

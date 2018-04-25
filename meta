@@ -1,6 +1,6 @@
 Version: 1
-Previous: c4c2160359cd1fa596c6de35fcdb4a15c6a92f26
-Head: 6e0f78a0d1c0f1cd505d341f9ee5894216a24b40
+Previous: fe44f9257905dc317d4a1cf194a8c1cd7543c35d
+Head: 605eec8ed366f13f3470bad035ba63389516b9e6
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -16,6 +16,7 @@ Applied:
   all-docker-image-repositories: f9b4918085377126b0594542201c94cbcd772942
   common-common-variables: d984dfeef5e51977dd5d7353aec7a04f7b4a1210
   all-debian-backup-script: 6e0f78a0d1c0f1cd505d341f9ee5894216a24b40
+  playbook-remove-docker-pull-images: 605eec8ed366f13f3470bad035ba63389516b9e6
 Unapplied:
   all-move-container-port: 1bde61897eb2a81a1305657d5ffc436cc6f653d5
   all-docker_container: f2fef3400719eba9c44be888ba185c07202f10a0
@@ -23,7 +24,6 @@ Unapplied:
   all-docker_network: 537df9d48bfe044c699b5322dfd58cd61ed52948
   all-docker_image: 8ee14ef3ce172a756820b17a93c94e9b2504bddc
   playbook-remove-docker-build-base-image: 06c54b94a07e800d2096b6cdeb76b8f7f1713e3a
-  playbook-remove-docker-pull-images: 1b12b979ef0ab18ae5cce86d7550b15f370c4b97
   all-cut-dependencies: 161e7bf0ab9f1abf8bd3940a2dc95a75067307be
   testing-TESTING: 15f5ea83df47133c1a5475c590f9b2d4d5a37c89
   testing-run-ansible-provisioning: 80d985451e47c4953409111058c00073f2df531b
