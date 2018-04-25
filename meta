@@ -1,6 +1,6 @@
 Version: 1
-Previous: d53a13a1a8f2a7c2931294efc4053bcd906b5cb4
-Head: 9eeab7350e51ff55c7fd549420195b333bd98f83
+Previous: 4906778578b398a43c4478bff1e959dd2fc13430
+Head: 8a2e6923d641985a15f78adbdbea2c12e4464ff5
 Applied:
   add-subtree-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   updates-for-ansible-2-4-from-2: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -34,5 +34,6 @@ Applied:
   common-update-python-docker-client: d50353febe099393e609de3180fb0b665c9d73dc
   common-install-latest-available: 44985b82582c867c21fec1eb18b34ccdfd4a420e
   common-remove-backup-directory: 9eeab7350e51ff55c7fd549420195b333bd98f83
+  common-remove-container-conf: 8a2e6923d641985a15f78adbdbea2c12e4464ff5
 Unapplied:
 Hidden:

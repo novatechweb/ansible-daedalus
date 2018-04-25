@@ -1,0 +1,29 @@
+Bottom: db475c10707c4ee170a9e8d1b0c792d1374b1fa5
+Top:    a87bfdccbcae3568eac1c6dec79fffb1dce0628a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-25 13:55:55 -0500
+
+Remove container conf directory
+
+Roles create it themselves
+
+
+---
+diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
+index 7f9e8f5..e955efa 100644
+--- a/roles/docker-common/tasks/main.yml
++++ b/roles/docker-common/tasks/main.yml
+@@ -9,13 +9,6 @@
+ - import_tasks: sshd_settings.yml
+ - import_tasks: mariadb_settings.yml
+ 
+-- name: base docker_container.conf dir
+-  file:
+-    state: directory
+-    path: '{{ docker_restore_config_base_dir }}'
+-    owner: root
+-    group: root
+-    mode: 'u=rwx,g=rx,o=rx'
+ 
+ 
+ - name: Check if baculavirt selinux module exists
