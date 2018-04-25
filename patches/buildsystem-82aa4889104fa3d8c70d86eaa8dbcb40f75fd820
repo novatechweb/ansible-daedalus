@@ -1,0 +1,21 @@
+Bottom: f185dc236974b05b98d4fb805da5911a9a14474a
+Top:    d508355f759055db57778497d9100e835fc10afa
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-25 15:24:07 -0500
+
+Fix buildsystem credentials entry
+
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 586c30d..6e57f55 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -15,6 +15,6 @@ mantisbt_email_password:             '{{ lookup("password", inventory_dir + "/cr
+ buildsystem_ssh_prod_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/prod length=20") }}'
+ buildsystem_ssh_root_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/root length=20") }}'
+ buildsystem_database_root_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/root length=20") }}'
+-buildsystem_database_build_password: '{{ lookup("file",     inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/readuser") }}'
++buildsystem_database_build_password: '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/readuser") }}'
+ svn_username:                        '{{ lookup("file",     inventory_dir + "/personal_credentials/svn/username") }}'
+ svn_password:                        '{{ lookup("file",     inventory_dir + "/personal_credentials/svn/password") }}'
