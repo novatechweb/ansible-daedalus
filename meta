@@ -1,11 +1,11 @@
 Version: 1
-Previous: 4f5cb2fb72ab75068328015318d24638de421fdf
+Previous: d1944a497b96744ac58f6d2122c34d380edf9c9b
 Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
   all-remove-submodules: 50436b654a71312cd4380c7b7ab1b52529efbd64
-  add-public-key-for-andrew: 32e9d35492039db3f18b67b599a2b69d0614186d
+  playbook-public-keys: 32e9d35492039db3f18b67b599a2b69d0614186d
   remove-freeipa-virtual-machine: fdb762072ac08dc946bce1ee24fc96b9d2e9ee4c
   clean-up-ip-address-assignment: 6eb6949af02a05fb648972ca7e2d36290a725cd2
   make-bringup-sh-more-robust: fe9137ac7c70615cbf16755e6fe8b2d955758864
