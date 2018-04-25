@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2a4806d4fe2986853b67c17dd27a1fb8b69c85d4
-Head: 35c71f72137466a1ce609ccd7116ed1c095ba39a
+Previous: ca49d938997bba69a7d590bb06e84ca39ffa0673
+Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   add-subtree-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   updates-for-ansible-2-4-from-2: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -37,5 +37,6 @@ Applied:
   common-remove-container-conf: 8a2e6923d641985a15f78adbdbea2c12e4464ff5
   common-configure-docker-daemon: 068c84d24f378ef47e51c2152f7cc33b9487d627
   common-move-mariadb-config-to-maria: 35c71f72137466a1ce609ccd7116ed1c095ba39a
+  common-move-sshd-config-to-setup: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Unapplied:
 Hidden:
