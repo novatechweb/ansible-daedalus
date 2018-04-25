@@ -1,5 +1,5 @@
 Version: 1
-Previous: 28e717337129e50feb6ffc6d690471324e17f6be
+Previous: 9698f7e1645ee2742cf65670dedb42f9207df08a
 Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -7,7 +7,7 @@ Applied:
   all-remove-submodules: 50436b654a71312cd4380c7b7ab1b52529efbd64
   playbook-public-keys: 32e9d35492039db3f18b67b599a2b69d0614186d
   playbook-remove-freeipa: fdb762072ac08dc946bce1ee24fc96b9d2e9ee4c
-  clean-up-ip-address-assignment: 6eb6949af02a05fb648972ca7e2d36290a725cd2
+  common-ip-addresses: 6eb6949af02a05fb648972ca7e2d36290a725cd2
   make-bringup-sh-more-robust: fe9137ac7c70615cbf16755e6fe8b2d955758864
   fix-printf-in-docker_build: c8e349cd8cff5c2c61ece0ccf45ae9e528285629
   fix-bacula-list-jobs-pexpect: 9ee3f25ba283fe91d08624750bf5fbf97af9b20e
