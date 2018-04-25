@@ -1,6 +1,6 @@
 Version: 1
-Previous: bc2888c4c075493a5f7866869ae2586833980963
-Head: 822de3134a5bb97218a53f94a3ebe13d1153c8ee
+Previous: c4c2160359cd1fa596c6de35fcdb4a15c6a92f26
+Head: 6e0f78a0d1c0f1cd505d341f9ee5894216a24b40
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -16,6 +16,7 @@ Applied:
   all-docker-image-repositories: f9b4918085377126b0594542201c94cbcd772942
   common-common-variables: d984dfeef5e51977dd5d7353aec7a04f7b4a1210
   all-debian-backup-script: 6e0f78a0d1c0f1cd505d341f9ee5894216a24b40
+Unapplied:
   all-move-container-port: 1bde61897eb2a81a1305657d5ffc436cc6f653d5
   all-docker_container: f2fef3400719eba9c44be888ba185c07202f10a0
   all-docker_volume: 900fc07ebdfb64b7de4d14b702dcb8363a9d5eba
@@ -55,5 +56,4 @@ Applied:
   svn-allow-empty: cedeeafe1e970e1f22b03dcd322e2ddd81d55b59
   svn-create-required-directories: 0acdfc4e6a27b953a06e896ee55720538792c76d
   wiki-downgrade-extensions: 822de3134a5bb97218a53f94a3ebe13d1153c8ee
-Unapplied:
 Hidden:
