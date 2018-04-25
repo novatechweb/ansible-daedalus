@@ -1,5 +1,5 @@
 Version: 1
-Previous: 78ffc0cc5e24efeca6c486344f393f5397192afe
+Previous: 8a17728d5a3a9f51cbd8de8f6675f1c961994d08
 Head: 822de3134a5bb97218a53f94a3ebe13d1153c8ee
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -53,7 +53,7 @@ Applied:
   ssl-limit-scope: 77e36306e401ceba544dcba2960983dec0ba977a
   svn-hotcopy: f58f62518d4d28e5c342a868da01d708abf5a1eb
   svn-allow-empty: cedeeafe1e970e1f22b03dcd322e2ddd81d55b59
-  svn-27143f53a56eca54434c184385a03180aac3f6e2: 0acdfc4e6a27b953a06e896ee55720538792c76d
+  svn-create-required-directories: 0acdfc4e6a27b953a06e896ee55720538792c76d
   wiki-991ce04f9c6086f5ed7a960ce4622a19abc08625: 822de3134a5bb97218a53f94a3ebe13d1153c8ee
 Unapplied:
 Hidden:
