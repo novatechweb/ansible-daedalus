@@ -1,0 +1,37 @@
+Bottom: cdb1d4c0f491f482231baba6127c755d37940e44
+Top:    e66f19e4326dad0b1b183ae33534d673ad2e018b
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-02-07 16:49:35 -0600
+
+Force sha256 fingerprint check of github.com public key
+
+Newer versions of ssh-keygen default to sha256 hash when generating the
+fingerprint.
+
+
+---
+
+diff --git a/roles/bacula-script/templates/bacula-bootstrap-backup b/roles/bacula-script/templates/bacula-bootstrap-backup
+index 125db1d..bc90dd1 100644
+--- a/roles/bacula-script/templates/bacula-bootstrap-backup
++++ b/roles/bacula-script/templates/bacula-bootstrap-backup
+@@ -11,16 +11,16 @@ github_repo=git@github.com:novatechweb/${repo_name}.git
+ fqdn={{ ansible_fqdn }}
+ bacula_home=/var/spool/bacula
+ 
+-github_rsa_public_key_fingerprint='16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48'
++#github_rsa_public_key_fingerprint='16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48'
+ #github_dsa_public_key_fingerprint='ad:1c:08:a4:40:e3:6f:9c:f5:66:26:5d:4b:33:5d:8c'
+-#github_rsa_SHA256_public_key_fingerprint='SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8'
++github_rsa_SHA256_public_key_fingerprint='SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8'
+ #github_dsa_SHA256_public_key_fingerprint='SHA256:br9IjFspm1vxR3iA35FWE+4VTyz1hYVLIE2t1/CeyWQ'
+ 
+ echo >&2 '[ Try to update github known_hosts keys ]'
+ rm 2>&1 -f ${bacula_home}/.ssh/github-Key ${bacula_home}/.ssh/known_hosts~
+ ssh-keyscan github.com >> ${bacula_home}/.ssh/github-Key
+ fingerprint=$(ssh-keygen -lf ${bacula_home}/.ssh/github-Key | sed 's|^.* \(.*\) github.com .*$|\1|')
+-if [[ "${fingerprint}" == "${github_rsa_public_key_fingerprint}" ]]; then
++if [[ "${fingerprint}" == "${github_rsa_SHA256_public_key_fingerprint}" ]]; then
+     mv 2>&1 ${bacula_home}/.ssh/known_hosts ${bacula_home}/.ssh/known_hosts~
+     cat ${bacula_home}/.ssh/github-Key ${bacula_home}/.ssh/known_hosts~ | sort | uniq > ${bacula_home}/.ssh/known_hosts
+     rm 2>&1 -f ${bacula_home}/.ssh/known_hosts~ ${bacula_home}/.ssh/github-Key

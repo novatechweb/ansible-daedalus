@@ -1,0 +1,62 @@
+Bottom: 7a9fedb2091ad70a0a84db5f4a86e004566c2f40
+Top:    cdb1d4c0f491f482231baba6127c755d37940e44
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-03-13 15:51:15 -0500
+
+Remove unused pools
+
+
+---
+
+diff --git a/roles/bacula-director/templates/bacula-dir.conf.j2 b/roles/bacula-director/templates/bacula-dir.conf.j2
+index db50386..c8e7434 100644
+--- a/roles/bacula-director/templates/bacula-dir.conf.j2
++++ b/roles/bacula-director/templates/bacula-dir.conf.j2
+@@ -259,16 +259,16 @@ Pool {
+   Volume Retention = 365 days         # one year
+ }
+ 
+-# File Pool definition
+-Pool {
+-  Name = File
+-  Pool Type = Backup
+-  Recycle = yes                       # Bacula can automatically recycle Volumes
+-  AutoPrune = yes                     # Prune expired volumes
+-  Volume Retention = 365 days         # one year
+-  Maximum Volume Bytes = 50G          # Limit Volume size to something reasonable
+-  Maximum Volumes = 100               # Limit number of Volumes in Pool
+-}
++# # File Pool definition
++# Pool {
++#   Name = File
++#   Pool Type = Backup
++#   Recycle = yes                       # Bacula can automatically recycle Volumes
++#   AutoPrune = yes                     # Prune expired volumes
++#   Volume Retention = 365 days         # one year
++#   Maximum Volume Bytes = 50G          # Limit Volume size to something reasonable
++#   Maximum Volumes = 100               # Limit number of Volumes in Pool
++# }
+ 
+ 
+ # Scratch pool definition
+@@ -278,13 +278,13 @@ Pool {
+ }
+ 
+ # LTO6 Test pool definition
+-Pool {
+-  Name = LTO6test
+-  Pool Type = Backup
+-  Recycle = yes                       # Bacula can automatically recycle Volumes
+-  AutoPrune = yes                     # Prune expired volumes
+-  Volume Retention = 365 days         # one year
+-}
++# Pool {
++#   Name = LTO6test
++#   Pool Type = Backup
++#   Recycle = yes                       # Bacula can automatically recycle Volumes
++#   AutoPrune = yes                     # Prune expired volumes
++#   Volume Retention = 365 days         # one year
++# }
+ 
+ #
+ # Restricted console used by tray-monitor to get the status of the director

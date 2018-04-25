@@ -1,0 +1,265 @@
+Bottom: b7d48dfa44ac05967c372c1bf35e2bfc6e3d10bc
+Top:    bfcfee91675c6f2e90ef60dd3f9db73d5e603abf
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-06 11:09:17 -0500
+
+Use docker named networks
+
+
+---
+
+diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
+index 9acd909..c2ac4eb 100644
+--- a/ansible-playbook/group_vars/docker-hosts/docker.yml
++++ b/ansible-playbook/group_vars/docker-hosts/docker.yml
+@@ -15,3 +15,6 @@ docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ docker_backup_dir: '/tmp/docker'
++
++# Network names
++docker_network_frontend: 'frontend'
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 4df32b3..2ec6350 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -29,6 +29,10 @@
+     role: docker-build-base-image
+     tags:
+     - base_images
++  - name: Configure Docker networking
++    role: docker-networking
++    tags:
++    - docker_networking
+   - name: Build and start the SVN Docker container
+     role: docker-svn
+     svn_repos: 'ddio NCD_Release'
+diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
+index e50748f..31edfea 100644
+--- a/roles/docker-exim4/defaults/main.yml
++++ b/roles/docker-exim4/defaults/main.yml
+@@ -13,3 +13,6 @@ container_port_map:
+       - '{{ container_addr_map.exim4.ip_addr }}:25:25'
+       - '{{ container_addr_map.exim4.ip_addr }}:465:465'
+       - '{{ container_addr_map.exim4.ip_addr }}:587:587'
++
++# Network names
++docker_network_frontend: 'frontend'
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 6236d76..5d2f994 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -102,6 +102,8 @@
+   docker_container:
+     name: '{{ exim4_container_name }}'
+     hostname: '{{ container_addr_map.exim4.hostname }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+     ports: '{{ exim4_ports }}'
+     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
+     restart_policy: always
+diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
+index 3e88c42..e4de15b 100644
+--- a/roles/docker-gitlab/defaults/main.yml
++++ b/roles/docker-gitlab/defaults/main.yml
+@@ -19,3 +19,6 @@ gitlab_db_user: novatech
+ 
+ # must pass in the following variables
+ # gitlab_db_password: ''
++
++# Network names
++docker_network_frontend: 'frontend'
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 0e7407b..a91a3a6 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -130,6 +130,8 @@
+     detach: true
+     restart_policy: always
+     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+ 
+ - name: start container (postgres)
+   docker_container:
+@@ -138,6 +140,8 @@
+     restart_policy: always
+     volumes_from: '{{ gitlab_db_dv_name }}'
+     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+ 
+ - name: start container (gitlab)
+   docker_container:
+@@ -146,11 +150,8 @@
+     restart_policy: always
+     hostname: '{{ container_addr_map.git.hostname }}'
+     ports: '{{ container_port_map.git.port_args }}'
+-    link:
+-      - '{{ openldap_container_name }}:gitlab-ldap'
+-      - '{{ gitlab_redis_container_name }}:gitlab-redis'
+-      - '{{ gitlab_db_container_name }}:gitlab-db'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+     volumes-from:
+       - '{{ openssl_dv_name }}'
+       - '{{ gitlab_dv_name }}'
+diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
+index f104d5a..c22497f 100644
+--- a/roles/docker-mantisbt/defaults/main.yml
++++ b/roles/docker-mantisbt/defaults/main.yml
+@@ -17,3 +17,6 @@ mantisbt_db_user: novatech
+ # must pass in the following variables
+ # mantisbt_db_root_password: ''
+ # mantisbt_db_password: ''
++
++# Network names
++docker_network_frontend: 'frontend'
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 3352d62..7d183bc 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -148,6 +148,8 @@
+     volumes_from:
+       - '{{ mantisbt_db_dv_name }}'
+     image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+ 
+ - name: start container (mantisbt)
+   docker_container:
+@@ -156,10 +158,8 @@
+     restart_policy: always
+     hostname: '{{ container_addr_map.mantisbt.hostname }}'
+     ports: '{{ container_port_map.mantisbt.port_args }}'
+-    link: 
+-      -'{{ openldap_container_name }}:mantisbt_ldap'
+-      -'{{ mantisbt_db_container_name }}:mantisbt_db'
+-      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+     volumes-from: 
+       - '{{ openssl_dv_name }}'
+       - '{{ mantisbt_dv_name }}'
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index ce16d47..603000d 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -17,3 +17,6 @@ wiki_db_user: novatech
+ # must pass in the following variables
+ # wiki_db_root_password: ''
+ # wiki_db_password: ''
++
++# Network names
++docker_network_frontend: 'frontend'
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 8746377..60286ff 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -121,6 +121,8 @@
+     restart_policy: always
+     volumes_from: '{{ wiki_db_dv_name }}'
+     image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+ 
+ - name: start container (mediwiki)
+   docker_container:
+@@ -129,10 +131,8 @@
+     restart_policy: always
+     hostname: '{{ container_addr_map.wiki.hostname }}' 
+     ports: '{{ container_port_map.wiki.port_args }}'
+-    link:
+-      - '{{ openldap_container_name }}:wiki_ldap'
+-      - '{{ wiki_db_container_name }}:wiki_db'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+     volumes-from: 
+       - '{{ openssl_dv_name }}'
+       - '{{ wiki_dv_name }}'
+diff --git a/roles/docker-networking/defaults/main.yml b/roles/docker-networking/defaults/main.yml
+new file mode 100644
+index 0000000..f480011
+--- /dev/null
++++ b/roles/docker-networking/defaults/main.yml
+@@ -0,0 +1,5 @@
++---
++# defaults file for docker-networking
++
++# Network names
++docker_network_frontend: 'frontend'
+diff --git a/roles/docker-networking/tasks/main.yml b/roles/docker-networking/tasks/main.yml
+new file mode 100644
+index 0000000..595e8bb
+--- /dev/null
++++ b/roles/docker-networking/tasks/main.yml
+@@ -0,0 +1,7 @@
++---
++# tasks file for docker-networking
++
++- name: Create frontend network for services
++  docker_network:
++    name: '{{ docker_network_frontend }}'
++    state: present
+diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
+index 5798b7a..58247cf 100644
+--- a/roles/docker-openldap/defaults/main.yml
++++ b/roles/docker-openldap/defaults/main.yml
+@@ -25,3 +25,6 @@ openldap_backup_files:
+     dbnum: 0
+   - ldif_file: LDAP_database_0001.ldif
+     dbnum: 1
++
++# Network names
++docker_network_frontend: 'frontend'
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index 2d0c723..32b4a57 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -120,6 +120,8 @@
+     env:
+       LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
+     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+ 
+ - name: start container (phpldapadmin)
+   docker_container:
+@@ -134,7 +136,8 @@
+       PHPLDAPADMIN_HTTPS: 'false'
+       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
+       LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
+-    link: '{{ openldap_container_name }}:ldap'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
+index b4f0921..c14b24d 100644
+--- a/roles/docker-svn/defaults/main.yml
++++ b/roles/docker-svn/defaults/main.yml
+@@ -15,3 +15,6 @@ container_port_map:
+ 
+ # The repositories that will be created/imported durring a data-volume restore
+ svn_repos: 'example'
++
++# Network names
++docker_network_frontend: 'frontend'
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index c7ae044..c458e28 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -82,8 +82,8 @@
+     restart_policy: always
+     hostname: '{{ container_addr_map.svn.hostname }}'
+     ports: '{{ container_port_map.svn.port_args }}'
+-    link:
+-      - '{{ openldap_container_name }}:ldap'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+     volumes:
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+       - '{{ svn_dv_name }}:/var/lib/svn:z'

@@ -1,0 +1,665 @@
+Bottom: 9924b2c942bd60cac05004cbe4f3b3f847167917
+Top:    b6b5f4edcd485faabaa01c034ddfd56464d590a7
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-02-05 12:49:36 -0600
+
+Updates for ansible 2.4 (from 2.0)
+
+Mainly syntax updates, also a few module name changes.
+
+
+---
+
+diff --git a/roles/bacula-catalog/tasks/main.yml b/roles/bacula-catalog/tasks/main.yml
+index 03aacfa..2d22328 100644
+--- a/roles/bacula-catalog/tasks/main.yml
++++ b/roles/bacula-catalog/tasks/main.yml
+@@ -2,5 +2,5 @@
+ - name: Check number of files in catalog
+   command: /usr/bin/mysql bacula -B -e "select COUNT(*) From File;"
+   register: filecount
+-- include: restore-catalog-with-bsr.yml
++- include_tasks: restore-catalog-with-bsr.yml
+   when: filecount.stdout_lines[1] == "0"
+diff --git a/roles/bacula-director/tasks/main.yml b/roles/bacula-director/tasks/main.yml
+index ca4799e..d1192f0 100644
+--- a/roles/bacula-director/tasks/main.yml
++++ b/roles/bacula-director/tasks/main.yml
+@@ -20,7 +20,7 @@
+   register: bacula_director_config_status
+ - name: Use libbaccats-mysql
+   command: alternatives --set libbaccats.so /usr/lib64/libbaccats-mysql.so
+-- include: bacula-user.yml
++- import_tasks: bacula-user.yml
+ - name: libvirt polkit
+   copy: src=50-bacula-libvirt-access.pkla
+         dest=/etc/polkit-1/localauthority/50-local.d/50-bacula-libvirt-access.pkla
+@@ -29,14 +29,14 @@
+   stat: path=/etc/selinux/targeted/modules/active/modules/baculavirt.pp
+   register: baculavirt_pp
+   when: bacula_director_backup_vms is defined
+-- include: selinux-virt-policy.yml
++- import_tasks: selinux-virt-policy.yml
+   when: bacula_director_backup_vms is defined and
+         baculavirt_pp.stat.exists is defined and
+         baculavirt_pp.stat.exists == false
+ - name: Check if bacula mysql database exists
+   command: mysql -u root -e "SHOW DATABASES;"
+   register: databases
+-- include: mariadb_setup.yml
++- import_tasks: mariadb_setup.yml
+   when: databases.stdout.find('bacula') == -1
+ - name: Test Bacula Director configuration
+   command: /usr/sbin/bacula-dir -t -c {{ bacula_director_config_dir }}/bacula-dir.conf
+diff --git a/roles/bacula-storage/tasks/main.yml b/roles/bacula-storage/tasks/main.yml
+index 4cc7183..5701b00 100644
+--- a/roles/bacula-storage/tasks/main.yml
++++ b/roles/bacula-storage/tasks/main.yml
+@@ -13,7 +13,7 @@
+ - name: Check if baculatape selinux module exists
+   stat: path=/etc/selinux/targeted/modules/active/modules/baculatape.pp
+   register: baculatape_pp
+-- include: selinux-tape-policy.yml
++- import_tasks: selinux-tape-policy.yml
+   when: baculatape_pp.stat.exists is defined and baculatape_pp.stat.exists == false
+ - name: Make sure bacula user is in the tape group
+   user: name=bacula groups=tape append=yes
+diff --git a/roles/buildsystem/tasks/grab_files/ncd.yml b/roles/buildsystem/tasks/grab_files/ncd.yml
+index 553785b..001007e 100644
+--- a/roles/buildsystem/tasks/grab_files/ncd.yml
++++ b/roles/buildsystem/tasks/grab_files/ncd.yml
+@@ -1,7 +1,7 @@
+ ---
+ - name: Check for local directory to store NCD SVN Export
+   run_once: true
+-  sudo: false
++  become: false
+   local_action:
+     module: file
+     mode: 0775
+@@ -10,7 +10,7 @@
+ 
+ - name: Gathering needed NCD files locally
+   run_once: true
+-  sudo: false
++  become: false
+   local_action:
+     module: ncdrelease
+     svn_username: "{{ username }}"
+diff --git a/roles/buildsystem/tasks/grab_files/web.yml b/roles/buildsystem/tasks/grab_files/web.yml
+index 2fbc596..88316e8 100644
+--- a/roles/buildsystem/tasks/grab_files/web.yml
++++ b/roles/buildsystem/tasks/grab_files/web.yml
+@@ -1,7 +1,7 @@
+ ---
+ - name: Check for local directory to store the web site code exists
+   run_once: true
+-  sudo: false
++  become: false
+   local_action:
+     module: file
+     mode: 0775
+@@ -10,7 +10,7 @@
+ 
+ - name: Downloading web site code
+   run_once: true
+-  sudo: false
++  become: false
+   local_action:
+     module: git
+     repo: "{{ web_site_repo_url }}"
+@@ -18,21 +18,21 @@
+     force: yes
+ 
+ - name: Set datebase name in website code
+-  sudo: false
++  become: false
+   local_action: replace
+     dest="{{ working_directory }}/{{ web_site_name }}/settings.py"
+     regexp="(.*'NAME':\s*').*('.*)"
+     replace='\1{{ database_name }}\2'
+ 
+ - name: Set database user in website code
+-  sudo: false
++  become: false
+   local_action: replace
+     dest="{{ working_directory }}/{{ web_site_name }}/settings.py"
+     regexp="(.*'USER':\s*').*('.*)"
+     replace='\1{{ database_user }}\2'
+ 
+ - name: Set database user password in website code
+-  sudo: false
++  become: false
+   local_action: replace
+     dest="{{ working_directory }}/{{ web_site_name }}/settings.py"
+     regexp="(.*'PASSWORD':\s*).*"
+diff --git a/roles/buildsystem/tasks/main.yml b/roles/buildsystem/tasks/main.yml
+index 0316be2..bff7049 100644
+--- a/roles/buildsystem/tasks/main.yml
++++ b/roles/buildsystem/tasks/main.yml
+@@ -6,14 +6,15 @@
+     - svn_username is defined
+     - svn_password is defined
+ 
+-- include: grab_files/ncd.yml
+-  username: "{{ svn_username }}"
+-  password: "{{ svn_password }}"
+-  repo: "{{ ncd_repo }}"
+-  working_directory: "{{ local_working_directory }}"
++- import_tasks: grab_files/ncd.yml
++  vars:
++    username: "{{ svn_username }}"
++    password: "{{ svn_password }}"
++    repo: "{{ ncd_repo }}"
++    working_directory: "{{ local_working_directory }}"
+ 
+ 
+-- include: grab_files/web.yml
++- import_tasks: grab_files/web.yml
+   vars:
+     working_directory: "{{ local_working_directory }}"
+     web_site_name: BuildSystem
+@@ -24,7 +25,7 @@
+     server_directory: "{{ buildsystem_directory }}"
+ 
+ 
+-- include: create_db_user.yml
++- import_tasks: create_db_user.yml
+   vars:
+     db_host:                 "test_station_mysql_server"
+     db_admin_user:           "root"
+diff --git a/roles/docker-build-base-image/tasks/main.yml b/roles/docker-build-base-image/tasks/main.yml
+index 0843c14..b984d74 100644
+--- a/roles/docker-build-base-image/tasks/main.yml
++++ b/roles/docker-build-base-image/tasks/main.yml
+@@ -13,11 +13,11 @@
+     recursive: yes
+     update: yes
+     version: '{{ item.value.commit_id }}'
+-  with_dict: docker_build_base_images
++  with_dict: "{{ docker_build_base_images }}"
+ 
+ - name: build image
+   docker_build:
+     image_name: '{{ item.value.image_name }}'
+     image_tag: '{{ item.value.image_tag }}'
+     dockerfile_dir: '{{ docker_projects_dir }}/base-images/{{ item.key }}/{{ item.value.relative_dir }}'
+-  with_dict: docker_build_base_images
++  with_dict: "{{ docker_build_base_images }}"
+diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
+index 571e7b2..cdbad40 100644
+--- a/roles/docker-buildsystem/defaults/main.yml
++++ b/roles/docker-buildsystem/defaults/main.yml
+@@ -20,7 +20,7 @@ name_prefix: ""
+ image_build_state_data: present
+ container_start_state_data: present
+ image_build_state_nondata: present
+-container_start_state_nondata: reloaded
++container_start_state_nondata: started
+ 
+ build_system_docker_repos:
+   TestStation_http_data_buildsystem:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
+index ae22977..34167b2 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_data }}"
+ 
+ - name: Start docker container - Test Station build system data
+-  docker: 
++  docker_container: 
+     detach: True
+     image: "{{ name_prefix }}teststation_http_data_buildsystem_image"
+     name: "{{ name_prefix }}TestStation_http_data_buildsystem"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
+index 31f803b..3f6150c 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_data }}"
+ 
+ - name: Start docker container - Test Station database data
+-  docker: 
++  docker_container: 
+     detach: True
+     image: "{{ name_prefix }}teststation_database_data_image"
+     name: "{{ name_prefix }}TestStation_database_data"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
+index 49c59f5..1c86766 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_data }}"
+ 
+ - name: Start docker container - Test Station ipkg data
+-  docker: 
++  docker_container: 
+     detach: True
+     image: "{{ name_prefix }}teststation_http_data_ipkg_image"
+     name: "{{ name_prefix }}TestStation_http_data_ipkg"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
+index 9a33082..27421a7 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_data }}"
+ 
+ - name: Start docker container - Test Station ncd iso data
+-  docker: 
++  docker_container: 
+     detach: True
+     image: "{{ name_prefix }}teststation_http_data_ncdiso_image"
+     name: "{{ name_prefix }}TestStation_http_data_ncdiso"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
+index 6cd9f82..0c950ba 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_data }}"
+ 
+ - name: Start docker container - Test Station ncd release data
+-  docker: 
++  docker_container: 
+     detach: True
+     image: "{{ name_prefix }}teststation_http_data_ncdrelease_image"
+     name: "{{ name_prefix }}TestStation_http_data_ncdrelease"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
+index 280f26f..47db0a2 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_data }}"
+ 
+ - name: Start docker container - Test Station  test client data
+-  docker: 
++  docker_container: 
+     detach: True
+     image: "{{ name_prefix }}teststation_http_data_testclient_image"
+     name: "{{ name_prefix }}TestStation_http_data_testclient"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
+index 755bbf8..8b296f1 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_data }}"
+ 
+ - name: Start docker container - Test Station tftp data
+-  docker: 
++  docker_container: 
+     detach: True
+     image: "{{ name_prefix }}teststation_tftp_data_image"
+     name: "{{ name_prefix }}TestStation_tftp_data"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+index 1e990c6..1ab1133 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+@@ -21,7 +21,7 @@
+     state: "{{ image_build_state_nondata }}"
+ 
+ - name: Start docker container - Test Station database server
+-  docker:
++  docker_container:
+     detach: True
+     image: "{{ name_prefix }}teststation_database_server_image"
+     name: "{{ name_prefix }}TestStation_database_server"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+index ea1bff7..883d3f4 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_nondata }}"
+ 
+ - name: Start docker container - Test Station http server
+-  docker:
++  docker_container:
+     detach: True
+     image: "{{ name_prefix }}teststation_http_image"
+     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+index 223b529..1e3333b 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+@@ -15,7 +15,7 @@
+     state: "{{ image_build_state_nondata }}"
+ 
+ - name: Start docker container - Test Station ssh server
+-  docker:
++  docker_container:
+     detach: True
+     image: "{{ name_prefix }}teststation_ssh_image"
+     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
+@@ -31,4 +31,3 @@
+       - "{{ name_prefix }}TestStation_http_data_ncdrelease"
+       - "{{ name_prefix }}TestStation_http_data_testclient"
+       - "{{ name_prefix }}TestStation_tftp_data"
+-
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+index 3b718a6..6f95f9e 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+@@ -27,7 +27,7 @@
+     state: "{{ image_build_state_nondata }}"
+ 
+ - name: Start docker container - Test Station production ssh server temp.
+-  docker:
++  docker_container:
+     detach: True
+     image: "{{ name_prefix }}teststation_ssh_server_manualtest_image"
+     name: "{{ name_prefix }}TestStation_ssh_server_manualtest"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+index 2760961..a6498fc 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_nondata }}"
+ 
+ - name: Start docker container - Test Station tftp server
+-  docker:
++  docker_container:
+     detach: True
+     image: "{{ name_prefix }}teststation_tftp_image"
+     name: "{{ name_prefix }}TestStation_tftp_server"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
+index 7737219..9424667 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
+@@ -9,7 +9,7 @@
+     state: "{{ image_build_state_nondata }}"
+ 
+ - name: Start docker container - Test Station cron service
+-  docker:
++  docker_container:
+     detach: True
+     image: "{{ name_prefix }}teststation_cron_image"
+     name: "{{ name_prefix }}TestStation_cron_service"
+diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
+index 3c8b7d1..b62739e 100644
+--- a/roles/docker-buildsystem/tasks/main.yml
++++ b/roles/docker-buildsystem/tasks/main.yml
+@@ -37,22 +37,22 @@
+   with_dict: "{{ build_system_docker_repos }}"
+ 
+ 
+-- include: docker_containers/datacontainer_buildsystem.yml
+-- include: docker_containers/datacontainer_database.yml
+-#- include: docker_containers/datacontainer_ipkg.yml
+-- include: docker_containers/datacontainer_iso.yml
+-- include: docker_containers/datacontainer_ncdrelease.yml
+-- include: docker_containers/datacontainer_testclient.yml
+-- include: docker_containers/datacontainer_tftp.yml
+-
+-- include: docker_containers/server_database.yml
+-- include: docker_containers/service_cron.yml
+-- include: docker_containers/server_tftp.yml
+-- include: docker_containers/server_ssh.yml
+-- include: docker_containers/server_http.yml
+-- include: docker_containers/server_ssh_prod.yml
+-
+-- include: docker_containers/service_backup.yml
++- import_tasks: docker_containers/datacontainer_buildsystem.yml
++- import_tasks: docker_containers/datacontainer_database.yml
++#- import_tasks: docker_containers/datacontainer_ipkg.yml
++- import_tasks: docker_containers/datacontainer_iso.yml
++- import_tasks: docker_containers/datacontainer_ncdrelease.yml
++- import_tasks: docker_containers/datacontainer_testclient.yml
++- import_tasks: docker_containers/datacontainer_tftp.yml
++
++- import_tasks: docker_containers/server_database.yml
++- import_tasks: docker_containers/service_cron.yml
++- import_tasks: docker_containers/server_tftp.yml
++- import_tasks: docker_containers/server_ssh.yml
++- import_tasks: docker_containers/server_http.yml
++- import_tasks: docker_containers/server_ssh_prod.yml
++
++- import_tasks: docker_containers/service_backup.yml
+ 
+ - name: Copy Build System default ssh key to user directroy
+   fetch:
+@@ -61,7 +61,7 @@
+     flat: yes
+ 
+ - name: Setting ssh key file permissions
+-  sudo: false
++  become: false
+   local_action:
+     module: file
+     path: ~/.ssh/id_rsa_buildsystem_default
+@@ -131,5 +131,5 @@
+ # *****************************************************************************
+ # restore?
+ 
+-- include: restore.yml
++- import_tasks: restore.yml
+   when: st_buildsystem_restore.stat.exists == False
+diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
+index 885f8f3..6f8d965 100644
+--- a/roles/docker-common/tasks/ip_addr.yml
++++ b/roles/docker-common/tasks/ip_addr.yml
+@@ -9,9 +9,10 @@
+     owner: root
+     group: root
+     mode: 'u=rw,g=r,o=r'
+-  when: ansible_os_family == "RedHat"
+-  when: (item.value.bridge_num is not undefined) and (ansible_os_family == "RedHat")
+-  with_dict: container_addr_map
++  when: 
++    - ansible_os_family == "RedHat"
++    - (item.value.bridge_num is not undefined) and (ansible_os_family == "RedHat")
++  with_dict: "{{ container_addr_map }}"
+ 
+ - name: add container hostname to /etc/hosts
+   lineinfile:
+@@ -20,7 +21,7 @@
+     line: "{{ item.value.ip_addr }}	{{ item.value.hostname }}"
+     state: present
+   when: item.value.bridge_num is not undefined
+-  with_dict: container_addr_map
++  with_dict: "{{ container_addr_map }}"
+ 
+ - name: enable ip forwarding
+   lineinfile:
+diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
+index c812e95..85be014 100644
+--- a/roles/docker-common/tasks/main.yml
++++ b/roles/docker-common/tasks/main.yml
+@@ -12,10 +12,10 @@
+     state: restarted
+     enabled: yes
+ 
+-- include: ip_addr.yml
+-- include: packages.yml
+-- include: sshd_settings.yml
+-- include: mariadb_settings.yml
++- import_tasks: ip_addr.yml
++- import_tasks: packages.yml
++- import_tasks: sshd_settings.yml
++- import_tasks: mariadb_settings.yml
+ 
+ - name: restores base dir
+   file:
+@@ -49,7 +49,7 @@
+     clone: yes
+     recursive: yes
+     update: yes
+-  with_items: docker_projects
++  with_items: "{{ docker_projects }}"
+   tags:
+     - docker_repositories
+ 
+@@ -59,7 +59,7 @@
+   register: docker_bacula_pp
+   when: ansible_os_family == "RedHat"
+ 
+-- include: selinux-backula-policy.yml
++- include_tasks: selinux-backula-policy.yml
+   when: (docker_bacula_pp.stat.exists is defined) and (docker_bacula_pp.stat.exists == false)
+ 
+ # *****************************************************************************
+diff --git a/roles/docker-common/tasks/sshd_settings.yml b/roles/docker-common/tasks/sshd_settings.yml
+index 31d3796..933c7f2 100644
+--- a/roles/docker-common/tasks/sshd_settings.yml
++++ b/roles/docker-common/tasks/sshd_settings.yml
+@@ -7,12 +7,14 @@
+     regexp: '#ListenAddress 0.0.0.0'
+     replace: 'ListenAddress {{ ansible_br0["ipv4"]["address"] }}'
+     backup: yes
+-  when: ansible_os_family == "RedHat"
+-  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
++  when: 
++    - ansible_os_family == "RedHat"
++    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+ 
+ - name: Restart sshd server
+   service:
+     name: sshd
+     state: restarted
+-  when: ansible_os_family == "RedHat"
+-  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
++  when: 
++    - ansible_os_family == "RedHat"
++    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 5607256..0c155b4 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -2,7 +2,7 @@
+ # file: roles/docker-exim4/tasks/main.yaml
+ 
+ # set the selinux policy to enable log-rotation of the exim4 logs
+-- include: selinux-docker-log_rotate.yml
++- import_tasks: selinux-docker-log_rotate.yml
+ 
+ # *****************************************************************************
+ # Setup the directory where the backup and restore is to take place
+@@ -102,7 +102,7 @@
+ # *****************************************************************************
+ # restore?
+ 
+-- include: restore.yml
++- include_tasks: restore.yml
+   when: st_exim4_restore.stat.exists == False
+ 
+ # *****************************************************************************
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index b00114a..8404097 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -103,7 +103,7 @@
+     data_volume_container_name: '{{ gitlab_db_dv_name }}'
+ 
+ - name: stop prev container (postgres)
+-  docker:
++  docker_container:
+     image: '{{ gitlab_db_image_name }}'
+     name: '{{ gitlab_db_container_name }}'
+     state: stopped
+@@ -148,5 +148,5 @@
+ # *****************************************************************************
+ # restore?
+ 
+-- include: restore.yml
++- include_tasks: restore.yml
+   when: st_gitlab_restore.stat.exists == False
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index c547506..1f1e817 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -111,8 +111,8 @@
+     data_volume_container_name: '{{ mantisbt_db_dv_name }}'
+ 
+ - name: stop prev container (mysql)
+-  docker:
+-    image: '{{ mantisbt_db_image_name }}'
++  docker_container:
++    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
+     name: '{{ mantisbt_db_container_name }}'
+     state: stopped
+ 
+@@ -157,5 +157,5 @@
+ # *****************************************************************************
+ # restore?
+ 
+-- include: restore.yml
++- include_tasks: restore.yml
+   when: st_mantisbt_restore.stat.exists == False
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index d8e9f7f..dabe61e 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -93,7 +93,7 @@
+     data_volume_container_name: '{{ wiki_db_dv_name }}'
+ 
+ - name: stop prev container (mysql)
+-  docker:
++  docker_container:
+     image: '{{ wiki_db_image_name }}'
+     name: '{{ wiki_db_container_name }}'
+     state: stopped
+@@ -125,5 +125,5 @@
+ # *****************************************************************************
+ # restore?
+ 
+-- include: restore.yml
++- include_tasks: restore.yml
+   when: st_mediawiki_restore.stat.exists == False
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index f425302..51ceb46 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -99,7 +99,7 @@
+ # *****************************************************************************
+ # restore?
+ 
+-- include: restore.yml
++- include_tasks: restore.yml
+   when: st_openldap_restore.stat.exists == False
+ 
+ # *****************************************************************************
+diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
+index 589dded..2c0f093 100644
+--- a/roles/docker-openssl/tasks/main.yml
++++ b/roles/docker-openssl/tasks/main.yml
+@@ -79,5 +79,5 @@
+ # *****************************************************************************
+ # restore?
+ 
+-- include: restore.yml
++- include_tasks: restore.yml
+   when: st_openssl_restore.stat.exists == False
+diff --git a/roles/docker-pull-images/tasks/main.yml b/roles/docker-pull-images/tasks/main.yml
+index e0dc029..fadb35e 100644
+--- a/roles/docker-pull-images/tasks/main.yml
++++ b/roles/docker-pull-images/tasks/main.yml
+@@ -9,6 +9,6 @@
+     image_name: '{{ item.value.image }}'
+     pull_image_tag: '{{ item.value.tag }}'
+     working_image_tag: '{{ docker_image_tag }}'
+-  with_dict: repository_images
++  with_dict: "{{ repository_images }}"
+   tags:
+     - docker_pull
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index faee9e6..fffe49a 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -80,5 +80,5 @@
+ # *****************************************************************************
+ # restore?
+ 
+-- include: restore.yml
++- include_tasks: restore.yml
+   when: st_svn_restore.stat.exists == False
+diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
+index dadffc4..698ee95 100644
+--- a/roles/mariadb/tasks/main.yml
++++ b/roles/mariadb/tasks/main.yml
+@@ -15,7 +15,7 @@
+ - name: Check previous installation
+   stat: path={{ mariadb_client_config }}
+   register: cfg
+-- include: initial_config.yml
++- include_tasks: initial_config.yml
+   when: cfg.stat.exists is defined and cfg.stat.exists == false
+ - name: Open the firewall
+   firewalld: service=mysql permanent=true state=enabled

@@ -1,0 +1,184 @@
+Bottom: 793afc2e3d67a78e079e1c2347584e25da06e0b6
+Top:    6fff7aa5b16e6f60f94f947912857533591de7c7
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-19 15:47:15 -0500
+
+Add Vagrant configuration
+
+
+---
+
+diff --git a/.gitignore b/.gitignore
+index e69de29..c1a0118 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -0,0 +1 @@
++/.vagrant/
+diff --git a/Vagrantfile b/Vagrantfile
+new file mode 100644
+index 0000000..9137e60
+--- /dev/null
++++ b/Vagrantfile
+@@ -0,0 +1,29 @@
++Vagrant.configure("2") do |config|
++    config.vm.box = "daedalus"
++    config.vm.box_url = "vmdaedalus/vmdaedalus-virtualbox.box"
++    config.vm.define "vmdaedalus.novatech-llc.com"
++    config.vm.hostname = "vmdaedalus.novatech-llc.com"
++    config.vm.provider "virtualbox" do |vb|
++        vb.name = "vmdaedalus"
++    end
++#    config.vm.network "public_network", ip: "192.168.0.100", netmask:"255.255.0.0", bridge: "enp0s31f6"
++    config.vm.network "private_network", ip: "192.168.0.100", netmask:"255.255.0.0"
++    config.vm.synced_folder "vmdaedalus/bacula-restores", "/tmp/bacula-restores", type: "rsync"
++
++    config.vm.provision "ansible" do |ansible|
++        ansible.verbose = "v"
++        ansible.playbook = "ansible-playbook/site.yml"
++        ansible.groups = {
++            "bacula" => ["vmdaedalus.novatech-llc.com"],
++            "docker-hosts" => ["vmdaedalus.novatech-llc.com"]
++        }
++        # ansible.tags = []
++        # ansible.skip_tags = ["restore"]
++        ansible.host_vars = {
++            "vmdaedalus.novatech-llc.com" => {
++                "network_connection" => "System enp0s8"
++            }
++        }
++    end
++    
++end
+diff --git a/vmdaedalus/.gitignore b/vmdaedalus/.gitignore
+new file mode 100644
+index 0000000..c148b6f
+--- /dev/null
++++ b/vmdaedalus/.gitignore
+@@ -0,0 +1,2 @@
++bacula-restores/
++vmdaedalus-virtualbox.box
+diff --git a/vmdaedalus/vmdaedalus.cfg b/vmdaedalus/vmdaedalus.cfg
+new file mode 100644
+index 0000000..5d5fdee
+--- /dev/null
++++ b/vmdaedalus/vmdaedalus.cfg
+@@ -0,0 +1,71 @@
++install
++text
++cdrom
++skipx
++lang en_US.UTF-8
++keyboard us
++timezone UTC
++rootpw vagrant
++user --name=vagrant --password=vagrant
++auth --enableshadow --passalgo=sha512 --kickstart
++firewall --disabled
++selinux --permissive
++bootloader --location=mbr
++zerombr
++clearpart --all --initlabel
++autopart
++firstboot --disable
++reboot
++repo --name=epel   --baseurl=http://download.fedoraproject.org/pub/epel/7/x86_64/
++repo --name=extras --baseurl=http://mirror.centos.org/centos/7/extras/x86_64/
++repo --name=docker --baseurl=http://download.docker.com/linux/centos/7/x86_64/stable/
++
++%packages --instLangs=en_US.utf8 --nobase --ignoremissing --excludedocs
++@base
++@core
++@hardware-monitoring
++@input-methods
++@performance
++@mariadb
++@mariadb-client
++epel-release
++bacula-client
++bacula-common
++bacula-console
++bacula-director
++bacula-libs
++bacula-libs-sql
++bacula-storage
++bacula-console-bat
++docker-ce
++git
++subversion
++pexpect
++yum-utils
++%end
++ 
++ 
++%post --log=/root/ks.log
++ 
++echo "vagrant ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/vagrant
++echo "Defaults:vagrant !requiretty" >> /etc/sudoers.d/vagrant
++chmod 0440 /etc/sudoers.d/vagrant
++mkdir -pm 700 /home/vagrant/.ssh
++#curl -o /home/vagrant/.ssh/authorized_keys https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub
++cat <<EOK >/home/vagrant/.ssh/authorized_keys
++ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8Y\
++Vr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdO\
++KLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7Pt\
++ixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmC\
++P3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcW\
++yLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key
++EOK
++chmod 0600 /home/vagrant/.ssh/authorized_keys
++chown -R vagrant.vagrant /home/vagrant/.ssh
++yum -y update
++yum -y remove linux-firmware
++yum-config-manager \
++    --add-repo \
++    https://download.docker.com/linux/centos/docker-ce.repo
++
++%end
+diff --git a/vmdaedalus/vmdaedalus.json b/vmdaedalus/vmdaedalus.json
+new file mode 100644
+index 0000000..703e2b6
+--- /dev/null
++++ b/vmdaedalus/vmdaedalus.json
+@@ -0,0 +1,42 @@
++{
++    "variables": {
++    },
++    "builders": [{
++        "type": "virtualbox-iso",
++        "guest_os_type": "RedHat_64",
++        "iso_url": "/home/coopera/Downloads/CentOS-7-x86_64-DVD-1708/CentOS-7-x86_64-DVD-1708.iso",
++        "iso_checksum": "ec7500d4b006702af6af023b1f8f1b890b6c7ee54400bb98cef968b883cd6546",
++        "iso_checksum_type": "sha256",
++        "ssh_username": "vagrant",
++        "ssh_password": "vagrant",
++        "ssh_wait_timeout": "600s",
++        "vm_name": "vmdaedalus",
++        "http_directory": "./",
++        "boot_wait": "10s",
++        "boot_command": [
++            "<esc><wait>",
++            "linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/vmdaedalus.cfg",
++            "<enter><wait>"
++        ],
++        "shutdown_command": "echo 'vagrant' |sudo -S shutdown -P now",
++        "vboxmanage": [
++            ["modifyvm", "{{.Name}}", "--memory", "512"],
++            ["modifyvm", "{{.Name}}", "--usb", "off"],
++            ["modifyvm", "{{.Name}}", "--audio", "none"]
++        ]
++    }],
++    "provisioners": [{
++        "type": "shell",
++        "inline": [
++            "sudo yum -y install gcc make bzip2 kernel-headers kernel-devel dkms",
++            "sudo yum clean all",
++            "sudo mount -o loop /home/vagrant/VBoxGuestAdditions.iso /mnt",
++            "sudo sh /mnt/VBoxLinuxAdditions.run",
++            "sudo umount /mnt"
++        ]
++    }],
++    "post-processors": [{
++        "type": "vagrant",
++        "output": "./vmdaedalus-{{.Provider}}.box"
++    }]
++}

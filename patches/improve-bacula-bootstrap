@@ -1,0 +1,40 @@
+Bottom: de375bc0a153b8866b1816a1a6acb83413f66368
+Top:    793afc2e3d67a78e079e1c2347584e25da06e0b6
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-13 16:59:46 -0500
+
+Improve bacula-bootstrap-backup script for new machines
+
+The script didn't behave well when running on a new machine with no history
+or bootstrap files. The script now creates empty bootstrap files in the
+initial commit.
+
+
+---
+
+diff --git a/roles/bacula-script/templates/bacula-bootstrap-backup b/roles/bacula-script/templates/bacula-bootstrap-backup
+index bc90dd1..05b1905 100644
+--- a/roles/bacula-script/templates/bacula-bootstrap-backup
++++ b/roles/bacula-script/templates/bacula-bootstrap-backup
+@@ -48,8 +48,10 @@ else
+     git 2>&1 clone ${github_repo} -- ${bacula_home}/${repo_name}
+     cd ${bacula_home}/${repo_name}
+     git 2>&1 checkout --orphan ${fqdn}
+-    touch .gitignore
+-    git 2>&1 add .gitignore
++    touch BackupCatalog.bsr
++    touch bacula-fd.bsr
++    echo '/.ssh' > .gitignore
++    git 2>&1 add .gitignore BackupCatalog.bsr bacula-fd.bsr
+     git 2>&1 commit -sm "initial commit of .gitignore for ${fqdn}"
+     git 2>&1 push --set-upstream origin ${fqdn}
+     cd ${bacula_home}
+@@ -66,7 +68,7 @@ if [[ ! -d .git ]]; then
+     git 2>&1 remote add --fetch origin ${github_repo}
+     if [[ "${restore_bsr}" == 'false' ]]; then
+         echo >&2 "[ Reseting new local repository to 'origin/${fqdn}' ]"
+-        git 2>&1 reset origin/${fqdn}
++        git 2>&1 reset --hard origin/${fqdn}
+         touch .gitignore
+     else
+         echo >&2 "[ Pulling latest version of 'origin/${fqdn}' ]"

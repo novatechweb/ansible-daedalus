@@ -1,0 +1,180 @@
+Bottom: bfdb76c7bd1e0a0ed0a7edbb19bffac4d563b9f4
+Top:    1baa72de879daa8df14ff9358cd5594f2a193fea
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-10 15:23:00 -0500
+
+Move container port definitions to roles.
+
+The roles know what ports need to be exposed.
+
+
+---
+
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index b084bfe..061495c 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -31,25 +31,3 @@ container_addr_map:
+   phpmyadmin:
+     ip_addr: 172.16.0.109
+     hostname: phpmyadmin.novatech-llc.com
+-
+-container_port_map:
+-  svn:
+-    port_args: '-p {{ container_addr_map.svn.ip_addr }}:80:80 -p {{ container_addr_map.svn.ip_addr }}:443:443'
+-  git:
+-    port_args: '-p {{ container_addr_map.git.ip_addr }}:80:80 -p {{ container_addr_map.git.ip_addr }}:443:443  -p {{ container_addr_map.git.ip_addr }}:22:22'
+-  wiki:
+-    port_args: '-p {{ container_addr_map.wiki.ip_addr }}:80:80 -p {{ container_addr_map.wiki.ip_addr }}:443:443'
+-  mantisbt:
+-    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
+-  build:
+-    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
+-  testssh:
+-    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
+-  exim4:
+-    port_args: '-p {{ container_addr_map.exim4.ip_addr }}:25:25 -p {{ container_addr_map.exim4.ip_addr }}:465:465 -p {{ container_addr_map.exim4.ip_addr }}:587:587'
+-  ldap:
+-    port_args: '-p {{ container_addr_map.ldap.ip_addr }}:389:389 -p {{ container_addr_map.ldap.ip_addr }}:636:636'
+-  phpldapadmin:
+-    port_args: '-p {{ container_addr_map.phpldapadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
+-  phpmyadmin:
+-    port_args: '-p {{ container_addr_map.phpmyadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index eda18ef..4442005 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -31,25 +31,3 @@ container_addr_map:
+   phpmyadmin:
+     ip_addr: 172.16.0.209
+     hostname: phpmyadmin.novatech-llc.com
+-
+-container_port_map:
+-  svn:
+-    port_args: '-p {{ container_addr_map.svn.ip_addr }}:80:80 -p {{ container_addr_map.svn.ip_addr }}:443:443'
+-  git:
+-    port_args: '-p {{ container_addr_map.git.ip_addr }}:80:80 -p {{ container_addr_map.git.ip_addr }}:443:443  -p {{ container_addr_map.git.ip_addr }}:22:22'
+-  wiki:
+-    port_args: '-p {{ container_addr_map.wiki.ip_addr }}:80:80 -p {{ container_addr_map.wiki.ip_addr }}:443:443'
+-  mantisbt:
+-    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
+-  build:
+-    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
+-  testssh:
+-    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
+-  exim4:
+-    port_args: '-p {{ container_addr_map.exim4.ip_addr }}:25:25 -p {{ container_addr_map.exim4.ip_addr }}:465:465 -p {{ container_addr_map.exim4.ip_addr }}:587:587'
+-  ldap:
+-    port_args: '-p {{ container_addr_map.ldap.ip_addr }}:389:389 -p {{ container_addr_map.ldap.ip_addr }}:636:636'
+-  phpldapadmin:
+-    port_args: '-p {{ container_addr_map.phpldapadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
+-  phpmyadmin:
+-    port_args: '-p {{ container_addr_map.phpmyadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
+diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
+index cdbad40..7d18a57 100644
+--- a/roles/docker-buildsystem/defaults/main.yml
++++ b/roles/docker-buildsystem/defaults/main.yml
+@@ -6,6 +6,11 @@
+ # buildsystem_ssh_root_user_password
+ # buildsystem_database_root_password
+ 
++buildsystem:
++    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
++
++test_ssh:
++    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'
+diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
+new file mode 100644
+index 0000000..e7932ae
+--- /dev/null
++++ b/roles/docker-exim4/defaults/main.yml
+@@ -0,0 +1,12 @@
++---
++
++# The hostname passed as an envirnment variable into the container
++container_addr_map:
++  exim4:
++    ip_addr: '127.0.0.1'
++    hostname: mail.example.com
++
++# the port mappings used when starting the container
++container_port_map:
++  exim4:
++    port_args: '-p {{ container_addr_map.exim4.ip_addr }}:25:25 -p {{ container_addr_map.exim4.ip_addr }}:465:465 -p {{ container_addr_map.exim4.ip_addr }}:587:587'
+diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
+index 85e7a1a..322792a 100644
+--- a/roles/docker-gitlab/defaults/main.yml
++++ b/roles/docker-gitlab/defaults/main.yml
+@@ -9,7 +9,7 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   git:
+-    port_args: '-P'
++    port_args: '-p {{ container_addr_map.git.ip_addr }}:80:80 -p {{ container_addr_map.git.ip_addr }}:443:443  -p {{ container_addr_map.git.ip_addr }}:22:22'
+ 
+ # database usernames and passwords
+ gitlab_db_user: novatech
+diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
+index cd0f1dd..f104d5a 100644
+--- a/roles/docker-mantisbt/defaults/main.yml
++++ b/roles/docker-mantisbt/defaults/main.yml
+@@ -9,7 +9,7 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   mantisbt:
+-    port_args: '-P'
++    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
+ 
+ # database usernames and passwords
+ mantisbt_db_user: novatech
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index 122ef22..ce16d47 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -9,7 +9,7 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   wiki:
+-    port_args: '-P'
++    port_args: '-p {{ container_addr_map.wiki.ip_addr }}:80:80 -p {{ container_addr_map.wiki.ip_addr }}:443:443'
+ 
+ # database usernames and passwords
+ wiki_db_user: novatech
+diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
+index 343016c..5798b7a 100644
+--- a/roles/docker-openldap/defaults/main.yml
++++ b/roles/docker-openldap/defaults/main.yml
+@@ -12,9 +12,13 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   ldap:
+-    port_args: '-P'
++    port_args:
++      - '{{ container_addr_map.ldap.ip_addr }}:389:389'
++      - '{{ container_addr_map.ldap.ip_addr }}:636:636'
+   phpldapadmin:
+-    port_args: '-P'
++    port_args: 
++      - '{{ container_addr_map.phpldapadmin.ip_addr }}:80:80'
++      - '{{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
+ 
+ openldap_backup_files:
+   - ldif_file: LDAP_database_0000.ldif
+diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
+index 7a96388..b4f0921 100644
+--- a/roles/docker-svn/defaults/main.yml
++++ b/roles/docker-svn/defaults/main.yml
+@@ -9,7 +9,9 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   svn:
+-    port_args: '-P'
++    port_args: 
++      - '{{ container_addr_map.svn.ip_addr }}:80:80'
++      - '{{ container_addr_map.svn.ip_addr }}:443:443'
+ 
+ # The repositories that will be created/imported durring a data-volume restore
+ svn_repos: 'example'

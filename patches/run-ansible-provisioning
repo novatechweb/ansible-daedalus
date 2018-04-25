@@ -1,0 +1,99 @@
+Bottom: c0299f8fcd9070ec8d99b08d16a0a85b34e340d9
+Top:    4778a7cc361703125f3424a288425864a7f52e4d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-03-06 09:45:58 -0600
+
+Run ansible provisioning through Docker
+
+
+---
+
+diff --git a/ansible-runner/Dockerfile b/ansible-runner/Dockerfile
+new file mode 100644
+index 0000000..288b5ff
+--- /dev/null
++++ b/ansible-runner/Dockerfile
+@@ -0,0 +1,40 @@
++FROM ubuntu:latest
++
++RUN apt-get update \
++&&  DEBIAN_FRONTEND=noninteractive apt-get install \
++    -y \
++    curl \
++    git \
++    openssh-client \
++    python \
++    python-svn \
++    rsync \
++    sshpass \
++    subversion \
++    vim
++    
++# Install pip
++RUN curl -O https://bootstrap.pypa.io/get-pip.py \
++&&  python get-pip.py --no-cache-dir
++
++RUN pip --no-cache-dir install \
++    'ansible'
++
++ARG UID=1000
++ARG GID=1000
++
++RUN groupadd \
++    --gid ${GID} \
++    --system \
++    ansible \
++&&  useradd \
++    --comment "Ansible User" \
++    --create-home \
++    --gid ${GID} \
++    --uid ${UID} \
++    --system \
++    ansible
++
++WORKDIR /ansible
++VOLUME /ansible
++USER ansible
+diff --git a/ansible-runner/build.sh b/ansible-runner/build.sh
+new file mode 100755
+index 0000000..96e80c6
+--- /dev/null
++++ b/ansible-runner/build.sh
+@@ -0,0 +1,12 @@
++#!/bin/bash
++
++PWD=$(readlink -f $(dirname $0))
++CONTEXT=$(readlink -f "$PWD/..")
++cd $PWD
++
++docker build \
++--build-arg UID="$(id -u)" \
++--build-arg GID="$(id -g)" \
++--pull \
++--tag "daedalus-provisioner:latest" \
++"$PWD"
+diff --git a/ansible-runner/run.sh b/ansible-runner/run.sh
+new file mode 100755
+index 0000000..f80680f
+--- /dev/null
++++ b/ansible-runner/run.sh
+@@ -0,0 +1,19 @@
++#!/bin/bash
++
++PWD=$(readlink -f $(dirname $0))
++CONTEXT=$(readlink -f "$PWD/..")
++cd $PWD
++
++exec docker run \
++--env ANSIBLE_ROLES_PATH=/ansible \
++--init \
++--interactive \
++--mount type=bind,src="$CONTEXT",dst="/ansible" \
++--mount type=bind,src="$HOME/.ssh",dst="/home/ansible/.ssh" \
++--network=host \
++--rm \
++--tty \
++--user ansible \
++--workdir "/ansible/ansible-playbook" \
++daedalus-provisioner \
++"$@"

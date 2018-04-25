@@ -1,0 +1,232 @@
+Bottom: 253e244995c577c22591363cff57ad1b2c5c85e3
+Top:    6b041962f24e4bafc0defcb20f7343086bd5abff
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-11 10:04:47 -0500
+
+Clean up ip address assignment
+
+Use system utilities (nmcli) to set IP addresses, and add checks to
+cause as little disturbance as possible.
+
+Hostnames for testdaedalus must match live daedalus in order for backup restore
+functions to work properly.
+
+
+---
+
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index baec75d..b084bfe 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -4,43 +4,33 @@ container_addr_map:
+   svn:
+     ip_addr: 172.16.0.101
+     hostname: svn.novatech-llc.com
+-    bridge_num: 1
+   git:
+     ip_addr: 172.16.0.102
+     hostname: git.novatech-llc.com
+-    bridge_num: 2
+   wiki:
+     ip_addr: 172.16.0.103
+     hostname: wiki.novatech-llc.com
+-    bridge_num: 3
+   mantisbt:
+     ip_addr: 172.16.0.104
+     hostname: mantis.novatech-llc.com
+-    bridge_num: 4
+   build:
+     ip_addr: 172.16.0.105
+     hostname: buildsystem.novatech-llc.com
+-    bridge_num: 5
+   testssh:
+     ip_addr: 172.16.0.106
+     hostname: testssh.novatech-llc.com
+-    bridge_num: 6
+   exim4:
+     ip_addr: 172.16.0.107
+     hostname: mail.novatech-llc.com
+-    bridge_num: 7
+   ldap:
+     ip_addr: 172.16.0.108
+     hostname: ldap.novatech-llc.com
+-    bridge_num: 8
+   phpldapadmin:
+     ip_addr: 172.16.0.108
+     hostname: ldap.novatech-llc.com
+-    bridge_num: 8
+   phpmyadmin:
+     ip_addr: 172.16.0.109
+     hostname: phpmyadmin.novatech-llc.com
+-    bridge_num: 9
+ 
+ container_port_map:
+   svn:
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index 7efbfc5..eda18ef 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -2,45 +2,35 @@
+ 
+ container_addr_map:
+   svn:
+-    ip_addr: 172.16.64.101
+-    hostname: test-svn.novatech-llc.com
+-    bridge_num: 1
++    ip_addr: 172.16.0.201
++    hostname: svn.novatech-llc.com
+   git:
+-    ip_addr: 172.16.64.102
+-    hostname: test-git.novatech-llc.com
+-    bridge_num: 2
++    ip_addr: 172.16.0.202
++    hostname: git.novatech-llc.com
+   wiki:
+-    ip_addr: 172.16.64.103
+-    hostname: test-wiki.novatech-llc.com
+-    bridge_num: 3
++    ip_addr: 172.16.0.203
++    hostname: wiki.novatech-llc.com
+   mantisbt:
+-    ip_addr: 172.16.64.104
+-    hostname: test-mantis.novatech-llc.com
+-    bridge_num: 4
++    ip_addr: 172.16.0.204
++    hostname: mantis.novatech-llc.com
+   build:
+-    ip_addr: 172.16.64.105
+-    hostname: test-buildsystem.novatech-llc.com
+-    bridge_num: 5
++    ip_addr: 172.16.0.205
++    hostname: buildsystem.novatech-llc.com
+   testssh:
+-    ip_addr: 172.16.64.106
+-    hostname: test-testssh.novatech-llc.com
+-    bridge_num: 6
++    ip_addr: 172.16.0.206
++    hostname: testssh.novatech-llc.com
+   exim4:
+-    ip_addr: 172.16.64.107
+-    hostname: test-mail.novatech-llc.com
+-    bridge_num: 7
++    ip_addr: 172.16.0.207
++    hostname: mail.novatech-llc.com
+   ldap:
+-    ip_addr: 172.16.64.108
+-    hostname: test-ldap.novatech-llc.com
+-    bridge_num: 8
++    ip_addr: 172.16.0.208
++    hostname: ldap.novatech-llc.com
+   phpldapadmin:
+-    ip_addr: 172.16.64.108
+-    hostname: test-ldap.novatech-llc.com
+-    bridge_num: 8
++    ip_addr: 172.16.0.208
++    hostname: ldap.novatech-llc.com
+   phpmyadmin:
+-    ip_addr: 192.168.202.109
++    ip_addr: 172.16.0.209
+     hostname: phpmyadmin.novatech-llc.com
+-    bridge_num: 9
+ 
+ container_port_map:
+   svn:
+diff --git a/ansible-playbook/staging b/ansible-playbook/staging
+index 80a1327..e544fd4 100644
+--- a/ansible-playbook/staging
++++ b/ansible-playbook/staging
+@@ -5,4 +5,4 @@ testdaedalus.novatech-llc.com
+ testdaedalus.novatech-llc.com
+ 
+ [buildsystem]
+-buildsystem.novatech-llc.com ansible_ssh_host=172.16.64.105
++buildsystem.novatech-llc.com
+diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
+index 6f8d965..091b91f 100644
+--- a/roles/docker-common/tasks/ip_addr.yml
++++ b/roles/docker-common/tasks/ip_addr.yml
+@@ -1,44 +1,34 @@
+ ---
+ # file: roles/docker-common/tasks/ip_addr.yaml
+ 
+-- name: Make an IP address available
+-  template:
+-    src: ifcfg-br0.j2
+-    dest: '/etc/sysconfig/network-scripts/ifcfg-br0:{{ item.value.bridge_num }}'
+-    backup: no
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=r,o=r'
+-  when: 
+-    - ansible_os_family == "RedHat"
+-    - (item.value.bridge_num is not undefined) and (ansible_os_family == "RedHat")
+-  with_dict: "{{ container_addr_map }}"
++- name: install needed network manager libs
++  yum:
++    name: NetworkManager-glib
++    state: installed
+ 
+-- name: add container hostname to /etc/hosts
+-  lineinfile:
+-    dest: /etc/hosts
+-    regexp: '{{ item.value.ip_addr }}	.*$'
+-    line: "{{ item.value.ip_addr }}	{{ item.value.hostname }}"
+-    state: present
+-  when: item.value.bridge_num is not undefined
+-  with_dict: "{{ container_addr_map }}"
++# nmcli always returns 'changed', so we need
++# to manually detect changes to the interface file
++- name: Get interface checksum
++  command: nmcli connection show "{{ network_connection }}"
++  register: network_pre
+ 
+-- name: enable ip forwarding
+-  lineinfile:
+-    dest: /etc/sysctl.conf
+-    regexp: '.*net.ipv4.ip_forward.*$'
+-    line: "net.ipv4.ip_forward = 1"
++- name: Add service IP addresses
++  command: nmcli connection modify '{{ network_connection }}' +ipv4.addresses '{{ item.value.ip_addr }}/16'
++  with_dict: "{{ container_addr_map }}"
++    
++- sysctl:
++    name: net.ipv4.ip_forward
++    value: 1
++    sysctl_set: yes
+     state: present
++    reload: yes
+   when: ansible_os_family == "RedHat"
+ 
+-- name: make IPs active
+-  service:
+-    name: network
+-    state: restarted
+-  when: ansible_os_family == "RedHat"
++- name: Get interface checksum
++  command: nmcli connection show "{{ network_connection }}"
++  register: network_post
+ 
+-- name: make IPs active (second attempt)
+-  service:
+-    name: network
+-    state: restarted
+-  when: ansible_os_family == "RedHat"
++- name: make IPs active if needed
++  command: nmcli connection up "{{ network_connection }}"
++  when: 
++    - ( network_pre != network_post )
+diff --git a/roles/docker-common/templates/ifcfg-br0.j2 b/roles/docker-common/templates/ifcfg-br0.j2
+deleted file mode 100644
+index e4280e0..0000000
+--- a/roles/docker-common/templates/ifcfg-br0.j2
++++ /dev/null
+@@ -1,9 +0,0 @@
+-# /etc/sysconfig/network-scripts/ifcfg-br0:{{ item.value.bridge_num }}
+-DEVICE=br0:{{ item.value.bridge_num }}
+-ONBOOT=yes
+-BOOTPROTO=static
+-IPADDR={{ item.value.ip_addr }}
+-NETMASK=255.255.0.0
+-NETWORK=172.16.0.0
+-BROADCAST=172.16.255.255
+-TYPE=Ethernet

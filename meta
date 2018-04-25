@@ -1,6 +1,35 @@
 Version: 1
-Previous: None
+Previous: 6301b1a8bcc14127be4e74370383b24fb9b47e5b
 Head: ce0dcd029f1a89125d52edbbc80ae686367fd362
 Applied:
+  add-subtree-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
+  updates-for-ansible-2-4-from-2: 234f16bbd42023b7a7eb5fff587f27318fe9b960
+  remove-role-submodules: 50436b654a71312cd4380c7b7ab1b52529efbd64
+  add-public-key-for-andrew: 32e9d35492039db3f18b67b599a2b69d0614186d
+  remove-freeipa-virtual-machine: fdb762072ac08dc946bce1ee24fc96b9d2e9ee4c
+  clean-up-ip-address-assignment: 6eb6949af02a05fb648972ca7e2d36290a725cd2
+  make-bringup-sh-more-robust: fe9137ac7c70615cbf16755e6fe8b2d955758864
+  fix-printf-in-docker_build: c8e349cd8cff5c2c61ece0ccf45ae9e528285629
+  fix-bacula-list-jobs-pexpect: 9ee3f25ba283fe91d08624750bf5fbf97af9b20e
+  remove-unused-pools: 3a24a261aaa249eed555761f2beb6435b9cdd288
+  force-sha256-fingerprint-check: 00bdc9f443140127440e2b6c2acc89271acf4bc6
+  move-git-checkouts-to: f9b4918085377126b0594542201c94cbcd772942
+  move-common-variables-to: d984dfeef5e51977dd5d7353aec7a04f7b4a1210
+  debian-backup-script: 6e0f78a0d1c0f1cd505d341f9ee5894216a24b40
+  move-container-port: 1bde61897eb2a81a1305657d5ffc436cc6f653d5
+  use-ansible-docker-module: f2fef3400719eba9c44be888ba185c07202f10a0
+  use-docker-named-volumes: 900fc07ebdfb64b7de4d14b702dcb8363a9d5eba
+  use-docker-named-networks: 537df9d48bfe044c699b5322dfd58cd61ed52948
+  use-ansible-docker_image: 8ee14ef3ce172a756820b17a93c94e9b2504bddc
+  remove-ansible-role-docker: 06c54b94a07e800d2096b6cdeb76b8f7f1713e3a
+  remove-ansible-role-docker-0: 1b12b979ef0ab18ae5cce86d7550b15f370c4b97
+  cleanup-dependencies-between: 161e7bf0ab9f1abf8bd3940a2dc95a75067307be
+  add-vmdaedalus-inventory: 15f5ea83df47133c1a5475c590f9b2d4d5a37c89
+  run-ansible-provisioning: 80d985451e47c4953409111058c00073f2df531b
+  add-restore-tag-to-tasks: ceac81818da957311018f443635694d128c7bbb5
+  add-buildbot-role: ed1e025b311135a2b56f8194f16c5ad6a171cc0b
+  improve-bacula-bootstrap: ec38573589c3abf0406e4018c567f137d7fafc70
+  add-vagrant-configuration: 6b243c30aadc42c162cbcc2a99985f748c4b4def
+  do-not-submit-restart_policy: ce0dcd029f1a89125d52edbbc80ae686367fd362
 Unapplied:
 Hidden:

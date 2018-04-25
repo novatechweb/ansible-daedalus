@@ -1,0 +1,35 @@
+Bottom: d2f94d46009ba7c081cc8837e8ab1480f6756fd0
+Top:    7a9fedb2091ad70a0a84db5f4a86e004566c2f40
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-02-16 16:32:07 -0600
+
+Fix bacula 'list jobs' pexpect regex
+
+
+---
+
+diff --git a/ansible-playbook/library/bacula.py b/ansible-playbook/library/bacula.py
+index 376db6d..646c84f 100644
+--- a/ansible-playbook/library/bacula.py
++++ b/ansible-playbook/library/bacula.py
+@@ -46,8 +46,9 @@ EXAMPLES = '''
+ '''
+ 
+ def get_job_status(p, jobid):
++    local_job=locale.format("%d", jobid, grouping=True)
+     p.sendline('list jobs')
+-    p.expect('\|\s*%d \|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\| (\w)\s*\|\r\n' % (jobid))
++    p.expect('\|\s*%s \|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\| (\w)\s*\|\r\n' % (local_job))
+     return p.match.group(1)
+ 
+ def restore(module, storage, fileset, path_to_restore, dest):
+@@ -106,6 +107,9 @@ def restore(module, storage, fileset, path_to_restore, dest):
+         module.fail_json(msg='Unexpected job status of: %s' % (status))
+ 
+ def main():
++    import locale
++    locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
++    
+     module = AnsibleModule(
+             argument_spec = dict(
+                 command=dict(default=None),
