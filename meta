@@ -1,6 +1,6 @@
 Version: 1
-Previous: cdaecd0e6ecbd85de71c890dd735edf194dec9fd
-Head: 566863b8c3ece75f42501ba3b4a87689a59728c0
+Previous: f5e97b9e9d303877cf88f96c8441046cf68b6bdf
+Head: 69221df21e226ac0a79e976c1caeb0525153dc1c
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -17,8 +17,8 @@ Applied:
   common-common-variables: d984dfeef5e51977dd5d7353aec7a04f7b4a1210
   playbook-remove-docker-pull-images: c6c78f471cccaefdac28b2d889ec2c58b6d9eb55
   all-docker_container: 566863b8c3ece75f42501ba3b4a87689a59728c0
+  TESTING: 69221df21e226ac0a79e976c1caeb0525153dc1c
 Unapplied:
-  TESTING: 96b445ba198cad9d1d57f9ce0690a861a082d493
   all-docker_volume: 900fc07ebdfb64b7de4d14b702dcb8363a9d5eba
   all-docker_network: 537df9d48bfe044c699b5322dfd58cd61ed52948
   all-docker_image: 8ee14ef3ce172a756820b17a93c94e9b2504bddc
