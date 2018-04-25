@@ -1,0 +1,86 @@
+Bottom: 4194220d5edce4ab5e10734a3ea58367cdad6a3f
+Top:    578b4a32bbd43b2a86f3e062c08b7c45b14fa8c2
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-25 13:55:55 -0500
+
+Install latest available docker engine
+
+Configures yum to get docker-ce engine directly from
+provider.
+
+
+---
+diff --git a/roles/docker-common/tasks/engine-redhat.yml b/roles/docker-common/tasks/engine-redhat.yml
+new file mode 100644
+index 0000000..66aed68
+--- /dev/null
++++ b/roles/docker-common/tasks/engine-redhat.yml
+@@ -0,0 +1,45 @@
++---
++- name: install epel repository
++  yum:
++    name: epel-release
++    state: present
++
++- name: install yum packages
++  yum:
++    state: present
++    name: 
++    - device-mapper-persistent-data
++    - lvm2
++    - python-pip
++  when: ansible_os_family == "RedHat"
++
++- name: install yum docker repository
++  yum_repository:
++    name: docker-ce
++    description: Docker CE Stable - $basearch
++    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
++    gpgcheck: yes
++    gpgkey: https://download.docker.com/linux/centos/gpg
++
++- name: remove distribution docker package
++  yum:
++    name: 
++      - docker
++      - docker-client
++      - docker-client-latest
++      - docker-common
++      - docker-latest
++      - docker-latest-logrotate
++      - docker-logrotate
++      # - docker-selinux
++      # - docker-engine-selinux
++      - docker-engine
++    state: absent
++  when: ansible_os_family == "RedHat"
++
++- name: install latest stable docker
++  yum:
++    state: present
++    name: 
++    - docker-ce
++  when: ansible_os_family == "RedHat"
+diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
+index da75e13..b588fb6 100644
+--- a/roles/docker-common/tasks/main.yml
++++ b/roles/docker-common/tasks/main.yml
+@@ -1,16 +1,8 @@
+ ---
+ # file: roles/docker-common/tasks/main.yaml
+ 
+-- name: Create the docker group
+-  group:
+-    name: docker
+-    system: yes
+-
+-- name: restart docker service
+-  service:
+-    name: docker
+-    state: restarted
+-    enabled: yes
++- import_tasks: engine-redhat.yml
++  when: ansible_os_family == "RedHat"
+ 
+ - import_tasks: ip_addr.yml
+ - import_tasks: packages.yml

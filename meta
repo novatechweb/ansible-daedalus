@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4c14467feb51948bbf8a27c087099e99dfe75591
-Head: d50353febe099393e609de3180fb0b665c9d73dc
+Previous: 38dcaf9731f724696d0458efd01b5227c2ae0bfc
+Head: 44985b82582c867c21fec1eb18b34ccdfd4a420e
 Applied:
   add-subtree-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   updates-for-ansible-2-4-from-2: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -32,5 +32,6 @@ Applied:
   add-vagrant-configuration: 6b243c30aadc42c162cbcc2a99985f748c4b4def
   do-not-submit-restart_policy: ce0dcd029f1a89125d52edbbc80ae686367fd362
   common-update-python-docker-client: d50353febe099393e609de3180fb0b665c9d73dc
+  common-install-latest-available: 44985b82582c867c21fec1eb18b34ccdfd4a420e
 Unapplied:
 Hidden:
