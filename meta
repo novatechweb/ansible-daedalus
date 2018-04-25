@@ -1,6 +1,6 @@
 Version: 1
-Previous: 7be7c13418ab27011fe2890ad46a7debdf007369
-Head: 566863b8c3ece75f42501ba3b4a87689a59728c0
+Previous: 68e9f06f050f6ab7c6abca969d9f2b8c4e87dbec
+Head: ae555572eae349ded28af60d7508c12e2a831cbc
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -17,9 +17,8 @@ Applied:
   common-common-variables: d984dfeef5e51977dd5d7353aec7a04f7b4a1210
   playbook-remove-docker-pull-images: c6c78f471cccaefdac28b2d889ec2c58b6d9eb55
   all-docker_container: 566863b8c3ece75f42501ba3b4a87689a59728c0
+  all-docker_volume: ae555572eae349ded28af60d7508c12e2a831cbc
 Unapplied:
-  TESTING: 96b445ba198cad9d1d57f9ce0690a861a082d493
-  all-docker_volume: 900fc07ebdfb64b7de4d14b702dcb8363a9d5eba
   all-docker_network: 537df9d48bfe044c699b5322dfd58cd61ed52948
   all-docker_image: 8ee14ef3ce172a756820b17a93c94e9b2504bddc
   playbook-remove-docker-build-base-image: 06c54b94a07e800d2096b6cdeb76b8f7f1713e3a
@@ -50,4 +49,5 @@ Unapplied:
   svn-allow-empty: cedeeafe1e970e1f22b03dcd322e2ddd81d55b59
   svn-create-required-directories: 0acdfc4e6a27b953a06e896ee55720538792c76d
   wiki-downgrade-extensions: 822de3134a5bb97218a53f94a3ebe13d1153c8ee
+  TESTING: 96b445ba198cad9d1d57f9ce0690a861a082d493
 Hidden:

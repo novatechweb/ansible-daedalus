@@ -1,5 +1,5 @@
-Bottom: e9868da3a05978c9a9d2d20b286968f83403e832
-Top:    b7d48dfa44ac05967c372c1bf35e2bfc6e3d10bc
+Bottom: 77d617c666a85a480e2df949197e53c8a0c3e15d
+Top:    91a0543f5f175abae8158d37e8612790498fd113
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-10 15:15:02 -0500
 
@@ -9,7 +9,6 @@ Instead of a data container, use docker named volume
 
 
 ---
-
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
 index f996918..6236d76 100644
 --- a/roles/docker-exim4/tasks/main.yml
@@ -218,7 +217,7 @@ index 27c0536..8e4a335 100644
  
  - name: restart container (ldap)
 diff --git a/roles/docker-openldap/vars/main.yml b/roles/docker-openldap/vars/main.yml
-index 516cb9a..d5d16cc 100644
+index 3dd1df3..8e02ed0 100644
 --- a/roles/docker-openldap/vars/main.yml
 +++ b/roles/docker-openldap/vars/main.yml
 @@ -8,6 +8,7 @@ openldap_image_name: '{{ docker_registry_username }}/ldap'
