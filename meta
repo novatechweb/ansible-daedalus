@@ -1,9 +1,9 @@
 Version: 1
-Previous: d0bd77fbc1e37a4192e92813bf94f58e99c604a4
+Previous: b044ee00c23411b0b2a151f04711418fd4267d74
 Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
-  updates-for-ansible-2-4-from-2: 234f16bbd42023b7a7eb5fff587f27318fe9b960
+  all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
   remove-role-submodules: 50436b654a71312cd4380c7b7ab1b52529efbd64
   add-public-key-for-andrew: 32e9d35492039db3f18b67b599a2b69d0614186d
   remove-freeipa-virtual-machine: fdb762072ac08dc946bce1ee24fc96b9d2e9ee4c
