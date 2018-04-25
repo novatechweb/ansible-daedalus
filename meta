@@ -1,5 +1,5 @@
 Version: 1
-Previous: bbccfeb53c614110c4bcd0326b454fa14de32c70
+Previous: 1465b5e097c4bd4259cf462f0a471230e5eeb541
 Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -21,7 +21,7 @@ Applied:
   all-docker_volume: 900fc07ebdfb64b7de4d14b702dcb8363a9d5eba
   all-docker_network: 537df9d48bfe044c699b5322dfd58cd61ed52948
   all-docker_image: 8ee14ef3ce172a756820b17a93c94e9b2504bddc
-  remove-ansible-role-docker: 06c54b94a07e800d2096b6cdeb76b8f7f1713e3a
+  playbook-remove-docker-build-base-image: 06c54b94a07e800d2096b6cdeb76b8f7f1713e3a
   remove-ansible-role-docker-0: 1b12b979ef0ab18ae5cce86d7550b15f370c4b97
   cleanup-dependencies-between: 161e7bf0ab9f1abf8bd3940a2dc95a75067307be
   add-vmdaedalus-inventory: 15f5ea83df47133c1a5475c590f9b2d4d5a37c89
