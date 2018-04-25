@@ -1,5 +1,5 @@
-Bottom: 4113fa45b8b55c9932133b6129be138a84e4486b
-Top:    a358e40036b87c118ffd8c8b79c952297544c9b9
+Bottom: be23362584103f03155db68f72b373dd19148262
+Top:    bdd5d6076351dd75f4bf03fd7941bd0d77b21941
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-25 15:24:09 -0500
 
@@ -11,10 +11,10 @@ execute script within existing container.
 
 ---
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 3fb5502..33d3865 100644
+index 5240723..e001fe9 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
-@@ -123,5 +123,5 @@
+@@ -122,5 +122,5 @@
  # Email accounts
  
  - name: populate email passwords

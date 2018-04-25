@@ -1,5 +1,5 @@
-Bottom: b7d48dfa44ac05967c372c1bf35e2bfc6e3d10bc
-Top:    bfcfee91675c6f2e90ef60dd3f9db73d5e603abf
+Bottom: 91a0543f5f175abae8158d37e8612790498fd113
+Top:    680cdef5f4444e8cdefe38a279814ce5e7614d91
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-06 11:09:17 -0500
 
@@ -7,7 +7,6 @@ Use docker named networks
 
 
 ---
-
 diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
 index 9acd909..c2ac4eb 100644
 --- a/ansible-playbook/group_vars/docker-hosts/docker.yml

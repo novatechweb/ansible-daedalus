@@ -7,7 +7,6 @@ Cleanup dependencies between roles
 
 
 ---
-
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index 227164b..673e61b 100644
 --- a/ansible-playbook/site.yml

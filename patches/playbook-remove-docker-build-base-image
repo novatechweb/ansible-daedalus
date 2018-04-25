@@ -1,5 +1,5 @@
-Bottom: 7a3b911d5d6a7872cc4d226c98a6dbc41823b3ad
-Top:    5e76f0cfee526241d47e141465ee945ad0fea5b4
+Bottom: 47a6f2633c1d8f8590e14097c1d814c29bce3db3
+Top:    9b18ba12125e8523a1447e542bc95185ad59b957
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-11 15:33:42 -0500
 
@@ -10,7 +10,6 @@ that can be pulled from docker hub.
 
 
 ---
-
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index 2ec6350..227164b 100644
 --- a/ansible-playbook/site.yml

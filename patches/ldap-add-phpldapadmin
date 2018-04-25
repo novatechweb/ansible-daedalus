@@ -1,5 +1,5 @@
-Bottom: b63b7eddb1ce9967411846082e093a7a0dce61bf
-Top:    789096427089187662fe2b52168411eeb81bc137
+Bottom: f09c2ad6f5b5eb566be63f53c50d1b6f156da629
+Top:    0d6d4d1b6ff25f256429e1bf5eed22899a70e6d8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-25 15:24:10 -0500
 
@@ -198,7 +198,7 @@ index 0000000..6a50379
 +</body>
 +</html>
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 487af98..125fc4f 100644
+index 35c5ba7..061770f 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -123,6 +123,20 @@

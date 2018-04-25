@@ -1,5 +1,5 @@
-Bottom: 186aa5f519d8a7461ee49b189061a87c5536780a
-Top:    8a1d09ce3ff30de2799b11fc27a9ab425c1911df
+Bottom: a30898f86aa3e5ec49276984123097541005343f
+Top:    2c9271b32d8577af8d333317a5cabb023306e579
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-25 16:02:10 -0500
 
@@ -287,7 +287,7 @@ index b62739e..382a979 100644
    when: st_buildsystem_restore.stat.exists == False
 +  tags: restore
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 5240723..3fb5502 100644
+index e001fe9..33d3865 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -106,7 +106,7 @@
@@ -398,7 +398,7 @@ index 251ba34..580c03f 100644
    when: st_mediawiki_restore.stat.exists == False
 +  tags: restore
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index e771b77..216fecc 100644
+index 061770f..125fc4f 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -110,7 +110,7 @@
@@ -410,7 +410,7 @@ index e771b77..216fecc 100644
      hostname: '{{ container_addr_map.ldap.hostname }}'
      ports: '{{ container_port_map.ldap.port_args }}'
      volumes:
-@@ -127,7 +127,7 @@
+@@ -141,7 +141,7 @@
    docker_container:
      name: '{{ phpldapadmin_container_name }}'
      detach: true
@@ -419,7 +419,7 @@ index e771b77..216fecc 100644
      hostname: '{{ container_addr_map.ldap.hostname }}'
      ports: '{{ container_port_map.phpldapadmin.port_args }}'
      volumes:
-@@ -145,6 +145,7 @@
+@@ -159,6 +159,7 @@
  
  - include_tasks: restore.yml
    when: st_openldap_restore.stat.exists == False

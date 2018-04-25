@@ -1,5 +1,5 @@
-Bottom: bfcfee91675c6f2e90ef60dd3f9db73d5e603abf
-Top:    7a3b911d5d6a7872cc4d226c98a6dbc41823b3ad
+Bottom: 680cdef5f4444e8cdefe38a279814ce5e7614d91
+Top:    47a6f2633c1d8f8590e14097c1d814c29bce3db3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-10 14:52:35 -0500
 
@@ -7,7 +7,6 @@ Use ansible docker_image module
 
 
 ---
-
 diff --git a/roles/docker-build-base-image/tasks/main.yml b/roles/docker-build-base-image/tasks/main.yml
 index b984d74..11c50d3 100644
 --- a/roles/docker-build-base-image/tasks/main.yml

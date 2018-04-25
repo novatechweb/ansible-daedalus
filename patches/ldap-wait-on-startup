@@ -1,5 +1,5 @@
-Bottom: a358e40036b87c118ffd8c8b79c952297544c9b9
-Top:    b63b7eddb1ce9967411846082e093a7a0dce61bf
+Bottom: bdd5d6076351dd75f4bf03fd7941bd0d77b21941
+Top:    f09c2ad6f5b5eb566be63f53c50d1b6f156da629
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-25 15:24:09 -0500
 
@@ -12,10 +12,10 @@ ensure the service is running properly.
 
 ---
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 216fecc..487af98 100644
+index e771b77..35c5ba7 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
-@@ -150,6 +150,13 @@
+@@ -149,6 +149,13 @@
  # *****************************************************************************
  # Set the LDAP passwords
  

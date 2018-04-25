@@ -1,5 +1,5 @@
-Bottom: d0ef1fc195dd74b5c969a834701bd09677452318
-Top:    de375bc0a153b8866b1816a1a6acb83413f66368
+Bottom: 186aa5f519d8a7461ee49b189061a87c5536780a
+Top:    801e13c6749df340a80f0fb3110fca2cc5bcb12b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-13 10:53:58 -0500
 
@@ -7,7 +7,6 @@ Add buildbot role
 
 
 ---
-
 diff --git a/roles/docker-buildbot/README.md b/roles/docker-buildbot/README.md
 new file mode 100644
 index 0000000..225dd44
