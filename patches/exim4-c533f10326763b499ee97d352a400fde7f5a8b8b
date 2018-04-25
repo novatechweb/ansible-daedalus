@@ -1,0 +1,23 @@
+Bottom: 1a148824d8a4198afeae73f870162cb89a34d25c
+Top:    fdfc29fd2468242821ca447eb850382fc7a86812
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-25 15:24:09 -0500
+
+Ignore exim4.conf.template
+
+We don't use this file, so ignore it
+
+
+---
+diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
+index 7080bd4..84e1ca0 100755
+--- a/docker/docker-exim4/docker-entrypoint.sh
++++ b/docker/docker-exim4/docker-entrypoint.sh
+@@ -21,7 +21,6 @@ chown -R root:mail /var/mail
+ case ${1} in
+     exim4)
+         if   [[ -f ${CONFIG_PATH}/update-exim4.conf.conf ]] \
+-          && [[ -f ${CONFIG_PATH}/exim4.conf.template ]] \
+           && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
+         then
+             # set the hostname
