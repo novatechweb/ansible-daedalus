@@ -1,5 +1,5 @@
 Version: 1
-Previous: 60d387a510cccb7930a5e333c01a97b2932adcee
+Previous: 0537e5da5d3b630a4fbba43623141d9ba45989eb
 Head: cd63bbcc733006ba7d98af0d21720de7cecd08e7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -19,7 +19,7 @@ Applied:
   all-move-container-port: 1bde61897eb2a81a1305657d5ffc436cc6f653d5
   all-docker_container: f2fef3400719eba9c44be888ba185c07202f10a0
   all-docker_volume: 900fc07ebdfb64b7de4d14b702dcb8363a9d5eba
-  use-docker-named-networks: 537df9d48bfe044c699b5322dfd58cd61ed52948
+  all-docker_network: 537df9d48bfe044c699b5322dfd58cd61ed52948
   use-ansible-docker_image: 8ee14ef3ce172a756820b17a93c94e9b2504bddc
   remove-ansible-role-docker: 06c54b94a07e800d2096b6cdeb76b8f7f1713e3a
   remove-ansible-role-docker-0: 1b12b979ef0ab18ae5cce86d7550b15f370c4b97
