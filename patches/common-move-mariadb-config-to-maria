@@ -1,0 +1,66 @@
+Bottom: 9a7d82ddacb5cf28c650cc118a9c309a51235128
+Top:    faf5a354920bdc0e2ff0fe5bd84bf47800ce1f77
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-25 13:55:55 -0500
+
+Move mariadb config to maria role
+
+
+---
+diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
+index f52391f..d8c857f 100644
+--- a/roles/docker-common/tasks/main.yml
++++ b/roles/docker-common/tasks/main.yml
+@@ -8,7 +8,6 @@
+ 
+ - import_tasks: packages.yml
+ - import_tasks: sshd_settings.yml
+-- import_tasks: mariadb_settings.yml
+ 
+ - import_tasks: configure.yml
+ 
+diff --git a/roles/docker-common/tasks/mariadb_settings.yml b/roles/docker-common/tasks/mariadb_settings.yml
+deleted file mode 100644
+index 54508dd..0000000
+--- a/roles/docker-common/tasks/mariadb_settings.yml
++++ /dev/null
+@@ -1,15 +0,0 @@
+----
+-# file: roles/docker-common/tasks/mariadb_settings.yml
+-
+-- name: Set host ssh ListenAddress
+-  template:
+-    src: mariadb-bind-address.j2
+-    dest: /etc/my.cnf.d/mariadb-bind-address.cnf
+-  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+-
+-- name: Restart MariaDB service
+-  service:
+-    name: mariadb
+-    enabled: yes
+-    state: restarted
+-  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
+index 698ee95..61b296f 100644
+--- a/roles/mariadb/tasks/main.yml
++++ b/roles/mariadb/tasks/main.yml
+@@ -20,3 +20,15 @@
+ - name: Open the firewall
+   firewalld: service=mysql permanent=true state=enabled
+   when: mariadb_open_firewall
++- name: Set host ssh ListenAddress
++  template:
++    src: mariadb-bind-address.j2
++    dest: /etc/my.cnf.d/mariadb-bind-address.cnf
++  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
++
++- name: Restart MariaDB service
++  service:
++    name: mariadb
++    enabled: yes
++    state: restarted
++  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+diff --git a/roles/docker-common/templates/mariadb-bind-address.j2 b/roles/mariadb/templates/mariadb-bind-address.j2
+similarity index 100%
+rename from roles/docker-common/templates/mariadb-bind-address.j2
+rename to roles/mariadb/templates/mariadb-bind-address.j2
