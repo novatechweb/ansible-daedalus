@@ -1,18 +1,6 @@
 ---
 # file: roles/docker-common/tasks/package.yaml
 
-- name: install yum package docker-python (1.4.0)
-  yum:
-    name: python-docker-py-1.4.0
-    state: present
-  when: ansible_os_family == "RedHat"
-
-- name: Install docker-py (1.4.0)
-  command: pip2 install docker-py==1.4.0
-  when: ansible_os_family == "Archlinux"
-
-- name: Install docker-py (1.4.0)
+- name: Install docker python module
   pip:
-    name: docker-py
-    version: 1.4.0
-  when: (ansible_os_family != "RedHat") and (ansible_os_family != "Archlinux")
+    name: docker==2.7.0
