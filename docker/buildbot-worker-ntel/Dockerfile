@@ -12,9 +12,9 @@ MAINTAINER  Buildbot maintainers
 WORKDIR /buildbot
 
 # Install security updates and required packages
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update \
-&&  apt-get -y install -q \
+RUN apt-get update \
+&&  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install -q \
        alien \
        build-essential \
        chrpath \
@@ -84,9 +84,9 @@ RUN useradd --comment "Buildbot Server" --home-dir "/home/buildbot" --shell "/bi
 &&  chown -v -R buildbot:buildbot "/buildbot" \
 &&  chown -v -R buildbot:buildbot "/home/buildbot"
 
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update \
-&&  apt-get -y install -q \
+RUN apt-get update \
+&&  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install -q \
        vim \
        strace \
        tmux
