@@ -3,21 +3,23 @@ MAINTAINER  Buildbot maintainers
 
 WORKDIR /buildbot
 
-RUN DEBIAN_FRONTEND=noninteractive \
-    echo 'deb http://debian.pengutronix.de/debian sid main contrib non-free' > /etc/apt/sources.list.d/pengutronix.list \
+RUN apt-get update \
+&&  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install wget \
+&&  wget -qO /etc/apt/trusted.gpg.d/ptx-archive-key.gpg https://debian.pengutronix.de/debian/ptx-archive-key.gpg \
+&&  wget -qO /etc/apt/sources.list.d/pengutronix.list   https://debian.pengutronix.de/debian/pengutronix.list \
 &&  apt-get update \
-&&  apt-get -y --force-yes install -q pengutronix-archive-keyring \
-&&  apt-get update \
-&&  apt-get -y install -q \
+&&  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install -q \
         oselas.toolchain-2011.11.3-armeb-xscale-linux-gnueabi-gcc-4.6.2-glibc-2.14.1-binutils-2.21.1a-kernel-2.6.39-sanitized \
         oselas.toolchain-2012.12.1-arm-cortexa8-linux-gnueabi-gcc-4.7.3-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
         oselas.toolchain-2012.12.1-i686-atom-linux-gnu-gcc-4.7.2-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
 &&  rm -rf /var/lib/apt/lists/*
 
 # Install security updates and required packages
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update \
-&&  apt-get -y install -q \
+RUN apt-get update \
+&&  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install -q \
         autoconf \
         bison \
         build-essential \
