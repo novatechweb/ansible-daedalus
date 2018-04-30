@@ -5,7 +5,7 @@
 import os
 from buildbot.plugins import *
 
-DEFAULT_BBFLAGS = '-k'
+DEFAULT_BBFLAGS = ''
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
@@ -84,31 +84,31 @@ schedulers = [
         ],
     ),
 
-    schedulers.Nightly(
-        name="ntel-nightly",
-        branch=None,
-        builderNames=[
-            "ntel_orionlxm",
-            "ntel_orionlx_cpx",
-            "ntel_orionlx_plus",
-            "ntel_orion_io",
-            "ntel_qemux86_64",
-            "ntel_all"
-        ],
-        codebases={
-            '': {
-                'repository': DEFAULT_REPO,
-                'branch': 'morty',
-                'revision': '',
-            }
-        },
-        properties={
-            'clobber': True,
-            'cache': True,
-            'bbflags': DEFAULT_BBFLAGS
-        },
-        hour=22
-    ),
+    # schedulers.Nightly(
+    #     name="ntel-nightly",
+    #     branch=None,
+    #     builderNames=[
+    #         "ntel_orionlxm",
+    #         "ntel_orionlx_cpx",
+    #         "ntel_orionlx_plus",
+    #         "ntel_orion_io",
+    #         "ntel_qemux86_64",
+    #         "ntel_all"
+    #     ],
+    #     codebases={
+    #         '': {
+    #             'repository': DEFAULT_REPO,
+    #             'branch': 'morty',
+    #             'revision': '',
+    #         }
+    #     },
+    #     properties={
+    #         'clobber': True,
+    #         'cache': True,
+    #         'bbflags': DEFAULT_BBFLAGS
+    #     },
+    #     hour=22
+    # ),
 
 ]
 

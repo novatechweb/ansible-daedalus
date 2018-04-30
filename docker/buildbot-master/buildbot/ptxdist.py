@@ -59,16 +59,16 @@ schedulers = [
         ],
     ),
 
-    schedulers.Nightly(
-        name="ptxdist-nightly",
-        branch=None,
-        builderNames=[
-            "current_armeb_xscale",
-            "current_i686",
-            "current_am335x",
-        ],
-        hour=22
-    ),
+    # schedulers.Nightly(
+    #     name="ptxdist-nightly",
+    #     branch=None,
+    #     builderNames=[
+    #         "current_armeb_xscale",
+    #         "current_i686",
+    #         "current_am335x",
+    #     ],
+    #     hour=22
+    # ),
 
     schedulers.Triggerable(
         name="upgrade_i686",
