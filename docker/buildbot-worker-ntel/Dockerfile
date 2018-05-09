@@ -58,12 +58,13 @@ RUN echo "dash dash/sh boolean false" \
 |   debconf-set-selections -v \
 &&  dpkg-reconfigure -f noninteractive dash
 
+ARG BUILDBOT_VERSION
 # Install required python packages, and twisted
 RUN wget https://bootstrap.pypa.io/get-pip.py \
 &&  python get-pip.py --no-cache-dir \
 &&  pip --no-cache-dir install \
     'twisted[tls]' \
-    'buildbot-worker==0.9.13'
+    buildbot-worker==${BUILDBOT_VERSION}
 
 # Install software for image signing
 RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
