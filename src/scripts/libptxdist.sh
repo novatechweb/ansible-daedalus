@@ -304,7 +304,7 @@ ptxd_kconfig() {
 		;;
 	dep)
 		copy_back="false"
-		yes "" | "${conf}" --writedepend "${file_kconfig}" &&
+		yes "" 2>/dev/null | "${conf}" --writedepend "${file_kconfig}" &&
 		cp -- ".config" "${PTXDIST_DGEN_DIR}/${part}config"
 		;;
 	*)
