@@ -50,3 +50,6 @@ email_accounts:
   mantisbt:
     user: mantis
     password: '{{ mantisbt_email_password }}'
+
+# Network names
+docker_network_frontend: 'frontend'
