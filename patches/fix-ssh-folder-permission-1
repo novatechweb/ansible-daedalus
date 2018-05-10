@@ -1,0 +1,26 @@
+Bottom: 6de33c9942abfd770a800e8aca16fbe19383398c
+Top:    4f5b5ec19d029ec79fc6aeb5a2492e2cc101d84a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-02-01 16:20:07 -0600
+
+Fix .ssh folder permission
+
+The start.sh scripts were mistakenly changing the permissions of
+$HOME/.ssh to 0600, removing the execute bit for the user and 
+effectively removing access.
+
+
+---
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/start.sh b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+index 0299c58..23ce583 100755
+--- a/docker/buildbot-worker-ptxdist/buildbot/start.sh
++++ b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+@@ -2,7 +2,7 @@
+ 
+ mkdir -p $HOME/.ssh
+ cp -R /run/secrets/ssh/* $HOME/.ssh
+-chmod -R 600 $HOME/.ssh
++chmod -R 600 $HOME/.ssh/*
+ 
+ ln -v -s -f /home/buildbot/buildbot.tac /buildbot/buildbot.tac
+ exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
