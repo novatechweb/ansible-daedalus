@@ -45,3 +45,6 @@ host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_di
 mantisbt_static_backup_file: '/mantisbt.tar'
 mantisbt_database_backup_file: '/mantisbtdb.sql'
 mantisbt_database_files_table_backup_file: '/mantisbtdb-files_table.sql'
+
+# Network names
+docker_network_frontend: 'frontend'
