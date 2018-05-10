@@ -1,0 +1,18 @@
+---
+# tasks file for buildbot
+
+# This will generate passwords for these accounts.
+- assert:
+    that:
+    - buildbot_admin_password is defined
+
+- name: Create buildbot data volume
+  docker_volume:
+    name: '{{ buildbot_dv_name }}'
+
+- name: Start buildbot container
+  docker_container:
+    name: '{{ buildbot_container_name }}'
+    image: '{{ buildbot_image_name }}:{{ docker_image_tag }}'
+    volumes:
+      - '{{ buildbot_dv_name }}:/buildbot-data:z'
