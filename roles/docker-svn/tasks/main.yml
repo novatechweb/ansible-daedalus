@@ -53,6 +53,11 @@
 
 # *****************************************************************************
 # Update or make the image.
+- name: Checkout image repo
+  git:
+    repo: '{{ svn_image_repo }}'
+    version: master
+    dest: '{{ docker_projects_dir }}/docker-svn'
 
 - name: build image
   docker_build:
