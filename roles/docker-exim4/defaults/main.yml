@@ -1,5 +1,19 @@
 ---
 
+# The hostname passed as an envirnment variable into the container
+container_addr_map:
+  exim4:
+    ip_addr: '127.0.0.1'
+    hostname: mail.example.com
+
+# the port mappings used when starting the container
+container_port_map:
+  exim4:
+    port_args: 
+      - '{{ container_addr_map.exim4.ip_addr }}:25:25'
+      - '{{ container_addr_map.exim4.ip_addr }}:465:465'
+      - '{{ container_addr_map.exim4.ip_addr }}:587:587'
+
 # the repository containing Dockerfile to build the image
 exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
 

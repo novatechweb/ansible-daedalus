@@ -15,6 +15,6 @@
     name: "{{ name_prefix }}TestStation_tftp_server"
     ports: "{{ container_addr_map.build.ip_addr }}:69:69/udp"
     state: "{{ container_start_state_nondata }}"
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     volumes_from:
       - "{{ name_prefix }}TestStation_tftp_data"
