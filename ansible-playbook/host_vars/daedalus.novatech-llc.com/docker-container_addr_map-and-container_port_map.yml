@@ -40,9 +40,7 @@ container_addr_map:
   phpmyadmin:
     ip_addr: 172.16.0.109
     hostname: phpmyadmin.novatech-llc.com
-  freeipa:
-    ip_addr: 172.16.0.110
-    hostname: freeipa.novatech-llc.com
+    bridge_num: 9
 
 container_port_map:
   svn:
