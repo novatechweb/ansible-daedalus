@@ -1,5 +1,5 @@
 Bottom: e4ab0bbc728cc6953ac7be8564223ce68db7ee59
-Top:    103cd3eb6034b3bcb81bafa9cabc20005f2caead
+Top:    d50c1afc9dde5676be3965b904e48e69e0d44575
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -7,11 +7,11 @@ Add buildbot role
 
 
 ---
-diff --git a/roles/docker-buildbot/README.md b/roles/docker-buildbot/README.md
+diff --git a/roles/buildbot-master/README.md b/roles/buildbot-master/README.md
 new file mode 100644
 index 0000000..225dd44
 --- /dev/null
-+++ b/roles/docker-buildbot/README.md
++++ b/roles/buildbot-master/README.md
 @@ -0,0 +1,38 @@
 +Role Name
 +=========
@@ -51,11 +51,11 @@ index 0000000..225dd44
 +------------------
 +
 +An optional section for the role authors to include contact information, or a website (HTML is not allowed).
-diff --git a/roles/docker-buildbot/defaults/main.yml b/roles/docker-buildbot/defaults/main.yml
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
 index 0000000..9781ada
 --- /dev/null
-+++ b/roles/docker-buildbot/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
 @@ -0,0 +1,20 @@
 +---
 +# defaults file for buildbot
@@ -77,21 +77,21 @@ index 0000000..9781ada
 +# Network names
 +docker_network_backend: 'backend'
 +docker_network_frontend: 'frontend'
-diff --git a/roles/docker-buildbot/meta/main.yml b/roles/docker-buildbot/meta/main.yml
+diff --git a/roles/buildbot-master/meta/main.yml b/roles/buildbot-master/meta/main.yml
 new file mode 100644
 index 0000000..5999cdd
 --- /dev/null
-+++ b/roles/docker-buildbot/meta/main.yml
++++ b/roles/buildbot-master/meta/main.yml
 @@ -0,0 +1,4 @@
 +---
 +dependencies: []
 +  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
 +  # if you add dependencies to this list.
-diff --git a/roles/docker-buildbot/tasks/main.yml b/roles/docker-buildbot/tasks/main.yml
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
 index 0000000..58c0cfa
 --- /dev/null
-+++ b/roles/docker-buildbot/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
 @@ -0,0 +1,18 @@
 +---
 +# tasks file for buildbot
@@ -111,11 +111,11 @@ index 0000000..58c0cfa
 +    image: '{{ buildbot_image_name }}:{{ docker_image_tag }}'
 +    volumes:
 +      - '{{ buildbot_dv_name }}:/buildbot-data:z'
-diff --git a/roles/docker-buildbot/vars/main.yml b/roles/docker-buildbot/vars/main.yml
+diff --git a/roles/buildbot-master/vars/main.yml b/roles/buildbot-master/vars/main.yml
 new file mode 100644
 index 0000000..62beac8
 --- /dev/null
-+++ b/roles/docker-buildbot/vars/main.yml
++++ b/roles/buildbot-master/vars/main.yml
 @@ -0,0 +1,16 @@
 +---
 +# vars file for buildbot
