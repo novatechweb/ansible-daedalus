@@ -1,5 +1,5 @@
-Bottom: 7b7c13a2fa414ef9aab016816a3cbd165a2636c5
-Top:    68b0342eb6770ac23d9fc60e8e7e8f6c1bc54a67
+Bottom: b2f74c299241b3f653d29a5d06c7b82ab9b9f02f
+Top:    7da8abefa944282aefb3fc0bc26e8e92bf5dc059
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -327,7 +327,7 @@ index 95fd91a..0000000
 -  command: /usr/bin/virsh vol-upload --pool {{ vm_pool }} --vol {{ vm_vol }} --file {{ bacula_dest }}/var/lib/libvirt/backup/{{ vm_name }}/{{ vm_image }}
 -  when: vm_image is defined and volinfo.stdout.find('Capacity') == -1
 diff --git a/scripts/subtree-import.sh b/scripts/subtree-import.sh
-index 3ac12ba..78a8d10 100755
+index 965738f..f94e64c 100755
 --- a/scripts/subtree-import.sh
 +++ b/scripts/subtree-import.sh
 @@ -20,8 +20,6 @@ roles , docker-openldap                              , origin       , git@github
