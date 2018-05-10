@@ -1,16 +1,8 @@
 ---
 # file: roles/docker-common/tasks/main.yaml
 
-- name: Create the docker group
-  group:
-    name: docker
-    system: yes
-
-- name: restart docker service
-  service:
-    name: docker
-    state: restarted
-    enabled: yes
+- import_tasks: engine-redhat.yml
+  when: ansible_os_family == "RedHat"
 
 - import_tasks: ip_addr.yml
 - import_tasks: packages.yml
