@@ -130,6 +130,8 @@
     detach: true
     restart_policy: always
     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
 
 - name: start container (postgres)
   docker_container:
@@ -138,6 +140,8 @@
     restart_policy: always
     volumes_from: '{{ gitlab_db_dv_name }}'
     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
 
 - name: start container (gitlab)
   docker_container:
@@ -146,11 +150,8 @@
     restart_policy: always
     hostname: '{{ container_addr_map.git.hostname }}'
     ports: '{{ container_port_map.git.port_args }}'
-    link:
-      - '{{ openldap_container_name }}:gitlab-ldap'
-      - '{{ gitlab_redis_container_name }}:gitlab-redis'
-      - '{{ gitlab_db_container_name }}:gitlab-db'
-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
     volumes-from:
       - '{{ openssl_dv_name }}'
       - '{{ gitlab_dv_name }}'
