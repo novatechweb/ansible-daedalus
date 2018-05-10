@@ -21,7 +21,7 @@
     state: "{{ image_build_state_nondata }}"
 
 - name: Start docker container - Test Station database server
-  docker:
+  docker_container:
     detach: True
     image: "{{ name_prefix }}teststation_database_server_image"
     name: "{{ name_prefix }}TestStation_database_server"

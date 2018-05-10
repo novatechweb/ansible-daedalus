@@ -2,7 +2,7 @@
 # file: roles/docker-exim4/tasks/main.yaml
 
 # set the selinux policy to enable log-rotation of the exim4 logs
-- include: selinux-docker-log_rotate.yml
+- import_tasks: selinux-docker-log_rotate.yml
 
 # *****************************************************************************
 # Setup the directory where the backup and restore is to take place
@@ -102,7 +102,7 @@
 # *****************************************************************************
 # restore?
 
-- include: restore.yml
+- include_tasks: restore.yml
   when: st_exim4_restore.stat.exists == False
 
 # *****************************************************************************

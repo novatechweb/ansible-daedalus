@@ -1,7 +1,7 @@
 ---
 - name: Check for local directory to store NCD SVN Export
   run_once: true
-  sudo: false
+  become: false
   local_action:
     module: file
     mode: 0775
@@ -10,7 +10,7 @@
 
 - name: Gathering needed NCD files locally
   run_once: true
-  sudo: false
+  become: false
   local_action:
     module: ncdrelease
     svn_username: "{{ username }}"
