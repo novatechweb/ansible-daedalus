@@ -1,6 +1,6 @@
 Version: 1
-Previous: 64090762ca664b7a71bd2320905feb87c3c7e020
-Head: fc31ec06c277891d2270a971ceab511af872f6a6
+Previous: 38339ce154ea466bbb8e946d6babe824083a012c
+Head: 48f9f6f68d786f3c2f5ce3e2c148801f870ad828
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
   all-ansible-2.4: 631e608c20a23d8352d47c252aa229ad653a960c
@@ -54,6 +54,7 @@ Applied:
   fix-ssh-folder-permission-0: 110f7a58b7ed285e1942845064cc20833e9d0057
   update-ci-archive-script-to: 6ea6d04105efd160ed61829dffe1e796a41a28fb
   rearrange-debian_frontend: fc31ec06c277891d2270a971ceab511af872f6a6
+  add-parameter-for-buildbot-0: 48f9f6f68d786f3c2f5ce3e2c148801f870ad828
 Unapplied:
   buildbot-worker-ptxdist-merge: c9626a61bce949734a9d63e1f7cd6dd660fe3184
   fix-ssh-folder-permission: 34a0da5001859a314460b8ed37fd347f4c0865e5
@@ -67,5 +68,4 @@ Unapplied:
   add-parameter-for-buildbot-1: a66635b6539073914716922578ae6a4ff1d5a30a
   point-python-tools-to-internal: 5c216202fe0c5338100b0b57bbbe5eee44329da0
   point-ptxdist-to-a-new-xorg: fcb4f357a83066ca65f1ad353e271175765954c9
-  add-parameter-for-buildbot-0: bd87fa5fd5e310da38c9cbdbd97c362042d887eb
 Hidden:
