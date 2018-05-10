@@ -29,6 +29,10 @@
     role: docker-build-base-image
     tags:
     - base_images
+  - name: Configure Docker networking
+    role: docker-networking
+    tags:
+    - docker_networking
   - name: Build and start the SVN Docker container
     role: docker-svn
     svn_repos: 'ddio NCD_Release'
