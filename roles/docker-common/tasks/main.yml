@@ -8,15 +8,6 @@
 - import_tasks: sshd_settings.yml
 - import_tasks: mariadb_settings.yml
 
-- name: restores base dir
-  file:
-    state: directory
-    path: '{{ docker_restore_dir }}'
-    owner: root
-    group: tape
-    mode: 'u=rwx,g=rwx,o=rx'
-    recurse: no
-
 - name: base docker_container.conf dir
   file:
     state: directory
@@ -34,22 +25,3 @@
 
 - include_tasks: selinux-backula-policy.yml
   when: (docker_bacula_pp.stat.exists is defined) and (docker_bacula_pp.stat.exists == false)
-
-# *****************************************************************************
-# backup script part
-#   Docker backup script parts should be between 50 and 59
-
-- name: Assemble dir for backup scripts
-  file:
-    path: /usr/libexec/bacula/backup-scripts
-    state: directory
-
-- name: Create before_backup script
-  template:
-    src: before_backup.j2
-    dest: /usr/libexec/bacula/backup-scripts/50.before_backup.docker
-
-- name: Create after_backup script
-  template:
-    src: after_backup.j2
-    dest: /usr/libexec/bacula/backup-scripts/59.after_backup.docker
