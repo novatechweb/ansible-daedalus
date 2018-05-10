@@ -4,8 +4,8 @@
 gitlab_image_repo: 'https://github.com/novatechweb/docker-gitlab.git'
 gitlab_image_name: '{{ docker_registry_username }}/gitlab'
 gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
-gitlab_db_image_name: '{{ repository_images.postgres.image }}'
-redis_image_name: '{{ repository_images.redis.image }}'
+gitlab_db_image_name: '{{ docker_registry_username }}/postgres'
+redis_image_name: '{{ docker_registry_username }}/redis'
 
 # the name of the gitlab container
 gitlab_container_name: '{{ docker_name_prefix }}gitlab'
