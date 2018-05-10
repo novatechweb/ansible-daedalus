@@ -39,8 +39,20 @@
 # restore the archive
 
 - name: extract archive
-  shell: "cat {{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }} | docker run -i --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} extract"
-  when: st_openssl_backup_file.stat.exists == True
+  docker_container:
+    detach: False
+    image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
+    name: openssl_restore
+    volumes:
+      - '{{ host_openssl_docker_restore_dir }}:{{ host_openssl_docker_restore_dir }}:z'
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+    command: ['extract', '{{ host_openssl_docker_restore_dir }}/{{ openssl_backup_file }}']
+
+- name: extract archive
+  docker_container:
+    name: openssl_restore
+    state: absent
+
 
 # *****************************************************************************
 # cleanup
