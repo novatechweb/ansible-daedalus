@@ -1,6 +1,6 @@
 Version: 1
-Previous: de8a7417187a1f6fda2c3ab9d9f2a2c1c573fdf9
-Head: fcb4f357a83066ca65f1ad353e271175765954c9
+Previous: d8e10e2673d9c0a2c2f70b8a234bd101be308be8
+Head: 2da5f042452388c472bcf2bdf8253445dc0663ac
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
   all-ansible-2.4: 631e608c20a23d8352d47c252aa229ad653a960c
@@ -50,22 +50,22 @@ Applied:
   TESTING--ASDF: 0f8952674707295432070e14fe4e61aa61527fc9
   buildbot-add-buildbot-master: 6ad2d33ac93f4ca4ecb23e71759011a00baa0a83
   buildbot-worker-ntel-merge: 20e319187bbedb9044a9620eb47251a2b4e22393
+  update-environment-file-and: 7447bb63b3a2d88556463929a8910fab3be35bef
+  fix-ssh-folder-permission-0: 110f7a58b7ed285e1942845064cc20833e9d0057
+  update-ci-archive-script-to: 6ea6d04105efd160ed61829dffe1e796a41a28fb
+  rearrange-debian_frontend: 2da5f042452388c472bcf2bdf8253445dc0663ac
+Unapplied:
   buildbot-worker-ptxdist-merge: c9626a61bce949734a9d63e1f7cd6dd660fe3184
   fix-ssh-folder-permission: 34a0da5001859a314460b8ed37fd347f4c0865e5
   update-ntel-builds-for-new: 9a0ba6d054df67398198c4fc74dc3bf8d1a00599
   add-parameter-for-buildbot: 95a2c1e570e41601b5dc31ce59446e6528bf3b51
   update-ptxdist-build-factories: e8817bb69c90d5a89cc72d2bd201dc5b3d2ed358
-  update-environment-file-and: f48fd3d1f2664e2596bd5447fce6898f751cec49
-  fix-ssh-folder-permission-0: f5981351c34cfa128ed13b73f1ba091f4de63982
-  update-ci-archive-script-to: 500cb306488e3f9afd55f3563f76930ab6c7ad38
   do-not-submit-temporary-0: a59479a517cadc24d69ebf8fc5ceb6be6c7721c1
-  rearrange-debian_frontend: 98bdcf7f69cb1a331501d4b86cba7640819a5426
-  add-parameter-for-buildbot-0: bd87fa5fd5e310da38c9cbdbd97c362042d887eb
   update-environment-file-and-0: 1e8a0b5e6acdd790531ef07131693a2880943257
   fix-ssh-folder-permission-1: 4d4753171af3132edb556e46649ba74a62a93dde
   rearrange-debian_frontend-0: 6cc42843aec9447f415c160c880307d7f9e65387
   add-parameter-for-buildbot-1: a66635b6539073914716922578ae6a4ff1d5a30a
   point-python-tools-to-internal: 5c216202fe0c5338100b0b57bbbe5eee44329da0
   point-ptxdist-to-a-new-xorg: fcb4f357a83066ca65f1ad353e271175765954c9
-Unapplied:
+  add-parameter-for-buildbot-0: bd87fa5fd5e310da38c9cbdbd97c362042d887eb
 Hidden:
