@@ -25,8 +25,6 @@ case ${1} in
           && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
         then
             # set the hostname
-            [ -e /etc/mailname ] \
-                && rm -rf /etc/mailname
             echo "${HOSTNAME}" > /etc/mailname
             # set local IP addr
             LOCAL_IP_ADDR=$(getent hosts $HOSTNAME | cut -d ' ' -f 1)
