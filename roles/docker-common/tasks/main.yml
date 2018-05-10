@@ -5,7 +5,6 @@
   when: ansible_os_family == "RedHat"
 
 - import_tasks: packages.yml
-- import_tasks: sshd_settings.yml
 
 - import_tasks: configure.yml
 
