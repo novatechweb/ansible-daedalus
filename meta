@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4d8c3396e758d20a7cbb086b5c3fe24e8b203734
-Head: f26d1540fc3b152691cfce41d48c59bf2d55d03f
+Previous: dc83945b930ab87ba8f14b7cfb3be2b9049854af
+Head: b48a86a1db74d73a451232b2646d3288ddb810d2
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
   all-ansible-2.4: 631e608c20a23d8352d47c252aa229ad653a960c
@@ -53,17 +53,15 @@ Applied:
   buildbot-worker-ptxdist-merge: c9626a61bce949734a9d63e1f7cd6dd660fe3184
   buildbot-ssh-folder-permissions: 1a9e52c5f8b51920ae3a0273c5d530b403eef98b
   update-ntel-builds-for-new: c8447507a7039e932c609d3d3162d6a9688b78ab
-  add-parameter-for-buildbot: 7b26dc7d48a54afdd03b7fabd1d4c2f2634e14bf
-  update-ptxdist-build-factories: 02c25e28b9d024e203d3325ed3292f67c815ac08
-  update-environment-file-and: e62ae77061fda49b5349fb7b9c7f57dd41a43b66
-  update-ci-archive-script-to: dcbccd11382f97ef2657a427d28512f74f99fa80
-  do-not-submit-temporary-0: 278ae05f8c787926792ca292f4d047b9bfde0f24
-  rearrange-debian_frontend: e7015127db1999af3caf71e5cad99cc769e45fed
-  add-parameter-for-buildbot-0: 74095e7b168f9c49aa455c1fa3717a889ba201f2
-  update-environment-file-and-0: aeeefe34ab853e6e27838201371c239ea436b868
-  rearrange-debian_frontend-0: 4e8ed952bdea3724974e26262f9415aae7303dfc
-  add-parameter-for-buildbot-1: db9deb29c92d22fd628bc16e4192ee624cdffb30
-  point-python-tools-to-internal: 3ef077e2d7cba90481a3beda364bbabac59cc43a
-  point-ptxdist-to-a-new-xorg: f26d1540fc3b152691cfce41d48c59bf2d55d03f
+  buildbot-version-parameter: 2a11c6a3bcf5c67e59315cbca311e8cfd4cd64b8
+  update-ptxdist-build-factories: 752547a2afb05948130c7c07072bb811b5d10328
+  update-environment-file-and: c143e2a97d1e111e37032509582e819c37f50a51
+  update-ci-archive-script-to: 5d488cf45581c98f19324f544265c6b022fa5c84
+  do-not-submit-temporary-0: 1b84aa1ad46977f757ad54c1d196619fbe9a09d6
+  rearrange-debian_frontend: ca35034f8ebca6efebf678a3673ed0d1a92e3375
+  update-environment-file-and-0: 996d5bbf01520e493affe0a610b3bc43a679ecac
+  rearrange-debian_frontend-0: f6b90535eb564c876e919ee045c3921c25b5399f
+  point-python-tools-to-internal: a9c5a7881bcca1bc6ecee2c3641862719d58313a
+  point-ptxdist-to-a-new-xorg: b48a86a1db74d73a451232b2646d3288ddb810d2
 Unapplied:
 Hidden:

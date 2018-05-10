@@ -1,5 +1,5 @@
-Bottom: 4f5b5ec19d029ec79fc6aeb5a2492e2cc101d84a
-Top:    1547e57f664afdd3564be9f7b38a2648a9806638
+Bottom: 74f2b06bfc110a4c54698fb310f64ae38aafecc6
+Top:    d08e55bbedc3e5ff8a78fde75fc06bbeff90e38f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-30 14:26:49 -0500
 
@@ -8,7 +8,7 @@ Rearrange DEBIAN_FRONTEND envar in Dockerfiles
 
 ---
 diff --git a/docker/buildbot-worker-ptxdist/Dockerfile b/docker/buildbot-worker-ptxdist/Dockerfile
-index c29a39e..4f1e433 100644
+index b5a102e..69c1f47 100644
 --- a/docker/buildbot-worker-ptxdist/Dockerfile
 +++ b/docker/buildbot-worker-ptxdist/Dockerfile
 @@ -3,21 +3,23 @@ MAINTAINER  Buildbot maintainers
