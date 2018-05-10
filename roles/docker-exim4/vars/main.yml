@@ -1,5 +1,8 @@
 ---
 
+# the repository containing Dockerfile to build the image
+exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
+
 # the name of the image being duilt and used for the container
 exim4_image_name: '{{ docker_registry_username }}/exim4'
 
