@@ -149,6 +149,13 @@
 # *****************************************************************************
 # Set the LDAP passwords
 
+- name: wait for LDAP to start
+  wait_for:
+    delay: 5
+    host: '{{ container_addr_map.ldap.ip_addr }}'
+    port: 389
+    state: started
+
 - name: set LDAP admin password
   command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ ldap_admin_password | quote }}'
 
