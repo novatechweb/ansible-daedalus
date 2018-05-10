@@ -1,0 +1,8 @@
+[Service]
+Environment="STORAGE_OPTIONS=\
+--storage-driver devicemapper \
+--storage-opt dm.fs=xfs \
+--storage-opt dm.thinpooldev={{ docker_thinpool_lv.lv_dm_path }} \
+--storage-opt dm.use_deferred_removal=true \
+--storage-opt dm.use_deferred_deletion=true \
+"
