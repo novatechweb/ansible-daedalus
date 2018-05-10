@@ -70,12 +70,23 @@
 
 # *****************************************************************************
 # Update or make the image.
+- name: Checkout image repo
+  git:
+    repo: '{{ mantisbt_image_repo }}'
+    version: master
+    dest: '{{ docker_projects_dir }}/docker-mantisbt'
 
 - name: build image
   docker_build:
     image_name: '{{ mantisbt_image_name }}'
     image_tag: '{{ docker_image_tag }}'
     dockerfile_dir: '{{ docker_projects_dir }}/docker-mantisbt'
+
+- name: Checkout db repo
+  git:
+    repo: '{{ mantisbt_db_image_repo }}'
+    version: master
+    dest: '{{ docker_projects_dir }}/docker-mysql-data'
 
 - name: build data-container image
   docker_build:
