@@ -1,6 +1,6 @@
 Version: 1
-Previous: 50be03dee629bb8aa672e40721d47318b02993ac
-Head: 0c9ff1da29fdd3d55e320f370d4232ba2a08fde3
+Previous: 7f5fa02092e4d6c2fbdc950888c56f1ffc628a80
+Head: c0427abaa5c5d51b413451057f45c4162e89b34f
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
   all-ansible-2.4: 631e608c20a23d8352d47c252aa229ad653a960c
@@ -50,17 +50,17 @@ Applied:
   TESTING--ASDF: 0f8952674707295432070e14fe4e61aa61527fc9
   buildbot-add-buildbot-master: 6ad2d33ac93f4ca4ecb23e71759011a00baa0a83
   buildbot-worker-ntel: 0c9ff1da29fdd3d55e320f370d4232ba2a08fde3
+  buildbot-worker-ptxdist-merge: 76dada260419d6a94557ed9b53f4491055c0e501
+  fix-ssh-folder-permission: 1955332dae5230e321ca657d232bea02d1e120b3
+  update-ntel-builds-for-new: 15da6fb626ec61ae8cf9ae956beccb6dbe7511f1
+  add-parameter-for-buildbot: 41b67348f2d0abeb5795d3f99f040e1799948ca9
+  update-ptxdist-build-factories: d829ba7f5123065399d6e25a3d890848ede3be07
+  do-not-submit-temporary-0: fb87ca023400abbaa665f933c87a697663d9d1ec
+  update-environment-file-and-0: 78354857c737925e2d3ed5ff00f020d890cdc5fb
+  fix-ssh-folder-permission-1: 6aae91bce9bf53abfa7c6e7b919a44ff7ad37f53
+  rearrange-debian_frontend-0: aa69dd297dd7e8a17cb48f1bf85487c7ca136546
+  add-parameter-for-buildbot-1: 51f1213a4ba816685047e15e19fd1959193063c3
+  point-python-tools-to-internal: c242cae3cc05f3b7edd5b7d68b4c9e20a265ad77
+  point-ptxdist-to-a-new-xorg: c0427abaa5c5d51b413451057f45c4162e89b34f
 Unapplied:
-  buildbot-worker-ptxdist-merge: c9626a61bce949734a9d63e1f7cd6dd660fe3184
-  fix-ssh-folder-permission: 34a0da5001859a314460b8ed37fd347f4c0865e5
-  update-ntel-builds-for-new: 9a0ba6d054df67398198c4fc74dc3bf8d1a00599
-  add-parameter-for-buildbot: 95a2c1e570e41601b5dc31ce59446e6528bf3b51
-  update-ptxdist-build-factories: e8817bb69c90d5a89cc72d2bd201dc5b3d2ed358
-  do-not-submit-temporary-0: a59479a517cadc24d69ebf8fc5ceb6be6c7721c1
-  update-environment-file-and-0: 1e8a0b5e6acdd790531ef07131693a2880943257
-  fix-ssh-folder-permission-1: 4d4753171af3132edb556e46649ba74a62a93dde
-  rearrange-debian_frontend-0: 6cc42843aec9447f415c160c880307d7f9e65387
-  add-parameter-for-buildbot-1: a66635b6539073914716922578ae6a4ff1d5a30a
-  point-python-tools-to-internal: 5c216202fe0c5338100b0b57bbbe5eee44329da0
-  point-ptxdist-to-a-new-xorg: fcb4f357a83066ca65f1ad353e271175765954c9
 Hidden:

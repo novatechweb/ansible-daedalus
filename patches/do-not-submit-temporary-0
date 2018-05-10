@@ -1,5 +1,5 @@
-Bottom: 4959edb430c3971d4844463aa0a9889364d5a09f
-Top:    4569c22716e055ac0757021c4d22b0cdc8cb878b
+Bottom: b677cddd7af06ff89d2ba2170722f17dac2c2277
+Top:    c6f6a1de030e28e53b9290db933653371f937b5d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-30 14:43:27 -0500
 
@@ -7,10 +7,10 @@ DO NOT SUBMIT: Temporary changes for development
 
 ---
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
-index c85bf86..0af7dd9 100644
+index 11a726f..2169234 100644
 --- a/docker/buildbot-worker-ntel/Dockerfile
 +++ b/docker/buildbot-worker-ntel/Dockerfile
-@@ -83,6 +83,13 @@ RUN useradd --comment "Buildbot Server" --home-dir "/home/buildbot" --shell "/bi
+@@ -84,6 +84,13 @@ RUN useradd --comment "Buildbot Server" --home-dir "/home/buildbot" --shell "/bi
  &&  chown -v -R buildbot:buildbot "/buildbot" \
  &&  chown -v -R buildbot:buildbot "/home/buildbot"
  
