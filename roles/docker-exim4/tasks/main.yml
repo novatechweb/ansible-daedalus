@@ -92,10 +92,8 @@
 # Create the data volumes
 
 - name: data-volume container
-  docker_datavolume:
-    image_name: '{{ exim4_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ exim4_dv_name }}'
+  docker_volume:
+    name: '{{ exim4_dv_name }}'
 
 # *****************************************************************************
 # Start the data container running
