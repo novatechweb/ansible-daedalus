@@ -78,10 +78,10 @@
   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
 
 - name: build image
-  docker_build:
-    image_name: '{{ wiki_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    dockerfile_dir: '{{ docker_projects_dir }}/docker-mediawiki'
+  docker_image:
+    name: '{{ wiki_image_name }}'
+    tag: '{{ docker_image_tag }}'
+    path: '{{ docker_projects_dir }}/docker-mediawiki'
 
 # *****************************************************************************
 # Create the data volumes
