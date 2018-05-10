@@ -120,6 +120,8 @@
     env:
       LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
 
 - name: start container (phpldapadmin)
   docker_container:
@@ -134,7 +136,8 @@
       PHPLDAPADMIN_HTTPS: 'false'
       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
       LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
-    link: '{{ openldap_container_name }}:ldap'
+    networks:
+      - name: '{{ docker_network_frontend }}'
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
 
 # *****************************************************************************

@@ -15,3 +15,6 @@ docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag 
 
 # restore directories to temporarly store data being restored into docker containers
 docker_backup_dir: '/tmp/docker'
+
+# Network names
+docker_network_frontend: 'frontend'
