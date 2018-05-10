@@ -127,5 +127,5 @@
 # Email accounts
 
 - name: populate email passwords
-  shell: 'docker run --rm --volumes-from {{ exim4_dv_name }} {{ exim4_image_name }}:{{ docker_image_tag }} add_account {{ item.value.user }} "{{ item.value.password }}"'
+  shell: 'docker exec {{ exim4_container_name }} /docker-entrypoint.sh add_account {{ item.value.user }} "{{ item.value.password }}"'
   with_dict: '{{ email_accounts }}'
