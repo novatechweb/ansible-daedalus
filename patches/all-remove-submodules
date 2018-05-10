@@ -1,5 +1,5 @@
-Bottom: b6b5f4edcd485faabaa01c034ddfd56464d590a7
-Top:    c55d9375ca74b9327418ddb8aad9e6579690fc99
+Bottom: 4edce5cc55df137bf6bddbc91783db846339964e
+Top:    98ffbff831949dee422d73eaf4c49dd29fb054d6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-03-12 14:50:31 -0500
 
@@ -10,7 +10,6 @@ separately.
 
 
 ---
-
 diff --git a/ansible-playbook/.gitmodules b/ansible-playbook/.gitmodules
 deleted file mode 100644
 index 8027bc5..0000000

@@ -1,12 +1,11 @@
-Bottom: 00ec90e891641151372f615a6fb2938431dd2a0e
-Top:    a5ba49c68245d61eaa9038fa596d3092dfdc2a12
+Bottom: 7c789605c0a09bfa8372cc606e642bfd31764f03
+Top:    cf7037b7991ae69490f85916812349474db10668
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-10 15:42:04 -0500
 
 Move common variables to group_vars file
 
 ---
-
 diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
 index aaf9299..9acd909 100644
 --- a/ansible-playbook/group_vars/docker-hosts/docker.yml

@@ -1,5 +1,5 @@
-Bottom: 7a9fedb2091ad70a0a84db5f4a86e004566c2f40
-Top:    cdb1d4c0f491f482231baba6127c755d37940e44
+Bottom: 112a27a009bb893741edf91792bd56ce15a64fab
+Top:    6c2680c08fa760cdb42232bdafa65dabaf827884
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-03-13 15:51:15 -0500
 
@@ -7,7 +7,6 @@ Remove unused pools
 
 
 ---
-
 diff --git a/roles/bacula-director/templates/bacula-dir.conf.j2 b/roles/bacula-director/templates/bacula-dir.conf.j2
 index db50386..c8e7434 100644
 --- a/roles/bacula-director/templates/bacula-dir.conf.j2

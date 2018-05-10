@@ -1,5 +1,5 @@
-Bottom: a44ab6c4812ce484728b20b3f304c197d8f43a6d
-Top:    d2f94d46009ba7c081cc8837e8ab1480f6756fd0
+Bottom: f4e4c0e8c1fe9b524221d95e47a728895d6d6e72
+Top:    fa1c467b4ea1abc4c053add6a494ca856b82e72f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-02-09 11:07:01 -0600
 
@@ -11,7 +11,6 @@ appeared to be invalid format specifiers.
 
 
 ---
-
 diff --git a/ansible-playbook/library/docker_build b/ansible-playbook/library/docker_build
 index 8cc11ed..da0c78c 100644
 --- a/ansible-playbook/library/docker_build

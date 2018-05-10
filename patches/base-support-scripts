@@ -1,5 +1,5 @@
 Bottom: 0ff8ce0e6b28debcb808c999fb90889f36c7d61f
-Top:    9924b2c942bd60cac05004cbe4f3b3f847167917
+Top:    52ac64a41dc196a083c5822e28ba32a96ac89fe8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-17 11:02:01 -0500
 
@@ -7,7 +7,6 @@ Add subtree support scripts
 
 
 ---
-
 diff --git a/scripts/subtree-extras.sh b/scripts/subtree-extras.sh
 new file mode 100755
 index 0000000..8cab898
@@ -52,6 +51,61 @@ index 0000000..8cab898
 +    done
 +
 +done <<< $extras
+diff --git a/scripts/subtree-import.sh b/scripts/subtree-import.sh
+index 965738f..3ac12ba 100755
+--- a/scripts/subtree-import.sh
++++ b/scripts/subtree-import.sh
+@@ -49,28 +49,29 @@ docker, docker-TestStation_tftp_data                 , origin       , git@git.no
+ docker, docker-TestStation_tftp_server               , origin       , git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_tftp_server.git                   , master
+ "
+ git tag -f 'pre-import'
+-git clean -dxff
+-while IFS=", " read prefix name remote repo branch; do
+-    if [ "x$name" == "x" ]; then continue; fi
++# git clean -dxff
++prefix="$1";shift
++name="$1";shift
++remote="$1";shift
++repo="$1";shift
++branch="$1";shift
+ 
+-    fullremote="${name}/${remote}"
++fullremote="${name}/${remote}"
+ 
+-    message="${name}: Merge '${fullremote}' at ${branch}"
+-    rmtcmd="none"
+-    cmd="none"
++message="${name}: Merge '${fullremote}' at ${branch}"
++rmtcmd="none"
++stcmd="none"
+ 
+-    if [ "x$prefix" == "x" ]; then prefix="${name}"; else prefix="${prefix}/${name}"; fi 
+-    if git remote get-url "${fullremote}" 2>/dev/null; then rmtcmd="set-url"; else cmd="add"; fi
+-    if [ -d "${prefix}" ]; then cmd="pull"; else cmd="add"; fi
++if [ "x$prefix" == "x" ]; then prefix="${name}"; else prefix="${prefix}/${name}"; fi 
++if git remote get-url "${fullremote}" 2>/dev/null; then rmtcmd="set-url"; else rmtcmd="add"; fi
++if [ -d "${prefix}" ]; then stcmd="pull"; else stcmd="add"; fi
+ 
+-    echo ${message}
+-    set -x
+-    git config --add subtree."$prefix".remote "${fullremote}"
+-    git remote ${rmtcmd} "${fullremote}" "${repo}"
+-    git fetch "${fullremote}" "${branch}" > /dev/null
+-    git subtree ${cmd} --prefix="${prefix}" --message="${message}" "${fullremote}" "${branch}" > /dev/null
+-    { set +x; } 2> /dev/null
+-    echo
+-    echo
+-
+-done <<< $sources
++echo ${message}
++set -x
++git config --add subtree."$prefix".remote "${fullremote}"
++git remote ${rmtcmd} "${fullremote}" "${repo}"
++git fetch "${fullremote}" "${branch}" > /dev/null
++git subtree ${stcmd} --prefix="${prefix}" --message="${message}" "${fullremote}" "${branch}" > /dev/null
++{ set +x; } 2> /dev/null
++echo
++echo
 diff --git a/scripts/subtree-push.sh b/scripts/subtree-push.sh
 new file mode 100755
 index 0000000..7d680bf

@@ -1,5 +1,5 @@
-Bottom: d2f94d46009ba7c081cc8837e8ab1480f6756fd0
-Top:    7a9fedb2091ad70a0a84db5f4a86e004566c2f40
+Bottom: fa1c467b4ea1abc4c053add6a494ca856b82e72f
+Top:    112a27a009bb893741edf91792bd56ce15a64fab
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-02-16 16:32:07 -0600
 
@@ -7,7 +7,6 @@ Fix bacula 'list jobs' pexpect regex
 
 
 ---
-
 diff --git a/ansible-playbook/library/bacula.py b/ansible-playbook/library/bacula.py
 index 376db6d..646c84f 100644
 --- a/ansible-playbook/library/bacula.py

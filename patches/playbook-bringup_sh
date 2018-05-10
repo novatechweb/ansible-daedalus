@@ -1,5 +1,5 @@
-Bottom: 6b041962f24e4bafc0defcb20f7343086bd5abff
-Top:    a44ab6c4812ce484728b20b3f304c197d8f43a6d
+Bottom: 50788c465814eee378ccd3d2cee521cc7e06a26e
+Top:    f4e4c0e8c1fe9b524221d95e47a728895d6d6e72
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-02-07 17:10:53 -0600
 
@@ -15,7 +15,6 @@ set command so only ansible errors will exit.
 
 
 ---
-
 diff --git a/ansible-playbook/bringup.sh b/ansible-playbook/bringup.sh
 index cdc89f5..d180baf 100755
 --- a/ansible-playbook/bringup.sh

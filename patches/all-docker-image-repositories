@@ -1,5 +1,5 @@
-Bottom: e66f19e4326dad0b1b183ae33534d673ad2e018b
-Top:    00ec90e891641151372f615a6fb2938431dd2a0e
+Bottom: fc19e59305398022d570546693907527c1468226
+Top:    7c789605c0a09bfa8372cc606e642bfd31764f03
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-04-12 15:22:01 -0500
 
@@ -7,7 +7,6 @@ Move git checkouts to respective roles
 
 
 ---
-
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
 index 85be014..da75e13 100644
 --- a/roles/docker-common/tasks/main.yml

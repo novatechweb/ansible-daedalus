@@ -1,5 +1,5 @@
-Bottom: cdb1d4c0f491f482231baba6127c755d37940e44
-Top:    e66f19e4326dad0b1b183ae33534d673ad2e018b
+Bottom: 6c2680c08fa760cdb42232bdafa65dabaf827884
+Top:    fc19e59305398022d570546693907527c1468226
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-02-07 16:49:35 -0600
 
@@ -10,7 +10,6 @@ fingerprint.
 
 
 ---
-
 diff --git a/roles/bacula-script/templates/bacula-bootstrap-backup b/roles/bacula-script/templates/bacula-bootstrap-backup
 index 125db1d..bc90dd1 100644
 --- a/roles/bacula-script/templates/bacula-bootstrap-backup
