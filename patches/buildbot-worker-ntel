@@ -1,22 +1,17 @@
 Bottom: 4446b742021cb087bcffef8d1f09efbb8dfac365
-Top:    5356547c5229dbd85e1ac078f817002ca6d70b4d
+Top:    3bebae2763e251d2ba9318e435cb93537e76d30f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-05-10 11:24:28 -0500
+Date:   2018-05-10 14:04:14 -0500
 
-buildbot-worker-ntel: Merge 'buildbot-worker-ntel/origin' at ntel-subtree
-
-git-subtree-dir: docker/buildbot-worker-ntel
-git-subtree-mainline: fc40880fa09eb2b2448c2a4fa61f08a3b6acdd05
-git-subtree-split: c8972fc6bf68e713e9c829030976e519a586d702
-
+Add buildbot NTEL worker Docker image
 
 ---
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
 new file mode 100644
-index 0000000..c85bf86
+index 0000000..11a726f
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/Dockerfile
-@@ -0,0 +1,88 @@
+@@ -0,0 +1,89 @@
 +# buildbot/buildbot-worker
 +
 +# please follow docker best practices
@@ -31,9 +26,9 @@ index 0000000..c85bf86
 +WORKDIR /buildbot
 +
 +# Install security updates and required packages
-+RUN DEBIAN_FRONTEND=noninteractive \
-+    apt-get update \
-+&&  apt-get -y install -q \
++RUN apt-get update \
++&&  DEBIAN_FRONTEND=noninteractive \
++    apt-get -y install -q \
 +       alien \
 +       build-essential \
 +       chrpath \
@@ -77,12 +72,13 @@ index 0000000..c85bf86
 +|   debconf-set-selections -v \
 +&&  dpkg-reconfigure -f noninteractive dash
 +
++ARG BUILDBOT_VERSION
 +# Install required python packages, and twisted
 +RUN wget https://bootstrap.pypa.io/get-pip.py \
 +&&  python get-pip.py --no-cache-dir \
 +&&  pip --no-cache-dir install \
 +    'twisted[tls]' \
-+    'buildbot-worker==0.9.13'
++    buildbot-worker==${BUILDBOT_VERSION}
 +
 +# Install software for image signing
 +RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
@@ -116,7 +112,7 @@ index 0000000..efd988f
 +	email = buildbot@novatechweb.com
 diff --git a/docker/buildbot-worker-ntel/buildbot/buildbot.tac b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
 new file mode 100644
-index 0000000..3ba7179
+index 0000000..472f609
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
 @@ -0,0 +1,38 @@
@@ -137,13 +133,13 @@ index 0000000..3ba7179
 +
 +application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
 +# and worker on the same process!
-+buildmaster_host = os.environ.get("BUILDMASTER", 'localhost')
-+port = int(os.environ.get("BUILDMASTER_PORT", 9989))
-+workername = os.environ.get("WORKERNAME", 'docker')
-+passwd = os.environ.get("WORKERPASS")
++buildmaster_host = os.environ.get("BUILDBOT_MASTER", 'localhost')
++port = int(os.environ.get("BUILDBOT_WORKER_PORT", 9989))
++workername = os.environ.get("BUILDBOT_WORKER_NTEL", 'docker')
++passwd = os.environ.get("BUILDBOT_WORKER_PASSWORD")
 +
 +# delete the password from the environ so that it is not leaked in the log
-+blacklist = os.environ.get("WORKER_ENVIRONMENT_BLACKLIST", "WORKERPASS").split()
++blacklist = os.environ.get("BUILDBOT_ENVIRONMENT_BLACKLIST", "BUILDBOT_WORKER_PASSWORD").split(',')
 +for name in list(os.environ.keys()):
 +    for toremove in blacklist:
 +        if fnmatch.fnmatch(name, toremove):
@@ -160,37 +156,53 @@ index 0000000..3ba7179
 +s.setServiceParent(application)
 diff --git a/docker/buildbot-worker-ntel/buildbot/ci-archive.sh b/docker/buildbot-worker-ntel/buildbot/ci-archive.sh
 new file mode 100755
-index 0000000..db5edc4
+index 0000000..52b8963
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/ci-archive.sh
-@@ -0,0 +1,24 @@
+@@ -0,0 +1,40 @@
 +#!/bin/bash
 +set -x
 +MACHINE="$1";shift
 +DESTDIR="$1";shift
 +TIMESTAMP="$1";shift
 +
-+workdir="build/tmp-glibc-${MACHINE}"
++# Gather variables from bitbake
++bitbake_vars=$(mktemp)
++bitbake -e 2>&1 > $bitbake_vars
++eval $(grep '^TOPDIR=' $bitbake_vars)
++eval $(grep '^TMPDIR=' $bitbake_vars)
++eval $(grep '^DEPLOY_DIR=' $bitbake_vars)
++eval $(grep '^BUILDHISTORY_DIR=' $bitbake_vars)
++
++# Generate output filename and directory
 +rootdir="${MACHINE}.${TIMESTAMP}"
 +filename=${rootdir}.tar.gz
 +archive="${DESTDIR}/${filename}"
 +
-+files_to_archive=$(mktemp --tmpdir="${workdir}" "files_to_archive.XXXXXXXXXX")
-+
-+echo "deploy/glibc-${MACHINE}" >> $files_to_archive
-+echo "buildhistory" >> $files_to_archive
-+find "${workdir}" -type d -name "temp" >> $files_to_archive
++# Gather files to archive into a text file to feed to tar
++files_to_archive=$(mktemp)
++echo "${DEPLOY_DIR}" >> $files_to_archive
++echo "${BUILDHISTORY_DIR}" >> $files_to_archive
++find "${TMPDIR}" -type d -name "temp" >> $files_to_archive
 +echo "$*" >> $files_to_archive
 +
 +mkdir -p "${DESTDIR}"
 +
-+exec tar --verbose --create --auto-compress \
-+    --transform "s!^!${rootdir}/!" \
++# Remove leading and trailing slashes from TOPDIR
++TOPDIR=${TOPDIR#/}; TOPDIR=${TOPDIR%/}
++
++# Create the archive, substituting path prefixes of TOPDIR into rootdir
++tar --verbose --create --auto-compress \
++    --transform "s!^${TOPDIR}!${rootdir}!" \
 +    --file "${archive}" \
 +    --files-from="${files_to_archive}"
++
++# Clean up
++rm $bitbake_vars
++rm $files_to_archive
 diff --git a/docker/buildbot-worker-ntel/buildbot/start.sh b/docker/buildbot-worker-ntel/buildbot/start.sh
 new file mode 100755
-index 0000000..0299c58
+index 0000000..23ce583
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/start.sh
 @@ -0,0 +1,8 @@
@@ -198,7 +210,7 @@ index 0000000..0299c58
 +
 +mkdir -p $HOME/.ssh
 +cp -R /run/secrets/ssh/* $HOME/.ssh
-+chmod -R 600 $HOME/.ssh
++chmod -R 600 $HOME/.ssh/*
 +
 +ln -v -s -f /home/buildbot/buildbot.tac /buildbot/buildbot.tac
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
