@@ -1,6 +1,6 @@
 Version: 1
-Previous: dc37a76d0828c2f5bcf1de7a1365264689997484
-Head: 6ad2d33ac93f4ca4ecb23e71759011a00baa0a83
+Previous: 73a6c3be2be664f5ada2aa07cd48c04a4aa33c5b
+Head: a6b041da92a9930f2a75971008e2535467143346
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
   all-ansible-2.4: 631e608c20a23d8352d47c252aa229ad653a960c
