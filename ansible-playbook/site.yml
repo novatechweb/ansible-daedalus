@@ -25,15 +25,31 @@
   become_user: root
   become_method: sudo
   roles:
+  - name: Run common Docker tasks
+    role: docker-common
+    tags:
+    - docker_common
   - name: Configure Docker networking
     role: docker-networking
     tags:
     - docker_networking
+  - name: Build the openssl Docker volume
+    role: docker-openssl
+    tags:
+    - openssl_container
   - name: Build and start the SVN Docker container
     role: docker-svn
     svn_repos: 'ddio NCD_Release'
     tags:
     - svn_container
+  - name: Build and start the openldap Docker container
+    role: docker-openldap
+    tags:
+    - openldap_container
+  - name: Build and start the exim4 Docker container
+    role: docker-exim4
+    tags:
+    - exim4_container
   - name: Build and start the GitLab Docker container
     role: docker-gitlab
     gitlab_db_user: novatech
