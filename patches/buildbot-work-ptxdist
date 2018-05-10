@@ -1,42 +1,39 @@
 Bottom: 3bebae2763e251d2ba9318e435cb93537e76d30f
-Top:    a0de1e3948976230ea0bbdda0eb2943580d23629
+Top:    2a0d4fcc52c17d8b8c1dbfdc56741723d88eb223
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-05-10 11:24:41 -0500
+Date:   2018-05-10 14:07:09 -0500
 
-buildbot-worker-ptxdist: Merge 'buildbot-worker-ptxdist/origin' at ptxdist-subtree
-
-git-subtree-dir: docker/buildbot-worker-ptxdist
-git-subtree-mainline: 7044a1f191898ebe91aface6348464e2287a22a5
-git-subtree-split: b19d35ca56a88c5583f04726cb2a0bdbbe3c41a2
-
+Add buildbot PTXdist worker Docker image
 
 ---
 diff --git a/docker/buildbot-worker-ptxdist/Dockerfile b/docker/buildbot-worker-ptxdist/Dockerfile
 new file mode 100644
-index 0000000..c29a39e
+index 0000000..69c1f47
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/Dockerfile
-@@ -0,0 +1,85 @@
+@@ -0,0 +1,88 @@
 +FROM        krallin/ubuntu-tini:trusty
 +MAINTAINER  Buildbot maintainers
 +
 +WORKDIR /buildbot
 +
-+RUN DEBIAN_FRONTEND=noninteractive \
-+    echo 'deb http://debian.pengutronix.de/debian sid main contrib non-free' > /etc/apt/sources.list.d/pengutronix.list \
++RUN apt-get update \
++&&  DEBIAN_FRONTEND=noninteractive \
++    apt-get -y install wget \
++&&  wget -qO /etc/apt/trusted.gpg.d/ptx-archive-key.gpg https://debian.pengutronix.de/debian/ptx-archive-key.gpg \
++&&  wget -qO /etc/apt/sources.list.d/pengutronix.list   https://debian.pengutronix.de/debian/pengutronix.list \
 +&&  apt-get update \
-+&&  apt-get -y --force-yes install -q pengutronix-archive-keyring \
-+&&  apt-get update \
-+&&  apt-get -y install -q \
++&&  DEBIAN_FRONTEND=noninteractive \
++    apt-get -y install -q \
 +        oselas.toolchain-2011.11.3-armeb-xscale-linux-gnueabi-gcc-4.6.2-glibc-2.14.1-binutils-2.21.1a-kernel-2.6.39-sanitized \
 +        oselas.toolchain-2012.12.1-arm-cortexa8-linux-gnueabi-gcc-4.7.3-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
 +        oselas.toolchain-2012.12.1-i686-atom-linux-gnu-gcc-4.7.2-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
 +&&  rm -rf /var/lib/apt/lists/*
 +
 +# Install security updates and required packages
-+RUN DEBIAN_FRONTEND=noninteractive \
-+    apt-get update \
-+&&  apt-get -y install -q \
++RUN apt-get update \
++&&  DEBIAN_FRONTEND=noninteractive \
++    apt-get -y install -q \
 +        autoconf \
 +        bison \
 +        build-essential \
@@ -76,13 +73,14 @@ index 0000000..c29a39e
 +        yasm \
 +&&  rm -rf /var/lib/apt/lists/*
 +
++ARG BUILDBOT_VERSION
 +# Install required python packages, and twisted
 +RUN wget https://bootstrap.pypa.io/get-pip.py \
 +&&  python get-pip.py --no-cache-dir \
 +&&  pip --no-cache-dir install \
 +        'virtualenv' \
 +        'twisted[tls]' \
-+        'buildbot-worker==0.9.13' \
++        buildbot-worker==${BUILDBOT_VERSION} \
 +&&  rm -rf get-pip.py
 +
 +ARG BUILDBOT_UID=1000
@@ -127,7 +125,7 @@ index 0000000..efd988f
 +	email = buildbot@novatechweb.com
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
 new file mode 100644
-index 0000000..b56a9c9
+index 0000000..7dbac6e
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
 @@ -0,0 +1,75 @@
@@ -173,7 +171,7 @@ index 0000000..b56a9c9
 +PTXCONF_SETUP_DEBMIRROR="http://ftp.uni-kl.de/debian"
 +PTXCONF_SETUP_SFMIRROR="http://downloads.sourceforge.net/sourceforge"
 +PTXCONF_SETUP_GNUMIRROR="http://ftp.uni-kl.de/pub/gnu"
-+PTXCONF_SETUP_XORGMIRROR="http://ftp.sunet.se/pub/X11/ftp.x.org"
++PTXCONF_SETUP_XORGMIRROR="http://xorg.mirrors.pair.com/pub/X11/ftp.x.org"
 +PTXCONF_SETUP_KERNELMIRROR="http://www.kernel.org/pub/linux"
 +# PTXCONF_SETUP_CHECK_ALWAYS is not set
 +PTXCONF_SETUP_CHECK_NOTEMPTY=y
@@ -208,15 +206,15 @@ index 0000000..b56a9c9
 +PTXCONF_SETUP_HOST_MAKE="make"
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
 new file mode 100644
-index 0000000..fb6f7f4
+index 0000000..8dc2a29
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
 @@ -0,0 +1,2 @@
 +[easy_install]
-+index-url=https://pypi.python.org/simple
++index-url=http://172.16.103.72/repository/PyPi_Proxy/simple
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
 new file mode 100644
-index 0000000..3ba7179
+index 0000000..f0b63bc
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
 @@ -0,0 +1,38 @@
@@ -237,13 +235,13 @@ index 0000000..3ba7179
 +
 +application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
 +# and worker on the same process!
-+buildmaster_host = os.environ.get("BUILDMASTER", 'localhost')
-+port = int(os.environ.get("BUILDMASTER_PORT", 9989))
-+workername = os.environ.get("WORKERNAME", 'docker')
-+passwd = os.environ.get("WORKERPASS")
++buildmaster_host = os.environ.get("BUILDBOT_MASTER", 'localhost')
++port = int(os.environ.get("BUILDBOT_WORKER_PORT", 9989))
++workername = os.environ.get("BUILDBOT_WORKER_PTXDIST", 'docker')
++passwd = os.environ.get("BUILDBOT_WORKER_PASSWORD")
 +
 +# delete the password from the environ so that it is not leaked in the log
-+blacklist = os.environ.get("WORKER_ENVIRONMENT_BLACKLIST", "WORKERPASS").split()
++blacklist = os.environ.get("BUILDBOT_ENVIRONMENT_BLACKLIST", "BUILDBOT_WORKER_PASSWORD").split(',')
 +for name in list(os.environ.keys()):
 +    for toremove in blacklist:
 +        if fnmatch.fnmatch(name, toremove):
@@ -260,7 +258,7 @@ index 0000000..3ba7179
 +s.setServiceParent(application)
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/start.sh b/docker/buildbot-worker-ptxdist/buildbot/start.sh
 new file mode 100755
-index 0000000..0299c58
+index 0000000..23ce583
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/start.sh
 @@ -0,0 +1,8 @@
@@ -268,7 +266,7 @@ index 0000000..0299c58
 +
 +mkdir -p $HOME/.ssh
 +cp -R /run/secrets/ssh/* $HOME/.ssh
-+chmod -R 600 $HOME/.ssh
++chmod -R 600 $HOME/.ssh/*
 +
 +ln -v -s -f /home/buildbot/buildbot.tac /buildbot/buildbot.tac
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
