@@ -9,7 +9,7 @@ FROM ubuntu:14.04
 RUN apt-get update  && \
     apt-get install -y --no-install-recommends \
                     gcc=4:4* \
-                    apache2=2.4* \
+                    apache2=2.4.7* \
                     libapache2-mod-wsgi=3.4* \
                     libapache2-mod-xsendfile=0.12* \
                     mysql-client=5.5* \
