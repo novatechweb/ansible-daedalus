@@ -148,14 +148,34 @@
 # Start the data container running
 
 - name: start container (mysql)
-  docker_run:
-    container_name: '{{ mantisbt_db_container_name }}'
-    docker_run_arguments: '--volumes-from {{ mantisbt_db_dv_name }} {{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ mantisbt_db_container_name }}'
+    detach: true
+    restart_policy: '{{ docker_restart_policy }}'
+    volumes-from:
+      - '{{ mantisbt_db_dv_name }}'
+    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (mantisbt)
-  docker_run:
-    container_name: '{{ mantisbt_container_name }}'
-    docker_run_arguments: '--hostname={{ container_addr_map.mantisbt.hostname }} {{ container_port_map.mantisbt.port_args }} --link {{ openldap_container_name }}:mantisbt_ldap --link {{ mantisbt_db_container_name }}:mantisbt_db --link {{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }} --volumes-from {{ openssl_dv_name }} --volumes-from {{ mantisbt_dv_name }} --env MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }} --env MANTISBT_MAIL_USER=mantis --env MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }} --env MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }} {{ mantisbt_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ mantisbt_container_name }}'
+    detach: true
+    restart_policy: '{{ docker_restart_policy }}'
+    hostname: '{{ container_addr_map.mantisbt.hostname }}'
+    ports: '{{ container_port_map.mantisbt.port_args }}'
+    link: 
+      -'{{ openldap_container_name }}:mantisbt_ldap'
+      -'{{ mantisbt_db_container_name }}:mantisbt_db'
+      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+    volumes-from: 
+      - '{{ openssl_dv_name }}'
+      - '{{ mantisbt_dv_name }}'
+    env: 
+      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
+      - MANTISBT_MAIL_USER=mantis
+      - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
+      - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}
+    image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
 
 # *****************************************************************************
 # remove the MySQL config in the restore directory

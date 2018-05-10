@@ -16,7 +16,7 @@
     name: "{{ name_prefix }}TestStation_http_server"
     ports: "{{ container_addr_map.build.ip_addr }}:80:80"
     state: "{{ container_start_state_nondata }}"
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     volumes_from:
       - "{{ name_prefix }}TestStation_http_data_buildsystem"
 #      - "{{ name_prefix }}TestStation_http_data_ipkg"
