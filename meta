@@ -1,5 +1,5 @@
 Version: 1
-Previous: 1ead66aab7ba60eadf7d89e036dcb5e4c55f2c31
+Previous: 510d1b3a0073ffccf09ddefdcdd7e02c62d10f9e
 Head: b11a1ca2c96e02b0a623e21dadc9ab4abffa39f7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
@@ -48,6 +48,6 @@ Applied:
   svn-create-required-directories: a0fc364cbd391077b4c7f806d352c1e4c0e0a0f9
   wiki-downgrade-extensions: 6c15a86d180fb4683e3fe3a9be8047e8d7c75af9
   TESTING--ASDF: 74b29053b090bd13932b726cb9b1ff50f2f6f028
-  buildbot-add-buildbot-role: b11a1ca2c96e02b0a623e21dadc9ab4abffa39f7
+  buildbot-add-buildbot-master: b11a1ca2c96e02b0a623e21dadc9ab4abffa39f7
 Unapplied:
 Hidden:
