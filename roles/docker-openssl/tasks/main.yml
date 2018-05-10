@@ -61,10 +61,10 @@
     dest: '{{ docker_projects_dir }}/docker-openssl'
 
 - name: build image
-  docker_build:
-    image_name: '{{ openssl_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    dockerfile_dir: '{{ docker_projects_dir }}/docker-openssl'
+  docker_image:
+    name: '{{ openssl_image_name }}'
+    tag: '{{ docker_image_tag }}'
+    path: '{{ docker_projects_dir }}/docker-openssl'
 
 # *****************************************************************************
 # Create the data volumes
