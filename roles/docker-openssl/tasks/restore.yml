@@ -46,7 +46,7 @@
     volumes:
       - '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}:{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}:z'
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
-    command: ['extract', '{{ openssl_docker_restore_dir }}/{{ openssl_backup_file }}']
+    command: ['extract', '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}']
 
 - name: extract archive
   docker_container:
