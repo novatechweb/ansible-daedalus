@@ -1,18 +1,12 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-container_addr_map:
-  git:
-    ip_addr: '127.0.0.1'
-    hostname: git.example.com
-
-# the port mappings used when starting the container
-container_port_map:
-  git:
-    port_args: 
-      - '{{ container_addr_map.git.ip_addr }}:80:80'
-      - '{{ container_addr_map.git.ip_addr }}:443:443'
-      - '{{ container_addr_map.git.ip_addr }}:22:22'
+gitlab_ip_addr: '127.0.0.1'
+gitlab_hostname: git.example.com
+gitlab_port_args: 
+    - 80
+    - 443
+    - 22
 
 # database usernames and passwords
 gitlab_db_user: novatech
@@ -45,3 +39,6 @@ gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
 # restore directories to temporarly store data being restored into docker containers
 gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
 host_gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
+
+# Network names
+docker_network_frontend: 'frontend'

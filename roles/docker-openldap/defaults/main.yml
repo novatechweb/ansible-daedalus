@@ -1,24 +1,17 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-container_addr_map:
-  ldap:
-    ip_addr: '127.0.0.1'
-    hostname: ldap.example.com
-  phpldapadmin:
-    ip_addr: '127.0.0.1'
-    hostname: ldap.example.com
+openldap_ip_addr: '127.0.0.1'
+openldap_hostname: ldap.example.com
+openldap_port_args:
+  - '389'
+  - '636'
 
-# the port mappings used when starting the container
-container_port_map:
-  ldap:
-    port_args:
-      - '{{ container_addr_map.ldap.ip_addr }}:389:389'
-      - '{{ container_addr_map.ldap.ip_addr }}:636:636'
-  phpldapadmin:
-    port_args: 
-      - '{{ container_addr_map.phpldapadmin.ip_addr }}:80:80'
-      - '{{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
+phpldapadmin_ip_addr: '127.0.0.1'
+phpldapadmin_hostname: ldap.example.com
+phpldapadmin_port_args: 
+  - '80'
+  - '443'
 
 openldap_backup_files:
   - ldif_file: LDAP_database_0000.ldif
@@ -51,3 +44,6 @@ phpldapadmin_image_name: 'osixia/phpldapadmin:latest'
 
 # the name of the container being started
 phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
+
+# Network names
+docker_network_frontend: 'frontend'
