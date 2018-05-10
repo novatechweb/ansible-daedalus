@@ -1,0 +1,20 @@
+---
+# defaults file for buildbot
+
+# The hostname passed as an envirnment variable into the container
+container_addr_map:
+  buildbot:
+    ip_addr: '127.0.0.1'
+    hostname: buildbot.example.com
+
+# the port mappings used when starting the container
+container_port_map:
+  buildbot:
+    port_args: 
+      - '{{ container_addr_map.buildbot.ip_addr }}:25:25'
+      - '{{ container_addr_map.buildbot.ip_addr }}:465:465'
+      - '{{ container_addr_map.buildbot.ip_addr }}:587:587'
+
+# Network names
+docker_network_backend: 'backend'
+docker_network_frontend: 'frontend'
