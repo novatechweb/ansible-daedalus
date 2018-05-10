@@ -2,7 +2,7 @@
 
 # *****************************************************************************
 # Backup MantisBT data container
-docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z {{ repository_images.debian.image }}:{{ repository_images.debian.tag }} bash -c "rm -rf /tmp/import_export/MANTISBT"
+docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/MANTISBT"
 mkdir -p -m u=rwx,g=rwx,o= {{ mantisbt_docker_backup_dir }}
 pushd {{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}
 ./mantisbt.sh backup
