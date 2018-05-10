@@ -1,0 +1,30 @@
+Bottom: 1547e57f664afdd3564be9f7b38a2648a9806638
+Top:    d08e55bbedc3e5ff8a78fde75fc06bbeff90e38f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-09 17:07:06 -0500
+
+Add parameter for buildbot version
+
+
+
+---
+diff --git a/docker/buildbot-worker-ptxdist/Dockerfile b/docker/buildbot-worker-ptxdist/Dockerfile
+index 4f1e433..69c1f47 100644
+--- a/docker/buildbot-worker-ptxdist/Dockerfile
++++ b/docker/buildbot-worker-ptxdist/Dockerfile
+@@ -59,13 +59,14 @@ RUN apt-get update \
+         yasm \
+ &&  rm -rf /var/lib/apt/lists/*
+ 
++ARG BUILDBOT_VERSION
+ # Install required python packages, and twisted
+ RUN wget https://bootstrap.pypa.io/get-pip.py \
+ &&  python get-pip.py --no-cache-dir \
+ &&  pip --no-cache-dir install \
+         'virtualenv' \
+         'twisted[tls]' \
+-        'buildbot-worker==0.9.13' \
++        buildbot-worker==${BUILDBOT_VERSION} \
+ &&  rm -rf get-pip.py
+ 
+ ARG BUILDBOT_UID=1000
