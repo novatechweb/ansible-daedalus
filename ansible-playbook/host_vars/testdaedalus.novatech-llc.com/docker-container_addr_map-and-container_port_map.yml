@@ -31,25 +31,3 @@ container_addr_map:
   phpmyadmin:
     ip_addr: 172.16.0.209
     hostname: phpmyadmin.novatech-llc.com
-
-container_port_map:
-  svn:
-    port_args: '-p {{ container_addr_map.svn.ip_addr }}:80:80 -p {{ container_addr_map.svn.ip_addr }}:443:443'
-  git:
-    port_args: '-p {{ container_addr_map.git.ip_addr }}:80:80 -p {{ container_addr_map.git.ip_addr }}:443:443  -p {{ container_addr_map.git.ip_addr }}:22:22'
-  wiki:
-    port_args: '-p {{ container_addr_map.wiki.ip_addr }}:80:80 -p {{ container_addr_map.wiki.ip_addr }}:443:443'
-  mantisbt:
-    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
-  build:
-    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
-  testssh:
-    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
-  exim4:
-    port_args: '-p {{ container_addr_map.exim4.ip_addr }}:25:25 -p {{ container_addr_map.exim4.ip_addr }}:465:465 -p {{ container_addr_map.exim4.ip_addr }}:587:587'
-  ldap:
-    port_args: '-p {{ container_addr_map.ldap.ip_addr }}:389:389 -p {{ container_addr_map.ldap.ip_addr }}:636:636'
-  phpldapadmin:
-    port_args: '-p {{ container_addr_map.phpldapadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
-  phpmyadmin:
-    port_args: '-p {{ container_addr_map.phpmyadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
