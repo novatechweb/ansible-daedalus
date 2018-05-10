@@ -1,7 +1,7 @@
-Bottom: cf7037b7991ae69490f85916812349474db10668
-Top:    412f6c337a3788167e03a0a7f7113d85371a8e19
+Bottom: 49d1128c336df4e23b92d099d9220381385e0a1e
+Top:    6ed83e493639d4793abf93a509e94c29e7b5c395
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-04-25 15:37:06 -0500
+Date:   2018-05-10 12:19:57 -0500
 
 Remove ansible role docker-pull-images
 
@@ -10,6 +10,7 @@ introducing unnecessary dependencies into other roles.
 
 Variables from this role are either eliminated entirely or
 moved to the roles that use them.
+
 
 ---
 diff --git a/roles/docker-common/templates/after_backup.j2 b/roles/docker-common/templates/after_backup.j2

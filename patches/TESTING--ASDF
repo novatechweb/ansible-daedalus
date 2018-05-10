@@ -1,7 +1,7 @@
-Bottom: e24444655971d488bc941d26c18186d53abef845
-Top:    797792d6046a168ae73112f6c49bc2c1022ae255
+Bottom: 97ef7ee56708b5febad6b54717ac1a44c3eb6d59
+Top:    19235ea359e339132116e8bec71fe0b019f0d52d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-04-25 16:02:10 -0500
+Date:   2018-05-10 12:19:59 -0500
 
 Add vmdaedalus inventory
 
@@ -14,6 +14,7 @@ on systems without tapedrives or established backups.
 Add Vagrant configuration
 
 Set docker container restart_policy to no for testing purposes
+
 
 ---
 diff --git a/.gitignore b/.gitignore

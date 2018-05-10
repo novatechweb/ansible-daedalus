@@ -1,11 +1,12 @@
-Bottom: 412f6c337a3788167e03a0a7f7113d85371a8e19
-Top:    e4c28e24c3eda01943fef60e985e46d030d62baf
+Bottom: 6ed83e493639d4793abf93a509e94c29e7b5c395
+Top:    3fed5a8219fd760105b5881179f52860152a6011
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-04-25 15:42:22 -0500
+Date:   2018-05-10 12:19:57 -0500
 
 Use ansible docker_container module
 
 Cleaner than a single long docker run invocation
+
 
 ---
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
