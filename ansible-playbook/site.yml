@@ -25,10 +25,6 @@
   become_user: root
   become_method: sudo
   roles:
-  - name: Build base images that are not on Docker Hub
-    role: docker-build-base-image
-    tags:
-    - base_images
   - name: Configure Docker networking
     role: docker-networking
     tags:
