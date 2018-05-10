@@ -50,7 +50,7 @@ case ${1} in
         #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # MySQL backup
         echo "Backup BS MySQL"
-        mysqldump --host=test_station_mysql_server --user=root --password=$DATABASE_PASSWORD --all-databases --events --triggers --result-file=$BUILDSYSTEM_SQL_BACKUP_FILE
+        mysqldump --host=test_station_mysql_server --user=root --password=$DATABASE_PASSWORD --events --triggers --result-file=$BUILDSYSTEM_SQL_BACKUP_FILE protocol
         #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # tftp file backup
         echo "Backup BS TFTP"
@@ -79,7 +79,7 @@ case ${1} in
         #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # MySQL backup
         echo "Backup SS MySQL"
-        remote_dump_cmd="mysqldump --host=SupportSite_database_server --user=root --password=$DATABASE_PASSWORD --all-databases --events --triggers --result-file=/tmp/supportsite_backup.sql"
+        remote_dump_cmd="mysqldump --host=SupportSite_database_server --user=root --password=$DATABASE_PASSWORD --events --triggers --result-file=/tmp/supportsite_backup.sql protocol"
         ssh $SSH_OPTIONS supportsite_docker_container $remote_dump_cmd
         scp $SSH_OPTIONS supportsite_docker_container:/tmp/supportsite_backup.sql $SUPPORTSITE_SQL_BACKUP_FILE
         ssh $SSH_OPTIONS supportsite_docker_container "rm -f /tmp/supportsite_backup.sql"
@@ -99,4 +99,3 @@ case ${1} in
     ;;
 
 esac
-
