@@ -1,5 +1,5 @@
 Version: 1
-Previous: 73a6c3be2be664f5ada2aa07cd48c04a4aa33c5b
+Previous: 117b16000ce613d0858945831682ff62078b8f27
 Head: a6b041da92a9930f2a75971008e2535467143346
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
@@ -49,5 +49,25 @@ Applied:
   wiki-downgrade-extensions: 2ba9b69cd16b006203f604ce33df082b5d6ed36b
   TESTING--ASDF: 0f8952674707295432070e14fe4e61aa61527fc9
   buildbot-add-buildbot-master: 6ad2d33ac93f4ca4ecb23e71759011a00baa0a83
+  buildbot-worker-ntel-merge: 20e319187bbedb9044a9620eb47251a2b4e22393
+  buildbot-worker-ptxdist-merge: c9626a61bce949734a9d63e1f7cd6dd660fe3184
+  fix-ssh-folder-permission: 34a0da5001859a314460b8ed37fd347f4c0865e5
+  update-ntel-builds-for-new: 9a0ba6d054df67398198c4fc74dc3bf8d1a00599
+  do-not-submit-temporary: de57df33d88e60dd254fdd7252ced60c24f336cf
+  add-parameter-for-buildbot: 82c6738dcb40c490278804261295afe0213b82f0
+  update-ptxdist-build-factories: 2e30e446e632a8225b799fcc7db3ce438231888c
+  update-environment-file-and: b2936cc55912fe8ddf291c48b7f58b2c704e557d
+  fix-ssh-folder-permission-0: a022bcb2b066a98f42bd332437cbd34ad71b1785
+  update-ci-archive-script-to: a8cc2f73c4a60bc8d39e6aec97e4252f21dc829e
+  do-not-submit-temporary-0: 29e24d2b24b949305d8bac7ebd27120c22c9312d
+  rearrange-debian_frontend: 320fc52b1c26a05fd28bc711291db2a5be6826cc
+  do-not-submit-local-testing: 4b42986f2ed2050a22e010c8ee79ad3045a878ba
+  add-parameter-for-buildbot-0: df189a06bdbb230002b55877f7334a6aed9f99df
+  update-environment-file-and-0: 5cd6de603d36e2362bbc385cda5482e867a8c86b
+  fix-ssh-folder-permission-1: eedccd039c7d8696bac22643c4b9b4bb539ee422
+  rearrange-debian_frontend-0: 6e3927e3c177d23dacec98a54a3da75aad08a852
+  add-parameter-for-buildbot-1: 5adc053c6aaf3331ee693295cc8681c0de33786d
+  point-python-tools-to-internal: 1005f065c845705fd43dcdeb41169d8ed734646d
+  point-ptxdist-to-a-new-xorg: a6b041da92a9930f2a75971008e2535467143346
 Unapplied:
 Hidden:

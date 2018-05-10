@@ -1,0 +1,29 @@
+Bottom: fc8c791edbf69034d4c4a7f70687b65af81d5897
+Top:    b34e142a2fbe2dbc4d3dcbefe4d8b6f834b37478
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-09 17:07:06 -0500
+
+Add parameter for buildbot version
+
+
+
+---
+diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
+index fd7d8b0..7965c9e 100644
+--- a/docker/buildbot-worker-ntel/Dockerfile
++++ b/docker/buildbot-worker-ntel/Dockerfile
+@@ -58,12 +58,13 @@ RUN echo "dash dash/sh boolean false" \
+ |   debconf-set-selections -v \
+ &&  dpkg-reconfigure -f noninteractive dash
+ 
++ARG BUILDBOT_VERSION
+ # Install required python packages, and twisted
+ RUN wget https://bootstrap.pypa.io/get-pip.py \
+ &&  python get-pip.py --no-cache-dir \
+ &&  pip --no-cache-dir install \
+     'twisted[tls]' \
+-    'buildbot-worker==0.9.13'
++    buildbot-worker==${BUILDBOT_VERSION}
+ 
+ # Install software for image signing
+ RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \

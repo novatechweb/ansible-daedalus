@@ -1,0 +1,36 @@
+Bottom: adfa77def5162cfe550501c92326ac05395f8bf2
+Top:    f7a4cf436514235b8b7c5b52e0631c4736c707f7
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-01-31 11:44:20 -0600
+
+Update environment file and usage
+
+Updates the docker-compose environment file, improving consistency
+and extracting several variables from docker-compose.yml.
+
+
+
+---
+diff --git a/docker/buildbot-worker-ntel/buildbot/buildbot.tac b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
+index 3ba7179..472f609 100644
+--- a/docker/buildbot-worker-ntel/buildbot/buildbot.tac
++++ b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
+@@ -15,13 +15,13 @@ application = service.Application('buildbot-worker')
+ 
+ application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
+ # and worker on the same process!
+-buildmaster_host = os.environ.get("BUILDMASTER", 'localhost')
+-port = int(os.environ.get("BUILDMASTER_PORT", 9989))
+-workername = os.environ.get("WORKERNAME", 'docker')
+-passwd = os.environ.get("WORKERPASS")
++buildmaster_host = os.environ.get("BUILDBOT_MASTER", 'localhost')
++port = int(os.environ.get("BUILDBOT_WORKER_PORT", 9989))
++workername = os.environ.get("BUILDBOT_WORKER_NTEL", 'docker')
++passwd = os.environ.get("BUILDBOT_WORKER_PASSWORD")
+ 
+ # delete the password from the environ so that it is not leaked in the log
+-blacklist = os.environ.get("WORKER_ENVIRONMENT_BLACKLIST", "WORKERPASS").split()
++blacklist = os.environ.get("BUILDBOT_ENVIRONMENT_BLACKLIST", "BUILDBOT_WORKER_PASSWORD").split(',')
+ for name in list(os.environ.keys()):
+     for toremove in blacklist:
+         if fnmatch.fnmatch(name, toremove):

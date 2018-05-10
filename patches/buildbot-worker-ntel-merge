@@ -1,0 +1,204 @@
+Bottom: 4446b742021cb087bcffef8d1f09efbb8dfac365
+Top:    5356547c5229dbd85e1ac078f817002ca6d70b4d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 11:24:28 -0500
+
+buildbot-worker-ntel: Merge 'buildbot-worker-ntel/origin' at ntel-subtree
+
+git-subtree-dir: docker/buildbot-worker-ntel
+git-subtree-mainline: fc40880fa09eb2b2448c2a4fa61f08a3b6acdd05
+git-subtree-split: c8972fc6bf68e713e9c829030976e519a586d702
+
+
+---
+diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
+new file mode 100644
+index 0000000..c85bf86
+--- /dev/null
++++ b/docker/buildbot-worker-ntel/Dockerfile
+@@ -0,0 +1,88 @@
++# buildbot/buildbot-worker
++
++# please follow docker best practices
++# https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/
++
++# Provides a base Ubuntu (16.04) image with latest buildbot worker installed
++# the worker image is not optimized for size, but rather uses ubuntu for wider package availability
++
++FROM        krallin/ubuntu-tini:trusty
++MAINTAINER  Buildbot maintainers
++
++WORKDIR /buildbot
++
++# Install security updates and required packages
++RUN DEBIAN_FRONTEND=noninteractive \
++    apt-get update \
++&&  apt-get -y install -q \
++       alien \
++       build-essential \
++       chrpath \
++       cmake \
++       cpio \
++       curl \
++       diffstat \
++       docbook-xsl \
++       gawk \
++       git \
++       libffi-dev \
++       libssl-dev \
++       locales \
++       net-tools \
++       default-jre-headless \
++       python-dev \
++       python3 \
++       subversion \
++       texinfo \
++       wget \
++       xsltproc \
++&&  rm -rf /var/lib/apt/lists/*
++
++# Generate UTF-8 locale for python3
++# RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
++# &&  dpkg-reconfigure -f noninteractive locales \
++# &&  update-locale LANG=en_US.UTF-8
++
++# Generate UTF-8 locale for python3
++RUN echo "en_US.UTF-8 UTF-8" >> /var/lib/locales/supported.d/local \
++&&  dpkg-reconfigure -f noninteractive locales \
++&&  update-locale LANG=en_US.UTF-8
++
++# Set locale environment
++ENV LANG=en_US.UTF-8 \
++    LANGUAGE=en_US:en \
++    LC_ALL=en_US.UTF-8
++
++# Reset /bin/sh to bash instead of dash
++RUN echo "dash dash/sh boolean false" \
++|   debconf-set-selections -v \
++&&  dpkg-reconfigure -f noninteractive dash
++
++# Install required python packages, and twisted
++RUN wget https://bootstrap.pypa.io/get-pip.py \
++&&  python get-pip.py --no-cache-dir \
++&&  pip --no-cache-dir install \
++    'twisted[tls]' \
++    'buildbot-worker==0.9.13'
++
++# Install software for image signing
++RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
++|   tar -v -x -C /tmp \
++&&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
++&&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
++&&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/network_hsm_access_provider/PTKnethsm-5.3.0-15.x86_64.rpm \
++&&  echo "ET_HSM_NETCLIENT_SERVERLIST=172.16.64.38" > /etc/default/et_hsm \
++&&  echo "/opt/safenet/protecttoolkit5/ptk/lib" > /etc/ld.so.conf.d/safenet_ptk.conf \
++&&  ldconfig -v \
++&&  rm -rf /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/
++
++# Create buildbot user
++ARG BUILDBOT_UID=1000
++COPY buildbot/ /home/buildbot/
++RUN useradd --comment "Buildbot Server" --home-dir "/home/buildbot" --shell "/bin/bash" --uid ${BUILDBOT_UID} --user-group buildbot \
++&&  chown -v -R buildbot:buildbot "/buildbot" \
++&&  chown -v -R buildbot:buildbot "/home/buildbot"
++
++USER buildbot
++
++CMD ["/home/buildbot/start.sh"]
+diff --git a/docker/buildbot-worker-ntel/buildbot/.gitconfig b/docker/buildbot-worker-ntel/buildbot/.gitconfig
+new file mode 100644
+index 0000000..efd988f
+--- /dev/null
++++ b/docker/buildbot-worker-ntel/buildbot/.gitconfig
+@@ -0,0 +1,3 @@
++[user]
++	name = BuildBot
++	email = buildbot@novatechweb.com
+diff --git a/docker/buildbot-worker-ntel/buildbot/buildbot.tac b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
+new file mode 100644
+index 0000000..3ba7179
+--- /dev/null
++++ b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
+@@ -0,0 +1,38 @@
++import fnmatch
++import os
++import sys
++
++from twisted.application import service
++from twisted.python.log import FileLogObserver
++from twisted.python.log import ILogObserver
++
++from buildbot_worker.bot import Worker
++
++# setup worker
++basedir = os.path.abspath(os.path.dirname(__file__))
++application = service.Application('buildbot-worker')
++
++
++application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
++# and worker on the same process!
++buildmaster_host = os.environ.get("BUILDMASTER", 'localhost')
++port = int(os.environ.get("BUILDMASTER_PORT", 9989))
++workername = os.environ.get("WORKERNAME", 'docker')
++passwd = os.environ.get("WORKERPASS")
++
++# delete the password from the environ so that it is not leaked in the log
++blacklist = os.environ.get("WORKER_ENVIRONMENT_BLACKLIST", "WORKERPASS").split()
++for name in list(os.environ.keys()):
++    for toremove in blacklist:
++        if fnmatch.fnmatch(name, toremove):
++            del os.environ[name]
++
++keepalive = 600
++umask = None
++maxdelay = 300
++allow_shutdown = None
++
++s = Worker(buildmaster_host, port, workername, passwd, basedir,
++           keepalive, umask=umask, maxdelay=maxdelay,
++           allow_shutdown=allow_shutdown)
++s.setServiceParent(application)
+diff --git a/docker/buildbot-worker-ntel/buildbot/ci-archive.sh b/docker/buildbot-worker-ntel/buildbot/ci-archive.sh
+new file mode 100755
+index 0000000..db5edc4
+--- /dev/null
++++ b/docker/buildbot-worker-ntel/buildbot/ci-archive.sh
+@@ -0,0 +1,24 @@
++#!/bin/bash
++set -x
++MACHINE="$1";shift
++DESTDIR="$1";shift
++TIMESTAMP="$1";shift
++
++workdir="build/tmp-glibc-${MACHINE}"
++rootdir="${MACHINE}.${TIMESTAMP}"
++filename=${rootdir}.tar.gz
++archive="${DESTDIR}/${filename}"
++
++files_to_archive=$(mktemp --tmpdir="${workdir}" "files_to_archive.XXXXXXXXXX")
++
++echo "deploy/glibc-${MACHINE}" >> $files_to_archive
++echo "buildhistory" >> $files_to_archive
++find "${workdir}" -type d -name "temp" >> $files_to_archive
++echo "$*" >> $files_to_archive
++
++mkdir -p "${DESTDIR}"
++
++exec tar --verbose --create --auto-compress \
++    --transform "s!^!${rootdir}/!" \
++    --file "${archive}" \
++    --files-from="${files_to_archive}"
+diff --git a/docker/buildbot-worker-ntel/buildbot/start.sh b/docker/buildbot-worker-ntel/buildbot/start.sh
+new file mode 100755
+index 0000000..0299c58
+--- /dev/null
++++ b/docker/buildbot-worker-ntel/buildbot/start.sh
+@@ -0,0 +1,8 @@
++#!/bin/sh
++
++mkdir -p $HOME/.ssh
++cp -R /run/secrets/ssh/* $HOME/.ssh
++chmod -R 600 $HOME/.ssh
++
++ln -v -s -f /home/buildbot/buildbot.tac /buildbot/buildbot.tac
++exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac

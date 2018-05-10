@@ -1,0 +1,39 @@
+Bottom: 2e4bda1a9c80768cf6721f407c697c3340791de2
+Top:    4d988aa7d0ed2fa309ab4a5b3d3a7c62b58ea245
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-04-30 14:26:49 -0500
+
+Rearrange DEBIAN_FRONTEND envar in Dockerfiles
+
+
+---
+diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
+index 0af7dd9..fd7d8b0 100644
+--- a/docker/buildbot-worker-ntel/Dockerfile
++++ b/docker/buildbot-worker-ntel/Dockerfile
+@@ -12,9 +12,9 @@ MAINTAINER  Buildbot maintainers
+ WORKDIR /buildbot
+ 
+ # Install security updates and required packages
+-RUN DEBIAN_FRONTEND=noninteractive \
+-    apt-get update \
+-&&  apt-get -y install -q \
++RUN apt-get update \
++&&  DEBIAN_FRONTEND=noninteractive \
++    apt-get -y install -q \
+        alien \
+        build-essential \
+        chrpath \
+@@ -83,9 +83,9 @@ RUN useradd --comment "Buildbot Server" --home-dir "/home/buildbot" --shell "/bi
+ &&  chown -v -R buildbot:buildbot "/buildbot" \
+ &&  chown -v -R buildbot:buildbot "/home/buildbot"
+ 
+-RUN DEBIAN_FRONTEND=noninteractive \
+-    apt-get update \
+-&&  apt-get -y install -q \
++RUN apt-get update \
++&&  DEBIAN_FRONTEND=noninteractive \
++    apt-get -y install -q \
+        vim \
+        strace \
+        tmux

@@ -1,0 +1,307 @@
+Bottom: 5356547c5229dbd85e1ac078f817002ca6d70b4d
+Top:    619b5d90634d9c72d8bb012f8a39ff7ae5cadc34
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 11:24:41 -0500
+
+buildbot-worker-ptxdist: Merge 'buildbot-worker-ptxdist/origin' at ptxdist-subtree
+
+git-subtree-dir: docker/buildbot-worker-ptxdist
+git-subtree-mainline: 7044a1f191898ebe91aface6348464e2287a22a5
+git-subtree-split: b19d35ca56a88c5583f04726cb2a0bdbbe3c41a2
+
+
+---
+diff --git a/docker/buildbot-worker-ptxdist/Dockerfile b/docker/buildbot-worker-ptxdist/Dockerfile
+new file mode 100644
+index 0000000..c29a39e
+--- /dev/null
++++ b/docker/buildbot-worker-ptxdist/Dockerfile
+@@ -0,0 +1,85 @@
++FROM        krallin/ubuntu-tini:trusty
++MAINTAINER  Buildbot maintainers
++
++WORKDIR /buildbot
++
++RUN DEBIAN_FRONTEND=noninteractive \
++    echo 'deb http://debian.pengutronix.de/debian sid main contrib non-free' > /etc/apt/sources.list.d/pengutronix.list \
++&&  apt-get update \
++&&  apt-get -y --force-yes install -q pengutronix-archive-keyring \
++&&  apt-get update \
++&&  apt-get -y install -q \
++        oselas.toolchain-2011.11.3-armeb-xscale-linux-gnueabi-gcc-4.6.2-glibc-2.14.1-binutils-2.21.1a-kernel-2.6.39-sanitized \
++        oselas.toolchain-2012.12.1-arm-cortexa8-linux-gnueabi-gcc-4.7.3-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
++        oselas.toolchain-2012.12.1-i686-atom-linux-gnu-gcc-4.7.2-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
++&&  rm -rf /var/lib/apt/lists/*
++
++# Install security updates and required packages
++RUN DEBIAN_FRONTEND=noninteractive \
++    apt-get update \
++&&  apt-get -y install -q \
++        autoconf \
++        bison \
++        build-essential \
++        ccache \
++        comerr-dev \
++        default-jre-headless \
++        docbook-xml \
++        docbook-xsl \
++        groff-base \
++        libgdk-pixbuf2.0-dev \
++        libgtk2.0-bin \
++        libicu-dev \
++        libncurses5 \
++        libncurses5-dev \
++        libswitch-perl \
++        libxml-simple-perl \
++        libxml2-utils \
++        lzop \
++        flex \
++        gawk \
++        gcc \
++        gconf2 \
++        gettext \
++        git \
++        libtool \
++        make \
++        python-dev \
++        python-libxml2 \
++        python-tdb \
++        ruby \
++        subversion \
++        ss-dev \
++        texinfo \
++        unzip \
++        wget \
++        xsltproc \
++        yasm \
++&&  rm -rf /var/lib/apt/lists/*
++
++# Install required python packages, and twisted
++RUN wget https://bootstrap.pypa.io/get-pip.py \
++&&  python get-pip.py --no-cache-dir \
++&&  pip --no-cache-dir install \
++        'virtualenv' \
++        'twisted[tls]' \
++        'buildbot-worker==0.9.13' \
++&&  rm -rf get-pip.py
++
++ARG BUILDBOT_UID=1000
++COPY buildbot/ /home/buildbot/
++RUN useradd --comment "Buildbot Server" --home-dir "/home/buildbot" --shell "/bin/bash" --uid ${BUILDBOT_UID} --user-group buildbot \
++&&  chown -v -R buildbot:buildbot "/buildbot" \
++&&  chown -v -R buildbot:buildbot "/home/buildbot" \
++&&  useradd --comment "Gnome Display Manager" --home-dir "/var/lib/gdm" --shell "/sbin/nologin" --user-group --system gdm
++
++# Install ptxdist, a build system
++COPY ptxdist/ /tmp/ptxdist/
++ARG PTXDIST_REPO="git@git.novatech-llc.com:andrew.cooper/ptxdist.git"
++ARG PTXDIST_COMMIT="libconfig"
++ARG SECRET_HOST_IP
++RUN "/tmp/ptxdist/install.sh"
++
++USER buildbot
++
++CMD ["/home/buildbot/start.sh"]
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/.ccache/ccache.conf b/docker/buildbot-worker-ptxdist/buildbot/.ccache/ccache.conf
+new file mode 100644
+index 0000000..150374b
+--- /dev/null
++++ b/docker/buildbot-worker-ptxdist/buildbot/.ccache/ccache.conf
+@@ -0,0 +1,8 @@
++# Set maximum cache size to 10 GB:
++max_size = 10G
++
++# Disable hard linking for shared cache
++hard_link = false
++
++# Place cache directory in common location
++cache_dir = /cache/ccache
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/.gitconfig b/docker/buildbot-worker-ptxdist/buildbot/.gitconfig
+new file mode 100644
+index 0000000..efd988f
+--- /dev/null
++++ b/docker/buildbot-worker-ptxdist/buildbot/.gitconfig
+@@ -0,0 +1,3 @@
++[user]
++	name = BuildBot
++	email = buildbot@novatechweb.com
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
+new file mode 100644
+index 0000000..b56a9c9
+--- /dev/null
++++ b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
+@@ -0,0 +1,75 @@
++#
++# Automatically generated file; DO NOT EDIT.
++# PTXdist 2012.09.1-00373-gee9622f
++#
++
++#
++# PTXDIST Setup Menu
++#
++
++#
++# User
++#
++PTXCONF_SETUP_USER_NAME="NovaTech Buildbot"
++PTXCONF_SETUP_USER_EMAIL="buildbot@novatechweb.com"
++
++#
++# Proxies
++#
++PTXCONF_SETUP_FTP_PROXY=""
++PTXCONF_SETUP_HTTP_PROXY=""
++PTXCONF_SETUP_HTTPS_PROXY=""
++PTXCONF_SETUP_NO_PROXY=""
++
++#
++# Project Searchpath
++#
++PTXCONF_SETUP_PROJECTPATH="${PTXDIST_TOPDIR}/projects"
++
++#
++# Source Directories
++#
++PTXCONF_SETUP_SRCDIR="/cache/downloads"
++
++#
++# Source Download
++#
++# PTXCONF_SETUP_NO_DOWNLOAD is not set
++# PTXCONF_SETUP_PTXMIRROR_ONLY is not set
++PTXCONF_SETUP_PTXMIRROR="http://www.pengutronix.de/software/ptxdist/temporary-src"
++PTXCONF_SETUP_DEBMIRROR="http://ftp.uni-kl.de/debian"
++PTXCONF_SETUP_SFMIRROR="http://downloads.sourceforge.net/sourceforge"
++PTXCONF_SETUP_GNUMIRROR="http://ftp.uni-kl.de/pub/gnu"
++PTXCONF_SETUP_XORGMIRROR="http://ftp.sunet.se/pub/X11/ftp.x.org"
++PTXCONF_SETUP_KERNELMIRROR="http://www.kernel.org/pub/linux"
++# PTXCONF_SETUP_CHECK_ALWAYS is not set
++PTXCONF_SETUP_CHECK_NOTEMPTY=y
++# PTXCONF_SETUP_CHECK_NEVER is not set
++PTXCONF_SETUP_CHECK="notempty"
++
++#
++# IPKG Repository
++#
++PTXCONF_SETUP_IPKG_REPOSITORY="/cache/ipkg-repository"
++
++#
++# Java SDK
++#
++PTXCONF_SETUP_JAVA_SDK="/usr"
++
++#
++# Developer Options
++#
++# PTXCONF_SETUP_DISABLE_LOCAL_CHECK is not set
++PTXCONF_SETUP_ENV_WHITELIST=""
++# PTXCONF_SETUP_COMMON_CACHE is not set
++# PTXCONF_SETUP_GEN_DEP_TREE is not set
++# PTXCONF_SETUP_CHECK_EXIT_ON_ERROR is not set
++PTXCONF_SETUP_CCACHE=y
++PTXCONF_SETUP_PATCHIN_GIT=y
++# PTXCONF_SETUP_NFS_REL_SYMLINK is not set
++# PTXCONF_SETUP_DIRECT_CLEAN is not set
++PTXCONF_SETUP_HOST_CPP="cpp"
++PTXCONF_SETUP_HOST_CC="gcc"
++PTXCONF_SETUP_HOST_CXX="g++"
++PTXCONF_SETUP_HOST_MAKE="make"
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
+new file mode 100644
+index 0000000..fb6f7f4
+--- /dev/null
++++ b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
+@@ -0,0 +1,2 @@
++[easy_install]
++index-url=https://pypi.python.org/simple
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
+new file mode 100644
+index 0000000..3ba7179
+--- /dev/null
++++ b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
+@@ -0,0 +1,38 @@
++import fnmatch
++import os
++import sys
++
++from twisted.application import service
++from twisted.python.log import FileLogObserver
++from twisted.python.log import ILogObserver
++
++from buildbot_worker.bot import Worker
++
++# setup worker
++basedir = os.path.abspath(os.path.dirname(__file__))
++application = service.Application('buildbot-worker')
++
++
++application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
++# and worker on the same process!
++buildmaster_host = os.environ.get("BUILDMASTER", 'localhost')
++port = int(os.environ.get("BUILDMASTER_PORT", 9989))
++workername = os.environ.get("WORKERNAME", 'docker')
++passwd = os.environ.get("WORKERPASS")
++
++# delete the password from the environ so that it is not leaked in the log
++blacklist = os.environ.get("WORKER_ENVIRONMENT_BLACKLIST", "WORKERPASS").split()
++for name in list(os.environ.keys()):
++    for toremove in blacklist:
++        if fnmatch.fnmatch(name, toremove):
++            del os.environ[name]
++
++keepalive = 600
++umask = None
++maxdelay = 300
++allow_shutdown = None
++
++s = Worker(buildmaster_host, port, workername, passwd, basedir,
++           keepalive, umask=umask, maxdelay=maxdelay,
++           allow_shutdown=allow_shutdown)
++s.setServiceParent(application)
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/start.sh b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+new file mode 100755
+index 0000000..0299c58
+--- /dev/null
++++ b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+@@ -0,0 +1,8 @@
++#!/bin/sh
++
++mkdir -p $HOME/.ssh
++cp -R /run/secrets/ssh/* $HOME/.ssh
++chmod -R 600 $HOME/.ssh
++
++ln -v -s -f /home/buildbot/buildbot.tac /buildbot/buildbot.tac
++exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
+diff --git a/docker/buildbot-worker-ptxdist/ptxdist/install.sh b/docker/buildbot-worker-ptxdist/ptxdist/install.sh
+new file mode 100755
+index 0000000..997188a
+--- /dev/null
++++ b/docker/buildbot-worker-ptxdist/ptxdist/install.sh
+@@ -0,0 +1,27 @@
++#!/bin/bash
++set -e
++set -x
++echo "Install ptxdist version '$PTXDIST_COMMIT'"
++
++chmod -R 700 "/tmp/ptxdist"
++
++echo "172.16.0.102	git.novatech-llc.com" >> /etc/hosts
++
++mkdir -p $HOME/.ssh/
++wget -O $HOME/.ssh/id_rsa http://$SECRET_HOST_IP/ssh/id_rsa
++wget -O $HOME/.ssh/known_hosts http://$SECRET_HOST_IP/ssh/known_hosts
++chmod -R 600 $HOME/.ssh
++
++git clone --branch "${PTXDIST_COMMIT}" --single-branch "${PTXDIST_REPO}" "/tmp/ptxdist/src"
++
++pushd "/tmp/ptxdist/src"
++
++./autogen.sh
++./configure
++make
++make install
++
++popd
++
++rm -rf "$HOME/.ssh"
++rm -rf "/tmp/ptxdist"

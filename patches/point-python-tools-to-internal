@@ -1,0 +1,18 @@
+Bottom: 3dfc928fdf6c7f62612aa88004d2aab9a0a9f6d2
+Top:    8718ead4a9c1b41d36bd91655115a78467cae469
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 09:42:37 -0500
+
+Point python tools to internal pypi mirror
+
+
+
+---
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
+index fb6f7f4..8dc2a29 100644
+--- a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
++++ b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
+@@ -1,2 +1,2 @@
+ [easy_install]
+-index-url=https://pypi.python.org/simple
++index-url=http://172.16.103.72/repository/PyPi_Proxy/simple

@@ -1,0 +1,22 @@
+Bottom: 8718ead4a9c1b41d36bd91655115a78467cae469
+Top:    63248f590775995abff6f6e00c5840823e63d9e8
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 09:43:28 -0500
+
+Point PTXDist to a new xorg mirror
+
+
+---
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
+index b56a9c9..7dbac6e 100644
+--- a/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
++++ b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
+@@ -40,7 +40,7 @@ PTXCONF_SETUP_PTXMIRROR="http://www.pengutronix.de/software/ptxdist/temporary-sr
+ PTXCONF_SETUP_DEBMIRROR="http://ftp.uni-kl.de/debian"
+ PTXCONF_SETUP_SFMIRROR="http://downloads.sourceforge.net/sourceforge"
+ PTXCONF_SETUP_GNUMIRROR="http://ftp.uni-kl.de/pub/gnu"
+-PTXCONF_SETUP_XORGMIRROR="http://ftp.sunet.se/pub/X11/ftp.x.org"
++PTXCONF_SETUP_XORGMIRROR="http://xorg.mirrors.pair.com/pub/X11/ftp.x.org"
+ PTXCONF_SETUP_KERNELMIRROR="http://www.kernel.org/pub/linux"
+ # PTXCONF_SETUP_CHECK_ALWAYS is not set
+ PTXCONF_SETUP_CHECK_NOTEMPTY=y
