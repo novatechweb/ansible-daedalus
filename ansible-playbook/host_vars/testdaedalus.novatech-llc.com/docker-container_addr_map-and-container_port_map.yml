@@ -38,11 +38,9 @@ container_addr_map:
     hostname: test-ldap.novatech-llc.com
     bridge_num: 8
   phpmyadmin:
-    ip_addr: 172.16.64.109
-    hostname: test-phpmyadmin.novatech-llc.com
-  freeipa:
-    ip_addr: 172.16.64.110
-    hostname: test-freeipa.novatech-llc.com
+    ip_addr: 192.168.202.109
+    hostname: phpmyadmin.novatech-llc.com
+    bridge_num: 9
 
 container_port_map:
   svn:
