@@ -25,6 +25,7 @@
     name: "{{ name_prefix }}teststation_ssh_server_manualtest_image"
     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_ssh_server_manualtest.dir_name }}"
     state: "{{ image_build_state_nondata }}"
+    force: "{{ docker_image_force_build }}"
 
 - name: Start docker container - Test Station production ssh server temp.
   docker_container:
