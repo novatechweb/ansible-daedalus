@@ -42,7 +42,7 @@ host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_di
 # Utility container - phpldapadmin
 
 # the name of the image used for the container
-phpldapadmin_image_name: '{{ repository_images.phpldapadmin.image }}'
+phpldapadmin_image_name: 'osixia/phpldapadmin:latest'
 
 # the name of the container being started
 phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
