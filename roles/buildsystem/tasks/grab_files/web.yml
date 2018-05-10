@@ -1,7 +1,7 @@
 ---
 - name: Check for local directory to store the web site code exists
   run_once: true
-  sudo: false
+  become: false
   local_action:
     module: file
     mode: 0775
@@ -10,7 +10,7 @@
 
 - name: Downloading web site code
   run_once: true
-  sudo: false
+  become: false
   local_action:
     module: git
     repo: "{{ web_site_repo_url }}"
@@ -18,21 +18,21 @@
     force: yes
 
 - name: Set datebase name in website code
-  sudo: false
+  become: false
   local_action: replace
     dest="{{ working_directory }}/{{ web_site_name }}/settings.py"
     regexp="(.*'NAME':\s*').*('.*)"
     replace='\1{{ database_name }}\2'
 
 - name: Set database user in website code
-  sudo: false
+  become: false
   local_action: replace
     dest="{{ working_directory }}/{{ web_site_name }}/settings.py"
     regexp="(.*'USER':\s*').*('.*)"
     replace='\1{{ database_user }}\2'
 
 - name: Set database user password in website code
-  sudo: false
+  become: false
   local_action: replace
     dest="{{ working_directory }}/{{ web_site_name }}/settings.py"
     regexp="(.*'PASSWORD':\s*).*"
