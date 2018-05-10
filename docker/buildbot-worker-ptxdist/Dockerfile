@@ -57,13 +57,14 @@ RUN DEBIAN_FRONTEND=noninteractive \
         yasm \
 &&  rm -rf /var/lib/apt/lists/*
 
+ARG BUILDBOT_VERSION
 # Install required python packages, and twisted
 RUN wget https://bootstrap.pypa.io/get-pip.py \
 &&  python get-pip.py --no-cache-dir \
 &&  pip --no-cache-dir install \
         'virtualenv' \
         'twisted[tls]' \
-        'buildbot-worker==0.9.13' \
+        buildbot-worker==${BUILDBOT_VERSION} \
 &&  rm -rf get-pip.py
 
 ARG BUILDBOT_UID=1000
