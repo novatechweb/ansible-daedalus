@@ -36,9 +36,21 @@
 # restore the svn backup
 
 - name: restore svn repositories
-  command: 'docker run -ti --rm --volumes-from {{ svn_dv_name }} -v {{ host_svn_docker_restore_dir }}:/tmp/import_export {{ svn_image_name }}:{{ docker_image_tag }} import {{ svn_repos }}'
+  docker_container:
+    detach: False
+    volumes-from:
+      - '{{ svn_dv_name }}'
+    volumes:
+      - '{{ host_svn_docker_restore_dir }}:/tmp/import_export:z'
+    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
+    command: ['import', '{{ svn_repos }}']
+    name: 'svn_restore'
   when: not((svn_repos is undefined) or (svn_repos is none) or (svn_repos|trim == '')) or svn_repo_backup.file_list != []
 
+- name: remove svn-restore container
+  docker_container:
+    name: 'svn_restre'
+    state: absent
 # *****************************************************************************
 # cleanup
 

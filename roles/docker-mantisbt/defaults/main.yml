@@ -9,7 +9,7 @@ container_addr_map:
 # the port mappings used when starting the container
 container_port_map:
   mantisbt:
-    port_args: '-P'
+    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
 
 # database usernames and passwords
 mantisbt_db_user: novatech
