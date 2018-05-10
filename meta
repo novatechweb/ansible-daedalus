@@ -1,6 +1,6 @@
 Version: 1
-Previous: 16b583d4a250db26a5e2346d936fabf6171654a2
-Head: 97a9bf0d7748cd17bc8ca687f262c363398cd033
+Previous: 64090762ca664b7a71bd2320905feb87c3c7e020
+Head: fc31ec06c277891d2270a971ceab511af872f6a6
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
   all-ansible-2.4: 631e608c20a23d8352d47c252aa229ad653a960c
@@ -53,8 +53,7 @@ Applied:
   update-environment-file-and: 7447bb63b3a2d88556463929a8910fab3be35bef
   fix-ssh-folder-permission-0: 110f7a58b7ed285e1942845064cc20833e9d0057
   update-ci-archive-script-to: 6ea6d04105efd160ed61829dffe1e796a41a28fb
-  rearrange-debian_frontend: 2da5f042452388c472bcf2bdf8253445dc0663ac
-  refresh-temp: 97a9bf0d7748cd17bc8ca687f262c363398cd033
+  rearrange-debian_frontend: fc31ec06c277891d2270a971ceab511af872f6a6
 Unapplied:
   buildbot-worker-ptxdist-merge: c9626a61bce949734a9d63e1f7cd6dd660fe3184
   fix-ssh-folder-permission: 34a0da5001859a314460b8ed37fd347f4c0865e5
