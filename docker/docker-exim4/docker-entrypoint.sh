@@ -21,7 +21,6 @@ chown -R root:mail /var/mail
 case ${1} in
     exim4)
         if   [[ -f ${CONFIG_PATH}/update-exim4.conf.conf ]] \
-          && [[ -f ${CONFIG_PATH}/exim4.conf.template ]] \
           && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
         then
             # set the hostname
