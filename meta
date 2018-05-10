@@ -1,6 +1,6 @@
 Version: 1
-Previous: 7f5fa02092e4d6c2fbdc950888c56f1ffc628a80
-Head: c0427abaa5c5d51b413451057f45c4162e89b34f
+Previous: 67d757dbf7fcd49302d71a118aa7f49d8f1bae35
+Head: 76dada260419d6a94557ed9b53f4491055c0e501
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
   all-ansible-2.4: 631e608c20a23d8352d47c252aa229ad653a960c
@@ -51,6 +51,7 @@ Applied:
   buildbot-add-buildbot-master: 6ad2d33ac93f4ca4ecb23e71759011a00baa0a83
   buildbot-worker-ntel: 0c9ff1da29fdd3d55e320f370d4232ba2a08fde3
   buildbot-worker-ptxdist-merge: 76dada260419d6a94557ed9b53f4491055c0e501
+Unapplied:
   fix-ssh-folder-permission: 1955332dae5230e321ca657d232bea02d1e120b3
   update-ntel-builds-for-new: 15da6fb626ec61ae8cf9ae956beccb6dbe7511f1
   add-parameter-for-buildbot: 41b67348f2d0abeb5795d3f99f040e1799948ca9
@@ -62,5 +63,4 @@ Applied:
   add-parameter-for-buildbot-1: 51f1213a4ba816685047e15e19fd1959193063c3
   point-python-tools-to-internal: c242cae3cc05f3b7edd5b7d68b4c9e20a265ad77
   point-ptxdist-to-a-new-xorg: c0427abaa5c5d51b413451057f45c4162e89b34f
-Unapplied:
 Hidden:
