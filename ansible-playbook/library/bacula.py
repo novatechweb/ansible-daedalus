@@ -46,8 +46,9 @@ EXAMPLES = '''
 '''
 
 def get_job_status(p, jobid):
+    local_job=locale.format("%d", jobid, grouping=True)
     p.sendline('list jobs')
-    p.expect('\|\s*%d \|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\| (\w)\s*\|\r\n' % (jobid))
+    p.expect('\|\s*%s \|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\|[^\|]*\| (\w)\s*\|\r\n' % (local_job))
     return p.match.group(1)
 
 def restore(module, storage, fileset, path_to_restore, dest):
@@ -106,6 +107,9 @@ def restore(module, storage, fileset, path_to_restore, dest):
         module.fail_json(msg='Unexpected job status of: %s' % (status))
 
 def main():
+    import locale
+    locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
+    
     module = AnsibleModule(
             argument_spec = dict(
                 command=dict(default=None),
