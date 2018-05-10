@@ -151,6 +151,8 @@
     volumes_from:
       - '{{ mantisbt_db_dv_name }}'
     image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
 
 - name: start container (mantisbt)
   docker_container:
@@ -159,10 +161,8 @@
     restart_policy: always
     hostname: '{{ container_addr_map.mantisbt.hostname }}'
     ports: '{{ container_port_map.mantisbt.port_args }}'
-    link: 
-      -'{{ openldap_container_name }}:mantisbt_ldap'
-      -'{{ mantisbt_db_container_name }}:mantisbt_db'
-      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
     volumes-from: 
       - '{{ openssl_dv_name }}'
       - '{{ mantisbt_dv_name }}'
