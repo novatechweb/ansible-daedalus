@@ -37,11 +37,11 @@ RUN apt-get update && \
 RUN mkdir -p /usr/src/mediawiki /var/www-shared/html && \
     curl "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_VERSION%.*}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" | \
         tar xzC /usr/src/mediawiki --strip-components=1 && \
-    curl "https://extdist.wmflabs.org/dist/extensions/LdapAuthentication-REL1_25-d4db6f0.tar.gz" | \
+    curl "https://extdist.wmflabs.org/dist/extensions/LdapAuthentication-REL1_23-f266c74.tar.gz" | \
         tar xzC /usr/src/mediawiki/extensions && \
-    curl "https://extdist.wmflabs.org/dist/extensions/UserMerge-REL1_25-22c450d.tar.gz" | \
+    curl "https://extdist.wmflabs.org/dist/extensions/UserMerge-REL1_23-78f61ac.tar.gz" | \
         tar xzC /usr/src/mediawiki/extensions && \
-    curl "https://extdist.wmflabs.org/dist/extensions/Renameuser-REL1_25-a1d37af.tar.gz" | \
+    curl "https://extdist.wmflabs.org/dist/extensions/Renameuser-REL1_23-469785d.tar.gz" | \
         tar xzC /usr/src/mediawiki/extensions
 
 # copy over files
