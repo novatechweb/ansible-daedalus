@@ -1,17 +1,11 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-container_addr_map:
-  wiki:
-    ip_addr: '127.0.0.1'
-    hostname: wiki.example.com
-
-# the port mappings used when starting the container
-container_port_map:
-  wiki:
-    port_args:
-      - '{{ container_addr_map.wiki.ip_addr }}:80:80'
-      - '{{ container_addr_map.wiki.ip_addr }}:443:443'
+wiki_ip_addr: '127.0.0.1'
+wiki_hostname: wiki.example.com
+wiki_port_args:
+  - '80'
+  - '443'
 
 # database usernames and passwords
 wiki_db_user: novatech
@@ -45,3 +39,6 @@ wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
 # files restored from tape
 wiki_static_backup_file: '/mediawiki.tar'
 wiki_database_backup_file: '/wikidb.sql'
+
+# Network names
+docker_network_frontend: 'frontend'
