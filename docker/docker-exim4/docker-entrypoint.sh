@@ -29,7 +29,7 @@ case ${1} in
                 && rm -rf /etc/mailname
             echo "${HOSTNAME}" > /etc/mailname
             # set local IP addr
-            LOCAL_IP_ADDR=$(grep "[ \t]*${HOSTNAME}[ \t]*" /etc/hosts|cut -f 1)
+            LOCAL_IP_ADDR=$(getent hosts $HOSTNAME | cut -d ' ' -f 1)
             sed -i 's|dc_local_interfaces=.*|dc_local_interfaces='"'${LOCAL_IP_ADDR}'"'|' ${CONFIG_PATH}/update-exim4.conf.conf
             # copy certificate
             [ -e /etc/ssl/private/exim.crt ] \
