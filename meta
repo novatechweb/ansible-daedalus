@@ -1,6 +1,6 @@
 Version: 1
-Previous: 04d227f12a74f1c3f960557c3abf7a788f1ed02f
-Head: c85b498de83a5e4026498ae46f2f39e41764162d
+Previous: ab854bd0067339d7aa61c2c1b41b6bded0ec2b73
+Head: df976e66199a9bcc02f57c25508b9e65549e265c
 Applied:
   base-support-scripts: acf29121d95c8499edd2de96c076ff5cc5758b99
   all-ansible-2.4: 631e608c20a23d8352d47c252aa229ad653a960c
@@ -52,13 +52,13 @@ Applied:
   buildbot-worker-ntel: 0c9ff1da29fdd3d55e320f370d4232ba2a08fde3
   buildbot-worker-ptxdist-merge: 76dada260419d6a94557ed9b53f4491055c0e501
   update-environment-file-and-0: c85b498de83a5e4026498ae46f2f39e41764162d
+  fix-ssh-folder-permission-1: df976e66199a9bcc02f57c25508b9e65549e265c
 Unapplied:
   fix-ssh-folder-permission: 1955332dae5230e321ca657d232bea02d1e120b3
   update-ntel-builds-for-new: 15da6fb626ec61ae8cf9ae956beccb6dbe7511f1
   add-parameter-for-buildbot: 41b67348f2d0abeb5795d3f99f040e1799948ca9
   update-ptxdist-build-factories: d829ba7f5123065399d6e25a3d890848ede3be07
   do-not-submit-temporary-0: fb87ca023400abbaa665f933c87a697663d9d1ec
-  fix-ssh-folder-permission-1: 6aae91bce9bf53abfa7c6e7b919a44ff7ad37f53
   rearrange-debian_frontend-0: aa69dd297dd7e8a17cb48f1bf85487c7ca136546
   add-parameter-for-buildbot-1: 51f1213a4ba816685047e15e19fd1959193063c3
   point-python-tools-to-internal: c242cae3cc05f3b7edd5b7d68b4c9e20a265ad77
