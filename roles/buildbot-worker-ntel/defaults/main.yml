@@ -1,0 +1,23 @@
+---
+# defaults file for buildbot-worker-ntel
+
+# The hostname passed as an envirnment variable into the container
+container_addr_map:
+  buildbot:
+    ip_addr: '127.0.0.1'
+    hostname: buildbot-worker-ntel.example.com
+
+# Network names
+docker_network_frontend: 'frontend'
+
+buildbot_worker_data_path: '/buildbot'
+
+# the name of the image being duilt and used for the container
+buildbot_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
+buildbot_image_name: '{{ docker_registry_username }}/buildbot-worker-ntel'
+
+# the name of the container being started
+buildbot_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
+
+# the name of the data-volume used by the container
+buildbot_dv_name: '{{ docker_name_prefix }}buildbot-worker-ntel_DV'
