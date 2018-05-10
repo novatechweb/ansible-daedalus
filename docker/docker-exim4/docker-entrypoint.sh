@@ -30,16 +30,10 @@ case ${1} in
             sed -i 's|dc_local_interfaces=.*|dc_local_interfaces='"'${LOCAL_IP_ADDR}'"'|' ${CONFIG_PATH}/update-exim4.conf.conf
             # copy certificate
             [ -e /etc/ssl/private/exim.crt ] \
-                && rm -f ${CONFIG_PATH}/exim.crt \
-                && cp $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt \
-                && chmod 640 ${CONFIG_PATH}/exim.crt \
-                && chown root:Debian-exim ${CONFIG_PATH}/exim.crt
+                && install -oroot -gDebian-exim -m640 $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt
             # copy key
             [ -e /etc/ssl/private/exim.key ] \
-                && rm -f ${CONFIG_PATH}/exim.key \
-                && cp $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key \
-                && chmod 640 ${CONFIG_PATH}/exim.key \
-                && chown root:Debian-exim ${CONFIG_PATH}/exim.key
+                && install -oroot -gDebian-exim -m640 $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key
             # run the debian utility to update/generate the configuration
             $(which update-exim4.conf) --verbose
         fi
