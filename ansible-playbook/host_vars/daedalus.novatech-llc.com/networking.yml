@@ -1,0 +1,18 @@
+---
+
+ansible_user: ansibleremote
+
+daedalus_subnet: 172.16.0.0/16
+daedalus_net_connection: "Bridge br0"
+
+svn_ip_addr:          172.16.0.101
+gitlab_ip_addr:       172.16.0.102
+wiki_ip_addr:         172.16.0.103
+mantisbt_ip_addr:     172.16.0.104
+build_ip_addr:        172.16.0.105
+testssh_ip_addr:      172.16.0.106
+exim4_ip_addr:        172.16.0.107
+openldap_ip_addr:     172.16.0.108
+phpldapadmin_ip_addr: 172.16.0.108
+phpmyadmin_ip_addr:   172.16.0.109
+buildbot_ip_addr:     172.16.0.110
