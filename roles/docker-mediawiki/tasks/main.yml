@@ -119,14 +119,32 @@
 # Start the data container running
 
 - name: start container (mysql)
-  docker_run:
-    container_name: '{{ wiki_db_container_name }}'
-    docker_run_arguments: '--volumes-from {{ wiki_db_dv_name }} {{ wiki_db_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ wiki_db_container_name }}'
+    detach: true
+    restart_policy: always
+    volumes-from: '{{ wiki_db_dv_name }}'
+    image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (mediwiki)
-  docker_run:
-    container_name: '{{ wiki_container_name }}'
-    docker_run_arguments: '--hostname={{ container_addr_map.wiki.hostname }} {{ container_port_map.wiki.port_args }} --link {{ openldap_container_name }}:wiki_ldap --link {{ wiki_db_container_name }}:wiki_db --link {{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }} --volumes-from {{ openssl_dv_name }} --volumes-from {{ wiki_dv_name }} --env WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }} --env WIKI_MAIL_USER=wiki --env WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }} {{ wiki_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ wiki_container_name }}'
+    detach: true
+    restart_policy: always
+    hostname: '{{ container_addr_map.wiki.hostname }}' 
+    ports: '{{ container_port_map.wiki.port_args }}'
+    link:
+      - '{{ openldap_container_name }}:wiki_ldap'
+      - '{{ wiki_db_container_name }}:wiki_db'
+      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+    volumes-from: 
+      - '{{ openssl_dv_name }}'
+      - '{{ wiki_dv_name }}'
+      env:
+        - WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }}
+        - WIKI_MAIL_USER=wiki
+        - WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }}
+      image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
 
 # *****************************************************************************
 # restore?
