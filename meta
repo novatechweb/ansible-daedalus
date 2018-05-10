@@ -1,6 +1,6 @@
 Version: 1
-Previous: 510d1b3a0073ffccf09ddefdcdd7e02c62d10f9e
-Head: b11a1ca2c96e02b0a623e21dadc9ab4abffa39f7
+Previous: fb981558d3e6be3b8ebb47b45e7df4c02b61eee7
+Head: 41fdc35fee190af6468439f59551cc79bcf449f7
 Applied:
   base-support-scripts: a55dc985ca0145e2ef1e9bc3496b78f90adc2c33
   all-ansible-2.4: 234f16bbd42023b7a7eb5fff587f27318fe9b960
@@ -49,5 +49,6 @@ Applied:
   wiki-downgrade-extensions: 6c15a86d180fb4683e3fe3a9be8047e8d7c75af9
   TESTING--ASDF: 74b29053b090bd13932b726cb9b1ff50f2f6f028
   buildbot-add-buildbot-master: b11a1ca2c96e02b0a623e21dadc9ab4abffa39f7
+  refresh-temp: 41fdc35fee190af6468439f59551cc79bcf449f7
 Unapplied:
 Hidden:
