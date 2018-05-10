@@ -97,16 +97,12 @@
 # Create the data volumes
 
 - name: data-volume container (gitlab)
-  docker_datavolume:
-    image_name: '{{ gitlab_dv_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ gitlab_dv_name }}'
+  docker_volume:
+    name: '{{ gitlab_dv_name }}'
 
 - name: data-volume container (postgres)
-  docker_datavolume:
-    image_name: '{{ gitlab_db_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ gitlab_db_dv_name }}'
+  docker_volume:
+    name: '{{ gitlab_db_dv_name }}'
 
 - name: stop prev container (postgres)
   docker_container:
@@ -140,7 +136,7 @@
     name: '{{ gitlab_db_container_name }}'
     detach: true
     restart_policy: always
-    volumes-from: '{{ gitlab_db_dv_name }}'
+    volumes_from: '{{ gitlab_db_dv_name }}'
     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (gitlab)
