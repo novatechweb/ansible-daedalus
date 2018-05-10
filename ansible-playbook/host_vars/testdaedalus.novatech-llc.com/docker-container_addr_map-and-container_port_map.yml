@@ -2,45 +2,35 @@
 
 container_addr_map:
   svn:
-    ip_addr: 172.16.64.101
-    hostname: test-svn.novatech-llc.com
-    bridge_num: 1
+    ip_addr: 172.16.0.201
+    hostname: svn.novatech-llc.com
   git:
-    ip_addr: 172.16.64.102
-    hostname: test-git.novatech-llc.com
-    bridge_num: 2
+    ip_addr: 172.16.0.202
+    hostname: git.novatech-llc.com
   wiki:
-    ip_addr: 172.16.64.103
-    hostname: test-wiki.novatech-llc.com
-    bridge_num: 3
+    ip_addr: 172.16.0.203
+    hostname: wiki.novatech-llc.com
   mantisbt:
-    ip_addr: 172.16.64.104
-    hostname: test-mantis.novatech-llc.com
-    bridge_num: 4
+    ip_addr: 172.16.0.204
+    hostname: mantis.novatech-llc.com
   build:
-    ip_addr: 172.16.64.105
-    hostname: test-buildsystem.novatech-llc.com
-    bridge_num: 5
+    ip_addr: 172.16.0.205
+    hostname: buildsystem.novatech-llc.com
   testssh:
-    ip_addr: 172.16.64.106
-    hostname: test-testssh.novatech-llc.com
-    bridge_num: 6
+    ip_addr: 172.16.0.206
+    hostname: testssh.novatech-llc.com
   exim4:
-    ip_addr: 172.16.64.107
-    hostname: test-mail.novatech-llc.com
-    bridge_num: 7
+    ip_addr: 172.16.0.207
+    hostname: mail.novatech-llc.com
   ldap:
-    ip_addr: 172.16.64.108
-    hostname: test-ldap.novatech-llc.com
-    bridge_num: 8
+    ip_addr: 172.16.0.208
+    hostname: ldap.novatech-llc.com
   phpldapadmin:
-    ip_addr: 172.16.64.108
-    hostname: test-ldap.novatech-llc.com
-    bridge_num: 8
+    ip_addr: 172.16.0.208
+    hostname: ldap.novatech-llc.com
   phpmyadmin:
-    ip_addr: 192.168.202.109
+    ip_addr: 172.16.0.209
     hostname: phpmyadmin.novatech-llc.com
-    bridge_num: 9
 
 container_port_map:
   svn:
