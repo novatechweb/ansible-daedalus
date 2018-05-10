@@ -8,34 +8,30 @@ set -e
 # import   : imports the certificate authority from the IMPORT_EXPORT_PATH
 # generate : generates a self signed certificate authority
 
-SSL_BASE_DIR="/etc/ssl"
-VOLUME_DIR_CONTENTS="${SSL_BASE_DIR}/openssl.cnf ${SSL_BASE_DIR}/certs/* ${SSL_BASE_DIR}/private/* /usr/share/ca-certificates/* /usr/local/share/ca-certificates/* /etc/grid-security/*"
+CMD="$1"
+FILE="$2"
+SSL_BASE_DIR="/etc/ssl/private"
 
-[[ ! -s ${SSL_BASE_DIR}/dhparam.pem ]] && \
-    openssl dhparam -out ${SSL_BASE_DIR}/dhparam.pem 2048
-
-case ${1} in
+case ${CMD} in
     backup)
         /bin/tar \
             --create \
             --preserve-permissions \
             --same-owner \
-            --directory=/ \
-            --to-stdout \
-            ${VOLUME_DIR_CONTENTS}
-            #--sort=name \
+            --directory="${SSL_BASE_DIR}" \
+            --file="${FILE}" \
+            "."
         ;;
 
     extract)
-        rm -rf ${VOLUME_DIR_CONTENTS}
+        rm -rf "${SSL_BASE_DIR}/*"
         /bin/tar \
             --extract \
             --preserve-permissions \
             --preserve-order \
             --same-owner \
-            --directory=/ \
-            -f -
-        update-ca-certificates --fresh
+            --directory="${SSL_BASE_DIR}" \
+            --file="${FILE}"
         ;;
 
     generate)
@@ -47,13 +43,11 @@ case ${1} in
         for base_filename in ${SSL_BASE_FILES}
         do
             openssl req -newkey rsa:${BYTES} -x509 -days ${DAYS} -nodes \
-                -keyout ${SSL_BASE_DIR}/private/${base_filename}.key \
-                -out ${SSL_BASE_DIR}/private/${base_filename}.crt \
+                -keyout ${SSL_BASE_DIR}/${base_filename}.key \
+                -out ${SSL_BASE_DIR}/${base_filename}.crt \
                 -subj ${SUBJ}
-            cp ${SSL_BASE_DIR}/private/${base_filename}.crt ${SSL_BASE_DIR}/private/${base_filename}_bundle.crt
+            cp ${SSL_BASE_DIR}/${base_filename}.crt ${SSL_BASE_DIR}/${base_filename}_bundle.crt
         done
-        mkdir -p /etc/grid-security/certificates
-        update-ca-certificates --fresh
         ;;
 
     *)
