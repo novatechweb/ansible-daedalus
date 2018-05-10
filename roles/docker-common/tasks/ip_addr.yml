@@ -9,9 +9,10 @@
     owner: root
     group: root
     mode: 'u=rw,g=r,o=r'
-  when: ansible_os_family == "RedHat"
-  when: (item.value.bridge_num is not undefined) and (ansible_os_family == "RedHat")
-  with_dict: container_addr_map
+  when: 
+    - ansible_os_family == "RedHat"
+    - (item.value.bridge_num is not undefined) and (ansible_os_family == "RedHat")
+  with_dict: "{{ container_addr_map }}"
 
 - name: add container hostname to /etc/hosts
   lineinfile:
@@ -20,7 +21,7 @@
     line: "{{ item.value.ip_addr }}	{{ item.value.hostname }}"
     state: present
   when: item.value.bridge_num is not undefined
-  with_dict: container_addr_map
+  with_dict: "{{ container_addr_map }}"
 
 - name: enable ip forwarding
   lineinfile:

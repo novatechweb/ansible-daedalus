@@ -20,7 +20,7 @@
   register: bacula_director_config_status
 - name: Use libbaccats-mysql
   command: alternatives --set libbaccats.so /usr/lib64/libbaccats-mysql.so
-- include: bacula-user.yml
+- import_tasks: bacula-user.yml
 - name: libvirt polkit
   copy: src=50-bacula-libvirt-access.pkla
         dest=/etc/polkit-1/localauthority/50-local.d/50-bacula-libvirt-access.pkla
@@ -29,14 +29,14 @@
   stat: path=/etc/selinux/targeted/modules/active/modules/baculavirt.pp
   register: baculavirt_pp
   when: bacula_director_backup_vms is defined
-- include: selinux-virt-policy.yml
+- import_tasks: selinux-virt-policy.yml
   when: bacula_director_backup_vms is defined and
         baculavirt_pp.stat.exists is defined and
         baculavirt_pp.stat.exists == false
 - name: Check if bacula mysql database exists
   command: mysql -u root -e "SHOW DATABASES;"
   register: databases
-- include: mariadb_setup.yml
+- import_tasks: mariadb_setup.yml
   when: databases.stdout.find('bacula') == -1
 - name: Test Bacula Director configuration
   command: /usr/sbin/bacula-dir -t -c {{ bacula_director_config_dir }}/bacula-dir.conf

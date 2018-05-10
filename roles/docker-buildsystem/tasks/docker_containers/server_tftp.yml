@@ -9,7 +9,7 @@
     state: "{{ image_build_state_nondata }}"
 
 - name: Start docker container - Test Station tftp server
-  docker:
+  docker_container:
     detach: True
     image: "{{ name_prefix }}teststation_tftp_image"
     name: "{{ name_prefix }}TestStation_tftp_server"
