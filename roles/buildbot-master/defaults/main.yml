@@ -1,0 +1,56 @@
+---
+# defaults file for buildbot
+
+# The hostname passed as an envirnment variable into the container
+container_addr_map:
+  buildbot:
+    ip_addr: '127.0.0.1'
+    hostname: buildbot.example.com
+
+# the port mappings used when starting the container
+container_port_map:
+  buildbot:
+    port_args: 
+      - '{{ container_addr_map.buildbot.ip_addr }}:443:443'
+
+# Network names
+buildbot_networks:
+  - name: '{{ docker_network_frontend }}'
+
+buildbot_data_path: '/buildbot'
+
+# the name of the image being duilt and used for the container
+buildbot_image_repo: https://github.com/novatechweb/docker-buildbot-master.git
+buildbot_image_name: '{{ docker_registry_username }}/buildbot'
+buildbot_image_dir: '{{ docker_projects_dir }}/buildbot-master'
+
+# the name of the container being started
+buildbot_container_name: '{{ docker_name_prefix }}buildbot'
+
+# the name of the data-volume used by the container
+buildbot_dv_name: '{{ docker_name_prefix }}buildbot_DV'
+
+# restore directories to temporarly store data being restored into docker containers
+buildbot_docker_backup_dir: '{{ docker_backup_dir }}/buildbot'
+host_buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
+
+buildbot_build_args:
+  BUILDBOT_UID: '1000'
+  BUILDBOT_VERSION: '1.1.2'
+  BUILDBOT_TIMEZONE: 'America/Chicago'
+
+buildbot_volumes:
+  - '{{ buildbot_dv_name }}:{{ buildbot_data_path }}:z'
+
+buildbot_env:
+  BUILDBOT_DATABASE: 'sqlite:///{{ buildbot_data_path }}/state.sqlite'
+  BUILDBOT_WEB_PORT: '80'
+  BUILDBOT_WEB_URL: 'http://{{ container_addr_map.buildbot.hostname }}/'
+  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
+  BUILDBOT_SMTP_USER: 'Dean.cox'
+  BUILDBOT_SMTP_PASS: 'no5156'
+  BUILDBOT_WORKER_PORT: '9989'
+  BUILDBOT_WORKER_NTEL: 'worker-ntel'
+  BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
+  BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
+  BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
