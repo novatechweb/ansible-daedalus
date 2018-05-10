@@ -25,3 +25,6 @@ openldap_backup_files:
     dbnum: 0
   - ldif_file: LDAP_database_0001.ldif
     dbnum: 1
+
+# Network names
+docker_network_frontend: 'frontend'
