@@ -31,3 +31,6 @@ container_addr_map:
   phpmyadmin:
     ip_addr: 192.168.0.109
     hostname: phpmyadmin.novatech-llc.com
+  buildbot:
+    ip_addr: 192.168.0.110
+    hostname: buildbot.novatech-llc.com
