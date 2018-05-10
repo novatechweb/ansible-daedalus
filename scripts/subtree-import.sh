@@ -47,28 +47,29 @@ docker, docker-TestStation_tftp_data                 , origin       , git@git.no
 docker, docker-TestStation_tftp_server               , origin       , git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_tftp_server.git                   , master
 "
 git tag -f 'pre-import'
-git clean -dxff
-while IFS=", " read prefix name remote repo branch; do
-    if [ "x$name" == "x" ]; then continue; fi
+# git clean -dxff
+prefix="$1";shift
+name="$1";shift
+remote="$1";shift
+repo="$1";shift
+branch="$1";shift
 
-    fullremote="${name}/${remote}"
+fullremote="${name}/${remote}"
 
-    message="${name}: Merge '${fullremote}' at ${branch}"
-    rmtcmd="none"
-    cmd="none"
+message="${name}: Merge '${fullremote}' at ${branch}"
+rmtcmd="none"
+stcmd="none"
 
-    if [ "x$prefix" == "x" ]; then prefix="${name}"; else prefix="${prefix}/${name}"; fi 
-    if git remote get-url "${fullremote}" 2>/dev/null; then rmtcmd="set-url"; else cmd="add"; fi
-    if [ -d "${prefix}" ]; then cmd="pull"; else cmd="add"; fi
+if [ "x$prefix" == "x" ]; then prefix="${name}"; else prefix="${prefix}/${name}"; fi 
+if git remote get-url "${fullremote}" 2>/dev/null; then rmtcmd="set-url"; else rmtcmd="add"; fi
+if [ -d "${prefix}" ]; then stcmd="pull"; else stcmd="add"; fi
 
-    echo ${message}
-    set -x
-    git config --add subtree."$prefix".remote "${fullremote}"
-    git remote ${rmtcmd} "${fullremote}" "${repo}"
-    git fetch "${fullremote}" "${branch}" > /dev/null
-    git subtree ${cmd} --prefix="${prefix}" --message="${message}" "${fullremote}" "${branch}" > /dev/null
-    { set +x; } 2> /dev/null
-    echo
-    echo
-
-done <<< $sources
+echo ${message}
+set -x
+git config --add subtree."$prefix".remote "${fullremote}"
+git remote ${rmtcmd} "${fullremote}" "${repo}"
+git fetch "${fullremote}" "${branch}" > /dev/null
+git subtree ${stcmd} --prefix="${prefix}" --message="${message}" "${fullremote}" "${branch}" > /dev/null
+{ set +x; } 2> /dev/null
+echo
+echo
