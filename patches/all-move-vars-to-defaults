@@ -1,0 +1,13 @@
+Bottom: 7ac34451aa66d7ff01628bfc022c3fc44e5de034
+Top:    7ac34451aa66d7ff01628bfc022c3fc44e5de034
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-11 16:29:54 -0500
+
+Move ansible role vars to role defaults
+
+This allows other parts of the playbook i.e. host vars, command line the
+ability to override these defaults when necessary.
+
+
+---
+
