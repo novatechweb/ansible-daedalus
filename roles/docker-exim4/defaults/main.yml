@@ -16,3 +16,40 @@ container_port_map:
 
 # Network names
 docker_network_frontend: 'frontend'
+
+# the repository containing Dockerfile to build the image
+exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
+
+# the name of the image being duilt and used for the container
+exim4_image_name: '{{ docker_registry_username }}/exim4'
+
+# the name of the container being started
+exim4_container_name: '{{ docker_name_prefix }}exim4'
+
+# the name of the config-volume used by the container
+exim4_cv_name: '{{ docker_name_prefix }}exim4_CV'
+
+# the name of the data-volume used by the container
+exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
+
+# restore directories to temporarly store data being restored into docker containers
+exim4_docker_backup_dir: '{{ docker_backup_dir }}/EXIM4'
+host_exim4_docker_restore_dir: '{{ bacula_dest }}{{ exim4_docker_backup_dir }}'
+
+# files restored from tape
+exim4_backup_file: '/exim4.tar'
+
+# Data volume directory for the syslog data
+exim4_syslog_datavolume_dir: '/var/log/docker_container/{{ exim4_container_name }}'
+
+
+email_accounts:
+  wiki:
+    user: wiki
+    password: '{{ wiki_email_password }}'
+  gitlab:
+    user: gitlab
+    password: '{{ gitlab_email_password }}'
+  mantisbt:
+    user: mantis
+    password: '{{ mantisbt_email_password }}'
