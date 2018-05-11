@@ -11,10 +11,25 @@ container_addr_map:
 container_port_map:
   buildbot:
     port_args: 
-      - '{{ container_addr_map.buildbot.ip_addr }}:25:25'
-      - '{{ container_addr_map.buildbot.ip_addr }}:465:465'
-      - '{{ container_addr_map.buildbot.ip_addr }}:587:587'
+      - '{{ container_addr_map.buildbot.ip_addr }}:443:443'
 
 # Network names
-docker_network_backend: 'backend'
 docker_network_frontend: 'frontend'
+
+buildbot_data_path: '/buildbot-data'
+buildbot_database: 'sqlite:///{{ buildbot_data_path }}/state.sqlite'
+buildbot_timezone: 'America/Chicago'
+
+# the name of the image being duilt and used for the container
+buildbot_image_repo: https://github.com/novatechweb/docker-buildbot.git
+buildbot_image_name: '{{ docker_registry_username }}/buildbot'
+
+# the name of the container being started
+buildbot_container_name: '{{ docker_name_prefix }}buildbot'
+
+# the name of the data-volume used by the container
+buildbot_dv_name: '{{ docker_name_prefix }}buildbot_DV'
+
+# restore directories to temporarly store data being restored into docker containers
+buildbot_docker_backup_dir: '{{ docker_backup_dir }}/buildbot'
+host_buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
