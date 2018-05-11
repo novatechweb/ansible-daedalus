@@ -1,0 +1,12 @@
+Bottom: 7ac34451aa66d7ff01628bfc022c3fc44e5de034
+Top:    43088d7aeaad9f99f0fd915dce10fa1af80caa08
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-11 16:30:03 -0500
+
+Refresh of all-move-vars-to-defaults
+
+---
+diff --git a/roles/docker-openssl/vars/main.yml b/roles/docker-openssl/defaults/main.yml
+similarity index 100%
+rename from roles/docker-openssl/vars/main.yml
+rename to roles/docker-openssl/defaults/main.yml
