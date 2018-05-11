@@ -1,5 +1,5 @@
 Version: 1
-Previous: ad041aeaa01a9a8fc394515332cee7654f950ea5
+Previous: 181e3ad622012134deb0d1ec343dba1fe87e2531
 Head: 41593506a09db6fb82ca2e980ad2948b71044d77
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
@@ -49,7 +49,7 @@ Applied:
   TESTING--ASDF: 5d8cbc75cffd43e83186ba107d8f0e6ae22fff87
   buildbot-master: beba318245279e7188117055798217a471887a8d
   buildbot-worker-ntel: 4cbb2dfc1a918af343041fc1a05dc57e9ed806d9
-  buildbot-work-ptxdist: de48d578c5828760512ef02e3eb751f4303168f1
+  buildbot-worker-ptxdist: de48d578c5828760512ef02e3eb751f4303168f1
   fix-ssh-folder-permission: 30b184c05efa82fd2f1122f6eed812d4ee9bde31
   update-ntel-builds-for-new: 1911af9459e3c97b46791d9bd841f3167f65cd5e
   add-parameter-for-buildbot: d96d6cc585cef1f9de48469bac92d55993fba1c8
