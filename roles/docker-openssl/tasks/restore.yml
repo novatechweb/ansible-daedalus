@@ -44,7 +44,7 @@
     image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
     name: openssl_restore
     volumes:
-      - '{{ host_openssl_docker_restore_dir }}:{{ host_openssl_docker_restore_dir }}:z'
+      - '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}:{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}:z'
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
     command: ['extract', '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}']
 
