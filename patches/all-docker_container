@@ -1,5 +1,5 @@
 Bottom: 10cfd0b7fa9940b48285c5114e68c4ad0852dc8b
-Top:    70a7d591c2aa7b89515a7831becad6806f837717
+Top:    740aa23160ab1228f7ea7acc404f1cc6c8572955
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -432,7 +432,7 @@ index 05b9a20..7c1b960 100644
  # *****************************************************************************
  # restore?
 diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
-index b53be30..6bba3cf 100644
+index b53be30..c2640dd 100644
 --- a/roles/docker-openssl/tasks/restore.yml
 +++ b/roles/docker-openssl/tasks/restore.yml
 @@ -39,8 +39,20 @@
@@ -446,7 +446,7 @@ index b53be30..6bba3cf 100644
 +    image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
 +    name: openssl_restore
 +    volumes:
-+      - '{{ host_openssl_docker_restore_dir }}:{{ host_openssl_docker_restore_dir }}:z'
++      - '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}:{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}:z'
 +      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
 +    command: ['extract', '{{ host_openssl_docker_restore_dir }}/{{ openssl_backup_file }}']
 +
