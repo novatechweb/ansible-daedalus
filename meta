@@ -1,6 +1,6 @@
 Version: 1
-Previous: 422f23e38eee47566c87419abc910f5fcac5d392
-Head: 6444b03ed3bbeba392db4126957791b1870c26a9
+Previous: 0d1eff6006750095bccfb9054cd733902bd8e310
+Head: 240b77483c2cac1a14256579f4cbd1bc645059e2
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -49,12 +49,11 @@ Applied:
   TESTING--ASDF: 5d8cbc75cffd43e83186ba107d8f0e6ae22fff87
   buildbot-master: f4a68c3cc1fbf0a629e8b9b62b45dcef8f12cc17
   buildbot-worker-ntel: 189652ff0260eaedd6b1d3df0b6cdd97a7609e64
-  buildbot-worker-ptxdist: 587341f5ac1dda296a1b15fb9028fed22c62ae85
-  fix-ssh-folder-permission: f5173d3e672d2beada4d10701eefbc0cbc49d151
-  update-ntel-builds-for-new: c6c9bace39bef5bb232ea1ffda1206b6bedaa4d1
-  add-parameter-for-buildbot: 6a09e5c623d4ff5de6f0bdd697c9fde84046aa12
-  update-ptxdist-build-factories: 5c9c56a122489bda690f607cdfbe3998a3ed5586
-  all-move-vars-to-defaults: 6b7931fc43d562043c3590465f0dcba5719a266a
-  refresh-temp: 6444b03ed3bbeba392db4126957791b1870c26a9
+  buildbot-worker-ptxdist: f7daf4ca24849e132084c38d584effe7fd9bd330
+  fix-ssh-folder-permission: 8026a0db382a74b7759fa5f8cdece67e2f2abb21
+  update-ntel-builds-for-new: 90a24ea556d0a7fdfce4b5113759629b9f2fcaf8
+  add-parameter-for-buildbot: 48402b74b78d5ff6baae4e81ee17d3e49766162f
+  update-ptxdist-build-factories: e2088756649f9797faa2a890800ffd42d06bd728
+  all-move-vars-to-defaults: 240b77483c2cac1a14256579f4cbd1bc645059e2
 Unapplied:
 Hidden:

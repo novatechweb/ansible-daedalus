@@ -1,11 +1,29 @@
 Bottom: a6565cb8795fc3a18763e4304f05a4313d5c00e3
-Top:    651031e7c04692da880eefcd284e50c93e004a71
+Top:    da09088d10677f8eab03c29f90e6a283dee134cf
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 14:07:09 -0500
 
 Add buildbot PTXdist worker Docker image
 
 ---
+diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
+index d5a1a44..29d7c9f 100644
+--- a/ansible-playbook/group_vars/all/buildbot.yml
++++ b/ansible-playbook/group_vars/all/buildbot.yml
+@@ -2,3 +2,4 @@
+ buildbot_version: 1.1.1
+ buildbot_worker_port: 9989
+ buildbot_worker_ntel: worker-ntel
++buildbot_worker_ptxdist: worker-ptxdist
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index b20d919..02a1cad 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -19,3 +19,4 @@ buildsystem_database_build_password: '{{ lookup("password", inventory_dir + "/cr
+ svn_username:                        '{{ lookup("file",     inventory_dir + "/personal_credentials/svn/username") }}'
+ svn_password:                        '{{ lookup("file",     inventory_dir + "/personal_credentials/svn/password") }}'
+ buildbot_worker_ntel_password:       '{{ lookup("password", inventory_dir + "/credentials/buildbot.novatech-llc.com/worker_ntel length=20") }}'
++buildbot_worker_ptxdist_password:    '{{ lookup("password", inventory_dir + "/credentials/buildbot.novatech-llc.com/worker_ntel length=20") }}'
 diff --git a/docker/buildbot-worker-ptxdist/Dockerfile b/docker/buildbot-worker-ptxdist/Dockerfile
 new file mode 100644
 index 0000000..69c1f47
