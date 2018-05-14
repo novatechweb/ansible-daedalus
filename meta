@@ -1,6 +1,6 @@
 Version: 1
-Previous: f26f27de3328d91f8558946d9e78d023461c1d2e
-Head: 514bb18575a3cd6b749a54d83015dfa90b457570
+Previous: 7437b97360dc70fe9a120335b3c80ceb8af9b50f
+Head: 7677edd0ce1cdd6c23cc864527e316e0d7e8e352
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -55,5 +55,6 @@ Applied:
   add-parameter-for-buildbot: 599aed0be5b59a473e61d3b823a92b7d2d286411
   update-ptxdist-build-factories: 006421bc99e96f231fa2af98e4d2ab015654aa9d
   all-move-vars-to-defaults: 514bb18575a3cd6b749a54d83015dfa90b457570
+  refresh-temp: 7677edd0ce1cdd6c23cc864527e316e0d7e8e352
 Unapplied:
 Hidden:
