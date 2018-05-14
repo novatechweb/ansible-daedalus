@@ -1,5 +1,5 @@
 Bottom: e4ab0bbc728cc6953ac7be8564223ce68db7ee59
-Top:    f04d8b953a06e2d4cb227fed78594b8829f27ee2
+Top:    3f714447ce3bb2f9dffd41539c185113aca9e6d6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -7,6 +7,76 @@ Add buildbot role
 
 
 ---
+diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
+new file mode 100644
+index 0000000..6b06954
+--- /dev/null
++++ b/ansible-playbook/group_vars/all/buildbot.yml
+@@ -0,0 +1,3 @@
++---
++buildbot_version: 1.1.1
++buildbot_worker_port: 9989
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index 061495c..660b482 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -31,3 +31,6 @@ container_addr_map:
+   phpmyadmin:
+     ip_addr: 172.16.0.109
+     hostname: phpmyadmin.novatech-llc.com
++  buildbot:
++    ip_addr: 172.16.0.110
++    hostname: buildbot.novatech-llc.com
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index 4442005..52bce26 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -31,3 +31,6 @@ container_addr_map:
+   phpmyadmin:
+     ip_addr: 172.16.0.209
+     hostname: phpmyadmin.novatech-llc.com
++  buildbot:
++    ip_addr: 172.16.0.210
++    hostname: buildbot.novatech-llc.com
+diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index 53b96f8..6cb9573 100644
+--- a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -31,3 +31,6 @@ container_addr_map:
+   phpmyadmin:
+     ip_addr: 192.168.0.109
+     hostname: phpmyadmin.novatech-llc.com
++  buildbot:
++    ip_addr: 192.168.0.110
++    hostname: buildbot.novatech-llc.com
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 673e61b..c47c128 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -68,6 +68,11 @@
+     role: docker-buildsystem
+     tags:
+     - buildsystem_container
++  - name: Build and start the Buildbot master container
++    role: buildbot-master
++    tags:
++      - buildbot
++      - buildbot-master
+ 
+ - name: Setup the Build System (Test Station) with repo data
+   hosts: buildsystem
+diff --git a/ansible-playbook/staging b/ansible-playbook/staging
+index e544fd4..25764e8 100644
+--- a/ansible-playbook/staging
++++ b/ansible-playbook/staging
+@@ -6,3 +6,7 @@ testdaedalus.novatech-llc.com
+ 
+ [buildsystem]
+ buildsystem.novatech-llc.com
++
++[buildbot]
++testdaedalus.novatech-llc.com
++buildbot-worker.novatech-llc.com
 diff --git a/roles/buildbot-master/README.md b/roles/buildbot-master/README.md
 new file mode 100644
 index 0000000..225dd44
