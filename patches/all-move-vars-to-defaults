@@ -1,5 +1,5 @@
 Bottom: ab52fac064d20cdd2a3b879a21972492d465bc5d
-Top:    4cd6cca7e4a45db6a9898cb048dd45308d9c98e2
+Top:    0b9b0581b729a5ccf7dcd7825fc566ede2a79b76
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-11 16:29:54 -0500
 
@@ -101,3 +101,15 @@ diff --git a/roles/docker-openssl/vars/main.yml b/roles/docker-openssl/defaults/
 similarity index 100%
 rename from roles/docker-openssl/vars/main.yml
 rename to roles/docker-openssl/defaults/main.yml
+diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
+index a3828f6..95601db 100644
+--- a/roles/docker-openssl/tasks/main.yml
++++ b/roles/docker-openssl/tasks/main.yml
+@@ -65,6 +65,7 @@
+     name: '{{ openssl_image_name }}'
+     tag: '{{ docker_image_tag }}'
+     path: '{{ docker_projects_dir }}/docker-openssl'
++    force: True
+ 
+ # *****************************************************************************
+ # Create the data volumes
