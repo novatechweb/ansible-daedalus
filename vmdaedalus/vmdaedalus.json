@@ -23,7 +23,8 @@
             ["modifyvm", "{{.Name}}", "--memory", "512"],
             ["modifyvm", "{{.Name}}", "--usb", "off"],
             ["modifyvm", "{{.Name}}", "--audio", "none"]
-        ]
+        ],
+        "disk_size": "120000"
     }],
     "provisioners": [{
         "type": "shell",
