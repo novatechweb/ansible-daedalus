@@ -1,0 +1,26 @@
+Bottom: 0abdf56fabdbca422421d8da7edda9efec0943cc
+Top:    dc3b87cac0c01992b5b0660b6f05a857aac58178
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-14 11:49:51 -0500
+
+Refresh of buildbot-worker-ntel
+
+---
+diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
+index 6b06954..d5a1a44 100644
+--- a/ansible-playbook/group_vars/all/buildbot.yml
++++ b/ansible-playbook/group_vars/all/buildbot.yml
+@@ -1,3 +1,4 @@
+ ---
+ buildbot_version: 1.1.1
+ buildbot_worker_port: 9989
++buildbot_worker_ntel: worker-ntel
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 6e57f55..b20d919 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -18,3 +18,4 @@ buildsystem_database_root_password:  '{{ lookup("password", inventory_dir + "/cr
+ buildsystem_database_build_password: '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/readuser") }}'
+ svn_username:                        '{{ lookup("file",     inventory_dir + "/personal_credentials/svn/username") }}'
+ svn_password:                        '{{ lookup("file",     inventory_dir + "/personal_credentials/svn/password") }}'
++buildbot_worker_ntel_password:       '{{ lookup("password", inventory_dir + "/credentials/buildbot.novatech-llc.com/worker_ntel length=20") }}'
