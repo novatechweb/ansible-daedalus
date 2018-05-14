@@ -5,6 +5,13 @@
   yum:
     name: NetworkManager-glib
     state: installed
+  register: nm_packages
+
+- name: Restart NetworkManager
+  service:
+    name: NetworkManager
+    state: restarted
+  when: nm_packages.changed
 
 # nmcli always returns 'changed', so we need
 # to manually detect changes to the interface file
