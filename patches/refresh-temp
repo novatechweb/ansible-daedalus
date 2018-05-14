@@ -1,0 +1,26 @@
+Bottom: 0b9b0581b729a5ccf7dcd7825fc566ede2a79b76
+Top:    789f02130cc6b3ec47fbfec01941834ef7f0918f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-14 11:53:55 -0500
+
+Refresh of common-ip-addresses
+
+---
+diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
+index 091b91f..5a98cc3 100644
+--- a/roles/docker-common/tasks/ip_addr.yml
++++ b/roles/docker-common/tasks/ip_addr.yml
+@@ -5,6 +5,13 @@
+   yum:
+     name: NetworkManager-glib
+     state: installed
++  register: nm_packages
++
++- name: Restart NetworkManager
++  service:
++    name: NetworkManager
++    state: restarted
++  when: nm_packages.changed
+ 
+ # nmcli always returns 'changed', so we need
+ # to manually detect changes to the interface file
