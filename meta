@@ -1,6 +1,6 @@
 Version: 1
-Previous: fb7d02764ab2fca7fdd5d9561184abae854d3bd5
-Head: 324c730b057ef8d6ca2c7e1f8c1d34dacdc1fca3
+Previous: 51a548a0340d73f60a546a0b09adbaba5d3ff0ee
+Head: f9cbf9b8169d4eb04c58a96a40bfca76c260dc05
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -54,7 +54,6 @@ Applied:
   update-ntel-builds-for-new: 029cca5abff85f284ec49ce54732dfd782e603ba
   add-parameter-for-buildbot: 4ec454e124bc43050fbe4a59d5471cabe8e4a761
   update-ptxdist-build-factories: 821b49f29f7366553e9db1af6ab84ca034b4f936
-  all-move-vars-to-defaults: 4ffdcb1dd1aaf6d9fe3df36e2276ddd2d1112825
-  refresh-temp: 324c730b057ef8d6ca2c7e1f8c1d34dacdc1fca3
+  all-move-vars-to-defaults: f9cbf9b8169d4eb04c58a96a40bfca76c260dc05
 Unapplied:
 Hidden:
