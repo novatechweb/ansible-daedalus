@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# Create certificate directories
+mkdir -p /etc/grid-security/certificates
+mkdir -p /etc/ssl/certs/
+mkdir -p /etc/ssl/private
+
 # comment out apache2 config file lines that reference the environment variables
 sed -i 's|^Mutex file|#Mutex file|' /etc/apache2/apache2.conf
 sed -i 's|^PidFile |#PidFile |' /etc/apache2/apache2.conf
