@@ -1,0 +1,11 @@
+Bottom: 60c4bfbf8a46167d90e72fb7ba1c53b416a0cc53
+Top:    60c4bfbf8a46167d90e72fb7ba1c53b416a0cc53
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-16 14:06:10 -0500
+
+Create certificate directories during image build
+
+
+
+---
+
