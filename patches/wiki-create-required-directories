@@ -1,5 +1,5 @@
 Bottom: 60c4bfbf8a46167d90e72fb7ba1c53b416a0cc53
-Top:    60c4bfbf8a46167d90e72fb7ba1c53b416a0cc53
+Top:    7cdb1e45ea500e1abcac8bd3b591fc3dd536c1db
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-16 14:06:10 -0500
 
@@ -8,4 +8,19 @@ Create certificate directories during image build
 
 
 ---
-
+diff --git a/docker/docker-mediawiki/configure.sh b/docker/docker-mediawiki/configure.sh
+index 06ed299..eba1977 100755
+--- a/docker/docker-mediawiki/configure.sh
++++ b/docker/docker-mediawiki/configure.sh
+@@ -1,6 +1,11 @@
+ #!/bin/bash
+ set -e
+ 
++# Create certificate directories
++mkdir -p /etc/grid-security/certificates
++mkdir -p /etc/ssl/certs/
++mkdir -p /etc/ssl/private
++
+ # comment out apache2 config file lines that reference the environment variables
+ sed -i 's|^Mutex file|#Mutex file|' /etc/apache2/apache2.conf
+ sed -i 's|^PidFile |#PidFile |' /etc/apache2/apache2.conf
