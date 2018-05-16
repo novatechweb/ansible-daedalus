@@ -1,0 +1,20 @@
+Bottom: bdede016107e7887162f7a1d60004733141635c3
+Top:    60c4bfbf8a46167d90e72fb7ba1c53b416a0cc53
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-16 09:12:47 -0500
+
+Refresh of ssl-limit-scope
+
+---
+diff --git a/docker/docker-openssl/docker-entrypoint.sh b/docker/docker-openssl/docker-entrypoint.sh
+index 1096faf..283720f 100755
+--- a/docker/docker-openssl/docker-entrypoint.sh
++++ b/docker/docker-openssl/docker-entrypoint.sh
+@@ -48,6 +48,7 @@ case ${CMD} in
+                 -subj ${SUBJ}
+             cp ${SSL_BASE_DIR}/${base_filename}.crt ${SSL_BASE_DIR}/${base_filename}_bundle.crt
+         done
++        openssl dhparam -out ${SSL_BASE_DIR}/dhparam.pem ${BYTES}
+         ;;
+ 
+     *)
