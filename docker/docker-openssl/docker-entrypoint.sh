@@ -48,6 +48,7 @@ case ${CMD} in
                 -subj ${SUBJ}
             cp ${SSL_BASE_DIR}/${base_filename}.crt ${SSL_BASE_DIR}/${base_filename}_bundle.crt
         done
+        openssl dhparam -out ${SSL_BASE_DIR}/dhparam.pem ${BYTES}
         ;;
 
     *)
