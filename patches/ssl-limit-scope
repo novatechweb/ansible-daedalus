@@ -1,5 +1,5 @@
 Bottom: 30648025642dadcfd88e6fce4e7bd94caa3d56b0
-Top:    cca6c0c1810e54831415a1077e9e98afa69db007
+Top:    88b9d3cfdb47939f597a65b514e951766ebbed33
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -36,7 +36,7 @@ index 8ffc625..7223a00 100644
  
  ENTRYPOINT ["/docker-entrypoint.sh"]
 diff --git a/docker/docker-openssl/docker-entrypoint.sh b/docker/docker-openssl/docker-entrypoint.sh
-index edb1339..1096faf 100755
+index edb1339..283720f 100755
 --- a/docker/docker-openssl/docker-entrypoint.sh
 +++ b/docker/docker-openssl/docker-entrypoint.sh
 @@ -8,34 +8,30 @@ set -e
@@ -84,7 +84,7 @@ index edb1339..1096faf 100755
          ;;
  
      generate)
-@@ -47,13 +43,11 @@ case ${1} in
+@@ -47,13 +43,12 @@ case ${1} in
          for base_filename in ${SSL_BASE_FILES}
          do
              openssl req -newkey rsa:${BYTES} -x509 -days ${DAYS} -nodes \
@@ -98,6 +98,7 @@ index edb1339..1096faf 100755
          done
 -        mkdir -p /etc/grid-security/certificates
 -        update-ca-certificates --fresh
++        openssl dhparam -out ${SSL_BASE_DIR}/dhparam.pem ${BYTES}
          ;;
  
      *)
