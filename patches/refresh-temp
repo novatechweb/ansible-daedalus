@@ -1,0 +1,55 @@
+Bottom: 5a42cb7f6dd3cd27f11868a447eeea8b142f2f1b
+Top:    07bcaf88bfcea72f1ccf7126ee0526da61aabda3
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 16:07:38 -0500
+
+Refresh of buildsystem-limit-mysql-backups
+
+---
+diff --git a/roles/docker-buildsystem/tasks/restore.yml b/roles/docker-buildsystem/tasks/restore.yml
+index b930639..be79a68 100644
+--- a/roles/docker-buildsystem/tasks/restore.yml
++++ b/roles/docker-buildsystem/tasks/restore.yml
+@@ -36,26 +36,39 @@
+ # For old backups that included the mysql database.
+ # Can remove this section once those old backups are obsolete
+ 
++- name: create temporary location for editing
++  tempfile:
++    path: '{{ restore_buildsystem_docker_dir }}'
++    state: file
++    suffix: sql
++  register: backup_tmpfile
++
++- name: copy database dump to temporary file
++  copy:
++    remote_src: true
++    src: '{{ restore_buildsystem_docker_dir }}/buildsystem_backup.sql'
++    dest: '{{ backup_tmpfile.path }}'
++
+ - name: begin marking database dump
+   lineinfile:
+     backup: yes
+     insertafter: "^-- Current Database: `mysql`"
+     line: "-- BEGIN ANSIBLE MANAGED BLOCK"
+-    path: '{{ restore_buildsystem_docker_dir }}/buildsystem_backup.sql'
++    path: '{{ backup_tmpfile.path }}'
+ 
+ - name: end marking database dump
+   lineinfile:
+     backup: yes
+     insertbefore: "^-- Current Database: `protocol`"
+     line: "-- END ANSIBLE MANAGED BLOCK"
+-    path: '{{ restore_buildsystem_docker_dir }}/buildsystem_backup.sql'
++    path: '{{ backup_tmpfile.path }}'
+ 
+ - name: cleanup database dump
+   blockinfile:
+     backup: yes
+     marker: "-- {mark} ANSIBLE MANAGED BLOCK"
+     content: ""
+-    path: '{{ restore_buildsystem_docker_dir }}/buildsystem_backup.sql'
++    path: '{{ backup_tmpfile.path }}'
+ 
+ # *****************************************************************************
+ # restore the build system backup
