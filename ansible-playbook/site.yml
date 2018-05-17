@@ -29,7 +29,7 @@
   - role: bacula-console
   - role: bacula-script
     assemble_scripts: false
-  - role: bacula-catalog
+  # - role: bacula-catalog
 - name: Install/Setup Docker images and containers
   hosts: docker-hosts
   remote_user: ansibleremote
