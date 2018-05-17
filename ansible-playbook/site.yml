@@ -1,6 +1,19 @@
 ---
 # This playbook deploys the whole application stack in this site.
 
+- name: Dump Variables
+  hosts: all
+  tags:
+    - debugging
+  tasks:
+  - template:
+      src: templates/dump_variables
+      dest: /tmp/ansible_variables
+  - fetch:
+      src: /tmp/ansible_variables
+      dest: "{{inventory_hostname}}_ansible_variables"
+      flat: yes
+
 - name: Bacula
   hosts: bacula
   remote_user: ansibleremote
@@ -8,6 +21,10 @@
   become_user: root
   become_method: sudo
   roles:
+  - name: Create bacula-restores symlinks
+    role: bacula-restores
+    tags:
+    - bacula_restores
   - role: mariadb
     mariadb_open_firewall: true
     mariadb_remote_root_access: false
