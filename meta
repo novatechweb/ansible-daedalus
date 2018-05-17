@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2b8fb0a3514318496281e83147cac34dc3db49ed
-Head: 863922e023f8aa067ec86ab3abda1fdc46e67b92
+Previous: 6eb0aefee911475b9c7cdeb08ad40f9029e7d83c
+Head: fe89d4548ceca668e77a906b529b6bc0abbe47f2
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -47,16 +47,16 @@ Applied:
   svn-create-required-directories: 6ba24f64a3050842efcadaddee12620bc77b15dc
   wiki-downgrade-extensions: 543523bbdc8bdc873290658006012b85ac2652e4
   TESTING--VirtualMachine: 863922e023f8aa067ec86ab3abda1fdc46e67b92
+  buildbot-master: 43d4ca34596ef84761ecfcf29d8c8e1910dc3948
+  buildbot-worker-ntel: e54bbd264cc40a30eff66bfa1f0092ba6cdc571b
+  buildbot-worker-ptxdist: 4288452bf9446c7694287a92e60775bf1a995f98
+  fix-ssh-folder-permission: e028cc7fd9733b6913cb7e1479c41d10ee2d8b88
+  update-ntel-builds-for-new: a77b62c0462125d2659a34dd1c60e8c0067a7cd3
+  add-parameter-for-buildbot: 79e004cd2b2fc8dbe07f9f80efae43c0f9bfab6b
+  update-ptxdist-build-factories: d272158614b863313ece4fec58f4730ea48d90d8
+  all-move-vars-to-defaults: 33dd398ad02ac127add96c80598dbeb741f77b92
+  sshd-create-role: fe89d4548ceca668e77a906b529b6bc0abbe47f2
 Unapplied:
-  buildbot-master: 60541c190a7044d900577f8b879d6de0db462d8e
-  buildbot-worker-ntel: 5386ac43e346786ea01323504048910a85bc7672
-  buildbot-worker-ptxdist: 7cf1937201c83bc77e159d1dd95b2958d68b09b9
-  fix-ssh-folder-permission: dc9967f6450c5c0d32e40cca547ce278d2714fa5
-  update-ntel-builds-for-new: 25924d4ccede21b36c9a8b525594851eb6fe2b20
-  add-parameter-for-buildbot: e54859e7e9fa702415c4437ee8bd193ce4718051
-  update-ptxdist-build-factories: ef0b5885340b9696608146837ea7984feaa4189c
-  all-move-vars-to-defaults: e3f2baecb9a5ecca90599126c35e30282ec9aa91
-  sshd-create-role: fa22f7d0ceee473283be2fe6f315b292a82862e8
   wiki-create-required-directories: 6389ba83652ed1016a91d1edea09ae495b201760
   mantis-create-required-directories: b2fcbaf703e32da04851f113499aab2f60df5366
   buildbot-parameterize-env: c34d54f633834b0c2f0a36e6c016669c4078824a
