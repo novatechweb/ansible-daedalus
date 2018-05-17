@@ -110,16 +110,12 @@
 # Create the data volumes
 
 - name: data-volume container (mantisbt)
-  docker_datavolume:
-    image_name: '{{ mantisbt_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ mantisbt_dv_name }}'
+  docker_volume:
+    name: '{{ mantisbt_dv_name }}'
 
 - name: data-volume container (mysql)
-  docker_datavolume:
-    image_name: '{{ mantisbt_db_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ mantisbt_db_dv_name }}'
+  docker_volume:
+    name: '{{ mantisbt_db_dv_name }}'
 
 - name: stop prev container (mysql)
   docker_container:
@@ -149,7 +145,7 @@
     name: '{{ mantisbt_db_container_name }}'
     detach: true
     restart_policy: always
-    volumes-from:
+    volumes_from:
       - '{{ mantisbt_db_dv_name }}'
     image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
 
