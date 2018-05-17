@@ -1,5 +1,5 @@
 Version: 1
-Previous: b58df52d5b7c640e3a02c419324a9c324e025e12
+Previous: bd904cde259e707568d5e884c957a437f90c4f37
 Head: aa000bba23d44883df09d86bed9f72b81127ece6
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
@@ -54,7 +54,7 @@ Applied:
   update-ntel-builds-for-new: ac44e3de0cf91076d381fc9618ac7182fb7ae9b8
   add-parameter-for-buildbot: 644abc5feaa8aab668540449ae92ccae8cd599e3
   update-ptxdist-build-factories: bdacee8826af5debd98b99a0ee009ca59081a231
-  TESTING--VirtualMachine: aa000bba23d44883df09d86bed9f72b81127ece6
+  all-move-vars-to-defaults: aa000bba23d44883df09d86bed9f72b81127ece6
 Unapplied:
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
   mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
