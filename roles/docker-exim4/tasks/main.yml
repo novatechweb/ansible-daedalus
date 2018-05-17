@@ -93,6 +93,10 @@
 
 - name: data-volume container
   docker_volume:
+    name: '{{ exim4_cv_name }}'
+
+- name: data-volume container
+  docker_volume:
     name: '{{ exim4_dv_name }}'
 
 # *****************************************************************************
@@ -109,6 +113,7 @@
     restart_policy: no
     state: started
     volumes:
+      - '{{ exim4_cv_name }}:/etc/exim4:z'
       - '{{ exim4_dv_name }}:/var/spool/exim4:z'
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
 
