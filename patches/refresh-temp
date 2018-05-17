@@ -1,0 +1,20 @@
+Bottom: 75fdf7a19622ecddefb73c6f99bc4b094158ed5e
+Top:    457f054b6751cd4a2809429f613715919f9f4c2f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 09:21:50 -0500
+
+Refresh of svn-create-required-directories
+
+---
+diff --git a/docker/docker-svn/configure.sh b/docker/docker-svn/configure.sh
+index bff6502..21c3114 100755
+--- a/docker/docker-svn/configure.sh
++++ b/docker/docker-svn/configure.sh
+@@ -8,6 +8,7 @@ mkdir /var/cache/websvn/tmp
+ 
+ # Create certificate directories
+ mkdir -p /etc/grid-security/certificates
++mkdir -p /etc/ssl/certs/
+ mkdir -p /etc/ssl/private
+ 
+ # comment out apache2 config file lines that reference the environment variables
