@@ -34,29 +34,29 @@
     path_to_restore: '{{ mantisbt_docker_backup_dir }}'
   when: st_mantisbt_static_archive.stat.exists == False or st_mantisbt_SQL_file.stat.exists == False or st_mantisbt_files_table_SQL_file.stat.exists == False
 
-- name: permissions - Static
-  file:
-    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rw,g=rw,o='
+# - name: permissions - Static
+#   file:
+#     path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rw,g=rw,o='
 
-- name: permissions - SQL (files table)
-  file:
-    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rw,g=rw,o='
+# - name: permissions - SQL (files table)
+#   file:
+#     path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rw,g=rw,o='
 
-- name: permissions - SQL (remaining tables)
-  file:
-    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rw,g=rw,o='
+# - name: permissions - SQL (remaining tables)
+#   file:
+#     path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rw,g=rw,o='
 
 - name: exists - Static
   stat:
