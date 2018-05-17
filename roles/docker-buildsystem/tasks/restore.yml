@@ -23,14 +23,14 @@
     path: '{{ restore_buildsystem_docker_dir }}'
   register: buildsystem_restore_files
 
-- name: File permissions
-  file:
-    path: '{{ restore_buildsystem_docker_dir }}/{{ item }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rwx,g=rwx,o='
-  with_items: '{{ buildsystem_restore_files.file_list | default([]) }}'
+# - name: File permissions
+#   file:
+#     path: '{{ restore_buildsystem_docker_dir }}/{{ item }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rwx,g=rwx,o='
+#   with_items: '{{ buildsystem_restore_files.file_list | default([]) }}'
 
 # *****************************************************************************
 # For old backups that included the mysql database.
