@@ -41,6 +41,10 @@
     role: sshd
     tags:
     - sshd
+  - name: Run bacula-restores symlinks
+    role: bacula-restores
+    tags:
+    - bacula_restores
   - name: Run common Docker tasks
     role: docker-common
     tags:
