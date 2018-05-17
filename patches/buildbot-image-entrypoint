@@ -1,0 +1,10 @@
+Bottom: 2c5498f238584b081834b15773845a12f7240582
+Top:    2c5498f238584b081834b15773845a12f7240582
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 15:32:30 -0500
+
+Use original buildbot entrypoint and init daemon
+
+
+---
+

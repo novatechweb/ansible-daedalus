@@ -1,6 +1,6 @@
 Version: 1
-Previous: 233e755c9d2819b7af74160734e0e72b4852e827
-Head: 1819dafae88798451e973ed41d7e9ab91efc9be1
+Previous: d58fc6c8ea310550c8a6d06b0f314950d253bad2
+Head: 82bda243d74ce4183c9711102df5f8d5d8de49be
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -58,5 +58,6 @@ Applied:
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
   mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
   buildbot-parameterize-env: 1819dafae88798451e973ed41d7e9ab91efc9be1
+  buildbot-image-entrypoint: 82bda243d74ce4183c9711102df5f8d5d8de49be
 Unapplied:
 Hidden:
