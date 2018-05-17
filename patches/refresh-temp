@@ -1,21 +1,9 @@
-Bottom: 4e1403556b5bf1d95db1a270125b99740ed17edf
-Top:    99e95487518ff7ba3e8f6d8f9aee63060292f8c6
+Bottom: 0b5f3e471409384ccdec01309ac99bdd4ac8444a
+Top:    0b5f3e471409384ccdec01309ac99bdd4ac8444a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:40:02 -0500
 
 Refresh of all-docker_volume
 
 ---
-diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
-index 24ba098..31bf7b8 100644
---- a/roles/docker-exim4/defaults/main.yml
-+++ b/roles/docker-exim4/defaults/main.yml
-@@ -26,6 +26,9 @@ exim4_image_name: '{{ docker_registry_username }}/exim4'
- # the name of the container being started
- exim4_container_name: '{{ docker_name_prefix }}exim4'
- 
-+# the name of the config-volume used by the container
-+exim4_cv_name: '{{ docker_name_prefix }}exim4_CV'
-+
- # the name of the data-volume used by the container
- exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
+

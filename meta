@@ -1,6 +1,6 @@
 Version: 1
-Previous: 95dbc441e053cbbd514b25584e359f3e067fce97
-Head: dba8fd4c55f7b4b1ccba6f0060589dfac84609a1
+Previous: b761ff09974775e2351fb04595f041ca0682811c
+Head: ce6acf5207d8d135825ba1d0cf8a90f02b494ea4
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -17,6 +17,8 @@ Applied:
   playbook-remove-docker-pull-images: 295928b6daede5a0fd1abb6ade1ce2c3f6c049b4
   all-docker_container: 5e7361d94f610ac075eacae34f5ba0931b69a20c
   all-docker_volume: 9306dc4c0c1920f8abcb2362e3b56bf2adab9e40
+  refresh-temp: ce6acf5207d8d135825ba1d0cf8a90f02b494ea4
+Unapplied:
   all-docker_network: 692ac84f0173dd3808d719562c08678f611c2dc6
   all-docker_image: f8eb740aafdee318bffe2f5ba40a3ee389a0adeb
   playbook-remove-docker-build-base-image: 82652e0728777e9c901e974d2952859486c244d3
@@ -56,8 +58,6 @@ Applied:
   update-ptxdist-build-factories: d6a4be1b15f73cf4b801374c657b4ffbee297800
   all-move-vars-to-defaults: 52ce460b0d6c7b099a368088141af788ca5feb23
   sshd-create-role: 400363229398178b3266a0c1db71db3693feb1b2
-  refresh-temp: dba8fd4c55f7b4b1ccba6f0060589dfac84609a1
-Unapplied:
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
   mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
   buildbot-parameterize-env: 1819dafae88798451e973ed41d7e9ab91efc9be1
