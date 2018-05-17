@@ -118,7 +118,7 @@
   docker_container:
     name: '{{ wiki_db_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     volumes_from: '{{ wiki_db_dv_name }}'
     image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
     networks:
@@ -128,7 +128,7 @@
   docker_container:
     name: '{{ wiki_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ container_addr_map.wiki.hostname }}' 
     ports: '{{ container_port_map.wiki.port_args }}'
     networks:
@@ -147,3 +147,4 @@
 
 - include_tasks: restore.yml
   when: st_mediawiki_restore.stat.exists == False
+  tags: restore
