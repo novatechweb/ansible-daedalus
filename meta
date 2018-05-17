@@ -1,6 +1,6 @@
 Version: 1
-Previous: 3b3c22617e9269a5f837bb5b4b5e35e9d4f1d508
-Head: 84481c07037691c49eb46e6bd919469788e71f92
+Previous: 5dc09690db84710047a93d4ac00a256ab33f6f2f
+Head: 94f618c7d4b75ff40ecac4fd350dd7ed2ce04913
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -62,5 +62,6 @@ Applied:
   buildbot-image-entrypoint: 1b1ef2f5e8a3fd1431d1d2e04b7b6d608d418999
   buildbot-dependencies: d26869983d3e3d2ef95304403856da014f1d39c6
   playbook-simplify-credentials: 84481c07037691c49eb46e6bd919469788e71f92
+  refresh-temp: 94f618c7d4b75ff40ecac4fd350dd7ed2ce04913
 Unapplied:
 Hidden:

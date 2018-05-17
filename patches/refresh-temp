@@ -1,0 +1,21 @@
+Bottom: fb4a415b54acd87559f464fed9c0b2ac518b458f
+Top:    6e37641dca0b61013683936151dd51d8c74c7b5c
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 16:49:04 -0500
+
+Refresh of TESTING--VirtualMachine
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 4938e64..91798f2 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -29,7 +29,7 @@
+   - role: bacula-console
+   - role: bacula-script
+     assemble_scripts: false
+-  - role: bacula-catalog
++  # - role: bacula-catalog
+ - name: Install/Setup Docker images and containers
+   hosts: docker-hosts
+   remote_user: ansibleremote
