@@ -1,5 +1,5 @@
 Version: 1
-Previous: bd904cde259e707568d5e884c957a437f90c4f37
+Previous: 0650ecfd47cf41a852be91191e8a60c30344643f
 Head: aa000bba23d44883df09d86bed9f72b81127ece6
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
@@ -46,7 +46,7 @@ Applied:
   svn-allow-empty: 6da306df930bb976ca2fda78875688374f343e2c
   svn-create-required-directories: 6e7b4e5a190394ef8e3d809f5a73f7ced3b9b0da
   wiki-downgrade-extensions: 7d0f16f9ef87cbe94627ca62abfc0363b5630e72
-  TESTING--ASDF: cb6498437618a78c8e47e31f4df8ee57573ba702
+  TESTING--VirtualMachine: cb6498437618a78c8e47e31f4df8ee57573ba702
   buildbot-master: 9ebc70a1a9ced8d9d5edfeb19359da234d17e837
   buildbot-worker-ntel: a59afff6571136695d8948f3c68807e555f93abb
   buildbot-worker-ptxdist: 65ad98ad0afebac7edfdca7760a4e4ed08157ee6
