@@ -41,6 +41,10 @@
     role: bacula-restores
     tags:
     - bacula_restores
+  - name: Setup SSH Daemon
+    role: sshd
+    tags:
+    - sshd
   - name: Run common Docker tasks
     role: docker-common
     tags:
