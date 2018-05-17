@@ -9,7 +9,6 @@ ARG BUILDBOT_TIMEZONE="Etc/UTC"
 
 RUN apk --no-cache add \
         openssh \
-        tini \
 &&  rm /etc/localtime \
 &&  ln -sf /usr/share/zoneinfo/${BUILDBOT_TIMEZONE} /etc/localtime \
 &&  echo "${BUILDBOT_TIMEZONE}" > /etc/timezone
@@ -27,5 +26,5 @@ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
 &&  chown -v -R buildbot:buildbot "/home/buildbot"
 
 USER buildbot
-ENTRYPOINT ["/sbin/tini", "--"]
+ENTRYPOINT ["/usr/bin/dumb-init"]
 CMD ["/home/buildbot/start.sh"]
