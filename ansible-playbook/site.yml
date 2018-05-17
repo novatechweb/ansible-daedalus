@@ -1,6 +1,18 @@
 ---
 # This playbook deploys the whole application stack in this site.
 
+- name: Dump Variables
+  hosts: all
+  tags:
+    - debugging
+  tasks:
+  - template:
+      src: templates/dump_variables
+      dest: /tmp/ansible_variables
+  - fetch:
+      src: /tmp/ansible_variables
+      dest: "{{inventory_hostname}}_ansible_variables"
+
 - name: Bacula
   hosts: bacula
   remote_user: ansibleremote
