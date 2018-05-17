@@ -1,6 +1,6 @@
 Version: 1
-Previous: 1c80f792ff0c8f5a9d7860681cc3331b9d811632
-Head: 91e29186644d8abce24acd68668bc63f3a47a191
+Previous: a22d42a8792875d24bd36f548131a34bd761c4d7
+Head: 073ff6d03e7aa0878f241a1be04cbabb61bed5f6
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -55,6 +55,7 @@ Applied:
   add-parameter-for-buildbot: e54859e7e9fa702415c4437ee8bd193ce4718051
   update-ptxdist-build-factories: ef0b5885340b9696608146837ea7984feaa4189c
   all-move-vars-to-defaults: 91e29186644d8abce24acd68668bc63f3a47a191
+  refresh-temp: 073ff6d03e7aa0878f241a1be04cbabb61bed5f6
 Unapplied:
   sshd-create-role: 400363229398178b3266a0c1db71db3693feb1b2
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
