@@ -23,14 +23,14 @@
     path: '{{ host_svn_docker_restore_dir }}'
   register: svn_repo_backup
 
-- name: File permissions
-  file:
-    path: '{{ host_svn_docker_restore_dir }}/{{ item }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rwx,g=rwx,o='
-  with_items: '{{ svn_repo_backup.file_list | default([]) }}'
+# - name: File permissions
+#   file:
+#     path: '{{ host_svn_docker_restore_dir }}/{{ item }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rwx,g=rwx,o='
+#   with_items: '{{ svn_repo_backup.file_list | default([]) }}'
 
 # *****************************************************************************
 # restore the svn backup
