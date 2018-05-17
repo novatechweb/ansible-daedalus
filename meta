@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2f0a496665303caf562f77bf20915f1648301572
-Head: 07a9ce9fb5fe6489737178b6e57d42833f6ae816
+Previous: 150ff1057420a07483ce21fb83cb8fc91b39ba5d
+Head: c632b73c24cc1c842a4da2bdccd55426de2da59d
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -48,6 +48,7 @@ Applied:
   wiki-downgrade-extensions: 543523bbdc8bdc873290658006012b85ac2652e4
   TESTING--VirtualMachine: 69ad84273e57d2a77558ff05d9f7271814bf0efc
   refresh-temp: 07a9ce9fb5fe6489737178b6e57d42833f6ae816
+  refresh-temp-0: c632b73c24cc1c842a4da2bdccd55426de2da59d
 Unapplied:
   buildbot-master: 60541c190a7044d900577f8b879d6de0db462d8e
   buildbot-worker-ntel: 5386ac43e346786ea01323504048910a85bc7672

@@ -1,0 +1,23 @@
+Bottom: 521f83e427d1838d95b189a296ccde78380797f7
+Top:    f5278a91d0f82d38cc6d8b286a66d5a37231adf9
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 16:47:36 -0500
+
+Refresh of refresh-temp
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 06c5256..4b2bc7f 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -37,6 +37,10 @@
+   become_user: root
+   become_method: sudo
+   roles:
++  - name: Run bacula-restores symlinks
++    role: bacula-restores
++    tags:
++    - bacula_restores
+   - name: Run common Docker tasks
+     role: docker-common
+     tags:
