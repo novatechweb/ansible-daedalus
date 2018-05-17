@@ -20,13 +20,13 @@
     path_to_restore: '{{ exim4_docker_backup_dir }}'
   when: st_exim4_backup_file.stat.exists == False
 
-- name: Set permissions for data-volume data
-  file:
-    path: '{{ exim4_docker_restore_dir }}{{ exim4_backup_file }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rw,g=rw,o='
+# - name: Set permissions for data-volume data
+#   file:
+#     path: '{{ exim4_docker_restore_dir }}{{ exim4_backup_file }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rw,g=rw,o='
 
 - name: exists - exim4 archive
   stat:
