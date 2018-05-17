@@ -1,5 +1,5 @@
 Bottom: 7d186662a3ecdcf44a77317ec80f8bb3964b4f3f
-Top:    f5278a91d0f82d38cc6d8b286a66d5a37231adf9
+Top:    3b2b644785d62b23defac8d261551362f84dff85
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -104,7 +104,7 @@ index 0000000..53b96f8
 +    ip_addr: 192.168.0.109
 +    hostname: phpmyadmin.novatech-llc.com
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 673e61b..4b2bc7f 100644
+index 673e61b..b00076e 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -1,6 +1,18 @@
@@ -125,6 +125,15 @@ index 673e61b..4b2bc7f 100644
 +
  - name: Bacula
    hosts: bacula
+   remote_user: ansibleremote
+@@ -17,7 +29,7 @@
+   - role: bacula-console
+   - role: bacula-script
+     assemble_scripts: false
+-  - role: bacula-catalog
++  # - role: bacula-catalog
+ - name: Install/Setup Docker images and containers
+   hosts: docker-hosts
    remote_user: ansibleremote
 @@ -25,6 +37,10 @@
    become_user: root
