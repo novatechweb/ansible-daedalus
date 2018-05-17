@@ -1,6 +1,6 @@
 Version: 1
-Previous: 619458b33890aef31539eb73753fb8aa54b73afb
-Head: c25ac3cb478526bf77c7e646c9d7d572e127e228
+Previous: c074eed1ec502a0b00a69f41b2b52c108af931b1
+Head: bbd7e381f6d05ae207fd928c7231530a01dd785e
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -56,5 +56,6 @@ Applied:
   update-ptxdist-build-factories: 5794063143b5def5d9d82619c49208161b2ee62a
   all-move-vars-to-defaults: 32fe0cd5e921518218dc1e48ff84475d58a9f962
   wiki-create-required-directories: c25ac3cb478526bf77c7e646c9d7d572e127e228
+  refresh-temp: bbd7e381f6d05ae207fd928c7231530a01dd785e
 Unapplied:
 Hidden:
