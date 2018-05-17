@@ -1,5 +1,5 @@
 Bottom: 740aa23160ab1228f7ea7acc404f1cc6c8572955
-Top:    9fce9a5c3fef2aa912c72cde88daf6848e754589
+Top:    46f5ae8693bbf1fc0640f1a7aa2ff7933faa9920
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -9,6 +9,21 @@ Instead of a data container, use docker named volume
 
 
 ---
+diff --git a/docker/docker-mantisbt/mantisbt.sh b/docker/docker-mantisbt/mantisbt.sh
+index 7c584d4..44dc2c3 100755
+--- a/docker/docker-mantisbt/mantisbt.sh
++++ b/docker/docker-mantisbt/mantisbt.sh
+@@ -56,8 +56,8 @@ done
+ # make certian the containers exist
+ docker inspect ${MANTISBT_CONTAINER_NAME} > /dev/null
+ docker inspect ${MANTISBT_DB_CONTAINER_NAME} > /dev/null
+-docker inspect ${MANTISBT_DV_NAME} > /dev/null
+-docker inspect ${MANTISBT_DB_DV_NAME} > /dev/null
++docker volume inspect ${MANTISBT_DV_NAME} > /dev/null
++docker volume inspect ${MANTISBT_DB_DV_NAME} > /dev/null
+ 
+ get_db_user_and_password() {
+     db_user="$(docker 2>&1 exec ${MANTISBT_CONTAINER_NAME} grep -e '^$g_db_username' config_inc.php|sed 's|^.* = \"\(.*\)\";$|\1|' || true)"
 diff --git a/docker/docker-mediawiki/mediawiki.sh b/docker/docker-mediawiki/mediawiki.sh
 index d52bd31..be0f4f0 100755
 --- a/docker/docker-mediawiki/mediawiki.sh
