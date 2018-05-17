@@ -1,5 +1,5 @@
 Bottom: a361e7ccb9b442661158dd90b81b0f1818ae7515
-Top:    6572c563043903228b75e43a4eefacfe60c68791
+Top:    7bc209e7f33b78b0034e6557a85569daef60c9c9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -126,17 +126,42 @@ index 0000000..53b96f8
 +  phpmyadmin:
 +    ip_addr: 192.168.0.109
 +    hostname: phpmyadmin.novatech-llc.com
-diff --git a/ansible-playbook/vm b/ansible-playbook/vm
-new file mode 100644
-index 0000000..aef25a1
---- /dev/null
-+++ b/ansible-playbook/vm
-@@ -0,0 +1,5 @@
-+[bacula]
-+vmdaedalus.novatech-llc.com
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 673e61b..06c5256 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -1,6 +1,18 @@
+ ---
+ # This playbook deploys the whole application stack in this site.
+ 
++- name: Dump Variables
++  hosts: all
++  tags:
++    - debugging
++  tasks:
++  - template:
++      src: templates/dump_variables
++      dest: /tmp/ansible_variables
++  - fetch:
++      src: /tmp/ansible_variables
++      dest: "{{inventory_hostname}}_ansible_variables"
 +
-+[docker-hosts]
-+vmdaedalus.novatech-llc.com
+ - name: Bacula
+   hosts: bacula
+   remote_user: ansibleremote
+diff --git a/ansible-playbook/templates/dump_variables b/ansible-playbook/templates/dump_variables
+new file mode 100644
+index 0000000..3c11ab9
+--- /dev/null
++++ b/ansible-playbook/templates/dump_variables
+@@ -0,0 +1,7 @@
++HOSTVARS (ANSIBLE GATHERED, group_vars, host_vars) :
++
++{{ hostvars[inventory_hostname] | to_yaml }}
++
++PLAYBOOK VARS:
++
++{{ vars | to_yaml }}
 diff --git a/ansible-runner/Dockerfile b/ansible-runner/Dockerfile
 new file mode 100644
 index 0000000..288b5ff

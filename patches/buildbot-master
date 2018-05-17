@@ -1,5 +1,5 @@
-Bottom: 6572c563043903228b75e43a4eefacfe60c68791
-Top:    84a4b831579101c473c064c1a7a99cf2b04d4d98
+Bottom: 7bc209e7f33b78b0034e6557a85569daef60c9c9
+Top:    ab3cb3e2b34ebccc690877ad07cc839db46d49b6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -50,10 +50,10 @@ index 53b96f8..6cb9573 100644
 +    ip_addr: 192.168.0.110
 +    hostname: buildbot.novatech-llc.com
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 673e61b..c47c128 100644
+index 06c5256..4de2800 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -68,6 +68,11 @@
+@@ -80,6 +80,11 @@
      role: docker-buildsystem
      tags:
      - buildsystem_container
