@@ -37,6 +37,10 @@
   become_user: root
   become_method: sudo
   roles:
+  - name: Run bacula-restores symlinks
+    role: bacula-restores
+    tags:
+    - bacula_restores
   - name: Run common Docker tasks
     role: docker-common
     tags:
