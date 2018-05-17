@@ -1,6 +1,6 @@
 Version: 1
-Previous: bdccdef68f45efb64ee9975fbb584402cc902e81
-Head: 608fd16e1af1d5a7ef4277475109b430a39dde09
+Previous: 3d201aef7ff70fb450e13791ae86d95a86ac9823
+Head: 1e1c207390b2c0c1e4afc8f0853fe18081a105f5
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -44,19 +44,18 @@ Applied:
   ssl-limit-scope: ac02aa1b35ba646b140eef68b79a439f05447fb3
   svn-hotcopy: 6ad9d6faf0b41f9a9765ba4bfff55186369d78be
   svn-allow-empty: d42a1652498de25f53b93f33e1c75e90093aa6d6
-  svn-create-required-directories: 848159e969e4f8b1e0d2c5c92e535f21b55e84e9
-  wiki-downgrade-extensions: 2b41b6df8770543bb4f57ef96541d4c73515b7b0
-  TESTING--ASDF: d78a066c12ebc987aa5fce0e65c6d921fb59d5b6
-  buildbot-master: 53b92f31f40b282ab39acb10fb1ed81c21a92a97
-  buildbot-worker-ntel: 510025d57737f42de527a991c82462c7fd29e25d
-  buildbot-worker-ptxdist: 6c751dc560ff63a0449189591a2008a2985bf9a5
-  fix-ssh-folder-permission: 15f0e74f3ef39be9e7aeb79fcf3074c59aa3ca21
-  update-ntel-builds-for-new: afd1ebcbe8611ba354d82a77fddd72976268c7ad
-  add-parameter-for-buildbot: 161b73404dee44c830ac9c30425d864021732e00
-  update-ptxdist-build-factories: 244b36d47bd9fcee97040dafe66d5482bba6277e
-  all-move-vars-to-defaults: 8aa5dbebdee0236cd06890bf30933fb7e4ce6f0c
-  wiki-create-required-directories: 25d010e7a5e639e8334569e28cfc29bf812b595b
-  mantis-create-required-directories: 769d3f774fb10f4904988804a78984ab838456bc
-  refresh-temp: 608fd16e1af1d5a7ef4277475109b430a39dde09
+  svn-create-required-directories: eb9823d9ad0236119a0840a6f9f3bb9c3f97b7b3
+  wiki-downgrade-extensions: 66bf6a4abd91d024baeccfbdec76c56019d21d9d
+  TESTING--ASDF: fb029f9e9a3adb177d0b66bc50e82f8b90dfafc5
+  buildbot-master: 020ff95477ef516802c62cecfa37e5c82e43d1dd
+  buildbot-worker-ntel: 2d2c643991b3e65b13b5814797c46d40f4b00ef0
+  buildbot-worker-ptxdist: c488c8f16bf3bfe73060b155b33e266d837d9308
+  fix-ssh-folder-permission: 8c4cdeccf21e343c7184e24a2769adab6feb62dd
+  update-ntel-builds-for-new: be6db1c5e1d553a5b795eff7036d4d944c64889c
+  add-parameter-for-buildbot: f3c83fe48371f918cdc9de2b0cdd5a8f726268e6
+  update-ptxdist-build-factories: ebbd6e85367f7a822cfbc287f025b8b3f57fca3d
+  all-move-vars-to-defaults: db6b9229d8f5a6d6375361c3ff8c7efaa16b77a6
+  wiki-create-required-directories: 0e0898a857ae1303dcdd847ffb25633c3e62603c
+  mantis-create-required-directories: 1e1c207390b2c0c1e4afc8f0853fe18081a105f5
 Unapplied:
 Hidden:

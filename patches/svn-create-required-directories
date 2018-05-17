@@ -1,5 +1,5 @@
 Bottom: 144bd72f48f113697788647728b0168733993d0e
-Top:    ba9f59aa5dd075e2976d3697518bf385aa505f46
+Top:    c8bb292b87ff79c1d8784dd849876714772c7bf7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -20,15 +20,16 @@ index 967bca5..7397d68 100644
      libapache2-svn \
      php5-common \
 diff --git a/docker/docker-svn/configure.sh b/docker/docker-svn/configure.sh
-index fab90ad..bff6502 100755
+index fab90ad..21c3114 100755
 --- a/docker/docker-svn/configure.sh
 +++ b/docker/docker-svn/configure.sh
-@@ -6,6 +6,10 @@ SVN_BASE_DIR=/var/lib/svn
+@@ -6,6 +6,11 @@ SVN_BASE_DIR=/var/lib/svn
  # Create a directory for a dead symlink
  mkdir /var/cache/websvn/tmp
  
 +# Create certificate directories
 +mkdir -p /etc/grid-security/certificates
++mkdir -p /etc/ssl/certs/
 +mkdir -p /etc/ssl/private
 +
  # comment out apache2 config file lines that reference the environment variables
