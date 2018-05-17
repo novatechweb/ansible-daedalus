@@ -1,12 +1,11 @@
 Bottom: 740aa23160ab1228f7ea7acc404f1cc6c8572955
-Top:    46f5ae8693bbf1fc0640f1a7aa2ff7933faa9920
+Top:    0b5f3e471409384ccdec01309ac99bdd4ac8444a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-05-10 12:19:57 -0500
+Date:   2018-05-17 16:38:15 -0500
 
 Use docker named volumes
 
 Instead of a data container, use docker named volume
-
 
 ---
 diff --git a/docker/docker-mantisbt/mantisbt.sh b/docker/docker-mantisbt/mantisbt.sh
@@ -40,10 +39,10 @@ index d52bd31..be0f4f0 100755
  get_db_user_and_password() {
      db_user="$(docker 2>&1 exec ${WIKI_CONTAINER_NAME} grep -e '^$wgDBuser' LocalSettings.php|sed 's|^.* = \"\(.*\)\";$|\1|' || true)"
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index f996918..6236d76 100644
+index f996918..46945b1 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
-@@ -92,10 +92,8 @@
+@@ -92,10 +92,12 @@
  # Create the data volumes
  
  - name: data-volume container
@@ -52,10 +51,22 @@ index f996918..6236d76 100644
 -    image_tag: '{{ docker_image_tag }}'
 -    data_volume_container_name: '{{ exim4_dv_name }}'
 +  docker_volume:
++    name: '{{ exim4_cv_name }}'
++
++- name: data-volume container
++  docker_volume:
 +    name: '{{ exim4_dv_name }}'
  
  # *****************************************************************************
  # Start the data container running
+@@ -109,6 +111,7 @@
+     restart_policy: always
+     state: started
+     volumes:
++      - '{{ exim4_cv_name }}:/etc/exim4:z'
+       - '{{ exim4_dv_name }}:/var/spool/exim4:z'
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+ 
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
 index 0da097e..0e7407b 100644
 --- a/roles/docker-gitlab/tasks/main.yml

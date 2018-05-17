@@ -1,5 +1,5 @@
-Bottom: a361e7ccb9b442661158dd90b81b0f1818ae7515
-Top:    7bc209e7f33b78b0034e6557a85569daef60c9c9
+Bottom: e4357368a913d3d509e9a6df5b4cdf65fd0d9c3f
+Top:    660afde2084a45210b939fc4244f01d007addefa
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -556,10 +556,10 @@ index be79a68..2676649 100644
  # *****************************************************************************
  # For old backups that included the mysql database.
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index e001fe9..33d3865 100644
+index 201ff7a..052ad8c 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
-@@ -106,7 +106,7 @@
+@@ -110,7 +110,7 @@
        - name: '{{ docker_network_frontend }}'
      ports: '{{ exim4_ports }}'
      image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
@@ -567,8 +567,8 @@ index e001fe9..33d3865 100644
 +    restart_policy: no
      state: started
      volumes:
-       - '{{ exim4_dv_name }}:/var/spool/exim4:z'
-@@ -117,6 +117,7 @@
+       - '{{ exim4_cv_name }}:/etc/exim4:z'
+@@ -122,6 +122,7 @@
  
  - include_tasks: restore.yml
    when: st_exim4_restore.stat.exists == False
