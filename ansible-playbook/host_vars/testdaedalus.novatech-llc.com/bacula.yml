@@ -1,0 +1,4 @@
+bacula_storage_device_name: "FileStorage"
+bacula_storage_device_type: File
+bacula_storage_device_archive_device: "/mnt/bacula-storage"
+bacula_storage_device_media_type: "disk0"
