@@ -84,6 +84,7 @@
     name: '{{ mantisbt_image_name }}'
     tag: '{{ docker_image_tag }}'
     path: '{{ docker_projects_dir }}/docker-mantisbt'
+    force: true
   
 # *****************************************************************************
 # Create the data volumes
@@ -124,7 +125,7 @@
   docker_container:
     name: '{{ mantisbt_db_dv_name}}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     image: '{{ mantisbt_db_image_name }}'
     volumes:
       - '{{ mantisbt_db_cv_name }}:/etc/mysql/conf.d:z'
@@ -157,7 +158,7 @@
   docker_container:
     name: '{{ mantisbt_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ mantisbt_hostname }}'
     ports: '{{ mantisbt_port_args }}'
     networks:

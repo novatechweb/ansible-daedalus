@@ -1,0 +1,26 @@
+---
+# tasks file for bacula-restores
+
+- name: List bacula-restores
+  find:
+    paths: /mnt/bacula-restores
+    file_type: file
+    recurse: yes
+  register: bacula_restores_list
+
+- name: Create bacula-restores symlinks
+  file:
+    path: '{{ item.path | replace("/mnt/bacula-restores","/tmp/bacula-restores") | dirname }}'
+    state: directory
+    force: yes
+    mode: 0777
+  with_items: '{{ bacula_restores_list.files }}'
+
+- name: Create bacula-restores directories
+  file:
+    src: '{{ item.path }}'
+    dest: '{{ item.path | replace("/mnt/bacula-restores","/tmp/bacula-restores") }}'
+    state: link
+    force: yes
+    mode: '{{ item.mode }}'
+  with_items: '{{ bacula_restores_list.files }}'
