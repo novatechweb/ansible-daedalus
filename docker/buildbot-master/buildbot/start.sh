@@ -8,5 +8,5 @@ chmod -R 600 ${HOME}/.ssh/*
 
 ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
 
-/usr/bin/buildbot --verbose upgrade-master
-exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
+# Run original buildbot entrypoint
+exec "/usr/src/buildbot/docker/start_buildbot.sh"
