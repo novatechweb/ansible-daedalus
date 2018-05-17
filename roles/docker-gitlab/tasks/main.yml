@@ -214,3 +214,4 @@
 
 - include_tasks: restore.yml
   when: st_gitlab_restore.stat.exists == False
+  tags: restore
