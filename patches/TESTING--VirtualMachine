@@ -15,6 +15,11 @@ Add Vagrant configuration
 
 Set docker container restart_policy to no for testing purposes
 
+Add bacula-restores task to symlink backup files to bacula restore folder
+
+Comment out restore file permission tasks:
+- can't set permissions on symlinks
+
 
 ---
 diff --git a/.gitignore b/.gitignore

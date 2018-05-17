@@ -1,6 +1,6 @@
 Version: 1
-Previous: 0650ecfd47cf41a852be91191e8a60c30344643f
-Head: aa000bba23d44883df09d86bed9f72b81127ece6
+Previous: d144a2fbe8c68c39de1039c52ae73287f8d76f86
+Head: 37fc8a098302a2c267fb7a095f9d63c9f729e8de
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -46,15 +46,15 @@ Applied:
   svn-allow-empty: 6da306df930bb976ca2fda78875688374f343e2c
   svn-create-required-directories: 6e7b4e5a190394ef8e3d809f5a73f7ced3b9b0da
   wiki-downgrade-extensions: 7d0f16f9ef87cbe94627ca62abfc0363b5630e72
-  TESTING--VirtualMachine: cb6498437618a78c8e47e31f4df8ee57573ba702
-  buildbot-master: 9ebc70a1a9ced8d9d5edfeb19359da234d17e837
-  buildbot-worker-ntel: a59afff6571136695d8948f3c68807e555f93abb
-  buildbot-worker-ptxdist: 65ad98ad0afebac7edfdca7760a4e4ed08157ee6
-  fix-ssh-folder-permission: fc830afca043efd20c338fd021c3c5233f3383d5
-  update-ntel-builds-for-new: ac44e3de0cf91076d381fc9618ac7182fb7ae9b8
-  add-parameter-for-buildbot: 644abc5feaa8aab668540449ae92ccae8cd599e3
-  update-ptxdist-build-factories: bdacee8826af5debd98b99a0ee009ca59081a231
-  all-move-vars-to-defaults: aa000bba23d44883df09d86bed9f72b81127ece6
+  TESTING--VirtualMachine: 227ceb720ad4d01ef1f76baed77b1e51448c3337
+  buildbot-master: aed008a9d12010fcaff315bf846313e137b8ce9e
+  buildbot-worker-ntel: 5aa0509f2fffb4a4b71a35dce92777d2b2cfc940
+  buildbot-worker-ptxdist: 1ece133e87e4f9d7bbfe0e6cff2fa6735badf4b4
+  fix-ssh-folder-permission: 6d67ffadc353026b48ddeb6509a817c3175f1340
+  update-ntel-builds-for-new: fe9937a67e7982f149535b1788cf7ecdb62d3e1a
+  add-parameter-for-buildbot: 7497e8178e794d77f1fbae6e9a0328d831221692
+  update-ptxdist-build-factories: d7a2e0a8d0bc554295311f998f8d37dd9605760d
+  all-move-vars-to-defaults: 37fc8a098302a2c267fb7a095f9d63c9f729e8de
 Unapplied:
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
   mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
