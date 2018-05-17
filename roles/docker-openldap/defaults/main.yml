@@ -34,6 +34,7 @@ openldap_image_name: '{{ docker_registry_username }}/ldap'
 openldap_container_name: '{{ docker_name_prefix }}ldap'
 
 # the name of the data-volume used by the container
+openldap_cv_name: '{{ docker_name_prefix }}openldap_CV'
 openldap_dv_name: '{{ docker_name_prefix }}openldap_DV'
 
 # restore directories to temporarly store data being restored into docker containers
