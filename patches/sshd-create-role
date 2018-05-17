@@ -1,0 +1,10 @@
+Bottom: 61dd2f91120fbddb9e952a5401a5aefda794e588
+Top:    61dd2f91120fbddb9e952a5401a5aefda794e588
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 16:14:44 -0500
+
+Create new role sshd for configuring ssh server daemon
+
+
+---
+
