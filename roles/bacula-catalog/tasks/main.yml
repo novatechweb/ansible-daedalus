@@ -4,3 +4,4 @@
   register: filecount
 - include_tasks: restore-catalog-with-bsr.yml
   when: filecount.stdout_lines[1] == "0"
+  tags: restore

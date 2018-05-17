@@ -100,6 +100,7 @@
     name: '{{ mantisbt_image_name }}'
     tag: '{{ docker_image_tag }}'
     path: '{{ docker_projects_dir }}/docker-mantisbt'
+    force: true
 
 # - name: Checkout db repo
 #   git:
@@ -205,7 +206,7 @@
   docker_container:
     name: '{{ mantisbt_db_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     volumes:
       - '{{ mantisbt_db_cv_name }}:/etc/mysql/conf.d:z'
       - '{{ mantisbt_db_dv_name }}:/var/lib/mysql:z'
@@ -217,7 +218,7 @@
   docker_container:
     name: '{{ mantisbt_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ mantisbt_hostname }}'
     ports: '{{ mantisbt_port_args }}'
     networks:
@@ -248,3 +249,4 @@
 
 - include_tasks: restore.yml
   when: st_mantisbt_restore.stat.exists == False
+  tags: restore

@@ -98,6 +98,7 @@
     name: '{{ wiki_image_name }}'
     tag: '{{ docker_image_tag }}'
     path: '{{ docker_projects_dir }}/docker-mediawiki'
+    force: True
 
 # *****************************************************************************
 # Create the data volumes
@@ -159,7 +160,7 @@
   docker_container:
     name: '{{ wiki_db_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     volumes:
       - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
     image: '{{ wiki_db_image_name }}:{{ wiki_db_image_tag }}'
@@ -170,7 +171,7 @@
   docker_container:
     name: '{{ wiki_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ wiki_hostname }}'
     ports: '{{ wiki_port_args }}'
     networks:
@@ -189,3 +190,4 @@
 
 - include_tasks: restore.yml
   when: st_mediawiki_restore.stat.exists == False
+  tags: restore
