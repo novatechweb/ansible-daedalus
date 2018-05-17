@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2f818054d564823d4923c4e1ca4dc6777a2014c8
-Head: 3cf37c5f42821a6eb9bc7bf46e0c1a9a3d0ed626
+Previous: 35476ef23102866584b0552ed7c5647c9cb943e0
+Head: ce964ec11ef44e95aad4357ad630872c0bbf9397
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -54,8 +54,7 @@ Applied:
   update-ntel-builds-for-new: be6db1c5e1d553a5b795eff7036d4d944c64889c
   add-parameter-for-buildbot: f3c83fe48371f918cdc9de2b0cdd5a8f726268e6
   update-ptxdist-build-factories: f2a28dcd5420cdf42fe2a423f8475c62bede9179
-  all-move-vars-to-defaults: 5f3a8e6ddb7f64d5f19ecaa2ef06f8e697aa889a
-  refresh-temp: 3cf37c5f42821a6eb9bc7bf46e0c1a9a3d0ed626
+  all-move-vars-to-defaults: ce964ec11ef44e95aad4357ad630872c0bbf9397
 Unapplied:
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
   mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
