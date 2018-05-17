@@ -8,6 +8,7 @@ mkdir /var/cache/websvn/tmp
 
 # Create certificate directories
 mkdir -p /etc/grid-security/certificates
+mkdir -p /etc/ssl/certs/
 mkdir -p /etc/ssl/private
 
 # comment out apache2 config file lines that reference the environment variables
