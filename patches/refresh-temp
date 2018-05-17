@@ -1,0 +1,23 @@
+Bottom: fcb7dde1338044155e0054bd3840e653c8498b60
+Top:    78dc386e208144efef4f20467bb51e5f8de4f1de
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 16:46:15 -0500
+
+Refresh of TESTING--VirtualMachine
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 94a0c79..a13da32 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -41,6 +41,10 @@
+     role: sshd
+     tags:
+     - sshd
++  - name: Run bacula-restores symlinks
++    role: bacula-restores
++    tags:
++    - bacula_restores
+   - name: Run common Docker tasks
+     role: docker-common
+     tags:
