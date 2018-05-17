@@ -1,6 +1,6 @@
 Version: 1
-Previous: 7d7cc1d622130ff50bdc3ba46d2668d18c641c44
-Head: ede8a53045c80d4a4664b7c0b3ec803dc9f7db41
+Previous: a10e758b4c1a79fb315e963e0b9efcbc9b83c216
+Head: 1e7f4084f718d9927a847382ab704fb6c74babcf
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -57,5 +57,6 @@ Applied:
   all-move-vars-to-defaults: 8aa5dbebdee0236cd06890bf30933fb7e4ce6f0c
   wiki-create-required-directories: 25d010e7a5e639e8334569e28cfc29bf812b595b
   mantis-create-required-directories: ede8a53045c80d4a4664b7c0b3ec803dc9f7db41
+  refresh-temp: 1e7f4084f718d9927a847382ab704fb6c74babcf
 Unapplied:
 Hidden:
