@@ -20,13 +20,13 @@
     path_to_restore: '{{ openssl_docker_backup_dir }}'
   when: st_openssl_backup_file.stat.exists == False
 
-- name: Set permissions for data-volume data
-  file:
-    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rw,g=rw,o='
+# - name: Set permissions for data-volume data
+#   file:
+#     path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rw,g=rw,o='
 
 - name: exists - openssl archive
   stat:
