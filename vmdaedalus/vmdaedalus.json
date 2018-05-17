@@ -1,0 +1,43 @@
+{
+    "variables": {
+    },
+    "builders": [{
+        "type": "virtualbox-iso",
+        "guest_os_type": "RedHat_64",
+        "iso_url": "/home/coopera/Downloads/CentOS-7-x86_64-DVD-1708/CentOS-7-x86_64-DVD-1708.iso",
+        "iso_checksum": "ec7500d4b006702af6af023b1f8f1b890b6c7ee54400bb98cef968b883cd6546",
+        "iso_checksum_type": "sha256",
+        "ssh_username": "vagrant",
+        "ssh_password": "vagrant",
+        "ssh_wait_timeout": "600s",
+        "vm_name": "vmdaedalus",
+        "http_directory": "./",
+        "boot_wait": "10s",
+        "boot_command": [
+            "<esc><wait>",
+            "linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/vmdaedalus.cfg",
+            "<enter><wait>"
+        ],
+        "shutdown_command": "echo 'vagrant' |sudo -S shutdown -P now",
+        "vboxmanage": [
+            ["modifyvm", "{{.Name}}", "--memory", "512"],
+            ["modifyvm", "{{.Name}}", "--usb", "off"],
+            ["modifyvm", "{{.Name}}", "--audio", "none"]
+        ],
+        "disk_size": "120000"
+    }],
+    "provisioners": [{
+        "type": "shell",
+        "inline": [
+            "sudo yum -y install gcc make bzip2 kernel-headers kernel-devel dkms",
+            "sudo yum clean all",
+            "sudo mount -o loop /home/vagrant/VBoxGuestAdditions.iso /mnt",
+            "sudo sh /mnt/VBoxLinuxAdditions.run",
+            "sudo umount /mnt"
+        ]
+    }],
+    "post-processors": [{
+        "type": "vagrant",
+        "output": "./vmdaedalus-{{.Provider}}.box"
+    }]
+}

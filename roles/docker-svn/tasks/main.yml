@@ -61,10 +61,10 @@
 
 - name: build image
   docker_image:
-    force: true
     name: '{{ svn_image_name }}'
     tag: '{{ docker_image_tag }}'
     path: '{{ docker_projects_dir }}/docker-svn'
+    force: true
 
 # *****************************************************************************
 # Create the data volumes
@@ -80,7 +80,7 @@
   docker_container:
     name: '{{ svn_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ svn_network.hostname }}'
     ports: '{{ svn_network.port_args }}'
     networks:
@@ -98,3 +98,4 @@
 
 - include_tasks: restore.yml
   when: st_svn_restore.stat.exists == False
+  tags: restore
