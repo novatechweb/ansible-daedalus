@@ -18,14 +18,14 @@
     path_to_restore: '{{ openldap_docker_backup_dir }}'
   when: ldap_backup.file_list == []
 
-- name: Set permissions for data-volume data
-  file:
-    path: '{{ host_openldap_docker_restore_dir }}/{{ item.ldif_file }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rw,g=rw,o='
-  with_items: '{{ openldap_backup_files }}'
+# - name: Set permissions for data-volume data
+#   file:
+#     path: '{{ host_openldap_docker_restore_dir }}/{{ item.ldif_file }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rw,g=rw,o='
+#   with_items: '{{ openldap_backup_files }}'
 
 # *****************************************************************************
 # restore the openldap backup
