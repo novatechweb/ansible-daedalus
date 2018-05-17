@@ -1,5 +1,5 @@
 Bottom: 2a6fdc66c0a9ead1efd24a6a00f044feb5f584c6
-Top:    2a6fdc66c0a9ead1efd24a6a00f044feb5f584c6
+Top:    75fdf7a19622ecddefb73c6f99bc4b094158ed5e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 08:54:51 -0500
 
@@ -8,4 +8,19 @@ Create certificate directories during image build
 
 
 ---
-
+diff --git a/docker/docker-mantisbt/configure.sh b/docker/docker-mantisbt/configure.sh
+index 711b554..a8e0884 100755
+--- a/docker/docker-mantisbt/configure.sh
++++ b/docker/docker-mantisbt/configure.sh
+@@ -1,6 +1,11 @@
+ #!/bin/bash
+ set -e
+ 
++# Create certificate directories
++mkdir -p /etc/grid-security/certificates
++mkdir -p /etc/ssl/certs/
++mkdir -p /etc/ssl/private
++
+ # comment out apache2 config file lines that reference the environment variables
+ sed -i 's|^Mutex file|#Mutex file|' /etc/apache2/apache2.conf
+ sed -i 's|^PidFile |#PidFile |' /etc/apache2/apache2.conf
