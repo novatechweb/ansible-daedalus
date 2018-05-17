@@ -9,6 +9,9 @@ exim4_image_name: '{{ docker_registry_username }}/exim4'
 # the name of the container being started
 exim4_container_name: '{{ docker_name_prefix }}exim4'
 
+# the name of the config-volume used by the container
+exim4_cv_name: '{{ docker_name_prefix }}exim4_CV'
+
 # the name of the data-volume used by the container
 exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
 
