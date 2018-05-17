@@ -1,5 +1,5 @@
 Bottom: ca2c29f856c93859717d62222ed613a9e814650a
-Top:    df9a67ce3d905e385ddae3a546c41ea1d76a7772
+Top:    7d0b4967d7f1d290295d816c4c269940c60225c0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 09:51:35 -0500
 
@@ -8,7 +8,7 @@ Update ptxdist build factories
 
 ---
 diff --git a/docker/buildbot-master/buildbot/ptxdist.py b/docker/buildbot-master/buildbot/ptxdist.py
-index 8502067..e50d8c6 100644
+index 8502067..a4459b8 100644
 --- a/docker/buildbot-master/buildbot/ptxdist.py
 +++ b/docker/buildbot-master/buildbot/ptxdist.py
 @@ -1,5 +1,14 @@
@@ -26,7 +26,7 @@ index 8502067..e50d8c6 100644
  
  # Workers
  # The 'workers' list defines the set of recognized buildworkers. Each element is
-@@ -45,17 +54,42 @@ schedulers = [
+@@ -45,29 +54,43 @@ schedulers = [
      #                            treeStableTimer=9*60,
      #                            builderNames=["linux-3.8_am335x"]))
      schedulers.ForceScheduler(
@@ -69,12 +69,24 @@ index 8502067..e50d8c6 100644
                  name="clobber",
                  label="Clobber build directory",
 -                default=False),
+-        ],
+-    ),
+-
+-    schedulers.Nightly(
+-        name="ptxdist-nightly",
+-        branch=None,
+-        builderNames=[
+-            "current_armeb_xscale",
+-            "current_i686",
+-            "current_am335x",
 +                default=False
 +            ),
          ],
+-        hour=22
      ),
  
-@@ -134,9 +168,8 @@ class PTXDistBuild(steps.ShellCommand):
+     schedulers.Triggerable(
+@@ -134,9 +157,8 @@ class PTXDistBuild(steps.ShellCommand):
          self.addLogObserver('stdio', counter)
          self.progressMetrics += ('targets', 'packages')
  
@@ -85,7 +97,7 @@ index 8502067..e50d8c6 100644
  
  
  @util.renderer
-@@ -148,43 +181,141 @@ def CurrentTime(props):
+@@ -148,43 +170,141 @@ def CurrentTime(props):
      return dts
  
  
@@ -264,7 +276,7 @@ index 8502067..e50d8c6 100644
  # 	"./scripts/upgradetest.py",
  # 	"load_7_upgrade_to_8",
  # 	"/srv/tftp/root.jffs2_64",
-@@ -196,10 +327,10 @@ current_armeb_xscale_factory.addStep(steps.ShellCommand(
+@@ -196,10 +316,10 @@ current_armeb_xscale_factory.addStep(steps.ShellCommand(
  # 	"orionpythontests",
  # 	"orionprotocoltests",
  # 	"--orion-config", "./local-pkg/buildslave_config_armeb-xscale.tar.gz"]))
@@ -278,7 +290,7 @@ index 8502067..e50d8c6 100644
  local_tests_armeb_xscale_factory = util.BuildFactory()
  local_tests_armeb_xscale_factory.addStep(
      steps.ShellCommand(command=["uptime"]))
-@@ -208,7 +339,7 @@ local_tests_armeb_xscale_factory.addStep(
+@@ -208,7 +328,7 @@ local_tests_armeb_xscale_factory.addStep(
  local_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
      command=["py.test"], workdir="/usr/local/OrionPythonTests"))
  
@@ -287,7 +299,7 @@ index 8502067..e50d8c6 100644
  remote_tests_armeb_xscale_factory = util.BuildFactory()
  # check out the source
  remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
-@@ -216,35 +347,35 @@ remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repo
+@@ -216,35 +336,35 @@ remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repo
  remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
      command=["py.test", "-s", "--orion=172.16.64.150", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
  
@@ -342,7 +354,7 @@ index 8502067..e50d8c6 100644
  upgrade_i686_factory = util.BuildFactory()
  upgrade_i686_factory.addStep(steps.ShellCommand(command=[
                               "upgrade", "list", "172.16.64.3/~georgem/ipkg-repository/OrionLX-i686-glibc/dists"]))
-@@ -253,21 +384,21 @@ upgrade_i686_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
+@@ -253,21 +373,21 @@ upgrade_i686_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
  upgrade_i686_factory.addStep(steps.ShellCommand(
      command=["systemctl", "start", "delayed-reboot.timer"]))
  
@@ -367,7 +379,7 @@ index 8502067..e50d8c6 100644
  upgrade_am335x_factory = util.BuildFactory()
  upgrade_am335x_factory.addStep(steps.ShellCommand(command=[
                                 "upgrade", "list", "172.16.64.3/~georgem/ipkg-repository/OrionLX-am335x-glibc/dists"]))
-@@ -276,27 +407,32 @@ upgrade_am335x_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
+@@ -276,27 +396,32 @@ upgrade_am335x_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
  upgrade_am335x_factory.addStep(steps.ShellCommand(
      command=["systemctl", "start", "delayed-reboot.timer"]))
  
@@ -407,7 +419,7 @@ index 8502067..e50d8c6 100644
  builders.append(
      BuilderConfig(name="local_tests_armeb_xscale",
                    workernames=["orion-armeb-xscale-slave"],
-@@ -305,14 +441,14 @@ builders.append(
+@@ -305,14 +430,14 @@ builders.append(
      BuilderConfig(name="remote_tests_armeb_xscale",
                    workernames=["worker-ptxdist"],
                    factory=remote_tests_armeb_xscale_factory))

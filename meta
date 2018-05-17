@@ -1,6 +1,6 @@
 Version: 1
-Previous: 8abc60fbae5b22bb285cc512c4af408fcb3a4928
-Head: 13ce1fc56dbce16a05fdc41c29d31c54433c6fb2
+Previous: 879d162e65810bd48265daa4b3b43cf0f24324a9
+Head: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -53,10 +53,9 @@ Applied:
   fix-ssh-folder-permission: 8c4cdeccf21e343c7184e24a2769adab6feb62dd
   update-ntel-builds-for-new: be6db1c5e1d553a5b795eff7036d4d944c64889c
   add-parameter-for-buildbot: f3c83fe48371f918cdc9de2b0cdd5a8f726268e6
-  update-ptxdist-build-factories: ebbd6e85367f7a822cfbc287f025b8b3f57fca3d
-  all-move-vars-to-defaults: db6b9229d8f5a6d6375361c3ff8c7efaa16b77a6
-  wiki-create-required-directories: 0e0898a857ae1303dcdd847ffb25633c3e62603c
-  mantis-create-required-directories: 1e1c207390b2c0c1e4afc8f0853fe18081a105f5
-  refresh-temp: 13ce1fc56dbce16a05fdc41c29d31c54433c6fb2
+  update-ptxdist-build-factories: f2a28dcd5420cdf42fe2a423f8475c62bede9179
+  all-move-vars-to-defaults: 5f3a8e6ddb7f64d5f19ecaa2ef06f8e697aa889a
+  wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
+  mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
 Unapplied:
 Hidden:
