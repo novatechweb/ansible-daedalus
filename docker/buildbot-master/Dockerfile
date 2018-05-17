@@ -15,7 +15,11 @@ RUN apk --no-cache add \
 
 # install pip dependencies
 RUN pip --no-cache-dir install \
-    'attrs'
+    'attrs' \
+    'buildbot-console-view' \
+    'buildbot-grid-view' \
+    'buildbot-waterfall-view' \
+    'buildbot-www'
 
 # Create buildbot user
 ARG BUILDBOT_UID=1000
