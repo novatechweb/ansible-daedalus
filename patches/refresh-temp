@@ -1,0 +1,30 @@
+Bottom: f6ed740a5fe2a475b8ce844c132f0393428e9382
+Top:    04ed8fed5e91c4ff26ea0b45d381e559d2816034
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 16:37:18 -0500
+
+Refresh of all-docker_volume
+
+---
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 33d3865..052ad8c 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -91,6 +91,10 @@
+ # *****************************************************************************
+ # Create the data volumes
+ 
++- name: data-volume container
++  docker_volume:
++    name: '{{ exim4_cv_name }}'
++
+ - name: data-volume container
+   docker_volume:
+     name: '{{ exim4_dv_name }}'
+@@ -109,6 +113,7 @@
+     restart_policy: no
+     state: started
+     volumes:
++      - '{{ exim4_cv_name }}:/etc/exim4:z'
+       - '{{ exim4_dv_name }}:/var/spool/exim4:z'
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
