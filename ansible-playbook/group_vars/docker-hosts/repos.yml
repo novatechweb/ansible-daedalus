@@ -1,0 +1,8 @@
+---
+
+openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
+openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
+wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
+mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
+svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
+buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
