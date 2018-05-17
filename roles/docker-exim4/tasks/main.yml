@@ -87,6 +87,7 @@
     name: '{{ exim4_image_name }}'
     tag: '{{ docker_image_tag }}'
     path: '{{ docker_projects_dir }}/docker-exim4'
+    force: true
 
 # *****************************************************************************
 # Create the data volumes
@@ -110,7 +111,7 @@
       - name: '{{ docker_network_frontend }}'
     ports: '{{ container_port_map.exim4.port_args }}'
     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
-    restart_policy: always
+    restart_policy: no
     state: started
     volumes:
       - '{{ exim4_cv_name }}:/etc/exim4:z'
@@ -122,6 +123,7 @@
 
 - include_tasks: restore.yml
   when: st_exim4_restore.stat.exists == False
+  tags: restore
 
 # *****************************************************************************
 # Email accounts
