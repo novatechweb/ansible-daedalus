@@ -20,9 +20,10 @@ RUN pip --no-cache-dir install \
 
 # Create buildbot user
 ARG BUILDBOT_UID=1000
+ARG BUILDBOT_DATA="/buildbot"
 COPY buildbot/ /home/buildbot/
 RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
-&&  chown -v -R buildbot:buildbot "/buildbot" \
+&&  chown -v -R buildbot:buildbot "${BUILDBOT_DATA}" \
 &&  chown -v -R buildbot:buildbot "/home/buildbot"
 
 USER buildbot
