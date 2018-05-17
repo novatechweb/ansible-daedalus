@@ -1,7 +1,7 @@
 Bottom: 740aa23160ab1228f7ea7acc404f1cc6c8572955
-Top:    0b5f3e471409384ccdec01309ac99bdd4ac8444a
+Top:    103c1733f9bb7cf3b99a177d3a6541b78b25395b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-05-17 16:38:15 -0500
+Date:   2018-05-17 16:42:10 -0500
 
 Use docker named volumes
 
@@ -66,6 +66,20 @@ index f996918..46945b1 100644
 +      - '{{ exim4_cv_name }}:/etc/exim4:z'
        - '{{ exim4_dv_name }}:/var/spool/exim4:z'
        - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+ 
+diff --git a/roles/docker-exim4/vars/main.yml b/roles/docker-exim4/vars/main.yml
+index 20d48fc..0e72776 100644
+--- a/roles/docker-exim4/vars/main.yml
++++ b/roles/docker-exim4/vars/main.yml
+@@ -9,6 +9,9 @@ exim4_image_name: '{{ docker_registry_username }}/exim4'
+ # the name of the container being started
+ exim4_container_name: '{{ docker_name_prefix }}exim4'
+ 
++# the name of the config-volume used by the container
++exim4_cv_name: '{{ docker_name_prefix }}exim4_CV'
++
+ # the name of the data-volume used by the container
+ exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
  
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
 index 0da097e..0e7407b 100644
