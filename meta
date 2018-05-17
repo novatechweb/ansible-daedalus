@@ -1,6 +1,6 @@
 Version: 1
-Previous: a8e91680fc55f3a5d0191465eb2097288f027d8a
-Head: a95fdd41c8675440c912209c7b1572de43cfcdc6
+Previous: 3420f644004b9f69846d94a364fdd0fa33798e55
+Head: 680d1c330056dbd71b0830346ef7eaa50780f188
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -46,16 +46,15 @@ Applied:
   svn-allow-empty: 6da306df930bb976ca2fda78875688374f343e2c
   svn-create-required-directories: 6e7b4e5a190394ef8e3d809f5a73f7ced3b9b0da
   wiki-downgrade-extensions: 7d0f16f9ef87cbe94627ca62abfc0363b5630e72
-  TESTING--VirtualMachine: 227ceb720ad4d01ef1f76baed77b1e51448c3337
-  buildbot-master: aed008a9d12010fcaff315bf846313e137b8ce9e
-  buildbot-worker-ntel: 5aa0509f2fffb4a4b71a35dce92777d2b2cfc940
-  buildbot-worker-ptxdist: 1ece133e87e4f9d7bbfe0e6cff2fa6735badf4b4
-  fix-ssh-folder-permission: 6d67ffadc353026b48ddeb6509a817c3175f1340
-  update-ntel-builds-for-new: fe9937a67e7982f149535b1788cf7ecdb62d3e1a
-  add-parameter-for-buildbot: 7497e8178e794d77f1fbae6e9a0328d831221692
-  update-ptxdist-build-factories: d7a2e0a8d0bc554295311f998f8d37dd9605760d
-  all-move-vars-to-defaults: 37fc8a098302a2c267fb7a095f9d63c9f729e8de
-  refresh-temp: a95fdd41c8675440c912209c7b1572de43cfcdc6
+  TESTING--VirtualMachine: 80303d981abb4340fab1ecbdcec5efad845e34ae
+  buildbot-master: 7a4b2d578d6420f356d27f4c059bb93a494438db
+  buildbot-worker-ntel: 207487f3ff0b22dd7772620f4be13740d6a479cc
+  buildbot-worker-ptxdist: 9c9fae42d48776cad983300b5663d99fdd370d78
+  fix-ssh-folder-permission: 9665c00a10e38e44d6127aead503a09ae6894481
+  update-ntel-builds-for-new: 0959a383a1afdbddbcbf819e7d24e044b79f5b87
+  add-parameter-for-buildbot: df12cd2a8efa8344368d9a0da98b04685945ecd3
+  update-ptxdist-build-factories: eb6c3d69d8c3b83c61d6e48f5f6dd60c154235b5
+  all-move-vars-to-defaults: 680d1c330056dbd71b0830346ef7eaa50780f188
 Unapplied:
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
   mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
