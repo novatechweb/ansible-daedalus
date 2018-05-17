@@ -144,7 +144,7 @@
   docker_container:
     name: '{{ mantisbt_db_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     volumes_from:
       - '{{ mantisbt_db_dv_name }}'
     image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
@@ -155,7 +155,7 @@
   docker_container:
     name: '{{ mantisbt_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ container_addr_map.mantisbt.hostname }}'
     ports: '{{ container_port_map.mantisbt.port_args }}'
     networks:
@@ -186,3 +186,4 @@
 
 - include_tasks: restore.yml
   when: st_mantisbt_restore.stat.exists == False
+  tags: restore
