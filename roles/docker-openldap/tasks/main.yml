@@ -76,11 +76,13 @@
 # *****************************************************************************
 # Create the data volumes
 
-- name: data-volume container
-  docker_datavolume:
-    image_name: '{{ openldap_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ openldap_dv_name }}'
+- name: config volume
+  docker_volume:
+    name: '{{ openldap_cv_name }}'
+
+- name: data volume
+  docker_volume:
+    name: '{{ openldap_dv_name }}'
 
 # *****************************************************************************
 # Populate the ldap data-volume with default data
@@ -92,7 +94,8 @@
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     command: ['init_data_volumes']
     volumes:
-      - '{{ openldap_dv_name }}'
+      - '{{ openldap_cv_name }}:/etc/ldap:z'
+      - '{{ openldap_dv_name }}:/var/lib/ldap:z'
   when: st_openldap_restore.stat.exists == False
 
 - name: initial populate
@@ -110,9 +113,10 @@
     restart_policy: always
     hostname: '{{ container_addr_map.ldap.hostname }}'
     ports: '{{ container_port_map.ldap.port_args }}'
-    volumes-from:
-      - '{{ openssl_dv_name }}'
-      - '{{ openldap_dv_name }}'
+    volumes:
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+      - '{{ openldap_cv_name }}:/etc/ldap:z'
+      - '{{ openldap_dv_name }}:/var/lib/ldap:z'
     env:
       LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
@@ -124,8 +128,8 @@
     restart_policy: always
     hostname: '{{ container_addr_map.ldap.hostname }}'
     ports: '{{ container_port_map.phpldapadmin.port_args }}'
-    volumes-from:
-      - '{{ openssl_dv_name }}'
+    volumes:
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
     env:
       PHPLDAPADMIN_HTTPS: 'false'
       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
