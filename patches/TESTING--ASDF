@@ -1,5 +1,5 @@
 Bottom: a361e7ccb9b442661158dd90b81b0f1818ae7515
-Top:    29d8a6a7b6d093e5768047c95b0e1cee6e99aa82
+Top:    b7467106fc6ed18e3423b307d3ef2512f53efe8f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -311,6 +311,33 @@ index b62739e..382a979 100644
  - import_tasks: restore.yml
    when: st_buildsystem_restore.stat.exists == False
 +  tags: restore
+diff --git a/roles/docker-buildsystem/tasks/restore.yml b/roles/docker-buildsystem/tasks/restore.yml
+index be79a68..2676649 100644
+--- a/roles/docker-buildsystem/tasks/restore.yml
++++ b/roles/docker-buildsystem/tasks/restore.yml
+@@ -23,14 +23,14 @@
+     path: '{{ restore_buildsystem_docker_dir }}'
+   register: buildsystem_restore_files
+ 
+-- name: File permissions
+-  file:
+-    path: '{{ restore_buildsystem_docker_dir }}/{{ item }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rwx,g=rwx,o='
+-  with_items: '{{ buildsystem_restore_files.file_list | default([]) }}'
++# - name: File permissions
++#   file:
++#     path: '{{ restore_buildsystem_docker_dir }}/{{ item }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rwx,g=rwx,o='
++#   with_items: '{{ buildsystem_restore_files.file_list | default([]) }}'
+ 
+ # *****************************************************************************
+ # For old backups that included the mysql database.
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
 index e001fe9..33d3865 100644
 --- a/roles/docker-exim4/tasks/main.yml
@@ -332,6 +359,31 @@ index e001fe9..33d3865 100644
  
  # *****************************************************************************
  # Email accounts
+diff --git a/roles/docker-exim4/tasks/restore.yml b/roles/docker-exim4/tasks/restore.yml
+index a8ad81b..e863805 100644
+--- a/roles/docker-exim4/tasks/restore.yml
++++ b/roles/docker-exim4/tasks/restore.yml
+@@ -20,13 +20,13 @@
+     path_to_restore: '{{ exim4_docker_backup_dir }}'
+   when: st_exim4_backup_file.stat.exists == False
+ 
+-- name: Set permissions for data-volume data
+-  file:
+-    path: '{{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=rw,o='
++# - name: Set permissions for data-volume data
++#   file:
++#     path: '{{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rw,g=rw,o='
+ 
+ - name: exists - exim4 archive
+   stat:
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
 index 50f71c6..ac5ffcc 100644
 --- a/roles/docker-gitlab/tasks/main.yml
@@ -368,6 +420,33 @@ index 50f71c6..ac5ffcc 100644
  - include_tasks: restore.yml
    when: st_gitlab_restore.stat.exists == False
 +  tags: restore
+diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
+index 6d40fff..90c7934 100644
+--- a/roles/docker-gitlab/tasks/restore.yml
++++ b/roles/docker-gitlab/tasks/restore.yml
+@@ -23,14 +23,14 @@
+     path: '{{ host_gitlab_docker_restore_dir }}'
+   register: gitlab_backup
+ 
+-- name: File permissions
+-  file:
+-    path: '{{ host_gitlab_docker_restore_dir }}/{{ item }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rwx,g=rwx,o='
+-  with_items: '{{ gitlab_backup.file_list | default([]) }}'
++# - name: File permissions
++#   file:
++#     path: '{{ host_gitlab_docker_restore_dir }}/{{ item }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rwx,g=rwx,o='
++#   with_items: '{{ gitlab_backup.file_list | default([]) }}'
+ 
+ # *****************************************************************************
+ # restore the gitlap backup
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
 index df44519..3ee9591 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
@@ -395,6 +474,63 @@ index df44519..3ee9591 100644
  - include_tasks: restore.yml
    when: st_mantisbt_restore.stat.exists == False
 +  tags: restore
+diff --git a/roles/docker-mantisbt/tasks/restore.yml b/roles/docker-mantisbt/tasks/restore.yml
+index 19eeaa8..323c254 100644
+--- a/roles/docker-mantisbt/tasks/restore.yml
++++ b/roles/docker-mantisbt/tasks/restore.yml
+@@ -34,29 +34,29 @@
+     path_to_restore: '{{ mantisbt_docker_backup_dir }}'
+   when: st_mantisbt_static_archive.stat.exists == False or st_mantisbt_SQL_file.stat.exists == False or st_mantisbt_files_table_SQL_file.stat.exists == False
+ 
+-- name: permissions - Static
+-  file:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=rw,o='
+-
+-- name: permissions - SQL (files table)
+-  file:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=rw,o='
+-
+-- name: permissions - SQL (remaining tables)
+-  file:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=rw,o='
++# - name: permissions - Static
++#   file:
++#     path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rw,g=rw,o='
++
++# - name: permissions - SQL (files table)
++#   file:
++#     path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rw,g=rw,o='
++
++# - name: permissions - SQL (remaining tables)
++#   file:
++#     path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rw,g=rw,o='
+ 
+ - name: exists - Static
+   stat:
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
 index 251ba34..580c03f 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
@@ -422,6 +558,46 @@ index 251ba34..580c03f 100644
  - include_tasks: restore.yml
    when: st_mediawiki_restore.stat.exists == False
 +  tags: restore
+diff --git a/roles/docker-mediawiki/tasks/restore.yml b/roles/docker-mediawiki/tasks/restore.yml
+index 0307d42..90b9b94 100644
+--- a/roles/docker-mediawiki/tasks/restore.yml
++++ b/roles/docker-mediawiki/tasks/restore.yml
+@@ -27,21 +27,21 @@
+     path_to_restore: '{{ wiki_docker_backup_dir }}'
+   when: st_wiki_static_archive.stat.exists == False or st_wiki_SQL_file.stat.exists == False
+ 
+-- name: permissions - Static
+-  file:
+-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=rw,o='
++# - name: permissions - Static
++#   file:
++#     path: '{{ host_wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rw,g=rw,o='
+ 
+-- name: permissions - SQL
+-  file:
+-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=rw,o='
++# - name: permissions - SQL
++#   file:
++#     path: '{{ host_wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rw,g=rw,o='
+ 
+ - name: exists - Static
+   stat:
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
 index 061770f..125fc4f 100644
 --- a/roles/docker-openldap/tasks/main.yml
@@ -452,6 +628,33 @@ index 061770f..125fc4f 100644
  
  # *****************************************************************************
  # Set the LDAP passwords
+diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
+index 8e4a335..34c83e2 100644
+--- a/roles/docker-openldap/tasks/restore.yml
++++ b/roles/docker-openldap/tasks/restore.yml
+@@ -18,14 +18,14 @@
+     path_to_restore: '{{ openldap_docker_backup_dir }}'
+   when: ldap_backup.file_list == []
+ 
+-- name: Set permissions for data-volume data
+-  file:
+-    path: '{{ host_openldap_docker_restore_dir }}/{{ item.ldif_file }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=rw,o='
+-  with_items: '{{ openldap_backup_files }}'
++# - name: Set permissions for data-volume data
++#   file:
++#     path: '{{ host_openldap_docker_restore_dir }}/{{ item.ldif_file }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rw,g=rw,o='
++#   with_items: '{{ openldap_backup_files }}'
+ 
+ # *****************************************************************************
+ # restore the openldap backup
 diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
 index 7bb3bf8..a3828f6 100644
 --- a/roles/docker-openssl/tasks/main.yml
@@ -461,6 +664,31 @@ index 7bb3bf8..a3828f6 100644
  - include_tasks: restore.yml
    when: st_openssl_restore.stat.exists == False
 +  tags: restore
+diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
+index 21628c8..7740ffa 100644
+--- a/roles/docker-openssl/tasks/restore.yml
++++ b/roles/docker-openssl/tasks/restore.yml
+@@ -20,13 +20,13 @@
+     path_to_restore: '{{ openssl_docker_backup_dir }}'
+   when: st_openssl_backup_file.stat.exists == False
+ 
+-- name: Set permissions for data-volume data
+-  file:
+-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rw,g=rw,o='
++# - name: Set permissions for data-volume data
++#   file:
++#     path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rw,g=rw,o='
+ 
+ - name: exists - openssl archive
+   stat:
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
 index f87afb7..2fc8540 100644
 --- a/roles/docker-svn/tasks/main.yml
@@ -479,6 +707,33 @@ index f87afb7..2fc8540 100644
  - include_tasks: restore.yml
    when: st_svn_restore.stat.exists == False
 +  tags: restore
+diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
+index 34cee1e..f8bf2a2 100644
+--- a/roles/docker-svn/tasks/restore.yml
++++ b/roles/docker-svn/tasks/restore.yml
+@@ -23,14 +23,14 @@
+     path: '{{ host_svn_docker_restore_dir }}'
+   register: svn_repo_backup
+ 
+-- name: File permissions
+-  file:
+-    path: '{{ host_svn_docker_restore_dir }}/{{ item }}'
+-    state: touch
+-    owner: root
+-    group: root
+-    mode: 'u=rwx,g=rwx,o='
+-  with_items: '{{ svn_repo_backup.file_list | default([]) }}'
++# - name: File permissions
++#   file:
++#     path: '{{ host_svn_docker_restore_dir }}/{{ item }}'
++#     state: touch
++#     owner: root
++#     group: root
++#     mode: 'u=rwx,g=rwx,o='
++#   with_items: '{{ svn_repo_backup.file_list | default([]) }}'
+ 
+ # *****************************************************************************
+ # restore the svn backup
 diff --git a/vmdaedalus/.gitignore b/vmdaedalus/.gitignore
 new file mode 100644
 index 0000000..c148b6f

@@ -1,6 +1,6 @@
 Version: 1
-Previous: 96673cd53a67b5f7717ba76f1496517a416b14b6
-Head: 5844e111814c8efb1ed878d515069d88ab0619f4
+Previous: 932d5b35dd29affb82c0ceed667097cbfea6e921
+Head: aa000bba23d44883df09d86bed9f72b81127ece6
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -46,16 +46,15 @@ Applied:
   svn-allow-empty: 6da306df930bb976ca2fda78875688374f343e2c
   svn-create-required-directories: 6e7b4e5a190394ef8e3d809f5a73f7ced3b9b0da
   wiki-downgrade-extensions: 7d0f16f9ef87cbe94627ca62abfc0363b5630e72
-  TESTING--ASDF: 6b50ac121dca1a67dbfc46283e3d9a6f27aaa0ca
-  buildbot-master: 81423e40def2e390873aee605658d72f39d7ab18
-  buildbot-worker-ntel: b9c4cf17d3bc736edfb5c339dab41b0c2206ebfe
-  buildbot-worker-ptxdist: 8b78a276aff5b4cf29d528811fc359abdb373282
-  fix-ssh-folder-permission: 005ff6065f233ec30c56275e5ebe568f3a7ee7d7
-  update-ntel-builds-for-new: 25de5381a0cf6bdb9672748e77171962a6d81cd5
-  add-parameter-for-buildbot: 9fa310cf72b3b3fb344478d13486e7527807c0d3
-  update-ptxdist-build-factories: f9c4026742562faf5464d0ca5787e14060469ff3
-  all-move-vars-to-defaults: f9b999f05d7d0f87ba75f3051f815db572aaa60f
-  refresh-temp: 5844e111814c8efb1ed878d515069d88ab0619f4
+  TESTING--ASDF: cb6498437618a78c8e47e31f4df8ee57573ba702
+  buildbot-master: 9ebc70a1a9ced8d9d5edfeb19359da234d17e837
+  buildbot-worker-ntel: a59afff6571136695d8948f3c68807e555f93abb
+  buildbot-worker-ptxdist: 65ad98ad0afebac7edfdca7760a4e4ed08157ee6
+  fix-ssh-folder-permission: fc830afca043efd20c338fd021c3c5233f3383d5
+  update-ntel-builds-for-new: ac44e3de0cf91076d381fc9618ac7182fb7ae9b8
+  add-parameter-for-buildbot: 644abc5feaa8aab668540449ae92ccae8cd599e3
+  update-ptxdist-build-factories: bdacee8826af5debd98b99a0ee009ca59081a231
+  all-move-vars-to-defaults: aa000bba23d44883df09d86bed9f72b81127ece6
 Unapplied:
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
   mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
