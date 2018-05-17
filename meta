@@ -1,6 +1,6 @@
 Version: 1
-Previous: b2e68ba613033d63544648c242740da14bae3c2d
-Head: 15e9b905b0d7c7e59f2ed9e9cbf62a5b06deb1c7
+Previous: 1c80f792ff0c8f5a9d7860681cc3331b9d811632
+Head: 91e29186644d8abce24acd68668bc63f3a47a191
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -17,45 +17,45 @@ Applied:
   playbook-remove-docker-pull-images: 295928b6daede5a0fd1abb6ade1ce2c3f6c049b4
   all-docker_container: 5e7361d94f610ac075eacae34f5ba0931b69a20c
   all-docker_volume: 15e9b905b0d7c7e59f2ed9e9cbf62a5b06deb1c7
+  all-docker_network: 8fdfc7581d55e6d7414e7c899353d4a4e2283389
+  all-docker_image: 9f6aaa547edcd2595edd05989ad141d46695635c
+  playbook-remove-docker-build-base-image: e528ca3cbc1e00af2c781a816de0562eb1cf84d5
+  all-cut-dependencies: 1df5ffba27d6ad20d363f69b2bdadc7fa41a136c
+  bacula-improve-bacula-bootstrap-script: 5393b050b617b3b00fbfa47fcc1d4e244f179b4d
+  common-update-python-docker-client: e685b1cef915fd8af092b0e887a510ddbde1316e
+  common-install-latest-available: 09a842eba2239924e601dfb5641939a6c8180d29
+  common-remove-backup-directory: c9ebb1ed8e33bfb839feffb66d47b15354822926
+  common-remove-container-conf: cbd0ebb1f42072f173e080a5721bf94ba6c2e141
+  common-configure-docker-daemon: 9854ac7fbd5ff976f9b4f7f83f1a87b9cf7cca20
+  common-move-mariadb-config-to-maria: fd1fc7ef295c5d8e3407302f7ec19e7025fd48e5
+  common-move-sshd-config-to-setup: c9ff653a88f959e4cf65515c82b100196ed4fa59
+  buildsystem-credentials: 1cf35027754d0d56b1fa24b4378222cbb4e2645e
+  buildsystem-apache2-version-string: 7cdafc0384a8cf7ddb7187e215b919d10918013f
+  buildsystem-limit-mysql-backups: 5d927b23e392f25f6b3eb760ea3e37844ee59006
+  exim4-configuration: ad79ea2bcf42d5626bc2f22b63cf6c0275ca06ff
+  exim4-dockerfile: 5f310f50a68a93a3588594aad91ffbe041c6ba8e
+  exim4-ip-address: 4974b852965476f8187d13014fe438c8078dce0e
+  exim4-mailname: 7772a9c6f979b0c141f1f27c2d743a0fc584583f
+  exim4-ignore-monolithic-template: 2d7e9f2442fa8765f6180aece1ac7bdb79e24aa0
+  exim4-install-key-crt: 08f45707b199143904fd6f26553c372671826364
+  exim4-exec-account-script: ee46f314ef8eb31df8e366c8fc57da6f85f9fcaf
+  ldap-wait-on-startup: f90593276249036caf5fe013fffdac16b8421f9f
+  ldap-add-phpldapadmin: 005ff560ad7425ed1afd7787f80c7935cfb95c0e
+  ssl-limit-scope: a0c3455286d2b5ea12e9f0ffd369c0a47992398b
+  svn-hotcopy: e166bff97c6d3f85913bb87b2b653d24d8788ff4
+  svn-allow-empty: 97719eecf8b59bed52da500da8e2b30069504395
+  svn-create-required-directories: 6ba24f64a3050842efcadaddee12620bc77b15dc
+  wiki-downgrade-extensions: 543523bbdc8bdc873290658006012b85ac2652e4
+  TESTING--VirtualMachine: 69ad84273e57d2a77558ff05d9f7271814bf0efc
+  buildbot-master: 60541c190a7044d900577f8b879d6de0db462d8e
+  buildbot-worker-ntel: 5386ac43e346786ea01323504048910a85bc7672
+  buildbot-worker-ptxdist: 7cf1937201c83bc77e159d1dd95b2958d68b09b9
+  fix-ssh-folder-permission: dc9967f6450c5c0d32e40cca547ce278d2714fa5
+  update-ntel-builds-for-new: 25924d4ccede21b36c9a8b525594851eb6fe2b20
+  add-parameter-for-buildbot: e54859e7e9fa702415c4437ee8bd193ce4718051
+  update-ptxdist-build-factories: ef0b5885340b9696608146837ea7984feaa4189c
+  all-move-vars-to-defaults: 91e29186644d8abce24acd68668bc63f3a47a191
 Unapplied:
-  all-docker_network: 692ac84f0173dd3808d719562c08678f611c2dc6
-  all-docker_image: f8eb740aafdee318bffe2f5ba40a3ee389a0adeb
-  playbook-remove-docker-build-base-image: 82652e0728777e9c901e974d2952859486c244d3
-  all-cut-dependencies: a487302522260a10a188af08acc690ce21994045
-  bacula-improve-bacula-bootstrap-script: 0310245c2ab7127bd564f620412297f7a2bec403
-  common-update-python-docker-client: fa7656a1bb78f28b55275d3b5ed9b270e08688e7
-  common-install-latest-available: 01444cfab307f7b16b9c348bd2a7d8937675f4ae
-  common-remove-backup-directory: e15963be4594c3fbe4f8d0a48dad89447d9522ea
-  common-remove-container-conf: 94be288512bc230f90efb8b4cf72349ebb822973
-  common-configure-docker-daemon: ada5313af014b129aa3bd2ee772feb0af6854306
-  common-move-mariadb-config-to-maria: aef0bc2d826c82aba71c67f33b0209d9049bbd8e
-  common-move-sshd-config-to-setup: 197f6dbeae454e5f5c95e0de9fec7ddc0a132179
-  buildsystem-credentials: b91cce95c63932e0459f44cdf778ad0b063641cb
-  buildsystem-apache2-version-string: ab53ba99163c5fec672a8cc0a7016ebc032bfa42
-  buildsystem-limit-mysql-backups: fcc6a5898787375d1c663a564760a5d0f41d2b09
-  exim4-configuration: ca8d4e2dc5108f7245fc836c2d7b2dad5ee9adf2
-  exim4-dockerfile: e08452cf9a9e7b334222b2a0ed30c432ff98ca5d
-  exim4-ip-address: 30d635486b1ebfce04757de757ded887be5628c6
-  exim4-mailname: e5d510f568d1b39ff5f96b7c144cb63d6844826e
-  exim4-ignore-monolithic-template: d9f72afee7279f0d77e6a2b02a73219d0994ed5d
-  exim4-install-key-crt: bb6cc534a7e94be184cfdee390f01d7766d84e4d
-  exim4-exec-account-script: 4a91dc1d851166411ef3f01dbe0116213129942d
-  ldap-wait-on-startup: 722df22d2a93367fea9f05bd9dc4196edc5853b7
-  ldap-add-phpldapadmin: da20ea85cfe88541513f0f0d35d7bc5b97d85a93
-  ssl-limit-scope: 592a43a68b4cb30890851d57230b801b0a06873f
-  svn-hotcopy: a98e07e31edfbf722f7b562a692dfd22b212dabe
-  svn-allow-empty: 38e045da049df7d3a23451611b283725779c2d99
-  svn-create-required-directories: c9bf559b21fbb5669ee7130ec2c32734d4a1bca4
-  wiki-downgrade-extensions: 3f6c948739b5a49b3801fb1d7d9c3287b62e569f
-  TESTING--VirtualMachine: 96d4599060816c880e98e37ce15011ff28f46a61
-  buildbot-master: 8aaba87a483496c36734b05aae20d80601e713f2
-  buildbot-worker-ntel: 9fabc8e5445bcf1b81a226bd695a6d87a6fd5b08
-  buildbot-worker-ptxdist: e0388893808b81f74cbe6ce1bbd3c4460aeb2fa3
-  fix-ssh-folder-permission: f1f70dad6d13763888ada63006e14059b08b9c51
-  update-ntel-builds-for-new: ad7e38b638c6be2d7e5f5e9f95525f6e264af650
-  add-parameter-for-buildbot: 5bdf97c588ebeb9a4a20086cac994ab33c54aab5
-  update-ptxdist-build-factories: d6a4be1b15f73cf4b801374c657b4ffbee297800
-  all-move-vars-to-defaults: 52ce460b0d6c7b099a368088141af788ca5feb23
   sshd-create-role: 400363229398178b3266a0c1db71db3693feb1b2
   wiki-create-required-directories: 8cd423cfd91e2a5fbf28862d6b11884e09ba5bf8
   mantis-create-required-directories: 10ab14f07791b48c11f2f00eeacbbf29a67367c6
