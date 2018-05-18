@@ -104,7 +104,7 @@
   docker_container:
     name: '{{ exim4_container_name }}'
     hostname: '{{ container_addr_map.exim4.hostname }}'
-    ports: '{{ exim4_ports }}'
+    ports: '{{ container_port_map.exim4.port_args }}'
     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
     restart_policy: always
     state: started
