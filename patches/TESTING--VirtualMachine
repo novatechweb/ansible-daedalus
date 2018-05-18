@@ -1,5 +1,5 @@
-Bottom: 7d186662a3ecdcf44a77317ec80f8bb3964b4f3f
-Top:    3b2b644785d62b23defac8d261551362f84dff85
+Bottom: 3e0d251396a6d2204cf8e2f52251f5ba64ad66f3
+Top:    d2a6a5f6bb5198e6329b04e29f1ed8fdb1375fce
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -104,7 +104,7 @@ index 0000000..53b96f8
 +    ip_addr: 192.168.0.109
 +    hostname: phpmyadmin.novatech-llc.com
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 673e61b..b00076e 100644
+index c47c128..e1ecd7d 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -1,6 +1,18 @@
