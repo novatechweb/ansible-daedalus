@@ -1,6 +1,6 @@
 Version: 1
-Previous: 0654d8a04cf2a64f29ae43f6a26e3881520922a3
-Head: b33b060ef8697c9dcb568b0af4dfefce878f10c4
+Previous: db2d207f64cc9ad9c485edf8b063c2a477355e56
+Head: 9cb38e037c537e13cbef3bce81539bcbf8db7dd6
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -46,8 +46,9 @@ Applied:
   svn-allow-empty: 97719eecf8b59bed52da500da8e2b30069504395
   svn-create-required-directories: 6ba24f64a3050842efcadaddee12620bc77b15dc
   wiki-downgrade-extensions: 543523bbdc8bdc873290658006012b85ac2652e4
+  buildbot-master: 9cb38e037c537e13cbef3bce81539bcbf8db7dd6
+Unapplied:
   TESTING--VirtualMachine: 24dd15b409311e969e28545c5f06c0a5a01a6080
-  buildbot-master: 492890803d49ea94a61e0978514fef56dae230c0
   buildbot-worker-ntel: bd87a1ab82fae3bb659aeea59f693c65f4206598
   buildbot-worker-ptxdist: 4d89eb726249244b02993cc6da4f7ae307ff6751
   fix-ssh-folder-permission: 4ffb0c0cbf5c9a43cf08860e92acc3b2d4a862f8
@@ -62,5 +63,4 @@ Applied:
   buildbot-image-entrypoint: 49b54db8d74ffc75640999146fbb3397427d0e41
   buildbot-dependencies: b58388b8b9d5ac4a519fde7df4f15c6aa770c3b9
   playbook-simplify-credentials: b33b060ef8697c9dcb568b0af4dfefce878f10c4
-Unapplied:
 Hidden:
