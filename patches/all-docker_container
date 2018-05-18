@@ -1,5 +1,5 @@
 Bottom: 1116534e9a0879a566425a630033f938d7fb21d1
-Top:    abd5c46e32e9573afb90775dbf285e4cad5992ac
+Top:    7a90ae4cb61e6777a2ed57ed5afda82f57b835cc
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -122,7 +122,7 @@ index 20d48fc..1c23323 100644
  exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
  
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 49eccc3..f996918 100644
+index 49eccc3..439e058 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -101,9 +101,16 @@
@@ -135,7 +135,7 @@ index 49eccc3..f996918 100644
 +  docker_container:
 +    name: '{{ exim4_container_name }}'
 +    hostname: '{{ container_addr_map.exim4.hostname }}'
-+    ports: '{{ exim4_ports }}'
++    ports: '{{ container_port_map.exim4.port_args }}'
 +    image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
 +    restart_policy: always
 +    state: started
