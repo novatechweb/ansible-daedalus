@@ -1,5 +1,5 @@
-Bottom: 2e2dcd595078e87542eb7c7c79597958d0ccee75
-Top:    53b0452b6c05443555bced4e4629d3a6404847fa
+Bottom: 8a3e5e4b6685ec657d3b5ca946d284137907f79c
+Top:    2b4aafd5fb3711a89630ae0d11d4572dddec92f6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-11 16:29:54 -0500
 
@@ -337,7 +337,7 @@ index 58247cf..473571b 100644
 +# the name of the container being started
 +phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 125fc4f..55c3e11 100644
+index 061770f..cccd9a3 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -66,12 +66,12 @@
@@ -392,7 +392,7 @@ similarity index 100%
 rename from roles/docker-openssl/vars/main.yml
 rename to roles/docker-openssl/defaults/main.yml
 diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
-index a3828f6..95601db 100644
+index 7bb3bf8..4f711aa 100644
 --- a/roles/docker-openssl/tasks/main.yml
 +++ b/roles/docker-openssl/tasks/main.yml
 @@ -65,6 +65,7 @@

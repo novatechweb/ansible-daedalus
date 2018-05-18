@@ -1,6 +1,6 @@
 Version: 1
-Previous: 0171af06d2267a329a38835da85f9521824433b5
-Head: 9a17c1d8ffa6014cfc2d1cd6a28b5dce06eaf7ab
+Previous: 9ea7e955a624ce220b12fc3034daba28c1a69531
+Head: 30837d9b6cbcd11397d9ebac6766b20ef1904ddf
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -47,20 +47,20 @@ Applied:
   svn-create-required-directories: 6ba24f64a3050842efcadaddee12620bc77b15dc
   wiki-downgrade-extensions: 543523bbdc8bdc873290658006012b85ac2652e4
   buildbot-master: 41a1d16e90e0257e016b8cc453b64666df90fdfc
+  buildbot-worker-ntel: 1f6aeb02b99d0e48aa6cdb33d7fd8b60f49c23e6
+  buildbot-worker-ptxdist: 282cbb846913cc85503020b7c795116d6a58964c
+  fix-ssh-folder-permission: 5b1d2756588d06916edb4d5f1508c05e3ea629dd
+  update-ntel-builds-for-new: a2b0a9d275cb5229c124034f6b7e932911c7eb80
+  add-parameter-for-buildbot: e2897e3983ab8149376405aeed917414f09de072
+  update-ptxdist-build-factories: e20f5f48fc12dd20b4514380da1dd5f8f7a38a5c
+  all-move-vars-to-defaults: 8db33804723c28d9466555de88b1ae96d103cd57
+  sshd-create-role: 30837d9b6cbcd11397d9ebac6766b20ef1904ddf
+Unapplied:
   TESTING--VirtualMachine: ca5a6905fcf594702010fe7c0ad3f575d34723f5
-  buildbot-worker-ntel: 168ea4799778ff7c21fc3d1fa190ae6e4cff3f01
-  buildbot-worker-ptxdist: 5e9e9c1bc7c0d7c48f5afe9a550b814fc4c22536
-  fix-ssh-folder-permission: 6344d6de5da0579f20b1b43c981e58814ef42e11
-  update-ntel-builds-for-new: 3796596b03fe7f3fd49c70d2ac02c59d00b75a15
-  add-parameter-for-buildbot: 6d42bebe79b1d5bc0550bceea5fded574bd86d1c
-  update-ptxdist-build-factories: 016d018ada8366c08567325aa5f4b701fce19ea7
-  all-move-vars-to-defaults: 819d857b38c4bd93f4e150ce35e4a6d8e481fb6c
-  sshd-create-role: 4932aa153f6be3eea8a52beee0dbfc6c7f37070f
   wiki-create-required-directories: 59459ab53e81cc84316a7c15d6e59bd9135d5ff9
   mantis-create-required-directories: c7f67f80f81a9fd03da1b15a0a47137a807e48d6
   buildbot-parameterize-env: ef8ce84c2ced23ce6d12ebb14fab7065c664a25b
   buildbot-image-entrypoint: 5cd915e684e331148cba45744d862f2669824792
   buildbot-dependencies: 7edc7dd50f96aa8ecb99b067e09e540f5d9d8a68
   playbook-simplify-credentials: 9a17c1d8ffa6014cfc2d1cd6a28b5dce06eaf7ab
-Unapplied:
 Hidden:
