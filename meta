@@ -1,6 +1,6 @@
 Version: 1
-Previous: 93935535a488c8f2df827964a2abf0e870e24a40
-Head: 6c918bb00ddf5720a81d8a1df01395d0c08fd1e5
+Previous: fe081b2908f3e59ce55d50082742b5686e52cb9e
+Head: 33438a548276f27c53f0a4beb7f0d8bb4d87f410
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -55,8 +55,7 @@ Applied:
   update-ptxdist-build-factories: e20f5f48fc12dd20b4514380da1dd5f8f7a38a5c
   all-move-vars-to-defaults: 8db33804723c28d9466555de88b1ae96d103cd57
   sshd-create-role: 27dc6690834e2b30eb9381eb431a70ad30d427f7
-  TESTING--VirtualMachine: 9d41f36b8a7ad0c489d65c8804eef7faceae3c12
-  refresh-temp: 6c918bb00ddf5720a81d8a1df01395d0c08fd1e5
+  TESTING--VirtualMachine: 33438a548276f27c53f0a4beb7f0d8bb4d87f410
 Unapplied:
   wiki-create-required-directories: 59459ab53e81cc84316a7c15d6e59bd9135d5ff9
   mantis-create-required-directories: c7f67f80f81a9fd03da1b15a0a47137a807e48d6
