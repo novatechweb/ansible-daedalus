@@ -1,5 +1,5 @@
-Bottom: 55f0e8e273f69f1abf98ada4fe54473f257bada4
-Top:    666d20a3198dccc71b64014968f926e8746268f6
+Bottom: 2bd8947c197d25eee49ab697d73f6f80fdf207ad
+Top:    9eec67024c3c2c75c707812d1eb8fb3c06ceff73
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -1014,10 +1014,10 @@ index 9424667..b692d16 100644
      volumes_from:
        - "{{ name_prefix }}TestStation_http_data_ncdiso"
 diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
-index b62739e..382a979 100644
+index faee816..23d9fae 100644
 --- a/roles/docker-buildsystem/tasks/main.yml
 +++ b/roles/docker-buildsystem/tasks/main.yml
-@@ -133,3 +133,4 @@
+@@ -120,3 +120,4 @@
  
  - import_tasks: restore.yml
    when: st_buildsystem_restore.stat.exists == False

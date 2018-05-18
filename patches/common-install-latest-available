@@ -1,5 +1,5 @@
 Bottom: a93d697bc18f9e0a6ad6614943084b4ab1b50dc1
-Top:    25fb94958aed1dec2c061569f19fac453c7a976a
+Top:    ce0d7093d04677b93b415f98f984f177bf889fd3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -10,6 +10,30 @@ provider.
 
 
 ---
+diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
+index b62739e..faee816 100644
+--- a/roles/docker-buildsystem/tasks/main.yml
++++ b/roles/docker-buildsystem/tasks/main.yml
+@@ -9,19 +9,6 @@
+     - buildsystem_database_root_password is defined
+     - docker_restore_config_base_dir is defined
+ 
+-
+-- name: Check that docker is installed
+-  yum:
+-    name: docker
+-    state: present
+-
+-
+-- name: Make sure docker service is started
+-  service:
+-    name: docker
+-    state: started
+-
+-
+ - name: Make directory for checkout
+   file:
+     mode: 0775
 diff --git a/roles/docker-common/tasks/engine-redhat.yml b/roles/docker-common/tasks/engine-redhat.yml
 new file mode 100644
 index 0000000..66aed68
