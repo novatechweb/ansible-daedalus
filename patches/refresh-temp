@@ -1,0 +1,24 @@
+Bottom: f0fcc7b19fbf193987fbde7705b8c1af3d83721f
+Top:    c06588f68211f92d67fea6f41b8fa0351e7c813e
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-18 09:01:00 -0500
+
+Refresh of all-move-vars-to-defaults
+
+---
+diff --git a/roles/docker-build-base-image/vars/main.yml b/roles/docker-build-base-image/defaults/main.yml
+similarity index 100%
+rename from roles/docker-build-base-image/vars/main.yml
+rename to roles/docker-build-base-image/defaults/main.yml
+diff --git a/roles/docker-exim4/vars/main.yml b/roles/docker-exim4/defaults/main.yml
+similarity index 100%
+rename from roles/docker-exim4/vars/main.yml
+rename to roles/docker-exim4/defaults/main.yml
+diff --git a/roles/docker-openssl/vars/main.yml b/roles/docker-openssl/defaults/main.yml
+similarity index 100%
+rename from roles/docker-openssl/vars/main.yml
+rename to roles/docker-openssl/defaults/main.yml
+diff --git a/roles/docker-pull-images/vars/main.yml b/roles/docker-pull-images/defaults/main.yml
+similarity index 100%
+rename from roles/docker-pull-images/vars/main.yml
+rename to roles/docker-pull-images/defaults/main.yml
