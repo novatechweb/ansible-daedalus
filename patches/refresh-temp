@@ -1,9 +1,21 @@
 Bottom: abd5c46e32e9573afb90775dbf285e4cad5992ac
-Top:    abd5c46e32e9573afb90775dbf285e4cad5992ac
+Top:    7a90ae4cb61e6777a2ed57ed5afda82f57b835cc
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-18 14:14:45 -0500
 
 Refresh of all-docker_container
 
 ---
-
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index f996918..439e058 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -104,7 +104,7 @@
+   docker_container:
+     name: '{{ exim4_container_name }}'
+     hostname: '{{ container_addr_map.exim4.hostname }}'
+-    ports: '{{ exim4_ports }}'
++    ports: '{{ container_port_map.exim4.port_args }}'
+     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
+     restart_policy: always
+     state: started
