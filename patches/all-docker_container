@@ -1,5 +1,5 @@
 Bottom: 1116534e9a0879a566425a630033f938d7fb21d1
-Top:    ec44a57daedfe17d60e572c7bf1198dacfdcaa49
+Top:    abd5c46e32e9573afb90775dbf285e4cad5992ac
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -70,21 +70,33 @@ index eda18ef..4442005 100644
 -  phpmyadmin:
 -    port_args: '-p {{ container_addr_map.phpmyadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
 diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
-index cdbad40..7d18a57 100644
+index cdbad40..9d4820f 100644
 --- a/roles/docker-buildsystem/defaults/main.yml
 +++ b/roles/docker-buildsystem/defaults/main.yml
-@@ -6,6 +6,11 @@
+@@ -6,6 +6,14 @@
  # buildsystem_ssh_root_user_password
  # buildsystem_database_root_password
  
 +buildsystem:
-+    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
++    port_args: 
++      - '{{ container_addr_map.build.ip_addr }}:80:80'
++      - '{{ container_addr_map.build.ip_addr }}:443:443'
 +
 +test_ssh:
-+    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
++    port_args:
++    - '{{ container_addr_map.testssh.ip_addr }}:2200:22'
  
  # restore directories to temporarly store data being restored into docker containers
  backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'
+@@ -49,7 +57,7 @@ build_system_docker_repos:
+     url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_database_server.git
+   TestStation_http_server:
+     dir_name: docker-TestStation_http_server
+-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_server.git
++    url: https://git.novatech-llc.com/andrew.cooper/docker-TestStation_http_server.git
+   TestStation_ssh_server:
+     dir_name: docker-TestStation_ssh_server
+     url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_ssh_server.git
 diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
 index 20d48fc..1c23323 100644
 --- a/roles/docker-exim4/defaults/main.yml
@@ -134,7 +146,7 @@ index 49eccc3..f996918 100644
  # *****************************************************************************
  # restore?
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index fce4efa..521559d 100644
+index fce4efa..3a0aec3 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -9,7 +9,10 @@ container_addr_map:
@@ -143,9 +155,9 @@ index fce4efa..521559d 100644
    git:
 -    port_args: '-P'
 +    port_args: 
-+      - '{ container_addr_map.git.ip_addr }}:80:80'
-+      - '{ container_addr_map.git.ip_addr }}:443:443'
-+      - '{ container_addr_map.git.ip_addr }}:22:22'
++      - '{{ container_addr_map.git.ip_addr }}:80:80'
++      - '{{ container_addr_map.git.ip_addr }}:443:443'
++      - '{{ container_addr_map.git.ip_addr }}:22:22'
  
  # database usernames and passwords
  gitlab_db_user: novatech
@@ -211,15 +223,17 @@ index aeab7bf..0da097e 100644
  - name: Wait for gitlab to be fully running
    wait_for:
 diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
-index f28e1bd..c4fa3ba 100644
+index f28e1bd..896fa01 100644
 --- a/roles/docker-mantisbt/defaults/main.yml
 +++ b/roles/docker-mantisbt/defaults/main.yml
-@@ -9,7 +9,7 @@ container_addr_map:
+@@ -9,7 +9,9 @@ container_addr_map:
  # the port mappings used when starting the container
  container_port_map:
    mantisbt:
 -    port_args: '-P'
-+    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
++    port_args:
++      - '{{ container_addr_map.mantisbt.ip_addr }}:80:80'
++      - '{{ container_addr_map.mantisbt.ip_addr }}:443:443'
  
  # database usernames and passwords
  mantisbt_db_user: novatech
@@ -269,15 +283,17 @@ index 7d2c689..2124a54 100644
  # *****************************************************************************
  # remove the MySQL config in the restore directory
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index ad6d61e..13d7b4a 100644
+index ad6d61e..2a5319d 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
-@@ -9,7 +9,7 @@ container_addr_map:
+@@ -9,7 +9,9 @@ container_addr_map:
  # the port mappings used when starting the container
  container_port_map:
    wiki:
 -    port_args: '-P'
-+    port_args: '-p {{ container_addr_map.wiki.ip_addr }}:80:80 -p {{ container_addr_map.wiki.ip_addr }}:443:443'
++    port_args:
++      - '{{ container_addr_map.wiki.ip_addr }}:80:80'
++      - '{{ container_addr_map.wiki.ip_addr }}:443:443'
  
  # database usernames and passwords
  wiki_db_user: novatech

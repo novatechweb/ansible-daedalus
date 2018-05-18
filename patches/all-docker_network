@@ -1,5 +1,5 @@
-Bottom: 26df53bba68bc45c29a5c03d1f40964a7bf7d1cd
-Top:    9af80d95af188f5da3539a9453687a1385a8e5dc
+Bottom: 2570311d94b4c33728315f1b87e4b81794e864d9
+Top:    96bf2fc773243c6c95fe4e6714443ba044155bc6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -58,7 +58,7 @@ index 46945b1..793e3f6 100644
      image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
      restart_policy: always
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index 521559d..919801e 100644
+index 3a0aec3..b742c18 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -45,3 +45,6 @@ gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
@@ -105,10 +105,10 @@ index 0e7407b..a91a3a6 100644
        - '{{ openssl_dv_name }}'
        - '{{ gitlab_dv_name }}'
 diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
-index c4fa3ba..9473798 100644
+index 896fa01..e4df7a7 100644
 --- a/roles/docker-mantisbt/defaults/main.yml
 +++ b/roles/docker-mantisbt/defaults/main.yml
-@@ -45,3 +45,6 @@ host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_di
+@@ -47,3 +47,6 @@ host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_di
  mantisbt_static_backup_file: '/mantisbt.tar'
  mantisbt_database_backup_file: '/mantisbtdb.sql'
  mantisbt_database_files_table_backup_file: '/mantisbtdb-files_table.sql'
@@ -142,10 +142,10 @@ index 3352d62..7d183bc 100644
        - '{{ openssl_dv_name }}'
        - '{{ mantisbt_dv_name }}'
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 13d7b4a..d2b555c 100644
+index 2a5319d..dbfe971 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
-@@ -43,3 +43,6 @@ host_wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
+@@ -45,3 +45,6 @@ host_wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
  # files restored from tape
  wiki_static_backup_file: '/mediawiki.tar'
  wiki_database_backup_file: '/wikidb.sql'
