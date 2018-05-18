@@ -1,6 +1,6 @@
 Version: 1
-Previous: 1b9782579ea0fbd3a1df03ea8d2ed99fa423d258
-Head: e40b14f682ad5b280a7df79c846a81015afba342
+Previous: 05e81a339f63e3193fafc65556a826623e83d4de
+Head: 5014c20c293c05d12fe8c463441cd150a3c666f2
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -14,6 +14,7 @@ Applied:
   bacula-force-sha256-fingerprint-check: 973a1a94792be9d590cd67e2ed8360afc73aac16
   all-docker-image-repositories: c8b4feaf350dd466f72a8124212c7a4c5da2bfad
   common-common-variables: e40b14f682ad5b280a7df79c846a81015afba342
+  all-move-vars-to-defaults: 5014c20c293c05d12fe8c463441cd150a3c666f2
 Unapplied:
   playbook-remove-docker-pull-images: 295928b6daede5a0fd1abb6ade1ce2c3f6c049b4
   all-docker_container: 5e7361d94f610ac075eacae34f5ba0931b69a20c
@@ -54,7 +55,6 @@ Unapplied:
   update-ntel-builds-for-new: a2b0a9d275cb5229c124034f6b7e932911c7eb80
   add-parameter-for-buildbot: e2897e3983ab8149376405aeed917414f09de072
   update-ptxdist-build-factories: e20f5f48fc12dd20b4514380da1dd5f8f7a38a5c
-  all-move-vars-to-defaults: 8db33804723c28d9466555de88b1ae96d103cd57
   sshd-create-role: 27dc6690834e2b30eb9381eb431a70ad30d427f7
   wiki-create-required-directories: adba76abfc27ca7bcca128d027d359573e18ad38
   mantis-create-required-directories: 1e1ffc66ebac44f238c66223eab3984c9829b30e
