@@ -1,0 +1,208 @@
+Bottom: 2b4aafd5fb3711a89630ae0d11d4572dddec92f6
+Top:    252f81bfb2f05817ad04abeab81d916fbcf724bf
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-18 08:46:21 -0500
+
+Refresh of sshd-create-role
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index c47c128..3c3b77e 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -25,6 +25,10 @@
+   become_user: root
+   become_method: sudo
+   roles:
++  - name: Setup SSH Daemon
++    role: sshd
++    tags:
++    - sshd
+   - name: Run common Docker tasks
+     role: docker-common
+     tags:
+diff --git a/roles/sshd/README.md b/roles/sshd/README.md
+new file mode 100644
+index 0000000..225dd44
+--- /dev/null
++++ b/roles/sshd/README.md
+@@ -0,0 +1,38 @@
++Role Name
++=========
++
++A brief description of the role goes here.
++
++Requirements
++------------
++
++Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
++
++Role Variables
++--------------
++
++A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
++
++Dependencies
++------------
++
++A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
++
++Example Playbook
++----------------
++
++Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
++
++    - hosts: servers
++      roles:
++         - { role: username.rolename, x: 42 }
++
++License
++-------
++
++BSD
++
++Author Information
++------------------
++
++An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+diff --git a/roles/sshd/defaults/main.yml b/roles/sshd/defaults/main.yml
+new file mode 100644
+index 0000000..b3fdd80
+--- /dev/null
++++ b/roles/sshd/defaults/main.yml
+@@ -0,0 +1,2 @@
++---
++# defaults file for sshd
+\ No newline at end of file
+diff --git a/roles/sshd/handlers/main.yml b/roles/sshd/handlers/main.yml
+new file mode 100644
+index 0000000..1343443
+--- /dev/null
++++ b/roles/sshd/handlers/main.yml
+@@ -0,0 +1,2 @@
++---
++# handlers file for sshd
+\ No newline at end of file
+diff --git a/roles/sshd/meta/main.yml b/roles/sshd/meta/main.yml
+new file mode 100644
+index 0000000..7223799
+--- /dev/null
++++ b/roles/sshd/meta/main.yml
+@@ -0,0 +1,57 @@
++galaxy_info:
++  author: your name
++  description: your description
++  company: your company (optional)
++
++  # If the issue tracker for your role is not on github, uncomment the
++  # next line and provide a value
++  # issue_tracker_url: http://example.com/issue/tracker
++
++  # Some suggested licenses:
++  # - BSD (default)
++  # - MIT
++  # - GPLv2
++  # - GPLv3
++  # - Apache
++  # - CC-BY
++  license: license (GPLv2, CC-BY, etc)
++
++  min_ansible_version: 1.2
++
++  # If this a Container Enabled role, provide the minimum Ansible Container version.
++  # min_ansible_container_version:
++
++  # Optionally specify the branch Galaxy will use when accessing the GitHub
++  # repo for this role. During role install, if no tags are available,
++  # Galaxy will use this branch. During import Galaxy will access files on
++  # this branch. If Travis integration is configured, only notifications for this
++  # branch will be accepted. Otherwise, in all cases, the repo's default branch
++  # (usually master) will be used.
++  #github_branch:
++
++  #
++  # platforms is a list of platforms, and each platform has a name and a list of versions.
++  #
++  # platforms:
++  # - name: Fedora
++  #   versions:
++  #   - all
++  #   - 25
++  # - name: SomePlatform
++  #   versions:
++  #   - all
++  #   - 1.0
++  #   - 7
++  #   - 99.99
++
++  galaxy_tags: []
++    # List tags for your role here, one per line. A tag is a keyword that describes
++    # and categorizes the role. Users find roles by searching for tags. Be sure to
++    # remove the '[]' above, if you add tags to this list.
++    #
++    # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
++    #       Maximum 20 tags per role.
++
++dependencies: []
++  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
++  # if you add dependencies to this list.
+\ No newline at end of file
+diff --git a/roles/sshd/tasks/main.yml b/roles/sshd/tasks/main.yml
+new file mode 100644
+index 0000000..6ed31b9
+--- /dev/null
++++ b/roles/sshd/tasks/main.yml
+@@ -0,0 +1,24 @@
++---
++# tasks file for sshd
++
++- name: lockdown root user
++  lineinfile:
++    dest: /etc/ssh/sshd_config
++    regexp: '^[#]?PermitRootLogin .*$'
++    line: 'PermitRootLogin no'
++    state: present
++
++- name: Set ssh ListenAddress
++  lineinfile:
++    dest: /etc/ssh/sshd_config
++    regexp: '^[#]ListenAddress .*$'
++    line: 'ListenAddress {{ ansible_default_ipv4["address"] }}'
++  when: 
++    - ansible_os_family == "RedHat"
++    - ansible_default_ipv4 is defined
++    - ansible_default_ipv4.address is defined
++
++- name: restart sshd service
++  service:
++    name: sshd
++    state: restarted
+diff --git a/roles/sshd/tests/inventory b/roles/sshd/tests/inventory
+new file mode 100644
+index 0000000..878877b
+--- /dev/null
++++ b/roles/sshd/tests/inventory
+@@ -0,0 +1,2 @@
++localhost
++
+diff --git a/roles/sshd/tests/test.yml b/roles/sshd/tests/test.yml
+new file mode 100644
+index 0000000..6674bff
+--- /dev/null
++++ b/roles/sshd/tests/test.yml
+@@ -0,0 +1,5 @@
++---
++- hosts: localhost
++  remote_user: root
++  roles:
++    - sshd
+\ No newline at end of file
+diff --git a/roles/sshd/vars/main.yml b/roles/sshd/vars/main.yml
+new file mode 100644
+index 0000000..70d6160
+--- /dev/null
++++ b/roles/sshd/vars/main.yml
+@@ -0,0 +1,2 @@
++---
++# vars file for sshd
+\ No newline at end of file
