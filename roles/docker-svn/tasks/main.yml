@@ -82,8 +82,8 @@
     restart_policy: always
     hostname: '{{ container_addr_map.svn.hostname }}'
     ports: '{{ container_port_map.svn.port_args }}'
-    link:
-      - '{{ openldap_container_name }}:ldap'
+    networks:
+      - name: '{{ docker_network_frontend }}'
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ svn_dv_name }}:/var/lib/svn:z'
