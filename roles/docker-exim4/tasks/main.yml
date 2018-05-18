@@ -87,6 +87,7 @@
     name: '{{ exim4_image_name }}'
     tag: '{{ docker_image_tag }}'
     path: '{{ docker_projects_dir }}/docker-exim4'
+    force: true
 
 # *****************************************************************************
 # Create the data volumes

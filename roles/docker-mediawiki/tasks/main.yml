@@ -82,6 +82,7 @@
     name: '{{ wiki_image_name }}'
     tag: '{{ docker_image_tag }}'
     path: '{{ docker_projects_dir }}/docker-mediawiki'
+    force: True
 
 # *****************************************************************************
 # Create the data volumes
