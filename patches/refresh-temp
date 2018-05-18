@@ -1,0 +1,84 @@
+Bottom: 09ed194c12c550746d0e92f23f13d242926dd8f5
+Top:    ba41d9fd52b405fff32a288598c766276b587c90
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-18 11:21:11 -0500
+
+Refresh of all-docker_container
+
+---
+diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
+index 7d18a57..9d4820f 100644
+--- a/roles/docker-buildsystem/defaults/main.yml
++++ b/roles/docker-buildsystem/defaults/main.yml
+@@ -7,10 +7,13 @@
+ # buildsystem_database_root_password
+ 
+ buildsystem:
+-    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
++    port_args: 
++      - '{{ container_addr_map.build.ip_addr }}:80:80'
++      - '{{ container_addr_map.build.ip_addr }}:443:443'
+ 
+ test_ssh:
+-    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
++    port_args:
++    - '{{ container_addr_map.testssh.ip_addr }}:2200:22'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'
+@@ -54,7 +57,7 @@ build_system_docker_repos:
+     url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_database_server.git
+   TestStation_http_server:
+     dir_name: docker-TestStation_http_server
+-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_server.git
++    url: https://git.novatech-llc.com/andrew.cooper/docker-TestStation_http_server.git
+   TestStation_ssh_server:
+     dir_name: docker-TestStation_ssh_server
+     url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_ssh_server.git
+diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
+index 919801e..b742c18 100644
+--- a/roles/docker-gitlab/defaults/main.yml
++++ b/roles/docker-gitlab/defaults/main.yml
+@@ -10,9 +10,9 @@ container_addr_map:
+ container_port_map:
+   git:
+     port_args: 
+-      - '{ container_addr_map.git.ip_addr }}:80:80'
+-      - '{ container_addr_map.git.ip_addr }}:443:443'
+-      - '{ container_addr_map.git.ip_addr }}:22:22'
++      - '{{ container_addr_map.git.ip_addr }}:80:80'
++      - '{{ container_addr_map.git.ip_addr }}:443:443'
++      - '{{ container_addr_map.git.ip_addr }}:22:22'
+ 
+ # database usernames and passwords
+ gitlab_db_user: novatech
+diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
+index 9473798..e4df7a7 100644
+--- a/roles/docker-mantisbt/defaults/main.yml
++++ b/roles/docker-mantisbt/defaults/main.yml
+@@ -9,7 +9,9 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   mantisbt:
+-    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
++    port_args:
++      - '{{ container_addr_map.mantisbt.ip_addr }}:80:80'
++      - '{{ container_addr_map.mantisbt.ip_addr }}:443:443'
+ 
+ # database usernames and passwords
+ mantisbt_db_user: novatech
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index d2b555c..dbfe971 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -9,7 +9,9 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   wiki:
+-    port_args: '-p {{ container_addr_map.wiki.ip_addr }}:80:80 -p {{ container_addr_map.wiki.ip_addr }}:443:443'
++    port_args:
++      - '{{ container_addr_map.wiki.ip_addr }}:80:80'
++      - '{{ container_addr_map.wiki.ip_addr }}:443:443'
+ 
+ # database usernames and passwords
+ wiki_db_user: novatech
