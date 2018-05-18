@@ -1,5 +1,5 @@
 Bottom: f0fcc7b19fbf193987fbde7705b8c1af3d83721f
-Top:    c06588f68211f92d67fea6f41b8fa0351e7c813e
+Top:    0a61b71257c483d585fbf08281a13c70e459bd48
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-11 16:29:54 -0500
 
@@ -18,6 +18,272 @@ diff --git a/roles/docker-exim4/vars/main.yml b/roles/docker-exim4/defaults/main
 similarity index 100%
 rename from roles/docker-exim4/vars/main.yml
 rename to roles/docker-exim4/defaults/main.yml
+diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
+index 85e7a1a..8911fb9 100644
+--- a/roles/docker-gitlab/defaults/main.yml
++++ b/roles/docker-gitlab/defaults/main.yml
+@@ -16,3 +16,29 @@ gitlab_db_user: novatech
+ 
+ # must pass in the following variables
+ # gitlab_db_password: ''
++
++# the name of the image being duilt and used for the container
++gitlab_image_repo: 'https://github.com/novatechweb/docker-gitlab.git'
++gitlab_image_name: '{{ docker_registry_username }}/gitlab'
++gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
++gitlab_db_image_name: '{{ repository_images.postgres.image }}'
++redis_image_name: '{{ repository_images.redis.image }}'
++
++# the name of the gitlab container
++gitlab_container_name: '{{ docker_name_prefix }}gitlab'
++
++# the name of the redis container for gitlab
++gitlab_redis_container_name: '{{ docker_name_prefix }}gitlab_redis'
++
++# the name of the postgres container for gitlab
++gitlab_db_container_name: '{{ docker_name_prefix }}gitlab_db'
++
++# the name of the data-volume used by the container
++gitlab_dv_name: '{{ docker_name_prefix }}gitlab_DV'
++
++# the name of the data-volume used by the postgres container
++gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
++
++# restore directories to temporarly store data being restored into docker containers
++gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
++host_gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
+diff --git a/roles/docker-gitlab/vars/main.yml b/roles/docker-gitlab/vars/main.yml
+index 9162098..ed97d53 100644
+--- a/roles/docker-gitlab/vars/main.yml
++++ b/roles/docker-gitlab/vars/main.yml
+@@ -1,27 +1 @@
+ ---
+-
+-# the name of the image being duilt and used for the container
+-gitlab_image_repo: 'https://github.com/novatechweb/docker-gitlab.git'
+-gitlab_image_name: '{{ docker_registry_username }}/gitlab'
+-gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
+-gitlab_db_image_name: '{{ repository_images.postgres.image }}'
+-redis_image_name: '{{ repository_images.redis.image }}'
+-
+-# the name of the gitlab container
+-gitlab_container_name: '{{ docker_name_prefix }}gitlab'
+-
+-# the name of the redis container for gitlab
+-gitlab_redis_container_name: '{{ docker_name_prefix }}gitlab_redis'
+-
+-# the name of the postgres container for gitlab
+-gitlab_db_container_name: '{{ docker_name_prefix }}gitlab_db'
+-
+-# the name of the data-volume used by the container
+-gitlab_dv_name: '{{ docker_name_prefix }}gitlab_DV'
+-
+-# the name of the data-volume used by the postgres container
+-gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
+-
+-# restore directories to temporarly store data being restored into docker containers
+-gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
+-host_gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
+diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
+index cd0f1dd..f28e1bd 100644
+--- a/roles/docker-mantisbt/defaults/main.yml
++++ b/roles/docker-mantisbt/defaults/main.yml
+@@ -17,3 +17,31 @@ mantisbt_db_user: novatech
+ # must pass in the following variables
+ # mantisbt_db_root_password: ''
+ # mantisbt_db_password: ''
++
++# the name of the image being duilt and used for the container
++mantisbt_image_repo: https://github.com/novatechweb/docker-mantisbt.git
++mantisbt_image_name: '{{ docker_registry_username }}/mantisbt'
++
++mantisbt_db_image_repo: https://github.com/novatechweb/docker-mysql-data.git
++mantisbt_db_image_name: '{{ docker_registry_username }}/mysql.dv'
++
++# the name of the container being started
++mantisbt_container_name: '{{ docker_name_prefix }}mantisbt'
++
++# the name of the container being started
++mantisbt_db_container_name: '{{ docker_name_prefix }}mantisbt_db'
++
++# the name of the data-volume used by the container
++mantisbt_dv_name: '{{ docker_name_prefix }}mantisbt_DV'
++
++# the name of the mysql data-volume used by the mantisbt container
++mantisbt_db_dv_name: '{{ docker_name_prefix }}mantisbt_db_DV'
++
++# restore directories to temporarly store data being restored into docker containers
++mantisbt_docker_backup_dir: '{{ docker_backup_dir }}/MANTISBT'
++host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_dir }}'
++
++# files restored from tape
++mantisbt_static_backup_file: '/mantisbt.tar'
++mantisbt_database_backup_file: '/mantisbtdb.sql'
++mantisbt_database_files_table_backup_file: '/mantisbtdb-files_table.sql'
+diff --git a/roles/docker-mantisbt/vars/main.yml b/roles/docker-mantisbt/vars/main.yml
+index fac5a9c..ed97d53 100644
+--- a/roles/docker-mantisbt/vars/main.yml
++++ b/roles/docker-mantisbt/vars/main.yml
+@@ -1,29 +1 @@
+ ---
+-
+-# the name of the image being duilt and used for the container
+-mantisbt_image_repo: https://github.com/novatechweb/docker-mantisbt.git
+-mantisbt_image_name: '{{ docker_registry_username }}/mantisbt'
+-
+-mantisbt_db_image_repo: https://github.com/novatechweb/docker-mysql-data.git
+-mantisbt_db_image_name: '{{ docker_registry_username }}/mysql.dv'
+-
+-# the name of the container being started
+-mantisbt_container_name: '{{ docker_name_prefix }}mantisbt'
+-
+-# the name of the container being started
+-mantisbt_db_container_name: '{{ docker_name_prefix }}mantisbt_db'
+-
+-# the name of the data-volume used by the container
+-mantisbt_dv_name: '{{ docker_name_prefix }}mantisbt_DV'
+-
+-# the name of the mysql data-volume used by the mantisbt container
+-mantisbt_db_dv_name: '{{ docker_name_prefix }}mantisbt_db_DV'
+-
+-# restore directories to temporarly store data being restored into docker containers
+-mantisbt_docker_backup_dir: '{{ docker_backup_dir }}/MANTISBT'
+-host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_dir }}'
+-
+-# files restored from tape
+-mantisbt_static_backup_file: '/mantisbt.tar'
+-mantisbt_database_backup_file: '/mantisbtdb.sql'
+-mantisbt_database_files_table_backup_file: '/mantisbtdb-files_table.sql'
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index 122ef22..5788039 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -17,3 +17,29 @@ wiki_db_user: novatech
+ # must pass in the following variables
+ # wiki_db_root_password: ''
+ # wiki_db_password: ''
++
++wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
++
++# the name of the image being duilt and used for the container
++wiki_image_name: '{{ docker_registry_username }}/wiki'
++wiki_db_image_name: '{{ repository_images.mysql.image }}'
++
++# the name of the container being started
++wiki_container_name: '{{ docker_name_prefix }}wiki'
++
++# the name of the container being started
++wiki_db_container_name: '{{ docker_name_prefix }}wiki_db'
++
++# the name of the data-volume used by the container
++wiki_dv_name: '{{ docker_name_prefix }}wiki_DV'
++
++# the name of the mysql data-volume used by the mediawiki container
++wiki_db_dv_name: '{{ docker_name_prefix }}wiki_db_DV'
++
++# restore directories to temporarly store data being restored into docker containers
++wiki_docker_backup_dir: '{{ docker_backup_dir }}/WIKI'
++host_wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
++
++# files restored from tape
++wiki_static_backup_file: '/mediawiki.tar'
++wiki_database_backup_file: '/wikidb.sql'
+diff --git a/roles/docker-mediawiki/vars/main.yml b/roles/docker-mediawiki/vars/main.yml
+index c4a8db8..ed97d53 100644
+--- a/roles/docker-mediawiki/vars/main.yml
++++ b/roles/docker-mediawiki/vars/main.yml
+@@ -1,27 +1 @@
+ ---
+-
+-wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
+-
+-# the name of the image being duilt and used for the container
+-wiki_image_name: '{{ docker_registry_username }}/wiki'
+-wiki_db_image_name: '{{ repository_images.mysql.image }}'
+-
+-# the name of the container being started
+-wiki_container_name: '{{ docker_name_prefix }}wiki'
+-
+-# the name of the container being started
+-wiki_db_container_name: '{{ docker_name_prefix }}wiki_db'
+-
+-# the name of the data-volume used by the container
+-wiki_dv_name: '{{ docker_name_prefix }}wiki_DV'
+-
+-# the name of the mysql data-volume used by the mediawiki container
+-wiki_db_dv_name: '{{ docker_name_prefix }}wiki_db_DV'
+-
+-# restore directories to temporarly store data being restored into docker containers
+-wiki_docker_backup_dir: '{{ docker_backup_dir }}/WIKI'
+-host_wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
+-
+-# files restored from tape
+-wiki_static_backup_file: '/mediawiki.tar'
+-wiki_database_backup_file: '/wikidb.sql'
+diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
+index 343016c..35028b0 100644
+--- a/roles/docker-openldap/defaults/main.yml
++++ b/roles/docker-openldap/defaults/main.yml
+@@ -21,3 +21,28 @@ openldap_backup_files:
+     dbnum: 0
+   - ldif_file: LDAP_database_0001.ldif
+     dbnum: 1
++
++# the name of the image being duilt and used for the container
++openldap_image_repo: https://github.com/novatechweb/docker-openldap.git
++openldap_image_name: '{{ docker_registry_username }}/ldap'
++
++# the name of the container being started
++openldap_container_name: '{{ docker_name_prefix }}ldap'
++
++# the name of the data-volume used by the container
++openldap_dv_name: '{{ docker_name_prefix }}ldap_DV'
++
++# restore directories to temporarly store data being restored into docker containers
++openldap_docker_backup_dir: '{{ docker_backup_dir }}/LDAP'
++host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
++
++
++
++# *****************************************************************************
++# Utility container - phpldapadmin
++
++# the name of the image used for the container
++phpldapadmin_image_name: '{{ repository_images.phpldapadmin.image }}'
++
++# the name of the container being started
++phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
+diff --git a/roles/docker-openldap/vars/main.yml b/roles/docker-openldap/vars/main.yml
+index 516cb9a..ed97d53 100644
+--- a/roles/docker-openldap/vars/main.yml
++++ b/roles/docker-openldap/vars/main.yml
+@@ -1,26 +1 @@
+ ---
+-
+-# the name of the image being duilt and used for the container
+-openldap_image_repo: https://github.com/novatechweb/docker-openldap.git
+-openldap_image_name: '{{ docker_registry_username }}/ldap'
+-
+-# the name of the container being started
+-openldap_container_name: '{{ docker_name_prefix }}ldap'
+-
+-# the name of the data-volume used by the container
+-openldap_dv_name: '{{ docker_name_prefix }}ldap_DV'
+-
+-# restore directories to temporarly store data being restored into docker containers
+-openldap_docker_backup_dir: '{{ docker_backup_dir }}/LDAP'
+-host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
+-
+-
+-
+-# *****************************************************************************
+-# Utility container - phpldapadmin
+-
+-# the name of the image used for the container
+-phpldapadmin_image_name: '{{ repository_images.phpldapadmin.image }}'
+-
+-# the name of the container being started
+-phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
 diff --git a/roles/docker-openssl/vars/main.yml b/roles/docker-openssl/defaults/main.yml
 similarity index 100%
 rename from roles/docker-openssl/vars/main.yml
@@ -26,3 +292,45 @@ diff --git a/roles/docker-pull-images/vars/main.yml b/roles/docker-pull-images/d
 similarity index 100%
 rename from roles/docker-pull-images/vars/main.yml
 rename to roles/docker-pull-images/defaults/main.yml
+diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
+index 7a96388..2224268 100644
+--- a/roles/docker-svn/defaults/main.yml
++++ b/roles/docker-svn/defaults/main.yml
+@@ -13,3 +13,17 @@ container_port_map:
+ 
+ # The repositories that will be created/imported durring a data-volume restore
+ svn_repos: 'example'
++
++# the name of the image being duilt and used for the container
++svn_image_repo: https://github.com/novatechweb/docker-svn.git
++svn_image_name: '{{ docker_registry_username }}/svn'
++
++# the name of the container being started
++svn_container_name: '{{ docker_name_prefix }}svn'
++
++# the name of the data-volume used by the container
++svn_dv_name: '{{ docker_name_prefix }}svn_DV'
++
++# restore directories to temporarly store data being restored into docker containers
++svn_docker_backup_dir: '{{ docker_backup_dir }}/SVN'
++host_svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
+diff --git a/roles/docker-svn/vars/main.yml b/roles/docker-svn/vars/main.yml
+index f8e412d..ed97d53 100644
+--- a/roles/docker-svn/vars/main.yml
++++ b/roles/docker-svn/vars/main.yml
+@@ -1,15 +1 @@
+ ---
+-
+-# the name of the image being duilt and used for the container
+-svn_image_repo: https://github.com/novatechweb/docker-svn.git
+-svn_image_name: '{{ docker_registry_username }}/svn'
+-
+-# the name of the container being started
+-svn_container_name: '{{ docker_name_prefix }}svn'
+-
+-# the name of the data-volume used by the container
+-svn_dv_name: '{{ docker_name_prefix }}svn_DV'
+-
+-# restore directories to temporarly store data being restored into docker containers
+-svn_docker_backup_dir: '{{ docker_backup_dir }}/SVN'
+-host_svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
