@@ -7,10 +7,13 @@
 # buildsystem_database_root_password
 
 buildsystem:
-    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
+    port_args: 
+      - '{{ container_addr_map.build.ip_addr }}:80:80'
+      - '{{ container_addr_map.build.ip_addr }}:443:443'
 
 test_ssh:
-    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
+    port_args:
+    - '{{ container_addr_map.testssh.ip_addr }}:2200:22'
 
 # restore directories to temporarly store data being restored into docker containers
 backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'
@@ -54,7 +57,7 @@ build_system_docker_repos:
     url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_database_server.git
   TestStation_http_server:
     dir_name: docker-TestStation_http_server
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_server.git
+    url: https://git.novatech-llc.com/andrew.cooper/docker-TestStation_http_server.git
   TestStation_ssh_server:
     dir_name: docker-TestStation_ssh_server
     url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_ssh_server.git

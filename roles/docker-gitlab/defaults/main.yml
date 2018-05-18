@@ -10,9 +10,9 @@ container_addr_map:
 container_port_map:
   git:
     port_args: 
-      - '{ container_addr_map.git.ip_addr }}:80:80'
-      - '{ container_addr_map.git.ip_addr }}:443:443'
-      - '{ container_addr_map.git.ip_addr }}:22:22'
+      - '{{ container_addr_map.git.ip_addr }}:80:80'
+      - '{{ container_addr_map.git.ip_addr }}:443:443'
+      - '{{ container_addr_map.git.ip_addr }}:22:22'
 
 # database usernames and passwords
 gitlab_db_user: novatech
