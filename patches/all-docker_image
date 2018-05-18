@@ -1,5 +1,5 @@
-Bottom: 96bf2fc773243c6c95fe4e6714443ba044155bc6
-Top:    15a84739aba77739eb4dd4171962c0fced8c1769
+Bottom: b4756c679ea1906946782263efa5429d59f2a36a
+Top:    37bdc6bfd48fcf8501cec62aa7c21e0d406d2460
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -25,7 +25,7 @@ index b984d74..11c50d3 100644
 +    path: '{{ docker_projects_dir }}/base-images/{{ item.key }}/{{ item.value.relative_dir }}'
    with_dict: "{{ docker_build_base_images }}"
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 793e3f6..ba32625 100644
+index f00fdf9..53b4d03 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -83,10 +83,10 @@
