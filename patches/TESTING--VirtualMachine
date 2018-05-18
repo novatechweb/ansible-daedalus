@@ -1,5 +1,5 @@
 Bottom: db822a49c3c85e25f4241513c8eabe6a34441413
-Top:    b50dedfada995a13bbe027669d54d1f03eb3d7e2
+Top:    4c9416029a2e5c94137e82094fde064ab601c024
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -64,6 +64,20 @@ index 0000000..af48105
 +    end
 +
 +end
+diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
+new file mode 100644
+index 0000000..acc5521
+--- /dev/null
++++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
+@@ -0,0 +1,8 @@
++---
++
++openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
++openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
++wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
++mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
++svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
++buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
 diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 new file mode 100644
 index 0000000..53b96f8
