@@ -1,5 +1,5 @@
 Bottom: 27942ffdce289578c0087376877c711963a7fd95
-Top:    c22d5e98c99b1254cd28cfa146ba809ecb7fe523
+Top:    5ab96f00567332a826f53ac68493ec4b03194d11
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -112,10 +112,10 @@ index 0000000..225dd44
 +An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 0000000..45477f9
+index 0000000..7332244
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -0,0 +1,35 @@
+@@ -0,0 +1,56 @@
 +---
 +# defaults file for buildbot
 +
@@ -132,15 +132,15 @@ index 0000000..45477f9
 +      - '{{ container_addr_map.buildbot.ip_addr }}:443:443'
 +
 +# Network names
-+docker_network_frontend: 'frontend'
++buildbot_networks:
++  - name: '{{ docker_network_frontend }}'
 +
-+buildbot_data_path: '/buildbot-data'
-+buildbot_database: 'sqlite:///{{ buildbot_data_path }}/state.sqlite'
-+buildbot_timezone: 'America/Chicago'
++buildbot_data_path: '/buildbot'
 +
 +# the name of the image being duilt and used for the container
-+buildbot_image_repo: https://github.com/novatechweb/docker-buildbot.git
++buildbot_image_repo: https://github.com/novatechweb/docker-buildbot-master.git
 +buildbot_image_name: '{{ docker_registry_username }}/buildbot'
++buildbot_image_dir: '{{ docker_projects_dir }}/buildbot-master'
 +
 +# the name of the container being started
 +buildbot_container_name: '{{ docker_name_prefix }}buildbot'
@@ -151,6 +151,27 @@ index 0000000..45477f9
 +# restore directories to temporarly store data being restored into docker containers
 +buildbot_docker_backup_dir: '{{ docker_backup_dir }}/buildbot'
 +host_buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
++
++buildbot_build_args:
++  BUILDBOT_UID: '1000'
++  BUILDBOT_VERSION: '1.1.2'
++  BUILDBOT_TIMEZONE: 'America/Chicago'
++
++buildbot_volumes:
++  - '{{ buildbot_dv_name }}:{{ buildbot_data_path }}:z'
++
++buildbot_env:
++  BUILDBOT_DATABASE: 'sqlite:///{{ buildbot_data_path }}/state.sqlite'
++  BUILDBOT_WEB_PORT: '80'
++  BUILDBOT_WEB_URL: 'http://{{ container_addr_map.buildbot.hostname }}/'
++  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
++  BUILDBOT_SMTP_USER: 'Dean.cox'
++  BUILDBOT_SMTP_PASS: 'no5156'
++  BUILDBOT_WORKER_PORT: '9989'
++  BUILDBOT_WORKER_NTEL: 'worker-ntel'
++  BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
++  BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
++  BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
 diff --git a/roles/buildbot-master/env.yml b/roles/buildbot-master/env.yml
 new file mode 100644
 index 0000000..7ef0578
@@ -191,10 +212,10 @@ index 0000000..5999cdd
 +  # if you add dependencies to this list.
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 0000000..5cf3e23
+index 0000000..8850107
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
-@@ -0,0 +1,30 @@
+@@ -0,0 +1,34 @@
 +---
 +# tasks file for buildbot
 +
@@ -209,22 +230,26 @@ index 0000000..5cf3e23
 +
 +- name: Checkout image repo
 +  git:
-+    repo: '{{ exim4_image_repo }}'
++    repo: '{{ buildbot_image_repo }}'
 +    version: master
-+    dest: '{{ docker_projects_dir }}/docker-exim4'
++    dest: '{{ buildbot_image_dir }}'
 +
 +- name: Create buildbot master image
 +  docker_image:
 +    name: '{{ buildbot_image_name }}'
 +    tag: '{{ docker_image_tag }}'
-+    path: '{{ docker_projects_dir }}/buildbot-master'
++    path: '{{ buildbot_image_dir }}'
++    buildargs: '{{ buildbot_build_args }}'
++    force: true
 +
 +- name: Start buildbot container
 +  docker_container:
 +    name: '{{ buildbot_container_name }}'
 +    image: '{{ buildbot_image_name }}:{{ docker_image_tag }}'
-+    volumes:
-+      - '{{ buildbot_dv_name }}:{{ buildbot_data_path }}:z'
++    networks: '{{ buildbot_networks }}'
++    volumes: '{{ buildbot_volumes }}'
++    env: '{{ buildbot_env }}'
++    ports: '{{ container_port_map.buildbot.port_args }}'
 diff --git a/roles/buildbot-master/vars/main.yml b/roles/buildbot-master/vars/main.yml
 new file mode 100644
 index 0000000..eed3963
