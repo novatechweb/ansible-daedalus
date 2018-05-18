@@ -1,6 +1,6 @@
 Version: 1
-Previous: fe081b2908f3e59ce55d50082742b5686e52cb9e
-Head: 33438a548276f27c53f0a4beb7f0d8bb4d87f410
+Previous: f0ca1d087bd1d65e05a87a9d4a9c55f2a783f608
+Head: 06d9e23dae5e590da5899c134a768ecd48850510
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -56,11 +56,11 @@ Applied:
   all-move-vars-to-defaults: 8db33804723c28d9466555de88b1ae96d103cd57
   sshd-create-role: 27dc6690834e2b30eb9381eb431a70ad30d427f7
   TESTING--VirtualMachine: 33438a548276f27c53f0a4beb7f0d8bb4d87f410
+  wiki-create-required-directories: e0084db1d8ca98c2c694551794dd6961a3caa890
+  mantis-create-required-directories: db66ef34f800c0343b9a380319e448e8e4ec93b0
+  buildbot-parameterize-env: a25c300271d754029e10e724dc1d72cb6c7a5efe
+  buildbot-image-entrypoint: f9b2e9a4b984c1de4d09560fd6f3d07d9a9ed9ee
+  buildbot-dependencies: 840afbdec22568636d87f3e0131bcc9d93483fae
+  playbook-simplify-credentials: 06d9e23dae5e590da5899c134a768ecd48850510
 Unapplied:
-  wiki-create-required-directories: 59459ab53e81cc84316a7c15d6e59bd9135d5ff9
-  mantis-create-required-directories: c7f67f80f81a9fd03da1b15a0a47137a807e48d6
-  buildbot-parameterize-env: ef8ce84c2ced23ce6d12ebb14fab7065c664a25b
-  buildbot-image-entrypoint: 5cd915e684e331148cba45744d862f2669824792
-  buildbot-dependencies: 7edc7dd50f96aa8ecb99b067e09e540f5d9d8a68
-  playbook-simplify-credentials: 9a17c1d8ffa6014cfc2d1cd6a28b5dce06eaf7ab
 Hidden:
