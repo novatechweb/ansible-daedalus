@@ -1,5 +1,5 @@
 Bottom: 2bd8947c197d25eee49ab697d73f6f80fdf207ad
-Top:    97e4f88000b5fc065cccbf8ee26d6e3ee483792c
+Top:    9eec67024c3c2c75c707812d1eb8fb3c06ceff73
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -1050,18 +1050,10 @@ index be79a68..2676649 100644
  # *****************************************************************************
  # For old backups that included the mysql database.
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 201ff7a..f286d43 100644
+index 201ff7a..052ad8c 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
-@@ -87,6 +87,7 @@
-     name: '{{ exim4_image_name }}'
-     tag: '{{ docker_image_tag }}'
-     path: '{{ docker_projects_dir }}/docker-exim4'
-+    force: true
- 
- # *****************************************************************************
- # Create the data volumes
-@@ -110,7 +111,7 @@
+@@ -110,7 +110,7 @@
        - name: '{{ docker_network_frontend }}'
      ports: '{{ exim4_ports }}'
      image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
@@ -1070,7 +1062,7 @@ index 201ff7a..f286d43 100644
      state: started
      volumes:
        - '{{ exim4_cv_name }}:/etc/exim4:z'
-@@ -122,6 +123,7 @@
+@@ -122,6 +122,7 @@
  
  - include_tasks: restore.yml
    when: st_exim4_restore.stat.exists == False
@@ -1167,18 +1159,10 @@ index 6d40fff..90c7934 100644
  # *****************************************************************************
  # restore the gitlap backup
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index df44519..0c2f902 100644
+index df44519..3ee9591 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -81,6 +81,7 @@
-     name: '{{ mantisbt_image_name }}'
-     tag: '{{ docker_image_tag }}'
-     path: '{{ docker_projects_dir }}/docker-mantisbt'
-+    force: true
- 
- - name: Checkout db repo
-   git:
-@@ -144,7 +145,7 @@
+@@ -144,7 +144,7 @@
    docker_container:
      name: '{{ mantisbt_db_container_name }}'
      detach: true
@@ -1187,7 +1171,7 @@ index df44519..0c2f902 100644
      volumes_from:
        - '{{ mantisbt_db_dv_name }}'
      image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
-@@ -155,7 +156,7 @@
+@@ -155,7 +155,7 @@
    docker_container:
      name: '{{ mantisbt_container_name }}'
      detach: true
@@ -1196,7 +1180,7 @@ index df44519..0c2f902 100644
      hostname: '{{ container_addr_map.mantisbt.hostname }}'
      ports: '{{ container_port_map.mantisbt.port_args }}'
      networks:
-@@ -186,3 +187,4 @@
+@@ -186,3 +186,4 @@
  
  - include_tasks: restore.yml
    when: st_mantisbt_restore.stat.exists == False
@@ -1259,18 +1243,10 @@ index 19eeaa8..323c254 100644
  - name: exists - Static
    stat:
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 251ba34..582a1fa 100644
+index 251ba34..580c03f 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -82,6 +82,7 @@
-     name: '{{ wiki_image_name }}'
-     tag: '{{ docker_image_tag }}'
-     path: '{{ docker_projects_dir }}/docker-mediawiki'
-+    force: True
- 
- # *****************************************************************************
- # Create the data volumes
-@@ -118,7 +119,7 @@
+@@ -118,7 +118,7 @@
    docker_container:
      name: '{{ wiki_db_container_name }}'
      detach: true
@@ -1279,7 +1255,7 @@ index 251ba34..582a1fa 100644
      volumes_from: '{{ wiki_db_dv_name }}'
      image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
      networks:
-@@ -128,7 +129,7 @@
+@@ -128,7 +128,7 @@
    docker_container:
      name: '{{ wiki_container_name }}'
      detach: true
@@ -1288,7 +1264,7 @@ index 251ba34..582a1fa 100644
      hostname: '{{ container_addr_map.wiki.hostname }}' 
      ports: '{{ container_port_map.wiki.port_args }}'
      networks:
-@@ -147,3 +148,4 @@
+@@ -147,3 +147,4 @@
  
  - include_tasks: restore.yml
    when: st_mediawiki_restore.stat.exists == False
@@ -1334,18 +1310,10 @@ index 0307d42..90b9b94 100644
  - name: exists - Static
    stat:
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 061770f..45c83c2 100644
+index 061770f..125fc4f 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
-@@ -72,6 +72,7 @@
-     name: '{{ openldap_image_name }}'
-     tag: '{{ docker_image_tag }}'
-     path: '{{ docker_projects_dir }}/docker-openldap'
-+    force: true
- 
- # *****************************************************************************
- # Create the data volumes
-@@ -110,7 +111,7 @@
+@@ -110,7 +110,7 @@
    docker_container:
      name: '{{ openldap_container_name }}'
      detach: true
@@ -1354,13 +1322,7 @@ index 061770f..45c83c2 100644
      hostname: '{{ container_addr_map.ldap.hostname }}'
      ports: '{{ container_port_map.ldap.port_args }}'
      volumes:
-@@ -136,12 +137,13 @@
-     name: '{{ phpldapadmin_image_name }}'
-     tag: '{{ docker_image_tag }}'
-     path: '{{ docker_projects_dir }}/docker-phpldapadmin'
-+    force: true
- 
- - name: start container (phpldapadmin)
+@@ -141,7 +141,7 @@
    docker_container:
      name: '{{ phpldapadmin_container_name }}'
      detach: true
@@ -1369,7 +1331,7 @@ index 061770f..45c83c2 100644
      hostname: '{{ container_addr_map.ldap.hostname }}'
      ports: '{{ container_port_map.phpldapadmin.port_args }}'
      volumes:
-@@ -159,6 +161,7 @@
+@@ -159,6 +159,7 @@
  
  - include_tasks: restore.yml
    when: st_openldap_restore.stat.exists == False
@@ -1439,21 +1401,9 @@ index 21628c8..7740ffa 100644
  - name: exists - openssl archive
    stat:
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index f87afb7..40661b6 100644
+index f87afb7..2fc8540 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
-@@ -61,10 +61,10 @@
- 
- - name: build image
-   docker_image:
--    force: true
-     name: '{{ svn_image_name }}'
-     tag: '{{ docker_image_tag }}'
-     path: '{{ docker_projects_dir }}/docker-svn'
-+    force: true
- 
- # *****************************************************************************
- # Create the data volumes
 @@ -80,7 +80,7 @@
    docker_container:
      name: '{{ svn_container_name }}'
