@@ -51,3 +51,6 @@ phpldapadmin_image_name: 'osixia/phpldapadmin:latest'
 
 # the name of the container being started
 phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
+
+# Network names
+docker_network_frontend: 'frontend'
