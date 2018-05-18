@@ -1,6 +1,6 @@
 Version: 1
-Previous: 47c3ed6021481d23399c53f865cb03c2843904ea
-Head: 35f473d24574c0f6c37ed094bf7a11b9f88cdb1f
+Previous: 0a5919dd45b2a12c09a3c672465730a3979f606d
+Head: 151f927d0de9c713a1df67aff75758f14906817c
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -42,25 +42,25 @@ Applied:
   exim4-exec-account-script: d567029189037811d1b974513799e2d74aaac9a8
   ldap-wait-on-startup: 26c26d6c5d1440e80b6ced52edcd67526e9f45e9
   ldap-add-phpldapadmin: 35f473d24574c0f6c37ed094bf7a11b9f88cdb1f
+  ssl-limit-scope: 0781007d57c2d3fe0dc802f410ce87f7ed9c4720
+  svn-hotcopy: 895789aac8863d5e63eb837527923602a79e420d
+  svn-allow-empty: 9eee4165002616fb52ff56e7fd430b3e4bb0a85d
+  svn-create-required-directories: 14ad68fc54c0c62e180f7860cbc7367418b60baf
+  wiki-downgrade-extensions: fddaf33c03444d0b5907b98ff7ccd00bb0a5bbc8
+  buildbot-master: 84263932f10aba5625e320e3c3c5f3dfea975329
+  buildbot-worker-ntel: e2e72526e351ea1da9beefacd60162b58e0f5ece
+  buildbot-worker-ptxdist: 02c510b692d1ecab5f24cb1f96fde82251b95f1d
+  fix-ssh-folder-permission: b61c31241c76c94feb26865385af7d32acaad299
+  update-ntel-builds-for-new: eb370990d1433a610209b81fc45049fe91ffc2c3
+  add-parameter-for-buildbot: a7333716dbd3ed6c1230ec6915046e5a8bedfbc8
+  update-ptxdist-build-factories: de560cf5d7332da4588d5324c7c791c89d7eab35
+  sshd-create-role: 21ed43a95ee454e04dfbf153fa3910149b31d0d4
+  wiki-create-required-directories: 2cca5e25144b1ddb1d3052db3239a9f2e373c97c
+  mantis-create-required-directories: b787b2f7b0ba37a217a3c3f68a6a042e867fbd32
+  buildbot-parameterize-env: d6678161def129a2d58d2f92d3d0560b89cdcac0
+  buildbot-image-entrypoint: 0d811bd0765d77a7301fc497e1e76e2362366a58
+  buildbot-dependencies: c33345879dc4a7d9b11b4bb8c85e8b9e2a46d485
+  playbook-simplify-credentials: 12d538297b3733bf3b32e7e80c754dee888b02af
+  TESTING--VirtualMachine: 151f927d0de9c713a1df67aff75758f14906817c
 Unapplied:
-  ssl-limit-scope: a0c3455286d2b5ea12e9f0ffd369c0a47992398b
-  svn-hotcopy: e166bff97c6d3f85913bb87b2b653d24d8788ff4
-  svn-allow-empty: 97719eecf8b59bed52da500da8e2b30069504395
-  svn-create-required-directories: 6ba24f64a3050842efcadaddee12620bc77b15dc
-  wiki-downgrade-extensions: 543523bbdc8bdc873290658006012b85ac2652e4
-  buildbot-master: 41a1d16e90e0257e016b8cc453b64666df90fdfc
-  buildbot-worker-ntel: 1f6aeb02b99d0e48aa6cdb33d7fd8b60f49c23e6
-  buildbot-worker-ptxdist: 282cbb846913cc85503020b7c795116d6a58964c
-  fix-ssh-folder-permission: 5b1d2756588d06916edb4d5f1508c05e3ea629dd
-  update-ntel-builds-for-new: a2b0a9d275cb5229c124034f6b7e932911c7eb80
-  add-parameter-for-buildbot: e2897e3983ab8149376405aeed917414f09de072
-  update-ptxdist-build-factories: e20f5f48fc12dd20b4514380da1dd5f8f7a38a5c
-  sshd-create-role: 27dc6690834e2b30eb9381eb431a70ad30d427f7
-  wiki-create-required-directories: adba76abfc27ca7bcca128d027d359573e18ad38
-  mantis-create-required-directories: 1e1ffc66ebac44f238c66223eab3984c9829b30e
-  buildbot-parameterize-env: 9df62783fccb285ea993a6d4fa3df9fb63d6fb72
-  buildbot-image-entrypoint: 7b478a20baa2271ca438348fcbffa7f40876546f
-  buildbot-dependencies: 34ae4ba4e570c14dedab48ba85e2df1d6a513c19
-  playbook-simplify-credentials: f29d335428236581681c6fde5a3b7484e0c1c938
-  TESTING--VirtualMachine: 148879e28ff2b5dd1b665431ba73c55a5733b967
 Hidden:

@@ -1,5 +1,5 @@
-Bottom: 15077bfb938b6889a5a74a0389eb9eea02233f79
-Top:    cbb5d9d2242698b38659af468be27d3e59f31447
+Bottom: f73683b7ec1f76f02c466a92425062bb37068091
+Top:    09ed194c12c550746d0e92f23f13d242926dd8f5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -813,7 +813,7 @@ index 0307d42..90b9b94 100644
  - name: exists - Static
    stat:
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index cccd9a3..55c3e11 100644
+index 061770f..125fc4f 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -110,7 +110,7 @@
@@ -870,10 +870,10 @@ index 8e4a335..34c83e2 100644
  # *****************************************************************************
  # restore the openldap backup
 diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
-index 4f711aa..95601db 100644
+index 7bb3bf8..a3828f6 100644
 --- a/roles/docker-openssl/tasks/main.yml
 +++ b/roles/docker-openssl/tasks/main.yml
-@@ -98,3 +98,4 @@
+@@ -97,3 +97,4 @@
  
  - include_tasks: restore.yml
    when: st_openssl_restore.stat.exists == False
