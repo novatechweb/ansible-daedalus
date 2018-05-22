@@ -1,0 +1,10 @@
+Bottom: 9ea2185f1e4e1fa9f4e6cadbee5326b993a63c61
+Top:    9ea2185f1e4e1fa9f4e6cadbee5326b993a63c61
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-22 14:46:15 -0500
+
+Fix mariadb bind ip address
+
+
+---
+
