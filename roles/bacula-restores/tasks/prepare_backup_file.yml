@@ -1,0 +1,28 @@
+- name: Set bacula storage file permissions
+  file:
+    path: '{{ item.path }}'
+    mode: '0777'
+    owner: root
+    group: root
+
+- name: Delete and empty restore directory
+  file:
+    path: '{{ item.path | replace(bacula_storage,bacula_dest) | dirname }}'
+    state: directory
+    force: yes
+    state: absent
+
+- name: Create bacula restores directories
+  file:
+    path: '{{ item.path | replace(bacula_storage,bacula_dest) | dirname }}'
+    state: directory
+    force: yes
+    mode: 0777
+    state: directory
+
+- name: Create bacula restores symlinks to storage files
+  file:
+    src: '{{ item.path }}'
+    dest: '{{ item.path | replace(bacula_storage,bacula_dest) }}'
+    state: link
+    force: yes
