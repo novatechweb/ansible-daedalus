@@ -1,6 +1,6 @@
 Version: 1
-Previous: bcf96b37168377e292e39d10e040c1b4e6be53b1
-Head: 0825b1b9a8e75373db4819dd52fd8846a4e9ba41
+Previous: 512206ad4b2039197a4522a7604ee01df62dc09f
+Head: 0953469cb2b9c8e98d762f7d3aad04bb12f82dab
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -17,6 +17,7 @@ Applied:
   all-move-vars-to-defaults: e3f73d8a09e24307a2410f7a6f6ac539ddf3509e
   playbook-remove-docker-pull-images: 41211eefb38481a79435e47e3765754bc599837f
   all-docker_container: 0953469cb2b9c8e98d762f7d3aad04bb12f82dab
+Unapplied:
   all-docker_volume: af1b3d8a778f011d5dfd3b876d280fef16ce4448
   all-docker_network: 5cef123fc2d01841f54b915d472f9f893cd4c36a
   all-docker_image: 94c1b880ae75d5baf68841b7ed6799219972ed3a
@@ -69,5 +70,4 @@ Applied:
   mariadb-fix-bind-address: 3430bc84b6b6813fdad5a44c2d7a309feb2fa120
   tmp-wiki-database: 6465b6059ee9fecd1353366783b5fd36d13de868
   tmp-mantis-database: 0825b1b9a8e75373db4819dd52fd8846a4e9ba41
-Unapplied:
 Hidden:
