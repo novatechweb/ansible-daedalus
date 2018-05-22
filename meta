@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4791d0eb190baa069364e32ab9b2f1251f355766
-Head: 0bb904ed78059b986355356342959aab2fa3bd51
+Previous: 9b7d0218b92d3fe1aea3bba38dff7d6c92f15c70
+Head: 9d880890e3293617c9ee47ba9c42d4b21db5e29f
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -64,5 +64,6 @@ Applied:
   TESTING--VirtualMachine: 073f98fe5194807406c391bf1ccfd1b388ecdd88
   all-normalize-vars: 97cbda5196121b5519525d88a7ad0febdf4d6ba3
   tmp-update-gitlab-version: 0bb904ed78059b986355356342959aab2fa3bd51
+  refresh-temp: 9d880890e3293617c9ee47ba9c42d4b21db5e29f
 Unapplied:
 Hidden:
