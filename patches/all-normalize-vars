@@ -1,5 +1,5 @@
 Bottom: fe8bebd73f0231703237ff033a726b72260b5969
-Top:    1a949d3dc9fb7ef840f4bf6e124c379a98156514
+Top:    cf4179f6cdfae01679c9569a9f6e22cc07ea7d05
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 11:30:36 -0500
 
@@ -403,7 +403,7 @@ index 1ed2a35..019799f 100644
  # *****************************************************************************
  # Utility container - phpldapadmin
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 45c83c2..cda73dc 100644
+index 45c83c2..9a2b5a1 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -5,8 +5,8 @@
@@ -426,8 +426,18 @@ index 45c83c2..cda73dc 100644
      owner: root
      group: tape
      mode: 'u=rwx,g=rwx,o=rx'
+@@ -174,7 +174,7 @@
+     state: started
+ 
+ - name: set LDAP admin password
+-  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ ldap_admin_password | quote }}'
++  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ openldap_admin_password | quote }}'
+ 
+ - name: set LDAP proxyagent password
+-  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_proxyagent_pass {{ ldap_admin_password | quote }} {{ ldap_proxyagent_password | quote }}'
++  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_proxyagent_pass {{ openldap_admin_password | quote }} {{ openldap_proxyagent_password | quote }}'
 diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
-index 34c83e2..00f6ef9 100644
+index 34c83e2..fd82c7f 100644
 --- a/roles/docker-openldap/tasks/restore.yml
 +++ b/roles/docker-openldap/tasks/restore.yml
 @@ -6,8 +6,8 @@
@@ -441,7 +451,7 @@ index 34c83e2..00f6ef9 100644
  
  - name: Get data-volume data from tape
    bacula:
-@@ -16,7 +16,7 @@
+@@ -16,11 +16,11 @@
      fileset: '{{ bacula_fileset }}'
      dest: '{{ bacula_dest }}'
      path_to_restore: '{{ openldap_docker_backup_dir }}'
@@ -450,6 +460,11 @@ index 34c83e2..00f6ef9 100644
  
  # - name: Set permissions for data-volume data
  #   file:
+-#     path: '{{ host_openldap_docker_restore_dir }}/{{ item.ldif_file }}'
++#     path: '{{ openldap_docker_restore_dir }}/{{ item.ldif_file }}'
+ #     state: touch
+ #     owner: root
+ #     group: root
 @@ -45,7 +45,7 @@
  
  - name: Remove database backup file
