@@ -1,0 +1,114 @@
+Bottom: c8a0023fc872b952d35873d8c9f60bfc2ac5cd37
+Top:    2a41508ad34a70e3e50946a4d4f94be569db4ed1
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-22 11:30:42 -0500
+
+Refresh of all-normalize-vars
+
+---
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 7332244..36d83bf 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -32,7 +32,7 @@ buildbot_dv_name: '{{ docker_name_prefix }}buildbot_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ buildbot_docker_backup_dir: '{{ docker_backup_dir }}/buildbot'
+-host_buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
++buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
+ 
+ buildbot_build_args:
+   BUILDBOT_UID: '1000'
+diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
+index 7262e16..e760fb8 100644
+--- a/roles/docker-exim4/defaults/main.yml
++++ b/roles/docker-exim4/defaults/main.yml
+@@ -31,7 +31,7 @@ exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ exim4_docker_backup_dir: '{{ docker_backup_dir }}/EXIM4'
+-host_exim4_docker_restore_dir: '{{ bacula_dest }}{{ exim4_docker_backup_dir }}'
++exim4_docker_restore_dir: '{{ bacula_dest }}{{ exim4_docker_backup_dir }}'
+ 
+ # files restored from tape
+ exim4_backup_file: '/exim4.tar'
+diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
+index b742c18..1a8478a 100644
+--- a/roles/docker-gitlab/defaults/main.yml
++++ b/roles/docker-gitlab/defaults/main.yml
+@@ -44,7 +44,7 @@ gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
+-host_gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
++gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
+ 
+ # Network names
+ docker_network_frontend: 'frontend'
+diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
+index e4df7a7..f2d3efa 100644
+--- a/roles/docker-mantisbt/defaults/main.yml
++++ b/roles/docker-mantisbt/defaults/main.yml
+@@ -41,7 +41,7 @@ mantisbt_db_dv_name: '{{ docker_name_prefix }}mantisbt_db_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ mantisbt_docker_backup_dir: '{{ docker_backup_dir }}/MANTISBT'
+-host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_dir }}'
++mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_dir }}'
+ 
+ # files restored from tape
+ mantisbt_static_backup_file: '/mantisbt.tar'
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index dbfe971..7b88908 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -40,7 +40,7 @@ wiki_db_dv_name: '{{ docker_name_prefix }}wiki_db_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ wiki_docker_backup_dir: '{{ docker_backup_dir }}/WIKI'
+-host_wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
++wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
+ 
+ # files restored from tape
+ wiki_static_backup_file: '/mediawiki.tar'
+diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
+index 1ed2a35..8408262 100644
+--- a/roles/docker-openldap/defaults/main.yml
++++ b/roles/docker-openldap/defaults/main.yml
+@@ -39,9 +39,7 @@ openldap_dv_name: '{{ docker_name_prefix }}ldap_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ openldap_docker_backup_dir: '{{ docker_backup_dir }}/LDAP'
+-host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
+-
+-
++openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
+ 
+ # *****************************************************************************
+ # Utility container - phpldapadmin
+diff --git a/roles/docker-openssl/defaults/main.yml b/roles/docker-openssl/defaults/main.yml
+index 7e661a4..770403a 100644
+--- a/roles/docker-openssl/defaults/main.yml
++++ b/roles/docker-openssl/defaults/main.yml
+@@ -9,7 +9,7 @@ openssl_dv_name: '{{ docker_name_prefix }}openssl_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ openssl_docker_backup_dir: '{{ docker_backup_dir }}/openssl'
+-host_openssl_docker_restore_dir: '{{ bacula_dest }}{{ openssl_docker_backup_dir }}'
++openssl_docker_restore_dir: '{{ bacula_dest }}{{ openssl_docker_backup_dir }}'
+ 
+ # files restored from tape
+ openssl_backup_file: '/openssl.tar'
+diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
+index bb41634..a18ab50 100644
+--- a/roles/docker-svn/defaults/main.yml
++++ b/roles/docker-svn/defaults/main.yml
+@@ -28,7 +28,7 @@ svn_dv_name: '{{ docker_name_prefix }}svn_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ svn_docker_backup_dir: '{{ docker_backup_dir }}/SVN'
+-host_svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
++svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
+ 
+ # Network names
+ docker_network_frontend: 'frontend'
