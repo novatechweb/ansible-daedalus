@@ -65,6 +65,13 @@
     get_md5: False
   register: st_gitlab_restore
 
+  # *****************************************************************************
+# upgrade?
+
+- include_tasks: upgrade.yml
+  when:
+  - upgrade
+
 # *****************************************************************************
 # Update or make the image.
 
@@ -87,14 +94,6 @@
     path: '{{ docker_projects_dir }}/docker-gitlab'
     force: "{{ docker_image_force_build }}"
 
-# Data volume image is now the same as the container image
-#- name: build image
-#  docker_image:
-#    image_name: '{{ gitlab_dv_image_name }}'
-#    image_tag: '{{ docker_image_tag }}'
-#    dockerfile_dir: '{{ docker_projects_dir }}/docker-gitlab'
-#    force: "{{ docker_image_force_build }}"
-
 # *****************************************************************************
 # Create the data volumes
 
@@ -106,23 +105,6 @@
   docker_volume:
     name: '{{ gitlab_db_dv_name }}'
 
-- name: stop prev container (postgres)
-  docker_container:
-    image: '{{ gitlab_db_image_name }}'
-    name: '{{ gitlab_db_container_name }}'
-    state: stopped
-
-- name: initial populate (postgres)
-  docker_db_init:
-    image_name: '{{ gitlab_db_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    container_name: '{{ gitlab_db_dv_name }}_init_db'
-    data_volume_container_name: '{{ gitlab_db_dv_name }}'
-    data_volume_dir: '{{ docker_projects_dir }}/docker-gitlab/postgres/'
-    database_name: gitlabhq_production
-    database_user: '{{ gitlab_db_user }}'
-    database_password: '{{ gitlab_db_password | quote }}'
-
 # *****************************************************************************
 # Start the data container running
 
@@ -131,7 +113,7 @@
     name: '{{ gitlab_redis_container_name }}'
     detach: true
     restart_policy: '{{ docker_restart_policy }}'
-    image: '{{ redis_image_name }}:{{ docker_image_tag }}'
+    image: '{{ redis_image_name }}:{{ redis_image_tag }}'
     networks:
       - name: '{{ docker_network_frontend }}'
 
@@ -140,10 +122,25 @@
     name: '{{ gitlab_db_container_name }}'
     detach: true
     restart_policy: '{{ docker_restart_policy }}'
-    volumes_from: '{{ gitlab_db_dv_name }}'
-    image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
+    volumes:
+    - '{{ gitlab_db_dv_name }}:/var/lib/postgresql/data'
+    image: '{{ gitlab_db_image_name }}:{{ gitlab_db_image_tag }}'
     networks:
-      - name: '{{ docker_network_frontend }}'
+    - name: '{{ docker_network_frontend }}'
+    env:
+      POSTGRES_DB: "gitlabhq_production"
+      POSTGRES_USER: "{{ gitlab_db_user }}"
+      POSTGRES_PASSWORD: "{{ gitlab_db_password | quote }}"
+
+- name: Wait for container (postgres)
+  command: >
+    docker exec --user postgres
+    {{ gitlab_db_container_name }}
+    psql -l
+  register: output
+  retries: 10
+  delay: 3
+  until: output.rc == 0
 
 - name: start container (gitlab)
   docker_container:
@@ -154,29 +151,36 @@
     ports: '{{ gitlab_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
-    volumes-from:
-      - '{{ openssl_dv_name }}'
-      - '{{ gitlab_dv_name }}'
+    volumes:
+      - '{{ openssl_dv_name }}:/etc/ssl/private:ro'
+      - '{{ gitlab_dv_name }}:/home/git/data'
+      - '{{ gitlab_docker_backup_dir }}:/home/git/backups'
     env:
-      - GITLAB_HOST={{ gitlab_hostname }}
-      - GITLAB_SSH_HOST={{ gitlab_hostname }}
-      - DB_USER={{ gitlab_db_user }}
-      - DB_PASS={{ gitlab_db_password | quote }}
-      - SMTP_HOST={{ exim4_hostname }}
-      - SMTP_PASS={{ gitlab_email_password | quote }}
-      - LDAP_PASS={{ ldap_proxyagent_password | quote }}
-      - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
-      - GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }}
-    env-file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
+      DEBUG: 'true'
+      DEBUG_ENTRYPOINT: 'true'
+      GITLAB_TIMEZONE: "America\\/Chicago"
+      GITLAB_HOST: "{{ gitlab_hostname }}"
+      GITLAB_SSH_HOST: "{{ gitlab_hostname }}"
+      DB_HOST: "{{ gitlab_db_container_name }}"
+      DB_USER: "{{ gitlab_db_user }}"
+      DB_PASS: "{{ gitlab_db_password | quote }}"
+      REDIS_HOST: "{{ gitlab_redis_container_name }}"
+      SMTP_HOST: "{{ exim4_hostname }}"
+      SMTP_PASS: "{{ gitlab_email_password | quote }}"
+      LDAP_PASS: "{{ openldap_proxyagent_password | quote }}"
+      GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password | quote }}"
+      GITLAB_SECRETS_DB_KEY_BASE: "{{ gitlab_secrets_db_key_base | quote }}"
+      SSL_DHPARAM_PATH: /etc/ssl/private/dhparam.pem
+    env_file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
     image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
 
 - name: Wait for gitlab to be fully running
-  docker_health:
-    name: '{{ gitlab_container_name }}'
+  uri:
+    url: 'https://{{ gitlab_hostname }}/users/sign_in'
   register: health
-  retries: 60
-  delay: 5
-  until: health.Health.Status == "healthy"
+  retries: 10
+  delay: 30
+  until: health is success
 
 # *****************************************************************************
 # restore?
