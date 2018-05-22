@@ -2,6 +2,7 @@
 
 openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
 openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
+phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
 wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
 mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
 svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
