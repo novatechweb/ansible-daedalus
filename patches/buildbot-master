@@ -1,5 +1,5 @@
 Bottom: 3efde3993c0bc4dcb5e20db6ae9fc349178163a0
-Top:    dffc670db16727cbbfdb1010918e8679602fe7dc
+Top:    96984faf36f91d2d10ecf8807ec387ba3720f947
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -112,7 +112,7 @@ index 0000000..225dd44
 +An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 0000000..7332244
+index 0000000..64802d0
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -0,0 +1,56 @@
@@ -154,7 +154,7 @@ index 0000000..7332244
 +
 +buildbot_build_args:
 +  BUILDBOT_UID: '1000'
-+  BUILDBOT_VERSION: '1.1.2'
++  BUILDBOT_VERSION: 'v1.1.2'
 +  BUILDBOT_TIMEZONE: 'America/Chicago'
 +
 +buildbot_volumes:
