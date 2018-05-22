@@ -1,0 +1,11 @@
+Bottom: 49403f4045a0bc812f063359ff33aea2fc7d9384
+Top:    49403f4045a0bc812f063359ff33aea2fc7d9384
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-22 15:56:24 -0500
+
+Fix mantisbt mysql database provision
+
+
+
+---
+
