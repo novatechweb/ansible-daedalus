@@ -58,9 +58,6 @@
     group: tape
     mode: 'u=rw,g=r,o='
 
-- name: copy script
-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mantisbt/mantisbt.sh {{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}'
-
 - name: exists - state file
   stat:
     path: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/restore.date.txt'
@@ -75,6 +72,12 @@
     repo: '{{ mantisbt_image_repo }}'
     version: master
     dest: '{{ docker_projects_dir }}/docker-mantisbt'
+
+- name: copy script
+  copy:
+    remote_src: true
+    src: '{{ docker_projects_dir }}/docker-mantisbt/mantisbt.sh'
+    dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
 
 - name: build image
   docker_build:
