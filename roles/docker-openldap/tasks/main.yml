@@ -106,7 +106,7 @@
 # *****************************************************************************
 # Start the data container running
 
-- name: start container (ldap)
+- name: create container (ldap)
   docker_container:
     name: '{{ openldap_container_name }}'
     detach: true
@@ -122,6 +122,19 @@
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    state: present
+
+# *****************************************************************************
+# restore?
+
+- include_tasks: restore.yml
+  when: st_openldap_restore.stat.exists == False
+  tags: restore
+
+- name: start container (ldap)
+  docker_container:
+    name: '{{ openldap_container_name }}'
+    state: started
 
 # *****************************************************************************
 # Update or make the image.
@@ -155,20 +168,14 @@
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
 
 # *****************************************************************************
-# restore?
-
-- include_tasks: restore.yml
-  when: st_openldap_restore.stat.exists == False
-
-# *****************************************************************************
 # Set the LDAP passwords
 
-- name: wait for LDAP to start
-  wait_for:
-    delay: 5
-    host: '{{ container_addr_map.ldap.ip_addr }}'
-    port: 389
-    state: started
+# - name: wait for LDAP to start
+#   wait_for:
+#     delay: 5
+#     host: '{{ openldap_ip_addr }}'
+#     port: 389
+#     state: started
 
 - name: set LDAP admin password
   command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ ldap_admin_password | quote }}'
