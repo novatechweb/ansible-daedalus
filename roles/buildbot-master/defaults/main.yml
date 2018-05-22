@@ -36,7 +36,7 @@ buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
 
 buildbot_build_args:
   BUILDBOT_UID: '1000'
-  BUILDBOT_VERSION: '1.1.2'
+  BUILDBOT_VERSION: 'v1.1.2'
   BUILDBOT_TIMEZONE: 'America/Chicago'
 
 buildbot_volumes:
