@@ -1,5 +1,7 @@
 ---
 
+gitlab_version: "7.14.3"
+
 # The hostname passed as an envirnment variable into the container
 gitlab_ip_addr: '127.0.0.1'
 gitlab_hostname: git.example.com
@@ -16,19 +18,23 @@ gitlab_db_user: novatech
 
 # the name of the image being duilt and used for the container
 gitlab_image_repo: 'https://github.com/novatechweb/docker-gitlab.git'
+gitlab_image_branch: 'master'
 gitlab_image_name: '{{ docker_registry_username }}/gitlab'
+gitlab_image_tag: '{{docker_image_tag}}'
 gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
-gitlab_db_image_name: '{{ docker_registry_username }}/postgres'
-redis_image_name: '{{ docker_registry_username }}/redis'
+gitlab_db_image_name: 'postgres'
+gitlab_db_image_tag: '9.4'
+redis_image_name: 'redis'
+redis_image_tag: '3.0'
 
 # the name of the gitlab container
 gitlab_container_name: '{{ docker_name_prefix }}gitlab'
 
 # the name of the redis container for gitlab
-gitlab_redis_container_name: '{{ docker_name_prefix }}gitlab_redis'
+gitlab_redis_container_name: '{{ docker_name_prefix }}gitlab-redis'
 
 # the name of the postgres container for gitlab
-gitlab_db_container_name: '{{ docker_name_prefix }}gitlab_db'
+gitlab_db_container_name: '{{ docker_name_prefix }}gitlab-db'
 
 # the name of the data-volume used by the container
 gitlab_dv_name: '{{ docker_name_prefix }}gitlab_DV'
