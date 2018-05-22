@@ -1,5 +1,5 @@
 Bottom: 097f7a7486f872dfb84d88d7738564118ef1c26d
-Top:    4adb5b250ef415a0facb22ca10afd24bf18b2ff2
+Top:    b422ea366cfe86c8769cc34ef624b34874681559
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:14:44 -0500
 
@@ -22,6 +22,35 @@ index c47c128..3c3b77e 100644
    - name: Run common Docker tasks
      role: docker-common
      tags:
+diff --git a/roles/setup-remote-user/tasks/main.yml b/roles/setup-remote-user/tasks/main.yml
+index ed59a08..a4b3c79 100644
+--- a/roles/setup-remote-user/tasks/main.yml
++++ b/roles/setup-remote-user/tasks/main.yml
+@@ -32,24 +32,3 @@
+     line: 'ansibleremote ALL=(ALL) NOPASSWD: ALL'
+     regexp: 'ansibleremote ALL=(ALL) NOPASSWD: ALL'
+     state: present
+-
+-- name: lockdown root user
+-  lineinfile:
+-    dest: /etc/ssh/sshd_config
+-    regexp: '^[#]?PermitRootLogin .*$'
+-    line: 'PermitRootLogin no'
+-    state: present
+-
+-- name: Set ssh ListenAddress
+-  lineinfile:
+-    dest: /etc/ssh/sshd_config
+-    regexp: '^[#]ListenAddress .*$'
+-    replace: 'ListenAddress {{ ansible_br0["ipv4"]["address"] }}'
+-  when: 
+-    - ansible_os_family == "RedHat"
+-    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+-
+-- name: restart sshd service
+-  service:
+-    name: sshd
+-    state: restarted
 diff --git a/roles/sshd/README.md b/roles/sshd/README.md
 new file mode 100644
 index 0000000..225dd44
