@@ -41,7 +41,7 @@ mantisbt_db_dv_name: '{{ docker_name_prefix }}mantisbt_db_DV'
 
 # restore directories to temporarly store data being restored into docker containers
 mantisbt_docker_backup_dir: '{{ docker_backup_dir }}/MANTISBT'
-host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_dir }}'
+mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_dir }}'
 
 # files restored from tape
 mantisbt_static_backup_file: '/mantisbt.tar'

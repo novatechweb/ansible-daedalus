@@ -28,7 +28,7 @@ svn_dv_name: '{{ docker_name_prefix }}svn_DV'
 
 # restore directories to temporarly store data being restored into docker containers
 svn_docker_backup_dir: '{{ docker_backup_dir }}/SVN'
-host_svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
+svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
 
 # Network names
 docker_network_frontend: 'frontend'
