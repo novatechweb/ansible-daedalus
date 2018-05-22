@@ -1,5 +1,5 @@
 Bottom: 33b2ea88ba455e219fe53dae6770ac2de8130039
-Top:    394cb4b17d20c30656fd6e21854f8168635a36e8
+Top:    ba87fb184af71517e8930141dbd8d82e22b03a16
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -66,14 +66,15 @@ index 0000000..af48105
 +end
 diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
 new file mode 100644
-index 0000000..acc5521
+index 0000000..8917e7c
 --- /dev/null
 +++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
-@@ -0,0 +1,8 @@
+@@ -0,0 +1,9 @@
 +---
 +
 +openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
 +openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
++phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
 +wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
 +mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
 +svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
