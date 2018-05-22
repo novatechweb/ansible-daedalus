@@ -39,9 +39,7 @@ openldap_dv_name: '{{ docker_name_prefix }}ldap_DV'
 
 # restore directories to temporarly store data being restored into docker containers
 openldap_docker_backup_dir: '{{ docker_backup_dir }}/LDAP'
-host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
-
-
+openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
 
 # *****************************************************************************
 # Utility container - phpldapadmin

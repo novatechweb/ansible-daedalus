@@ -32,7 +32,7 @@ buildbot_dv_name: '{{ docker_name_prefix }}buildbot_DV'
 
 # restore directories to temporarly store data being restored into docker containers
 buildbot_docker_backup_dir: '{{ docker_backup_dir }}/buildbot'
-host_buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
+buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
 
 buildbot_build_args:
   BUILDBOT_UID: '1000'
