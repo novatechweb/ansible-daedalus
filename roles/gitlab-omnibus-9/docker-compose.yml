@@ -1,0 +1,36 @@
+version: "3"
+services:
+  gitlab:
+    build:
+      context: .
+      args:
+        GITLAB_VERSION: "${GITLAB_VERSION}"
+    image: 'novatechweb/gitlab-ce:${GITLAB_VERSION}'
+    hostname: 'git.novatech-llc.com'
+    networks:
+      - frontend
+    ports:
+      - '${PUBLIC_IP}:8080:80'
+      - '${PUBLIC_IP}:8443:443'
+      - '${PUBLIC_IP}:8022:22'
+    volumes:
+      - gitlab-ce-config:/etc/gitlab
+      - gitlab-ce-logs:/var/log/gitlab
+      - gitlab-ce-data:/var/opt/gitlab
+      - gitlab-ce-backups:/mnt/backups
+      - gitlab-ssl:/run/secrets/ssl
+
+networks:
+  frontend:
+
+volumes:
+  gitlab-ce-backups:
+    external: true
+  gitlab-ce-config:
+    external: true
+  gitlab-ce-logs:
+    external: true
+  gitlab-ce-data:
+    external: true
+  gitlab-ssl:
+    external: true

@@ -23,19 +23,20 @@
   find:
     path: '{{ gitlab_docker_restore_dir }}'
     file_type: any
+    follow: yes
   register: gitlab_backup
 
-# - name: File permissions
-#   file:
-#     path: '{{ gitlab_docker_restore_dir }}/{{ item }}'
-#     state: touch
-#     owner: root
-#     group: root
-#     mode: 'u=rwx,g=rwx,o='
-#   with_items: '{{ gitlab_backup.file_list | default([]) }}'
+- name: File permissions
+  file:
+    path: '{{ gitlab_docker_restore_dir }}/{{ item }}'
+    state: touch
+    owner: root
+    group: root
+    mode: 'u=rwx,g=rwx,o='
+  with_items: '{{ gitlab_backup.file_list | default([]) }}'
 
 # *****************************************************************************
-# restore the gitlap backup
+# restore the gitlab backup
 
 - name: Copy backup files to container
   copy:
@@ -49,31 +50,37 @@
 
 - name: shut down gitlab services for restoration
   command: >
-    docker exec {{ gitlab_container_name }}
-    supervisorctl stop {{ item }}
+    docker exec -t {{ gitlab_container_name }} gitlab-ctl stop {{ item }}
   loop:
   - unicorn
   - sidekiq
 
 - name: gitlab restore script
   command: >
-    docker exec -u git {{ gitlab_container_name }}
-    bundle exec rake gitlab:backup:restore force=yes BACKUP="{{backup_file}}"
-  vars:
-    backup_file: '{{ (gitlab_backup.files | first)["path"] | basename | replace("_gitlab_backup.tar","") }}'
+    docker exec -t {{ gitlab_container_name }}
+    /bin/sh -c 'tar vxzf /mnt/backups/etc-gitlab-*.tgz -C /' 
+
+- name: gitlab restore script
+  command: >
+    docker exec -t {{ gitlab_container_name }}
+    gitlab-rake gitlab:backup:restore force=yes
+
+- name: reconfigure gitlab for updated configuration
+  command: >
+    docker exec -t {{ gitlab_container_name }} gitlab-ctl reconfigure
 
 - name: restart gitlab services
   command: >
-    docker exec {{ gitlab_container_name }}
-    supervisorctl start all
+    docker exec -t {{ gitlab_container_name }} gitlab-ctl start
 
-- name: Wait for gitlab to be fully running
-  uri:
-    url: 'http://{{ gitlab_hostname }}/users/sign_in'
-  register: health
-  retries: 60
-  delay: 5
-  until: health.status == 200
+- name: Set root user password in restored database
+  command: >
+    docker exec -t {{ gitlab_container_name }} 
+    gitlab-rails runner 
+      'user=User.where(id: 1).first;
+       user.password="{{ gitlab_root_password }}";
+       user.password_confirmation="{{ gitlab_root_password }}";
+       user.save!'
 
 # *****************************************************************************
 # cleanup
@@ -84,5 +91,5 @@
     state: absent
 
 - name: State file
-  shell: 'date --rfc-3339=seconds > {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/restore.date.txt'
+  shell: 'date --rfc-3339=seconds > {{ gitlab_config_dir }}/restore.date.txt'
   when: st_gitlab_restore.stat.exists == False
