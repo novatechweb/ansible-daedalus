@@ -17,7 +17,7 @@ docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag 
 docker_backup_dir: '/tmp/docker'
 
 # docker service restart policy
-docker_restart_policy: 'no'
+docker_restart_policy: 'always'
 
 # Network names
 docker_network_frontend: 'frontend'
