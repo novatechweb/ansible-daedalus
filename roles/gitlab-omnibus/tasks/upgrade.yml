@@ -1,0 +1,30 @@
+---
+
+- assert:
+    that: old_prefix is defined
+
+- name: Shut down old version
+  docker_container: 
+    name: '{{ old_prefix }}{{ item }}'
+    state: stopped
+  loop:
+  - gitlab
+
+- name: Clone volumes
+  docker_volume_clone:
+    src: '{{old_prefix}}{{item}}'
+    dest: '{{docker_name_prefix}}{{item}}'
+  loop:
+  - gitlab_CV
+  - gitlab_DV
+
+- name: State file
+  shell: 'date --rfc-3339=seconds > {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/restore.date.txt'
+  when: st_gitlab_restore.stat.exists == False
+
+- name: exists - state file
+  stat:
+    path: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/restore.date.txt'
+    get_checksum: False
+    get_md5: False
+  register: st_gitlab_restore
