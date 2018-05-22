@@ -1,6 +1,6 @@
 Version: 1
-Previous: 0b5101eb000d48c1dcc8b3cd75658a1e8cb2ac20
-Head: cc759f780f29ab7f9d9a546d50c1d00bd3d7eb1d
+Previous: 55a97d0d875d146c7dda75d243df5b449dc42b40
+Head: ba979dc2125cf6a576fdaefa96f49e2ca84e121b
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -65,5 +65,6 @@ Applied:
   all-normalize-vars: 769d11267e1e6abe91680ba6249d19af288080ae
   tmp-update-gitlab-version: 8a478db6f4b0097bcafa8c9325442f9a335a4745
   fixup-all-docker-image-repositories: cc759f780f29ab7f9d9a546d50c1d00bd3d7eb1d
+  refresh-temp: ba979dc2125cf6a576fdaefa96f49e2ca84e121b
 Unapplied:
 Hidden:
