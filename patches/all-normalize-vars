@@ -1,5 +1,5 @@
-Bottom: fe8bebd73f0231703237ff033a726b72260b5969
-Top:    cf4179f6cdfae01679c9569a9f6e22cc07ea7d05
+Bottom: 394cb4b17d20c30656fd6e21854f8168635a36e8
+Top:    ba3b087ab901bfab45d001a400c2db76260372fd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 11:30:36 -0500
 
@@ -381,7 +381,7 @@ index 90b9b94..f2b3409 100644
  
  - name: State file
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 1ed2a35..019799f 100644
+index 900100b..17b5044 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -34,14 +34,12 @@ openldap_image_name: '{{ docker_registry_username }}/ldap'
