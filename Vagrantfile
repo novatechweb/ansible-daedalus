@@ -25,7 +25,5 @@ Vagrant.configure("2") do |config|
         worker.vm.provider "virtualbox" do |vb|
             vb.name = "bbworker"
         end
-
     end
-
 end
