@@ -1,6 +1,6 @@
 Version: 1
-Previous: 00eabd05df98cc8ada7e3d6b7798eeca98223308
-Head: 96c552fd77f6785f2fd7c462f8ca82e564896d16
+Previous: 94b419f18df66dd685aa24569312dd8bcebcaac9
+Head: 42e5d8678d43cc1f7833637f98e91b461b9ea783
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -65,7 +65,6 @@ Applied:
   all-normalize-vars: 17c303b7be091e47df88294825bf0306e03b0258
   tmp-update-gitlab-version: 7670dcc7ad1341a2f808dde58e939380d7339e9c
   fixup-all-docker-image-repositories: 19b872f4362991ea5395510355f04149937e5c9d
-  tmp-update-openldap: 26b1cff76cdedc1589b448df56f498738aa31c59
-  refresh-temp: 96c552fd77f6785f2fd7c462f8ca82e564896d16
+  tmp-update-openldap: 42e5d8678d43cc1f7833637f98e91b461b9ea783
 Unapplied:
 Hidden:
