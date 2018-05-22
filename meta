@@ -1,6 +1,6 @@
 Version: 1
-Previous: e396e8f1bb53a95836517e51936ea9771116633e
-Head: 65ac66e5b0fddc3e88c233cabf152c7e0eb4cbcb
+Previous: f3f80fff884c0b9cf191e3480078fea024901756
+Head: b55bb7ba9e010cce1c196d235f53f2f1127cd684
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -63,5 +63,6 @@ Applied:
   playbook-simplify-credentials: 0bb3553f8f3682fbb831e36324ff2ea5802a8499
   TESTING--VirtualMachine: 35f94e084a7f805b5d2e175e50e4ee2df4c8b43b
   all-normalize-vars: 65ac66e5b0fddc3e88c233cabf152c7e0eb4cbcb
+  refresh-temp: b55bb7ba9e010cce1c196d235f53f2f1127cd684
 Unapplied:
 Hidden:
