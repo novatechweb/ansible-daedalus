@@ -39,7 +39,7 @@ gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
 
 # restore directories to temporarly store data being restored into docker containers
 gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
-host_gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
+gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
 
 # Network names
 docker_network_frontend: 'frontend'
