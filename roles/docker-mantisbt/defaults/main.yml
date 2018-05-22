@@ -24,8 +24,8 @@ mantisbt_db_user: novatech
 mantisbt_image_repo: https://github.com/novatechweb/docker-mantisbt.git
 mantisbt_image_name: '{{ docker_registry_username }}/mantisbt'
 
-mantisbt_db_image_repo: https://github.com/novatechweb/docker-mysql-data.git
-mantisbt_db_image_name: '{{ docker_registry_username }}/mysql.dv'
+mantisbt_db_image_name: 'mysql'
+mantisbt_db_image_tag: 5
 
 # the name of the container being started
 mantisbt_container_name: '{{ docker_name_prefix }}mantisbt'
@@ -35,6 +35,9 @@ mantisbt_db_container_name: '{{ docker_name_prefix }}mantisbt_db'
 
 # the name of the data-volume used by the container
 mantisbt_dv_name: '{{ docker_name_prefix }}mantisbt_DV'
+
+# the name of the mysql config volume used by the mantisbt container
+mantisbt_db_cv_name: '{{ docker_name_prefix }}mantisbt_db_CV'
 
 # the name of the mysql data-volume used by the mantisbt container
 mantisbt_db_dv_name: '{{ docker_name_prefix }}mantisbt_db_DV'
