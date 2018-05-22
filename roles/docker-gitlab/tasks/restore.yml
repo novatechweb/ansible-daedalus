@@ -33,12 +33,21 @@
 #   with_items: '{{ gitlab_backup.file_list | default([]) }}'
 
 # *****************************************************************************
-# restore the gitlap backup
+# restore the gitlab backup
+
+- name: Copy backup file to container
+  copy:
+    remote_src: yes
+    src: '{{ gitlab_docker_restore_dir }}/{{ gitlab_backup.file_list | first}}'
+    dest: '{{ gitlab_docker_backup_dir }}/'
+    owner: root
+    group: root
+    mode: 'u=rwx,g=rwx,o=rwx'
 
 - name: gitlab restore script
-  command: '{{ docker_projects_dir }}/docker-gitlab/gitlab.sh restore'
-  args:
-    chdir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/'
+  command: >
+    docker exec -t {{ gitlab_container_name }} /bin/sh -c
+    'gitlab-ctl stop unicorn && gitlab-ctl stop sidekiq && gitlab-rake gitlab:backup:restore force=yes'
   when: gitlab_backup.file_list != []
 
 # *****************************************************************************
@@ -50,5 +59,5 @@
     state: absent
 
 - name: State file
-  shell: 'date --rfc-3339=seconds > {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/restore.date.txt'
+  shell: 'date --rfc-3339=seconds > {{ gitlab_config_dir }}/restore.date.txt'
   when: st_gitlab_restore.stat.exists == False
