@@ -174,7 +174,7 @@
     state: started
 
 - name: set LDAP admin password
-  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ ldap_admin_password | quote }}'
+  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ openldap_admin_password | quote }}'
 
 - name: set LDAP proxyagent password
-  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_proxyagent_pass {{ ldap_admin_password | quote }} {{ ldap_proxyagent_password | quote }}'
+  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_proxyagent_pass {{ openldap_admin_password | quote }} {{ openldap_proxyagent_password | quote }}'

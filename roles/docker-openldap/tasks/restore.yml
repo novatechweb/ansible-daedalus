@@ -20,7 +20,7 @@
 
 # - name: Set permissions for data-volume data
 #   file:
-#     path: '{{ host_openldap_docker_restore_dir }}/{{ item.ldif_file }}'
+#     path: '{{ openldap_docker_restore_dir }}/{{ item.ldif_file }}'
 #     state: touch
 #     owner: root
 #     group: root
