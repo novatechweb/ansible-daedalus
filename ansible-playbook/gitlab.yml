@@ -1,0 +1,98 @@
+---
+
+- name: Install/Setup Docker images and containers on daedalus
+  hosts: daedalus
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+  - set_fact:
+      openssl_dv_name: openssl_DV
+      # bacula_storage: "/mnt/bacula-storage"
+      bacula_storage: "TapeDrive"
+      gitlab_backup_dir: "/tmp/docker/GIT"
+  - set_fact:
+      gitlab_backup_storage: "{{bacula_storage}}{{gitlab_backup_dir}}"
+      gitlab_restore_dir: "{{bacula_dest}}{{gitlab_backup_dir}}"
+
+  - file:
+      path: "{{item}}"
+      state: directory
+    loop:
+    - "{{ gitlab_backup_dir }}"
+    - "{{ gitlab_backup_storage }}"
+    - "{{ gitlab_restore_dir }}"
+
+  # - name: Run bacula-restores symlinks
+  #   include_role:
+  #     name: bacula-restores
+
+  # - name: Gitlab Sameersbn Upgrade Path
+  #   loop:
+  #   # - { last: Null,      version: "7.14.3",  tag: "7.14.3" }
+  #   - { last: "7.14.3",  version: "8.0.5",   tag: "8.0.5"  }
+  #   loop_control:
+  #     loop_var: play_item
+  #   vars:
+  #     old_prefix: 'sameersbn{{play_item.last}}-'
+  #     docker_name_prefix: 'sameersbn{{play_item.version}}-'
+  #     gitlab_version: '{{play_item.version}}'
+  #     gitlab_image_branch: '{{play_item.version}}'
+  #     gitlab_image_tag: '{{play_item.tag}}'
+  #     upgrade: '{{play_item.last is not none}}'
+  #   include_role:
+  #     name: docker-gitlab
+  
+  # - name: Gitlab (Sameersbn 8)
+  #   vars:
+  #     gitlab_version: "8.0.5"
+  #     docker_name_prefix: 'sameersbn8.0.5-'
+  #   block:
+  #   - name: Backup Gitlab
+  #     command: >
+  #       docker exec -u git {{docker_name_prefix}}gitlab bundle exec rake gitlab:backup:create
+
+  #   - name: Find backup files
+  #     find:
+  #       path: '{{gitlab_backup_dir}}'
+  #       pattern: '*_gitlab_backup.tar'
+  #     register: backups
+
+  #   - name: Move backups to storage, normalize name
+  #     loop: '{{ backups.files }}'
+  #     vars:
+  #       backup_file: '{{ item.path | basename | replace("gitlab_backup.tar", gitlab_version ~ "_gitlab_backup.tar") }}'
+  #     command: >
+  #       mv "{{ item.path }}" "{{gitlab_restore_dir}}/{{ backup_file }}"
+
+  #   - name: Shutdown Gitlab
+  #     docker_container: 
+  #       name: '{{ docker_name_prefix }}{{ item }}'
+  #       state: stopped
+  #     loop:
+  #     - gitlab
+  #     - gitlab-redis
+  #     - gitlab-db
+
+  # - name: Run bacula-restores symlinks
+  #   include_role:
+  #     name: bacula-restores
+
+  - name: Gitlab Omnibus Upgrade Path
+    loop:
+    # - { last: Null,     version: "8.0.5",  tag: "8.0.5-ce.0"   }
+    - { last: "8.0.5",  version: "8.17.8", tag: "8.17.8-ce.0"  }
+    - { last: "8.17.8", version: "9.0.13", tag: "9.0.13-ce.0"  }
+    - { last: "9.0.13", version: "9.5.10", tag: "9.5.10-ce.0"  }
+    - { last: "9.5.10", version: "10.8.4", tag: "10.8.4-ce.0"  }
+    loop_control:
+      loop_var: play_item
+    vars:
+      old_prefix: 'omnibus{{play_item.last}}-'
+      docker_name_prefix: 'omnibus{{play_item.version}}-'
+      gitlab_version: '{{play_item.version}}'
+      gitlab_image_tag: '{{play_item.tag}}'
+      upgrade: '{{play_item.last is not none}}'
+    include_role:
+      name: gitlab-omnibus
