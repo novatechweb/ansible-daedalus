@@ -6,7 +6,7 @@
 
 - name: exists - openssl archive
   stat:
-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_openssl_backup_file
@@ -22,7 +22,7 @@
 
 - name: Set permissions for data-volume data
   file:
-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
     state: touch
     owner: root
     group: root
@@ -30,7 +30,7 @@
 
 - name: exists - openssl archive
   stat:
-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_openssl_backup_file
@@ -44,9 +44,9 @@
     image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
     name: openssl_restore
     volumes:
-      - '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}:{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}:z'
+      - '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}:{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}:z'
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
-    command: ['extract', '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}']
+    command: ['extract', '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}']
 
 - name: extract archive
   docker_container:
@@ -59,7 +59,7 @@
 
 - name: remove - openssl archive
   file:
-    path: '{{ host_openssl_docker_restore_dir }}'
+    path: '{{ openssl_docker_restore_dir }}'
     state: absent
 
 - name: State file
