@@ -18,7 +18,7 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
 
 # the name of the image being duilt and used for the container
 wiki_image_name: '{{ docker_registry_username }}/wiki'
-wiki_db_image_name: '{{ docker_registry_username }}/mysql'
+wiki_db_image_name: 'mysql:5'
 
 # the name of the container being started
 wiki_container_name: '{{ docker_name_prefix }}wiki'
@@ -42,3 +42,6 @@ wiki_database_backup_file: '/wikidb.sql'
 
 # Network names
 docker_network_frontend: 'frontend'
+
+# the name of the sql database used by mediawiki
+wiki_database_name: wikidb
