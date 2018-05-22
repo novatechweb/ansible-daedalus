@@ -14,7 +14,7 @@ exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
 
 # restore directories to temporarly store data being restored into docker containers
 exim4_docker_backup_dir: '{{ docker_backup_dir }}/EXIM4'
-host_exim4_docker_restore_dir: '{{ bacula_dest }}{{ exim4_docker_backup_dir }}'
+exim4_docker_restore_dir: '{{ bacula_dest }}{{ exim4_docker_backup_dir }}'
 
 # files restored from tape
 exim4_backup_file: '/exim4.tar'
