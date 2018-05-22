@@ -8,15 +8,15 @@
 # *****************************************************************************
 # Setup the directory where the backup and restore is to take place
 
-- name: restore dir
-  file:
-    state: directory
-    path: '{{ gitlab_docker_restore_dir }}'
-    owner: root
-    group: tape
-    mode: 'u=rwx,g=rwx,o=rx'
-    recurse: no
-    setype: svirt_sandbox_file_t
+# - name: restore dir
+#   file:
+#     state: directory
+#     path: '{{ gitlab_docker_restore_dir }}'
+#     owner: root
+#     group: tape
+#     mode: 'u=rwx,g=rwx,o=rx'
+#     recurse: no
+#     setype: svirt_sandbox_file_t
 
 - name: docker_container.conf dir
   file:
@@ -30,33 +30,33 @@
 # *****************************************************************************
 # backup script part
 
-- name: Assemble dir for backup scripts
-  file:
-    path: /usr/libexec/bacula/backup-scripts
-    state: directory
+# - name: Assemble dir for backup scripts
+#   file:
+#     path: /usr/libexec/bacula/backup-scripts
+#     state: directory
 
-- name: before_backup script part
-  template:
-    src: before_backup.j2
-    dest: /usr/libexec/bacula/backup-scripts/55.before_backup.gitlab
+# - name: before_backup script part
+#   template:
+#     src: before_backup.j2
+#     dest: /usr/libexec/bacula/backup-scripts/55.before_backup.gitlab
 
-- name: after_backup script part
-  template:
-    src: after_backup.j2
-    dest: /usr/libexec/bacula/backup-scripts/55.after_backup.gitlab
+# - name: after_backup script part
+#   template:
+#     src: after_backup.j2
+#     dest: /usr/libexec/bacula/backup-scripts/55.after_backup.gitlab
 
 # *****************************************************************************
 # update the Docker restore config
 
 # contains the database username and password
-- name: make config.sh
-  template:
-    src: config.sh.j2
-    dest: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/config.sh'
-    backup: yes
-    owner: root
-    group: tape
-    mode: 'u=rw,g=r,o='
+# - name: make config.sh
+#   template:
+#     src: config.sh.j2
+#     dest: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/config.sh'
+#     backup: yes
+#     owner: root
+#     group: tape
+#     mode: 'u=rw,g=r,o='
 
 - name: exists - state file
   stat:
@@ -64,6 +64,13 @@
     get_checksum: False
     get_md5: False
   register: st_gitlab_restore
+
+# *****************************************************************************
+# upgrade?
+
+- include_tasks: upgrade.yml
+  when:
+  - upgrade == True
 
 # *****************************************************************************
 # Update or make the image.
@@ -77,15 +84,15 @@
 - name: copy env-file
   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
 
-- name: copy script
-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
+# - name: copy script
+#   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
 
-- name: build image
-  docker_image:
-    name: '{{ gitlab_image_name }}'
-    tag: '{{ docker_image_tag }}'
-    path: '{{ docker_projects_dir }}/docker-gitlab'
-    force: "{{ docker_image_force_build }}"
+# - name: build image
+#   docker_image:
+#     name: '{{ gitlab_image_name }}'
+#     tag: '{{ docker_image_tag }}'
+#     path: '{{ docker_projects_dir }}/docker-gitlab'
+#     force: "{{ docker_image_force_build }}"
 
 # *****************************************************************************
 # Create the data volumes
@@ -135,7 +142,7 @@
   delay: 3
   until: output.rc == 0
 
-- name: start container (gitlab)
+- name: create container (gitlab)
   docker_container:
     name: '{{ gitlab_container_name }}'
     detach: true
@@ -143,13 +150,14 @@
     hostname: '{{ gitlab_hostname }}'
     ports: '{{ gitlab_port_args }}'
     networks:
-      - name: '{{ docker_network_frontend }}'
+    - name: '{{ docker_network_frontend }}'
     volumes:
-      - '{{ openssl_dv_name }}:/etc/ssl/private:ro'
-      - '{{ gitlab_dv_name }}:/home/git/data'
-      - '{{ gitlab_docker_backup_dir }}:/home/git/backups'
+    - '{{ openssl_dv_name }}:/etc/ssl/private:ro'
+    - '{{ gitlab_dv_name }}:/home/git/data'
+    - '{{ gitlab_docker_backup_dir }}:/home/git/backups'
     env:
-      DEBUG_ENTRYPOINT: 1
+      DEBUG: 'true'
+      DEBUG_ENTRYPOINT: 'true'
       GITLAB_TIMEZONE: "America\\/Chicago"
       GITLAB_HOST: "{{ gitlab_hostname }}"
       GITLAB_SSH_HOST: "{{ gitlab_hostname }}"
@@ -163,16 +171,39 @@
       GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password | quote }}"
       GITLAB_SECRETS_DB_KEY_BASE: "{{ gitlab_secrets_db_key_base | quote }}"
       SSL_DHPARAM_PATH: /etc/ssl/private/dhparam.pem
-    env_file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
-    image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
+    env_file: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/gitlab.env.list'
+    image: '{{ gitlab_image_name }}'
+    state: present
+
+- name: copy updated secrets.yml to gitlab
+  block:
+  - copy:
+      src: secrets.yml
+      dest: /tmp/secrets.yml
+  - command: >
+      docker cp /tmp/secrets.yml
+      "{{gitlab_container_name}}:/var/cache/gitlab/config/gitlabhq/secrets.yml"
+  
+- name: start container (gitlab)
+  docker_container:
+    name: '{{ gitlab_container_name }}'
+    state: started
 
 - name: Wait for gitlab to be fully running
   uri:
-    url: 'http://{{ gitlab_hostname }}/users/sign_in'
+    url: 'https://{{ gitlab_hostname }}/users/sign_in'
   register: health
-  retries: 60
-  delay: 5
+  retries: 10
+  delay: 30
   until: health.status == 200
+
+# *****************************************************************************
+# Create container registry directory
+- name: Create container registry directory
+  command: >
+    docker exec -u git {{gitlab_container_name}} mkdir -p /home/git/data/shared/registry
+
+
 
 # *****************************************************************************
 # restore?
