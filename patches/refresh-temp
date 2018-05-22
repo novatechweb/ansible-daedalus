@@ -1,0 +1,21 @@
+Bottom: 2a41508ad34a70e3e50946a4d4f94be569db4ed1
+Top:    65f5a7c4ad7b5a01d8a866ce77236ff85849b831
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-22 11:34:11 -0500
+
+Refresh of buildbot-master
+
+---
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 36d83bf..809062a 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -36,7 +36,7 @@ buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
+ 
+ buildbot_build_args:
+   BUILDBOT_UID: '1000'
+-  BUILDBOT_VERSION: '1.1.2'
++  BUILDBOT_VERSION: 'v1.1.2'
+   BUILDBOT_TIMEZONE: 'America/Chicago'
+ 
+ buildbot_volumes:
