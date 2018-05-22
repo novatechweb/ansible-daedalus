@@ -1,5 +1,5 @@
 Bottom: 33b2ea88ba455e219fe53dae6770ac2de8130039
-Top:    ba87fb184af71517e8930141dbd8d82e22b03a16
+Top:    77c3643d9c89a4e5f8ff41f4cfd68b4e60d8004e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -29,10 +29,10 @@ index e69de29..c1a0118 100644
 +/.vagrant/
 diff --git a/Vagrantfile b/Vagrantfile
 new file mode 100644
-index 0000000..af48105
+index 0000000..3e88653
 --- /dev/null
 +++ b/Vagrantfile
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,29 @@
 +Vagrant.configure("2") do |config|
 +
 +    config.vm.define "vmdaedalus.novatech-llc.com", primary: true do |main|
@@ -60,9 +60,7 @@ index 0000000..af48105
 +        worker.vm.provider "virtualbox" do |vb|
 +            vb.name = "bbworker"
 +        end
-+
 +    end
-+
 +end
 diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
 new file mode 100644

@@ -1,6 +1,6 @@
 Version: 1
-Previous: dc7e1a4000525f507f0672dd8c88c4a88372b3df
-Head: 35fe5e264c858ac477de40c70649531141db6dd1
+Previous: c5d88268145d3e0ffb17798c04e9daa4ae0bc4b0
+Head: a6530f298efda95e8829d31176a957f22faf2909
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -61,14 +61,13 @@ Applied:
   buildbot-image-entrypoint: dfb8d6266926adae067a614ae68664f88ad57aaf
   buildbot-dependencies: 72858e76527e5357c43034d6addbc3725783f2fa
   playbook-simplify-credentials: 575b9b22b829172367e85f6522b67f3b312e3e7b
-  TESTING--VirtualMachine: 7ce81f4e7ec80558d588a3f11678ce509ce5be3c
-  all-normalize-vars: 88d57092da81b4ac3c98061f0bad38e5195e8f97
-  tmp-update-gitlab-version: 011a0fde54d9f50296c58f08f8b707368ef53b9a
-  fixup-all-docker-image-repositories: ee242f1bfdee65fc76597f6ebb4112eb93d5c413
-  tmp-update-openldap: c1f078ce4c2110599452e120a60963d07593863a
-  mariadb-fix-bind-address: 694b40fe8a0c4af323252e845c8a80710785a300
-  tmp-wiki-database: 4bb46a850c67823e8ae4ab2009cdf5b4be396d8f
-  tmp-mantis-database: 7c392492ec717ead5a12872838a4040ee3c766b0
-  refresh-temp: 35fe5e264c858ac477de40c70649531141db6dd1
+  TESTING--VirtualMachine: 519c7bdbeeeb99d7553b4c1929001d8d9f53f2aa
+  all-normalize-vars: 87dd546cbdfe8cd4bfafa82f75df49a02e9813ca
+  tmp-update-gitlab-version: ea175b605dc808aaa57a6d172368d8d348399084
+  fixup-all-docker-image-repositories: dc98316feff55fb98d1da34e66e20038110a8926
+  tmp-update-openldap: 3239af8059e8ac072dbc473d8a1481fad734ef85
+  mariadb-fix-bind-address: 64a8326da44d6d6438f68359629756fe9ead1817
+  tmp-wiki-database: 437b863194ab4e42dd2d201a527fc3211e1dbfd3
+  tmp-mantis-database: a6530f298efda95e8829d31176a957f22faf2909
 Unapplied:
 Hidden:
