@@ -1,0 +1,126 @@
+---
+
+- name: Install/Setup Docker images and containers on daedalus
+  hosts: daedalus
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+  - set_fact:
+      openssl_dv_name: openssl_DV
+      bacula_storage: "/mnt/bacula-restores"
+      gitlab_backup_dir: "/tmp/docker/GIT"
+  - set_fact:
+      gitlab_backup_storage: "{{bacula_storage}}{{gitlab_backup_dir}}"
+      gitlab_restore_dir: "{{bacula_dest}}{{gitlab_backup_dir}}"
+
+  - file:
+      path: "{{item}}"
+      state: directory
+    loop:
+    - "{{ gitlab_backup_dir }}"
+    - "{{ gitlab_backup_storage }}"
+    - "{{ gitlab_restore_dir }}"
+
+  # - name: Gitlab 7.14.3
+  #   include_role: 
+  #     name: docker-gitlab
+  
+  # - name: Gitlab (Sameersbn 8)
+  #   vars:
+  #     gitlab_version: "8.0.5"
+  #     gitlab_image_tag: "8.0.5-1"
+  #     docker_name_prefix: 'sameersbn8-'
+  #     upgrade: true
+  #     old_prefix: ''
+  #   block:
+  #   - name: Run Gitlab
+  #     include_role:
+  #       name: gitlab-sameersbn-8
+  #   - name: Backup Gitlab
+  #     command: >
+  #       docker exec -u git {{docker_name_prefix}}gitlab bundle exec rake gitlab:backup:create
+  #   - name: Find backup files
+  #     find:
+  #       path: '{{gitlab_backup_dir}}'
+  #       pattern: '*_gitlab_backup.tar'
+  #     register: backups
+  #   - name: Move backups to storage, normalize name
+  #     loop: '{{ backups.files }}'
+  #     vars:
+  #       backup_file: '{{ item.path | basename | replace("gitlab_backup.tar", gitlab_version ~ "_gitlab_backup.tar") }}'
+  #     command: >
+  #       mv "{{ item.path }}" "{{gitlab_backup_storage}}/{{ backup_file }}"
+  #   - name: Shutdown Gitlab
+  #     docker_container: 
+  #       name: '{{ docker_name_prefix }}{{ item }}'
+  #       state: stopped
+  #     loop:
+  #     - gitlab
+  #     - gitlab-redis
+  #     - gitlab-db
+
+  # - name: Gitlab (Omnibus 8)
+  #   vars:
+  #     docker_name_prefix: 'omnibus8.0-'
+  #     gitlab_version: "8.0"
+  #     gitlab_image_tag: "8.0.5-ce.0"
+  #     upgrade: false
+  #     restore: true
+  #   block:
+  #   - name: Find relevant backups
+  #     find:
+  #       path: "{{gitlab_backup_storage}}"
+  #       pattern: "*_{{gitlab_version}}_*"
+  #     register: backups
+  #   - file:
+  #       src: '{{ item.path }}'
+  #       dest: '{{ item.path | replace(gitlab_backup_storage,gitlab_restore_dir) }}'
+  #       state: link
+  #       force: yes
+  #       mode: '{{ item.mode }}'
+  #     loop: '{{ backups.files }}'
+  #   - include_role:
+  #       name: gitlab-omnibus
+
+  - name: Gitlab Omnibus Upgrade Path
+    loop:
+    # - { last: "8.0.5",   version: "8.1",   tag: "8.1.4-ce.0"   }
+    # - { last: "8.1",   version: "8.2",   tag: "8.2.5-ce.2"   }
+    # - { last: "8.2",   version: "8.3",   tag: "8.3.10-ce.2"  }
+    # - { last: "8.3",   version: "8.4",   tag: "8.4.11-ce.2"  }
+    # - { last: "8.4",   version: "8.5",   tag: "8.5.13-ce.3"  } # reconfigure fail after uri
+    # - { last: "8.5",   version: "8.6",   tag: "8.6.9-ce.3"   }
+    # - { last: "8.6",   version: "8.7",   tag: "8.7.9-ce.1"   }
+    # - { last: "8.7",   version: "8.8",   tag: "8.8.9-ce.0"   } # Needs additional restart
+    # - { last: "8.8",   version: "8.9",   tag: "8.9.11-ce.0"  } # Needs additional restart
+    # - { last: "8.9",   version: "8.10",  tag: "8.10.13-ce.0" }
+    # - { last: "8.10",  version: "8.11",  tag: "8.11.11-ce.0" }
+    # - { last: "8.11",  version: "8.12",  tag: "8.12.13-ce.0" }
+    # - { last: "8.12",  version: "8.13",  tag: "8.13.12-ce.0" }
+    # - { last: "8.13",  version: "8.14",  tag: "8.14.10-ce.0" }
+    # - { last: "8.14",  version: "8.15",  tag: "8.15.8-ce.0"  }
+    # - { last: "8.15",  version: "8.16",  tag: "8.16.9-ce.0"  } # Health-check failure
+    # - { last: "8.16",  version: "8.17",  tag: "8.17.8-ce.0"  } # Health-check failure
+    # - { last: "8.17",  version: "9.0",   tag: "9.0.13-ce.0"  } # Health-check failure
+    # - { last: "9.0",   version: "9.1",   tag: "9.1.10-ce.0"  } # docker healthcheck introduced
+    # - { last: "9.1",   version: "9.2",   tag: "9.2.10-ce.0"  }
+    # - { last: "9.2",   version: "9.3",   tag: "9.3.11-ce.0"  }
+    # - { last: "9.3",   version: "9.4",   tag: "9.4.7-ce.0"   }
+    # - { last: "9.4",   version: "9.5",   tag: "9.5.10-ce.0"  }
+    # - { last: "9.5",   version: "10.0",  tag: "10.0.7-ce.0"  }
+    # - { last: "10.0",  version: "10.1",  tag: "10.1.7-ce.0"  }
+    # - { last: "10.1",  version: "10.2",  tag: "10.2.8-ce.0"  }
+    - { last: "10.2",  version: "10.8",  tag: "10.8.4-ce.0"  }
+    # - { last: "10.8",  version: "11.0",  tag: "11.0.0-rc13.ce.0"  }
+    loop_control:
+      loop_var: play_item
+    vars:
+      old_prefix: 'omnibus{{play_item.last}}-'
+      docker_name_prefix: 'omnibus{{play_item.version}}-'
+      gitlab_version: '{{play_item.version}}'
+      gitlab_image_tag: '{{play_item.tag}}'
+      upgrade: true
+    include_role:
+      name: gitlab-omnibus

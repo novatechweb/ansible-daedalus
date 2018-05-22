@@ -1,0 +1,63 @@
+external_url 'https://{{ gitlab_hostname }}'
+gitlab_rails['gitlab_ssh_host'] = '{{ gitlab_hostname }}'
+gitlab_rails['time_zone'] = 'America/Chicago'
+gitlab_rails['gitlab_email_enabled'] = true
+gitlab_rails['gitlab_email_from'] = 'gitlab@novatech-llc.com'
+gitlab_rails['gitlab_email_display_name'] = 'GitLab'
+gitlab_rails['gitlab_email_reply_to'] = 'noreply@novatech-llc.com'
+gitlab_rails['gitlab_default_can_create_group'] = true
+gitlab_rails['gitlab_username_changing_enabled'] = true
+gitlab_rails['gitlab_default_projects_features_issues'] = true
+gitlab_rails['gitlab_default_projects_features_merge_requests'] = true
+gitlab_rails['gitlab_default_projects_features_wiki'] = false
+gitlab_rails['gitlab_default_projects_features_snippets'] = true
+gitlab_rails['gravatar_plain_url'] = 'http://cdn.libravatar.org/avatar/%{hash}?s=%{size}&d=identicon'
+gitlab_rails['gravatar_ssl_url'] = 'https://seccdn.libravatar.org/avatar/%{hash}?s=%{size}&d=identicon'
+
+gitlab_rails['ldap_enabled'] = true
+gitlab_rails['ldap_servers'] = YAML.load <<-'EOS' # remember to close this block with 'EOS' below
+  main: # 'main' is the GitLab 'provider ID' of this LDAP server
+    label: 'NovaTech'
+    host: '{{ openldap_hostname }}'
+    port: 389
+    uid: 'uid'
+    bind_dn: 'cn=proxyagent,dc=novatech'
+    password: '{{ gitlab_email_password }}'
+    encryption: 'plain' # "start_tls" or "simple_tls" or "plain"
+    verify_certificates: true
+    ca_file: ''
+    ssl_version: ''
+    active_directory: false
+    allow_username_or_email_login: true
+    block_auto_created_users: false
+    base: 'ou=user,dc=novatech'
+    user_filter: '(employeeType=gitlab)'
+    attributes:
+      username: ['uid', 'userid', 'sAMAccountName']
+      email:    ['mail', 'email', 'userPrincipalName']
+      name:       'cn'
+      first_name: 'givenName'
+      last_name:  'sn'
+EOS
+
+gitlab_rails['backup_path'] = "/mnt/backups"
+gitlab_rails['backup_archive_permissions'] = 0644
+gitlab_rails['backup_pg_schema'] = 'public'
+gitlab_rails['backup_keep_time'] = 604800
+
+gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "{{ exim4_hostname }}"
+gitlab_rails['smtp_port'] = 465
+gitlab_rails['smtp_user_name'] = "gitlab"
+gitlab_rails['smtp_password'] = "{{ gitlab_email_password }}"
+gitlab_rails['smtp_domain'] = "novatech-llc.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_tls'] = true
+
+nginx['enable'] = true
+nginx['redirect_http_to_https'] = true
+nginx['ssl_certificate'] = "/etc/ssl/private/nginx.crt"
+nginx['ssl_certificate_key'] = "/etc/ssl/private/nginx.key"
+nginx['ssl_dhparam'] = "/etc/ssl/private/dhparam.pem" # Path to dhparams.pem, eg. /etc/ssl/private/dhparams.pem
+nginx['listen_port'] = 443
