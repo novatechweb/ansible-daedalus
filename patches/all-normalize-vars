@@ -1,0 +1,15 @@
+Bottom: c8a0023fc872b952d35873d8c9f60bfc2ac5cd37
+Top:    c8a0023fc872b952d35873d8c9f60bfc2ac5cd37
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-22 11:30:36 -0500
+
+Normalize variable names
+
+Improve consistency in variable names:
+- ensure variables within roles always begin with the role name
+- no global variables containers holding variables for multiple roles
+
+
+
+---
+
