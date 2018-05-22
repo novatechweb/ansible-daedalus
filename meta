@@ -1,6 +1,6 @@
 Version: 1
-Previous: e02825e82eaf33bc1f461874ce04da716f140811
-Head: 9f5cd3dd39b7c4b6e6981e286d15a95d302b2a46
+Previous: 91122456e5aec1bed5cc429a31038dddc2fb8850
+Head: b0cbd8703d49f7561851efc89da47a8b0789d631
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -67,5 +67,6 @@ Applied:
   fixup-all-docker-image-repositories: 19b872f4362991ea5395510355f04149937e5c9d
   tmp-update-openldap: 42e5d8678d43cc1f7833637f98e91b461b9ea783
   mariadb-fix-bind-address: 9f5cd3dd39b7c4b6e6981e286d15a95d302b2a46
+  refresh-temp: b0cbd8703d49f7561851efc89da47a8b0789d631
 Unapplied:
 Hidden:
