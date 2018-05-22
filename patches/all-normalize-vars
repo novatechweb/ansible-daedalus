@@ -1,5 +1,5 @@
 Bottom: ffbfa80050553cc026430035923262c4a90beda4
-Top:    65f5a7c4ad7b5a01d8a866ce77236ff85849b831
+Top:    f80ea18f2cb8578ebfc7a6f0cdec0e9008347712
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 11:30:36 -0500
 
@@ -12,6 +12,20 @@ Improve consistency in variable names:
 
 
 ---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 6e11e08..41773f2 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -1,7 +1,7 @@
+ ---
+ # passwords
+-ldap_admin_password:                 '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=admin,dc=novatech length=20") }}'
+-ldap_proxyagent_password:            '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=proxyagent,dc=novatech length=20") }}'
++openldap_admin_password:                 '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=admin,dc=novatech length=20") }}'
++openldap_proxyagent_password:            '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=proxyagent,dc=novatech length=20") }}'
+ wiki_db_root_password:               '{{ lookup("password", playbook_dir + "/credentials/wiki/db/root length=20") }}'
+ wiki_db_password:                    '{{ lookup("password", playbook_dir + "/credentials/wiki/db/user length=20") }}'
+ wiki_email_password:                 '{{ lookup("password", playbook_dir + "/credentials/wiki/email/wiki@novatech-llc.com length=20") }}'
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 index 64802d0..809062a 100644
 --- a/roles/buildbot-master/defaults/main.yml
