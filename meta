@@ -1,6 +1,6 @@
 Version: 1
-Previous: 12edddb80ee734b900eb15429c6e2d02debaaf4f
-Head: 954df5700c448e28bfcae66313a9130e9bca050e
+Previous: bcf96b37168377e292e39d10e040c1b4e6be53b1
+Head: 0825b1b9a8e75373db4819dd52fd8846a4e9ba41
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -69,6 +69,5 @@ Applied:
   mariadb-fix-bind-address: 3430bc84b6b6813fdad5a44c2d7a309feb2fa120
   tmp-wiki-database: 6465b6059ee9fecd1353366783b5fd36d13de868
   tmp-mantis-database: 0825b1b9a8e75373db4819dd52fd8846a4e9ba41
-  refresh-temp: 954df5700c448e28bfcae66313a9130e9bca050e
 Unapplied:
 Hidden:
