@@ -1,5 +1,5 @@
-Bottom: b4756c679ea1906946782263efa5429d59f2a36a
-Top:    37bdc6bfd48fcf8501cec62aa7c21e0d406d2460
+Bottom: 64d8edd40bdcbd0ee06b047194db9d9a982ff9d2
+Top:    14431f16d3ade8ed81a9259035904f95d373305a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -25,7 +25,7 @@ index b984d74..11c50d3 100644
 +    path: '{{ docker_projects_dir }}/base-images/{{ item.key }}/{{ item.value.relative_dir }}'
    with_dict: "{{ docker_build_base_images }}"
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index f00fdf9..53b4d03 100644
+index ddd2a45..43e565d 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -83,10 +83,10 @@
@@ -44,7 +44,7 @@ index f00fdf9..53b4d03 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index a91a3a6..50f71c6 100644
+index e7aa983..7e8556c 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -81,14 +81,14 @@
@@ -68,7 +68,7 @@ index a91a3a6..50f71c6 100644
  #    image_tag: '{{ docker_image_tag }}'
  #    dockerfile_dir: '{{ docker_projects_dir }}/docker-gitlab'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 7d183bc..df44519 100644
+index dd57984..d982b4e 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -77,10 +77,10 @@
@@ -102,7 +102,7 @@ index 7d183bc..df44519 100644
  # *****************************************************************************
  # copy the MySQL config to the restore directory
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 60286ff..251ba34 100644
+index ce0edd9..00e4c2b 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -78,10 +78,10 @@
@@ -121,7 +121,7 @@ index 60286ff..251ba34 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 32b4a57..e771b77 100644
+index 4da8f5e..c8c2170 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -68,10 +68,10 @@
@@ -159,7 +159,7 @@ index 7d4ff5a..7bb3bf8 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index c458e28..f87afb7 100644
+index d1eeb95..4ca233a 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -60,10 +60,11 @@

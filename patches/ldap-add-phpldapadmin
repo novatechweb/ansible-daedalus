@@ -1,5 +1,5 @@
-Bottom: dbf480c45a49bf0f6d122fee0822494060b5a1e2
-Top:    b3935d8114dadbfce74e0175c8e8636e8c3b81ca
+Bottom: 46ea841cc2fa6418b0199c09062ee2c05dbd2843
+Top:    a1839639d778bc5124364c24805ba707e4533ac4
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -198,10 +198,10 @@ index 0000000..6a50379
 +</body>
 +</html>
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 5f41fba..900100b 100644
+index f946155..22c0b2e 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
-@@ -47,7 +47,8 @@ host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_di
+@@ -42,7 +42,8 @@ host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_di
  # Utility container - phpldapadmin
  
  # the name of the image used for the container
@@ -212,7 +212,7 @@ index 5f41fba..900100b 100644
  # the name of the container being started
  phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 35c5ba7..061770f 100644
+index 0419905..b69d1d0 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -123,6 +123,20 @@

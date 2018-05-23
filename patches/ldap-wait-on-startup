@@ -1,5 +1,5 @@
-Bottom: 9c072d8fb45681caaee13f3f100b739750aa9c55
-Top:    dbf480c45a49bf0f6d122fee0822494060b5a1e2
+Bottom: f9d03dd49b2a5c8a8df15ff4a39fd7c57bc98017
+Top:    46ea841cc2fa6418b0199c09062ee2c05dbd2843
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -12,7 +12,7 @@ ensure the service is running properly.
 
 ---
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index e771b77..35c5ba7 100644
+index c8c2170..0419905 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -149,6 +149,13 @@

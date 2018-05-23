@@ -1,5 +1,5 @@
-Bottom: 2e79cfc7f8f2f8dd4eda0f655e9811d7d52ddd4a
-Top:    a8fbea3dc573eb8a35e3548a1e54d25482c1655d
+Bottom: ee5a87e62cdb1df48edec845872de60eee07622b
+Top:    7d701910763784dcf0490a58eae88a81a3b1d450
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -11,7 +11,7 @@ provider.
 
 ---
 diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
-index b62739e..faee816 100644
+index 8754bec..980430a 100644
 --- a/roles/docker-buildsystem/tasks/main.yml
 +++ b/roles/docker-buildsystem/tasks/main.yml
 @@ -9,19 +9,6 @@
