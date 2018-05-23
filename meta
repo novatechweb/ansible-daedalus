@@ -1,6 +1,6 @@
 Version: 1
-Previous: d9dd7c06a6cb8062326f1b3a0bd933b5ebdbda99
-Head: 2e642f5b95fc58a23484f440af47964c926108e5
+Previous: bd4c49b81e27192789d5a59b20ee5e697f47d9c8
+Head: 0953469cb2b9c8e98d762f7d3aad04bb12f82dab
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -17,8 +17,8 @@ Applied:
   all-move-vars-to-defaults: e3f73d8a09e24307a2410f7a6f6ac539ddf3509e
   playbook-remove-docker-pull-images: 41211eefb38481a79435e47e3765754bc599837f
   all-docker_container: 0953469cb2b9c8e98d762f7d3aad04bb12f82dab
-  tmp-rework-ip-address-network: 2e642f5b95fc58a23484f440af47964c926108e5
 Unapplied:
+  tmp-rework-ip-address-network: 2e642f5b95fc58a23484f440af47964c926108e5
   all-docker_volume: af1b3d8a778f011d5dfd3b876d280fef16ce4448
   all-docker_network: 5cef123fc2d01841f54b915d472f9f893cd4c36a
   all-docker_image: 94c1b880ae75d5baf68841b7ed6799219972ed3a
