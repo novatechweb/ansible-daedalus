@@ -1,5 +1,5 @@
-Bottom: eb051eb8c72086ff9a7c6aa1c5b46dce2ff40a20
-Top:    41c41aaa2db328eb2da48636fdea28c92f60bb3d
+Bottom: df406d4a50e81a6168acb401cb27da573a6df50a
+Top:    c6bc73c3707e1ceee4b2528cac72516b166c2a95
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:55:57 -0500
 
@@ -8,10 +8,10 @@ Fix wiki mysql database provision
 
 ---
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 7b88908..6a87498 100644
+index 269cbb4..347f9f7 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
-@@ -24,7 +24,8 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
+@@ -19,7 +19,8 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
  
  # the name of the image being duilt and used for the container
  wiki_image_name: '{{ docker_registry_username }}/wiki'
@@ -22,7 +22,7 @@ index 7b88908..6a87498 100644
  # the name of the container being started
  wiki_container_name: '{{ docker_name_prefix }}wiki'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index f084ca6..c995553 100644
+index a8e4db5..c179d7c 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -9,7 +9,7 @@
@@ -156,7 +156,7 @@ index f084ca6..c995553 100644
        - name: '{{ docker_network_frontend }}'
  
 @@ -134,9 +176,9 @@
-     ports: '{{ container_port_map.wiki.port_args }}'
+     ports: '{{ wiki_network.port_args }}'
      networks:
        - name: '{{ docker_network_frontend }}'
 -    volumes-from: 
