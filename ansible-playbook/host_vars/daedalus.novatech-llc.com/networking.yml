@@ -30,3 +30,10 @@ phpldapadmin_network:
 phpmyadmin_network:
   ip_addr: 172.16.0.109
   hostname: phpmyadmin.novatech-llc.com
+
+buildbot_network:
+  ip_addr: 172.16.0.110
+  hostname: buildbot.novatech-llc.com
+  port_args:
+    - '{{ buildbot_network.ip_addr }}:80:80'
+    - '{{ buildbot_network.ip_addr }}:443:443'
