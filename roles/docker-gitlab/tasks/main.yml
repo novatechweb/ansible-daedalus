@@ -128,7 +128,7 @@
   docker_container:
     name: '{{ gitlab_redis_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
     networks:
       - name: '{{ docker_network_frontend }}'
@@ -137,7 +137,7 @@
   docker_container:
     name: '{{ gitlab_db_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     volumes_from: '{{ gitlab_db_dv_name }}'
     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
     networks:
@@ -147,7 +147,7 @@
   docker_container:
     name: '{{ gitlab_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: no
     hostname: '{{ gitlab_network.hostname }}'
     ports: '{{ git_network.port_args }}'
     networks:
@@ -181,3 +181,4 @@
 
 - include_tasks: restore.yml
   when: st_gitlab_restore.stat.exists == False
+  tags: restore
