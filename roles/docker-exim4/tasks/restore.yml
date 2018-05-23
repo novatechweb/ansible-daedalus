@@ -6,7 +6,7 @@
 
 - name: exists - exim4 archive
   stat:
-    path: '{{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }}'
+    path: '{{ exim4_docker_restore_dir }}{{ exim4_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_exim4_backup_file
@@ -22,7 +22,7 @@
 
 - name: Set permissions for data-volume data
   file:
-    path: '{{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }}'
+    path: '{{ exim4_docker_restore_dir }}{{ exim4_backup_file }}'
     state: touch
     owner: root
     group: root
@@ -30,7 +30,7 @@
 
 - name: exists - exim4 archive
   stat:
-    path: '{{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }}'
+    path: '{{ exim4_docker_restore_dir }}{{ exim4_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_exim4_backup_file
@@ -39,7 +39,7 @@
 # restore the archive
 
 - name: restore archive
-  shell: 'cat {{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }} | docker run -i --rm --volumes-from {{ exim4_dv_name }} {{ exim4_image_name }}:{{ docker_image_tag }} restore'
+  shell: 'cat {{ exim4_docker_restore_dir }}{{ exim4_backup_file }} | docker run -i --rm --volume {{ exim4_cv_name }}:/etc/exim4:z {{ exim4_image_name }}:{{ docker_image_tag }} restore'
   when: st_exim4_backup_file.stat.exists == True
 
 # *****************************************************************************
@@ -47,7 +47,7 @@
 
 - name: remove - exim4 archive
   file:
-    path: '{{ host_exim4_docker_restore_dir }}'
+    path: '{{ exim4_docker_restore_dir }}'
     state: absent
 
 - name: State file
