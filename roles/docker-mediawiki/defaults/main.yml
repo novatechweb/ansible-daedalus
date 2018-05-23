@@ -1,17 +1,12 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-container_addr_map:
-  wiki:
-    ip_addr: '127.0.0.1'
-    hostname: wiki.example.com
-
-# the port mappings used when starting the container
-container_port_map:
-  wiki:
-    port_args:
-      - '{{ container_addr_map.wiki.ip_addr }}:80:80'
-      - '{{ container_addr_map.wiki.ip_addr }}:443:443'
+wiki_network:
+  ip_addr: '127.0.0.1'
+  hostname: wiki.example.com
+  port_args:
+    - '{{ wiki_network.ip_addr }}:80:80'
+    - '{{ wiki_network.ip_addr }}:443:443'
 
 # database usernames and passwords
 wiki_db_user: novatech
