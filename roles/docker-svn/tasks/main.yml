@@ -80,15 +80,15 @@
     name: '{{ svn_container_name }}'
     detach: true
     restart_policy: always
-    hostname: '{{ container_addr_map.svn.hostname }}'
-    ports: '{{ container_port_map.svn.port_args }}'
+    hostname: '{{ svn_network.hostname }}'
+    ports: '{{ svn_network.port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ svn_dv_name }}:/var/lib/svn:z'
     env:
-      SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
+      SVN_HOSTNAME: '{{ svn_network.hostname }}'
       SVN_LDAP_PASSWORD: '{{ ldap_proxyagent_password }}'
     image: '{{ svn_image_name }}:{{ docker_image_tag }}'
 
