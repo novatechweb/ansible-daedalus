@@ -1,5 +1,5 @@
-Bottom: 2427d2c0535a965f6f775ab50bec0c68417bdcf2
-Top:    cb1f2b30deea4f3661533ff076b2fa2b8c14f3f6
+Bottom: 42ec2c92b778d454a0bfc4fcb95174bf7887f6cb
+Top:    2eea8d43094d86c0da450152f81f2aae55e213b5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 13:56:09 -0500
 
@@ -7,7 +7,7 @@ Refresh of all-docker-image-repositories
 
 ---
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 8d0066a..c010389 100644
+index 2b99b55..3752cc0 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -58,9 +58,6 @@
@@ -34,7 +34,7 @@ index 8d0066a..c010389 100644
    docker_image:
      name: '{{ mantisbt_image_name }}'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index b20232a..a8e4db5 100644
+index 7b65f23..d80e12a 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -58,9 +58,6 @@

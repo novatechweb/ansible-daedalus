@@ -1,6 +1,6 @@
 Version: 1
-Previous: aba6715488d406fcde0786167863c5f775065c6f
-Head: a487bfbc9739f3abc4a01bdc8df55c1bd40276a8
+Previous: 99e43e43aaeff4080fbe5b542d3deee3f9e5132d
+Head: abeb8aedd19c76d7fb849632a609e4153f41c6a5
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -64,9 +64,9 @@ Applied:
   playbook-simplify-credentials: 96add5752cf07a8dd86f314c64ffe2b2a5291ed8
   all-normalize-vars: 7117e1ff352744b86d4121874c5e3e1602e41cb4
   tmp-update-gitlab-version: a487bfbc9739f3abc4a01bdc8df55c1bd40276a8
+  fixup-all-docker-image-repositories: 23a1f6b80cc3333b1672a8658b5d26b40e75ade1
+  tmp-update-openldap: abeb8aedd19c76d7fb849632a609e4153f41c6a5
 Unapplied:
-  fixup-all-docker-image-repositories: d801fb8ff47829278f63db0463fffbbea030c848
-  tmp-update-openldap: b2e65dcf726c9be64afa302536bdf0e7d74efce0
   mariadb-fix-bind-address: 71a3ee4c4fcb9985b8c8a7c9b7a14adadc98c190
   tmp-wiki-database: 8e0d6ffe061fb1be139f9a69bf7005e12be72c05
   tmp-mantis-database: e32b96c15eb4d61911281f1aab74b6bcc2ca1013
