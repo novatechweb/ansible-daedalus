@@ -1,33 +1,69 @@
 ---
 
-container_addr_map:
-  svn:
-    ip_addr: 172.16.0.201
-    hostname: svn.novatech-llc.com
-  git:
-    ip_addr: 172.16.0.202
-    hostname: git.novatech-llc.com
-  wiki:
-    ip_addr: 172.16.0.203
-    hostname: wiki.novatech-llc.com
-  mantisbt:
-    ip_addr: 172.16.0.204
-    hostname: mantis.novatech-llc.com
-  build:
-    ip_addr: 172.16.0.205
-    hostname: buildsystem.novatech-llc.com
-  testssh:
-    ip_addr: 172.16.0.206
-    hostname: testssh.novatech-llc.com
-  exim4:
-    ip_addr: 172.16.0.207
-    hostname: mail.novatech-llc.com
-  ldap:
-    ip_addr: 172.16.0.208
-    hostname: ldap.novatech-llc.com
-  phpldapadmin:
-    ip_addr: 172.16.0.208
-    hostname: ldap.novatech-llc.com
-  phpmyadmin:
-    ip_addr: 172.16.0.209
-    hostname: phpmyadmin.novatech-llc.com
+svn_network:
+  ip_addr: 172.16.0.201
+  hostname: svn.novatech-llc.com
+  port_args:
+    - '{{ svn_network.ip_addr }}:80:80'
+    - '{{ svn_network.ip_addr }}:443:443'
+
+gitlab_network:
+  ip_addr: 172.16.0.202
+  hostname: git.novatech-llc.com
+  port_args:
+    - '{{ gitlab_network.ip_addr }}:80:80'
+    - '{{ gitlab_network.ip_addr }}:443:443'
+    - '{{ gitlab_network.ip_addr }}:22:22'
+
+wiki_network:
+  ip_addr: 172.16.0.203
+  hostname: wiki.novatech-llc.com
+  port_args:
+    - '{{ wiki_network.ip_addr }}:80:80'
+    - '{{ wiki_network.ip_addr }}:443:443'
+
+mantisbt_network:
+  ip_addr: 172.16.0.204
+  hostname: mantis.novatech-llc.com
+  port_args:
+    - '{{ mantisbt_network.ip_addr }}:80:80'
+    - '{{ mantisbt_network.ip_addr }}:443:443'
+
+build_network:
+  ip_addr: 172.16.0.205
+  hostname: buildsystem.novatech-llc.com
+  port_args:
+    - '{{ build_network.ip_addr }}:80:80'
+    - '{{ build_network.ip_addr }}:443:443'
+
+testssh_network:
+  ip_addr: 172.16.0.206
+  hostname: testssh.novatech-llc.com
+  port_args:
+    - '{{ testssh_network.ip_addr }}:2200:22'
+
+exim4_network:
+  ip_addr: 172.16.0.207
+  hostname: mail.novatech-llc.com
+  port_args:
+    - '{{ exim4_network.ip_addr }}:25:25'
+    - '{{ exim4_network.ip_addr }}:465:465'
+    - '{{ exim4_network.ip_addr }}:587:587'
+
+openopenldap_network:
+  ip_addr: 172.16.0.208
+  hostname: ldap.novatech-llc.com
+  port_args:
+    - '{{ openopenldap_network.ip_addr }}:389:389'
+    - '{{ openopenldap_network.ip_addr }}:636:636'
+
+phpldapadmin_network:
+  ip_addr: 172.16.0.208
+  hostname: ldap.novatech-llc.com
+  port_args:
+    - '{{ phpldapadmin_network.ip_addr }}:80:80'
+    - '{{ phpldapadmin_network.ip_addr }}:443:443'
+
+phpmyadmin_network:
+  ip_addr: 172.16.0.209
+  hostname: phpmyadmin.novatech-llc.com

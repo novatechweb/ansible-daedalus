@@ -131,17 +131,17 @@
     name: '{{ wiki_container_name }}'
     detach: true
     restart_policy: always
-    hostname: '{{ container_addr_map.wiki.hostname }}' 
-    ports: '{{ container_port_map.wiki.port_args }}'
+    hostname: '{{ wiki_network.hostname }}' 
+    ports: '{{ wiki_network.port_args }}'
     link:
       - '{{ openldap_container_name }}:wiki_ldap'
       - '{{ wiki_db_container_name }}:wiki_db'
-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+      - '{{ exim4_container_name }}:{{ exim4_network.hostname }}'
     volumes-from: 
       - '{{ openssl_dv_name }}'
       - '{{ wiki_dv_name }}'
       env:
-        - WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }}
+        - WIKI_HOSTNAME={{ wiki_network.hostname }}
         - WIKI_MAIL_USER=wiki
         - WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }}
       image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
