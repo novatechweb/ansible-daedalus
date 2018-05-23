@@ -31,6 +31,18 @@
     - base_images
   - name: Configure Docker networking
     role: docker-networking
+    net_connection: '{{ daedalus_net_connection }}'
+    subnet: '{{ daedalus_subnet }}'
+    services:
+    - svn
+    - openldap
+    - exim4
+    - gitlab
+    - wiki
+    - mantisbt
+    - build
+    - testssh
+    - buildbot
     tags:
     - docker_networking
   - name: Build and start the SVN Docker container
