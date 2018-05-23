@@ -1,0 +1,16 @@
+Bottom: 7a90ae4cb61e6777a2ed57ed5afda82f57b835cc
+Top:    8c4b0e8eec0638810b20b8a57599db622f0a7144
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-23 13:54:07 -0500
+
+Refresh of tmp-rework-ip-address-network
+
+---
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+similarity index 100%
+rename from ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+rename to ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+similarity index 100%
+rename from ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+rename to ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
