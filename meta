@@ -1,6 +1,6 @@
 Version: 1
-Previous: 69e750d29283c76d54e253a5bffe36a9c6a5b6fe
-Head: deaf613173f1267bc73b96dafdcca35316c54f8b
+Previous: b82cdd55b2b9d80a139a97f19e73b0393ad52f85
+Head: e9320d4b2870fd809a07f3ddf38588c99e268a82
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -63,8 +63,7 @@ Applied:
   buildbot-dependencies: a1071a36a32f4167ba31e68b4ec439af53fc64fa
   playbook-simplify-credentials: 96add5752cf07a8dd86f314c64ffe2b2a5291ed8
   TESTING--VirtualMachine: 938a6a4e20c0b94fc7ad74378703c53da3e72f0a
-  all-normalize-vars: 40727b884d79c51207157bc5fb2a6e1cd8839800
-  refresh-temp: deaf613173f1267bc73b96dafdcca35316c54f8b
+  all-normalize-vars: e9320d4b2870fd809a07f3ddf38588c99e268a82
 Unapplied:
   tmp-update-gitlab-version: 5dcbfd77ef62c8c02548fe0c3c1098dd9f284484
   fixup-all-docker-image-repositories: 982dd5af20751212d04d185ab847a4aa451c27f6
