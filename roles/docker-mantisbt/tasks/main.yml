@@ -158,17 +158,17 @@
     name: '{{ mantisbt_container_name }}'
     detach: true
     restart_policy: always
-    hostname: '{{ container_addr_map.mantisbt.hostname }}'
-    ports: '{{ container_port_map.mantisbt.port_args }}'
+    hostname: '{{ mantisbt_network.hostname }}'
+    ports: '{{ mantisbt_network.port_args }}'
     link: 
       -'{{ openldap_container_name }}:mantisbt_ldap'
       -'{{ mantisbt_db_container_name }}:mantisbt_db'
-      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+      -'{{ exim4_container_name }}:{{ exim4_network.hostname }}'
     volumes-from: 
       - '{{ openssl_dv_name }}'
       - '{{ mantisbt_dv_name }}'
     env: 
-      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
+      - MANTISBT_HOSTNAME={{ mantisbt_network.hostname }}
       - MANTISBT_MAIL_USER=mantis
       - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
       - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}

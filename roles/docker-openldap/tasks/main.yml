@@ -108,13 +108,13 @@
     name: '{{ openldap_container_name }}'
     detach: true
     restart_policy: always
-    hostname: '{{ container_addr_map.ldap.hostname }}'
-    ports: '{{ container_port_map.ldap.port_args }}'
+    hostname: '{{ openldap_network.hostname }}'
+    ports: '{{ ldap_network.port_args }}'
     volumes-from:
       - '{{ openssl_dv_name }}'
       - '{{ openldap_dv_name }}'
     env:
-      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
+      LDAP_HOSTNAME: '{{ openldap_network.hostname }}'
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (phpldapadmin)
@@ -122,14 +122,14 @@
     name: '{{ phpldapadmin_container_name }}'
     detach: true
     restart_policy: always
-    hostname: '{{ container_addr_map.ldap.hostname }}'
-    ports: '{{ container_port_map.phpldapadmin.port_args }}'
+    hostname: '{{ openldap_network.hostname }}'
+    ports: '{{ phpldapadmin_network.port_args }}'
     volumes-from:
       - '{{ openssl_dv_name }}'
     env:
       PHPLDAPADMIN_HTTPS: 'false'
       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
-      LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
+      LDAP_HOSTNAME: '{{ phpldapadmin_network.hostname }}'
     link: '{{ openldap_container_name }}:ldap'
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
 
