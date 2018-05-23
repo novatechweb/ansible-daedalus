@@ -1,5 +1,5 @@
 Bottom: 7a90ae4cb61e6777a2ed57ed5afda82f57b835cc
-Top:    8c4b0e8eec0638810b20b8a57599db622f0a7144
+Top:    dd9cd44fa83be5f2d7f9aee69c98de0806a30b3d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-23 10:42:28 -0500
 
@@ -8,11 +8,705 @@ temporary patch test changes to ip/port variable structure
 
 
 ---
-diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
-similarity index 100%
-rename from ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
-rename to ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
-diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
-similarity index 100%
-rename from ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
-rename to ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 586c30d..04b0a1a 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -1,17 +1,17 @@
+ ---
+ # passwords
+-ldap_admin_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.ldap.hostname + "/cn=admin,dc=novatech length=20") }}'
+-ldap_proxyagent_password:            '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.ldap.hostname + "/cn=proxyagent,dc=novatech length=20") }}'
+-wiki_db_root_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.wiki.hostname + "/db/root length=20") }}'
+-wiki_db_password:                    '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.wiki.hostname + "/db/" + wiki_db_user + " length=20") }}'
+-wiki_email_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.wiki.hostname + "/email/wiki@novatech-llc.com length=20") }}'
+-gitlab_db_password:                  '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.git.hostname + "/db/" + gitlab_db_user + " length=20") }}'
+-gitlab_root_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.git.hostname + "/users/root length=20") }}'
+-gitlab_email_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.git.hostname + "/email/gitlab@novatech-llc.com length=20") }}'
+-gitlab_secrets_db_key_base:          '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.git.hostname + "/key/GITLAB_SECRETS_DB_KEY_BASE length=40") }}'
+-mantisbt_db_root_password:           '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.mantisbt.hostname + "/db/root length=20") }}'
+-mantisbt_db_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.mantisbt.hostname + "/db/" + mantisbt_db_user + " length=20") }}'
+-mantisbt_email_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.mantisbt.hostname + "/email/mantis@novatech-llc.com length=20") }}'
++ldap_admin_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + openldap_network.hostname + "/cn=admin,dc=novatech length=20") }}'
++ldap_proxyagent_password:            '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + openldap_network.hostname + "/cn=proxyagent,dc=novatech length=20") }}'
++wiki_db_root_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_network.hostname + "/db/root length=20") }}'
++wiki_db_password:                    '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_network.hostname + "/db/" + wiki_db_user + " length=20") }}'
++wiki_email_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_network.hostname + "/email/wiki@novatech-llc.com length=20") }}'
++gitlab_db_password:                  '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_network.hostname + "/db/" + gitlab_db_user + " length=20") }}'
++gitlab_root_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_network.hostname + "/users/root length=20") }}'
++gitlab_email_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_network.hostname + "/email/gitlab@novatech-llc.com length=20") }}'
++gitlab_secrets_db_key_base:          '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_network.hostname + "/key/GITLAB_SECRETS_DB_KEY_BASE length=40") }}'
++mantisbt_db_root_password:           '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_network.hostname + "/db/root length=20") }}'
++mantisbt_db_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_network.hostname + "/db/" + mantisbt_db_user + " length=20") }}'
++mantisbt_email_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_network.hostname + "/email/mantis@novatech-llc.com length=20") }}'
+ buildsystem_ssh_prod_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/prod length=20") }}'
+ buildsystem_ssh_root_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/root length=20") }}'
+ buildsystem_database_root_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/root length=20") }}'
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+deleted file mode 100644
+index 061495c..0000000
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ /dev/null
+@@ -1,33 +0,0 @@
+----
+-
+-container_addr_map:
+-  svn:
+-    ip_addr: 172.16.0.101
+-    hostname: svn.novatech-llc.com
+-  git:
+-    ip_addr: 172.16.0.102
+-    hostname: git.novatech-llc.com
+-  wiki:
+-    ip_addr: 172.16.0.103
+-    hostname: wiki.novatech-llc.com
+-  mantisbt:
+-    ip_addr: 172.16.0.104
+-    hostname: mantis.novatech-llc.com
+-  build:
+-    ip_addr: 172.16.0.105
+-    hostname: buildsystem.novatech-llc.com
+-  testssh:
+-    ip_addr: 172.16.0.106
+-    hostname: testssh.novatech-llc.com
+-  exim4:
+-    ip_addr: 172.16.0.107
+-    hostname: mail.novatech-llc.com
+-  ldap:
+-    ip_addr: 172.16.0.108
+-    hostname: ldap.novatech-llc.com
+-  phpldapadmin:
+-    ip_addr: 172.16.0.108
+-    hostname: ldap.novatech-llc.com
+-  phpmyadmin:
+-    ip_addr: 172.16.0.109
+-    hostname: phpmyadmin.novatech-llc.com
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+new file mode 100644
+index 0000000..cf366ea
+--- /dev/null
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+@@ -0,0 +1,32 @@
++---
++
++svn_network:
++  ip_addr: 172.16.0.101
++  hostname: svn.novatech-llc.com
++gitlab_network:
++  ip_addr: 172.16.0.102
++  hostname: git.novatech-llc.com
++wiki_network:
++  ip_addr: 172.16.0.103
++  hostname: wiki.novatech-llc.com
++mantisbt_network:
++  ip_addr: 172.16.0.104
++  hostname: mantis.novatech-llc.com
++build_network:
++  ip_addr: 172.16.0.105
++  hostname: buildsystem.novatech-llc.com
++testssh_network:
++  ip_addr: 172.16.0.106
++  hostname: testssh.novatech-llc.com
++exim4_network:
++  ip_addr: 172.16.0.107
++  hostname: mail.novatech-llc.com
++openldap_network:
++  ip_addr: 172.16.0.108
++  hostname: ldap.novatech-llc.com
++phpldapadmin_network:
++  ip_addr: 172.16.0.108
++  hostname: ldap.novatech-llc.com
++phpmyadmin_network:
++  ip_addr: 172.16.0.109
++  hostname: phpmyadmin.novatech-llc.com
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+deleted file mode 100644
+index 4442005..0000000
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ /dev/null
+@@ -1,33 +0,0 @@
+----
+-
+-container_addr_map:
+-  svn:
+-    ip_addr: 172.16.0.201
+-    hostname: svn.novatech-llc.com
+-  git:
+-    ip_addr: 172.16.0.202
+-    hostname: git.novatech-llc.com
+-  wiki:
+-    ip_addr: 172.16.0.203
+-    hostname: wiki.novatech-llc.com
+-  mantisbt:
+-    ip_addr: 172.16.0.204
+-    hostname: mantis.novatech-llc.com
+-  build:
+-    ip_addr: 172.16.0.205
+-    hostname: buildsystem.novatech-llc.com
+-  testssh:
+-    ip_addr: 172.16.0.206
+-    hostname: testssh.novatech-llc.com
+-  exim4:
+-    ip_addr: 172.16.0.207
+-    hostname: mail.novatech-llc.com
+-  ldap:
+-    ip_addr: 172.16.0.208
+-    hostname: ldap.novatech-llc.com
+-  phpldapadmin:
+-    ip_addr: 172.16.0.208
+-    hostname: ldap.novatech-llc.com
+-  phpmyadmin:
+-    ip_addr: 172.16.0.209
+-    hostname: phpmyadmin.novatech-llc.com
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+new file mode 100644
+index 0000000..a12d209
+--- /dev/null
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+@@ -0,0 +1,69 @@
++---
++
++svn_network:
++  ip_addr: 172.16.0.201
++  hostname: svn.novatech-llc.com
++  port_args:
++    - '{{ svn_network.ip_addr }}:80:80'
++    - '{{ svn_network.ip_addr }}:443:443'
++
++gitlab_network:
++  ip_addr: 172.16.0.202
++  hostname: git.novatech-llc.com
++  port_args:
++    - '{{ gitlab_network.ip_addr }}:80:80'
++    - '{{ gitlab_network.ip_addr }}:443:443'
++    - '{{ gitlab_network.ip_addr }}:22:22'
++
++wiki_network:
++  ip_addr: 172.16.0.203
++  hostname: wiki.novatech-llc.com
++  port_args:
++    - '{{ wiki_network.ip_addr }}:80:80'
++    - '{{ wiki_network.ip_addr }}:443:443'
++
++mantisbt_network:
++  ip_addr: 172.16.0.204
++  hostname: mantis.novatech-llc.com
++  port_args:
++    - '{{ mantisbt_network.ip_addr }}:80:80'
++    - '{{ mantisbt_network.ip_addr }}:443:443'
++
++build_network:
++  ip_addr: 172.16.0.205
++  hostname: buildsystem.novatech-llc.com
++  port_args:
++    - '{{ build_network.ip_addr }}:80:80'
++    - '{{ build_network.ip_addr }}:443:443'
++
++testssh_network:
++  ip_addr: 172.16.0.206
++  hostname: testssh.novatech-llc.com
++  port_args:
++    - '{{ testssh_network.ip_addr }}:2200:22'
++
++exim4_network:
++  ip_addr: 172.16.0.207
++  hostname: mail.novatech-llc.com
++  port_args:
++    - '{{ exim4_network.ip_addr }}:25:25'
++    - '{{ exim4_network.ip_addr }}:465:465'
++    - '{{ exim4_network.ip_addr }}:587:587'
++
++openopenldap_network:
++  ip_addr: 172.16.0.208
++  hostname: ldap.novatech-llc.com
++  port_args:
++    - '{{ openopenldap_network.ip_addr }}:389:389'
++    - '{{ openopenldap_network.ip_addr }}:636:636'
++
++phpldapadmin_network:
++  ip_addr: 172.16.0.208
++  hostname: ldap.novatech-llc.com
++  port_args:
++    - '{{ phpldapadmin_network.ip_addr }}:80:80'
++    - '{{ phpldapadmin_network.ip_addr }}:443:443'
++
++phpmyadmin_network:
++  ip_addr: 172.16.0.209
++  hostname: phpmyadmin.novatech-llc.com
+diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
+index 9d4820f..e91d9af 100644
+--- a/roles/docker-buildsystem/defaults/main.yml
++++ b/roles/docker-buildsystem/defaults/main.yml
+@@ -1,19 +1,19 @@
+ # Variables that are used by the role, but defined at the playbook level.
+ # docker_projects_dir
+-# container_addr_map.build.ip_addr
+-# container_addr_map.testssh.ip_addr
++# build_network.ip_addr
++# testssh_network.ip_addr
+ # buildsystem_ssh_prod_user_password
+ # buildsystem_ssh_root_user_password
+ # buildsystem_database_root_password
+ 
+ buildsystem:
+     port_args: 
+-      - '{{ container_addr_map.build.ip_addr }}:80:80'
+-      - '{{ container_addr_map.build.ip_addr }}:443:443'
++      - '{{ build_network.ip_addr }}:80:80'
++      - '{{ build_network.ip_addr }}:443:443'
+ 
+ test_ssh:
+     port_args:
+-    - '{{ container_addr_map.testssh.ip_addr }}:2200:22'
++    - '{{ testssh_network.ip_addr }}:2200:22'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+index 1ab1133..6a0fce5 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+@@ -25,7 +25,7 @@
+     detach: True
+     image: "{{ name_prefix }}teststation_database_server_image"
+     name: "{{ name_prefix }}TestStation_database_server"
+-    ports: "{{ container_addr_map.build.ip_addr }}:3306:3306"
++    ports: "{{ build_network.ip_addr }}:3306:3306"
+     state: "{{ container_start_state_nondata }}"
+     restart_policy: always
+     volumes_from:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+index 883d3f4..c87c74b 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+@@ -14,7 +14,7 @@
+     image: "{{ name_prefix }}teststation_http_image"
+     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
+     name: "{{ name_prefix }}TestStation_http_server"
+-    ports: "{{ container_addr_map.build.ip_addr }}:80:80"
++    ports: "{{ build_network.ip_addr }}:80:80"
+     state: "{{ container_start_state_nondata }}"
+     restart_policy: always
+     volumes_from:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+index 1e3333b..26bd4e8 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+@@ -20,7 +20,7 @@
+     image: "{{ name_prefix }}teststation_ssh_image"
+     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
+     name: "{{ name_prefix }}TestStation_ssh_server"
+-    ports: "{{ container_addr_map.build.ip_addr }}:22:22"
++    ports: "{{ build_network.ip_addr }}:22:22"
+     restart_policy: always
+     state: "{{ container_start_state_nondata }}"
+     volumes_from:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+index 6f95f9e..b5c65df 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+@@ -31,6 +31,6 @@
+     detach: True
+     image: "{{ name_prefix }}teststation_ssh_server_manualtest_image"
+     name: "{{ name_prefix }}TestStation_ssh_server_manualtest"
+-    ports: "{{ container_addr_map.testssh.ip_addr }}:22:22"
++    ports: "{{ testssh_network.ip_addr }}:22:22"
+     state: "{{ container_start_state_nondata }}"
+     restart_policy: always
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+index a6498fc..7801d2b 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+@@ -13,7 +13,7 @@
+     detach: True
+     image: "{{ name_prefix }}teststation_tftp_image"
+     name: "{{ name_prefix }}TestStation_tftp_server"
+-    ports: "{{ container_addr_map.build.ip_addr }}:69:69/udp"
++    ports: "{{ build_network.ip_addr }}:69:69/udp"
+     state: "{{ container_start_state_nondata }}"
+     restart_policy: always
+     volumes_from:
+diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
+index b62739e..8754bec 100644
+--- a/roles/docker-buildsystem/tasks/main.yml
++++ b/roles/docker-buildsystem/tasks/main.yml
+@@ -2,8 +2,8 @@
+ - assert:
+     that:
+     - docker_projects_dir is defined
+-    - container_addr_map.build.ip_addr is defined
+-    - container_addr_map.testssh.ip_addr is defined
++    - build_network.ip_addr is defined
++    - testssh_network.ip_addr is defined
+     - buildsystem_ssh_prod_user_password is defined
+     - buildsystem_ssh_root_user_password is defined
+     - buildsystem_database_root_password is defined
+diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
+index 5a98cc3..d0db4b2 100644
+--- a/roles/docker-common/tasks/ip_addr.yml
++++ b/roles/docker-common/tasks/ip_addr.yml
+@@ -22,7 +22,7 @@
+ - name: Add service IP addresses
+   command: nmcli connection modify '{{ network_connection }}' +ipv4.addresses '{{ item.value.ip_addr }}/16'
+   with_dict: "{{ container_addr_map }}"
+-    
++
+ - sysctl:
+     name: net.ipv4.ip_forward
+     value: 1
+diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
+index 1c23323..ef8aca6 100644
+--- a/roles/docker-exim4/defaults/main.yml
++++ b/roles/docker-exim4/defaults/main.yml
+@@ -1,18 +1,13 @@
+ ---
+ 
+ # The hostname passed as an envirnment variable into the container
+-container_addr_map:
+-  exim4:
+-    ip_addr: '127.0.0.1'
+-    hostname: mail.example.com
+-
+-# the port mappings used when starting the container
+-container_port_map:
+-  exim4:
+-    port_args: 
+-      - '{{ container_addr_map.exim4.ip_addr }}:25:25'
+-      - '{{ container_addr_map.exim4.ip_addr }}:465:465'
+-      - '{{ container_addr_map.exim4.ip_addr }}:587:587'
++exim4_network:
++  ip_addr: '127.0.0.1'
++  hostname: mail.example.com
++  port_args: 
++    - '{{ exim4_network.ip_addr }}:25:25'
++    - '{{ exim4_network.ip_addr }}:465:465'
++    - '{{ exim4_network.ip_addr }}:587:587'
+ 
+ # the repository containing Dockerfile to build the image
+ exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 439e058..f6b83eb 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -103,8 +103,8 @@
+ - name: start container
+   docker_container:
+     name: '{{ exim4_container_name }}'
+-    hostname: '{{ container_addr_map.exim4.hostname }}'
+-    ports: '{{ container_port_map.exim4.port_args }}'
++    hostname: '{{ exim4_network.hostname }}'
++    ports: '{{ exim4_network.port_args }}'
+     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
+     restart_policy: always
+     state: started
+diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
+index 3a0aec3..0b9c229 100644
+--- a/roles/docker-gitlab/defaults/main.yml
++++ b/roles/docker-gitlab/defaults/main.yml
+@@ -1,18 +1,13 @@
+ ---
+ 
+ # The hostname passed as an envirnment variable into the container
+-container_addr_map:
+-  git:
+-    ip_addr: '127.0.0.1'
+-    hostname: git.example.com
+-
+-# the port mappings used when starting the container
+-container_port_map:
+-  git:
+-    port_args: 
+-      - '{{ container_addr_map.git.ip_addr }}:80:80'
+-      - '{{ container_addr_map.git.ip_addr }}:443:443'
+-      - '{{ container_addr_map.git.ip_addr }}:22:22'
++git_network:
++  ip_addr: '127.0.0.1'
++  hostname: git.example.com
++  port_args: 
++    - '{{ gitlab_network.ip_addr }}:80:80'
++    - '{{ gitlab_network.ip_addr }}:443:443'
++    - '{{ gitlab_network.ip_addr }}:22:22'
+ 
+ # database usernames and passwords
+ gitlab_db_user: novatech
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 0da097e..c4c57e4 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -148,22 +148,22 @@
+     name: '{{ gitlab_container_name }}'
+     detach: true
+     restart_policy: always
+-    hostname: '{{ container_addr_map.git.hostname }}'
+-    ports: '{{ container_port_map.git.port_args }}'
++    hostname: '{{ gitlab_network.hostname }}'
++    ports: '{{ git_network.port_args }}'
+     link:
+       - '{{ openldap_container_name }}:gitlab-ldap'
+       - '{{ gitlab_redis_container_name }}:gitlab-redis'
+       - '{{ gitlab_db_container_name }}:gitlab-db'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++      - '{{ exim4_container_name }}:{{ exim4_network.hostname }}'
+     volumes-from:
+       - '{{ openssl_dv_name }}'
+       - '{{ gitlab_dv_name }}'
+     env:
+-      - GITLAB_HOST={{ container_addr_map.git.hostname }}
+-      - GITLAB_SSH_HOST={{ container_addr_map.git.hostname }}
++      - GITLAB_HOST={{ gitlab_network.hostname }}
++      - GITLAB_SSH_HOST={{ gitlab_network.hostname }}
+       - DB_USER={{ gitlab_db_user }}
+       - DB_PASS={{ gitlab_db_password | quote }}
+-      - SMTP_HOST={{ container_addr_map.exim4.hostname }}
++      - SMTP_HOST={{ exim4_network.hostname }}
+       - SMTP_PASS={{ gitlab_email_password | quote }}
+       - LDAP_PASS={{ ldap_proxyagent_password | quote }}
+       - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
+@@ -174,7 +174,7 @@
+ - name: Wait for gitlab to be fully running
+   wait_for:
+     delay: 10
+-    host: '{{ container_addr_map.git.ip_addr }}'
++    host: '{{ gitlab_network.ip_addr }}'
+     port: 22
+     state: started
+     timeout: 180
+diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
+index 896fa01..e4e95f5 100644
+--- a/roles/docker-mantisbt/defaults/main.yml
++++ b/roles/docker-mantisbt/defaults/main.yml
+@@ -1,17 +1,12 @@
+ ---
+ 
+ # The hostname passed as an envirnment variable into the container
+-container_addr_map:
+-  mantisbt:
+-    ip_addr: '127.0.0.1'
+-    hostname: mantis.example.com
+-
+-# the port mappings used when starting the container
+-container_port_map:
+-  mantisbt:
+-    port_args:
+-      - '{{ container_addr_map.mantisbt.ip_addr }}:80:80'
+-      - '{{ container_addr_map.mantisbt.ip_addr }}:443:443'
++mantisbt_network:
++  ip_addr: '127.0.0.1'
++  hostname: mantis.example.com
++  port_args:
++    - '{{ mantisbt_network.ip_addr }}:80:80'
++    - '{{ mantisbt_network.ip_addr }}:443:443'
+ 
+ # database usernames and passwords
+ mantisbt_db_user: novatech
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 2124a54..d2640b5 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -158,17 +158,17 @@
+     name: '{{ mantisbt_container_name }}'
+     detach: true
+     restart_policy: always
+-    hostname: '{{ container_addr_map.mantisbt.hostname }}'
+-    ports: '{{ container_port_map.mantisbt.port_args }}'
++    hostname: '{{ mantisbt_network.hostname }}'
++    ports: '{{ mantisbt_network.port_args }}'
+     link: 
+       -'{{ openldap_container_name }}:mantisbt_ldap'
+       -'{{ mantisbt_db_container_name }}:mantisbt_db'
+-      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++      -'{{ exim4_container_name }}:{{ exim4_network.hostname }}'
+     volumes-from: 
+       - '{{ openssl_dv_name }}'
+       - '{{ mantisbt_dv_name }}'
+     env: 
+-      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
++      - MANTISBT_HOSTNAME={{ mantisbt_network.hostname }}
+       - MANTISBT_MAIL_USER=mantis
+       - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
+       - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index 2a5319d..fc44d60 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -1,17 +1,12 @@
+ ---
+ 
+ # The hostname passed as an envirnment variable into the container
+-container_addr_map:
+-  wiki:
+-    ip_addr: '127.0.0.1'
+-    hostname: wiki.example.com
+-
+-# the port mappings used when starting the container
+-container_port_map:
+-  wiki:
+-    port_args:
+-      - '{{ container_addr_map.wiki.ip_addr }}:80:80'
+-      - '{{ container_addr_map.wiki.ip_addr }}:443:443'
++wiki_network:
++  ip_addr: '127.0.0.1'
++  hostname: wiki.example.com
++  port_args:
++    - '{{ wiki_network.ip_addr }}:80:80'
++    - '{{ wiki_network.ip_addr }}:443:443'
+ 
+ # database usernames and passwords
+ wiki_db_user: novatech
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index cfcd636..ef1f377 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -131,17 +131,17 @@
+     name: '{{ wiki_container_name }}'
+     detach: true
+     restart_policy: always
+-    hostname: '{{ container_addr_map.wiki.hostname }}' 
+-    ports: '{{ container_port_map.wiki.port_args }}'
++    hostname: '{{ wiki_network.hostname }}' 
++    ports: '{{ wiki_network.port_args }}'
+     link:
+       - '{{ openldap_container_name }}:wiki_ldap'
+       - '{{ wiki_db_container_name }}:wiki_db'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++      - '{{ exim4_container_name }}:{{ exim4_network.hostname }}'
+     volumes-from: 
+       - '{{ openssl_dv_name }}'
+       - '{{ wiki_dv_name }}'
+       env:
+-        - WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }}
++        - WIKI_HOSTNAME={{ wiki_network.hostname }}
+         - WIKI_MAIL_USER=wiki
+         - WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }}
+       image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
+index cf30778..1149e00 100644
+--- a/roles/docker-openldap/defaults/main.yml
++++ b/roles/docker-openldap/defaults/main.yml
+@@ -1,24 +1,19 @@
+ ---
+ 
+ # The hostname passed as an envirnment variable into the container
+-container_addr_map:
+-  ldap:
+-    ip_addr: '127.0.0.1'
+-    hostname: ldap.example.com
+-  phpldapadmin:
+-    ip_addr: '127.0.0.1'
+-    hostname: ldap.example.com
+-
+-# the port mappings used when starting the container
+-container_port_map:
+-  ldap:
+-    port_args:
+-      - '{{ container_addr_map.ldap.ip_addr }}:389:389'
+-      - '{{ container_addr_map.ldap.ip_addr }}:636:636'
+-  phpldapadmin:
+-    port_args: 
+-      - '{{ container_addr_map.phpldapadmin.ip_addr }}:80:80'
+-      - '{{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
++openldap_network:
++  ip_addr: '127.0.0.1'
++  hostname: ldap.example.com
++  port_args:
++    - '{{ openldap_network.ip_addr }}:389:389'
++    - '{{ openldap_network.ip_addr }}:636:636'
++
++phpldapadmin_network:
++  ip_addr: '127.0.0.1'
++  hostname: ldap.example.com
++  port_args: 
++    - '{{ phpldapadmin_network.ip_addr }}:80:80'
++    - '{{ phpldapadmin_network.ip_addr }}:443:443'
+ 
+ openldap_backup_files:
+   - ldif_file: LDAP_database_0000.ldif
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index c84183a..aa54a84 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -108,13 +108,13 @@
+     name: '{{ openldap_container_name }}'
+     detach: true
+     restart_policy: always
+-    hostname: '{{ container_addr_map.ldap.hostname }}'
+-    ports: '{{ container_port_map.ldap.port_args }}'
++    hostname: '{{ openldap_network.hostname }}'
++    ports: '{{ ldap_network.port_args }}'
+     volumes-from:
+       - '{{ openssl_dv_name }}'
+       - '{{ openldap_dv_name }}'
+     env:
+-      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
++      LDAP_HOSTNAME: '{{ openldap_network.hostname }}'
+     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (phpldapadmin)
+@@ -122,14 +122,14 @@
+     name: '{{ phpldapadmin_container_name }}'
+     detach: true
+     restart_policy: always
+-    hostname: '{{ container_addr_map.ldap.hostname }}'
+-    ports: '{{ container_port_map.phpldapadmin.port_args }}'
++    hostname: '{{ openldap_network.hostname }}'
++    ports: '{{ phpldapadmin_network.port_args }}'
+     volumes-from:
+       - '{{ openssl_dv_name }}'
+     env:
+       PHPLDAPADMIN_HTTPS: 'false'
+       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
+-      LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
++      LDAP_HOSTNAME: '{{ phpldapadmin_network.hostname }}'
+     link: '{{ openldap_container_name }}:ldap'
+     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
+ 
+diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
+index 03d4717..b895895 100644
+--- a/roles/docker-svn/defaults/main.yml
++++ b/roles/docker-svn/defaults/main.yml
+@@ -1,17 +1,12 @@
+ ---
+ 
+ # The hostname passed as an envirnment variable into the container
+-container_addr_map:
+-  svn:
+-    ip_addr: '127.0.0.1'
+-    hostname: svn.example.com
+-
+-# the port mappings used when starting the container
+-container_port_map:
+-  svn:
+-    port_args: 
+-      - '{{ container_addr_map.svn.ip_addr }}:80:80'
+-      - '{{ container_addr_map.svn.ip_addr }}:443:443'
++svn_network:
++  ip_addr: '127.0.0.1'
++  hostname: svn.example.com
++  port_args: 
++    - '{{ svn_network.ip_addr }}:80:80'
++    - '{{ svn_network.ip_addr }}:443:443'
+ 
+ # The repositories that will be created/imported durring a data-volume restore
+ svn_repos: 'example'
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index 00e687a..7615f02 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -82,15 +82,15 @@
+     name: '{{ svn_container_name }}'
+     detach: true
+     restart_policy: always
+-    hostname: '{{ container_addr_map.svn.hostname }}'
+-    ports: '{{ container_port_map.svn.port_args }}'
++    hostname: '{{ svn_network.hostname }}'
++    ports: '{{ svn_network.port_args }}'
+     link:
+       - '{{ openldap_container_name }}:ldap'
+     volumes-from:
+       - '{{ openssl_dv_name }}'
+       - '{{ svn_dv_name }}'
+     env:
+-      SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
++      SVN_HOSTNAME: '{{ svn_network.hostname }}'
+       SVN_LDAP_PASSWORD: '{{ ldap_proxyagent_password }}'
+     image: '{{ svn_image_name }}:{{ docker_image_tag }}'
