@@ -1,6 +1,6 @@
 Version: 1
-Previous: b82cdd55b2b9d80a139a97f19e73b0393ad52f85
-Head: e9320d4b2870fd809a07f3ddf38588c99e268a82
+Previous: 30002c7c1e129663c3c7525c174cda0928fa7d54
+Head: 18ee3fe7a7278f6070cbe5f2db02b46debc54d3e
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -64,8 +64,8 @@ Applied:
   playbook-simplify-credentials: 96add5752cf07a8dd86f314c64ffe2b2a5291ed8
   TESTING--VirtualMachine: 938a6a4e20c0b94fc7ad74378703c53da3e72f0a
   all-normalize-vars: e9320d4b2870fd809a07f3ddf38588c99e268a82
+  tmp-update-gitlab-version: 18ee3fe7a7278f6070cbe5f2db02b46debc54d3e
 Unapplied:
-  tmp-update-gitlab-version: 5dcbfd77ef62c8c02548fe0c3c1098dd9f284484
   fixup-all-docker-image-repositories: 982dd5af20751212d04d185ab847a4aa451c27f6
   tmp-update-openldap: 76e184e3b83040147bfb7b6584f5b8bd4183c1af
   mariadb-fix-bind-address: 3430bc84b6b6813fdad5a44c2d7a309feb2fa120
