@@ -1,0 +1,14 @@
+Bottom: 0f3f2366f2163f7b7685242f674386a7a7483059
+Top:    0f3f2366f2163f7b7685242f674386a7a7483059
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-24 16:30:47 -0500
+
+Remove libicu52 from Dockerfile
+
+Newest upstream versions of php:5.6-apache are based on debian stretch and 
+use libicu57, which is already installed. Besides this, libicu-dev would 
+already install libicuXX.
+
+
+---
+
