@@ -12,7 +12,6 @@ RUN sed -i 's| main$| main contrib non-free|' /etc/apt/sources.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
         libcurl3 \
-        libicu52 \
         libjpeg62-turbo \
         libmcrypt4 \
         libpq5 \
