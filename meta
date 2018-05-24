@@ -1,6 +1,6 @@
 Version: 1
-Previous: dfcc9b39a9ef38ddd4ab156bcf45a4412f017133
-Head: 6b4c699ae2f640dcacf450339b1db428246c49e9
+Previous: 08663d4bb319b9a26ef5f83a0a5fe1712af0aa9c
+Head: d746b8bc3fc7fb33c11b6528e0cbcdcb62f2ef53
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -71,5 +71,6 @@ Applied:
   tmp-mantis-database: bccec49fd47bd71b26cce7f6d82f8dbb6fc92826
   TESTING--VirtualMachine: 0fb9ecab5b17cd6b72a0054a31aaa750535a926e
   mediawiki-remove-libicu52: 6b4c699ae2f640dcacf450339b1db428246c49e9
+  refresh-temp: d746b8bc3fc7fb33c11b6528e0cbcdcb62f2ef53
 Unapplied:
 Hidden:

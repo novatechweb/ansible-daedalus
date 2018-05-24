@@ -1,0 +1,38 @@
+Bottom: 40ecc6a5e52cc91795cc2027dbf7bb8f79643014
+Top:    8ae79ff40db81d080be8909350ce8c37de55b528
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-24 16:45:44 -0500
+
+Refresh of mediawiki-remove-libicu52
+
+---
+diff --git a/docker/docker-mantisbt/Dockerfile b/docker/docker-mantisbt/Dockerfile
+index 496a84f..7db874b 100644
+--- a/docker/docker-mantisbt/Dockerfile
++++ b/docker/docker-mantisbt/Dockerfile
+@@ -8,6 +8,8 @@ MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
+ 
+ ENV MANTISBT_VERSION 1.2.19
+ 
++#         ttf-mscorefonts-installer
++
+ RUN sed -i 's| main$| main contrib non-free|' /etc/apt/sources.list \
+     && apt-get update \
+     && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+@@ -15,15 +17,13 @@ RUN sed -i 's| main$| main contrib non-free|' /etc/apt/sources.list \
+         libjpeg62-turbo \
+         libmcrypt4 \
+         libpq5 \
+-        ttf-mscorefonts-installer \
+-        \
+         libcurl4-openssl-dev \
+         libfreetype6-dev \
+         libicu-dev \
+         libjpeg62-turbo-dev \
+         libldap2-dev \
+         libmcrypt-dev \
+-        libpng12-dev \
++        libpng-dev \
+         libpq-dev \
+     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
+     && docker-php-ext-configure gd --with-png-dir=/usr --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
