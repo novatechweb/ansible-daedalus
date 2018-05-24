@@ -1,5 +1,5 @@
 Bottom: 0f3f2366f2163f7b7685242f674386a7a7483059
-Top:    0f3f2366f2163f7b7685242f674386a7a7483059
+Top:    bd596230eccba549726313c1043aec7a68c6272d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-24 16:30:47 -0500
 
@@ -11,4 +11,15 @@ already install libicuXX.
 
 
 ---
-
+diff --git a/docker/docker-mediawiki/Dockerfile b/docker/docker-mediawiki/Dockerfile
+index 6aaefd6..5442116 100644
+--- a/docker/docker-mediawiki/Dockerfile
++++ b/docker/docker-mediawiki/Dockerfile
+@@ -13,7 +13,6 @@ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+         git \
+         imagemagick \
+-        libicu52 \
+         libicu-dev \
+         libldap2-dev \
+     && \
