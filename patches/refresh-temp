@@ -1,0 +1,20 @@
+Bottom: bd596230eccba549726313c1043aec7a68c6272d
+Top:    40ecc6a5e52cc91795cc2027dbf7bb8f79643014
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-24 16:39:42 -0500
+
+Refresh of mediawiki-remove-libicu52
+
+---
+diff --git a/docker/docker-mantisbt/Dockerfile b/docker/docker-mantisbt/Dockerfile
+index b59a97c..496a84f 100644
+--- a/docker/docker-mantisbt/Dockerfile
++++ b/docker/docker-mantisbt/Dockerfile
+@@ -12,7 +12,6 @@ RUN sed -i 's| main$| main contrib non-free|' /etc/apt/sources.list \
+     && apt-get update \
+     && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+         libcurl3 \
+-        libicu52 \
+         libjpeg62-turbo \
+         libmcrypt4 \
+         libpq5 \
