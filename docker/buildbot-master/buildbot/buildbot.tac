@@ -7,7 +7,7 @@ from twisted.python.log import ILogObserver
 
 from buildbot.master import BuildMaster
 
-basedir = os.env('BUILDBOT_DATA', '/buildbot')
+basedir = os.getenv('BUILDBOT_DATA', '/buildbot')
 configfile = 'master.cfg'
 
 # note: this line is matched against to check that this is a buildmaster
