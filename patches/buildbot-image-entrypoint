@@ -1,5 +1,5 @@
-Bottom: 36924a6196b3b963488424da44d51e34e8178d73
-Top:    0a5044a2dd04b4163c6cfd68eb538adb4daede9c
+Bottom: daa22bcd696b74fa2abdf82d1031e2ca6f369121
+Top:    a786c857c36f34b1ea300422ca59b74a97561d84
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 15:32:30 -0500
 
@@ -26,7 +26,7 @@ index b13cd1d..fcced3c 100644
 -ENTRYPOINT ["/sbin/tini", "--"]
  CMD ["/home/buildbot/start.sh"]
 diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/docker/buildbot-master/buildbot/buildbot.tac
-index b87ce04..c2fac83 100644
+index 4fbddaa..796384d 100644
 --- a/docker/buildbot-master/buildbot/buildbot.tac
 +++ b/docker/buildbot-master/buildbot/buildbot.tac
 @@ -13,7 +13,7 @@ configfile = 'master.cfg'

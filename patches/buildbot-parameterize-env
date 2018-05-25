@@ -1,5 +1,5 @@
 Bottom: c41e40ce51a84a6a48903b84d9879fcc0b4cadc0
-Top:    36924a6196b3b963488424da44d51e34e8178d73
+Top:    daa22bcd696b74fa2abdf82d1031e2ca6f369121
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 14:39:04 -0500
 
@@ -24,7 +24,7 @@ index dde9cdb..b13cd1d 100644
  
  USER buildbot
 diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/docker/buildbot-master/buildbot/buildbot.tac
-index c3b2e87..b87ce04 100644
+index c3b2e87..4fbddaa 100644
 --- a/docker/buildbot-master/buildbot/buildbot.tac
 +++ b/docker/buildbot-master/buildbot/buildbot.tac
 @@ -1,4 +1,5 @@
@@ -38,7 +38,7 @@ index c3b2e87..b87ce04 100644
  from buildbot.master import BuildMaster
  
 -basedir = '/buildbot'
-+basedir = os.env('BUILDBOT_DATA', '/buildbot')
++basedir = os.getenv('BUILDBOT_DATA', '/buildbot')
  configfile = 'master.cfg'
  
  # note: this line is matched against to check that this is a buildmaster
