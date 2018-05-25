@@ -49,6 +49,16 @@
     role: docker-common
     tags:
     - docker_common
+    services:
+      - svn
+      - openldap
+      - exim4
+      - gitlab
+      - wiki
+      - mantisbt
+      - build
+      - testssh
+      - buildbot
   - name: Configure Docker networking
     role: docker-networking
     tags:
