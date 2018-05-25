@@ -112,14 +112,14 @@
     name: '{{ openldap_container_name }}'
     detach: true
     restart_policy: no
-    hostname: '{{ openldap_network.hostname }}'
-    ports: '{{ ldap_network.port_args }}'
+    hostname: '{{ openldap_hostname }}'
+    ports: '{{ openldap_port_args }}'
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ openldap_cv_name }}:/etc/ldap:z'
       - '{{ openldap_dv_name }}:/var/lib/ldap:z'
     env:
-      LDAP_HOSTNAME: '{{ openldap_network.hostname }}'
+      LDAP_HOSTNAME: '{{ openldap_hostname }}'
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     networks:
       - name: '{{ docker_network_frontend }}'
@@ -157,14 +157,14 @@
     name: '{{ phpldapadmin_container_name }}'
     detach: true
     restart_policy: no
-    hostname: '{{ phpldapadmin_network.hostname }}'
-    ports: '{{ phpldapadmin_network.port_args }}'
+    hostname: '{{ phpldapadmin_hostname }}'
+    ports: '{{ phpldapadmin_port_args }}'
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
     env:
       PHPLDAPADMIN_HTTPS: 'false'
       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
-      LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
+      LDAP_HOSTNAME: '{{ openldap_hostname }}'
     networks:
       - name: '{{ docker_network_frontend }}'
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
