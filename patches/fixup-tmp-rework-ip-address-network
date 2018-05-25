@@ -1,5 +1,5 @@
 Bottom: 91e6118a9adfdc06fc7abe0037a186e3a0daa42c
-Top:    4c39bbe9d9967e123bc70f80985ca589bb10cdd6
+Top:    3814a10aaef10bf4f02605079b32b725686b21fd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -716,6 +716,28 @@ index 070a494..29c2999 100644
  #     port: 389
  #     state: started
  
+diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
+index e3e85d1..93ba705 100644
+--- a/roles/docker-svn/defaults/main.yml
++++ b/roles/docker-svn/defaults/main.yml
+@@ -1,12 +1,11 @@
+ ---
+ 
+ # The hostname passed as an envirnment variable into the container
+-svn_network:
+-  ip_addr: '127.0.0.1'
+-  hostname: svn.example.com
+-  port_args: 
+-    - '{{ svn_network.ip_addr }}:80:80'
+-    - '{{ svn_network.ip_addr }}:443:443'
++svn_ip_addr: '127.0.0.1'
++svn_hostname: svn.example.com
++svn_port_args: 
++  - '80'
++  - '443'
+ 
+ # The repositories that will be created/imported durring a data-volume restore
+ svn_repos: 'example'
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
 index 89c74d9..9b7e0bb 100644
 --- a/roles/docker-svn/tasks/main.yml
