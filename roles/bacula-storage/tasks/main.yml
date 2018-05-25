@@ -18,13 +18,6 @@
     mode: 0640
     backup: yes
 
-# - name: Check if baculatape selinux module exists
-#   stat: 
-#     path: /etc/selinux/targeted/modules/active/modules/baculatape.pp
-#   register: baculatape_pp
-# - import_tasks: selinux-tape-policy.yml
-#   when: baculatape_pp.stat.exists is defined and baculatape_pp.stat.exists == false
-
 - name: Check if baculatape selinux module exists
   command: semodule -l 
   register: baculatape_pp
