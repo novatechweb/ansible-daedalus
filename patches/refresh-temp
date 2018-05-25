@@ -1,0 +1,21 @@
+Bottom: 3137b29b865b13ef704b29b1ae0ce3fea586fadd
+Top:    1ab293e99e8e8418cb503f203229fcdc81b33c33
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-25 10:48:31 -0500
+
+Refresh of buildbot-parameterize-env
+
+---
+diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/docker/buildbot-master/buildbot/buildbot.tac
+index c2fac83..796384d 100644
+--- a/docker/buildbot-master/buildbot/buildbot.tac
++++ b/docker/buildbot-master/buildbot/buildbot.tac
+@@ -7,7 +7,7 @@ from twisted.python.log import ILogObserver
+ 
+ from buildbot.master import BuildMaster
+ 
+-basedir = os.env('BUILDBOT_DATA', '/buildbot')
++basedir = os.getenv('BUILDBOT_DATA', '/buildbot')
+ configfile = 'master.cfg'
+ 
+ # note: this line is matched against to check that this is a buildmaster
