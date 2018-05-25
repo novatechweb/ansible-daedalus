@@ -1,0 +1,14 @@
+Bottom: 8ae79ff40db81d080be8909350ce8c37de55b528
+Top:    8ae79ff40db81d080be8909350ce8c37de55b528
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-25 10:19:41 -0500
+
+Update bacula tasks to proper yaml syntax
+
+Several tasks were using parameters to the module instead of children.
+Improves readability and keeps tasks up-to-date.
+
+
+
+---
+
