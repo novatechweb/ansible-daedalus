@@ -1,6 +1,6 @@
 Version: 1
-Previous: d3e3098164ad1a8c71ef61500056b1afad1ca941
-Head: 31b28a7249dd2e0b813390e2dba45ee8c04b5451
+Previous: f8aebd19482a893432cc55dde17404acce8bf709
+Head: 69153ed9c4fc80fd676813f5c8ec402ff76bb36e
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -71,8 +71,7 @@ Applied:
   tmp-mantis-database: bccec49fd47bd71b26cce7f6d82f8dbb6fc92826
   TESTING--VirtualMachine: 0fb9ecab5b17cd6b72a0054a31aaa750535a926e
   mediawiki-remove-libicu52: 7643dd966f11214c18543d5606044ffa82e5e338
-  bacula-update-syntax: 35ab01b2f08ab820b8ceef69ff308d845fc89f17
-  refresh-temp: 31b28a7249dd2e0b813390e2dba45ee8c04b5451
+  bacula-update-syntax: 69153ed9c4fc80fd676813f5c8ec402ff76bb36e
 Unapplied:
   all-improve-idempotency: d48b31ee2d6f8cf9ccc80495da14a21b15db9b88
 Hidden:
