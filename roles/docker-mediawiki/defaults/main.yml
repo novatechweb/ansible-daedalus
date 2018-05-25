@@ -1,12 +1,11 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-wiki_network:
-  ip_addr: '127.0.0.1'
-  hostname: wiki.example.com
-  port_args:
-    - '{{ wiki_network.ip_addr }}:80:80'
-    - '{{ wiki_network.ip_addr }}:443:443'
+wiki_ip_addr: '127.0.0.1'
+wiki_hostname: wiki.example.com
+wiki_port_args:
+  - '80'
+  - '443'
 
 # database usernames and passwords
 wiki_db_user: novatech
