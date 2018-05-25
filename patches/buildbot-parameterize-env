@@ -1,5 +1,5 @@
 Bottom: c41e40ce51a84a6a48903b84d9879fcc0b4cadc0
-Top:    daa22bcd696b74fa2abdf82d1031e2ca6f369121
+Top:    35542187a73e415f4ea2a074450e13b83b8af679
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 14:39:04 -0500
 
@@ -43,10 +43,19 @@ index c3b2e87..4fbddaa 100644
  
  # note: this line is matched against to check that this is a buildmaster
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 658d5fb..2be4004 100644
+index 658d5fb..c3c87d1 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -36,11 +36,16 @@ irc = reporters.IRC(host="172.16.64.3",
+@@ -20,7 +20,7 @@ c['change_source'] = []
+ # Defines the TCP port to listen on for connections from workers.
+ # This must match the value configured into the buildworkers (with their
+ # --master option)
+-c['protocols'] = {"pb": {"port": os.getenv('BUILDBOT_WORKER_PORT',9989)}}
++c['protocols'] = {"pb": {"port": int(os.getenv('BUILDBOT_WORKER_PORT',9989))}}
+ 
+ ####### STATUS TARGETS
+ 
+@@ -36,16 +36,21 @@ irc = reporters.IRC(host="172.16.64.3",
                      channels=["#orion"])
  c['services'].append(irc)
  
@@ -68,6 +77,12 @@ index 658d5fb..2be4004 100644
  c['services'].append(mn)
  
  ####### WEB SERVER
+ c['www'] = {
+-    'port':os.getenv('BUILDBOT_WEB_PORT',8010),
++    'port': int(os.getenv('BUILDBOT_WEB_PORT',8010)),
+     'plugins': {
+         'waterfall_view': True,
+         'console_view': True,
 @@ -84,7 +89,7 @@ c['buildbotURL'] = os.getenv('BUILDBOT_WEB_URL',"http://localhost:%s/"%(c['www']
  c['db'] = {
      # This specifies what database buildbot uses to store its state.  You can leave
