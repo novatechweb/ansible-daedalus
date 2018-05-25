@@ -1,0 +1,26 @@
+Bottom: 3018d0714f61907190e023eef99e42077c036f78
+Top:    9984b4f60922881739101ce5a3b5dbde163a1bc5
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-25 10:23:24 -0500
+
+Refresh of all-improve-idempotency
+
+---
+diff --git a/roles/bacula-storage/tasks/main.yml b/roles/bacula-storage/tasks/main.yml
+index 1a6db49..ba5ccb7 100644
+--- a/roles/bacula-storage/tasks/main.yml
++++ b/roles/bacula-storage/tasks/main.yml
+@@ -18,13 +18,6 @@
+     mode: 0640
+     backup: yes
+ 
+-# - name: Check if baculatape selinux module exists
+-#   stat: 
+-#     path: /etc/selinux/targeted/modules/active/modules/baculatape.pp
+-#   register: baculatape_pp
+-# - import_tasks: selinux-tape-policy.yml
+-#   when: baculatape_pp.stat.exists is defined and baculatape_pp.stat.exists == false
+-
+ - name: Check if baculatape selinux module exists
+   command: semodule -l 
+   register: baculatape_pp
