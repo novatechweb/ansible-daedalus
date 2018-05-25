@@ -1,13 +1,12 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-git_network:
-  ip_addr: '127.0.0.1'
-  hostname: git.example.com
-  port_args: 
-    - '{{ gitlab_network.ip_addr }}:80:80'
-    - '{{ gitlab_network.ip_addr }}:443:443'
-    - '{{ gitlab_network.ip_addr }}:22:22'
+git_ip_addr: '127.0.0.1'
+git_hostname: git.example.com
+git_port_args: 
+  - '80'
+  - '443'
+  - '22'
 
 # database usernames and passwords
 gitlab_db_user: novatech
@@ -18,18 +17,9 @@ gitlab_db_user: novatech
 # the name of the image being duilt and used for the container
 gitlab_image_repo: 'https://github.com/novatechweb/docker-gitlab.git'
 gitlab_image_name: 'gitlab/gitlab-ce:10.1.7-ce.0'
-# gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
-# gitlab_db_image_name: '{{ docker_registry_username }}/postgres'
-# redis_image_name: '{{ docker_registry_username }}/redis'
 
 # the name of the gitlab container
 gitlab_container_name: '{{ docker_name_prefix }}gitlab'
-
-# the name of the redis container for gitlab
-# gitlab_redis_container_name: '{{ docker_name_prefix }}gitlab_redis'
-
-# the name of the postgres container for gitlab
-# gitlab_db_container_name: '{{ docker_name_prefix }}gitlab_db'
 
 # the name of the config-volume used by the container
 gitlab_cv_name: '{{ docker_name_prefix }}gitlab_CV'
@@ -37,12 +27,10 @@ gitlab_cv_name: '{{ docker_name_prefix }}gitlab_CV'
 # the name of the data-volume used by the container
 gitlab_dv_name: '{{ docker_name_prefix }}gitlab_DV'
 
-# the name of the data-volume used by the postgres container
-# gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
-
 # restore directories to temporarly store data being restored into docker containers
 gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
 gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
+gitlab_backup_mountpoint: '/mnt/backups'
 
 # Network names
 docker_network_frontend: 'frontend'

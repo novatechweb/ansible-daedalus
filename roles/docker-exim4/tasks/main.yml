@@ -105,10 +105,10 @@
 - name: start container
   docker_container:
     name: '{{ exim4_container_name }}'
-    hostname: '{{ exim4_network.hostname }}'
+    hostname: '{{ exim4_hostname }}'
     networks:
       - name: '{{ docker_network_frontend }}'
-    ports: '{{ exim4_network.port_args }}'
+    ports: '{{ exim4_port_args }}'
     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
     restart_policy: always
     state: started
