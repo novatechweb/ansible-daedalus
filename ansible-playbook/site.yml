@@ -25,6 +25,8 @@
     mariadb_remote_root_access: false
   - role: bacula-director
   - role: bacula-storage
+    tags:
+      - bacula_storage
   - role: bacula-client
   - role: bacula-console
   - role: bacula-script
