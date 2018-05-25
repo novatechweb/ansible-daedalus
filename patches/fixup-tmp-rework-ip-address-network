@@ -1,5 +1,5 @@
-Bottom: 91e6118a9adfdc06fc7abe0037a186e3a0daa42c
-Top:    3814a10aaef10bf4f02605079b32b725686b21fd
+Bottom: e2de3fece34b70ebb13063e75ef838e4a5bb6296
+Top:    048094e1ea919fb18e3f871e81e54f52dc171132
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -249,10 +249,10 @@ index 9fd2bd1..0dceb52 100644
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index d238632..87805bb 100644
+index 20ca10b..82d8ce8 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -49,6 +49,16 @@
+@@ -51,6 +51,16 @@
      role: docker-common
      tags:
      - docker_common

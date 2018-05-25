@@ -1,5 +1,5 @@
 Bottom: e9211997fa2f82b1b2ee55a82c57e23cca9a424f
-Top:    3043a33fe25e863a08ce3b675f463ea5edc49e9f
+Top:    0881edcce750752ec6e3b99158bf914fe4528713
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -117,7 +117,7 @@ index 0000000..53b96f8
 +    ip_addr: 192.168.0.109
 +    hostname: phpmyadmin.novatech-llc.com
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 3c3b77e..d238632 100644
+index 3c3b77e..20ca10b 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -1,6 +1,18 @@
@@ -139,7 +139,13 @@ index 3c3b77e..d238632 100644
  - name: Bacula
    hosts: bacula
    remote_user: ansibleremote
-@@ -17,7 +29,7 @@
+@@ -13,11 +25,13 @@
+     mariadb_remote_root_access: false
+   - role: bacula-director
+   - role: bacula-storage
++    tags:
++      - bacula_storage
+   - role: bacula-client
    - role: bacula-console
    - role: bacula-script
      assemble_scripts: false
@@ -148,7 +154,7 @@ index 3c3b77e..d238632 100644
  - name: Install/Setup Docker images and containers
    hosts: docker-hosts
    remote_user: ansibleremote
-@@ -29,6 +41,10 @@
+@@ -29,6 +43,10 @@
      role: sshd
      tags:
      - sshd
@@ -263,7 +269,7 @@ index 0000000..f80680f
 +"$@"
 diff --git a/ansible.cfg b/ansible.cfg
 new file mode 100644
-index 0000000..4bfbc4d
+index 0000000..7dbeeeb
 --- /dev/null
 +++ b/ansible.cfg
 @@ -0,0 +1,477 @@
@@ -333,7 +339,7 @@ index 0000000..4bfbc4d
 +
 +# change the default callback, you can only have one 'stdout' type  enabled at a time.
 +#stdout_callback = skippy
-+
++stdout_callback=debug
 +
 +## Ansible ships with some plugins that require whitelisting,
 +## this is done to avoid running all of a type by default.
@@ -746,7 +752,7 @@ index 0000000..4bfbc4d
 +# context = 3
 diff --git a/provision.sh b/provision.sh
 new file mode 100755
-index 0000000..cf996dc
+index 0000000..c3c8872
 --- /dev/null
 +++ b/provision.sh
 @@ -0,0 +1,15 @@
@@ -754,7 +760,7 @@ index 0000000..cf996dc
 +
 +#PYTHONUNBUFFERED=1 \
 +     
-+
++ANSIBLE_ENABLE_TASK_DEBUGGER=True \
 +ANSIBLE_FORCE_COLOR=true \
 +ANSIBLE_HOST_KEY_CHECKING=false \
 +ANSIBLE_SSH_ARGS='-o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o ControlMaster=auto -o ControlPersist=60s' \
