@@ -1,5 +1,5 @@
-Bottom: 9984b4f60922881739101ce5a3b5dbde163a1bc5
-Top:    b1a52c2ea845b8325718af1260e8296f1c6097d7
+Bottom: 91e6118a9adfdc06fc7abe0037a186e3a0daa42c
+Top:    4c39bbe9d9967e123bc70f80985ca589bb10cdd6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -467,7 +467,7 @@ index 2010899..dd4c2ec 100644
  # the repository containing Dockerfile to build the image
  exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 0b53824..5900753 100644
+index 4760f5c..4594a26 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -106,10 +106,10 @@
