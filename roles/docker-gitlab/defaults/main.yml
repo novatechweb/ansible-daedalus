@@ -1,13 +1,12 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-git_network:
-  ip_addr: '127.0.0.1'
-  hostname: git.example.com
-  port_args: 
-    - '{{ gitlab_network.ip_addr }}:80:80'
-    - '{{ gitlab_network.ip_addr }}:443:443'
-    - '{{ gitlab_network.ip_addr }}:22:22'
+git_ip_addr: '127.0.0.1'
+git_hostname: git.example.com
+git_port_args: 
+  - '80'
+  - '443'
+  - '22'
 
 # database usernames and passwords
 gitlab_db_user: novatech

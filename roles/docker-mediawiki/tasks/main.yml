@@ -147,9 +147,9 @@
     delay: 3
     until: "container_status.rc == 0"
   - name: remove initialization container
-  docker_container:
+    docker_container:
       name: '{{ wiki_db_dv_name}}_init_db'
-    state: stopped
+      state: stopped
   - name: State file
     shell: 'date --rfc-3339=seconds > {{ docker_restore_config_base_dir }}/{{ wiki_db_dv_name }}/restore.date.txt'
 
@@ -172,8 +172,8 @@
     name: '{{ wiki_container_name }}'
     detach: true
     restart_policy: no
-    hostname: '{{ wiki_network.hostname }}'
-    ports: '{{ wiki_network.port_args }}'
+    hostname: '{{ wiki_hostname }}'
+    ports: '{{ wiki_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
     volumes: 
