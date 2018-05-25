@@ -1,0 +1,47 @@
+Bottom: 3814a10aaef10bf4f02605079b32b725686b21fd
+Top:    048094e1ea919fb18e3f871e81e54f52dc171132
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-25 10:36:27 -0500
+
+Refresh of TESTING--VirtualMachine
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 87805bb..82d8ce8 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -25,6 +25,8 @@
+     mariadb_remote_root_access: false
+   - role: bacula-director
+   - role: bacula-storage
++    tags:
++      - bacula_storage
+   - role: bacula-client
+   - role: bacula-console
+   - role: bacula-script
+diff --git a/ansible.cfg b/ansible.cfg
+index 4bfbc4d..7dbeeeb 100644
+--- a/ansible.cfg
++++ b/ansible.cfg
+@@ -64,7 +64,7 @@ roles_path    = /home/coopera/Developer/testdaedalus/roles
+ 
+ # change the default callback, you can only have one 'stdout' type  enabled at a time.
+ #stdout_callback = skippy
+-
++stdout_callback=debug
+ 
+ ## Ansible ships with some plugins that require whitelisting,
+ ## this is done to avoid running all of a type by default.
+diff --git a/provision.sh b/provision.sh
+index cf996dc..c3c8872 100755
+--- a/provision.sh
++++ b/provision.sh
+@@ -2,7 +2,7 @@
+ 
+ #PYTHONUNBUFFERED=1 \
+      
+-
++ANSIBLE_ENABLE_TASK_DEBUGGER=True \
+ ANSIBLE_FORCE_COLOR=true \
+ ANSIBLE_HOST_KEY_CHECKING=false \
+ ANSIBLE_SSH_ARGS='-o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o ControlMaster=auto -o ControlPersist=60s' \
