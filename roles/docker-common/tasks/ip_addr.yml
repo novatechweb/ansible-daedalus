@@ -20,9 +20,12 @@
   register: network_pre
 
 - name: Add service IP addresses
-  command: nmcli connection modify '{{ network_connection }}' +ipv4.addresses '{{ item.value.ip_addr }}/16'
-  with_dict: "{{ container_addr_map }}"
-    
+  command: >
+    nmcli connection 
+    modify '{{ network_connection }}' 
+    +ipv4.addresses '{{ lookup('vars', item + "_ip_addr") | ipaddr }}'
+  loop: "{{ services }}"
+ 
 - sysctl:
     name: net.ipv4.ip_forward
     value: 1

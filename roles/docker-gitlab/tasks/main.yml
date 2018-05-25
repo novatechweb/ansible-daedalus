@@ -178,8 +178,8 @@
     name: '{{ gitlab_container_name }}'
     detach: true
     restart_policy: no
-    hostname: '{{ gitlab_network.hostname }}'
-    ports: '{{ gitlab_network.port_args }}'
+    hostname: '{{ gitlab_hostname }}'
+    ports: '{{ gitlab_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
     volumes:
@@ -204,7 +204,7 @@
 - name: Wait for gitlab to be fully running
   wait_for:
     delay: 10
-    host: '{{ gitlab_network.ip_addr }}'
+    host: "{{ gitlab_ip_addr | ipaddr('address') }}"
     port: 22
     state: started
     timeout: 180
