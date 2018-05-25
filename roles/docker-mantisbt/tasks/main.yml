@@ -219,15 +219,15 @@
     name: '{{ mantisbt_container_name }}'
     detach: true
     restart_policy: no
-    hostname: '{{ mantisbt_network.hostname }}'
-    ports: '{{ mantisbt_network.port_args }}'
+    hostname: '{{ mantisbt_hostname }}'
+    ports: '{{ mantisbt_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
     volumes: 
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ mantisbt_dv_name }}:/var/www/html:z'
     env: 
-      MANTISBT_HOSTNAME: '{{ mantisbt_network.hostname }}'
+      MANTISBT_HOSTNAME: '{{ mantisbt_hostname }}'
       MANTISBT_MAIL_USER: 'mantis'
       MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
       MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
