@@ -1,0 +1,13 @@
+Bottom: 8ae79ff40db81d080be8909350ce8c37de55b528
+Top:    8ae79ff40db81d080be8909350ce8c37de55b528
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-25 10:17:59 -0500
+
+Small fixes to improve idempotency
+
+Generally, adding changed_when parameters or tweaking tasks to ensure changed
+statuses are reported correctly and tasks only run when needed.
+
+
+---
+
