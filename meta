@@ -1,6 +1,6 @@
 Version: 1
-Previous: 963192985a62f37ae73a39b797b7d54bed702829
-Head: eec922571e0d80a1c013a7f1b6e939458c022e05
+Previous: 0e56c87fddf6c064728d90c5335cf4c0ba04284c
+Head: d3af94ebc17adff8b5a78274b3835efdf7c884c6
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -73,5 +73,6 @@ Applied:
   mediawiki-remove-libicu52: 7643dd966f11214c18543d5606044ffa82e5e338
   bacula-update-syntax: 69153ed9c4fc80fd676813f5c8ec402ff76bb36e
   all-improve-idempotency: eec922571e0d80a1c013a7f1b6e939458c022e05
+  refresh-temp: d3af94ebc17adff8b5a78274b3835efdf7c884c6
 Unapplied:
 Hidden:
