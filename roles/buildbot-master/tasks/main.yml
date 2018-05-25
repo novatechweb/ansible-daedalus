@@ -31,4 +31,4 @@
     networks: '{{ buildbot_networks }}'
     volumes: '{{ buildbot_volumes }}'
     env: '{{ buildbot_env }}'
-    ports: '{{ container_port_map.buildbot.port_args }}'
+    ports: '{{ buildbot_port_args }}'
