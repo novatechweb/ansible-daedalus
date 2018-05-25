@@ -1,0 +1,30 @@
+Bottom: 1ab293e99e8e8418cb503f203229fcdc81b33c33
+Top:    fd530ae5cf369087b768bf7fbe403d75ce8c5a2a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-25 10:58:54 -0500
+
+Refresh of buildbot-parameterize-env
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 2be4004..c3c87d1 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -20,7 +20,7 @@ c['change_source'] = []
+ # Defines the TCP port to listen on for connections from workers.
+ # This must match the value configured into the buildworkers (with their
+ # --master option)
+-c['protocols'] = {"pb": {"port": os.getenv('BUILDBOT_WORKER_PORT',9989)}}
++c['protocols'] = {"pb": {"port": int(os.getenv('BUILDBOT_WORKER_PORT',9989))}}
+ 
+ ####### STATUS TARGETS
+ 
+@@ -50,7 +50,7 @@ c['services'].append(mn)
+ 
+ ####### WEB SERVER
+ c['www'] = {
+-    'port':os.getenv('BUILDBOT_WEB_PORT',8010),
++    'port': int(os.getenv('BUILDBOT_WEB_PORT',8010)),
+     'plugins': {
+         'waterfall_view': True,
+         'console_view': True,
