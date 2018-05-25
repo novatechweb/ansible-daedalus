@@ -19,10 +19,13 @@
     backup: yes
 
 - name: Check if baculatape selinux module exists
-  stat: path=/etc/selinux/targeted/modules/active/modules/baculatape.pp
+  command: semodule -l 
   register: baculatape_pp
+  changed_when: false
+
 - import_tasks: selinux-tape-policy.yml
-  when: baculatape_pp.stat.exists is defined and baculatape_pp.stat.exists == false
+  when: "'baculatape\t1.0' not in baculatape_pp.stdout_lines"
+
 - name: Make sure bacula user is in the tape group
   user: 
     name: bacula
@@ -30,6 +33,8 @@
     append: yes
 - name: Test Bacula Storage configuration
   command: /usr/sbin/bacula-sd -t -c {{ bacula_storage_config_dir }}/bacula-sd.conf
+  changed_when: false
+
 - name: Enable and start Bacula Storage
   service: 
     name: bacula-sd
