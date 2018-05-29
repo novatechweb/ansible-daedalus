@@ -1,5 +1,5 @@
 Bottom: 5a742ca2bf5d7dc2d165be9f8c6852747d4a1131
-Top:    537eab828b76d0c1665f091e55f1c7eb66d944b3
+Top:    2cd31d1b6bce74a790ee8c5ff7e177dbe65ae042
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 14:04:14 -0500
 
@@ -130,7 +130,7 @@ index 00000000..efd988f4
 +	email = buildbot@novatechweb.com
 diff --git a/docker/buildbot-worker-ntel/buildbot/buildbot.tac b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
 new file mode 100644
-index 00000000..058c6a08
+index 00000000..37012ab4
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
 @@ -0,0 +1,38 @@
@@ -154,7 +154,7 @@ index 00000000..058c6a08
 +buildmaster_host = os.environ.get("BUILDBOT_MASTER", 'localhost')
 +port = int(os.environ.get("BUILDBOT_WORKER_PORT", 9989))
 +workername = os.environ.get("BUILDBOT_WORKER_NAME", 'docker')
-+passwd = os.environ.get("BUILDBOT_WORKER_PASSWORD")
++passwd = os.environ.get("BUILDBOT_WORKER_PASS")
 +
 +# delete the password from the environ so that it is not leaked in the log
 +blacklist = os.environ.get("BUILDBOT_ENVIRONMENT_BLACKLIST", "BUILDBOT_WORKER_PASSWORD").split(',')
