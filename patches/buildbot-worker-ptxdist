@@ -1,5 +1,5 @@
 Bottom: 2cd31d1b6bce74a790ee8c5ff7e177dbe65ae042
-Top:    4d50986c9b9e512eb565ed08b2d9b6ebce6316a5
+Top:    26865114dbfc6e24ded781ec7671a5f5697e9996
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 14:07:09 -0500
 
@@ -232,7 +232,7 @@ index 00000000..8dc2a29b
 +index-url=http://172.16.103.72/repository/PyPi_Proxy/simple
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
 new file mode 100644
-index 00000000..058c6a08
+index 00000000..37012ab4
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
 @@ -0,0 +1,38 @@
@@ -256,7 +256,7 @@ index 00000000..058c6a08
 +buildmaster_host = os.environ.get("BUILDBOT_MASTER", 'localhost')
 +port = int(os.environ.get("BUILDBOT_WORKER_PORT", 9989))
 +workername = os.environ.get("BUILDBOT_WORKER_NAME", 'docker')
-+passwd = os.environ.get("BUILDBOT_WORKER_PASSWORD")
++passwd = os.environ.get("BUILDBOT_WORKER_PASS")
 +
 +# delete the password from the environ so that it is not leaked in the log
 +blacklist = os.environ.get("BUILDBOT_ENVIRONMENT_BLACKLIST", "BUILDBOT_WORKER_PASSWORD").split(',')
