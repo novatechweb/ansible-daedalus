@@ -1,6 +1,6 @@
 Version: 1
-Previous: 64304c183a6d5dbdcd5b0a99cf78011febb83a5b
-Head: 15e05318d890ee50b1b043119d3a9e5aa25de970
+Previous: 197ee381f142397aa4986704b5288941fe735c63
+Head: d0a00655d16b8260315f68ac701d7305594a79f6
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -74,5 +74,6 @@ Applied:
   bacula-update-syntax: 455c9523e13d8ee36b1ea7136c948317ace02fdf
   all-improve-idempotency: b3b7c640a03310e7fd11b567c13598129e785aea
   fixup-tmp-rework-ip-address-network: 15e05318d890ee50b1b043119d3a9e5aa25de970
+  refresh-temp: d0a00655d16b8260315f68ac701d7305594a79f6
 Unapplied:
 Hidden:
