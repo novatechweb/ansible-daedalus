@@ -1,5 +1,5 @@
-Bottom: aa91d6eeb1339c56a7aaa156dc00b10f00090ee2
-Top:    5298d82898adcede84f8b23d841502328b90eeb1
+Bottom: e44d2ba64ac0d92a97ed63262f17fe60c6b2586d
+Top:    68f7d5724407a53e1138d3bf12b3e3f2e87b0bc8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-16 14:06:10 -0500
 
@@ -9,7 +9,7 @@ Create certificate directories during image build
 
 ---
 diff --git a/docker/docker-mediawiki/configure.sh b/docker/docker-mediawiki/configure.sh
-index 06ed299..eba1977 100755
+index 06ed2991..eba1977c 100755
 --- a/docker/docker-mediawiki/configure.sh
 +++ b/docker/docker-mediawiki/configure.sh
 @@ -1,6 +1,11 @@

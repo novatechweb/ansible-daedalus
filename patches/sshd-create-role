@@ -1,5 +1,5 @@
-Bottom: 823813fa1911a90e09d93e276102765e930667c3
-Top:    aa91d6eeb1339c56a7aaa156dc00b10f00090ee2
+Bottom: 902ff57021e524388c39036ddde5daf82ec92a0f
+Top:    e44d2ba64ac0d92a97ed63262f17fe60c6b2586d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:14:44 -0500
 
@@ -8,7 +8,7 @@ Create new role sshd for configuring ssh server daemon
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index c47c128..3c3b77e 100644
+index c47c128d..3c3b77e8 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -25,6 +25,10 @@
@@ -23,7 +23,7 @@ index c47c128..3c3b77e 100644
      role: docker-common
      tags:
 diff --git a/roles/setup-remote-user/tasks/main.yml b/roles/setup-remote-user/tasks/main.yml
-index ed59a08..a4b3c79 100644
+index ed59a082..a4b3c797 100644
 --- a/roles/setup-remote-user/tasks/main.yml
 +++ b/roles/setup-remote-user/tasks/main.yml
 @@ -32,24 +32,3 @@
@@ -53,7 +53,7 @@ index ed59a08..a4b3c79 100644
 -    state: restarted
 diff --git a/roles/sshd/README.md b/roles/sshd/README.md
 new file mode 100644
-index 0000000..225dd44
+index 00000000..225dd44b
 --- /dev/null
 +++ b/roles/sshd/README.md
 @@ -0,0 +1,38 @@
@@ -97,7 +97,7 @@ index 0000000..225dd44
 +An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/sshd/defaults/main.yml b/roles/sshd/defaults/main.yml
 new file mode 100644
-index 0000000..b3fdd80
+index 00000000..b3fdd80f
 --- /dev/null
 +++ b/roles/sshd/defaults/main.yml
 @@ -0,0 +1,2 @@
@@ -106,7 +106,7 @@ index 0000000..b3fdd80
 \ No newline at end of file
 diff --git a/roles/sshd/handlers/main.yml b/roles/sshd/handlers/main.yml
 new file mode 100644
-index 0000000..1343443
+index 00000000..13434437
 --- /dev/null
 +++ b/roles/sshd/handlers/main.yml
 @@ -0,0 +1,2 @@
@@ -115,7 +115,7 @@ index 0000000..1343443
 \ No newline at end of file
 diff --git a/roles/sshd/meta/main.yml b/roles/sshd/meta/main.yml
 new file mode 100644
-index 0000000..7223799
+index 00000000..72237997
 --- /dev/null
 +++ b/roles/sshd/meta/main.yml
 @@ -0,0 +1,57 @@
@@ -179,7 +179,7 @@ index 0000000..7223799
 \ No newline at end of file
 diff --git a/roles/sshd/tasks/main.yml b/roles/sshd/tasks/main.yml
 new file mode 100644
-index 0000000..6ed31b9
+index 00000000..6ed31b96
 --- /dev/null
 +++ b/roles/sshd/tasks/main.yml
 @@ -0,0 +1,24 @@
@@ -209,7 +209,7 @@ index 0000000..6ed31b9
 +    state: restarted
 diff --git a/roles/sshd/tests/inventory b/roles/sshd/tests/inventory
 new file mode 100644
-index 0000000..878877b
+index 00000000..878877b0
 --- /dev/null
 +++ b/roles/sshd/tests/inventory
 @@ -0,0 +1,2 @@
@@ -217,7 +217,7 @@ index 0000000..878877b
 +
 diff --git a/roles/sshd/tests/test.yml b/roles/sshd/tests/test.yml
 new file mode 100644
-index 0000000..6674bff
+index 00000000..6674bff3
 --- /dev/null
 +++ b/roles/sshd/tests/test.yml
 @@ -0,0 +1,5 @@
@@ -229,7 +229,7 @@ index 0000000..6674bff
 \ No newline at end of file
 diff --git a/roles/sshd/vars/main.yml b/roles/sshd/vars/main.yml
 new file mode 100644
-index 0000000..70d6160
+index 00000000..70d6160f
 --- /dev/null
 +++ b/roles/sshd/vars/main.yml
 @@ -0,0 +1,2 @@

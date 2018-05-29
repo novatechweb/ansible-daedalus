@@ -1,5 +1,5 @@
-Bottom: 1e241720d87df7e02bf49852af32ee805900578d
-Top:    6da98d8f1efd5ea04e893730ee4e60bc4eb0ed38
+Bottom: 2b5aa86fe5e2a3a357c6dfaa77fd093430aed09e
+Top:    acd43c7aef05b4dbe17200ae127af4c642bdab20
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:55:57 -0500
 
@@ -8,7 +8,7 @@ Fix wiki mysql database provision
 
 ---
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 269cbb4..347f9f7 100644
+index 269cbb49..347f9f7c 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -19,7 +19,8 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
@@ -22,7 +22,7 @@ index 269cbb4..347f9f7 100644
  # the name of the container being started
  wiki_container_name: '{{ docker_name_prefix }}wiki'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index d80e12a..ae28d4a 100644
+index d80e12ae..ae28d4a0 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -9,7 +9,7 @@

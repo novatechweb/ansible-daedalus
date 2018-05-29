@@ -1,5 +1,5 @@
-Bottom: a7e3f3a20a6fc1e507b882f8dd58186b9ece6404
-Top:    3f70b6f78cefae922d311fcfcbcab7152331348b
+Bottom: 57980b139203992502420839299e30f333266cb4
+Top:    f66d9ce03f3a7756c2f1d7a91ee322b3c3fddd94
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 14:12:12 -0500
 
@@ -8,7 +8,7 @@ Updates to openldap
 
 ---
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 410934f..3ff2710 100644
+index 410934fb..3ff27106 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -106,7 +106,7 @@
@@ -69,7 +69,7 @@ index 410934f..3ff2710 100644
  - name: set LDAP admin password
    command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ openldap_admin_password | quote }}'
 diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
-index d139794..8fb5ac2 100644
+index d139794e..8fb5ac24 100644
 --- a/roles/docker-openldap/tasks/restore.yml
 +++ b/roles/docker-openldap/tasks/restore.yml
 @@ -31,14 +31,29 @@

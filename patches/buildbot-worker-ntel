@@ -1,5 +1,5 @@
 Bottom: 5a742ca2bf5d7dc2d165be9f8c6852747d4a1131
-Top:    f708d227657fbcb099f7f263ee4fc0ee560beb16
+Top:    537eab828b76d0c1665f091e55f1c7eb66d944b3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 14:04:14 -0500
 
@@ -7,7 +7,7 @@ Add buildbot NTEL worker Docker image
 
 ---
 diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
-index 6b06954..d5a1a44 100644
+index 6b069548..d5a1a447 100644
 --- a/ansible-playbook/group_vars/all/buildbot.yml
 +++ b/ansible-playbook/group_vars/all/buildbot.yml
 @@ -1,3 +1,4 @@
@@ -16,7 +16,7 @@ index 6b06954..d5a1a44 100644
  buildbot_worker_port: 9989
 +buildbot_worker_ntel: worker-ntel
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 7c9bb55..3fa1e99 100644
+index 7c9bb550..3fa1e99f 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -18,3 +18,4 @@ buildsystem_database_root_password:  '{{ lookup("password", inventory_dir + "/cr
@@ -26,7 +26,7 @@ index 7c9bb55..3fa1e99 100644
 +buildbot_worker_ntel_password:       '{{ lookup("password", inventory_dir + "/credentials/buildbot.novatech-llc.com/worker_ntel length=20") }}'
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
 new file mode 100644
-index 0000000..11a726f
+index 00000000..11a726fb
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/Dockerfile
 @@ -0,0 +1,89 @@
@@ -121,7 +121,7 @@ index 0000000..11a726f
 +CMD ["/home/buildbot/start.sh"]
 diff --git a/docker/buildbot-worker-ntel/buildbot/.gitconfig b/docker/buildbot-worker-ntel/buildbot/.gitconfig
 new file mode 100644
-index 0000000..efd988f
+index 00000000..efd988f4
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/.gitconfig
 @@ -0,0 +1,3 @@
@@ -130,7 +130,7 @@ index 0000000..efd988f
 +	email = buildbot@novatechweb.com
 diff --git a/docker/buildbot-worker-ntel/buildbot/buildbot.tac b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
 new file mode 100644
-index 0000000..472f609
+index 00000000..058c6a08
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/buildbot.tac
 @@ -0,0 +1,38 @@
@@ -153,7 +153,7 @@ index 0000000..472f609
 +# and worker on the same process!
 +buildmaster_host = os.environ.get("BUILDBOT_MASTER", 'localhost')
 +port = int(os.environ.get("BUILDBOT_WORKER_PORT", 9989))
-+workername = os.environ.get("BUILDBOT_WORKER_NTEL", 'docker')
++workername = os.environ.get("BUILDBOT_WORKER_NAME", 'docker')
 +passwd = os.environ.get("BUILDBOT_WORKER_PASSWORD")
 +
 +# delete the password from the environ so that it is not leaked in the log
@@ -174,7 +174,7 @@ index 0000000..472f609
 +s.setServiceParent(application)
 diff --git a/docker/buildbot-worker-ntel/buildbot/ci-archive.sh b/docker/buildbot-worker-ntel/buildbot/ci-archive.sh
 new file mode 100755
-index 0000000..52b8963
+index 00000000..52b89632
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/ci-archive.sh
 @@ -0,0 +1,40 @@
@@ -220,7 +220,7 @@ index 0000000..52b8963
 +rm $files_to_archive
 diff --git a/docker/buildbot-worker-ntel/buildbot/start.sh b/docker/buildbot-worker-ntel/buildbot/start.sh
 new file mode 100755
-index 0000000..23ce583
+index 00000000..23ce5835
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/start.sh
 @@ -0,0 +1,8 @@
@@ -234,7 +234,7 @@ index 0000000..23ce583
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-worker-ntel/README.md b/roles/buildbot-worker-ntel/README.md
 new file mode 100644
-index 0000000..225dd44
+index 00000000..225dd44b
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/README.md
 @@ -0,0 +1,38 @@
@@ -278,7 +278,7 @@ index 0000000..225dd44
 +An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
 new file mode 100644
-index 0000000..e2a4a40
+index 00000000..e2a4a407
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/defaults/main.yml
 @@ -0,0 +1,23 @@
@@ -307,7 +307,7 @@ index 0000000..e2a4a40
 +buildbot_dv_name: '{{ docker_name_prefix }}buildbot-worker-ntel_DV'
 diff --git a/roles/buildbot-worker-ntel/handlers/main.yml b/roles/buildbot-worker-ntel/handlers/main.yml
 new file mode 100644
-index 0000000..6347b70
+index 00000000..6347b70a
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/handlers/main.yml
 @@ -0,0 +1,2 @@
@@ -316,7 +316,7 @@ index 0000000..6347b70
 \ No newline at end of file
 diff --git a/roles/buildbot-worker-ntel/meta/main.yml b/roles/buildbot-worker-ntel/meta/main.yml
 new file mode 100644
-index 0000000..7223799
+index 00000000..72237997
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/meta/main.yml
 @@ -0,0 +1,57 @@
@@ -380,7 +380,7 @@ index 0000000..7223799
 \ No newline at end of file
 diff --git a/roles/buildbot-worker-ntel/tasks/bootstrap.sh b/roles/buildbot-worker-ntel/tasks/bootstrap.sh
 new file mode 100755
-index 0000000..8353ad9
+index 00000000..8353ad9d
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tasks/bootstrap.sh
 @@ -0,0 +1,17 @@
@@ -403,7 +403,7 @@ index 0000000..8353ad9
 +done
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
 new file mode 100644
-index 0000000..5d3d8e3
+index 00000000..5d3d8e3f
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
 @@ -0,0 +1,2 @@
@@ -412,7 +412,7 @@ index 0000000..5d3d8e3
 \ No newline at end of file
 diff --git a/roles/buildbot-worker-ntel/tests/inventory b/roles/buildbot-worker-ntel/tests/inventory
 new file mode 100644
-index 0000000..878877b
+index 00000000..878877b0
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tests/inventory
 @@ -0,0 +1,2 @@
@@ -420,7 +420,7 @@ index 0000000..878877b
 +
 diff --git a/roles/buildbot-worker-ntel/tests/test.yml b/roles/buildbot-worker-ntel/tests/test.yml
 new file mode 100644
-index 0000000..98df706
+index 00000000..98df706d
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tests/test.yml
 @@ -0,0 +1,5 @@
@@ -432,7 +432,7 @@ index 0000000..98df706
 \ No newline at end of file
 diff --git a/roles/buildbot-worker-ntel/vars/main.yml b/roles/buildbot-worker-ntel/vars/main.yml
 new file mode 100644
-index 0000000..afdab38
+index 00000000..afdab38e
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/vars/main.yml
 @@ -0,0 +1,2 @@

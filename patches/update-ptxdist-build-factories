@@ -1,5 +1,5 @@
-Bottom: e4348f343205715cee082303b7b6fc24a23e20ac
-Top:    823813fa1911a90e09d93e276102765e930667c3
+Bottom: 73b299e72700781cdf5c370eedeb4436b3871027
+Top:    902ff57021e524388c39036ddde5daf82ec92a0f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 09:51:35 -0500
 
@@ -8,7 +8,7 @@ Update ptxdist build factories
 
 ---
 diff --git a/docker/buildbot-master/buildbot/ptxdist.py b/docker/buildbot-master/buildbot/ptxdist.py
-index 8502067..a4459b8 100644
+index 85020678..a4459b8c 100644
 --- a/docker/buildbot-master/buildbot/ptxdist.py
 +++ b/docker/buildbot-master/buildbot/ptxdist.py
 @@ -1,5 +1,14 @@

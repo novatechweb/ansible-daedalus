@@ -1,5 +1,5 @@
-Bottom: bb05f44ddb835f839e82f8081e168be685632f3a
-Top:    da4579480518b56afe6e867e4b80e0528f0560d7
+Bottom: bb2a4d1c1b03c981da9cb55274467b0c4de7e4ad
+Top:    fc0b5ebd2b6009aa269368a2b0490cd6cc5e89a6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -22,14 +22,14 @@ Comment out restore file permission tasks:
 
 ---
 diff --git a/.gitignore b/.gitignore
-index e69de29..c1a0118 100644
+index e69de29b..c1a0118f 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -0,0 +1 @@
 +/.vagrant/
 diff --git a/Vagrantfile b/Vagrantfile
 new file mode 100644
-index 0000000..3e88653
+index 00000000..3e886539
 --- /dev/null
 +++ b/Vagrantfile
 @@ -0,0 +1,29 @@
@@ -64,7 +64,7 @@ index 0000000..3e88653
 +end
 diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
 new file mode 100644
-index 0000000..8917e7c
+index 00000000..8917e7ce
 --- /dev/null
 +++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
 @@ -0,0 +1,9 @@
@@ -79,7 +79,7 @@ index 0000000..8917e7c
 +buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
 diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 new file mode 100644
-index 0000000..53b96f8
+index 00000000..53b96f84
 --- /dev/null
 +++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 @@ -0,0 +1,33 @@
@@ -118,7 +118,7 @@ index 0000000..53b96f8
 +    hostname: phpmyadmin.novatech-llc.com
 diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml
 new file mode 100644
-index 0000000..79bbb96
+index 00000000..79bbb96d
 --- /dev/null
 +++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml
 @@ -0,0 +1,65 @@
@@ -188,7 +188,7 @@ index 0000000..79bbb96
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 3c3b77e..20ca10b 100644
+index 3c3b77e8..20ca10b3 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -1,6 +1,18 @@
@@ -238,7 +238,7 @@ index 3c3b77e..20ca10b 100644
      tags:
 diff --git a/ansible-playbook/templates/dump_variables b/ansible-playbook/templates/dump_variables
 new file mode 100644
-index 0000000..3c11ab9
+index 00000000..3c11ab92
 --- /dev/null
 +++ b/ansible-playbook/templates/dump_variables
 @@ -0,0 +1,7 @@
@@ -251,7 +251,7 @@ index 0000000..3c11ab9
 +{{ vars | to_yaml }}
 diff --git a/ansible-runner/Dockerfile b/ansible-runner/Dockerfile
 new file mode 100644
-index 0000000..288b5ff
+index 00000000..288b5ff2
 --- /dev/null
 +++ b/ansible-runner/Dockerfile
 @@ -0,0 +1,40 @@
@@ -297,7 +297,7 @@ index 0000000..288b5ff
 +USER ansible
 diff --git a/ansible-runner/build.sh b/ansible-runner/build.sh
 new file mode 100755
-index 0000000..96e80c6
+index 00000000..96e80c66
 --- /dev/null
 +++ b/ansible-runner/build.sh
 @@ -0,0 +1,12 @@
@@ -315,7 +315,7 @@ index 0000000..96e80c6
 +"$PWD"
 diff --git a/ansible-runner/run.sh b/ansible-runner/run.sh
 new file mode 100755
-index 0000000..f80680f
+index 00000000..f80680fe
 --- /dev/null
 +++ b/ansible-runner/run.sh
 @@ -0,0 +1,19 @@
@@ -340,7 +340,7 @@ index 0000000..f80680f
 +"$@"
 diff --git a/ansible.cfg b/ansible.cfg
 new file mode 100644
-index 0000000..7dbeeeb
+index 00000000..7dbeeeb4
 --- /dev/null
 +++ b/ansible.cfg
 @@ -0,0 +1,477 @@
@@ -823,7 +823,7 @@ index 0000000..7dbeeeb
 +# context = 3
 diff --git a/provision.sh b/provision.sh
 new file mode 100755
-index 0000000..c3c8872
+index 00000000..c3c88721
 --- /dev/null
 +++ b/provision.sh
 @@ -0,0 +1,15 @@
@@ -843,7 +843,7 @@ index 0000000..c3c8872
 +        -v \
 +        ansible-playbook/site.yml "$@"
 diff --git a/roles/bacula-catalog/tasks/main.yml b/roles/bacula-catalog/tasks/main.yml
-index 2d22328..3deb3fa 100644
+index 2d22328a..3deb3fad 100644
 --- a/roles/bacula-catalog/tasks/main.yml
 +++ b/roles/bacula-catalog/tasks/main.yml
 @@ -4,3 +4,4 @@
@@ -853,7 +853,7 @@ index 2d22328..3deb3fa 100644
 +  tags: restore
 diff --git a/roles/bacula-restores/README.md b/roles/bacula-restores/README.md
 new file mode 100644
-index 0000000..225dd44
+index 00000000..225dd44b
 --- /dev/null
 +++ b/roles/bacula-restores/README.md
 @@ -0,0 +1,38 @@
@@ -897,7 +897,7 @@ index 0000000..225dd44
 +An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/bacula-restores/defaults/main.yml b/roles/bacula-restores/defaults/main.yml
 new file mode 100644
-index 0000000..540bc12
+index 00000000..540bc127
 --- /dev/null
 +++ b/roles/bacula-restores/defaults/main.yml
 @@ -0,0 +1,2 @@
@@ -906,7 +906,7 @@ index 0000000..540bc12
 \ No newline at end of file
 diff --git a/roles/bacula-restores/handlers/main.yml b/roles/bacula-restores/handlers/main.yml
 new file mode 100644
-index 0000000..66e6f98
+index 00000000..66e6f986
 --- /dev/null
 +++ b/roles/bacula-restores/handlers/main.yml
 @@ -0,0 +1,2 @@
@@ -915,7 +915,7 @@ index 0000000..66e6f98
 \ No newline at end of file
 diff --git a/roles/bacula-restores/meta/main.yml b/roles/bacula-restores/meta/main.yml
 new file mode 100644
-index 0000000..7223799
+index 00000000..72237997
 --- /dev/null
 +++ b/roles/bacula-restores/meta/main.yml
 @@ -0,0 +1,57 @@
@@ -979,7 +979,7 @@ index 0000000..7223799
 \ No newline at end of file
 diff --git a/roles/bacula-restores/tasks/main.yml b/roles/bacula-restores/tasks/main.yml
 new file mode 100644
-index 0000000..560f5ba
+index 00000000..560f5ba8
 --- /dev/null
 +++ b/roles/bacula-restores/tasks/main.yml
 @@ -0,0 +1,26 @@
@@ -1011,7 +1011,7 @@ index 0000000..560f5ba
 +  with_items: '{{ bacula_restores_list.files }}'
 diff --git a/roles/bacula-restores/tests/inventory b/roles/bacula-restores/tests/inventory
 new file mode 100644
-index 0000000..878877b
+index 00000000..878877b0
 --- /dev/null
 +++ b/roles/bacula-restores/tests/inventory
 @@ -0,0 +1,2 @@
@@ -1019,7 +1019,7 @@ index 0000000..878877b
 +
 diff --git a/roles/bacula-restores/tests/test.yml b/roles/bacula-restores/tests/test.yml
 new file mode 100644
-index 0000000..3b1d784
+index 00000000..3b1d784a
 --- /dev/null
 +++ b/roles/bacula-restores/tests/test.yml
 @@ -0,0 +1,5 @@
@@ -1031,7 +1031,7 @@ index 0000000..3b1d784
 \ No newline at end of file
 diff --git a/roles/bacula-restores/vars/main.yml b/roles/bacula-restores/vars/main.yml
 new file mode 100644
-index 0000000..393c567
+index 00000000..393c5674
 --- /dev/null
 +++ b/roles/bacula-restores/vars/main.yml
 @@ -0,0 +1,2 @@
@@ -1039,7 +1039,7 @@ index 0000000..393c567
 +# vars file for bacula-restores
 \ No newline at end of file
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
-index 6a0fce5..31b3f33 100644
+index 6a0fce5b..31b3f33c 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 @@ -27,6 +27,6 @@
@@ -1051,7 +1051,7 @@ index 6a0fce5..31b3f33 100644
      volumes_from:
        - "{{ name_prefix }}TestStation_database_data"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
-index c87c74b..8b70f88 100644
+index c87c74b9..8b70f88f 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
 @@ -16,7 +16,7 @@
@@ -1064,7 +1064,7 @@ index c87c74b..8b70f88 100644
        - "{{ name_prefix }}TestStation_http_data_buildsystem"
  #      - "{{ name_prefix }}TestStation_http_data_ipkg"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
-index 26bd4e8..c7a659f 100644
+index 26bd4e8d..c7a659f0 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
 @@ -21,7 +21,7 @@
@@ -1077,7 +1077,7 @@ index 26bd4e8..c7a659f 100644
      volumes_from:
        - "{{ name_prefix }}TestStation_database_data"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
-index b5c65df..a2124ca 100644
+index b5c65df2..a2124cac 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
 @@ -33,4 +33,4 @@
@@ -1087,7 +1087,7 @@ index b5c65df..a2124ca 100644
 -    restart_policy: always
 +    restart_policy: no
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
-index 7801d2b..3d1ed43 100644
+index 7801d2be..3d1ed431 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
 @@ -15,6 +15,6 @@
@@ -1099,7 +1099,7 @@ index 7801d2b..3d1ed43 100644
      volumes_from:
        - "{{ name_prefix }}TestStation_tftp_data"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
-index 9424667..b692d16 100644
+index 94246679..b692d16f 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
 @@ -14,6 +14,6 @@
@@ -1111,7 +1111,7 @@ index 9424667..b692d16 100644
      volumes_from:
        - "{{ name_prefix }}TestStation_http_data_ncdiso"
 diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
-index 980430a..5c77870 100644
+index 980430af..5c778707 100644
 --- a/roles/docker-buildsystem/tasks/main.yml
 +++ b/roles/docker-buildsystem/tasks/main.yml
 @@ -120,3 +120,4 @@
@@ -1120,7 +1120,7 @@ index 980430a..5c77870 100644
    when: st_buildsystem_restore.stat.exists == False
 +  tags: restore
 diff --git a/roles/docker-buildsystem/tasks/restore.yml b/roles/docker-buildsystem/tasks/restore.yml
-index be79a68..2676649 100644
+index be79a681..26766490 100644
 --- a/roles/docker-buildsystem/tasks/restore.yml
 +++ b/roles/docker-buildsystem/tasks/restore.yml
 @@ -23,14 +23,14 @@
@@ -1147,7 +1147,7 @@ index be79a68..2676649 100644
  # *****************************************************************************
  # For old backups that included the mysql database.
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 234eaa3..4760f5c 100644
+index 234eaa3b..4760f5c2 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -87,6 +87,7 @@
@@ -1176,7 +1176,7 @@ index 234eaa3..4760f5c 100644
  # *****************************************************************************
  # Email accounts
 diff --git a/roles/docker-exim4/tasks/restore.yml b/roles/docker-exim4/tasks/restore.yml
-index cf94cf7..6910243 100644
+index cf94cf73..69102432 100644
 --- a/roles/docker-exim4/tasks/restore.yml
 +++ b/roles/docker-exim4/tasks/restore.yml
 @@ -20,13 +20,13 @@
@@ -1201,7 +1201,7 @@ index cf94cf7..6910243 100644
  - name: exists - exim4 archive
    stat:
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index b4a67fe..bab47a2 100644
+index b4a67fe2..bab47a2c 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -214,3 +214,4 @@
@@ -1210,7 +1210,7 @@ index b4a67fe..bab47a2 100644
    when: st_gitlab_restore.stat.exists == False
 +  tags: restore
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index 38cbfae..61ea4f6 100644
+index 38cbfae8..61ea4f65 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
 @@ -23,14 +23,14 @@
@@ -1237,7 +1237,7 @@ index 38cbfae..61ea4f6 100644
  # *****************************************************************************
  # restore the gitlab backup
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 1b9ecfd..31f9228 100644
+index 1b9ecfd7..31f92287 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -100,6 +100,7 @@
@@ -1272,7 +1272,7 @@ index 1b9ecfd..31f9228 100644
    when: st_mantisbt_restore.stat.exists == False
 +  tags: restore
 diff --git a/roles/docker-mantisbt/tasks/restore.yml b/roles/docker-mantisbt/tasks/restore.yml
-index 6289ba7..78f66b9 100644
+index 6289ba78..78f66b97 100644
 --- a/roles/docker-mantisbt/tasks/restore.yml
 +++ b/roles/docker-mantisbt/tasks/restore.yml
 @@ -34,29 +34,29 @@
@@ -1329,7 +1329,7 @@ index 6289ba7..78f66b9 100644
  - name: exists - Static
    stat:
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index ae28d4a..c179d7c 100644
+index ae28d4a0..c179d7cb 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -98,6 +98,7 @@
@@ -1364,7 +1364,7 @@ index ae28d4a..c179d7c 100644
    when: st_mediawiki_restore.stat.exists == False
 +  tags: restore
 diff --git a/roles/docker-mediawiki/tasks/restore.yml b/roles/docker-mediawiki/tasks/restore.yml
-index 6ff541e..f2b3409 100644
+index 6ff541ed..f2b3409a 100644
 --- a/roles/docker-mediawiki/tasks/restore.yml
 +++ b/roles/docker-mediawiki/tasks/restore.yml
 @@ -27,21 +27,21 @@
@@ -1404,7 +1404,7 @@ index 6ff541e..f2b3409 100644
  - name: exists - Static
    stat:
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 3ff2710..070a494 100644
+index 3ff27106..070a494a 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -72,6 +72,7 @@
@@ -1440,7 +1440,7 @@ index 3ff2710..070a494 100644
      ports: '{{ phpldapadmin_network.port_args }}'
      volumes:
 diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
-index 8fb5ac2..feaf93e 100644
+index 8fb5ac24..feaf93e7 100644
 --- a/roles/docker-openldap/tasks/restore.yml
 +++ b/roles/docker-openldap/tasks/restore.yml
 @@ -18,14 +18,14 @@
@@ -1467,7 +1467,7 @@ index 8fb5ac2..feaf93e 100644
  # *****************************************************************************
  # restore the openldap backup
 diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
-index bf716ae..8f0eaf8 100644
+index bf716ae4..8f0eaf8c 100644
 --- a/roles/docker-openssl/tasks/main.yml
 +++ b/roles/docker-openssl/tasks/main.yml
 @@ -97,3 +97,4 @@
@@ -1476,7 +1476,7 @@ index bf716ae..8f0eaf8 100644
    when: st_openssl_restore.stat.exists == False
 +  tags: restore
 diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
-index ba36c6f..1cfc3d4 100644
+index ba36c6f3..1cfc3d4f 100644
 --- a/roles/docker-openssl/tasks/restore.yml
 +++ b/roles/docker-openssl/tasks/restore.yml
 @@ -20,13 +20,13 @@
@@ -1501,7 +1501,7 @@ index ba36c6f..1cfc3d4 100644
  - name: exists - openssl archive
    stat:
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index eaee9a8..89c74d9 100644
+index eaee9a80..89c74d91 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -61,10 +61,10 @@
@@ -1531,7 +1531,7 @@ index eaee9a8..89c74d9 100644
    when: st_svn_restore.stat.exists == False
 +  tags: restore
 diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
-index 0a3fa25..22e7204 100644
+index 0a3fa25a..22e72047 100644
 --- a/roles/docker-svn/tasks/restore.yml
 +++ b/roles/docker-svn/tasks/restore.yml
 @@ -23,14 +23,14 @@
@@ -1559,7 +1559,7 @@ index 0a3fa25..22e7204 100644
  # restore the svn backup
 diff --git a/vmdaedalus/.gitignore b/vmdaedalus/.gitignore
 new file mode 100644
-index 0000000..c148b6f
+index 00000000..c148b6f5
 --- /dev/null
 +++ b/vmdaedalus/.gitignore
 @@ -0,0 +1,2 @@
@@ -1567,7 +1567,7 @@ index 0000000..c148b6f
 +vmdaedalus-virtualbox.box
 diff --git a/vmdaedalus/vagrant_ansible_inventory b/vmdaedalus/vagrant_ansible_inventory
 new file mode 100644
-index 0000000..c6b5207
+index 00000000..c6b5207d
 --- /dev/null
 +++ b/vmdaedalus/vagrant_ansible_inventory
 @@ -0,0 +1,14 @@
@@ -1587,7 +1587,7 @@ index 0000000..c6b5207
 +buildbot-worker.novatech-llc.com
 diff --git a/vmdaedalus/vmdaedalus.cfg b/vmdaedalus/vmdaedalus.cfg
 new file mode 100644
-index 0000000..5d5fdee
+index 00000000..5d5fdee4
 --- /dev/null
 +++ b/vmdaedalus/vmdaedalus.cfg
 @@ -0,0 +1,71 @@
@@ -1664,7 +1664,7 @@ index 0000000..5d5fdee
 +%end
 diff --git a/vmdaedalus/vmdaedalus.json b/vmdaedalus/vmdaedalus.json
 new file mode 100644
-index 0000000..2703db8
+index 00000000..2703db83
 --- /dev/null
 +++ b/vmdaedalus/vmdaedalus.json
 @@ -0,0 +1,43 @@

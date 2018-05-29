@@ -1,5 +1,5 @@
-Bottom: da4579480518b56afe6e867e4b80e0528f0560d7
-Top:    b2dd8813bc1e2ee282691aea57f69cb5ff6d19f1
+Bottom: fc0b5ebd2b6009aa269368a2b0490cd6cc5e89a6
+Top:    b6e49350ac564a792865fab4948dcc86bff26a76
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-24 16:30:47 -0500
 
@@ -12,7 +12,7 @@ already install libicuXX.
 
 ---
 diff --git a/docker/docker-mantisbt/Dockerfile b/docker/docker-mantisbt/Dockerfile
-index b59a97c..7db874b 100644
+index b59a97c7..7db874b3 100644
 --- a/docker/docker-mantisbt/Dockerfile
 +++ b/docker/docker-mantisbt/Dockerfile
 @@ -8,23 +8,22 @@ MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
@@ -43,7 +43,7 @@ index b59a97c..7db874b 100644
      && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
      && docker-php-ext-configure gd --with-png-dir=/usr --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
 diff --git a/docker/docker-mediawiki/Dockerfile b/docker/docker-mediawiki/Dockerfile
-index 6aaefd6..5442116 100644
+index 6aaefd61..54421165 100644
 --- a/docker/docker-mediawiki/Dockerfile
 +++ b/docker/docker-mediawiki/Dockerfile
 @@ -13,7 +13,6 @@ RUN apt-get update && \

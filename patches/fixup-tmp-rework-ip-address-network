@@ -1,5 +1,5 @@
-Bottom: 7db857a1411c53a7f84c12aa597f807400489293
-Top:    fd530ae5cf369087b768bf7fbe403d75ce8c5a2a
+Bottom: bb0ea733c844983874d29f3c5186f70ff1389008
+Top:    235442bd7252d876c4a7ab085c8d428777f05fe9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -8,7 +8,7 @@ fixup! tmp-rework-ip-address-network
 
 ---
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
-index 3434cb2..fb4f69a 100644
+index 3434cb2e..fb4f69a0 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 @@ -1,39 +1,65 @@
@@ -115,7 +115,7 @@ index 3434cb2..fb4f69a 100644
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
-index 9fd2bd1..0dceb52 100644
+index 9fd2bd1c..0dceb525 100644
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 @@ -1,76 +1,65 @@
@@ -249,7 +249,7 @@ index 9fd2bd1..0dceb52 100644
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 20ca10b..82d8ce8 100644
+index 20ca10b3..82d8ce8c 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -51,6 +51,16 @@
@@ -270,7 +270,7 @@ index 20ca10b..82d8ce8 100644
      role: docker-networking
      tags:
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 809062a..5fee835 100644
+index 809062aa..5fee835d 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -2,16 +2,11 @@
@@ -305,7 +305,7 @@ index 809062a..5fee835 100644
    BUILDBOT_SMTP_USER: 'Dean.cox'
    BUILDBOT_SMTP_PASS: 'no5156'
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index 8850107..94a1884 100644
+index 88501072..94a1884f 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -31,4 +31,4 @@
@@ -315,7 +315,7 @@ index 8850107..94a1884 100644
 -    ports: '{{ container_port_map.buildbot.port_args }}'
 +    ports: '{{ buildbot_port_args }}'
 diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
-index e91d9af..b4341aa 100644
+index e91d9afb..b4341aa0 100644
 --- a/roles/docker-buildsystem/defaults/main.yml
 +++ b/roles/docker-buildsystem/defaults/main.yml
 @@ -1,19 +1,19 @@
@@ -344,7 +344,7 @@ index e91d9af..b4341aa 100644
  # restore directories to temporarly store data being restored into docker containers
  backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
-index 31b3f33..d608426 100644
+index 31b3f33c..d6084266 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 @@ -25,7 +25,7 @@
@@ -357,7 +357,7 @@ index 31b3f33..d608426 100644
      restart_policy: no
      volumes_from:
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
-index 8b70f88..66410ad 100644
+index 8b70f88f..66410ad5 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
 @@ -14,7 +14,7 @@
@@ -370,7 +370,7 @@ index 8b70f88..66410ad 100644
      restart_policy: no
      volumes_from:
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
-index c7a659f..dfd77aa 100644
+index c7a659f0..dfd77aa8 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
 @@ -20,7 +20,7 @@
@@ -383,7 +383,7 @@ index c7a659f..dfd77aa 100644
      state: "{{ container_start_state_nondata }}"
      volumes_from:
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
-index a2124ca..32847ea 100644
+index a2124cac..32847ea8 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
 @@ -31,6 +31,6 @@
@@ -395,7 +395,7 @@ index a2124ca..32847ea 100644
      state: "{{ container_start_state_nondata }}"
      restart_policy: no
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
-index 3d1ed43..e4b49c0 100644
+index 3d1ed431..e4b49c02 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
 @@ -13,7 +13,7 @@
@@ -408,7 +408,7 @@ index 3d1ed43..e4b49c0 100644
      restart_policy: no
      volumes_from:
 diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
-index 5c77870..2b626b3 100644
+index 5c778707..2b626b35 100644
 --- a/roles/docker-buildsystem/tasks/main.yml
 +++ b/roles/docker-buildsystem/tasks/main.yml
 @@ -2,8 +2,8 @@
@@ -423,7 +423,7 @@ index 5c77870..2b626b3 100644
      - buildsystem_ssh_root_user_password is defined
      - buildsystem_database_root_password is defined
 diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
-index 5a98cc3..ac007e4 100644
+index 5a98cc37..ac007e45 100644
 --- a/roles/docker-common/tasks/ip_addr.yml
 +++ b/roles/docker-common/tasks/ip_addr.yml
 @@ -20,9 +20,12 @@
@@ -443,7 +443,7 @@ index 5a98cc3..ac007e4 100644
      name: net.ipv4.ip_forward
      value: 1
 diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
-index 2010899..dd4c2ec 100644
+index 20108993..dd4c2eca 100644
 --- a/roles/docker-exim4/defaults/main.yml
 +++ b/roles/docker-exim4/defaults/main.yml
 @@ -1,13 +1,12 @@
@@ -467,7 +467,7 @@ index 2010899..dd4c2ec 100644
  # the repository containing Dockerfile to build the image
  exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 4760f5c..4594a26 100644
+index 4760f5c2..4594a26a 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -106,10 +106,10 @@
@@ -484,7 +484,7 @@ index 4760f5c..4594a26 100644
      restart_policy: no
      state: started
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index e4268e3..d1931f5 100644
+index e4268e33..d1931f58 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -1,13 +1,12 @@
@@ -508,7 +508,7 @@ index e4268e3..d1931f5 100644
  # database usernames and passwords
  gitlab_db_user: novatech
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index bab47a2..d2cf0a7 100644
+index bab47a2c..d2cf0a7c 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -178,8 +178,8 @@
@@ -532,7 +532,7 @@ index bab47a2..d2cf0a7 100644
      state: started
      timeout: 180
 diff --git a/roles/docker-gitlab/templates/gitlab.rb.j2 b/roles/docker-gitlab/templates/gitlab.rb.j2
-index 3998418..6ccaa86 100644
+index 39984189..6ccaa864 100644
 --- a/roles/docker-gitlab/templates/gitlab.rb.j2
 +++ b/roles/docker-gitlab/templates/gitlab.rb.j2
 @@ -200,7 +200,7 @@ gitlab_rails['ldap_enabled'] = true
@@ -545,7 +545,7 @@ index 3998418..6ccaa86 100644
      uid: 'uid'
      bind_dn: 'cn=proxyagent,dc=novatech'
 diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
-index 5908d24..245b0d7 100644
+index 5908d24e..245b0d74 100644
 --- a/roles/docker-mantisbt/defaults/main.yml
 +++ b/roles/docker-mantisbt/defaults/main.yml
 @@ -1,12 +1,12 @@
@@ -568,7 +568,7 @@ index 5908d24..245b0d7 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 31f9228..1eadc86 100644
+index 31f92287..1eadc86e 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -219,15 +219,15 @@
@@ -591,7 +591,7 @@ index 31f9228..1eadc86 100644
        MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
        MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 347f9f7..437ef7c 100644
+index 347f9f7c..437ef7c7 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -1,12 +1,11 @@
@@ -613,7 +613,7 @@ index 347f9f7..437ef7c 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index c179d7c..f64f63e 100644
+index c179d7cb..f64f63e2 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -147,9 +147,9 @@
@@ -640,7 +640,7 @@ index c179d7c..f64f63e 100644
        - name: '{{ docker_network_frontend }}'
      volumes: 
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 5dadcdc..d1875f9 100644
+index 5dadcdcd..d1875f90 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -1,19 +1,17 @@
@@ -675,7 +675,7 @@ index 5dadcdc..d1875f9 100644
  openldap_backup_files:
    - ldif_file: LDAP_database_0000.ldif
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 070a494..29c2999 100644
+index 070a494a..29c29990 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -112,14 +112,14 @@
@@ -717,7 +717,7 @@ index 070a494..29c2999 100644
  #     state: started
  
 diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
-index e3e85d1..93ba705 100644
+index e3e85d16..93ba7053 100644
 --- a/roles/docker-svn/defaults/main.yml
 +++ b/roles/docker-svn/defaults/main.yml
 @@ -1,12 +1,11 @@
@@ -739,7 +739,7 @@ index e3e85d1..93ba705 100644
  # The repositories that will be created/imported durring a data-volume restore
  svn_repos: 'example'
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index 89c74d9..9b7e0bb 100644
+index 89c74d91..9b7e0bbd 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -81,15 +81,15 @@

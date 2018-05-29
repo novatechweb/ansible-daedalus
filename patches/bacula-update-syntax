@@ -1,5 +1,5 @@
-Bottom: b2dd8813bc1e2ee282691aea57f69cb5ff6d19f1
-Top:    a27a265b02bf77dfd3275c7bf56a0441068e461f
+Bottom: b6e49350ac564a792865fab4948dcc86bff26a76
+Top:    d35caa1d79831fc220f55d55c9288665a1c74334
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:19:41 -0500
 
@@ -12,7 +12,7 @@ Improves readability and keeps tasks up-to-date.
 
 ---
 diff --git a/roles/bacula-director/tasks/main.yml b/roles/bacula-director/tasks/main.yml
-index 7de6cd1..71fa3ce 100644
+index 7de6cd1e..71fa3cec 100644
 --- a/roles/bacula-director/tasks/main.yml
 +++ b/roles/bacula-director/tasks/main.yml
 @@ -5,14 +5,23 @@
@@ -61,7 +61,7 @@ index 7de6cd1..71fa3ce 100644
 +    state: started
    when: not bacula_director_config_status.changed
 diff --git a/roles/bacula-storage/tasks/main.yml b/roles/bacula-storage/tasks/main.yml
-index 5701b00..01125af 100644
+index 5701b00b..01125af5 100644
 --- a/roles/bacula-storage/tasks/main.yml
 +++ b/roles/bacula-storage/tasks/main.yml
 @@ -4,20 +4,34 @@
@@ -105,7 +105,7 @@ index 5701b00..01125af 100644
 +    enabled: yes
 +    state: started
 diff --git a/roles/bacula-storage/tasks/selinux-tape-policy.yml b/roles/bacula-storage/tasks/selinux-tape-policy.yml
-index 7fb6800..c15db31 100644
+index 7fb68000..c15db314 100644
 --- a/roles/bacula-storage/tasks/selinux-tape-policy.yml
 +++ b/roles/bacula-storage/tasks/selinux-tape-policy.yml
 @@ -2,9 +2,12 @@

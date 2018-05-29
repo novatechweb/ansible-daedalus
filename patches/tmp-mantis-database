@@ -1,5 +1,5 @@
-Bottom: 6da98d8f1efd5ea04e893730ee4e60bc4eb0ed38
-Top:    bb05f44ddb835f839e82f8081e168be685632f3a
+Bottom: acd43c7aef05b4dbe17200ae127af4c642bdab20
+Top:    bb2a4d1c1b03c981da9cb55274467b0c4de7e4ad
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:56:24 -0500
 
@@ -9,7 +9,7 @@ Fix mantisbt mysql database provision
 
 ---
 diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
-index 4ee5f22..5908d24 100644
+index 4ee5f22b..5908d24e 100644
 --- a/roles/docker-mantisbt/defaults/main.yml
 +++ b/roles/docker-mantisbt/defaults/main.yml
 @@ -19,8 +19,8 @@ mantisbt_db_user: novatech
@@ -34,7 +34,7 @@ index 4ee5f22..5908d24 100644
  mantisbt_db_dv_name: '{{ docker_name_prefix }}mantisbt_db_DV'
  
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 3752cc0..1b9ecfd 100644
+index 3752cc00..1b9ecfd7 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -28,6 +28,15 @@

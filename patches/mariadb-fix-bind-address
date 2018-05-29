@@ -1,5 +1,5 @@
-Bottom: 3f70b6f78cefae922d311fcfcbcab7152331348b
-Top:    1e241720d87df7e02bf49852af32ee805900578d
+Bottom: f66d9ce03f3a7756c2f1d7a91ee322b3c3fddd94
+Top:    2b5aa86fe5e2a3a357c6dfaa77fd093430aed09e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 14:46:15 -0500
 
@@ -8,7 +8,7 @@ Fix mariadb bind ip address
 
 ---
 diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
-index 61b296f..966c9a9 100644
+index 61b296f3..966c9a93 100644
 --- a/roles/mariadb/tasks/main.yml
 +++ b/roles/mariadb/tasks/main.yml
 @@ -20,15 +20,14 @@
@@ -31,7 +31,7 @@ index 61b296f..966c9a9 100644
 -  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
 +  when: bind_cnf.changed
 diff --git a/roles/mariadb/templates/mariadb-bind-address.j2 b/roles/mariadb/templates/mariadb-bind-address.j2
-index f30ea73..831edde 100644
+index f30ea73a..831edde0 100644
 --- a/roles/mariadb/templates/mariadb-bind-address.j2
 +++ b/roles/mariadb/templates/mariadb-bind-address.j2
 @@ -1,3 +1,3 @@

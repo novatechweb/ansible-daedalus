@@ -1,5 +1,5 @@
-Bottom: a27a265b02bf77dfd3275c7bf56a0441068e461f
-Top:    7db857a1411c53a7f84c12aa597f807400489293
+Bottom: d35caa1d79831fc220f55d55c9288665a1c74334
+Top:    bb0ea733c844983874d29f3c5186f70ff1389008
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:17:59 -0500
 
@@ -11,7 +11,7 @@ statuses are reported correctly and tasks only run when needed.
 
 ---
 diff --git a/roles/bacula-storage/tasks/main.yml b/roles/bacula-storage/tasks/main.yml
-index 01125af..ba5ccb7 100644
+index 01125af5..ba5ccb7b 100644
 --- a/roles/bacula-storage/tasks/main.yml
 +++ b/roles/bacula-storage/tasks/main.yml
 @@ -19,10 +19,13 @@

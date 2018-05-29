@@ -1,5 +1,5 @@
-Bottom: 5298d82898adcede84f8b23d841502328b90eeb1
-Top:    c41e40ce51a84a6a48903b84d9879fcc0b4cadc0
+Bottom: 68f7d5724407a53e1138d3bf12b3e3f2e87b0bc8
+Top:    8db9490a99bfb880f90024f542abbb4901eedb9d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 08:54:51 -0500
 
@@ -9,7 +9,7 @@ Create certificate directories during image build
 
 ---
 diff --git a/docker/docker-mantisbt/configure.sh b/docker/docker-mantisbt/configure.sh
-index 711b554..a8e0884 100755
+index 711b554f..a8e08843 100755
 --- a/docker/docker-mantisbt/configure.sh
 +++ b/docker/docker-mantisbt/configure.sh
 @@ -1,6 +1,11 @@

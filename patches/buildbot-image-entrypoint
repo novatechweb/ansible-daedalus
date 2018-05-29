@@ -1,5 +1,5 @@
-Bottom: 35542187a73e415f4ea2a074450e13b83b8af679
-Top:    ddf110bb30040318e337dbc839a44d547436072a
+Bottom: 4a3ada77ec3e3e4dbc0c9be94ebd549e3ab384ad
+Top:    b31c9b4302f29ea3b795c3272b519007024454fa
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 15:32:30 -0500
 
@@ -8,7 +8,7 @@ Use original buildbot entrypoint and init daemon
 
 ---
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index b13cd1d..fcced3c 100644
+index b13cd1d2..fcced3cb 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
 @@ -9,7 +9,6 @@ ARG BUILDBOT_TIMEZONE="Etc/UTC"
@@ -26,7 +26,7 @@ index b13cd1d..fcced3c 100644
 -ENTRYPOINT ["/sbin/tini", "--"]
  CMD ["/home/buildbot/start.sh"]
 diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/docker/buildbot-master/buildbot/buildbot.tac
-index 4fbddaa..796384d 100644
+index 4fbddaa2..796384d0 100644
 --- a/docker/buildbot-master/buildbot/buildbot.tac
 +++ b/docker/buildbot-master/buildbot/buildbot.tac
 @@ -13,7 +13,7 @@ configfile = 'master.cfg'
@@ -39,7 +39,7 @@ index 4fbddaa..796384d 100644
  m = BuildMaster(basedir, configfile, umask=None)
  m.setServiceParent(application)
 diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
-index 5e0eed7..71002f8 100755
+index 5e0eed75..71002f8b 100755
 --- a/docker/buildbot-master/buildbot/start.sh
 +++ b/docker/buildbot-master/buildbot/start.sh
 @@ -8,5 +8,5 @@ chmod -R 600 ${HOME}/.ssh/*

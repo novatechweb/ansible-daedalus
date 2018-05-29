@@ -1,5 +1,5 @@
-Bottom: 68b69f1679666d72db578783bef99990dc575be0
-Top:    ea380047fae028c8ce7f807d33e08a0cd053d513
+Bottom: de35a946750b9c1047c539532711d0092e813d77
+Top:    6f7370a0ceda3ab1288b1c3ca2fc41896f3a8ced
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 13:51:33 -0500
 
@@ -9,7 +9,7 @@ Update gitlab to 10.1
 
 ---
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index d9bdcdd..e4268e3 100644
+index d9bdcdd1..e4268e33 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -17,25 +17,28 @@ gitlab_db_user: novatech
@@ -54,7 +54,7 @@ index d9bdcdd..e4268e3 100644
  docker_network_frontend: 'frontend'
 +gitlab_config_dir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 4dda818..b4a67fe 100644
+index 4dda8186..b4a67fe2 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -21,7 +21,7 @@
@@ -295,7 +295,7 @@ index 4dda818..b4a67fe 100644
  - name: Wait for gitlab to be fully running
    wait_for:
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index b9f74ee..38cbfae 100644
+index b9f74ee0..38cbfae8 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
 @@ -33,12 +33,21 @@
@@ -332,7 +332,7 @@ index b9f74ee..38cbfae 100644
 +  shell: 'date --rfc-3339=seconds > {{ gitlab_config_dir }}/restore.date.txt'
    when: st_gitlab_restore.stat.exists == False
 diff --git a/roles/docker-gitlab/templates/before_backup.j2 b/roles/docker-gitlab/templates/before_backup.j2
-index d304bcb..a85ea22 100644
+index d304bcb7..a85ea225 100644
 --- a/roles/docker-gitlab/templates/before_backup.j2
 +++ b/roles/docker-gitlab/templates/before_backup.j2
 @@ -4,7 +4,7 @@
@@ -348,7 +348,7 @@ index d304bcb..a85ea22 100644
  {% endif %}
 diff --git a/roles/docker-gitlab/templates/gitlab.rb.j2 b/roles/docker-gitlab/templates/gitlab.rb.j2
 new file mode 100644
-index 0000000..3998418
+index 00000000..39984189
 --- /dev/null
 +++ b/roles/docker-gitlab/templates/gitlab.rb.j2
 @@ -0,0 +1,1726 @@
