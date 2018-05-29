@@ -1,0 +1,21 @@
+Bottom: 235442bd7252d876c4a7ab085c8d428777f05fe9
+Top:    90383e45241d33a9e9f5e053e5b748aff1939de5
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-29 15:25:58 -0500
+
+Refresh of buildbot-worker-ptxdist
+
+---
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
+index f0b63bc5..058c6a08 100644
+--- a/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
++++ b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
+@@ -17,7 +17,7 @@ application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
+ # and worker on the same process!
+ buildmaster_host = os.environ.get("BUILDBOT_MASTER", 'localhost')
+ port = int(os.environ.get("BUILDBOT_WORKER_PORT", 9989))
+-workername = os.environ.get("BUILDBOT_WORKER_PTXDIST", 'docker')
++workername = os.environ.get("BUILDBOT_WORKER_NAME", 'docker')
+ passwd = os.environ.get("BUILDBOT_WORKER_PASSWORD")
+ 
+ # delete the password from the environ so that it is not leaked in the log
