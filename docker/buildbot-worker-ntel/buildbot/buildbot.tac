@@ -18,7 +18,7 @@ application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
 buildmaster_host = os.environ.get("BUILDBOT_MASTER", 'localhost')
 port = int(os.environ.get("BUILDBOT_WORKER_PORT", 9989))
 workername = os.environ.get("BUILDBOT_WORKER_NAME", 'docker')
-passwd = os.environ.get("BUILDBOT_WORKER_PASSWORD")
+passwd = os.environ.get("BUILDBOT_WORKER_PASS")
 
 # delete the password from the environ so that it is not leaked in the log
 blacklist = os.environ.get("BUILDBOT_ENVIRONMENT_BLACKLIST", "BUILDBOT_WORKER_PASSWORD").split(',')
