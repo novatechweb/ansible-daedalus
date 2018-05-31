@@ -30,4 +30,5 @@ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
 &&  chown -v -R buildbot:buildbot "/home/buildbot"
 
 USER buildbot
+ENTRYPOINT ["/usr/bin/dumb-init"]
 CMD ["/home/buildbot/start.sh"]
