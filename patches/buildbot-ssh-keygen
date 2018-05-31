@@ -1,5 +1,5 @@
 Bottom: b07bed148499668f385dd92b60a730dcfc347c54
-Top:    b07bed148499668f385dd92b60a730dcfc347c54
+Top:    6635e1dd4dd31919559dc83ce23cd23fd889933a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-31 16:31:30 -0500
 
@@ -7,4 +7,22 @@ Generate new ssh key on first run
 
 
 ---
-
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index 71002f8b..85c28248 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -1,10 +1,12 @@
+ #!/bin/sh
+ 
++SSH_BITS=${SSH_BITS-"2048"}
++SSH_TYPE=${SSH_TYPE-"rsa"}
++SSH_FILE=${SSH_FILE-"$HOME/.ssh/id_rsa"}
++
+ BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
+ 
+-mkdir -p ${HOME}/.ssh
+-cp -R /run/secrets/ssh/* ${HOME}/.ssh
+-chmod -R 600 ${HOME}/.ssh/*
++ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/null 2>/dev/null
+ 
+ ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
