@@ -1,5 +1,5 @@
 Bottom: 16797bee5eae8b88ca65d2bccf66ae3789750442
-Top:    4c8ad18a8dcd91bc13047fbd9136405507d017b8
+Top:    c1cca4e70a24ec70def652f4a9cb2b8d6b087478
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 15:32:30 -0500
 
@@ -8,7 +8,7 @@ Use original buildbot entrypoint and init daemon
 
 ---
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index b13cd1d2..fcced3cb 100644
+index b13cd1d2..0c67da56 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
 @@ -9,7 +9,6 @@ ARG BUILDBOT_TIMEZONE="Etc/UTC"
@@ -19,11 +19,12 @@ index b13cd1d2..fcced3cb 100644
  &&  rm /etc/localtime \
  &&  ln -sf /usr/share/zoneinfo/${BUILDBOT_TIMEZONE} /etc/localtime \
  &&  echo "${BUILDBOT_TIMEZONE}" > /etc/timezone
-@@ -27,5 +26,4 @@ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
+@@ -27,5 +26,5 @@ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
  &&  chown -v -R buildbot:buildbot "/home/buildbot"
  
  USER buildbot
 -ENTRYPOINT ["/sbin/tini", "--"]
++ENTRYPOINT ["/usr/bin/dumb-init"]
  CMD ["/home/buildbot/start.sh"]
 diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/docker/buildbot-master/buildbot/buildbot.tac
 index 4fbddaa2..796384d0 100644
