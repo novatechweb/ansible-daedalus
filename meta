@@ -1,6 +1,6 @@
 Version: 1
-Previous: 25c30a897bc68b371b06e7da0646e5d79f3d30f7
-Head: 9afd1dea63dafe9470bc8f6e0ba1a7b38a8a08b3
+Previous: e78c3ca75afb6e1f242f0b167424e60682dc0d8d
+Head: 2194e741422ca1b7cd53b390dcbdc3d533393452
 Applied:
   all-ansible-2.4: 911ea6802bd10073335705169beec90d25fab21d
   all-remove-submodules: 01b2e63e1b41bbb1e8714deae9ba0a995bee32f0
@@ -49,31 +49,30 @@ Applied:
   svn-create-required-directories: ff34e49df8d6fabf461671a7279608ac36e435f2
   wiki-downgrade-extensions: 33da6addbcf1972e4db3754603c3e5c05335640c
   buildbot-master: 80143ab2e822f52af8feb77615899712ea5e9179
-  buildbot-worker-ntel: ff9d70655521304e7fec6d94f053c5d41e9e0d50
-  buildbot-worker-ptxdist: b3d04ec775f10a461ef532b692e707dffa0db84b
-  fix-ssh-folder-permission: a63e137914f07dcfdb0bd3f7aa1060d4d234b5bc
-  update-ntel-builds-for-new: d1f8386c96b46185cc3c3ea5b568dab65f5fd2c7
-  add-parameter-for-buildbot: f76823faf40c312bfa24740f3e5211ba135e5442
-  update-ptxdist-build-factories: 2b114f6c75db22fb909c5635ef27521f30c2e84a
-  sshd-create-role: 04051d827609cb9dfc7078a3b41f26337e197a44
-  wiki-create-required-directories: b7d7fce8c27cd41f357994e05848b716bd81c5b7
-  mantis-create-required-directories: 050a104511cafc065727eb23274d6d32b5887165
-  buildbot-parameterize-env: 1caba801a57f556ac3098c8117a889f809b8309d
-  buildbot-image-entrypoint: 281ab3462558ca03ddb00a41db396e5b042aa939
-  buildbot-dependencies: 81de1cda30387317504f71ccac8a400556f4fcd3
-  playbook-simplify-credentials: 48a12a00f5e7bc4f3d28f29db5e579b9d7c6ae73
-  all-normalize-vars: d9148ccdcfedaad3e1f2e4a1fb29ab5805dfffe4
-  tmp-update-gitlab-version: ab5c4cdb106b626b0530a25f890d86ccc34ad840
-  fixup-all-docker-image-repositories: 7e4fdbaca44ea5ee77f35d5b304d2fb41f02e946
-  tmp-update-openldap: f18d4f5710fdc3090abd8ee34a607981fe392e94
-  mariadb-fix-bind-address: 22c027a994ffc05bd2d814d87cbeb2d523bb6c62
-  tmp-wiki-database: 33e4d74b9adc008af58a075ba5c3d6282a6c1f49
-  tmp-mantis-database: d79fe3c5795117039478bca805d5a94f1fededca
-  TESTING--VirtualMachine: f24a5f17632ba5d2962e7a47e1ed8fb809ce8fdc
-  mediawiki-remove-libicu52: 2fe03cd97ccddfc8379dfd51c37082b6ed9d6e18
-  bacula-update-syntax: c59579b992d9107181a8bd83a3bff03351166846
-  all-improve-idempotency: 239c4d0bfbc85f33aaacbef42e51755b7499e911
-  fixup-tmp-rework-ip-address-network: 67078145673c5b24aab50f836314da176c8ce71e
-  refresh-temp: 9afd1dea63dafe9470bc8f6e0ba1a7b38a8a08b3
+  buildbot-worker-ntel: 481ff88c0cc93d5437cdf9ca6079ab09e0150edc
+  buildbot-worker-ptxdist: e2672a2281c7e29491a24dda0cc7aedcbafa04db
+  fix-ssh-folder-permission: 6b31dd70a665bfcffb7134b004a1b3ea38d7c2a0
+  update-ntel-builds-for-new: 2c16208f5a3076e39812637b215eafbf359bcf13
+  add-parameter-for-buildbot: 62c80c1375adf220b2107c68f244f586d6bd710b
+  update-ptxdist-build-factories: a493e334c9b7a276e905455109587be08aa364a1
+  sshd-create-role: c5f8068fd4b9c4e29764e5a4084993fef7e52515
+  wiki-create-required-directories: 471a7e0696e6891b62e05b0499d20a96743ee6da
+  mantis-create-required-directories: c7ed71f197fa950c3524135edb7164f4bfa9ba6c
+  buildbot-parameterize-env: 29c68803af1128e44f18c167504e27d5bf4c2e49
+  buildbot-image-entrypoint: bc92dedea39e80a58c556d5a0a29835821819e2e
+  buildbot-dependencies: 6949d75a84519bdd313eb676127728cfa005c9dc
+  playbook-simplify-credentials: 7568e1cff2a1ed9b0b9c5a9d9b0c03ba7eab7ca6
+  all-normalize-vars: fd81cebf48624ffe6652fd2643b6ba6e9df7a4d3
+  tmp-update-gitlab-version: 6bacc4c946e4b597540ac6ab5c27502eb0702d4d
+  fixup-all-docker-image-repositories: 90ff23155a196db9caf4254376918e56c5684c11
+  tmp-update-openldap: d26814a40243dea55f054fa55cfbf2b69a426a3e
+  mariadb-fix-bind-address: 982d50f0c84d8e48e30881a588978f4e11cc60bc
+  tmp-wiki-database: 37ff53ad2d8b823d5ef716a48469a11b792d4793
+  tmp-mantis-database: 59ab2806aacd899ebdbcaec1bf220ab355c156dc
+  TESTING--VirtualMachine: 436d9b61b3f62ec678c17aa0d79a9d6f0e6d4074
+  mediawiki-remove-libicu52: 931360253adda479fca761339d336cfbc4564fce
+  bacula-update-syntax: 9bb414ef91d3713f77206a36cd56bdbf1b0d0053
+  all-improve-idempotency: 8dbe772a24bc08d32238dabf32013fbb57d075f4
+  fixup-tmp-rework-ip-address-network: 2194e741422ca1b7cd53b390dcbdc3d533393452
 Unapplied:
 Hidden:

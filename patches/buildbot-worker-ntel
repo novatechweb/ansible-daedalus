@@ -1,5 +1,5 @@
 Bottom: 5a742ca2bf5d7dc2d165be9f8c6852747d4a1131
-Top:    2cd31d1b6bce74a790ee8c5ff7e177dbe65ae042
+Top:    03d3406126e75ac3840cd5f784141ba2fe48db5a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 14:04:14 -0500
 
@@ -220,17 +220,21 @@ index 00000000..52b89632
 +rm $files_to_archive
 diff --git a/docker/buildbot-worker-ntel/buildbot/start.sh b/docker/buildbot-worker-ntel/buildbot/start.sh
 new file mode 100755
-index 00000000..23ce5835
+index 00000000..a6343a88
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/start.sh
-@@ -0,0 +1,8 @@
+@@ -0,0 +1,12 @@
 +#!/bin/sh
 +
-+mkdir -p $HOME/.ssh
-+cp -R /run/secrets/ssh/* $HOME/.ssh
-+chmod -R 600 $HOME/.ssh/*
++SSH_BITS=${SSH_BITS-"2048"}
++SSH_TYPE=${SSH_TYPE-"rsa"}
++SSH_FILE=${SSH_FILE-"$HOME/.ssh/id_rsa"}
 +
-+ln -v -s -f /home/buildbot/buildbot.tac /buildbot/buildbot.tac
++BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
++
++ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/null 2>/dev/null
++
++ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-worker-ntel/README.md b/roles/buildbot-worker-ntel/README.md
 new file mode 100644
