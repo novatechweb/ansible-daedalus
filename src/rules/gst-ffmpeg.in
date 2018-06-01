@@ -1,0 +1,33 @@
+## SECTION=multimedia_gstreamer
+
+menuconfig GST_FFMPEG
+	tristate
+	#select GLIB
+	#select LIBOIL
+	select GSTREAMER
+	select GST_PLUGINS_BASE
+	select FAAD2
+	select LIBVPX
+	select LIBTHEORA	if GST_FFMPEG_THEORA
+	select LIBVORBIS	if GST_FFMPEG_VORBIS
+	prompt "gst-ffmpeg              "
+	help
+	  GStreamer is a streaming media framework, based on graphs of
+	  filters which operate on media data. Applications using this
+	  library can do anything from real-time sound processing to
+	  playing videos, and just about anything else
+	  media-related. Its plugin-based architecture means that new
+	  data types or processing capabilities can be added simply by
+	  installing new plug-ins.
+
+	  This package contains the GStreamer ffmpeg plugins.
+
+if GST_FFMPEG
+
+	comment "dependency less plugins"
+	# -------------------------------
+
+	#config GST_FFMPEG_ADDER
+	#	bool
+	#	prompt "adder"
+endif

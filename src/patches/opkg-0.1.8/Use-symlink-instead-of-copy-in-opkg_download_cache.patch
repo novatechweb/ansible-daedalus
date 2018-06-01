@@ -1,0 +1,29 @@
+From 69f43771c08785d93ac79f1e887eb64f9cc34b5a Mon Sep 17 00:00:00 2001
+From: George McCollister <george.mccollister@gmail.com>
+Date: Wed, 4 Apr 2012 08:13:45 -0500
+Subject: [PATCH] Use symlink instead of copy in opkg_download_cache
+
+Instead of using file_copy in opkg_download_cache, use symlink instead.
+This should avoid creating an extra useless copy of the packages.
+
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ libopkg/opkg_download.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/libopkg/opkg_download.c b/libopkg/opkg_download.c
+index 4a8b2a2..bdb0d14 100644
+--- a/libopkg/opkg_download.c
++++ b/libopkg/opkg_download.c
+@@ -235,7 +235,7 @@ opkg_download_cache(const char *src, const char *dest_file_name,
+ 	}
+     }
+ 
+-    err = file_copy(cache_location, dest_file_name);
++    err = symlink(cache_location, dest_file_name);
+ 
+ 
+ out2:
+-- 
+1.7.8.4
+
