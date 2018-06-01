@@ -1,5 +1,5 @@
 Version: 1
-Previous: 7efe3b6a66139a1ebbdd8ebba9eedc196764c7f9
+Previous: 24fbc74b8ef4636ed0f8389c0351970d4d24b690
 Head: 2075e0c132cf2c146bc4650efb6fda76e7dbca32
 Applied:
 Unapplied:
@@ -51,6 +51,7 @@ Unapplied:
   wiki-downgrade-extensions: 33da6addbcf1972e4db3754603c3e5c05335640c
   buildbot-master: 80143ab2e822f52af8feb77615899712ea5e9179
   buildbot-worker-ntel: 481ff88c0cc93d5437cdf9ca6079ab09e0150edc
+  buildbot-worker-ptxdist: e2672a2281c7e29491a24dda0cc7aedcbafa04db
   fix-ssh-folder-permission: 6b31dd70a665bfcffb7134b004a1b3ea38d7c2a0
   update-ntel-builds-for-new: 2c16208f5a3076e39812637b215eafbf359bcf13
   add-parameter-for-buildbot: 62c80c1375adf220b2107c68f244f586d6bd710b
