@@ -1,0 +1,13 @@
+- name: Run some tests
+  hosts: vmdaedalus.novatech-llc.com
+  tasks:
+  - debug:
+      msg: '{{ svn_ip_addr }}'
+  - set_fact:
+      daedalus_subnet: "172.16.0.0/16"
+  - debug:
+      var: daedalus_subnet
+  - debug:
+      msg: '{{ svn_ip_addr }}'
+  - debug:
+      msg: '{{ svn_ip_addr }}/{{ daedalus_subnet | ipaddr("prefix") }}'

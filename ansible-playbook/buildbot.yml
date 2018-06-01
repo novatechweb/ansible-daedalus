@@ -1,0 +1,47 @@
+---
+
+- name: Install/Setup Docker images and containers on daedalus
+  hosts: daedalus
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  strategy: debug
+  tags:
+  - buildbot
+  roles:
+  - name: Build and start the Buildbot master container
+    role: buildbot-master
+    tags:
+    - buildbot
+    - buildbot-master
+
+  - name: Add buildbot user to Gitlab
+    role: gitlab-user
+    vars:
+      new_user: buildbot
+      new_user_name: Build Robot
+      new_user_email: buildbot@novatech-llc.com
+      new_user_pass: "{{ lookup('password', '/dev/null') }}"
+
+  - name: Add pubkey to buildbot user
+    role: gitlab-sshkey
+    vars:
+      username: buildbot
+      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
+      title: "buildbot_master"
+
+- name: Setup Buildbot worker system
+  hosts: buildbot-worker
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  vars:
+    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+  tags:
+  - buildbot
+  - buildbot-worker
+  roles:
+  - role: buildbot-worker-ntel
+  - role: buildbot-worker-ptxdist
