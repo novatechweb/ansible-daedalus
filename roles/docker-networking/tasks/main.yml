@@ -1,7 +1,0 @@
----
-# tasks file for docker-networking
-
-- name: Create frontend network for services
-  docker_network:
-    name: '{{ docker_network_frontend }}'
-    state: present

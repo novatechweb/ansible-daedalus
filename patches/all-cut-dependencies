@@ -1,0 +1,190 @@
+Bottom: 2e3d8f808df5db5f73106484d42b0801d8bc3f68
+Top:    dacf47d71b519897fcdef90e18d2e9d25d65348f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Cleanup dependencies between roles
+
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 227164b7..673e61b6 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -25,15 +25,31 @@
+   become_user: root
+   become_method: sudo
+   roles:
++  - name: Run common Docker tasks
++    role: docker-common
++    tags:
++    - docker_common
+   - name: Configure Docker networking
+     role: docker-networking
+     tags:
+     - docker_networking
++  - name: Build the openssl Docker volume
++    role: docker-openssl
++    tags:
++    - openssl_container
+   - name: Build and start the SVN Docker container
+     role: docker-svn
+     svn_repos: 'ddio NCD_Release'
+     tags:
+     - svn_container
++  - name: Build and start the openldap Docker container
++    role: docker-openldap
++    tags:
++    - openldap_container
++  - name: Build and start the exim4 Docker container
++    role: docker-exim4
++    tags:
++    - exim4_container
+   - name: Build and start the GitLab Docker container
+     role: docker-gitlab
+     gitlab_db_user: novatech
+diff --git a/roles/docker-buildsystem/meta/main.yml b/roles/docker-buildsystem/meta/main.yml
+index 769d7340..7f867d73 100644
+--- a/roles/docker-buildsystem/meta/main.yml
++++ b/roles/docker-buildsystem/meta/main.yml
+@@ -1,5 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+diff --git a/roles/docker-exim4/meta/main.yml b/roles/docker-exim4/meta/main.yml
+index ba8e8838..7f867d73 100644
+--- a/roles/docker-exim4/meta/main.yml
++++ b/roles/docker-exim4/meta/main.yml
+@@ -1,10 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+diff --git a/roles/docker-gitlab/meta/main.yml b/roles/docker-gitlab/meta/main.yml
+index aed03345..7f867d73 100644
+--- a/roles/docker-gitlab/meta/main.yml
++++ b/roles/docker-gitlab/meta/main.yml
+@@ -1,20 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+-
+-- name: docker-openldap as a dependency
+-  role: docker-openldap
+-  tags:
+-  - openldap_container
+-
+-- name: Build and start the exim4 Docker container
+-  role: docker-exim4
+-  tags:
+-  - exim4_container
+diff --git a/roles/docker-mantisbt/meta/main.yml b/roles/docker-mantisbt/meta/main.yml
+index aed03345..ed97d539 100644
+--- a/roles/docker-mantisbt/meta/main.yml
++++ b/roles/docker-mantisbt/meta/main.yml
+@@ -1,20 +1 @@
+ ---
+-dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+-
+-- name: docker-openldap as a dependency
+-  role: docker-openldap
+-  tags:
+-  - openldap_container
+-
+-- name: Build and start the exim4 Docker container
+-  role: docker-exim4
+-  tags:
+-  - exim4_container
+diff --git a/roles/docker-mediawiki/meta/main.yml b/roles/docker-mediawiki/meta/main.yml
+index aed03345..ed97d539 100644
+--- a/roles/docker-mediawiki/meta/main.yml
++++ b/roles/docker-mediawiki/meta/main.yml
+@@ -1,20 +1 @@
+ ---
+-dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+-
+-- name: docker-openldap as a dependency
+-  role: docker-openldap
+-  tags:
+-  - openldap_container
+-
+-- name: Build and start the exim4 Docker container
+-  role: docker-exim4
+-  tags:
+-  - exim4_container
+diff --git a/roles/docker-openldap/meta/main.yml b/roles/docker-openldap/meta/main.yml
+index ba8e8838..7f867d73 100644
+--- a/roles/docker-openldap/meta/main.yml
++++ b/roles/docker-openldap/meta/main.yml
+@@ -1,10 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+diff --git a/roles/docker-openssl/meta/main.yml b/roles/docker-openssl/meta/main.yml
+index 769d7340..7f867d73 100644
+--- a/roles/docker-openssl/meta/main.yml
++++ b/roles/docker-openssl/meta/main.yml
+@@ -1,5 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+diff --git a/roles/docker-svn/meta/main.yml b/roles/docker-svn/meta/main.yml
+index 44f76841..7f867d73 100644
+--- a/roles/docker-svn/meta/main.yml
++++ b/roles/docker-svn/meta/main.yml
+@@ -1,15 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+-
+-- name: docker-openldap as a dependency
+-  role: docker-openldap
+-  tags:
+-  - openldap_container

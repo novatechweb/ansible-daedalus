@@ -1,0 +1,56 @@
+Bottom: 688e49702e6fbcd42cfcc3d4c743bea5ec604d06
+Top:    a073a97bda67e133e0e339c0bd7b0a1917b7d003
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-24 16:30:47 -0500
+
+Remove libicu52 from Dockerfile
+
+Newest upstream versions of php:5.6-apache are based on debian stretch and 
+use libicu57, which is already installed. Besides this, libicu-dev would 
+already install libicuXX.
+
+
+---
+diff --git a/docker/docker-mantisbt/Dockerfile b/docker/docker-mantisbt/Dockerfile
+index b59a97c7..7db874b3 100644
+--- a/docker/docker-mantisbt/Dockerfile
++++ b/docker/docker-mantisbt/Dockerfile
+@@ -8,23 +8,22 @@ MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
+ 
+ ENV MANTISBT_VERSION 1.2.19
+ 
++#         ttf-mscorefonts-installer
++
+ RUN sed -i 's| main$| main contrib non-free|' /etc/apt/sources.list \
+     && apt-get update \
+     && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+         libcurl3 \
+-        libicu52 \
+         libjpeg62-turbo \
+         libmcrypt4 \
+         libpq5 \
+-        ttf-mscorefonts-installer \
+-        \
+         libcurl4-openssl-dev \
+         libfreetype6-dev \
+         libicu-dev \
+         libjpeg62-turbo-dev \
+         libldap2-dev \
+         libmcrypt-dev \
+-        libpng12-dev \
++        libpng-dev \
+         libpq-dev \
+     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
+     && docker-php-ext-configure gd --with-png-dir=/usr --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+diff --git a/docker/docker-mediawiki/Dockerfile b/docker/docker-mediawiki/Dockerfile
+index 6aaefd61..54421165 100644
+--- a/docker/docker-mediawiki/Dockerfile
++++ b/docker/docker-mediawiki/Dockerfile
+@@ -13,7 +13,6 @@ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+         git \
+         imagemagick \
+-        libicu52 \
+         libicu-dev \
+         libldap2-dev \
+     && \

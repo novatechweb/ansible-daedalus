@@ -1,0 +1,22 @@
+Bottom: 5c31aad2ef1e422f4e3932ea4009444f9e3df722
+Top:    99bb4a65399a18f846474f0e60172aee94cca033
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Cleaner method to get ip address
+
+
+---
+diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
+index c6290553..a99acea8 100755
+--- a/docker/docker-exim4/docker-entrypoint.sh
++++ b/docker/docker-exim4/docker-entrypoint.sh
+@@ -29,7 +29,7 @@ case ${1} in
+                 && rm -rf /etc/mailname
+             echo "${HOSTNAME}" > /etc/mailname
+             # set local IP addr
+-            LOCAL_IP_ADDR=$(grep "[ \t]*${HOSTNAME}[ \t]*" /etc/hosts|cut -f 1)
++            LOCAL_IP_ADDR=$(getent hosts $HOSTNAME | cut -d ' ' -f 1)
+             sed -i 's|dc_local_interfaces=.*|dc_local_interfaces='"'${LOCAL_IP_ADDR}'"'|' ${CONFIG_PATH}/update-exim4.conf.conf
+             # copy certificate
+             [ -e /etc/ssl/private/exim.crt ] \

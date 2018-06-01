@@ -1,0 +1,25 @@
+Bottom: 1f7bd53e2a8eeda7df44a292fe72d0e5a8203fa2
+Top:    eaeb5d245e6b88b3c4d8b1e4de0291df906f6bdd
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-02-01 16:20:07 -0600
+
+Fix .ssh folder permission
+
+The start.sh scripts were mistakenly changing the permissions of
+$HOME/.ssh to 0600, removing the execute bit for the user and 
+effectively removing access.
+
+
+---
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index 63b884d4..a30fbf6d 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -2,7 +2,7 @@
+ 
+ mkdir -p $HOME/.ssh
+ cp -R /run/secrets/ssh/* $HOME/.ssh
+-chmod -R 600 $HOME/.ssh
++chmod -R 600 $HOME/.ssh/*
+ 
+ ln -v -s -f /home/buildbot/buildbot.tac /home/buildbot/master.cfg /home/buildbot/*.py /buildbot
