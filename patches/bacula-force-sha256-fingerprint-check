@@ -1,5 +1,5 @@
-Bottom: 41e79b3a6a5a77fa1458248bc2d437e5b82300b3
-Top:    4832ceb0157f9e024825f394dc170a79999e9a2c
+Bottom: ee38056878762158cad2e7f1d029ccb5bcd4dff0
+Top:    465398e4b914d9a687eff0e3375580a932b36329
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -11,7 +11,7 @@ fingerprint.
 
 ---
 diff --git a/roles/bacula-script/templates/bacula-bootstrap-backup b/roles/bacula-script/templates/bacula-bootstrap-backup
-index 125db1d..bc90dd1 100644
+index 125db1de..bc90dd10 100644
 --- a/roles/bacula-script/templates/bacula-bootstrap-backup
 +++ b/roles/bacula-script/templates/bacula-bootstrap-backup
 @@ -11,16 +11,16 @@ github_repo=git@github.com:novatechweb/${repo_name}.git

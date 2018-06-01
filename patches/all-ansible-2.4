@@ -1,5 +1,5 @@
-Bottom: f654721cb332321b77969cbcbbeb7e0dc8190e83
-Top:    1b14965d6be32fc0c118c20f742140cbf67857c5
+Bottom: 3bd34c8481b078e8245addf8464996e8b175dc51
+Top:    f5632c1d5df7f8140778d743d888ed7e49300bff
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -10,7 +10,7 @@ Mainly syntax updates, also a few module name changes.
 
 ---
 diff --git a/roles/bacula-catalog/tasks/main.yml b/roles/bacula-catalog/tasks/main.yml
-index 03aacfa..2d22328 100644
+index 03aacfa6..2d22328a 100644
 --- a/roles/bacula-catalog/tasks/main.yml
 +++ b/roles/bacula-catalog/tasks/main.yml
 @@ -2,5 +2,5 @@
@@ -21,7 +21,7 @@ index 03aacfa..2d22328 100644
 +- include_tasks: restore-catalog-with-bsr.yml
    when: filecount.stdout_lines[1] == "0"
 diff --git a/roles/bacula-director/tasks/main.yml b/roles/bacula-director/tasks/main.yml
-index ca4799e..d1192f0 100644
+index ca4799e6..d1192f02 100644
 --- a/roles/bacula-director/tasks/main.yml
 +++ b/roles/bacula-director/tasks/main.yml
 @@ -20,7 +20,7 @@
@@ -51,7 +51,7 @@ index ca4799e..d1192f0 100644
  - name: Test Bacula Director configuration
    command: /usr/sbin/bacula-dir -t -c {{ bacula_director_config_dir }}/bacula-dir.conf
 diff --git a/roles/bacula-storage/tasks/main.yml b/roles/bacula-storage/tasks/main.yml
-index 4cc7183..5701b00 100644
+index 4cc7183a..5701b00b 100644
 --- a/roles/bacula-storage/tasks/main.yml
 +++ b/roles/bacula-storage/tasks/main.yml
 @@ -13,7 +13,7 @@
@@ -64,7 +64,7 @@ index 4cc7183..5701b00 100644
  - name: Make sure bacula user is in the tape group
    user: name=bacula groups=tape append=yes
 diff --git a/roles/buildsystem/tasks/grab_files/ncd.yml b/roles/buildsystem/tasks/grab_files/ncd.yml
-index 553785b..001007e 100644
+index 553785b9..001007e7 100644
 --- a/roles/buildsystem/tasks/grab_files/ncd.yml
 +++ b/roles/buildsystem/tasks/grab_files/ncd.yml
 @@ -1,7 +1,7 @@
@@ -86,7 +86,7 @@ index 553785b..001007e 100644
      module: ncdrelease
      svn_username: "{{ username }}"
 diff --git a/roles/buildsystem/tasks/grab_files/web.yml b/roles/buildsystem/tasks/grab_files/web.yml
-index 2fbc596..88316e8 100644
+index 2fbc5962..88316e8a 100644
 --- a/roles/buildsystem/tasks/grab_files/web.yml
 +++ b/roles/buildsystem/tasks/grab_files/web.yml
 @@ -1,7 +1,7 @@
@@ -133,7 +133,7 @@ index 2fbc596..88316e8 100644
      dest="{{ working_directory }}/{{ web_site_name }}/settings.py"
      regexp="(.*'PASSWORD':\s*).*"
 diff --git a/roles/buildsystem/tasks/main.yml b/roles/buildsystem/tasks/main.yml
-index 0316be2..bff7049 100644
+index 0316be2b..bff70495 100644
 --- a/roles/buildsystem/tasks/main.yml
 +++ b/roles/buildsystem/tasks/main.yml
 @@ -6,14 +6,15 @@
@@ -168,7 +168,7 @@ index 0316be2..bff7049 100644
      db_host:                 "test_station_mysql_server"
      db_admin_user:           "root"
 diff --git a/roles/docker-build-base-image/tasks/main.yml b/roles/docker-build-base-image/tasks/main.yml
-index 0843c14..b984d74 100644
+index 0843c142..b984d740 100644
 --- a/roles/docker-build-base-image/tasks/main.yml
 +++ b/roles/docker-build-base-image/tasks/main.yml
 @@ -13,11 +13,11 @@
@@ -186,7 +186,7 @@ index 0843c14..b984d74 100644
 -  with_dict: docker_build_base_images
 +  with_dict: "{{ docker_build_base_images }}"
 diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
-index 571e7b2..cdbad40 100644
+index 571e7b25..cdbad40e 100644
 --- a/roles/docker-buildsystem/defaults/main.yml
 +++ b/roles/docker-buildsystem/defaults/main.yml
 @@ -20,7 +20,7 @@ name_prefix: ""
@@ -199,7 +199,7 @@ index 571e7b2..cdbad40 100644
  build_system_docker_repos:
    TestStation_http_data_buildsystem:
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
-index ae22977..34167b2 100644
+index ae22977e..34167b2f 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
 @@ -9,7 +9,7 @@
@@ -212,7 +212,7 @@ index ae22977..34167b2 100644
      image: "{{ name_prefix }}teststation_http_data_buildsystem_image"
      name: "{{ name_prefix }}TestStation_http_data_buildsystem"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
-index 31f803b..3f6150c 100644
+index 31f803b7..3f6150c4 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
 @@ -9,7 +9,7 @@
@@ -225,7 +225,7 @@ index 31f803b..3f6150c 100644
      image: "{{ name_prefix }}teststation_database_data_image"
      name: "{{ name_prefix }}TestStation_database_data"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
-index 49c59f5..1c86766 100644
+index 49c59f5e..1c867665 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
 @@ -9,7 +9,7 @@
@@ -238,7 +238,7 @@ index 49c59f5..1c86766 100644
      image: "{{ name_prefix }}teststation_http_data_ipkg_image"
      name: "{{ name_prefix }}TestStation_http_data_ipkg"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
-index 9a33082..27421a7 100644
+index 9a330824..27421a72 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
 @@ -9,7 +9,7 @@
@@ -251,7 +251,7 @@ index 9a33082..27421a7 100644
      image: "{{ name_prefix }}teststation_http_data_ncdiso_image"
      name: "{{ name_prefix }}TestStation_http_data_ncdiso"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
-index 6cd9f82..0c950ba 100644
+index 6cd9f82b..0c950bab 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
 @@ -9,7 +9,7 @@
@@ -264,7 +264,7 @@ index 6cd9f82..0c950ba 100644
      image: "{{ name_prefix }}teststation_http_data_ncdrelease_image"
      name: "{{ name_prefix }}TestStation_http_data_ncdrelease"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
-index 280f26f..47db0a2 100644
+index 280f26f7..47db0a2f 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
 @@ -9,7 +9,7 @@
@@ -277,7 +277,7 @@ index 280f26f..47db0a2 100644
      image: "{{ name_prefix }}teststation_http_data_testclient_image"
      name: "{{ name_prefix }}TestStation_http_data_testclient"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
-index 755bbf8..8b296f1 100644
+index 755bbf8b..8b296f1b 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
 @@ -9,7 +9,7 @@
@@ -290,7 +290,7 @@ index 755bbf8..8b296f1 100644
      image: "{{ name_prefix }}teststation_tftp_data_image"
      name: "{{ name_prefix }}TestStation_tftp_data"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
-index 1e990c6..1ab1133 100644
+index 1e990c6a..1ab11330 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 @@ -21,7 +21,7 @@
@@ -303,7 +303,7 @@ index 1e990c6..1ab1133 100644
      image: "{{ name_prefix }}teststation_database_server_image"
      name: "{{ name_prefix }}TestStation_database_server"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
-index ea1bff7..883d3f4 100644
+index ea1bff7e..883d3f4b 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
 @@ -9,7 +9,7 @@
@@ -316,7 +316,7 @@ index ea1bff7..883d3f4 100644
      image: "{{ name_prefix }}teststation_http_image"
      links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
-index 223b529..1e3333b 100644
+index 223b529a..1e3333b4 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
 @@ -15,7 +15,7 @@
@@ -334,7 +334,7 @@ index 223b529..1e3333b 100644
        - "{{ name_prefix }}TestStation_tftp_data"
 -
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
-index 3b718a6..6f95f9e 100644
+index 3b718a6d..6f95f9e2 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
 @@ -27,7 +27,7 @@
@@ -347,7 +347,7 @@ index 3b718a6..6f95f9e 100644
      image: "{{ name_prefix }}teststation_ssh_server_manualtest_image"
      name: "{{ name_prefix }}TestStation_ssh_server_manualtest"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
-index 2760961..a6498fc 100644
+index 27609613..a6498fcf 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
 @@ -9,7 +9,7 @@
@@ -360,7 +360,7 @@ index 2760961..a6498fc 100644
      image: "{{ name_prefix }}teststation_tftp_image"
      name: "{{ name_prefix }}TestStation_tftp_server"
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
-index 7737219..9424667 100644
+index 77372198..94246679 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
 @@ -9,7 +9,7 @@
@@ -373,7 +373,7 @@ index 7737219..9424667 100644
      image: "{{ name_prefix }}teststation_cron_image"
      name: "{{ name_prefix }}TestStation_cron_service"
 diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
-index 3c8b7d1..b62739e 100644
+index 3c8b7d13..b62739ea 100644
 --- a/roles/docker-buildsystem/tasks/main.yml
 +++ b/roles/docker-buildsystem/tasks/main.yml
 @@ -37,22 +37,22 @@
@@ -432,7 +432,7 @@ index 3c8b7d1..b62739e 100644
 +- import_tasks: restore.yml
    when: st_buildsystem_restore.stat.exists == False
 diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
-index 885f8f3..6f8d965 100644
+index 885f8f39..6f8d9656 100644
 --- a/roles/docker-common/tasks/ip_addr.yml
 +++ b/roles/docker-common/tasks/ip_addr.yml
 @@ -9,9 +9,10 @@
@@ -459,7 +459,7 @@ index 885f8f3..6f8d965 100644
  - name: enable ip forwarding
    lineinfile:
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index c812e95..85be014 100644
+index c812e958..85be0141 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
 @@ -12,10 +12,10 @@
@@ -496,7 +496,7 @@ index c812e95..85be014 100644
  
  # *****************************************************************************
 diff --git a/roles/docker-common/tasks/sshd_settings.yml b/roles/docker-common/tasks/sshd_settings.yml
-index 31d3796..933c7f2 100644
+index 31d37960..933c7f23 100644
 --- a/roles/docker-common/tasks/sshd_settings.yml
 +++ b/roles/docker-common/tasks/sshd_settings.yml
 @@ -7,12 +7,14 @@
@@ -519,7 +519,7 @@ index 31d3796..933c7f2 100644
 +    - ansible_os_family == "RedHat"
 +    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 5607256..0c155b4 100644
+index 56072569..0c155b43 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -2,7 +2,7 @@
@@ -541,7 +541,7 @@ index 5607256..0c155b4 100644
  
  # *****************************************************************************
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index b00114a..8404097 100644
+index b00114a4..8404097a 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -103,7 +103,7 @@
@@ -561,7 +561,7 @@ index b00114a..8404097 100644
 +- include_tasks: restore.yml
    when: st_gitlab_restore.stat.exists == False
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index c547506..1f1e817 100644
+index c547506d..1f1e817c 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -111,8 +111,8 @@
@@ -583,7 +583,7 @@ index c547506..1f1e817 100644
 +- include_tasks: restore.yml
    when: st_mantisbt_restore.stat.exists == False
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index d8e9f7f..dabe61e 100644
+index d8e9f7ff..dabe61e1 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -93,7 +93,7 @@
@@ -603,7 +603,7 @@ index d8e9f7f..dabe61e 100644
 +- include_tasks: restore.yml
    when: st_mediawiki_restore.stat.exists == False
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index f425302..51ceb46 100644
+index f425302c..51ceb46b 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -99,7 +99,7 @@
@@ -616,7 +616,7 @@ index f425302..51ceb46 100644
  
  # *****************************************************************************
 diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
-index 589dded..2c0f093 100644
+index 589ddede..2c0f093b 100644
 --- a/roles/docker-openssl/tasks/main.yml
 +++ b/roles/docker-openssl/tasks/main.yml
 @@ -79,5 +79,5 @@
@@ -627,7 +627,7 @@ index 589dded..2c0f093 100644
 +- include_tasks: restore.yml
    when: st_openssl_restore.stat.exists == False
 diff --git a/roles/docker-pull-images/tasks/main.yml b/roles/docker-pull-images/tasks/main.yml
-index e0dc029..fadb35e 100644
+index e0dc0295..fadb35ee 100644
 --- a/roles/docker-pull-images/tasks/main.yml
 +++ b/roles/docker-pull-images/tasks/main.yml
 @@ -9,6 +9,6 @@
@@ -639,7 +639,7 @@ index e0dc029..fadb35e 100644
    tags:
      - docker_pull
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index faee9e6..fffe49a 100644
+index faee9e67..fffe49a5 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -80,5 +80,5 @@
@@ -650,7 +650,7 @@ index faee9e6..fffe49a 100644
 +- include_tasks: restore.yml
    when: st_svn_restore.stat.exists == False
 diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
-index dadffc4..698ee95 100644
+index dadffc4d..698ee95c 100644
 --- a/roles/mariadb/tasks/main.yml
 +++ b/roles/mariadb/tasks/main.yml
 @@ -15,7 +15,7 @@

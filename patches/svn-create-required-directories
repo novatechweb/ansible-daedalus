@@ -1,5 +1,5 @@
-Bottom: d1adf33089844d6074e47162c12096d6b8e5260d
-Top:    5bfdf1d30e3c5d9a61f6fdd979c761fb1385b426
+Bottom: 35fe2ff31b92603f235d7759501fc484743152b9
+Top:    a9b064ba518d427ede173a0af77ce3623ca1dd9d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -8,7 +8,7 @@ Create certificate directories during image build
 
 ---
 diff --git a/docker/docker-svn/Dockerfile b/docker/docker-svn/Dockerfile
-index 967bca5..7397d68 100644
+index 967bca5c..7397d68b 100644
 --- a/docker/docker-svn/Dockerfile
 +++ b/docker/docker-svn/Dockerfile
 @@ -10,6 +10,7 @@ MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
@@ -20,7 +20,7 @@ index 967bca5..7397d68 100644
      libapache2-svn \
      php5-common \
 diff --git a/docker/docker-svn/configure.sh b/docker/docker-svn/configure.sh
-index fab90ad..21c3114 100755
+index fab90adb..21c3114a 100755
 --- a/docker/docker-svn/configure.sh
 +++ b/docker/docker-svn/configure.sh
 @@ -6,6 +6,11 @@ SVN_BASE_DIR=/var/lib/svn

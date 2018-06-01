@@ -1,5 +1,5 @@
-Bottom: a1839639d778bc5124364c24805ba707e4533ac4
-Top:    f74c2520123b5d994e2613e129744d2c0ae9e663
+Bottom: 9534d46cce31f49b2e52beb4306ac44941700832
+Top:    74da2d033666d331fcb7c3d1b35d4b181478d18b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -8,7 +8,7 @@ Update Dockerfile and entrypoint
 
 ---
 diff --git a/docker/docker-openssl/Dockerfile b/docker/docker-openssl/Dockerfile
-index 8ffc625..7223a00 100644
+index 8ffc6256..7223a009 100644
 --- a/docker/docker-openssl/Dockerfile
 +++ b/docker/docker-openssl/Dockerfile
 @@ -3,20 +3,17 @@
@@ -36,7 +36,7 @@ index 8ffc625..7223a00 100644
  
  ENTRYPOINT ["/docker-entrypoint.sh"]
 diff --git a/docker/docker-openssl/docker-entrypoint.sh b/docker/docker-openssl/docker-entrypoint.sh
-index edb1339..283720f 100755
+index edb13390..283720fb 100755
 --- a/docker/docker-openssl/docker-entrypoint.sh
 +++ b/docker/docker-openssl/docker-entrypoint.sh
 @@ -8,34 +8,30 @@ set -e
@@ -103,7 +103,7 @@ index edb1339..283720f 100755
  
      *)
 diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
-index c2640dd..21628c8 100644
+index c2640dd3..21628c8c 100644
 --- a/roles/docker-openssl/tasks/restore.yml
 +++ b/roles/docker-openssl/tasks/restore.yml
 @@ -46,7 +46,7 @@
@@ -116,7 +116,7 @@ index c2640dd..21628c8 100644
  - name: extract archive
    docker_container:
 diff --git a/roles/docker-openssl/templates/before_backup.j2 b/roles/docker-openssl/templates/before_backup.j2
-index d07e5ef..102d9f6 100644
+index d07e5ef7..102d9f6c 100644
 --- a/roles/docker-openssl/templates/before_backup.j2
 +++ b/roles/docker-openssl/templates/before_backup.j2
 @@ -5,8 +5,10 @@

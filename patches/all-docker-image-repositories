@@ -1,5 +1,5 @@
-Bottom: 4832ceb0157f9e024825f394dc170a79999e9a2c
-Top:    c7e8f9949b38b014906341d8bbc321d2487c0575
+Bottom: 465398e4b914d9a687eff0e3375580a932b36329
+Top:    4b52f0d02ed59f7ff244c0beaff65ed2138a99e9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -8,7 +8,7 @@ Move git checkouts to respective roles
 
 ---
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index 85be014..da75e13 100644
+index 85be0141..da75e132 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
 @@ -34,24 +34,6 @@
@@ -37,7 +37,7 @@ index 85be014..da75e13 100644
  - name: Check if baculavirt selinux module exists
    stat:
 diff --git a/roles/docker-common/vars/main.yml b/roles/docker-common/vars/main.yml
-index eab14ea..b4b1526 100644
+index eab14eae..b4b1526c 100644
 --- a/roles/docker-common/vars/main.yml
 +++ b/roles/docker-common/vars/main.yml
 @@ -2,25 +2,6 @@
@@ -67,7 +67,7 @@ index eab14ea..b4b1526 100644
  docker_projects_dir: '/opt/docker/{{ docker_image_tag }}'
  docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag }}'
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 0c155b4..49eccc3 100644
+index 0c155b43..49eccc30 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -76,6 +76,12 @@
@@ -84,7 +84,7 @@ index 0c155b4..49eccc3 100644
    docker_build:
      image_name: '{{ exim4_image_name }}'
 diff --git a/roles/docker-exim4/vars/main.yml b/roles/docker-exim4/vars/main.yml
-index ef87829..20d48fc 100644
+index ef878299..20d48fc4 100644
 --- a/roles/docker-exim4/vars/main.yml
 +++ b/roles/docker-exim4/vars/main.yml
 @@ -1,5 +1,8 @@
@@ -97,7 +97,7 @@ index ef87829..20d48fc 100644
  exim4_image_name: '{{ docker_registry_username }}/exim4'
  
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 8404097..aeab7bf 100644
+index 8404097a..aeab7bf9 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -74,6 +74,12 @@
@@ -114,7 +114,7 @@ index 8404097..aeab7bf 100644
    docker_build:
      image_name: '{{ gitlab_image_name }}'
 diff --git a/roles/docker-gitlab/vars/main.yml b/roles/docker-gitlab/vars/main.yml
-index b246e5f..9162098 100644
+index b246e5fd..91620987 100644
 --- a/roles/docker-gitlab/vars/main.yml
 +++ b/roles/docker-gitlab/vars/main.yml
 @@ -1,6 +1,7 @@
@@ -126,7 +126,7 @@ index b246e5f..9162098 100644
  gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
  gitlab_db_image_name: '{{ repository_images.postgres.image }}'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 1f1e817..7d2c689 100644
+index 1f1e817c..7d2c6898 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -70,6 +70,11 @@
@@ -155,7 +155,7 @@ index 1f1e817..7d2c689 100644
    docker_build:
      image_name: '{{ mantisbt_db_image_name }}'
 diff --git a/roles/docker-mantisbt/vars/main.yml b/roles/docker-mantisbt/vars/main.yml
-index 7dbe824..fac5a9c 100644
+index 7dbe8249..fac5a9c8 100644
 --- a/roles/docker-mantisbt/vars/main.yml
 +++ b/roles/docker-mantisbt/vars/main.yml
 @@ -1,7 +1,10 @@
@@ -170,7 +170,7 @@ index 7dbe824..fac5a9c 100644
  
  # the name of the container being started
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index dabe61e..3dda287 100644
+index dabe61e1..3dda287b 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -71,6 +71,12 @@
@@ -187,7 +187,7 @@ index dabe61e..3dda287 100644
    docker_build:
      image_name: '{{ wiki_image_name }}'
 diff --git a/roles/docker-mediawiki/vars/main.yml b/roles/docker-mediawiki/vars/main.yml
-index c584405..c4a8db8 100644
+index c5844050..c4a8db82 100644
 --- a/roles/docker-mediawiki/vars/main.yml
 +++ b/roles/docker-mediawiki/vars/main.yml
 @@ -1,5 +1,7 @@
@@ -199,7 +199,7 @@ index c584405..c4a8db8 100644
  wiki_image_name: '{{ docker_registry_username }}/wiki'
  wiki_db_image_name: '{{ repository_images.mysql.image }}'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 51ceb46..332dba7 100644
+index 51ceb46b..332dba7b 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -60,6 +60,12 @@
@@ -216,7 +216,7 @@ index 51ceb46..332dba7 100644
  - name: build image
    docker_build:
 diff --git a/roles/docker-openldap/vars/main.yml b/roles/docker-openldap/vars/main.yml
-index e431795..516cb9a 100644
+index e4317955..516cb9a8 100644
 --- a/roles/docker-openldap/vars/main.yml
 +++ b/roles/docker-openldap/vars/main.yml
 @@ -1,6 +1,7 @@
@@ -228,7 +228,7 @@ index e431795..516cb9a 100644
  
  # the name of the container being started
 diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
-index 2c0f093..05b9a20 100644
+index 2c0f093b..05b9a20d 100644
 --- a/roles/docker-openssl/tasks/main.yml
 +++ b/roles/docker-openssl/tasks/main.yml
 @@ -54,6 +54,12 @@
@@ -245,7 +245,7 @@ index 2c0f093..05b9a20 100644
    docker_build:
      image_name: '{{ openssl_image_name }}'
 diff --git a/roles/docker-openssl/vars/main.yml b/roles/docker-openssl/vars/main.yml
-index 31679cd..7e661a4 100644
+index 31679cda..7e661a4b 100644
 --- a/roles/docker-openssl/vars/main.yml
 +++ b/roles/docker-openssl/vars/main.yml
 @@ -1,6 +1,7 @@
@@ -257,7 +257,7 @@ index 31679cd..7e661a4 100644
  
  # the name of the data-volume used by the container
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index fffe49a..a34e61d 100644
+index fffe49a5..a34e61d0 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -53,6 +53,11 @@
@@ -273,7 +273,7 @@ index fffe49a..a34e61d 100644
  - name: build image
    docker_build:
 diff --git a/roles/docker-svn/vars/main.yml b/roles/docker-svn/vars/main.yml
-index 7d02a48..f8e412d 100644
+index 7d02a48c..f8e412d3 100644
 --- a/roles/docker-svn/vars/main.yml
 +++ b/roles/docker-svn/vars/main.yml
 @@ -1,6 +1,7 @@

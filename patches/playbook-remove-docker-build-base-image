@@ -1,5 +1,5 @@
-Bottom: 14431f16d3ade8ed81a9259035904f95d373305a
-Top:    2e3d8f808df5db5f73106484d42b0801d8bc3f68
+Bottom: b0f5058956702c7a3781d03a5a619dcafc920828
+Top:    bfdb07d867ad074642da9116b83ec7ba87a9fd27
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -11,7 +11,7 @@ that can be pulled from docker hub.
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 2ec6350..227164b 100644
+index 2ec6350c..227164b7 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -25,10 +25,6 @@
@@ -27,7 +27,7 @@ index 2ec6350..227164b 100644
      tags:
 diff --git a/roles/docker-build-base-image/LICENSE b/roles/docker-build-base-image/LICENSE
 deleted file mode 100644
-index 8cdb845..0000000
+index 8cdb8451..00000000
 --- a/roles/docker-build-base-image/LICENSE
 +++ /dev/null
 @@ -1,340 +0,0 @@
@@ -373,7 +373,7 @@ index 8cdb845..0000000
 -
 diff --git a/roles/docker-build-base-image/README.md b/roles/docker-build-base-image/README.md
 deleted file mode 100644
-index dffd2ed..0000000
+index dffd2ede..00000000
 --- a/roles/docker-build-base-image/README.md
 +++ /dev/null
 @@ -1,2 +0,0 @@
@@ -381,7 +381,7 @@ index dffd2ed..0000000
 -Ansible role that rebuilds a docker image that can be found on hub.docker.com but is rebuilt from a git repo and commit id
 diff --git a/roles/docker-build-base-image/defaults/main.yml b/roles/docker-build-base-image/defaults/main.yml
 deleted file mode 100644
-index adc1f08..0000000
+index adc1f081..00000000
 --- a/roles/docker-build-base-image/defaults/main.yml
 +++ /dev/null
 @@ -1,10 +0,0 @@
@@ -397,7 +397,7 @@ index adc1f08..0000000
 -
 diff --git a/roles/docker-build-base-image/meta/main.yml b/roles/docker-build-base-image/meta/main.yml
 deleted file mode 100644
-index d010ece..0000000
+index d010eced..00000000
 --- a/roles/docker-build-base-image/meta/main.yml
 +++ /dev/null
 @@ -1,8 +0,0 @@
@@ -411,7 +411,7 @@ index d010ece..0000000
 -  role: docker-pull-images
 diff --git a/roles/docker-build-base-image/tasks/main.yml b/roles/docker-build-base-image/tasks/main.yml
 deleted file mode 100644
-index 11c50d3..0000000
+index 11c50d32..00000000
 --- a/roles/docker-build-base-image/tasks/main.yml
 +++ /dev/null
 @@ -1,23 +0,0 @@

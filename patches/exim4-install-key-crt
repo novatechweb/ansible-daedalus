@@ -1,5 +1,5 @@
-Bottom: bf8efcdd677e5310a32866816ef509e99013db19
-Top:    5b47edb4a4686f66feaaab4869b6f20bae8acd47
+Bottom: 056be03f4dc5397d538be57866d836eb1bbd06b0
+Top:    c1f02ec3f1812595be1a46808a258ee28255bf13
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -10,7 +10,7 @@ Install will set mode and permissions in one step.
 
 ---
 diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
-index 84e1ca0..b0ba8fa 100755
+index 84e1ca01..b0ba8fa6 100755
 --- a/docker/docker-exim4/docker-entrypoint.sh
 +++ b/docker/docker-exim4/docker-entrypoint.sh
 @@ -30,16 +30,10 @@ case ${1} in

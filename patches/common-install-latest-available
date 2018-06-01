@@ -1,5 +1,5 @@
-Bottom: ee5a87e62cdb1df48edec845872de60eee07622b
-Top:    7d701910763784dcf0490a58eae88a81a3b1d450
+Bottom: 94549e54d29178ce53690b2b33b4a591137d4cd3
+Top:    fe6c5da89c4f33b68794215d99cc563c68617182
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -11,7 +11,7 @@ provider.
 
 ---
 diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
-index 8754bec..980430a 100644
+index 8754bec6..980430af 100644
 --- a/roles/docker-buildsystem/tasks/main.yml
 +++ b/roles/docker-buildsystem/tasks/main.yml
 @@ -9,19 +9,6 @@
@@ -36,7 +36,7 @@ index 8754bec..980430a 100644
      mode: 0775
 diff --git a/roles/docker-common/tasks/engine-redhat.yml b/roles/docker-common/tasks/engine-redhat.yml
 new file mode 100644
-index 0000000..66aed68
+index 00000000..66aed68b
 --- /dev/null
 +++ b/roles/docker-common/tasks/engine-redhat.yml
 @@ -0,0 +1,45 @@
@@ -86,7 +86,7 @@ index 0000000..66aed68
 +    - docker-ce
 +  when: ansible_os_family == "RedHat"
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index da75e13..b588fb6 100644
+index da75e132..b588fb61 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
 @@ -1,16 +1,8 @@

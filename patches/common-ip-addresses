@@ -1,5 +1,5 @@
-Bottom: 7da8abefa944282aefb3fc0bc26e8e92bf5dc059
-Top:    c2abe1783e18b31c734ca58384b1aefa1d7b19c7
+Bottom: 4f0d0b312d59e024b9ac17eecb81741604de6599
+Top:    dc9d0baf73a594592a8e48beb4f5851e00dc8765
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -14,7 +14,7 @@ functions to work properly.
 
 ---
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
-index baec75d..b084bfe 100644
+index baec75d2..b084bfef 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 +++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 @@ -4,43 +4,33 @@ container_addr_map:
@@ -62,7 +62,7 @@ index baec75d..b084bfe 100644
  container_port_map:
    svn:
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
-index 7efbfc5..eda18ef 100644
+index 7efbfc53..eda18efd 100644
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 @@ -2,45 +2,35 @@
@@ -131,7 +131,7 @@ index 7efbfc5..eda18ef 100644
  container_port_map:
    svn:
 diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index 80a1327..e544fd4 100644
+index 80a1327a..e544fd42 100644
 --- a/ansible-playbook/staging
 +++ b/ansible-playbook/staging
 @@ -5,4 +5,4 @@ testdaedalus.novatech-llc.com
@@ -141,7 +141,7 @@ index 80a1327..e544fd4 100644
 -buildsystem.novatech-llc.com ansible_ssh_host=172.16.64.105
 +buildsystem.novatech-llc.com
 diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
-index 6f8d965..5a98cc3 100644
+index 6f8d9656..5a98cc37 100644
 --- a/roles/docker-common/tasks/ip_addr.yml
 +++ b/roles/docker-common/tasks/ip_addr.yml
 @@ -1,44 +1,41 @@
@@ -223,7 +223,7 @@ index 6f8d965..5a98cc3 100644
 +    - ( network_pre != network_post )
 diff --git a/roles/docker-common/templates/ifcfg-br0.j2 b/roles/docker-common/templates/ifcfg-br0.j2
 deleted file mode 100644
-index e4280e0..0000000
+index e4280e01..00000000
 --- a/roles/docker-common/templates/ifcfg-br0.j2
 +++ /dev/null
 @@ -1,9 +0,0 @@

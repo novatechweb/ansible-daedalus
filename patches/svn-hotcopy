@@ -1,5 +1,5 @@
-Bottom: f74c2520123b5d994e2613e129744d2c0ae9e663
-Top:    fa6e1490c19b89151ea1d1bfcfc8f5275c5d652d
+Bottom: 74da2d033666d331fcb7c3d1b35d4b181478d18b
+Top:    c46af977f5f042c10d8df6c38eb794ec99b4c619
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -8,7 +8,7 @@ Add hotcopy/restore commands
 
 ---
 diff --git a/docker/docker-svn/docker-entrypoint.sh b/docker/docker-svn/docker-entrypoint.sh
-index 02577a6..02fd154 100755
+index 02577a63..02fd1540 100755
 --- a/docker/docker-svn/docker-entrypoint.sh
 +++ b/docker/docker-svn/docker-entrypoint.sh
 @@ -96,6 +96,27 @@ EOF

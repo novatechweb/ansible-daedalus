@@ -1,5 +1,5 @@
-Bottom: 91cdc883fd6b63f4b210dda5d203c533267c4aab
-Top:    9e19213ab2906e1a1c2ca1d2231cadca028ff1fa
+Bottom: 2f35242b115bd161cb68ae313f01ab398562cea0
+Top:    40bf6c15f3bca847d786af157d0981f6268338c9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -16,7 +16,7 @@ sections.
 
 ---
 diff --git a/docker/docker-TestStation_SupportSite_backup_restore/entrypoint.sh b/docker/docker-TestStation_SupportSite_backup_restore/entrypoint.sh
-index 6c6ddd9..14773e1 100644
+index 6c6ddd96..14773e1e 100644
 --- a/docker/docker-TestStation_SupportSite_backup_restore/entrypoint.sh
 +++ b/docker/docker-TestStation_SupportSite_backup_restore/entrypoint.sh
 @@ -50,7 +50,7 @@ case ${1} in
@@ -43,7 +43,7 @@ index 6c6ddd9..14773e1 100644
  esac
 -
 diff --git a/roles/docker-buildsystem/tasks/restore.yml b/roles/docker-buildsystem/tasks/restore.yml
-index dc30735..be79a68 100644
+index dc30735a..be79a681 100644
 --- a/roles/docker-buildsystem/tasks/restore.yml
 +++ b/roles/docker-buildsystem/tasks/restore.yml
 @@ -32,6 +32,44 @@

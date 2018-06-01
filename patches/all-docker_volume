@@ -1,5 +1,5 @@
-Bottom: 7a90ae4cb61e6777a2ed57ed5afda82f57b835cc
-Top:    e98beca58fa26b894734d6988e0389230377826f
+Bottom: be9047c8fda8a9c77d3b2e78213744f16c8d0fb8
+Top:    d64bb997ee449d5e3031f4084e0ec0044a05f6ce
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:42:10 -0500
 
@@ -9,7 +9,7 @@ Instead of a data container, use docker named volume
 
 ---
 diff --git a/docker/docker-mantisbt/mantisbt.sh b/docker/docker-mantisbt/mantisbt.sh
-index 7c584d4..44dc2c3 100755
+index 7c584d4d..44dc2c31 100755
 --- a/docker/docker-mantisbt/mantisbt.sh
 +++ b/docker/docker-mantisbt/mantisbt.sh
 @@ -56,8 +56,8 @@ done
@@ -24,7 +24,7 @@ index 7c584d4..44dc2c3 100755
  get_db_user_and_password() {
      db_user="$(docker 2>&1 exec ${MANTISBT_CONTAINER_NAME} grep -e '^$g_db_username' config_inc.php|sed 's|^.* = \"\(.*\)\";$|\1|' || true)"
 diff --git a/docker/docker-mediawiki/mediawiki.sh b/docker/docker-mediawiki/mediawiki.sh
-index d52bd31..be0f4f0 100755
+index d52bd317..be0f4f07 100755
 --- a/docker/docker-mediawiki/mediawiki.sh
 +++ b/docker/docker-mediawiki/mediawiki.sh
 @@ -53,8 +53,8 @@ done
@@ -39,7 +39,7 @@ index d52bd31..be0f4f0 100755
  get_db_user_and_password() {
      db_user="$(docker 2>&1 exec ${WIKI_CONTAINER_NAME} grep -e '^$wgDBuser' LocalSettings.php|sed 's|^.* = \"\(.*\)\";$|\1|' || true)"
 diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
-index 1c23323..8761e47 100644
+index 1c233231..8761e475 100644
 --- a/roles/docker-exim4/defaults/main.yml
 +++ b/roles/docker-exim4/defaults/main.yml
 @@ -23,6 +23,9 @@ exim4_image_name: '{{ docker_registry_username }}/exim4'
@@ -53,7 +53,7 @@ index 1c23323..8761e47 100644
  exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
  
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 439e058..379fdb6 100644
+index 439e058e..379fdb6a 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -92,10 +92,12 @@
@@ -82,7 +82,7 @@ index 439e058..379fdb6 100644
        - '{{ openssl_dv_name }}:/etc/ssl/private:z'
  
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 0da097e..0e7407b 100644
+index 0da097e8..0e7407ba 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -97,16 +97,12 @@
@@ -116,7 +116,7 @@ index 0da097e..0e7407b 100644
  
  - name: start container (gitlab)
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 2124a54..3352d62 100644
+index 2124a54a..3352d62c 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -110,16 +110,12 @@
@@ -150,7 +150,7 @@ index 2124a54..3352d62 100644
      image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
  
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index cfcd636..8746377 100644
+index cfcd636a..87463776 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -87,16 +87,12 @@
@@ -201,7 +201,7 @@ index cfcd636..8746377 100644
  # *****************************************************************************
  # restore?
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index cf30778..624a6e9 100644
+index cf307788..624a6e9d 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -34,6 +34,7 @@ openldap_image_name: '{{ docker_registry_username }}/ldap'
@@ -213,7 +213,7 @@ index cf30778..624a6e9 100644
  
  # restore directories to temporarly store data being restored into docker containers
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index c84183a..2d0c723 100644
+index c84183ae..2d0c7232 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -76,11 +76,13 @@
@@ -271,7 +271,7 @@ index c84183a..2d0c723 100644
        PHPLDAPADMIN_HTTPS: 'false'
        PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
 diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
-index 27c0536..8e4a335 100644
+index 27c05365..8e4a3351 100644
 --- a/roles/docker-openldap/tasks/restore.yml
 +++ b/roles/docker-openldap/tasks/restore.yml
 @@ -34,7 +34,7 @@
@@ -284,7 +284,7 @@ index 27c0536..8e4a335 100644
  
  - name: restart container (ldap)
 diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
-index 7c1b960..7d4ff5a 100644
+index 7c1b9603..7d4ff5a7 100644
 --- a/roles/docker-openssl/tasks/main.yml
 +++ b/roles/docker-openssl/tasks/main.yml
 @@ -69,11 +69,9 @@
@@ -303,7 +303,7 @@ index 7c1b960..7d4ff5a 100644
  # *****************************************************************************
  # Populate the openssl data-volume with default data
 diff --git a/roles/docker-openssl/templates/before_backup.j2 b/roles/docker-openssl/templates/before_backup.j2
-index 3120162..d07e5ef 100644
+index 3120162c..d07e5ef7 100644
 --- a/roles/docker-openssl/templates/before_backup.j2
 +++ b/roles/docker-openssl/templates/before_backup.j2
 @@ -5,7 +5,8 @@
@@ -317,7 +317,7 @@ index 3120162..d07e5ef 100644
 +
  {% endif %}
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index 00e687a..c7ae044 100644
+index 00e687a0..c7ae044e 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -69,10 +69,8 @@
@@ -347,7 +347,7 @@ index 00e687a..c7ae044 100644
        SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
        SVN_LDAP_PASSWORD: '{{ ldap_proxyagent_password }}'
 diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
-index 3e7b60e..34cee1e 100644
+index 3e7b60e0..34cee1e1 100644
 --- a/roles/docker-svn/tasks/restore.yml
 +++ b/roles/docker-svn/tasks/restore.yml
 @@ -38,9 +38,8 @@

@@ -1,5 +1,5 @@
-Bottom: 46ea841cc2fa6418b0199c09062ee2c05dbd2843
-Top:    a1839639d778bc5124364c24805ba707e4533ac4
+Bottom: b27a42abc0ae3db773d793ac038b3439147aff85
+Top:    9534d46cce31f49b2e52beb4306ac44941700832
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -9,7 +9,7 @@ Add ldap administration Docker image
 ---
 diff --git a/docker/docker-phpldapadmin/Dockerfile b/docker/docker-phpldapadmin/Dockerfile
 new file mode 100644
-index 0000000..4544e64
+index 00000000..4544e647
 --- /dev/null
 +++ b/docker/docker-phpldapadmin/Dockerfile
 @@ -0,0 +1,3 @@
@@ -18,7 +18,7 @@ index 0000000..4544e64
 +COPY changepassword.php /var/www/changepassword.php
 diff --git a/docker/docker-phpldapadmin/changepassword.php b/docker/docker-phpldapadmin/changepassword.php
 new file mode 100644
-index 0000000..6a50379
+index 00000000..6a503792
 --- /dev/null
 +++ b/docker/docker-phpldapadmin/changepassword.php
 @@ -0,0 +1,175 @@
@@ -198,7 +198,7 @@ index 0000000..6a50379
 +</body>
 +</html>
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index f946155..22c0b2e 100644
+index f946155d..22c0b2ec 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -42,7 +42,8 @@ host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_di
@@ -212,7 +212,7 @@ index f946155..22c0b2e 100644
  # the name of the container being started
  phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 0419905..b69d1d0 100644
+index 04199054..b69d1d07 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -123,6 +123,20 @@

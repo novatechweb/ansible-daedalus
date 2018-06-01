@@ -1,5 +1,5 @@
-Bottom: 40d269eecef6219dd167a95ab418af38be684b2f
-Top:    dcc03450a648925d90852ba316e4367fdb6bbcce
+Bottom: 23fa2e77d5f5b0e866255a5e06d74799ee3acb8c
+Top:    d4a653b432aba79be2e5b283f6146d12dc2edebe
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -10,7 +10,7 @@ Roles create it themselves
 
 ---
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index 7f9e8f5..e955efa 100644
+index 7f9e8f5d..e955efa4 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
 @@ -9,13 +9,6 @@

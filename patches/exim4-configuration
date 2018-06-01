@@ -1,5 +1,5 @@
-Bottom: 9e19213ab2906e1a1c2ca1d2231cadca028ff1fa
-Top:    290cf4003b513d0f572330e535d1f26f90911209
+Bottom: 40bf6c15f3bca847d786af157d0981f6268338c9
+Top:    8d12ddb493e9a641a0c9529eb4a3dc0091fab283
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -10,7 +10,7 @@ The changes here override the default debian exim4 configuration
 
 ---
 diff --git a/docker/docker-exim4/Dockerfile b/docker/docker-exim4/Dockerfile
-index 5ed376f..34ef91c 100644
+index 5ed376f1..34ef91c7 100644
 --- a/docker/docker-exim4/Dockerfile
 +++ b/docker/docker-exim4/Dockerfile
 @@ -27,6 +27,8 @@ RUN apt-get update \
@@ -24,7 +24,7 @@ index 5ed376f..34ef91c 100644
  EXPOSE 25 465 587
 diff --git a/docker/docker-exim4/etc/exim4/conf.d/acl/00_exim4-config_header b/docker/docker-exim4/etc/exim4/conf.d/acl/00_exim4-config_header
 new file mode 100644
-index 0000000..37cfb20
+index 00000000..37cfb208
 --- /dev/null
 +++ b/docker/docker-exim4/etc/exim4/conf.d/acl/00_exim4-config_header
 @@ -0,0 +1,7 @@
@@ -37,7 +37,7 @@ index 0000000..37cfb20
 +begin acl
 diff --git a/docker/docker-exim4/etc/exim4/conf.d/auth/30_exim4-config_examples b/docker/docker-exim4/etc/exim4/conf.d/auth/30_exim4-config_examples
 new file mode 100644
-index 0000000..bf6ebed
+index 00000000..bf6ebede
 --- /dev/null
 +++ b/docker/docker-exim4/etc/exim4/conf.d/auth/30_exim4-config_examples
 @@ -0,0 +1,254 @@
@@ -297,7 +297,7 @@ index 0000000..bf6ebed
 +.endif
 diff --git a/docker/docker-exim4/etc/exim4/conf.d/main/01_exim4-config_listmacrosdefs b/docker/docker-exim4/etc/exim4/conf.d/main/01_exim4-config_listmacrosdefs
 new file mode 100644
-index 0000000..9768928
+index 00000000..97689284
 --- /dev/null
 +++ b/docker/docker-exim4/etc/exim4/conf.d/main/01_exim4-config_listmacrosdefs
 @@ -0,0 +1,104 @@
@@ -407,7 +407,7 @@ index 0000000..9768928
 +.endif
 diff --git a/docker/docker-exim4/etc/exim4/conf.d/main/03_exim4-config_tlsoptions b/docker/docker-exim4/etc/exim4/conf.d/main/03_exim4-config_tlsoptions
 new file mode 100644
-index 0000000..340ced0
+index 00000000..340ced01
 --- /dev/null
 +++ b/docker/docker-exim4/etc/exim4/conf.d/main/03_exim4-config_tlsoptions
 @@ -0,0 +1,88 @@
@@ -501,7 +501,7 @@ index 0000000..340ced0
 +.endif
 diff --git a/docker/docker-exim4/etc/exim4/update-exim4.conf.conf b/docker/docker-exim4/etc/exim4/update-exim4.conf.conf
 new file mode 100644
-index 0000000..35f5589
+index 00000000..35f5589a
 --- /dev/null
 +++ b/docker/docker-exim4/etc/exim4/update-exim4.conf.conf
 @@ -0,0 +1,31 @@

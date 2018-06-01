@@ -1,5 +1,5 @@
-Bottom: e98beca58fa26b894734d6988e0389230377826f
-Top:    b4756c679ea1906946782263efa5429d59f2a36a
+Bottom: d64bb997ee449d5e3031f4084e0ec0044a05f6ce
+Top:    639a2d5d1e52f0b1accbc082595f1def1f9b16ba
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -8,7 +8,7 @@ Use docker named networks
 
 ---
 diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
-index 9acd909..c2ac4eb 100644
+index 9acd909a..c2ac4ebd 100644
 --- a/ansible-playbook/group_vars/docker-hosts/docker.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/docker.yml
 @@ -15,3 +15,6 @@ docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag
@@ -19,7 +19,7 @@ index 9acd909..c2ac4eb 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 4df32b3..2ec6350 100644
+index 4df32b39..2ec6350c 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -29,6 +29,10 @@
@@ -34,7 +34,7 @@ index 4df32b3..2ec6350 100644
      role: docker-svn
      svn_repos: 'ddio NCD_Release'
 diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
-index 8761e47..7262e16 100644
+index 8761e475..7262e16e 100644
 --- a/roles/docker-exim4/defaults/main.yml
 +++ b/roles/docker-exim4/defaults/main.yml
 @@ -50,3 +50,6 @@ email_accounts:
@@ -45,7 +45,7 @@ index 8761e47..7262e16 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 379fdb6..f00fdf9 100644
+index 379fdb6a..f00fdf9f 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -106,6 +106,8 @@
@@ -58,7 +58,7 @@ index 379fdb6..f00fdf9 100644
      image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
      restart_policy: always
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index 3a0aec3..b742c18 100644
+index 3a0aec35..b742c18f 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -45,3 +45,6 @@ gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
@@ -69,7 +69,7 @@ index 3a0aec3..b742c18 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 0e7407b..a91a3a6 100644
+index 0e7407ba..a91a3a6a 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -130,6 +130,8 @@
@@ -105,7 +105,7 @@ index 0e7407b..a91a3a6 100644
        - '{{ openssl_dv_name }}'
        - '{{ gitlab_dv_name }}'
 diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
-index 896fa01..e4df7a7 100644
+index 896fa010..e4df7a7f 100644
 --- a/roles/docker-mantisbt/defaults/main.yml
 +++ b/roles/docker-mantisbt/defaults/main.yml
 @@ -47,3 +47,6 @@ host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_di
@@ -116,7 +116,7 @@ index 896fa01..e4df7a7 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 3352d62..7d183bc 100644
+index 3352d62c..7d183bc1 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -148,6 +148,8 @@
@@ -142,7 +142,7 @@ index 3352d62..7d183bc 100644
        - '{{ openssl_dv_name }}'
        - '{{ mantisbt_dv_name }}'
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 2a5319d..dbfe971 100644
+index 2a5319d5..dbfe9716 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -45,3 +45,6 @@ host_wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
@@ -153,7 +153,7 @@ index 2a5319d..dbfe971 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 8746377..60286ff 100644
+index 87463776..60286ff5 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -121,6 +121,8 @@
@@ -180,7 +180,7 @@ index 8746377..60286ff 100644
        - '{{ wiki_dv_name }}'
 diff --git a/roles/docker-networking/defaults/main.yml b/roles/docker-networking/defaults/main.yml
 new file mode 100644
-index 0000000..f480011
+index 00000000..f480011b
 --- /dev/null
 +++ b/roles/docker-networking/defaults/main.yml
 @@ -0,0 +1,5 @@
@@ -191,7 +191,7 @@ index 0000000..f480011
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-networking/tasks/main.yml b/roles/docker-networking/tasks/main.yml
 new file mode 100644
-index 0000000..595e8bb
+index 00000000..595e8bb7
 --- /dev/null
 +++ b/roles/docker-networking/tasks/main.yml
 @@ -0,0 +1,7 @@
@@ -203,7 +203,7 @@ index 0000000..595e8bb
 +    name: '{{ docker_network_frontend }}'
 +    state: present
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 624a6e9..5f41fba 100644
+index 624a6e9d..5f41fba7 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -51,3 +51,6 @@ phpldapadmin_image_name: 'osixia/phpldapadmin:latest'
@@ -214,7 +214,7 @@ index 624a6e9..5f41fba 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 2d0c723..32b4a57 100644
+index 2d0c7232..32b4a575 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -120,6 +120,8 @@
@@ -237,7 +237,7 @@ index 2d0c723..32b4a57 100644
  
  # *****************************************************************************
 diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
-index 03d4717..bb41634 100644
+index 03d47174..bb416344 100644
 --- a/roles/docker-svn/defaults/main.yml
 +++ b/roles/docker-svn/defaults/main.yml
 @@ -29,3 +29,6 @@ svn_dv_name: '{{ docker_name_prefix }}svn_DV'
@@ -248,7 +248,7 @@ index 03d4717..bb41634 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index c7ae044..c458e28 100644
+index c7ae044e..c458e282 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -82,8 +82,8 @@

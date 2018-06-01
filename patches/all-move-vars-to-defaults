@@ -1,5 +1,5 @@
-Bottom: f0fcc7b19fbf193987fbde7705b8c1af3d83721f
-Top:    0a61b71257c483d585fbf08281a13c70e459bd48
+Bottom: 2037f14b28961c87616abefc17ba46fb34901bac
+Top:    289897479489739cd4370ff6a7506ea55c0a374d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-11 16:29:54 -0500
 
@@ -19,7 +19,7 @@ similarity index 100%
 rename from roles/docker-exim4/vars/main.yml
 rename to roles/docker-exim4/defaults/main.yml
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index 85e7a1a..8911fb9 100644
+index 85e7a1a6..8911fb99 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -16,3 +16,29 @@ gitlab_db_user: novatech
@@ -53,7 +53,7 @@ index 85e7a1a..8911fb9 100644
 +gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
 +host_gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
 diff --git a/roles/docker-gitlab/vars/main.yml b/roles/docker-gitlab/vars/main.yml
-index 9162098..ed97d53 100644
+index 91620987..ed97d539 100644
 --- a/roles/docker-gitlab/vars/main.yml
 +++ b/roles/docker-gitlab/vars/main.yml
 @@ -1,27 +1 @@
@@ -85,7 +85,7 @@ index 9162098..ed97d53 100644
 -gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
 -host_gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
 diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
-index cd0f1dd..f28e1bd 100644
+index cd0f1dde..f28e1bdc 100644
 --- a/roles/docker-mantisbt/defaults/main.yml
 +++ b/roles/docker-mantisbt/defaults/main.yml
 @@ -17,3 +17,31 @@ mantisbt_db_user: novatech
@@ -121,7 +121,7 @@ index cd0f1dd..f28e1bd 100644
 +mantisbt_database_backup_file: '/mantisbtdb.sql'
 +mantisbt_database_files_table_backup_file: '/mantisbtdb-files_table.sql'
 diff --git a/roles/docker-mantisbt/vars/main.yml b/roles/docker-mantisbt/vars/main.yml
-index fac5a9c..ed97d53 100644
+index fac5a9c8..ed97d539 100644
 --- a/roles/docker-mantisbt/vars/main.yml
 +++ b/roles/docker-mantisbt/vars/main.yml
 @@ -1,29 +1 @@
@@ -155,7 +155,7 @@ index fac5a9c..ed97d53 100644
 -mantisbt_database_backup_file: '/mantisbtdb.sql'
 -mantisbt_database_files_table_backup_file: '/mantisbtdb-files_table.sql'
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 122ef22..5788039 100644
+index 122ef225..57880398 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -17,3 +17,29 @@ wiki_db_user: novatech
@@ -189,7 +189,7 @@ index 122ef22..5788039 100644
 +wiki_static_backup_file: '/mediawiki.tar'
 +wiki_database_backup_file: '/wikidb.sql'
 diff --git a/roles/docker-mediawiki/vars/main.yml b/roles/docker-mediawiki/vars/main.yml
-index c4a8db8..ed97d53 100644
+index c4a8db82..ed97d539 100644
 --- a/roles/docker-mediawiki/vars/main.yml
 +++ b/roles/docker-mediawiki/vars/main.yml
 @@ -1,27 +1 @@
@@ -221,7 +221,7 @@ index c4a8db8..ed97d53 100644
 -wiki_static_backup_file: '/mediawiki.tar'
 -wiki_database_backup_file: '/wikidb.sql'
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 343016c..35028b0 100644
+index 343016c7..35028b03 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -21,3 +21,28 @@ openldap_backup_files:
@@ -254,7 +254,7 @@ index 343016c..35028b0 100644
 +# the name of the container being started
 +phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
 diff --git a/roles/docker-openldap/vars/main.yml b/roles/docker-openldap/vars/main.yml
-index 516cb9a..ed97d53 100644
+index 516cb9a8..ed97d539 100644
 --- a/roles/docker-openldap/vars/main.yml
 +++ b/roles/docker-openldap/vars/main.yml
 @@ -1,26 +1 @@
@@ -293,7 +293,7 @@ similarity index 100%
 rename from roles/docker-pull-images/vars/main.yml
 rename to roles/docker-pull-images/defaults/main.yml
 diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
-index 7a96388..2224268 100644
+index 7a96388a..22242684 100644
 --- a/roles/docker-svn/defaults/main.yml
 +++ b/roles/docker-svn/defaults/main.yml
 @@ -13,3 +13,17 @@ container_port_map:
@@ -315,7 +315,7 @@ index 7a96388..2224268 100644
 +svn_docker_backup_dir: '{{ docker_backup_dir }}/SVN'
 +host_svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
 diff --git a/roles/docker-svn/vars/main.yml b/roles/docker-svn/vars/main.yml
-index f8e412d..ed97d53 100644
+index f8e412d3..ed97d539 100644
 --- a/roles/docker-svn/vars/main.yml
 +++ b/roles/docker-svn/vars/main.yml
 @@ -1,15 +1 @@

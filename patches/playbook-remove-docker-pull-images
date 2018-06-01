@@ -1,5 +1,5 @@
-Bottom: 0a61b71257c483d585fbf08281a13c70e459bd48
-Top:    1116534e9a0879a566425a630033f938d7fb21d1
+Bottom: 289897479489739cd4370ff6a7506ea55c0a374d
+Top:    4376fb6077040b0bf618f543a5722c023dcdf08f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -14,7 +14,7 @@ moved to the roles that use them.
 
 ---
 diff --git a/roles/docker-common/templates/after_backup.j2 b/roles/docker-common/templates/after_backup.j2
-index 4e9fb0f..c501943 100644
+index 4e9fb0f0..c5019432 100644
 --- a/roles/docker-common/templates/after_backup.j2
 +++ b/roles/docker-common/templates/after_backup.j2
 @@ -2,5 +2,5 @@
@@ -25,7 +25,7 @@ index 4e9fb0f..c501943 100644
 +docker run --rm -v {{ docker_backup_dir }}/..:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/docker"
  {% endif %}
 diff --git a/roles/docker-common/templates/before_backup.j2 b/roles/docker-common/templates/before_backup.j2
-index 3a843e7..044a7af 100644
+index 3a843e78..044a7aff 100644
 --- a/roles/docker-common/templates/before_backup.j2
 +++ b/roles/docker-common/templates/before_backup.j2
 @@ -2,6 +2,6 @@
@@ -37,7 +37,7 @@ index 3a843e7..044a7af 100644
  mkdir -p -m u=rwx,g=rwx,o= {{ docker_backup_dir }}
  {% endif %}
 diff --git a/roles/docker-exim4/meta/main.yml b/roles/docker-exim4/meta/main.yml
-index 1543e98..ba8e883 100644
+index 1543e984..ba8e8838 100644
 --- a/roles/docker-exim4/meta/main.yml
 +++ b/roles/docker-exim4/meta/main.yml
 @@ -4,9 +4,6 @@ dependencies:
@@ -51,7 +51,7 @@ index 1543e98..ba8e883 100644
    role: docker-openssl
    tags:
 diff --git a/roles/docker-exim4/templates/after_backup.j2 b/roles/docker-exim4/templates/after_backup.j2
-index bbe68c1..b9c64d9 100644
+index bbe68c1c..b9c64d9d 100644
 --- a/roles/docker-exim4/templates/after_backup.j2
 +++ b/roles/docker-exim4/templates/after_backup.j2
 @@ -1,6 +1,6 @@
@@ -64,7 +64,7 @@ index bbe68c1..b9c64d9 100644
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z {{ exim4_image_name }}:{{ docker_image_tag }} bash -c "rm -rf /tmp/import_export/EXIM4"
  {% endif %}
 diff --git a/roles/docker-exim4/templates/before_backup.j2 b/roles/docker-exim4/templates/before_backup.j2
-index 14e8055..5bb9165 100644
+index 14e80559..5bb91654 100644
 --- a/roles/docker-exim4/templates/before_backup.j2
 +++ b/roles/docker-exim4/templates/before_backup.j2
 @@ -2,7 +2,7 @@
@@ -77,7 +77,7 @@ index 14e8055..5bb9165 100644
  docker run --rm \
      --volumes-from {{ exim4_dv_name }} \
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index 8911fb9..fce4efa 100644
+index 8911fb99..fce4efac 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -21,8 +21,8 @@ gitlab_db_user: novatech
@@ -92,7 +92,7 @@ index 8911fb9..fce4efa 100644
  # the name of the gitlab container
  gitlab_container_name: '{{ docker_name_prefix }}gitlab'
 diff --git a/roles/docker-gitlab/meta/main.yml b/roles/docker-gitlab/meta/main.yml
-index 3798539..aed0334 100644
+index 37985399..aed03345 100644
 --- a/roles/docker-gitlab/meta/main.yml
 +++ b/roles/docker-gitlab/meta/main.yml
 @@ -4,9 +4,6 @@ dependencies:
@@ -106,7 +106,7 @@ index 3798539..aed0334 100644
    role: docker-openssl
    tags:
 diff --git a/roles/docker-gitlab/templates/after_backup.j2 b/roles/docker-gitlab/templates/after_backup.j2
-index 11b9797..85b103f 100644
+index 11b97972..85b103f0 100644
 --- a/roles/docker-gitlab/templates/after_backup.j2
 +++ b/roles/docker-gitlab/templates/after_backup.j2
 @@ -2,5 +2,5 @@
@@ -117,7 +117,7 @@ index 11b9797..85b103f 100644
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/GIT"
  {% endif %}
 diff --git a/roles/docker-gitlab/templates/before_backup.j2 b/roles/docker-gitlab/templates/before_backup.j2
-index d85e979..d304bcb 100644
+index d85e9797..d304bcb7 100644
 --- a/roles/docker-gitlab/templates/before_backup.j2
 +++ b/roles/docker-gitlab/templates/before_backup.j2
 @@ -2,7 +2,7 @@
@@ -130,7 +130,7 @@ index d85e979..d304bcb 100644
  pushd {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}
  ./gitlab.sh backup
 diff --git a/roles/docker-mantisbt/meta/main.yml b/roles/docker-mantisbt/meta/main.yml
-index 3798539..aed0334 100644
+index 37985399..aed03345 100644
 --- a/roles/docker-mantisbt/meta/main.yml
 +++ b/roles/docker-mantisbt/meta/main.yml
 @@ -4,9 +4,6 @@ dependencies:
@@ -144,7 +144,7 @@ index 3798539..aed0334 100644
    role: docker-openssl
    tags:
 diff --git a/roles/docker-mantisbt/templates/after_backup.j2 b/roles/docker-mantisbt/templates/after_backup.j2
-index 5df9695..a853420 100644
+index 5df96954..a8534206 100644
 --- a/roles/docker-mantisbt/templates/after_backup.j2
 +++ b/roles/docker-mantisbt/templates/after_backup.j2
 @@ -2,5 +2,5 @@
@@ -155,7 +155,7 @@ index 5df9695..a853420 100644
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/MANTISBT"
  {% endif %}
 diff --git a/roles/docker-mantisbt/templates/before_backup.j2 b/roles/docker-mantisbt/templates/before_backup.j2
-index ced1090..2f9735c 100644
+index ced10907..2f9735c7 100644
 --- a/roles/docker-mantisbt/templates/before_backup.j2
 +++ b/roles/docker-mantisbt/templates/before_backup.j2
 @@ -2,7 +2,7 @@
@@ -168,7 +168,7 @@ index ced1090..2f9735c 100644
  pushd {{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}
  ./mantisbt.sh backup
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 5788039..ad6d61e 100644
+index 57880398..ad6d61e8 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -22,7 +22,7 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
@@ -181,7 +181,7 @@ index 5788039..ad6d61e 100644
  # the name of the container being started
  wiki_container_name: '{{ docker_name_prefix }}wiki'
 diff --git a/roles/docker-mediawiki/meta/main.yml b/roles/docker-mediawiki/meta/main.yml
-index 3798539..aed0334 100644
+index 37985399..aed03345 100644
 --- a/roles/docker-mediawiki/meta/main.yml
 +++ b/roles/docker-mediawiki/meta/main.yml
 @@ -4,9 +4,6 @@ dependencies:
@@ -195,7 +195,7 @@ index 3798539..aed0334 100644
    role: docker-openssl
    tags:
 diff --git a/roles/docker-mediawiki/templates/after_backup.j2 b/roles/docker-mediawiki/templates/after_backup.j2
-index 23a5485..5988a3c 100644
+index 23a54858..5988a3cc 100644
 --- a/roles/docker-mediawiki/templates/after_backup.j2
 +++ b/roles/docker-mediawiki/templates/after_backup.j2
 @@ -2,5 +2,5 @@
@@ -206,7 +206,7 @@ index 23a5485..5988a3c 100644
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/WIKI"
  {% endif %}
 diff --git a/roles/docker-mediawiki/templates/before_backup.j2 b/roles/docker-mediawiki/templates/before_backup.j2
-index 71ebb80..4983fc1 100644
+index 71ebb80f..4983fc1b 100644
 --- a/roles/docker-mediawiki/templates/before_backup.j2
 +++ b/roles/docker-mediawiki/templates/before_backup.j2
 @@ -2,7 +2,7 @@
@@ -219,7 +219,7 @@ index 71ebb80..4983fc1 100644
  pushd {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}
  ./mediawiki.sh backup
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 35028b0..1a7e08e 100644
+index 35028b03..1a7e08ee 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -42,7 +42,7 @@ host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_di
@@ -232,7 +232,7 @@ index 35028b0..1a7e08e 100644
  # the name of the container being started
  phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
 diff --git a/roles/docker-openldap/meta/main.yml b/roles/docker-openldap/meta/main.yml
-index 1543e98..ba8e883 100644
+index 1543e984..ba8e8838 100644
 --- a/roles/docker-openldap/meta/main.yml
 +++ b/roles/docker-openldap/meta/main.yml
 @@ -4,9 +4,6 @@ dependencies:
@@ -246,7 +246,7 @@ index 1543e98..ba8e883 100644
    role: docker-openssl
    tags:
 diff --git a/roles/docker-openldap/templates/after_backup.j2 b/roles/docker-openldap/templates/after_backup.j2
-index 86cf502..fde0880 100644
+index 86cf5022..fde08805 100644
 --- a/roles/docker-openldap/templates/after_backup.j2
 +++ b/roles/docker-openldap/templates/after_backup.j2
 @@ -2,5 +2,5 @@
@@ -257,7 +257,7 @@ index 86cf502..fde0880 100644
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/LDAP"
  {% endif %}
 diff --git a/roles/docker-openldap/templates/before_backup.j2 b/roles/docker-openldap/templates/before_backup.j2
-index 1b15bfa..00145ae 100644
+index 1b15bfa9..00145ae0 100644
 --- a/roles/docker-openldap/templates/before_backup.j2
 +++ b/roles/docker-openldap/templates/before_backup.j2
 @@ -2,7 +2,7 @@
@@ -270,7 +270,7 @@ index 1b15bfa..00145ae 100644
  docker run --rm \
      --volumes-from {{ openldap_dv_name }} \
 diff --git a/roles/docker-openssl/meta/main.yml b/roles/docker-openssl/meta/main.yml
-index d010ece..769d734 100644
+index d010eced..769d7340 100644
 --- a/roles/docker-openssl/meta/main.yml
 +++ b/roles/docker-openssl/meta/main.yml
 @@ -3,6 +3,3 @@ dependencies:
@@ -281,7 +281,7 @@ index d010ece..769d734 100644
 -- name: docker-pull-images as a dependency
 -  role: docker-pull-images
 diff --git a/roles/docker-openssl/templates/after_backup.j2 b/roles/docker-openssl/templates/after_backup.j2
-index 4a6fa06..b299e0e 100644
+index 4a6fa06b..b299e0eb 100644
 --- a/roles/docker-openssl/templates/after_backup.j2
 +++ b/roles/docker-openssl/templates/after_backup.j2
 @@ -2,5 +2,5 @@
@@ -292,7 +292,7 @@ index 4a6fa06..b299e0e 100644
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/openssl"
  {% endif %}
 diff --git a/roles/docker-openssl/templates/before_backup.j2 b/roles/docker-openssl/templates/before_backup.j2
-index 160ff32..3120162 100644
+index 160ff326..3120162c 100644
 --- a/roles/docker-openssl/templates/before_backup.j2
 +++ b/roles/docker-openssl/templates/before_backup.j2
 @@ -2,7 +2,7 @@
@@ -306,7 +306,7 @@ index 160ff32..3120162 100644
      --volumes-from {{ openssl_dv_name }} \
 diff --git a/roles/docker-pull-images/LICENSE b/roles/docker-pull-images/LICENSE
 deleted file mode 100644
-index 8cdb845..0000000
+index 8cdb8451..00000000
 --- a/roles/docker-pull-images/LICENSE
 +++ /dev/null
 @@ -1,340 +0,0 @@
@@ -652,7 +652,7 @@ index 8cdb845..0000000
 -
 diff --git a/roles/docker-pull-images/README.md b/roles/docker-pull-images/README.md
 deleted file mode 100644
-index 4e62318..0000000
+index 4e623188..00000000
 --- a/roles/docker-pull-images/README.md
 +++ /dev/null
 @@ -1,2 +0,0 @@
@@ -660,7 +660,7 @@ index 4e62318..0000000
 -Ansible role that pulls down the latest version of a docker image from hub.docker.com and then adds a tag to the image
 diff --git a/roles/docker-pull-images/defaults/main.yml b/roles/docker-pull-images/defaults/main.yml
 deleted file mode 100644
-index 519f561..0000000
+index 519f561b..00000000
 --- a/roles/docker-pull-images/defaults/main.yml
 +++ /dev/null
 @@ -1,39 +0,0 @@
@@ -705,7 +705,7 @@ index 519f561..0000000
 -    tag: jessie
 diff --git a/roles/docker-pull-images/meta/main.yml b/roles/docker-pull-images/meta/main.yml
 deleted file mode 100644
-index 769d734..0000000
+index 769d7340..00000000
 --- a/roles/docker-pull-images/meta/main.yml
 +++ /dev/null
 @@ -1,5 +0,0 @@
@@ -716,7 +716,7 @@ index 769d734..0000000
 -  role: docker-common
 diff --git a/roles/docker-pull-images/tasks/main.yml b/roles/docker-pull-images/tasks/main.yml
 deleted file mode 100644
-index fadb35e..0000000
+index fadb35ee..00000000
 --- a/roles/docker-pull-images/tasks/main.yml
 +++ /dev/null
 @@ -1,14 +0,0 @@
@@ -735,7 +735,7 @@ index fadb35e..0000000
 -  tags:
 -    - docker_pull
 diff --git a/roles/docker-svn/meta/main.yml b/roles/docker-svn/meta/main.yml
-index 93825ad..44f7684 100644
+index 93825ad0..44f76841 100644
 --- a/roles/docker-svn/meta/main.yml
 +++ b/roles/docker-svn/meta/main.yml
 @@ -4,9 +4,6 @@ dependencies:
@@ -749,7 +749,7 @@ index 93825ad..44f7684 100644
    role: docker-openssl
    tags:
 diff --git a/roles/docker-svn/templates/after_backup.j2 b/roles/docker-svn/templates/after_backup.j2
-index f134ce9..690c0b2 100644
+index f134ce97..690c0b25 100644
 --- a/roles/docker-svn/templates/after_backup.j2
 +++ b/roles/docker-svn/templates/after_backup.j2
 @@ -2,5 +2,5 @@
@@ -760,7 +760,7 @@ index f134ce9..690c0b2 100644
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/SVN"
  {% endif %}
 diff --git a/roles/docker-svn/templates/before_backup.j2 b/roles/docker-svn/templates/before_backup.j2
-index 94ab6b1..2f88c25 100644
+index 94ab6b1f..2f88c251 100644
 --- a/roles/docker-svn/templates/before_backup.j2
 +++ b/roles/docker-svn/templates/before_backup.j2
 @@ -2,7 +2,7 @@

@@ -1,5 +1,5 @@
-Bottom: 2e3d8f808df5db5f73106484d42b0801d8bc3f68
-Top:    dacf47d71b519897fcdef90e18d2e9d25d65348f
+Bottom: bfdb07d867ad074642da9116b83ec7ba87a9fd27
+Top:    6b9f87d6c04426ff7056e3eeff7e415d6b85dd11
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -8,7 +8,7 @@ Cleanup dependencies between roles
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 227164b..673e61b 100644
+index 227164b7..673e61b6 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -25,15 +25,31 @@
@@ -44,7 +44,7 @@ index 227164b..673e61b 100644
      role: docker-gitlab
      gitlab_db_user: novatech
 diff --git a/roles/docker-buildsystem/meta/main.yml b/roles/docker-buildsystem/meta/main.yml
-index 769d734..7f867d7 100644
+index 769d7340..7f867d73 100644
 --- a/roles/docker-buildsystem/meta/main.yml
 +++ b/roles/docker-buildsystem/meta/main.yml
 @@ -1,5 +1,2 @@
@@ -54,7 +54,7 @@ index 769d734..7f867d7 100644
 -- name: docker-common as a dependency
 -  role: docker-common
 diff --git a/roles/docker-exim4/meta/main.yml b/roles/docker-exim4/meta/main.yml
-index ba8e883..7f867d7 100644
+index ba8e8838..7f867d73 100644
 --- a/roles/docker-exim4/meta/main.yml
 +++ b/roles/docker-exim4/meta/main.yml
 @@ -1,10 +1,2 @@
@@ -69,7 +69,7 @@ index ba8e883..7f867d7 100644
 -  tags:
 -  - openssl_container
 diff --git a/roles/docker-gitlab/meta/main.yml b/roles/docker-gitlab/meta/main.yml
-index aed0334..7f867d7 100644
+index aed03345..7f867d73 100644
 --- a/roles/docker-gitlab/meta/main.yml
 +++ b/roles/docker-gitlab/meta/main.yml
 @@ -1,20 +1,2 @@
@@ -94,7 +94,7 @@ index aed0334..7f867d7 100644
 -  tags:
 -  - exim4_container
 diff --git a/roles/docker-mantisbt/meta/main.yml b/roles/docker-mantisbt/meta/main.yml
-index aed0334..ed97d53 100644
+index aed03345..ed97d539 100644
 --- a/roles/docker-mantisbt/meta/main.yml
 +++ b/roles/docker-mantisbt/meta/main.yml
 @@ -1,20 +1 @@
@@ -119,7 +119,7 @@ index aed0334..ed97d53 100644
 -  tags:
 -  - exim4_container
 diff --git a/roles/docker-mediawiki/meta/main.yml b/roles/docker-mediawiki/meta/main.yml
-index aed0334..ed97d53 100644
+index aed03345..ed97d539 100644
 --- a/roles/docker-mediawiki/meta/main.yml
 +++ b/roles/docker-mediawiki/meta/main.yml
 @@ -1,20 +1 @@
@@ -144,7 +144,7 @@ index aed0334..ed97d53 100644
 -  tags:
 -  - exim4_container
 diff --git a/roles/docker-openldap/meta/main.yml b/roles/docker-openldap/meta/main.yml
-index ba8e883..7f867d7 100644
+index ba8e8838..7f867d73 100644
 --- a/roles/docker-openldap/meta/main.yml
 +++ b/roles/docker-openldap/meta/main.yml
 @@ -1,10 +1,2 @@
@@ -159,7 +159,7 @@ index ba8e883..7f867d7 100644
 -  tags:
 -  - openssl_container
 diff --git a/roles/docker-openssl/meta/main.yml b/roles/docker-openssl/meta/main.yml
-index 769d734..7f867d7 100644
+index 769d7340..7f867d73 100644
 --- a/roles/docker-openssl/meta/main.yml
 +++ b/roles/docker-openssl/meta/main.yml
 @@ -1,5 +1,2 @@
@@ -169,7 +169,7 @@ index 769d734..7f867d7 100644
 -- name: docker-common as a dependency
 -  role: docker-common
 diff --git a/roles/docker-svn/meta/main.yml b/roles/docker-svn/meta/main.yml
-index 44f7684..7f867d7 100644
+index 44f76841..7f867d73 100644
 --- a/roles/docker-svn/meta/main.yml
 +++ b/roles/docker-svn/meta/main.yml
 @@ -1,15 +1,2 @@

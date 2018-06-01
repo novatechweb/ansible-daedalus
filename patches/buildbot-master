@@ -1,5 +1,5 @@
-Bottom: a908a11eff13f932a5441913d9f636ea72e45089
-Top:    5a742ca2bf5d7dc2d165be9f8c6852747d4a1131
+Bottom: 31ae6cfce104ccc4551a0272c4b3818c06a28832
+Top:    7af6f8629aece034fdc208989c8de31be5101a1c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -9,7 +9,7 @@ Add buildbot role
 ---
 diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
 new file mode 100644
-index 0000000..6b06954
+index 00000000..6b069548
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/buildbot.yml
 @@ -0,0 +1,3 @@
@@ -17,7 +17,7 @@ index 0000000..6b06954
 +buildbot_version: 1.1.1
 +buildbot_worker_port: 9989
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
-index cf366ea..3434cb2 100644
+index cf366ea4..3434cb2e 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 @@ -30,3 +30,10 @@ phpldapadmin_network:
@@ -32,7 +32,7 @@ index cf366ea..3434cb2 100644
 +    - '{{ buildbot_network.ip_addr }}:80:80'
 +    - '{{ buildbot_network.ip_addr }}:443:443'
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
-index a12d209..9fd2bd1 100644
+index a12d209b..9fd2bd1c 100644
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 @@ -67,3 +67,10 @@ phpldapadmin_network:
@@ -47,7 +47,7 @@ index a12d209..9fd2bd1 100644
 +    - '{{ buildbot_network.ip_addr }}:80:80'
 +    - '{{ buildbot_network.ip_addr }}:443:443'
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 673e61b..c47c128 100644
+index 673e61b6..c47c128d 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -68,6 +68,11 @@
@@ -63,7 +63,7 @@ index 673e61b..c47c128 100644
  - name: Setup the Build System (Test Station) with repo data
    hosts: buildsystem
 diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index e544fd4..25764e8 100644
+index e544fd42..25764e80 100644
 --- a/ansible-playbook/staging
 +++ b/ansible-playbook/staging
 @@ -6,3 +6,7 @@ testdaedalus.novatech-llc.com
@@ -76,7 +76,7 @@ index e544fd4..25764e8 100644
 +buildbot-worker.novatech-llc.com
 diff --git a/roles/buildbot-master/README.md b/roles/buildbot-master/README.md
 new file mode 100644
-index 0000000..225dd44
+index 00000000..225dd44b
 --- /dev/null
 +++ b/roles/buildbot-master/README.md
 @@ -0,0 +1,38 @@
@@ -120,7 +120,7 @@ index 0000000..225dd44
 +An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 0000000..64802d0
+index 00000000..64802d00
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -0,0 +1,56 @@
@@ -182,7 +182,7 @@ index 0000000..64802d0
 +  BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
 diff --git a/roles/buildbot-master/env.yml b/roles/buildbot-master/env.yml
 new file mode 100644
-index 0000000..7ef0578
+index 00000000..7ef0578f
 --- /dev/null
 +++ b/roles/buildbot-master/env.yml
 @@ -0,0 +1,22 @@
@@ -210,7 +210,7 @@ index 0000000..7ef0578
 +BUILDBOT_ENVIRONMENT_BLACKLIST=DOCKER_BUILDBOT*,BUILDBOT_ENV_*,BUILDBOT_1*,BUILDBOT_ENVIRONMENT_BLACKLIST,BUILDBOT_WORKER_PASSWORD
 diff --git a/roles/buildbot-master/meta/main.yml b/roles/buildbot-master/meta/main.yml
 new file mode 100644
-index 0000000..5999cdd
+index 00000000..5999cdd5
 --- /dev/null
 +++ b/roles/buildbot-master/meta/main.yml
 @@ -0,0 +1,4 @@
@@ -220,7 +220,7 @@ index 0000000..5999cdd
 +  # if you add dependencies to this list.
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 0000000..8850107
+index 00000000..88501072
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -0,0 +1,34 @@
@@ -260,7 +260,7 @@ index 0000000..8850107
 +    ports: '{{ container_port_map.buildbot.port_args }}'
 diff --git a/roles/buildbot-master/vars/main.yml b/roles/buildbot-master/vars/main.yml
 new file mode 100644
-index 0000000..eed3963
+index 00000000..eed3963e
 --- /dev/null
 +++ b/roles/buildbot-master/vars/main.yml
 @@ -0,0 +1,2 @@

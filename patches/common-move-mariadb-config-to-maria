@@ -1,5 +1,5 @@
-Bottom: d8f3a271b841c7e32a4723fa3cae18ede0a05e58
-Top:    5015c347e7a6a43f747ff450c41c9bed72bab038
+Bottom: 0f5643feb95269b84c62d43249fe14426233fcd9
+Top:    67b59ec3e749856486c0a398b70bd2cbf3061136
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -8,7 +8,7 @@ Move mariadb config to maria role
 
 ---
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index f52391f..d8c857f 100644
+index f52391f5..d8c857f4 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
 @@ -8,7 +8,6 @@
@@ -21,7 +21,7 @@ index f52391f..d8c857f 100644
  
 diff --git a/roles/docker-common/tasks/mariadb_settings.yml b/roles/docker-common/tasks/mariadb_settings.yml
 deleted file mode 100644
-index 54508dd..0000000
+index 54508dd3..00000000
 --- a/roles/docker-common/tasks/mariadb_settings.yml
 +++ /dev/null
 @@ -1,15 +0,0 @@
@@ -41,7 +41,7 @@ index 54508dd..0000000
 -    state: restarted
 -  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
 diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
-index 698ee95..61b296f 100644
+index 698ee95c..61b296f3 100644
 --- a/roles/mariadb/tasks/main.yml
 +++ b/roles/mariadb/tasks/main.yml
 @@ -20,3 +20,15 @@

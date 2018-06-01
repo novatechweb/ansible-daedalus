@@ -1,5 +1,5 @@
-Bottom: 5bfdf1d30e3c5d9a61f6fdd979c761fb1385b426
-Top:    a908a11eff13f932a5441913d9f636ea72e45089
+Bottom: a9b064ba518d427ede173a0af77ce3623ca1dd9d
+Top:    31ae6cfce104ccc4551a0272c4b3818c06a28832
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -11,7 +11,7 @@ version seem to work, so downgrade until we upgrade mediawiki itself.
 
 ---
 diff --git a/docker/docker-mediawiki/Dockerfile b/docker/docker-mediawiki/Dockerfile
-index d4f2986..6aaefd6 100644
+index d4f29869..6aaefd61 100644
 --- a/docker/docker-mediawiki/Dockerfile
 +++ b/docker/docker-mediawiki/Dockerfile
 @@ -37,11 +37,11 @@ RUN apt-get update && \

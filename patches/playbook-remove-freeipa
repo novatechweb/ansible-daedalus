@@ -1,5 +1,5 @@
-Bottom: b2f74c299241b3f653d29a5d06c7b82ab9b9f02f
-Top:    7da8abefa944282aefb3fc0bc26e8e92bf5dc059
+Bottom: 0ea3a0d29e2e12be2ee41949fa5c464f7e2c052b
+Top:    4f0d0b312d59e024b9ac17eecb81741604de6599
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -11,7 +11,7 @@ ontainer_port_map.yml
 
 ---
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
-index a3a5d87..baec75d 100644
+index a3a5d878..baec75d2 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 +++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 @@ -40,9 +40,7 @@ container_addr_map:
@@ -26,7 +26,7 @@ index a3a5d87..baec75d 100644
  container_port_map:
    svn:
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
-index ab4dd40..7efbfc5 100644
+index ab4dd40d..7efbfc53 100644
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 @@ -38,11 +38,9 @@ container_addr_map:
@@ -45,7 +45,7 @@ index ab4dd40..7efbfc5 100644
  container_port_map:
    svn:
 diff --git a/ansible-playbook/production b/ansible-playbook/production
-index f53d6a4..0741453 100644
+index f53d6a43..07414537 100644
 --- a/ansible-playbook/production
 +++ b/ansible-playbook/production
 @@ -1,11 +1,6 @@
@@ -61,7 +61,7 @@ index f53d6a4..0741453 100644
  daedalus.novatech-llc.com
  
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 2d82aa6..4df32b3 100644
+index 2d82aa67..4df32b39 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -12,58 +12,12 @@
@@ -124,7 +124,7 @@ index 2d82aa6..4df32b3 100644
    hosts: docker-hosts
    remote_user: ansibleremote
 diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index d570103..80a1327 100644
+index d5701031..80a1327a 100644
 --- a/ansible-playbook/staging
 +++ b/ansible-playbook/staging
 @@ -1,11 +1,6 @@
@@ -140,7 +140,7 @@ index d570103..80a1327 100644
  testdaedalus.novatech-llc.com
  
 diff --git a/roles/bacula-director/tasks/bacula-user.yml b/roles/bacula-director/tasks/bacula-user.yml
-index eec54d9..c8ff12f 100644
+index eec54d9f..c8ff12fd 100644
 --- a/roles/bacula-director/tasks/bacula-user.yml
 +++ b/roles/bacula-director/tasks/bacula-user.yml
 @@ -6,12 +6,6 @@
@@ -157,7 +157,7 @@ index eec54d9..c8ff12f 100644
    group:
      name: docker
 diff --git a/roles/bacula-director/tasks/main.yml b/roles/bacula-director/tasks/main.yml
-index d1192f0..7de6cd1 100644
+index d1192f02..7de6cd1e 100644
 --- a/roles/bacula-director/tasks/main.yml
 +++ b/roles/bacula-director/tasks/main.yml
 @@ -10,10 +10,6 @@
@@ -192,7 +192,7 @@ index d1192f0..7de6cd1 100644
    register: databases
 diff --git a/roles/bacula-director/templates/after_backup.j2 b/roles/bacula-director/templates/after_backup.j2
 deleted file mode 100644
-index fd50c0b..0000000
+index fd50c0b1..00000000
 --- a/roles/bacula-director/templates/after_backup.j2
 +++ /dev/null
 @@ -1,6 +0,0 @@
@@ -203,7 +203,7 @@ index fd50c0b..0000000
 -/usr/bin/virt-backup --action cleanup --vm={{ bacula_director_backup_vms }}
 -{% endif %}
 diff --git a/roles/bacula-director/templates/bacula-dir.conf.j2 b/roles/bacula-director/templates/bacula-dir.conf.j2
-index 9dba786..db50386 100644
+index 9dba7869..db503866 100644
 --- a/roles/bacula-director/templates/bacula-dir.conf.j2
 +++ b/roles/bacula-director/templates/bacula-dir.conf.j2
 @@ -108,9 +108,6 @@ FileSet {
@@ -218,7 +218,7 @@ index 9dba786..db50386 100644
  
 diff --git a/roles/bacula-director/templates/before_backup.j2 b/roles/bacula-director/templates/before_backup.j2
 deleted file mode 100644
-index c5d1d41..0000000
+index c5d1d415..00000000
 --- a/roles/bacula-director/templates/before_backup.j2
 +++ /dev/null
 @@ -1,6 +0,0 @@
@@ -230,14 +230,14 @@ index c5d1d41..0000000
 -{% endif %}
 diff --git a/roles/libvirt-lvmpool/README.md b/roles/libvirt-lvmpool/README.md
 deleted file mode 100644
-index 83ac997..0000000
+index 83ac9971..00000000
 --- a/roles/libvirt-lvmpool/README.md
 +++ /dev/null
 @@ -1 +0,0 @@
 -# ansible-libvirt-lvmpool
 diff --git a/roles/libvirt-lvmpool/tasks/main.yml b/roles/libvirt-lvmpool/tasks/main.yml
 deleted file mode 100644
-index d5a7bfe..0000000
+index d5a7bfe1..00000000
 --- a/roles/libvirt-lvmpool/tasks/main.yml
 +++ /dev/null
 @@ -1,13 +0,0 @@
@@ -256,14 +256,14 @@ index d5a7bfe..0000000
 -  command: /usr/bin/virsh pool-autostart virtstorage
 diff --git a/roles/libvirt-vm/README.md b/roles/libvirt-vm/README.md
 deleted file mode 100644
-index 8677d7e..0000000
+index 8677d7eb..00000000
 --- a/roles/libvirt-vm/README.md
 +++ /dev/null
 @@ -1 +0,0 @@
 -# ansible-libvirt-vm
 diff --git a/roles/libvirt-vm/tasks/domain.yml b/roles/libvirt-vm/tasks/domain.yml
 deleted file mode 100644
-index 1980128..0000000
+index 1980128d..00000000
 --- a/roles/libvirt-vm/tasks/domain.yml
 +++ /dev/null
 @@ -1,15 +0,0 @@
@@ -284,7 +284,7 @@ index 1980128..0000000
 -  when: domstatus.msg is defined and domstatus.msg.find('not found') != -1
 diff --git a/roles/libvirt-vm/tasks/main.yml b/roles/libvirt-vm/tasks/main.yml
 deleted file mode 100644
-index 02a29e5..0000000
+index 02a29e52..00000000
 --- a/roles/libvirt-vm/tasks/main.yml
 +++ /dev/null
 @@ -1,10 +0,0 @@
@@ -300,7 +300,7 @@ index 02a29e5..0000000
 -  when: vm_start is defined and vm_start == True
 diff --git a/roles/libvirt-vm/tasks/volume.yml b/roles/libvirt-vm/tasks/volume.yml
 deleted file mode 100644
-index 95fd91a..0000000
+index 95fd91a2..00000000
 --- a/roles/libvirt-vm/tasks/volume.yml
 +++ /dev/null
 @@ -1,22 +0,0 @@
@@ -327,7 +327,7 @@ index 95fd91a..0000000
 -  command: /usr/bin/virsh vol-upload --pool {{ vm_pool }} --vol {{ vm_vol }} --file {{ bacula_dest }}/var/lib/libvirt/backup/{{ vm_name }}/{{ vm_image }}
 -  when: vm_image is defined and volinfo.stdout.find('Capacity') == -1
 diff --git a/scripts/subtree-import.sh b/scripts/subtree-import.sh
-index 965738f..f94e64c 100755
+index 965738ff..f94e64cc 100755
 --- a/scripts/subtree-import.sh
 +++ b/scripts/subtree-import.sh
 @@ -20,8 +20,6 @@ roles , docker-openldap                              , origin       , git@github
