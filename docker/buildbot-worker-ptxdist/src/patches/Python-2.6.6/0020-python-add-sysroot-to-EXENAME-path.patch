@@ -1,0 +1,38 @@
+From 2229c9e1a3e657b7b3fadf9b2487caef3c501d08 Mon Sep 17 00:00:00 2001
+From: George McCollister <george.mccollister@gmail.com>
+Date: Wed, 15 Dec 2010 17:35:24 -0600
+Subject: [PATCH 20/20] python: add sysroot to EXENAME path.
+
+python2.6-config points to the wrong location for the host python
+binary.
+
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ Makefile.pre.in |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/Makefile.pre.in b/Makefile.pre.in
+index 99ca8be..085fff1 100644
+--- a/Makefile.pre.in
++++ b/Makefile.pre.in
+@@ -77,6 +77,8 @@ ifndef DESTDIR
+ sysroot=	@SYSROOT@
+ endif
+ 
++SYSROOTFORCONFIG=@SYSROOT@
++
+ # Machine-dependent subdirectories
+ MACHDEP=	@MACHDEP@
+ 
+@@ -974,7 +976,7 @@ libainstall:	all
+ 	$(INSTALL_SCRIPT) $(srcdir)/install-sh $(DESTDIR)$(LIBPL)/install-sh
+ 	# Substitution happens here, as the completely-expanded BINDIR
+ 	# is not available in configure
+-	sed -e "s,@EXENAME@,$(BINDIR)/python$(VERSION)$(EXE)," < $(srcdir)/Misc/python-config.in >python-config
++	sed -e "s,@EXENAME@,$(SYSROOTFORCONFIG)$(BINDIR)/python$(VERSION)$(EXE)," < $(srcdir)/Misc/python-config.in >python-config
+ 	$(INSTALL_SCRIPT) python-config $(DESTDIR)$(BINDIR)/python$(VERSION)-config
+ 	rm python-config
+ 	@if [ -s Modules/python.exp -a \
+-- 
+1.7.1
+

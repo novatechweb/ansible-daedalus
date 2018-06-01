@@ -1,0 +1,36 @@
+## SECTION=middleware
+
+menuconfig CRACKLIB
+	tristate
+	prompt "cracklib                      "
+	help
+	  FIXME
+
+if CRACKLIB
+
+	config CRACKLIB_CRACKLIB_UTILS
+		bool
+		prompt "install the cracklib utils"
+		help
+		  Utility programs to generate the cracklib
+		  dictionary files from a wordlist file.
+
+	config CRACKLIB_DICT
+		bool
+		default n
+		prompt "Install cracklib dictionary"
+		help
+		  Cracklib does not supply a large wordlist to
+		  generate the cracklib dictionary from. This is
+		  left as a manual step.
+		  The generated cracklib dictionary files are
+		  NOT byte-order independent and are probably
+		  ARCHITECTURE SPECIFIC.
+		  It is suggested to install cracklib and it's
+		  acompaning programs onto the target along with
+		  a word list and generate the cracklib
+		  dictionary files. These files can then be
+		  palaced into the projectroot directory to be
+		  included into the package.
+
+endif

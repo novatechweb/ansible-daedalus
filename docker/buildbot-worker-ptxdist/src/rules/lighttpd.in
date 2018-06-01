@@ -1,0 +1,150 @@
+## SECTION=networking
+menuconfig LIGHTTPD
+	tristate
+	prompt "lighttpd                      "
+	select LIBC_M
+	select LIBC_DL
+	select LIBC_CRYPT
+	select ZLIB			if LIGHTTPD_ZLIB
+	select BZIP2			if LIGHTTPD_BZ2LIB
+	select BZIP2_LIBBZ2		if LIGHTTPD_BZ2LIB
+	select ATTR			if LIGHTTPD_ATTR
+	select LIBPCRE			if LIGHTTPD_PCRE
+	select FAM			if LIGHTTPD_FAM
+	select FAM_LIBRARY		if LIGHTTPD_FAM
+	select LIBXML2			if LIGHTTPD_WEBDAV_PROPS
+	select SQLITE			if LIGHTTPD_WEBDAV_PROPS
+	select LIBUUID			if LIGHTTPD_WEBDAV_LOCKS
+	select OPENSSL			if LIGHTTPD_OPENSSL
+	select OPENSSL_SHARED		if LIGHTTPD_OPENSSL
+	select LIBMEMCACHE		if LIGHTTPD_MEMCACHE
+	select LUA			if LIGHTTPD_LUA
+	select LUA_INSTALL_LIBLUA	if LIGHTTPD_LUA
+	select BUSYBOX_START_STOP_DAEMON			if LIGHTTPD_STARTSCRIPT
+	select BUSYBOX_FEATURE_START_STOP_DAEMON_FANCY		if LIGHTTPD_STARTSCRIPT
+	select BUSYBOX_FEATURE_START_STOP_DAEMON_LONG_OPTIONS	if LIGHTTPD_STARTSCRIPT
+	help
+	  A fast webserver with minimal memory footprint
+
+	  lighttpd is a small webserver and fast webserver developed
+	  with security in mind and a lot of features. It has support
+	  for
+	  * CGI, FastCGI and SSI
+	  * virtual hosts
+	  * URL rewriting
+	  * authentication (plain files, htpasswd, ldap)
+	  * transparent content compression
+	  * conditional configuration
+	  and configuration is straight-forward and easy.
+
+
+if LIGHTTPD
+
+config LIGHTTPD_ZLIB
+	bool
+	prompt "zlib support"
+	help
+	  Enable zlib support for mod_compress.
+
+config LIGHTTPD_BZ2LIB
+	bool
+	prompt "bz2lib support"
+	help
+	  Enable bzip2 support for mod_compress.
+
+config LIGHTTPD_MYSQL
+	bool
+#	prompt "MySQL support"
+	help
+
+config LIGHTTPD_LDAP
+	bool
+#	prompt "ldap"
+	help
+	  Enable LDAP support.
+
+config LIGHTTPD_ATTR
+	bool
+	prompt "extended attribute support"
+	help
+	  Enable extended attribute support.
+
+config LIGHTTPD_OPENSSL
+	bool
+	prompt "openssl support"
+	help
+	  Include openssl support.
+
+config LIGHTTPD_KERBEROS
+	bool
+	select LIGHTTPD_OPENSSL
+#	prompt "kerberos5 support"
+	help
+	  Use Kerberos5 support with OpenSSL.
+
+config LIGHTTPD_PCRE
+	bool
+	select LIBPCRE
+	prompt "pcre support"
+	help
+	  Enable pcre support.
+
+config LIGHTTPD_FAM
+	bool
+	prompt "fam"
+	help
+	  fam/gamin for reducing number of stat() calls.
+
+config LIGHTTPD_WEBDAV_PROPS
+	bool
+	prompt "properties in mod_webdav"
+	help
+	  properties in mod_webdav
+
+config LIGHTTPD_WEBDAV_LOCKS
+	bool
+	select LIGHTTPD_WEBDAV_PROPS
+	prompt "locks in mod_webdav"
+	help
+	  locks in mod_webdav
+
+config LIGHTTPD_GDBM
+	bool
+#	prompt "gdbm storage for mod_trigger_b4_dl"
+	help
+	  gdbm storage for mod_trigger_b4_dl
+
+config LIGHTTPD_MEMCACHE
+	bool
+	prompt "memcached storage for mod_trigger_b4_dl"
+	help
+	  memcached storage for mod_trigger_b4_dl
+
+config LIGHTTPD_LUA
+	bool
+	prompt "lua engine for mod_cml"
+	help
+	  lua engine for mod_cml
+
+config LIGHTTPD_STARTSCRIPT
+	bool
+	default y
+	prompt "install /etc/init.d/lighttpd"
+
+config LIGHTTPD_SYSTEMD_UNIT
+	bool
+	default y
+	depends on SYSTEMD
+	prompt "install systemd unit files for lighttpd"
+
+config LIGHTTPD_GENERIC_SITE
+	bool
+	default y
+	prompt "Populate a generic website"
+	help
+	  This install a generic website into /var/www/index.html
+	  from <ptxdist-install>/generic/var/www/lighttpd.html
+	  and some php demos.
+
+
+endif

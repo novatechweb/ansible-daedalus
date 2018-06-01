@@ -1,0 +1,28 @@
+From: Jon Ringle <jon@ringle.org>
+Date: Thu, 29 Oct 2009 16:27:14 +0100
+Subject: [PATCH] fix warning include/signal.h:47:5: warning: "SIGRTMAX" is
+ not defined
+
+Signed-off-by: Jon Ringle <jon@ringle.org>
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+---
+ usr/include/signal.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/usr/include/signal.h b/usr/include/signal.h
+index a513282..4ed65bc 100644
+--- a/usr/include/signal.h
++++ b/usr/include/signal.h
+@@ -44,10 +44,12 @@ typedef int sig_atomic_t;
+ /* The kernel header files are inconsistent whether or not
+    SIGRTMAX is inclusive or exclusive.  POSIX seems to state that
+    it's inclusive, however. */
++#ifdef SIGRTMAX
+ #if SIGRTMAX >= _NSIG
+ # undef  SIGRTMAX
+ # define SIGRTMAX (_NSIG-1)
+ #endif
++#endif
+ 
+ __extern const char *const sys_siglist[_NSIG];
+ __extern const char *const sys_sigabbrev[_NSIG];
