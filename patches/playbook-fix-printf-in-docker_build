@@ -1,0 +1,25 @@
+Bottom: 31088f8f7c246675da1c23e96a42113ce8ee1925
+Top:    7a09ef8e46ed82121e41ca3a3f50122d5fde8b86
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:57 -0500
+
+Fix printf in docker_build
+
+Printf statement was expanding a variable into the format string,
+which caused problems when that variable contained patterns that
+appeared to be invalid format specifiers.
+
+
+---
+diff --git a/ansible-playbook/library/docker_build b/ansible-playbook/library/docker_build
+index 8cc11edc..da0c78c3 100644
+--- a/ansible-playbook/library/docker_build
++++ b/ansible-playbook/library/docker_build
+@@ -42,7 +42,7 @@ build_result="${?}"
+ 
+ if [[ ${build_result} != "0" ]]; then
+     # build failed
+-    printf "{\"failed\": true, \"changed\": true, \"stdout\": \"${build_log}\"}"
++    printf "{\"failed\": true, \"changed\": true, \"stdout\": \"%s\"}" "${build_log}"
+     exit 1
+ fi

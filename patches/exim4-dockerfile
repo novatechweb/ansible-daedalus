@@ -1,0 +1,57 @@
+Bottom: 290cf4003b513d0f572330e535d1f26f90911209
+Top:    5c31aad2ef1e422f4e3932ea4009444f9e3df722
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Update Dockerfile
+
+Upgrade debiain version
+Install own certificates
+Don't delete default configuration
+Leave only spool volume
+
+
+---
+diff --git a/docker/docker-exim4/Dockerfile b/docker/docker-exim4/Dockerfile
+index 34ef91c7..5be64e67 100644
+--- a/docker/docker-exim4/Dockerfile
++++ b/docker/docker-exim4/Dockerfile
+@@ -3,11 +3,12 @@
+ #
+ # Version 0.1
+ 
+-FROM debian:8
++FROM debian:latest
+ MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
+ 
+ RUN apt-get update \
+     && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
++        ca-certificates \
+         dnsutils \
+         exim4-daemon-heavy \
+         libnet-ssleay-perl \
+@@ -16,14 +17,7 @@ RUN apt-get update \
+         spf-tools-perl \
+         swaks \
+         whois \
+-    && apt-get clean \
+-    && rm -rf /var/lib/apt/lists/* \
+-    && mv /etc/aliases /etc/exim4/aliases \
+-    && ln -s /etc/exim4/aliases /etc/aliases \
+-    && mv /etc/email-addresses /etc/exim4/email-addresses \
+-    && ln -s /etc/exim4/email-addresses /etc/email-addresses \
+-    && tar -cavf /demian.default.exim4.config.tar.gz -C /etc exim4 \
+-    && rm -rf /etc/exim4 /var/spool/exim4 /var/mail /var/log/exim4
++    && rm -rf /var/lib/apt/lists/*
+ 
+ # copy over files
+ COPY docker-entrypoint.sh /
+@@ -34,7 +28,7 @@ RUN update-exim4.conf
+ EXPOSE 25 465 587
+ 
+ # specify the volumes directly related to this image
+-VOLUME ["/etc/exim4", "/var/spool/exim4", "/var/mail/", "/var/log/exim4"]
++VOLUME ["/var/spool/exim4"]
+ 
+ # start the entrypoint script
+ WORKDIR /var/spool/exim4

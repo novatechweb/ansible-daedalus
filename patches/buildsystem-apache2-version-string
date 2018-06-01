@@ -1,0 +1,40 @@
+Bottom: 1ee2df6e314eb7110470843734d729ab71a9db8c
+Top:    91cdc883fd6b63f4b210dda5d203c533267c4aab
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Update apache2 version string
+
+Using a wildcard of 2.4* for apache2 selects the version of the package
+from trusty-backports but does not do dependency resolution using
+backports, leading to an unresolvable conflict. Using a slightly more
+explicity version (2.4.7*) solves this.
+
+
+---
+diff --git a/docker/docker-SupportSite_http_server/Dockerfile b/docker/docker-SupportSite_http_server/Dockerfile
+index 917acee6..42fd695e 100644
+--- a/docker/docker-SupportSite_http_server/Dockerfile
++++ b/docker/docker-SupportSite_http_server/Dockerfile
+@@ -9,7 +9,7 @@ FROM ubuntu:14.04
+ RUN apt-get update  && \
+     apt-get install -y --no-install-recommends \
+                     gcc=4:4* \
+-                    apache2=2.4* \
++                    apache2=2.4.7* \
+                     libapache2-mod-wsgi=3.4* \
+                     libapache2-mod-xsendfile=0.12* \
+                     mysql-client=5.5* \
+diff --git a/docker/docker-TestStation_http_server/Dockerfile b/docker/docker-TestStation_http_server/Dockerfile
+index cf832872..78167678 100644
+--- a/docker/docker-TestStation_http_server/Dockerfile
++++ b/docker/docker-TestStation_http_server/Dockerfile
+@@ -9,7 +9,7 @@ FROM ubuntu:14.04
+ RUN apt-get update  && \
+     apt-get install -y --no-install-recommends \
+                     gcc=4:4* \
+-                    apache2=2.4* \
++                    apache2=2.4.7* \
+                     libapache2-mod-wsgi=3.4* \
+                     libapache2-mod-xsendfile=0.12* \
+                     mysql-client=5.5* \

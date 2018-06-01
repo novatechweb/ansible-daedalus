@@ -1,0 +1,238 @@
+Bottom: 1b14965d6be32fc0c118c20f742140cbf67857c5
+Top:    fc6b6af5d09514879a06b1cb719a093730b10705
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:57 -0500
+
+Remove role submodules
+
+Removes the submodules for roles, so they can be tracked
+separately.
+
+
+---
+diff --git a/ansible-playbook/.gitmodules b/ansible-playbook/.gitmodules
+deleted file mode 100644
+index 8027bc54..00000000
+--- a/ansible-playbook/.gitmodules
++++ /dev/null
+@@ -1,66 +0,0 @@
+-[submodule "roles/docker-build-base-image"]
+-	path = roles/docker-build-base-image
+-	url = https://github.com/novatechweb/ansible-docker-build-base-image.git
+-[submodule "roles/docker-common"]
+-	path = roles/docker-common
+-	url = https://github.com/novatechweb/ansible-docker-common.git
+-[submodule "roles/docker-gitlab"]
+-	path = roles/docker-gitlab
+-	url = https://github.com/novatechweb/ansible-docker-gitlab.git
+-[submodule "roles/docker-mediawiki"]
+-	path = roles/docker-mediawiki
+-	url = https://github.com/novatechweb/ansible-docker-mediawiki.git
+-[submodule "roles/docker-openldap"]
+-	path = roles/docker-openldap
+-	url = https://github.com/novatechweb/ansible-docker-openldap.git
+-[submodule "roles/docker-openssl"]
+-	path = roles/docker-openssl
+-	url = https://github.com/novatechweb/ansible-docker-openssl.git
+-[submodule "roles/docker-pull-images"]
+-	path = roles/docker-pull-images
+-	url = https://github.com/novatechweb/ansible-docker-pull-images.git
+-[submodule "roles/docker-svn"]
+-	path = roles/docker-svn
+-	url = https://github.com/novatechweb/ansible-docker-svn.git
+-[submodule "roles/bacula-catalog"]
+-	path = roles/bacula-catalog
+-	url = https://github.com/novatechweb/ansible-bacula-catalog.git
+-[submodule "roles/bacula-client"]
+-	path = roles/bacula-client
+-	url = https://github.com/novatechweb/ansible-bacula-client.git
+-[submodule "roles/bacula-console"]
+-	path = roles/bacula-console
+-	url = https://github.com/novatechweb/ansible-bacula-console.git
+-[submodule "roles/bacula-director"]
+-	path = roles/bacula-director
+-	url = https://github.com/novatechweb/ansible-bacula-director.git
+-[submodule "roles/bacula-storage"]
+-	path = roles/bacula-storage
+-	url = https://github.com/novatechweb/ansible-bacula-storage.git
+-[submodule "roles/libvirt-lvmpool"]
+-	path = roles/libvirt-lvmpool
+-	url = https://github.com/novatechweb/ansible-libvirt-lvmpool.git
+-[submodule "roles/libvirt-vm"]
+-	path = roles/libvirt-vm
+-	url = https://github.com/novatechweb/ansible-libvirt-vm.git
+-[submodule "roles/bacula-script"]
+-	path = roles/bacula-script
+-	url = https://github.com/novatechweb/ansible-bacula-script.git
+-[submodule "roles/mariadb"]
+-	path = roles/mariadb
+-	url = https://github.com/novatechweb/ansible-mariadb.git
+-[submodule "roles/setup-remote-user"]
+-	path = roles/setup-remote-user
+-	url = https://github.com/novatechweb/ansible-setup-remote-user.git
+-[submodule "roles/docker-mantisbt"]
+-	path = roles/docker-mantisbt
+-	url = https://github.com/novatechweb/ansible-docker-mantisbt.git
+-[submodule "roles/docker-exim4"]
+-	path = roles/docker-exim4
+-	url = https://github.com/novatechweb/ansible-docker-exim4.git
+-[submodule "roles/docker-buildsystem"]
+-	path = roles/docker-buildsystem
+-	url = https://github.com/novatechweb/ansible-docker-buildsystem.git
+-[submodule "roles/buildsystem"]
+-	path = roles/buildsystem
+-	url = https://github.com/novatechweb/ansible-buildsystem.git
+diff --git a/ansible-playbook/roles/bacula-catalog b/ansible-playbook/roles/bacula-catalog
+deleted file mode 160000
+index e4c62dcd..00000000
+--- a/ansible-playbook/roles/bacula-catalog
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit e4c62dcd9ef95bdca9687da46b69640aae48a9d2
+diff --git a/ansible-playbook/roles/bacula-client b/ansible-playbook/roles/bacula-client
+deleted file mode 160000
+index f709b2f1..00000000
+--- a/ansible-playbook/roles/bacula-client
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit f709b2f101db2401daa7e3f04d482522462bc2a3
+diff --git a/ansible-playbook/roles/bacula-console b/ansible-playbook/roles/bacula-console
+deleted file mode 160000
+index 5ca0c87e..00000000
+--- a/ansible-playbook/roles/bacula-console
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 5ca0c87ea418e1a66d9269bc9f1acd6b3af7af4b
+diff --git a/ansible-playbook/roles/bacula-director b/ansible-playbook/roles/bacula-director
+deleted file mode 160000
+index 014ece72..00000000
+--- a/ansible-playbook/roles/bacula-director
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 014ece72165e7660b7e6dc7f56bef0df36f7f763
+diff --git a/ansible-playbook/roles/bacula-script b/ansible-playbook/roles/bacula-script
+deleted file mode 160000
+index 47c28c6f..00000000
+--- a/ansible-playbook/roles/bacula-script
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 47c28c6faeb31894cbcb3c9a38bee8e94b059af0
+diff --git a/ansible-playbook/roles/bacula-storage b/ansible-playbook/roles/bacula-storage
+deleted file mode 160000
+index 39e6bb76..00000000
+--- a/ansible-playbook/roles/bacula-storage
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 39e6bb764c136989697373d59173517f87ff1d86
+diff --git a/ansible-playbook/roles/buildsystem b/ansible-playbook/roles/buildsystem
+deleted file mode 160000
+index 23a0194e..00000000
+--- a/ansible-playbook/roles/buildsystem
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 23a0194e06a61a12bfd4b29d7997a8968ccde455
+diff --git a/ansible-playbook/roles/docker-build-base-image b/ansible-playbook/roles/docker-build-base-image
+deleted file mode 160000
+index 42968100..00000000
+--- a/ansible-playbook/roles/docker-build-base-image
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 429681001f75696ae7c3e2e07600e81b919ad837
+diff --git a/ansible-playbook/roles/docker-buildsystem b/ansible-playbook/roles/docker-buildsystem
+deleted file mode 160000
+index 889de35e..00000000
+--- a/ansible-playbook/roles/docker-buildsystem
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 889de35eadb353d9af64e6303c14950ecf88e4c2
+diff --git a/ansible-playbook/roles/docker-common b/ansible-playbook/roles/docker-common
+deleted file mode 160000
+index 7bf7d92b..00000000
+--- a/ansible-playbook/roles/docker-common
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 7bf7d92b89e7bc76f74b394050768346372fd785
+diff --git a/ansible-playbook/roles/docker-exim4 b/ansible-playbook/roles/docker-exim4
+deleted file mode 160000
+index d8e28cdb..00000000
+--- a/ansible-playbook/roles/docker-exim4
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit d8e28cdbaadac859026e4c245b07a4d397ea4ad1
+diff --git a/ansible-playbook/roles/docker-gitlab b/ansible-playbook/roles/docker-gitlab
+deleted file mode 160000
+index df2d45e0..00000000
+--- a/ansible-playbook/roles/docker-gitlab
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit df2d45e0b6a708562bc9e7981e2940da352c8236
+diff --git a/ansible-playbook/roles/docker-mantisbt b/ansible-playbook/roles/docker-mantisbt
+deleted file mode 160000
+index 03b8671d..00000000
+--- a/ansible-playbook/roles/docker-mantisbt
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 03b8671dcfc1169c99df43209a6209fa4d9decb8
+diff --git a/ansible-playbook/roles/docker-mediawiki b/ansible-playbook/roles/docker-mediawiki
+deleted file mode 160000
+index 3e1f6b90..00000000
+--- a/ansible-playbook/roles/docker-mediawiki
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 3e1f6b902152fda9f89f92dd07b472b76ee4a38a
+diff --git a/ansible-playbook/roles/docker-openldap b/ansible-playbook/roles/docker-openldap
+deleted file mode 160000
+index 9e5a60f1..00000000
+--- a/ansible-playbook/roles/docker-openldap
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 9e5a60f12ae3d5f69402b8902bd19b93396d3704
+diff --git a/ansible-playbook/roles/docker-openssl b/ansible-playbook/roles/docker-openssl
+deleted file mode 160000
+index 998f245a..00000000
+--- a/ansible-playbook/roles/docker-openssl
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 998f245a74ecc54e840ed0bb343015fa191c5c2e
+diff --git a/ansible-playbook/roles/docker-pull-images b/ansible-playbook/roles/docker-pull-images
+deleted file mode 160000
+index f2afdc4e..00000000
+--- a/ansible-playbook/roles/docker-pull-images
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit f2afdc4e7985790043b2a543a13feafdfe62ad0c
+diff --git a/ansible-playbook/roles/docker-svn b/ansible-playbook/roles/docker-svn
+deleted file mode 160000
+index b8015e60..00000000
+--- a/ansible-playbook/roles/docker-svn
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit b8015e602076aad2fd9478fc7f4f56c1d235fead
+diff --git a/ansible-playbook/roles/libvirt-lvmpool b/ansible-playbook/roles/libvirt-lvmpool
+deleted file mode 160000
+index d387d6fa..00000000
+--- a/ansible-playbook/roles/libvirt-lvmpool
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit d387d6fa085f0a3f52a7e916689130bba98742a1
+diff --git a/ansible-playbook/roles/libvirt-vm b/ansible-playbook/roles/libvirt-vm
+deleted file mode 160000
+index 90c21e34..00000000
+--- a/ansible-playbook/roles/libvirt-vm
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 90c21e349c90cd37cd8c3bd5387ce505ea3faff9
+diff --git a/ansible-playbook/roles/mariadb b/ansible-playbook/roles/mariadb
+deleted file mode 160000
+index 6106077c..00000000
+--- a/ansible-playbook/roles/mariadb
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 6106077cb64b60f719ac5bec66a726e524d68f0c
+diff --git a/ansible-playbook/roles/setup-remote-user b/ansible-playbook/roles/setup-remote-user
+deleted file mode 160000
+index 27018c5e..00000000
+--- a/ansible-playbook/roles/setup-remote-user
++++ /dev/null
+@@ -1 +0,0 @@
+-Subproject commit 27018c5e850c428dbfe764610fc4d42eb36dcf08
