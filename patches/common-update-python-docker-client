@@ -1,0 +1,38 @@
+Bottom: 37c8febaaeb3eb2193bb46860b2b481f8982db47
+Top:    ee5a87e62cdb1df48edec845872de60eee07622b
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Update python docker client library
+
+Python's docker-py client library has updated to 1.10.6 at this time. This
+was the last version in the 1.x series. Newer versions are under the
+package name 'docker' on pypi.
+
+
+---
+diff --git a/roles/docker-common/tasks/packages.yml b/roles/docker-common/tasks/packages.yml
+index 16f732c4..ca85796b 100644
+--- a/roles/docker-common/tasks/packages.yml
++++ b/roles/docker-common/tasks/packages.yml
+@@ -1,18 +1,6 @@
+ ---
+ # file: roles/docker-common/tasks/package.yaml
+ 
+-- name: install yum package docker-python (1.4.0)
+-  yum:
+-    name: python-docker-py-1.4.0
+-    state: present
+-  when: ansible_os_family == "RedHat"
+-
+-- name: Install docker-py (1.4.0)
+-  command: pip2 install docker-py==1.4.0
+-  when: ansible_os_family == "Archlinux"
+-
+-- name: Install docker-py (1.4.0)
++- name: Install docker python module
+   pip:
+-    name: docker-py
+-    version: 1.4.0
+-  when: (ansible_os_family != "RedHat") and (ansible_os_family != "Archlinux")
++    name: docker==2.7.0

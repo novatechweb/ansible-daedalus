@@ -1,0 +1,22 @@
+Bottom: 99bb4a65399a18f846474f0e60172aee94cca033
+Top:    b21faea8a51ae6244de2fbe9494e06865659b97f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+No need to delete /etc/mailname before overwrite
+
+
+---
+diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
+index a99acea8..7080bd49 100755
+--- a/docker/docker-exim4/docker-entrypoint.sh
++++ b/docker/docker-exim4/docker-entrypoint.sh
+@@ -25,8 +25,6 @@ case ${1} in
+           && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
+         then
+             # set the hostname
+-            [ -e /etc/mailname ] \
+-                && rm -rf /etc/mailname
+             echo "${HOSTNAME}" > /etc/mailname
+             # set local IP addr
+             LOCAL_IP_ADDR=$(getent hosts $HOSTNAME | cut -d ' ' -f 1)

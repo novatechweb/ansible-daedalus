@@ -1,0 +1,92 @@
+Bottom: 91cdc883fd6b63f4b210dda5d203c533267c4aab
+Top:    9e19213ab2906e1a1c2ca1d2231cadca028ff1fa
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Limit mysql backup databases so restore will work
+
+By backing up all databases, the root user password is saved and restored
+If those credentials are lost, as is likely when a restore is needed, this
+prevents any furthr access to mysql. Limiting the backup to only the application
+databases lets the restore work correctly.
+
+To handle older backups, filter the dump files to remove the mysql database
+sections.
+
+
+---
+diff --git a/docker/docker-TestStation_SupportSite_backup_restore/entrypoint.sh b/docker/docker-TestStation_SupportSite_backup_restore/entrypoint.sh
+index 6c6ddd96..14773e1e 100644
+--- a/docker/docker-TestStation_SupportSite_backup_restore/entrypoint.sh
++++ b/docker/docker-TestStation_SupportSite_backup_restore/entrypoint.sh
+@@ -50,7 +50,7 @@ case ${1} in
+         #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         # MySQL backup
+         echo "Backup BS MySQL"
+-        mysqldump --host=test_station_mysql_server --user=root --password=$DATABASE_PASSWORD --all-databases --events --triggers --result-file=$BUILDSYSTEM_SQL_BACKUP_FILE
++        mysqldump --host=test_station_mysql_server --user=root --password=$DATABASE_PASSWORD --events --triggers --result-file=$BUILDSYSTEM_SQL_BACKUP_FILE protocol
+         #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         # tftp file backup
+         echo "Backup BS TFTP"
+@@ -79,7 +79,7 @@ case ${1} in
+         #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         # MySQL backup
+         echo "Backup SS MySQL"
+-        remote_dump_cmd="mysqldump --host=SupportSite_database_server --user=root --password=$DATABASE_PASSWORD --all-databases --events --triggers --result-file=/tmp/supportsite_backup.sql"
++        remote_dump_cmd="mysqldump --host=SupportSite_database_server --user=root --password=$DATABASE_PASSWORD --events --triggers --result-file=/tmp/supportsite_backup.sql protocol"
+         ssh $SSH_OPTIONS supportsite_docker_container $remote_dump_cmd
+         scp $SSH_OPTIONS supportsite_docker_container:/tmp/supportsite_backup.sql $SUPPORTSITE_SQL_BACKUP_FILE
+         ssh $SSH_OPTIONS supportsite_docker_container "rm -f /tmp/supportsite_backup.sql"
+@@ -99,4 +99,3 @@ case ${1} in
+     ;;
+ 
+ esac
+-
+diff --git a/roles/docker-buildsystem/tasks/restore.yml b/roles/docker-buildsystem/tasks/restore.yml
+index dc30735a..be79a681 100644
+--- a/roles/docker-buildsystem/tasks/restore.yml
++++ b/roles/docker-buildsystem/tasks/restore.yml
+@@ -32,6 +32,44 @@
+     mode: 'u=rwx,g=rwx,o='
+   with_items: '{{ buildsystem_restore_files.file_list | default([]) }}'
+ 
++# *****************************************************************************
++# For old backups that included the mysql database.
++# Can remove this section once those old backups are obsolete
++
++- name: create temporary location for editing
++  tempfile:
++    path: '{{ restore_buildsystem_docker_dir }}'
++    state: file
++    suffix: sql
++  register: backup_tmpfile
++
++- name: copy database dump to temporary file
++  copy:
++    remote_src: true
++    src: '{{ restore_buildsystem_docker_dir }}/buildsystem_backup.sql'
++    dest: '{{ backup_tmpfile.path }}'
++
++- name: begin marking database dump
++  lineinfile:
++    backup: yes
++    insertafter: "^-- Current Database: `mysql`"
++    line: "-- BEGIN ANSIBLE MANAGED BLOCK"
++    path: '{{ backup_tmpfile.path }}'
++
++- name: end marking database dump
++  lineinfile:
++    backup: yes
++    insertbefore: "^-- Current Database: `protocol`"
++    line: "-- END ANSIBLE MANAGED BLOCK"
++    path: '{{ backup_tmpfile.path }}'
++
++- name: cleanup database dump
++  blockinfile:
++    backup: yes
++    marker: "-- {mark} ANSIBLE MANAGED BLOCK"
++    content: ""
++    path: '{{ backup_tmpfile.path }}'
++
+ # *****************************************************************************
+ # restore the build system backup

@@ -1,6 +1,0 @@
-{% if exim4_docker_backup_dir is defined %}
-
-# *****************************************************************************
-# Clean up exim4 backup destination
-docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z {{ exim4_image_name }}:{{ docker_image_tag }} bash -c "rm -rf /tmp/import_export/EXIM4"
-{% endif %}

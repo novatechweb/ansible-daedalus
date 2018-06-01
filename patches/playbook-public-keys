@@ -1,0 +1,16 @@
+Bottom: fc6b6af5d09514879a06b1cb719a093730b10705
+Top:    b2f74c299241b3f653d29a5d06c7b82ab9b9f02f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:57 -0500
+
+Add public key for Andrew Cooper
+
+
+---
+diff --git a/ansible-playbook/public_keys/id_andrew.cooper.pub b/ansible-playbook/public_keys/id_andrew.cooper.pub
+new file mode 100644
+index 00000000..c2825b4f
+--- /dev/null
++++ b/ansible-playbook/public_keys/id_andrew.cooper.pub
+@@ -0,0 +1 @@
++ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDIUStq5Z2sDke/5qcGe/Tjb03lrqKkXwg1It0GkHY/dk68UJiEjVQTHMicE2D9ML2+QT/ACLmQf7uNDQ4NeNVQUwzyyca8hrVVj0CJYfcQuaUg2hBNLqd9cskiKdXee416bdV8abbDdPs1ZTb/BW45F2HVbde2zq/oqjg122tYPENRSR3hXsEqZcNvBbBGmGy0xGiNt3ejfJkw7lTaEeZlwC74vYMAQIjGZUaoB1rmY6dOYlIQTgU24moyQv5GzA+wI2XFZU0xMHb0Mr3d7pdQrZTs0jmgZkxGeqgoxxbsyusmUVB81kBrPK0uYxU8Iuno0NI/jhy4jz1H/ymndhyF coopera@coopera-xps

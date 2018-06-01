@@ -1,0 +1,42 @@
+Bottom: c2abe1783e18b31c734ca58384b1aefa1d7b19c7
+Top:    31088f8f7c246675da1c23e96a42113ce8ee1925
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:57 -0500
+
+Make bringup.sh more robust
+
+Fix the parameter expansion of $1 with default.
+
+Suppress output when adjusting the known_hosts file, in case the host
+wasn't there to begin with.
+
+Any errors adjusting known_hosts would cause the script to exit, so move the
+set command so only ansible errors will exit.
+
+
+---
+diff --git a/ansible-playbook/bringup.sh b/ansible-playbook/bringup.sh
+index cdc89f53..d180baf3 100755
+--- a/ansible-playbook/bringup.sh
++++ b/ansible-playbook/bringup.sh
+@@ -1,14 +1,15 @@
+ #!/bin/bash
+-set -e
+ 
+-inventory_file=${1:staging}
++inventory_file=${1:-staging}
+ 
+ for host in $(sed -e 's|^[[].*$||' -e 's|\..*$||' -e '/^$/d' ${inventory_file} | sort | uniq)
+ do
+-  ssh-keygen -R ${host}.novatech-llc.com
+-  ssh-keygen -R ${host}
+-  ssh-keygen -R $(getent hosts ${host} | awk '{ print $1 ; exit }')
++  ssh-keygen -R ${host}.novatech-llc.com 1>/dev/null 2>&1
++  ssh-keygen -R ${host} 1>/dev/null 2>&1
++  ssh-keygen -R $(getent hosts ${host} | awk '{ print $1 ; exit }') 1>/dev/null 2>&1
+   ssh-keyscan ${host}.novatech-llc.com >> ~/.ssh/known_hosts
+ done
++
++set -e
+ ansible-playbook bootstrap.yml -i ${inventory_file} --ask-pass
+ ansible-playbook site.yml -i ${inventory_file}

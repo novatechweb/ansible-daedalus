@@ -1,0 +1,23 @@
+Bottom: 5b47edb4a4686f66feaaab4869b6f20bae8acd47
+Top:    f9d03dd49b2a5c8a8df15ff4a39fd7c57bc98017
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Exec account script on exim4 container
+
+Instead of starting a new container to add accounts,
+execute script within existing container.
+
+
+---
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 43e565d4..21357723 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -127,5 +127,5 @@
+ # Email accounts
+ 
+ - name: populate email passwords
+-  shell: 'docker run --rm --volumes-from {{ exim4_dv_name }} {{ exim4_image_name }}:{{ docker_image_tag }} add_account {{ item.value.user }} "{{ item.value.password }}"'
++  shell: 'docker exec {{ exim4_container_name }} /docker-entrypoint.sh add_account {{ item.value.user }} "{{ item.value.password }}"'
+   with_dict: '{{ email_accounts }}'
