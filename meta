@@ -1,6 +1,6 @@
 Version: 1
-Previous: 26d549e9bec0d7c0454f28a5c53d995d7e8a047b
-Head: 7a066a26319ca7897b70b0705d07799438d2336c
+Previous: ce8d18a09075389c60b0e9688fd3ab34aacd0320
+Head: aa68dc7d8bd2bb4941578b132203655527c912c5
 Applied:
   all-ansible-2.4: 1e009cab3a732ef6933798bedd5ea8c872da7b80
   all-remove-submodules: a28862d5b0a5a522df1a782d6779254491ce29ff
@@ -49,8 +49,8 @@ Applied:
   svn-create-required-directories: 894887ad4a89432c2ae03da28bc55470f5386fbc
   wiki-downgrade-extensions: 0c866a005502c4fb6127a2b7d2da7168e5e43c6d
   buildbot-master: 7a066a26319ca7897b70b0705d07799438d2336c
+  buildbot-worker-ntel: aa68dc7d8bd2bb4941578b132203655527c912c5
 Unapplied:
-  buildbot-worker-ntel: 481ff88c0cc93d5437cdf9ca6079ab09e0150edc
   buildbot-worker-ptxdist: e2672a2281c7e29491a24dda0cc7aedcbafa04db
   fix-ssh-folder-permission: 6b31dd70a665bfcffb7134b004a1b3ea38d7c2a0
   update-ntel-builds-for-new: 2c16208f5a3076e39812637b215eafbf359bcf13
