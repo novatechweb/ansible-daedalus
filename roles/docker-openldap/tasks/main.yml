@@ -175,7 +175,7 @@
 # - name: wait for LDAP to start
 #   wait_for:
 #     delay: 5
-#     host: '{{ openldap_ip_addr | ipaddr('address') }}'
+#     host: '{{ openldap_ip_addr }}'
 #     port: 389
 #     state: started
 

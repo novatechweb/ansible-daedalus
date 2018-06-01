@@ -4,8 +4,6 @@
 - import_tasks: engine-redhat.yml
   when: ansible_os_family == "RedHat"
 
-- import_tasks: ip_addr.yml
-
 - import_tasks: packages.yml
 
 - import_tasks: configure.yml

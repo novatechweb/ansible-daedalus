@@ -1,6 +1,14 @@
 ---
 # tasks file for docker-networking
 
+- assert:
+    that:
+    - connection is defined
+    - subnet is defined
+    - services is defined
+
+- import_tasks: ip_addr.yml
+
 - name: Create frontend network for services
   docker_network:
     name: '{{ docker_network_frontend }}'
