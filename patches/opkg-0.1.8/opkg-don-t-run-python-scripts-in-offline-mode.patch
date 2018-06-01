@@ -1,0 +1,54 @@
+From b7c59acec6d5d1b2c21b2e9b7f1061a5193ea279 Mon Sep 17 00:00:00 2001
+From: George McCollister <george.mccollister@gmail.com>
+Date: Tue, 19 Jul 2011 10:15:14 -0500
+Subject: [PATCH] opkg: don't run python scripts in offline mode
+
+python scripts don't work in offline mode because python can't
+find any of the site modules.
+
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ libopkg/pkg.c |   20 ++++++++++++++++++++
+ 1 files changed, 20 insertions(+), 0 deletions(-)
+
+diff --git a/libopkg/pkg.c b/libopkg/pkg.c
+index 265f554..3cd3d17 100644
+--- a/libopkg/pkg.c
++++ b/libopkg/pkg.c
+@@ -1250,6 +1250,8 @@ pkg_run_script(pkg_t *pkg, const char *script, const char *args)
+      int err;
+      char *path;
+      char *cmd;
++     FILE * script_file;
++     char * line;
+ 
+      if (conf->noaction)
+ 	     return 0;
+@@ -1289,6 +1291,24 @@ pkg_run_script(pkg_t *pkg, const char *script, const char *args)
+ 	  free(path);
+ 	  return 0;
+      }
++     
++     if( conf->offline_root ) {
++	 script_file = fopen(path, "r");
++	 if( script_file ) {
++             line = file_read_line_alloc(script_file);
++	     fclose(script_file);
++             if (line != NULL) {
++		 if( strstr(line, "python") != NULL )
++		 {
++                     free(line);
++		     opkg_msg(INFO, "Offline root mode: not running python script %s.%s.\n",
++                             pkg->name, script);
++		     return 0;
++		 }
++                 free(line);
++             }
++	 }
++     }
+ 
+      sprintf_alloc(&cmd, "%s %s", path, args);
+      free(path);
+-- 
+1.7.1
+

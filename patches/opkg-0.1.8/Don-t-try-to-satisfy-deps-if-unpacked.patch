@@ -1,0 +1,29 @@
+From e2a397a2ab2e1286b14bd3215119a4d72aea5cf5 Mon Sep 17 00:00:00 2001
+From: George McCollister <george.mccollister@gmail.com>
+Date: Mon, 26 Aug 2013 11:51:35 -0500
+Subject: [PATCH] Don't try to satisfy deps if unpacked
+
+When a package obsoleted two or more packages it would end up trying to
+satisfy the deps twice resulting in an error.
+
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ libopkg/opkg_install.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libopkg/opkg_install.c b/libopkg/opkg_install.c
+index d38d6ff..a6c0357 100644
+--- a/libopkg/opkg_install.c
++++ b/libopkg/opkg_install.c
+@@ -1469,7 +1469,7 @@ opkg_install_pkg(pkg_t *pkg, int from_upgrade)
+ 		       pkg->architecture, pkg->name);
+ 	  return -1;
+      }
+-     if (pkg->state_status == SS_INSTALLED && conf->nodeps == 0) {
++     if ( (pkg->state_status == SS_INSTALLED || pkg->state_status == SS_UNPACKED) && conf->nodeps == 0) {
+ 	  err = satisfy_dependencies_for(pkg);
+ 	  if (err)
+ 		  return -1;
+-- 
+1.8.2.1
+
