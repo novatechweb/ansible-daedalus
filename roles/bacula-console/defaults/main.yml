@@ -1,9 +1,0 @@
----
-bacula_console_config_dir: "/etc/bacula"
-bacula_director_name: "server-dir"
-bacula_director_password: ""
-bacula_director_port: 9101
-bacula_director_address: "localhost"
-
-# must pass in the following variables
-# bacula_director_password: ''

@@ -1,6 +1,0 @@
-## SECTION=networking
-
-config EVENTLOG
-	tristate
-	help
-	  Part of syslog-ng.

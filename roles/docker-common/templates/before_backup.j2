@@ -1,7 +1,0 @@
-{% if docker_backup_dir is defined %}
-
-# *****************************************************************************
-# Make docker base backup dir
-docker run --rm -v {{ docker_backup_dir }}/..:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/docker"
-mkdir -p -m u=rwx,g=rwx,o= {{ docker_backup_dir }}
-{% endif %}
