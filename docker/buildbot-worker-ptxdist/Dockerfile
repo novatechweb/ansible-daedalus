@@ -1,11 +1,49 @@
+FROM        ubuntu:trusty AS ptxdist-build
+
+ENV PTXDIST_VERSION 2012.09.1
+
+# Install security updates and required packages
+RUN apt-get update \
+&&  DEBIAN_FRONTEND=noninteractive \
+    apt-get -y install -q \
+        autoconf \
+        bison \
+        build-essential \
+        checkinstall \
+        flex \
+        gawk \
+        gcc \
+        gettext \
+        git \
+        libncurses5-dev \
+        make \
+        python-dev \
+        texinfo \
+        wget
+
+# Install ptxdist, a build system
+COPY src /usr/src/ptxdist-${PTXDIST_VERSION}
+WORKDIR /usr/src/ptxdist-${PTXDIST_VERSION}
+
+RUN touch ptxdist \
+&&  ./autogen.sh \
+&&  ./configure \
+&&  make \
+&&  checkinstall \
+        --type=debian \
+        --default \
+        --pkgname=ptxdist \
+        --pkgversion="${PTXDIST_VERSION}" \
+        --install=no
+
+
 FROM        krallin/ubuntu-tini:trusty
-MAINTAINER  Buildbot maintainers
 
 WORKDIR /buildbot
 
 RUN apt-get update \
 &&  DEBIAN_FRONTEND=noninteractive \
-    apt-get -y install wget \
+    apt-get -y install -q wget \
 &&  wget -qO /etc/apt/trusted.gpg.d/ptx-archive-key.gpg https://debian.pengutronix.de/debian/ptx-archive-key.gpg \
 &&  wget -qO /etc/apt/sources.list.d/pengutronix.list   https://debian.pengutronix.de/debian/pengutronix.list \
 &&  apt-get update \
@@ -15,6 +53,8 @@ RUN apt-get update \
         oselas.toolchain-2012.12.1-arm-cortexa8-linux-gnueabi-gcc-4.7.3-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
         oselas.toolchain-2012.12.1-i686-atom-linux-gnu-gcc-4.7.2-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
 &&  rm -rf /var/lib/apt/lists/*
+
+COPY --from=ptxdist-build /usr/src/pptxdist_${PTXDIST_VERSION}-1_amd64.deb /
 
 # Install security updates and required packages
 RUN apt-get update \
@@ -75,13 +115,6 @@ RUN useradd --comment "Buildbot Server" --home-dir "/home/buildbot" --shell "/bi
 &&  chown -v -R buildbot:buildbot "/buildbot" \
 &&  chown -v -R buildbot:buildbot "/home/buildbot" \
 &&  useradd --comment "Gnome Display Manager" --home-dir "/var/lib/gdm" --shell "/sbin/nologin" --user-group --system gdm
-
-# Install ptxdist, a build system
-COPY ptxdist/ /tmp/ptxdist/
-ARG PTXDIST_REPO="git@git.novatech-llc.com:andrew.cooper/ptxdist.git"
-ARG PTXDIST_COMMIT="libconfig"
-ARG SECRET_HOST_IP
-RUN "/tmp/ptxdist/install.sh"
 
 USER buildbot
 

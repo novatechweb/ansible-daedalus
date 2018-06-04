@@ -2,22 +2,31 @@
 # defaults file for buildbot-worker-ntel
 
 # The hostname passed as an envirnment variable into the container
-container_addr_map:
-  buildbot:
-    ip_addr: '127.0.0.1'
-    hostname: buildbot-worker-ntel.example.com
-
 # Network names
 docker_network_frontend: 'frontend'
 
-buildbot_worker_data_path: '/buildbot'
-
-# the name of the image being duilt and used for the container
-buildbot_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
-buildbot_image_name: '{{ docker_registry_username }}/buildbot-worker-ntel'
+buildbot_worker_ntel_build_args:
+  BUILDBOT_UID: '1000'
+  BUILDBOT_VERSION: 'v1.1.2'
 
 # the name of the container being started
-buildbot_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
+buildbot_worker_ntel_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
 
-# the name of the data-volume used by the container
-buildbot_dv_name: '{{ docker_name_prefix }}buildbot-worker-ntel_DV'
+buildbot_worker_ntel_data_path: '/buildbot'
+
+# the name of the data volume used by the container
+buildbot_worker_ntel_data_volume: '{{ docker_name_prefix }}buildbot-worker-ntel_data'
+
+buildbot_worker_ntel_env:
+  BUILDBOT_MASTER: '{{ buildbot_master }}'
+  BUILDBOT_WORKER_PORT: '9989'
+  BUILDBOT_WORKER_NAME: 'worker-ntel'
+  BUILDBOT_WORKER_PASS: 'pass'
+
+# the name of the image being built and used for the container
+buildbot_worker_ntel_image_dir: '{{ docker_projects_dir }}/buildbot-worker-ntel'
+buildbot_worker_ntel_image_name: '{{ docker_registry_username }}/buildbot-worker-ntel'
+buildbot_worker_ntel_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
+
+buildbot_worker_ntel_volumes:
+  - '{{ buildbot_worker_ntel_data_volume }}:{{ buildbot_worker_ntel_data_path }}:z'
