@@ -112,11 +112,9 @@
     role: docker-buildsystem
     tags:
     - buildsystem_container
-  - name: Build and start the Buildbot master container
-    role: buildbot-master
-    tags:
-      - buildbot
-      - buildbot-master
+
+- name: Setup the buildbot containers
+  include: buildbot.yml
 
 - name: Setup the Build System (Test Station) with repo data
   hosts: buildsystem
