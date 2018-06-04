@@ -1,7 +1,0 @@
-
-######################################################################
-#                       ACL CONFIGURATION                            #
-#         Specifies access control lists for incoming SMTP mail      #
-######################################################################
-CHECK_RCPT_SPF = true
-begin acl

@@ -1,6 +1,0 @@
----
-# file: roles/docker-common/tasks/package.yaml
-
-- name: Install docker python module
-  pip:
-    name: docker==2.7.0

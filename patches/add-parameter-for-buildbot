@@ -1,0 +1,21 @@
+Bottom: 03523b834434819539fd9faf2f298d4236c53cb7
+Top:    15b4d66f056a7705fea5680a7f46599d1981e932
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-09 17:07:06 -0500
+
+Add parameter for buildbot version
+
+
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index 521c8237..dde9cdb8 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -1,4 +1,5 @@
+-FROM        buildbot/buildbot-master:v0.9.13
++ARG         BUILDBOT_VERSION=latest
++FROM        buildbot/buildbot-master:$BUILDBOT_VERSION
+ MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
+ 
+ WORKDIR /buildbot

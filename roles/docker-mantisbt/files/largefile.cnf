@@ -1,6 +1,0 @@
-[mysqld]
-max_allowed_packet = 64M
-wait_timeout = 6000
-
-[mysqldump]
-max_allowed_packet = 64M

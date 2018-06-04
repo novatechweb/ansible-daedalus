@@ -1,0 +1,31 @@
+Bottom: a9b064ba518d427ede173a0af77ce3623ca1dd9d
+Top:    31ae6cfce104ccc4551a0272c4b3818c06a28832
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:59 -0500
+
+Downgrade extension to 1.23
+
+The extensions for 1.25 have been removed from wmflabs.org. The 1.23
+version seem to work, so downgrade until we upgrade mediawiki itself.
+
+
+---
+diff --git a/docker/docker-mediawiki/Dockerfile b/docker/docker-mediawiki/Dockerfile
+index d4f29869..6aaefd61 100644
+--- a/docker/docker-mediawiki/Dockerfile
++++ b/docker/docker-mediawiki/Dockerfile
+@@ -37,11 +37,11 @@ RUN apt-get update && \
+ RUN mkdir -p /usr/src/mediawiki /var/www-shared/html && \
+     curl "https://releases.wikimedia.org/mediawiki/${MEDIAWIKI_VERSION%.*}/mediawiki-${MEDIAWIKI_VERSION}.tar.gz" | \
+         tar xzC /usr/src/mediawiki --strip-components=1 && \
+-    curl "https://extdist.wmflabs.org/dist/extensions/LdapAuthentication-REL1_25-d4db6f0.tar.gz" | \
++    curl "https://extdist.wmflabs.org/dist/extensions/LdapAuthentication-REL1_23-f266c74.tar.gz" | \
+         tar xzC /usr/src/mediawiki/extensions && \
+-    curl "https://extdist.wmflabs.org/dist/extensions/UserMerge-REL1_25-22c450d.tar.gz" | \
++    curl "https://extdist.wmflabs.org/dist/extensions/UserMerge-REL1_23-78f61ac.tar.gz" | \
+         tar xzC /usr/src/mediawiki/extensions && \
+-    curl "https://extdist.wmflabs.org/dist/extensions/Renameuser-REL1_25-a1d37af.tar.gz" | \
++    curl "https://extdist.wmflabs.org/dist/extensions/Renameuser-REL1_23-469785d.tar.gz" | \
+         tar xzC /usr/src/mediawiki/extensions
+ 
+ # copy over files

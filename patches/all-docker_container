@@ -1,0 +1,549 @@
+Bottom: 4376fb6077040b0bf618f543a5722c023dcdf08f
+Top:    be9047c8fda8a9c77d3b2e78213744f16c8d0fb8
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:57 -0500
+
+Use ansible docker_container module
+
+Cleaner than a single long docker run invocation
+
+
+---
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index b084bfef..061495c8 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -31,25 +31,3 @@ container_addr_map:
+   phpmyadmin:
+     ip_addr: 172.16.0.109
+     hostname: phpmyadmin.novatech-llc.com
+-
+-container_port_map:
+-  svn:
+-    port_args: '-p {{ container_addr_map.svn.ip_addr }}:80:80 -p {{ container_addr_map.svn.ip_addr }}:443:443'
+-  git:
+-    port_args: '-p {{ container_addr_map.git.ip_addr }}:80:80 -p {{ container_addr_map.git.ip_addr }}:443:443  -p {{ container_addr_map.git.ip_addr }}:22:22'
+-  wiki:
+-    port_args: '-p {{ container_addr_map.wiki.ip_addr }}:80:80 -p {{ container_addr_map.wiki.ip_addr }}:443:443'
+-  mantisbt:
+-    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
+-  build:
+-    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
+-  testssh:
+-    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
+-  exim4:
+-    port_args: '-p {{ container_addr_map.exim4.ip_addr }}:25:25 -p {{ container_addr_map.exim4.ip_addr }}:465:465 -p {{ container_addr_map.exim4.ip_addr }}:587:587'
+-  ldap:
+-    port_args: '-p {{ container_addr_map.ldap.ip_addr }}:389:389 -p {{ container_addr_map.ldap.ip_addr }}:636:636'
+-  phpldapadmin:
+-    port_args: '-p {{ container_addr_map.phpldapadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
+-  phpmyadmin:
+-    port_args: '-p {{ container_addr_map.phpmyadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+index eda18efd..44420054 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+@@ -31,25 +31,3 @@ container_addr_map:
+   phpmyadmin:
+     ip_addr: 172.16.0.209
+     hostname: phpmyadmin.novatech-llc.com
+-
+-container_port_map:
+-  svn:
+-    port_args: '-p {{ container_addr_map.svn.ip_addr }}:80:80 -p {{ container_addr_map.svn.ip_addr }}:443:443'
+-  git:
+-    port_args: '-p {{ container_addr_map.git.ip_addr }}:80:80 -p {{ container_addr_map.git.ip_addr }}:443:443  -p {{ container_addr_map.git.ip_addr }}:22:22'
+-  wiki:
+-    port_args: '-p {{ container_addr_map.wiki.ip_addr }}:80:80 -p {{ container_addr_map.wiki.ip_addr }}:443:443'
+-  mantisbt:
+-    port_args: '-p {{ container_addr_map.mantisbt.ip_addr }}:80:80 -p {{ container_addr_map.mantisbt.ip_addr }}:443:443'
+-  build:
+-    port_args: '-p {{ container_addr_map.build.ip_addr }}:80:80 -p {{ container_addr_map.build.ip_addr }}:443:443'
+-  testssh:
+-    port_args: '-p {{ container_addr_map.testssh.ip_addr }}:2200:22'
+-  exim4:
+-    port_args: '-p {{ container_addr_map.exim4.ip_addr }}:25:25 -p {{ container_addr_map.exim4.ip_addr }}:465:465 -p {{ container_addr_map.exim4.ip_addr }}:587:587'
+-  ldap:
+-    port_args: '-p {{ container_addr_map.ldap.ip_addr }}:389:389 -p {{ container_addr_map.ldap.ip_addr }}:636:636'
+-  phpldapadmin:
+-    port_args: '-p {{ container_addr_map.phpldapadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
+-  phpmyadmin:
+-    port_args: '-p {{ container_addr_map.phpmyadmin.ip_addr }}:80:80 -p {{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
+diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
+index cdbad40e..9d4820f9 100644
+--- a/roles/docker-buildsystem/defaults/main.yml
++++ b/roles/docker-buildsystem/defaults/main.yml
+@@ -6,6 +6,14 @@
+ # buildsystem_ssh_root_user_password
+ # buildsystem_database_root_password
+ 
++buildsystem:
++    port_args: 
++      - '{{ container_addr_map.build.ip_addr }}:80:80'
++      - '{{ container_addr_map.build.ip_addr }}:443:443'
++
++test_ssh:
++    port_args:
++    - '{{ container_addr_map.testssh.ip_addr }}:2200:22'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'
+@@ -49,7 +57,7 @@ build_system_docker_repos:
+     url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_database_server.git
+   TestStation_http_server:
+     dir_name: docker-TestStation_http_server
+-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_server.git
++    url: https://git.novatech-llc.com/andrew.cooper/docker-TestStation_http_server.git
+   TestStation_ssh_server:
+     dir_name: docker-TestStation_ssh_server
+     url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_ssh_server.git
+diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
+index 20d48fc4..1c233231 100644
+--- a/roles/docker-exim4/defaults/main.yml
++++ b/roles/docker-exim4/defaults/main.yml
+@@ -1,5 +1,19 @@
+ ---
+ 
++# The hostname passed as an envirnment variable into the container
++container_addr_map:
++  exim4:
++    ip_addr: '127.0.0.1'
++    hostname: mail.example.com
++
++# the port mappings used when starting the container
++container_port_map:
++  exim4:
++    port_args: 
++      - '{{ container_addr_map.exim4.ip_addr }}:25:25'
++      - '{{ container_addr_map.exim4.ip_addr }}:465:465'
++      - '{{ container_addr_map.exim4.ip_addr }}:587:587'
++
+ # the repository containing Dockerfile to build the image
+ exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
+ 
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 49eccc30..439e058e 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -101,9 +101,16 @@
+ # Start the data container running
+ 
+ - name: start container
+-  docker_run:
+-    container_name: '{{ exim4_container_name }}'
+-    docker_run_arguments: '--hostname={{ container_addr_map.exim4.hostname }} {{ container_port_map.exim4.port_args }} -v {{ exim4_syslog_datavolume_dir }}/exim4:/var/log/exim4 --volumes-from {{ openssl_dv_name }} --volumes-from {{ exim4_dv_name }} {{ exim4_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ exim4_container_name }}'
++    hostname: '{{ container_addr_map.exim4.hostname }}'
++    ports: '{{ container_port_map.exim4.port_args }}'
++    image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
++    restart_policy: always
++    state: started
++    volumes:
++      - '{{ exim4_dv_name }}:/var/spool/exim4:z'
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
+index fce4efac..3a0aec35 100644
+--- a/roles/docker-gitlab/defaults/main.yml
++++ b/roles/docker-gitlab/defaults/main.yml
+@@ -9,7 +9,10 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   git:
+-    port_args: '-P'
++    port_args: 
++      - '{{ container_addr_map.git.ip_addr }}:80:80'
++      - '{{ container_addr_map.git.ip_addr }}:443:443'
++      - '{{ container_addr_map.git.ip_addr }}:22:22'
+ 
+ # database usernames and passwords
+ gitlab_db_user: novatech
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index aeab7bf9..0da097e8 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -129,19 +129,47 @@
+ # Start the data container running
+ 
+ - name: start container (redis)
+-  docker_run:
+-    container_name: '{{ gitlab_redis_container_name }}'
+-    docker_run_arguments: '{{ redis_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ gitlab_redis_container_name }}'
++    detach: true
++    restart_policy: always
++    image: '{{ redis_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (postgres)
+-  docker_run:
+-    container_name: '{{ gitlab_db_container_name }}'
+-    docker_run_arguments: '--volumes-from {{ gitlab_db_dv_name }} {{ gitlab_db_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ gitlab_db_container_name }}'
++    detach: true
++    restart_policy: always
++    volumes-from: '{{ gitlab_db_dv_name }}'
++    image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (gitlab)
+-  docker_run:
+-    container_name: '{{ gitlab_container_name }}'
+-    docker_run_arguments: '--hostname={{ container_addr_map.git.hostname }} {{ container_port_map.git.port_args }} --link {{ openldap_container_name }}:gitlab-ldap --link {{ gitlab_redis_container_name }}:gitlab-redis --link {{ gitlab_db_container_name }}:gitlab-db --link {{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }} --volumes-from {{ openssl_dv_name }} --volumes-from {{ gitlab_dv_name }} --env GITLAB_HOST={{ container_addr_map.git.hostname }} --env GITLAB_SSH_HOST={{ container_addr_map.git.hostname }} --env DB_USER={{ gitlab_db_user }} --env DB_PASS={{ gitlab_db_password | quote }} --env SMTP_HOST={{ container_addr_map.exim4.hostname }} --env SMTP_PASS={{ gitlab_email_password | quote }} --env LDAP_PASS={{ ldap_proxyagent_password | quote }} --env GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }} --env GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }} --env-file {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ gitlab_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ gitlab_container_name }}'
++    detach: true
++    restart_policy: always
++    hostname: '{{ container_addr_map.git.hostname }}'
++    ports: '{{ container_port_map.git.port_args }}'
++    link:
++      - '{{ openldap_container_name }}:gitlab-ldap'
++      - '{{ gitlab_redis_container_name }}:gitlab-redis'
++      - '{{ gitlab_db_container_name }}:gitlab-db'
++      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    volumes-from:
++      - '{{ openssl_dv_name }}'
++      - '{{ gitlab_dv_name }}'
++    env:
++      - GITLAB_HOST={{ container_addr_map.git.hostname }}
++      - GITLAB_SSH_HOST={{ container_addr_map.git.hostname }}
++      - DB_USER={{ gitlab_db_user }}
++      - DB_PASS={{ gitlab_db_password | quote }}
++      - SMTP_HOST={{ container_addr_map.exim4.hostname }}
++      - SMTP_PASS={{ gitlab_email_password | quote }}
++      - LDAP_PASS={{ ldap_proxyagent_password | quote }}
++      - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
++      - GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }}
++    env-file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
++    image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: Wait for gitlab to be fully running
+   wait_for:
+diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
+index f28e1bdc..896fa010 100644
+--- a/roles/docker-mantisbt/defaults/main.yml
++++ b/roles/docker-mantisbt/defaults/main.yml
+@@ -9,7 +9,9 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   mantisbt:
+-    port_args: '-P'
++    port_args:
++      - '{{ container_addr_map.mantisbt.ip_addr }}:80:80'
++      - '{{ container_addr_map.mantisbt.ip_addr }}:443:443'
+ 
+ # database usernames and passwords
+ mantisbt_db_user: novatech
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 7d2c6898..2124a54a 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -145,14 +145,34 @@
+ # Start the data container running
+ 
+ - name: start container (mysql)
+-  docker_run:
+-    container_name: '{{ mantisbt_db_container_name }}'
+-    docker_run_arguments: '--volumes-from {{ mantisbt_db_dv_name }} {{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ mantisbt_db_container_name }}'
++    detach: true
++    restart_policy: always
++    volumes-from:
++      - '{{ mantisbt_db_dv_name }}'
++    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (mantisbt)
+-  docker_run:
+-    container_name: '{{ mantisbt_container_name }}'
+-    docker_run_arguments: '--hostname={{ container_addr_map.mantisbt.hostname }} {{ container_port_map.mantisbt.port_args }} --link {{ openldap_container_name }}:mantisbt_ldap --link {{ mantisbt_db_container_name }}:mantisbt_db --link {{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }} --volumes-from {{ openssl_dv_name }} --volumes-from {{ mantisbt_dv_name }} --env MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }} --env MANTISBT_MAIL_USER=mantis --env MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }} --env MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }} {{ mantisbt_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ mantisbt_container_name }}'
++    detach: true
++    restart_policy: always
++    hostname: '{{ container_addr_map.mantisbt.hostname }}'
++    ports: '{{ container_port_map.mantisbt.port_args }}'
++    link: 
++      -'{{ openldap_container_name }}:mantisbt_ldap'
++      -'{{ mantisbt_db_container_name }}:mantisbt_db'
++      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    volumes-from: 
++      - '{{ openssl_dv_name }}'
++      - '{{ mantisbt_dv_name }}'
++    env: 
++      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
++      - MANTISBT_MAIL_USER=mantis
++      - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
++      - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}
++    image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+ # remove the MySQL config in the restore directory
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index ad6d61e8..2a5319d5 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -9,7 +9,9 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   wiki:
+-    port_args: '-P'
++    port_args:
++      - '{{ container_addr_map.wiki.ip_addr }}:80:80'
++      - '{{ container_addr_map.wiki.ip_addr }}:443:443'
+ 
+ # database usernames and passwords
+ wiki_db_user: novatech
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 3dda287b..cfcd636a 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -119,14 +119,32 @@
+ # Start the data container running
+ 
+ - name: start container (mysql)
+-  docker_run:
+-    container_name: '{{ wiki_db_container_name }}'
+-    docker_run_arguments: '--volumes-from {{ wiki_db_dv_name }} {{ wiki_db_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ wiki_db_container_name }}'
++    detach: true
++    restart_policy: always
++    volumes-from: '{{ wiki_db_dv_name }}'
++    image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (mediwiki)
+-  docker_run:
+-    container_name: '{{ wiki_container_name }}'
+-    docker_run_arguments: '--hostname={{ container_addr_map.wiki.hostname }} {{ container_port_map.wiki.port_args }} --link {{ openldap_container_name }}:wiki_ldap --link {{ wiki_db_container_name }}:wiki_db --link {{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }} --volumes-from {{ openssl_dv_name }} --volumes-from {{ wiki_dv_name }} --env WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }} --env WIKI_MAIL_USER=wiki --env WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }} {{ wiki_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ wiki_container_name }}'
++    detach: true
++    restart_policy: always
++    hostname: '{{ container_addr_map.wiki.hostname }}' 
++    ports: '{{ container_port_map.wiki.port_args }}'
++    link:
++      - '{{ openldap_container_name }}:wiki_ldap'
++      - '{{ wiki_db_container_name }}:wiki_db'
++      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    volumes-from: 
++      - '{{ openssl_dv_name }}'
++      - '{{ wiki_dv_name }}'
++      env:
++        - WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }}
++        - WIKI_MAIL_USER=wiki
++        - WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }}
++      image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
+index 1a7e08ee..cf307788 100644
+--- a/roles/docker-openldap/defaults/main.yml
++++ b/roles/docker-openldap/defaults/main.yml
+@@ -12,9 +12,13 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   ldap:
+-    port_args: '-P'
++    port_args:
++      - '{{ container_addr_map.ldap.ip_addr }}:389:389'
++      - '{{ container_addr_map.ldap.ip_addr }}:636:636'
+   phpldapadmin:
+-    port_args: '-P'
++    port_args: 
++      - '{{ container_addr_map.phpldapadmin.ip_addr }}:80:80'
++      - '{{ container_addr_map.phpldapadmin.ip_addr }}:443:443'
+ 
+ openldap_backup_files:
+   - ldif_file: LDAP_database_0000.ldif
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index 332dba7b..c84183ae 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -86,21 +86,52 @@
+ # Populate the ldap data-volume with default data
+ 
+ - name: initial populate
+-  command: 'docker run --rm --volumes-from {{ openldap_dv_name }} {{ openldap_image_name }}:{{ docker_image_tag }} init_data_volumes'
++  docker_container:
++    detach: false
++    name: openldap_populate
++    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
++    command: ['init_data_volumes']
++    volumes:
++      - '{{ openldap_dv_name }}'
+   when: st_openldap_restore.stat.exists == False
+ 
++- name: initial populate
++  docker_container:
++    name: openldap_populate
++    state: absent
++
+ # *****************************************************************************
+ # Start the data container running
+ 
+ - name: start container (ldap)
+-  docker_run:
+-    container_name: '{{ openldap_container_name }}'
+-    docker_run_arguments: '--hostname={{ container_addr_map.ldap.hostname }} {{ container_port_map.ldap.port_args }} --volumes-from {{ openssl_dv_name }} --volumes-from {{ openldap_dv_name }} --env LDAP_HOSTNAME={{ container_addr_map.ldap.hostname }} {{ openldap_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ openldap_container_name }}'
++    detach: true
++    restart_policy: always
++    hostname: '{{ container_addr_map.ldap.hostname }}'
++    ports: '{{ container_port_map.ldap.port_args }}'
++    volumes-from:
++      - '{{ openssl_dv_name }}'
++      - '{{ openldap_dv_name }}'
++    env:
++      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
++    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (phpldapadmin)
+-  docker_run:
+-    container_name: '{{ phpldapadmin_container_name }}'
+-    docker_run_arguments: '--hostname={{ container_addr_map.ldap.hostname }} {{ container_port_map.phpldapadmin.port_args }} --volumes-from {{ openssl_dv_name }} --env PHPLDAPADMIN_HTTPS=false --env PHPLDAPADMIN_LDAP_HOSTS=ldap --env LDAP_HOSTNAME={{ container_addr_map.phpldapadmin.hostname }} --link {{ openldap_container_name }}:ldap {{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ phpldapadmin_container_name }}'
++    detach: true
++    restart_policy: always
++    hostname: '{{ container_addr_map.ldap.hostname }}'
++    ports: '{{ container_port_map.phpldapadmin.port_args }}'
++    volumes-from:
++      - '{{ openssl_dv_name }}'
++    env:
++      PHPLDAPADMIN_HTTPS: 'false'
++      PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
++      LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
++    link: '{{ openldap_container_name }}:ldap'
++    image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
+index 05b9a20d..7c1b9603 100644
+--- a/roles/docker-openssl/tasks/main.yml
++++ b/roles/docker-openssl/tasks/main.yml
+@@ -79,8 +79,20 @@
+ # Populate the openssl data-volume with default data
+ 
+ - name: initial populate
+-  command: 'docker run --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} generate'
++  docker_container:
++    detach: False
++    image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
++    name: openssl_populate
++    volumes:
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
++    command: 'generate'
+   when: st_openssl_restore.stat.exists == False
++  ignore_errors: True
++
++- name: initial populate
++  docker_container:
++    name: openssl_populate
++    state: absent
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
+index b53be30f..c2640dd3 100644
+--- a/roles/docker-openssl/tasks/restore.yml
++++ b/roles/docker-openssl/tasks/restore.yml
+@@ -39,8 +39,20 @@
+ # restore the archive
+ 
+ - name: extract archive
+-  shell: "cat {{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }} | docker run -i --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} extract"
+-  when: st_openssl_backup_file.stat.exists == True
++  docker_container:
++    detach: False
++    image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
++    name: openssl_restore
++    volumes:
++      - '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}:{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}:z'
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
++    command: ['extract', '{{ host_openssl_docker_restore_dir }}/{{ openssl_backup_file }}']
++
++- name: extract archive
++  docker_container:
++    name: openssl_restore
++    state: absent
++
+ 
+ # *****************************************************************************
+ # cleanup
+diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
+index 22242684..03d47174 100644
+--- a/roles/docker-svn/defaults/main.yml
++++ b/roles/docker-svn/defaults/main.yml
+@@ -9,7 +9,9 @@ container_addr_map:
+ # the port mappings used when starting the container
+ container_port_map:
+   svn:
+-    port_args: '-P'
++    port_args: 
++      - '{{ container_addr_map.svn.ip_addr }}:80:80'
++      - '{{ container_addr_map.svn.ip_addr }}:443:443'
+ 
+ # The repositories that will be created/imported durring a data-volume restore
+ svn_repos: 'example'
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index a34e61d0..00e687a0 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -78,9 +78,21 @@
+ # Start the data container running
+ 
+ - name: start container
+-  docker_run:
+-    container_name: '{{ svn_container_name }}'
+-    docker_run_arguments: '--hostname={{ container_addr_map.svn.hostname }} {{ container_port_map.svn.port_args }} --link {{ openldap_container_name }}:ldap --volumes-from {{ openssl_dv_name }} --volumes-from {{ svn_dv_name }} --env SVN_HOSTNAME={{ container_addr_map.svn.hostname }} --env SVN_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }} {{ svn_image_name }}:{{ docker_image_tag }}'
++  docker_container:
++    name: '{{ svn_container_name }}'
++    detach: true
++    restart_policy: always
++    hostname: '{{ container_addr_map.svn.hostname }}'
++    ports: '{{ container_port_map.svn.port_args }}'
++    link:
++      - '{{ openldap_container_name }}:ldap'
++    volumes-from:
++      - '{{ openssl_dv_name }}'
++      - '{{ svn_dv_name }}'
++    env:
++      SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
++      SVN_LDAP_PASSWORD: '{{ ldap_proxyagent_password }}'
++    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
+index aef103f2..3e7b60e0 100644
+--- a/roles/docker-svn/tasks/restore.yml
++++ b/roles/docker-svn/tasks/restore.yml
+@@ -36,9 +36,21 @@
+ # restore the svn backup
+ 
+ - name: restore svn repositories
+-  command: 'docker run -ti --rm --volumes-from {{ svn_dv_name }} -v {{ host_svn_docker_restore_dir }}:/tmp/import_export {{ svn_image_name }}:{{ docker_image_tag }} import {{ svn_repos }}'
++  docker_container:
++    detach: False
++    volumes-from:
++      - '{{ svn_dv_name }}'
++    volumes:
++      - '{{ host_svn_docker_restore_dir }}:/tmp/import_export:z'
++    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
++    command: ['import', '{{ svn_repos }}']
++    name: 'svn_restore'
+   when: not((svn_repos is undefined) or (svn_repos is none) or (svn_repos|trim == '')) or svn_repo_backup.file_list != []
+ 
++- name: remove svn-restore container
++  docker_container:
++    name: 'svn_restre'
++    state: absent
+ # *****************************************************************************
+ # cleanup

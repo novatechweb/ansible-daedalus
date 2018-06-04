@@ -1,7 +1,0 @@
-## SECTION=bootloader
-
-config BAREBOX_@PACKAGE@
-	tristate
-	prompt "Barebox (@package@)"
-	help
-	  FIXME
