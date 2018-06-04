@@ -1,6 +1,6 @@
 Version: 1
-Previous: f9d69c8a5e3201ac8e6412cf914b12ae7fd3a004
-Head: 99666e89b8fd68f860de42cca14a66eea2a56d1e
+Previous: 24cb46a6c2ca3528572a215e7e1c34ddb03ed844
+Head: 5db865f580efd2a0d4d8d6482d48702e7730314c
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -77,7 +77,6 @@ Applied:
   buildbot-ssh-keygen: af36db19d5fbed7ee276fbf4752e9ebf186cc546
   gitlab_sshkey-create-role: 6c4ea34685a21ae715d4b00492d7e9623d5f592b
   gitlab_user-create-role: 02819dc4dcc23e50fcb9721df3c6e77be7ed54fa
-  common-docker-enable-tcp: e91ae05b4c5af29347d93bf1f092dbd2c6ad9853
-  refresh-temp: 99666e89b8fd68f860de42cca14a66eea2a56d1e
+  common-docker-enable-tcp: 5db865f580efd2a0d4d8d6482d48702e7730314c
 Unapplied:
 Hidden:
