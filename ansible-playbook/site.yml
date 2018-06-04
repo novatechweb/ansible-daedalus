@@ -117,18 +117,11 @@
     assemble_scripts: true
 
 - name: Cleanup tasks
-  hosts: all
+  hosts: daedalus
   tasks:
   - name: Copy credentials to the /etc dir
     copy:
-      src: ./credentials/{{ inventory_hostname }}
-      dest: /etc/ansible-credentials/
-      owner: root
-      group: root
-      mode: 'u=rw,g=,o='
-  - name: Copy build system credentials to /etc dir
-    copy:
-      src: ./credentials/buildsystem.novatech-llc.com
+      src: "{{ playbook_dir }}/credentials/"
       dest: /etc/ansible-credentials/
       owner: root
       group: root
