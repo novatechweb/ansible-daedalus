@@ -1,0 +1,26 @@
+Bottom: 3e44a56d1b6ea583c1553482c77c71cc8c9248fa
+Top:    15e4f0f938bcdf8de07025248e8497bdf318cf18
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-04 17:22:02 -0500
+
+Refresh of TESTING--VirtualMachine
+
+---
+diff --git a/ansible-playbook/host_vars/bbworker/privileges.yml b/ansible-playbook/host_vars/bbworker/privileges.yml
+new file mode 100644
+index 00000000..fa188ba9
+--- /dev/null
++++ b/ansible-playbook/host_vars/bbworker/privileges.yml
+@@ -0,0 +1,3 @@
++---
++
++ansible_user: vagrant
+diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml
+new file mode 100644
+index 00000000..fa188ba9
+--- /dev/null
++++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml
+@@ -0,0 +1,3 @@
++---
++
++ansible_user: vagrant
