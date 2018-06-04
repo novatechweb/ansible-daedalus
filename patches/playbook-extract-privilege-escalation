@@ -1,0 +1,13 @@
+Bottom: af36419776a6ea085693be2de887edb28acde20e
+Top:    af36419776a6ea085693be2de887edb28acde20e
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-04 17:07:02 -0500
+
+Extract privilege escalation variables from playbooks
+
+Putting these variables into vars files removes clutter from playbooks
+and unnecessary boilerplate when writing new plays.
+
+
+---
+
