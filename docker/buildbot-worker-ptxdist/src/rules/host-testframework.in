@@ -1,8 +1,0 @@
-## SECTION=hosttools
-
-config HOST_TESTFRAMEWORK
-	tristate
-	prompt "host-side testing framework   "
-	default y
-	select HOST_LRZSZ
-	select HOST_CKERMIT

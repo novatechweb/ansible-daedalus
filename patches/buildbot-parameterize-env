@@ -1,0 +1,115 @@
+Bottom: fe2315d7d6f9f0645a69b0f2ce6c2cfa9e3682cc
+Top:    92fd8e9bcf5722532274280572f3c8b5a272d73c
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 14:39:04 -0500
+
+Add environment variables for parameters
+
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index dde9cdb8..b13cd1d2 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -20,9 +20,10 @@ RUN pip --no-cache-dir install \
+ 
+ # Create buildbot user
+ ARG BUILDBOT_UID=1000
++ARG BUILDBOT_DATA="/buildbot"
+ COPY buildbot/ /home/buildbot/
+ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
+-&&  chown -v -R buildbot:buildbot "/buildbot" \
++&&  chown -v -R buildbot:buildbot "${BUILDBOT_DATA}" \
+ &&  chown -v -R buildbot:buildbot "/home/buildbot"
+ 
+ USER buildbot
+diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/docker/buildbot-master/buildbot/buildbot.tac
+index c3b2e879..4fbddaa2 100644
+--- a/docker/buildbot-master/buildbot/buildbot.tac
++++ b/docker/buildbot-master/buildbot/buildbot.tac
+@@ -1,4 +1,5 @@
+ import sys
++import os
+ 
+ from twisted.application import service
+ from twisted.python.log import FileLogObserver
+@@ -6,7 +7,7 @@ from twisted.python.log import ILogObserver
+ 
+ from buildbot.master import BuildMaster
+ 
+-basedir = '/buildbot'
++basedir = os.getenv('BUILDBOT_DATA', '/buildbot')
+ configfile = 'master.cfg'
+ 
+ # note: this line is matched against to check that this is a buildmaster
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 658d5fb1..c3c87d10 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -20,7 +20,7 @@ c['change_source'] = []
+ # Defines the TCP port to listen on for connections from workers.
+ # This must match the value configured into the buildworkers (with their
+ # --master option)
+-c['protocols'] = {"pb": {"port": os.getenv('BUILDBOT_WORKER_PORT',9989)}}
++c['protocols'] = {"pb": {"port": int(os.getenv('BUILDBOT_WORKER_PORT',9989))}}
+ 
+ ####### STATUS TARGETS
+ 
+@@ -36,16 +36,21 @@ irc = reporters.IRC(host="172.16.64.3",
+                     channels=["#orion"])
+ c['services'].append(irc)
+ 
+-mn = reporters.MailNotifier(fromaddr="buildbot@novatechweb.com",
+-                  sendToInterestedUsers=True,
+-                  extraRecipients=["andrew.cooper@novatechweb.com"],
+-                  useTls=True, relayhost="relay.dnsexit.com", smtpPort=26,
+-                  smtpUser="Dean.cox", smtpPassword="no5156")
++mn = reporters.MailNotifier(
++    fromaddr="buildbot@novatechweb.com",
++    sendToInterestedUsers=True,
++    extraRecipients=["andrew.cooper@novatechweb.com"],
++    useTls=True,
++    relayhost=os.getenv('BUILDBOT_SMTP_HOST',"relay.dnsexit.com"),
++    smtpPort=26,
++    smtpUser=os.getenv('BUILDBOT_SMTP_USER', "Dean.cox"),
++    smtpPassword=os.getenv('BUILDBOT_SMTP_PASS',"no5156")
++    )
+ c['services'].append(mn)
+ 
+ ####### WEB SERVER
+ c['www'] = {
+-    'port':os.getenv('BUILDBOT_WEB_PORT',8010),
++    'port': int(os.getenv('BUILDBOT_WEB_PORT',8010)),
+     'plugins': {
+         'waterfall_view': True,
+         'console_view': True,
+@@ -84,7 +89,7 @@ c['buildbotURL'] = os.getenv('BUILDBOT_WEB_URL',"http://localhost:%s/"%(c['www']
+ c['db'] = {
+     # This specifies what database buildbot uses to store its state.  You can leave
+     # this at its default for all but the largest installations.
+-    'db_url' : os.getenv('BUILDBOT_DATABASE',"sqlite://state.sqlite"),
++    'db_url' : os.getenv('BUILDBOT_DATABASE',"sqlite://"),
+ }
+ 
+ ####### Extra Options
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index a30fbf6d..5e0eed75 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -1,10 +1,12 @@
+ #!/bin/sh
+ 
+-mkdir -p $HOME/.ssh
+-cp -R /run/secrets/ssh/* $HOME/.ssh
+-chmod -R 600 $HOME/.ssh/*
++BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
+ 
+-ln -v -s -f /home/buildbot/buildbot.tac /home/buildbot/master.cfg /home/buildbot/*.py /buildbot
++mkdir -p ${HOME}/.ssh
++cp -R /run/secrets/ssh/* ${HOME}/.ssh
++chmod -R 600 ${HOME}/.ssh/*
++
++ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
+ 
+ /usr/bin/buildbot --verbose upgrade-master
+ exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac

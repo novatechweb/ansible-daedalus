@@ -1,5 +1,0 @@
-Host 172.16.*.*
-	LogLevel FATAL
-	StrictHostKeyChecking no
-	UserKnownHostsFile=/dev/null
-	IdentityFile ~/.ssh/id_rsa_ts
