@@ -1,6 +1,6 @@
 Version: 1
-Previous: 67559c030aac8ffbc20c81cc41cbd9f812cd48ee
-Head: f323a14496e25c7438f030d4156a5adb4299479f
+Previous: 99db1ed74ecb8244115e11cf4934cbc16e2e4529
+Head: d7c0a92f45941054b4c4cc2c2812680b2cff9b0e
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -76,5 +76,6 @@ Applied:
   fixup-tmp-rework-ip-address-network: 256401ac4d654b1b3b0d4097ab4724802bf7cc3d
   buildbot-ssh-keygen: 6178fe316bf03d1d0ecf8109c8f4a4f32b03b015
   gitlab_sshkey-create-role: f323a14496e25c7438f030d4156a5adb4299479f
+  gitlab_user-create-role: d7c0a92f45941054b4c4cc2c2812680b2cff9b0e
 Unapplied:
 Hidden:
