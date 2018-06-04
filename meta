@@ -1,6 +1,6 @@
 Version: 1
-Previous: fa57314f5fe32b5a85d18106239e92ac02987234
-Head: 91278d60eef23929a1c326d84c5cf9c474cae532
+Previous: 2b60e12bc5d87926620177a1e9d9f910f45dbfda
+Head: 297e33ba9812963976120ba64e71532975483af1
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -73,16 +73,15 @@ Applied:
   mediawiki-remove-libicu52: c1a1ae6f29c3d2249933143a47b15d997ede870a
   bacula-update-syntax: 79dfb5f486cd3b3c384ab72cf61627bbbcc34797
   all-improve-idempotency: 1be5ecd97e4d17b78291e75605c36da6cc2acf0b
-  fixup-tmp-rework-ip-address-network: dab04d38fd2758e855044811855eeb2c83e51405
-  buildbot-ssh-keygen: 836ef38cd2e21edec624dfbe490dc374207d42ec
-  gitlab_sshkey-create-role: b82963b4ab69ba7659a224ff95e5a910adcb2b5c
-  gitlab_user-create-role: 1bc6213549222e9f0d59ee6e9acb1e32d40d8cf8
-  common-docker-enable-tcp: a9923397d1feb42e311be998d28f7158270b6361
-  exim4-logrotate-configuration: 6907b48494e093c2ca7898c795ae950f53a5df79
-  buildbot-update-port-args: 2611260a37bca2520b564b4a974264fd8e43c4ae
-  buildbot-playbook: a289e4989bf190791f1523e2af43d78119fe4ef9
-  playbook-extract-privilege-escalation: ecd8305b1da2e48ad7afcecc9e1035bbb711b754
-  playboook-extract-docker-hosts: e4a03820fa4a18efb3ea65deb9e3f3c1e4db9220
-  refresh-temp: 91278d60eef23929a1c326d84c5cf9c474cae532
+  fixup-tmp-rework-ip-address-network: e84453a857001e5aed2c148028533525844af26c
+  buildbot-ssh-keygen: 8e30d96c3a2dd466617d352f410219d5e41d4036
+  gitlab_sshkey-create-role: ae1dad934e4593678ad0a7eda92cf7f4563b270b
+  gitlab_user-create-role: 95794b8b501ca80e88d30e71052ef6f9eb3aabbc
+  common-docker-enable-tcp: 638394ff68df0663ce7cac0574de4026958d9367
+  exim4-logrotate-configuration: 3be5c425db2eb12633ae3af4aede230bc10457e9
+  buildbot-update-port-args: 489fd808648c61bf17e9ab172e7a405a9afa7373
+  buildbot-playbook: 78e47d44a8b94b89a870c6cdcb497fb71e95ccdb
+  playbook-extract-privilege-escalation: fa243c2bd8fb127ab9e1dde2bebc852649be509c
+  playboook-extract-docker-hosts: 297e33ba9812963976120ba64e71532975483af1
 Unapplied:
 Hidden:

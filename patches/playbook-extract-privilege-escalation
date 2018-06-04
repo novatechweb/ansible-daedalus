@@ -1,5 +1,5 @@
-Bottom: 841f3aad871aefe24287220018b2419956ec9249
-Top:    15e4f0f938bcdf8de07025248e8497bdf318cf18
+Bottom: 87037962f2d9b690d93bfe885dc4cfb4b76e34a6
+Top:    6758522c60fb2d415e4fac49a6b307e1409504ce
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:07:02 -0500
 
@@ -35,7 +35,7 @@ index 00000000..705a55e5
 +ansible_become_method: sudo
 +ansible_become_user: root
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index b43da100..4db45478 100644
+index 2def5160..4d732132 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -15,10 +15,6 @@
@@ -60,7 +60,7 @@ index b43da100..4db45478 100644
    roles:
    - name: Setup SSH Daemon
      role: sshd
-@@ -113,20 +105,12 @@
+@@ -125,20 +117,12 @@
  
  - name: Assemble Bacula backup scripts
    hosts: bacula

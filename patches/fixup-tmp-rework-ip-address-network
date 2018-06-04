@@ -1,5 +1,5 @@
 Bottom: ce75d7c015701cd552af4fba4e8b6a114586d6f7
-Top:    738d6e8fd768604a2ae759e93528958acf286145
+Top:    95e81fa187a3d6064ac6c9d8f3a49d5544930a94
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -320,10 +320,10 @@ index 79bbb96d..bdc04890 100644
 +daedalus_subnet: 192.168.0.0/24
 +daedalus_net_connection: "System enp0s8"
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 20ca10b3..82d8ce8c 100644
+index 20ca10b3..594d26c5 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -51,6 +51,16 @@
+@@ -51,8 +51,30 @@
      role: docker-common
      tags:
      - docker_common
@@ -339,7 +339,21 @@ index 20ca10b3..82d8ce8c 100644
 +      - buildbot
    - name: Configure Docker networking
      role: docker-networking
++    net_connection: '{{ daedalus_net_connection }}'
++    subnet: '{{ daedalus_subnet }}'
++    services:
++    - svn
++    - openldap
++    - exim4
++    - gitlab
++    - wiki
++    - mantisbt
++    - build
++    - testssh
++    - buildbot
      tags:
+     - docker_networking
+   - name: Build the openssl Docker volume
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 index 809062aa..5fee835d 100644
 --- a/roles/buildbot-master/defaults/main.yml
