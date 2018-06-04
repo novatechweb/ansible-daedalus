@@ -204,7 +204,7 @@
 - name: Wait for gitlab to be fully running
   wait_for:
     delay: 10
-    host: "{{ gitlab_ip_addr | ipaddr('address') }}"
+    host: "{{ gitlab_ip_addr }}"
     port: 22
     state: started
     timeout: 180

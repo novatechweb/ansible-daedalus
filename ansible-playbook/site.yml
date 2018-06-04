@@ -4,7 +4,7 @@
 - name: Dump Variables
   hosts: all
   tags:
-    - debugging
+  - debugging
   tasks:
   - template:
       src: templates/dump_variables
@@ -26,13 +26,14 @@
   - role: bacula-director
   - role: bacula-storage
     tags:
-      - bacula_storage
+    - bacula_storage
   - role: bacula-client
   - role: bacula-console
   - role: bacula-script
     assemble_scripts: false
   # - role: bacula-catalog
-- name: Install/Setup Docker images and containers
+
+- name: Prepare Docker host systems
   hosts: docker-hosts
   remote_user: ansibleremote
   become: true
@@ -43,26 +44,36 @@
     role: sshd
     tags:
     - sshd
-  - name: Run bacula-restores symlinks
-    role: bacula-restores
-    tags:
-    - bacula_restores
   - name: Run common Docker tasks
     role: docker-common
     tags:
     - docker_common
-    services:
-      - svn
-      - openldap
-      - exim4
-      - gitlab
-      - wiki
-      - mantisbt
-      - build
-      - testssh
-      - buildbot
+
+- name: Install/Setup Docker images and containers on daedalus
+  hosts: daedalus
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+  - name: Run bacula-restores symlinks
+    role: bacula-restores
+    tags:
+    - bacula_restores
   - name: Configure Docker networking
     role: docker-networking
+    connection: '{{ daedalus_net_connection }}'
+    subnet: '{{ daedalus_subnet }}'
+    services:
+    - svn
+    - openldap
+    - exim4
+    - gitlab
+    - wiki
+    - mantisbt
+    - build
+    - testssh
+    - buildbot
     tags:
     - docker_networking
   - name: Build the openssl Docker volume
@@ -100,18 +111,13 @@
     role: docker-buildsystem
     tags:
     - buildsystem_container
-  - name: Build and start the Buildbot master container
-    role: buildbot-master
-    tags:
-      - buildbot
-      - buildbot-master
 
 - name: Setup the Build System (Test Station) with repo data
   hosts: buildsystem
   roles:
   - role: buildsystem
     tags:
-     - buildsystem_container
+    - buildsystem_container
 
 - name: Assemble Bacula backup scripts
   hosts: bacula
@@ -132,14 +138,7 @@
   tasks:
   - name: Copy credentials to the /etc dir
     copy:
-      src: ./credentials/{{ inventory_hostname }}
-      dest: /etc/ansible-credentials/
-      owner: root
-      group: root
-      mode: 'u=rw,g=,o='
-  - name: Copy build system credentials to /etc dir
-    copy:
-      src: ./credentials/buildsystem.novatech-llc.com
+      src: "{{ playbook_dir }}/credentials/"
       dest: /etc/ansible-credentials/
       owner: root
       group: root
