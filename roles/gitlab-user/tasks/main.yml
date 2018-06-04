@@ -1,0 +1,57 @@
+---
+# tasks file for gitlab-user
+
+- assert:
+    that:
+      - new_user is defined
+      - new_user_name is defined
+      - new_user_email is defined
+      - new_user_pass is defined
+
+# Login as root user
+- name: Get access token for admin user
+  uri:
+    url: "{{ gitlab_uri }}/oauth/token"
+    method: POST
+    body_format: json
+    body:
+      grant_type: password
+      username: root
+      password: "{{ gitlab_root_password }}"
+    return_content: yes
+  register: auth
+
+# Search for buildbot user
+- name: Find user
+  uri:
+    url: "{{ gitlab_uri }}/api/v4/users?username={{ new_user }}"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ auth.json.access_token }}"
+    return_content: yes
+  register: founduser
+
+- name: Save new user
+  set_fact:
+    user: '{{ founduser.json[0] }}'
+  when: founduser.json|length > 0
+
+- name: Create missing user
+  block:
+  - uri:
+      url: "{{ gitlab_uri }}/api/v4/users"
+      method: POST
+      headers:
+        Authorization: "Bearer {{ auth.json.access_token }}"
+      return_content: yes
+      body_format: json
+      body:
+        username: "{{ new_user }}"
+        email: "{{ new_user_email }}"
+        password: "{{ new_user_pass }}"
+        name: "{{ new_user_name }}"
+    register: newuser
+
+  - set_fact:
+      user: '{{ newuser.json[0] }}'
+  when: founduser.json|length == 0
