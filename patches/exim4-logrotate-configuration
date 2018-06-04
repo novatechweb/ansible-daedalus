@@ -1,0 +1,15 @@
+Bottom: 3cfa2b71874684217200db03068e3c47ccc024d4
+Top:    3cfa2b71874684217200db03068e3c47ccc024d4
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-04 16:46:58 -0500
+
+Fix exim4 logrotate configuration
+
+The logrotate configuration was selecting every file, causing the rotated
+copies to also be rotated, leading to an exponential growth of files.
+
+This fix limits the rotation to the actual log files, excluding copies.
+
+
+---
+
