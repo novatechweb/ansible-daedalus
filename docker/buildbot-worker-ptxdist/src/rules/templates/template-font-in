@@ -1,8 +1,0 @@
-## SECTION=@section@
-
-config @PACKAGE@
-	bool
-	select XORG_FONTS
-	prompt "@package@"
-	help
-	  FIXME

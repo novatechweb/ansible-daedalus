@@ -1,4 +1,0 @@
-## SECTION=core
-
-config BASE
-	tristate

@@ -1,0 +1,46 @@
+Bottom: 74da2d033666d331fcb7c3d1b35d4b181478d18b
+Top:    c46af977f5f042c10d8df6c38eb794ec99b4c619
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:59 -0500
+
+Add hotcopy/restore commands
+
+
+---
+diff --git a/docker/docker-svn/docker-entrypoint.sh b/docker/docker-svn/docker-entrypoint.sh
+index 02577a63..02fd1540 100755
+--- a/docker/docker-svn/docker-entrypoint.sh
++++ b/docker/docker-svn/docker-entrypoint.sh
+@@ -96,6 +96,27 @@ EOF
+         done
+         ;;
+ 
++    hotcopy)
++        #
++        for repo_path in ${SVN_BASE_DIR}/*
++        do
++            [[ ! -f ${repo_path}/format ]] && continue
++            repo_name=$(basename ${repo_path})
++            /usr/bin/svnadmin hotcopy "${repo_path}" "${IMPORT_EXPORT_PATH}/${repo_name}"
++            /usr/bin/svnadmin verify "${IMPORT_EXPORT_PATH}/${repo_name}"
++        done
++        ;;
++    restore)
++        # Import svndump archived SVN repositories
++        for src_path in ${IMPORT_EXPORT_PATH}/* ; do
++            [[ ! -e ${src_path} ]] && continue
++            repo_name=$(basename ${src_path})
++            /usr/bin/svnadmin hotcopy "${src_path}" "${SVN_BASE_DIR}/${repo_name}"
++            /usr/bin/svnadmin verify "${SVN_BASE_DIR}/${repo_name}"
++        done
++        # change permissions on svn repositories
++        chown -R www-data:www-data ${SVN_BASE_DIR}
++        ;;
+     import)
+         # ignore first argument and get list of repositories to create
+         shift
+@@ -126,4 +147,3 @@ EOF
+         exec "$@"
+         ;;
+ esac
+-

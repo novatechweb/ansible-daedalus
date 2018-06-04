@@ -1,0 +1,59 @@
+Bottom: a7e57f86b3d2a3e7091293da8300c7df75cde6ae
+Top:    d37eb23c26f22479a08c992942b7244a5ea5ee35
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-22 13:56:09 -0500
+
+Refresh of all-docker-image-repositories
+
+---
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 2b99b556..3752cc00 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -58,9 +58,6 @@
+     group: tape
+     mode: 'u=rw,g=r,o='
+ 
+-- name: copy script
+-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mantisbt/mantisbt.sh {{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}'
+-
+ - name: exists - state file
+   stat:
+     path: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/restore.date.txt'
+@@ -76,6 +73,12 @@
+     version: master
+     dest: '{{ docker_projects_dir }}/docker-mantisbt'
+ 
++- name: copy script
++  copy:
++    remote_src: true
++    src: '{{ docker_projects_dir }}/docker-mantisbt/mantisbt.sh'
++    dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
++
+ - name: build image
+   docker_image:
+     name: '{{ mantisbt_image_name }}'
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 7b65f235..d80e12ae 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -58,9 +58,6 @@
+     group: tape
+     mode: 'u=rw,g=r,o='
+ 
+-- name: copy script
+-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
+-
+ - name: exists - state file
+   stat:
+     path: '{{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}/restore.date.txt'
+@@ -77,6 +74,9 @@
+     version: master
+     dest: '{{ docker_projects_dir }}/docker-mediawiki'
+ 
++- name: copy script
++  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
++
+ - name: build image
+   docker_image:
+     name: '{{ wiki_image_name }}'
