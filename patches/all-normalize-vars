@@ -1,5 +1,5 @@
 Bottom: 58fb87a60bda903e16a23e8633da658817f31b5e
-Top:    7c71ae9f6402862105c6d24ba8c68c627142895e
+Top:    b175565e8f97ba93ce1342d3d3a638227b327aad
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 11:30:36 -0500
 
@@ -13,7 +13,7 @@ Improve consistency in variable names:
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 6e11e08b..41773f2e 100644
+index 6e11e08b..3cd96bc4 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -1,7 +1,7 @@
@@ -21,8 +21,8 @@ index 6e11e08b..41773f2e 100644
  # passwords
 -ldap_admin_password:                 '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=admin,dc=novatech length=20") }}'
 -ldap_proxyagent_password:            '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=proxyagent,dc=novatech length=20") }}'
-+openldap_admin_password:                 '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=admin,dc=novatech length=20") }}'
-+openldap_proxyagent_password:            '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=proxyagent,dc=novatech length=20") }}'
++openldap_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=admin,dc=novatech length=20") }}'
++openldap_proxyagent_password:        '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=proxyagent,dc=novatech length=20") }}'
  wiki_db_root_password:               '{{ lookup("password", playbook_dir + "/credentials/wiki/db/root length=20") }}'
  wiki_db_password:                    '{{ lookup("password", playbook_dir + "/credentials/wiki/db/user length=20") }}'
  wiki_email_password:                 '{{ lookup("password", playbook_dir + "/credentials/wiki/email/wiki@novatech-llc.com length=20") }}'

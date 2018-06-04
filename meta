@@ -1,6 +1,6 @@
 Version: 1
-Previous: 6d87ed32fcdba9b49aa7c45efed00707a590aefb
-Head: 5d4bbf30d79dcb407dd8cbc705b75f371d311916
+Previous: 206c0b4a52a80337a346223369baf97ee3d87e57
+Head: f8a6f06fcce186a60a70cecc1e9edcabc000a192
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -62,21 +62,20 @@ Applied:
   buildbot-image-entrypoint: 34da84ec311d3eea7457f1e74f3ab672e8897814
   buildbot-dependencies: 4912e27277dd075b4106e37dc377c1ce29ba9574
   playbook-simplify-credentials: 0df75bc1968b5c50d5e899ed686e017cc4e61172
-  all-normalize-vars: 0a34e5dd1b5b144b5e95d8d4028767cd3278d3a7
-  tmp-update-gitlab-version: 97aa3fe799ae36db355a3e35053d343c780a7432
-  fixup-all-docker-image-repositories: 1915c00409db0bf02910abd28cb92f174f6b1a54
-  tmp-update-openldap: f91c72852201b05ed24ef4ce337592e47878a370
-  mariadb-fix-bind-address: 6955f7c36693d82160ae4a2c6aa768220f33fa79
-  tmp-wiki-database: e9feee8c5fa7891da95de05a69de6018458bafa4
-  tmp-mantis-database: 2e1c52e29d6a477f5641fe90dd6fb5f514fd4ab7
-  TESTING--VirtualMachine: 68559e5f1d26835cf08c948b500b6caebcb7aa09
-  mediawiki-remove-libicu52: fbbe3ffae542e433757e102b15e4392cf562416c
-  bacula-update-syntax: eca9c878ea62a929a10cc00f74c3ce986421fb99
-  all-improve-idempotency: 2973fa8ffbaf8d6fe4cad622fcd54ec3cddd9739
-  fixup-tmp-rework-ip-address-network: af630976227a6f63d750cbcf8443ea74d4f54d09
-  buildbot-ssh-keygen: 1b1e609ba2d472157c2513fd8e3605d7faa1cff3
-  gitlab_sshkey-create-role: 7ba6cde23a3f425677c4cf65f7390dd60762f8c0
-  gitlab_user-create-role: be0de41b3c6a62e1a7ccf8129dea8f775afdc86e
-  refresh-temp: 5d4bbf30d79dcb407dd8cbc705b75f371d311916
+  all-normalize-vars: 813981f665a949bd36a715494c2face4ef665a18
+  tmp-update-gitlab-version: 35db1ec83d963a9ce098810c6db107d29397034f
+  fixup-all-docker-image-repositories: 5f82b48359470bcd9f33fb0f2770ef0ac97fa7f0
+  tmp-update-openldap: 5a76dc6021577bd162f95a10f84da67fdb6004c9
+  mariadb-fix-bind-address: f13712758c28470ad3ae23b773f2b13ed15620a7
+  tmp-wiki-database: 245fbf972f17f95d708145209559cced5812e323
+  tmp-mantis-database: e6ea41664b7c1828fc715f828a463a5a1fba7026
+  TESTING--VirtualMachine: 2e4bfa57edc08d0d33d3deff65446399fc047057
+  mediawiki-remove-libicu52: 5dc58633f3c31472fa5d05a0533428abb59ec692
+  bacula-update-syntax: 4249abe2f152f2cac712b1bd3e03746988de3ba9
+  all-improve-idempotency: b3660cd42f6b901c0dac18c469af069a2a40e6b3
+  fixup-tmp-rework-ip-address-network: 94855927d8cde12e0fbe42121f2954ce4e85d141
+  buildbot-ssh-keygen: 49ab20eee423dc7852b557ff2a99e81fab07b4ce
+  gitlab_sshkey-create-role: 1d4c56ab8b1592dd8949c6020aa90690553e9fd2
+  gitlab_user-create-role: f8a6f06fcce186a60a70cecc1e9edcabc000a192
 Unapplied:
 Hidden:
