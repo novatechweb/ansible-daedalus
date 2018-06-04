@@ -1,0 +1,651 @@
+Bottom: 0961e3e454570a2272113a63f775403e28110704
+Top:    8bfeaf0aa92810fadd04fe718b67227463e97c66
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-04 10:36:54 -0500
+
+Refresh of tmp
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+new file mode 100644
+index 00000000..30c7b74d
+--- /dev/null
++++ b/ansible-playbook/buildbot.yml
+@@ -0,0 +1,47 @@
++---
++
++- name: Install/Setup Docker images and containers on daedalus
++  hosts: daedalus
++  remote_user: ansibleremote
++  become: true
++  become_user: root
++  become_method: sudo
++  strategy: debug
++  tags:
++  - buildbot
++  roles:
++  - name: Build and start the Buildbot master container
++    role: buildbot-master
++    tags:
++    - buildbot
++    - buildbot-master
++
++  - name: Add buildbot user to Gitlab
++    role: gitlab-user
++    vars:
++      new_user: buildbot
++      new_user_name: Build Robot
++      new_user_email: buildbot@novatech-llc.com
++      new_user_pass: "{{ lookup('password', '/dev/null') }}"
++
++  - name: Add pubkey to buildbot user
++    role: gitlab-sshkey
++    vars:
++      username: buildbot
++      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
++      title: "buildbot_master"
++
++- name: Setup Buildbot worker system
++  hosts: buildbot-worker
++  remote_user: ansibleremote
++  become: true
++  become_user: root
++  become_method: sudo
++  vars:
++    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
++  tags:
++  - buildbot
++  - buildbot-worker
++  roles:
++  - role: buildbot-worker-ntel
++  - role: buildbot-worker-ptxdist
+diff --git a/ansible-playbook/daedalus.yml b/ansible-playbook/daedalus.yml
+new file mode 100644
+index 00000000..0b974068
+--- /dev/null
++++ b/ansible-playbook/daedalus.yml
+@@ -0,0 +1,13 @@
++- name: Run some tests
++  hosts: vmdaedalus.novatech-llc.com
++  tasks:
++  - debug:
++      msg: '{{ svn_ip_addr }}'
++  - set_fact:
++      daedalus_subnet: "172.16.0.0/16"
++  - debug:
++      var: daedalus_subnet
++  - debug:
++      msg: '{{ svn_ip_addr }}'
++  - debug:
++      msg: '{{ svn_ip_addr }}/{{ daedalus_subnet | ipaddr("prefix") }}'
+diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
+new file mode 100644
+index 00000000..77d9ce6a
+--- /dev/null
++++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
+@@ -0,0 +1,66 @@
++---
++
++svn_ip_addr: "{{ daedalus_subnet | ipaddr('101') | ipaddr('address') }}"
++svn_hostname: svn.novatech-llc.com
++svn_port_args:
++- "{{ svn_ip_addr }}:80:80"
++- "{{ svn_ip_addr }}:443:443"
++
++gitlab_ip_addr: "{{ daedalus_subnet | ipaddr('102') | ipaddr('address') }}"
++gitlab_hostname: git.novatech-llc.com
++gitlab_port_args:
++- "{{ gitlab_ip_addr }}:80:80"
++- "{{ gitlab_ip_addr }}:443:443"
++- "{{ gitlab_ip_addr }}:22:22"
++
++wiki_ip_addr: "{{ daedalus_subnet | ipaddr('103') | ipaddr('address') }}"
++wiki_hostname: wiki.novatech-llc.com
++wiki_port_args:
++- "{{ wiki_ip_addr }}:80:80"
++- "{{ wiki_ip_addr }}:443:443"
++
++mantisbt_ip_addr: "{{ daedalus_subnet | ipaddr('104') | ipaddr('address') }}"
++mantisbt_hostname: mantis.novatech-llc.com
++mantisbt_port_args:
++- "{{ mantisbt_ip_addr }}:80:80"
++- "{{ mantisbt_ip_addr }}:443:443"
++
++build_ip_addr: "{{ daedalus_subnet | ipaddr('105') | ipaddr('address') }}"
++build_hostname: buildsystem.novatech-llc.com
++build_port_args:
++- "{{ build_ip_addr }}:80:80"
++- "{{ build_ip_addr }}:443:443"
++
++testssh_ip_addr: "{{ daedalus_subnet | ipaddr('106') | ipaddr('address') }}"
++testssh_hostname: testssh.novatech-llc.com
++testssh_port_args:
++- "{{ testssh_ip_addr }}:2200:22"
++
++exim4_ip_addr: "{{ daedalus_subnet | ipaddr('107') | ipaddr('address') }}"
++exim4_hostname: mail.novatech-llc.com
++exim4_port_args:
++- "{{ exim4_ip_addr }}:25:25"
++- "{{ exim4_ip_addr }}:465:465"
++- "{{ exim4_ip_addr }}:587:587"
++
++openldap_ip_addr: "{{ daedalus_subnet | ipaddr('108') | ipaddr('address') }}"
++openldap_hostname: ldap.novatech-llc.com
++openldap_port_args:
++- "{{ openldap_ip_addr }}:389:389"
++- "{{ openldap_ip_addr }}:636:636"
++
++phpldapadmin_ip_addr: "{{ daedalus_subnet | ipaddr('108') | ipaddr('address') }}"
++phpldapadmin_hostname: ldap.novatech-llc.com
++phpldapadmin_port_args:
++- "{{ phpldapadmin_ip_addr }}:80:80"
++- "{{ phpldapadmin_ip_addr }}:443:443"
++
++phpmyadmin_ip_addr: "{{ daedalus_subnet | ipaddr('109') | ipaddr('address') }}"
++phpmyadmin_hostname: phpmyadmin.novatech-llc.com
++
++buildbot_ip_addr: "{{ daedalus_subnet | ipaddr('110') | ipaddr('address') }}"
++buildbot_hostname: buildbot.novatech-llc.com
++buildbot_port_args:
++- "{{ buildbot_ip_addr }}:80:8080"
++- "{{ buildbot_ip_addr }}:443:8443"
++- "{{ buildbot_ip_addr }}:9989:9989"
+diff --git a/roles/docker-networking/tasks/ip_addr.yml b/roles/docker-networking/tasks/ip_addr.yml
+new file mode 100644
+index 00000000..070b3fd7
+--- /dev/null
++++ b/roles/docker-networking/tasks/ip_addr.yml
+@@ -0,0 +1,44 @@
++---
++# file: roles/docker-common/tasks/ip_addr.yaml
++
++- name: install needed network manager libs
++  yum:
++    name: NetworkManager-glib
++    state: installed
++  register: nm_packages
++
++- name: Restart NetworkManager
++  service:
++    name: NetworkManager
++    state: restarted
++  when: nm_packages.changed
++
++# nmcli always returns 'changed', so we need
++# to manually detect changes to the interface file
++- name: Get interface checksum
++  command: nmcli connection show "{{ network_connection }}"
++  register: network_pre
++
++- name: Add service IP addresses
++  command: >
++    nmcli connection 
++    modify '{{ network_connection }}' 
++    +ipv4.addresses '{{ lookup('vars', item + "_ip_addr") }}/{{ subnet | ipaddr("prefix") }}''
++  loop: "{{ services }}"
++ 
++- sysctl:
++    name: net.ipv4.ip_forward
++    value: 1
++    sysctl_set: yes
++    state: present
++    reload: yes
++  when: ansible_os_family == "RedHat"
++
++- name: Get interface checksum
++  command: nmcli connection show "{{ network_connection }}"
++  register: network_post
++
++- name: make IPs active if needed
++  command: nmcli connection up "{{ network_connection }}"
++  when: 
++    - ( network_pre != network_post )
+diff --git a/roles/gitlab-sshkey/README.md b/roles/gitlab-sshkey/README.md
+new file mode 100644
+index 00000000..225dd44b
+--- /dev/null
++++ b/roles/gitlab-sshkey/README.md
+@@ -0,0 +1,38 @@
++Role Name
++=========
++
++A brief description of the role goes here.
++
++Requirements
++------------
++
++Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
++
++Role Variables
++--------------
++
++A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
++
++Dependencies
++------------
++
++A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
++
++Example Playbook
++----------------
++
++Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
++
++    - hosts: servers
++      roles:
++         - { role: username.rolename, x: 42 }
++
++License
++-------
++
++BSD
++
++Author Information
++------------------
++
++An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+diff --git a/roles/gitlab-sshkey/defaults/main.yml b/roles/gitlab-sshkey/defaults/main.yml
+new file mode 100644
+index 00000000..e1e8b2fa
+--- /dev/null
++++ b/roles/gitlab-sshkey/defaults/main.yml
+@@ -0,0 +1,2 @@
++---
++# defaults file for gitlab-sshkey
+\ No newline at end of file
+diff --git a/roles/gitlab-sshkey/handlers/main.yml b/roles/gitlab-sshkey/handlers/main.yml
+new file mode 100644
+index 00000000..bea41d29
+--- /dev/null
++++ b/roles/gitlab-sshkey/handlers/main.yml
+@@ -0,0 +1,2 @@
++---
++# handlers file for gitlab-sshkey
+\ No newline at end of file
+diff --git a/roles/gitlab-sshkey/meta/main.yml b/roles/gitlab-sshkey/meta/main.yml
+new file mode 100644
+index 00000000..72237997
+--- /dev/null
++++ b/roles/gitlab-sshkey/meta/main.yml
+@@ -0,0 +1,57 @@
++galaxy_info:
++  author: your name
++  description: your description
++  company: your company (optional)
++
++  # If the issue tracker for your role is not on github, uncomment the
++  # next line and provide a value
++  # issue_tracker_url: http://example.com/issue/tracker
++
++  # Some suggested licenses:
++  # - BSD (default)
++  # - MIT
++  # - GPLv2
++  # - GPLv3
++  # - Apache
++  # - CC-BY
++  license: license (GPLv2, CC-BY, etc)
++
++  min_ansible_version: 1.2
++
++  # If this a Container Enabled role, provide the minimum Ansible Container version.
++  # min_ansible_container_version:
++
++  # Optionally specify the branch Galaxy will use when accessing the GitHub
++  # repo for this role. During role install, if no tags are available,
++  # Galaxy will use this branch. During import Galaxy will access files on
++  # this branch. If Travis integration is configured, only notifications for this
++  # branch will be accepted. Otherwise, in all cases, the repo's default branch
++  # (usually master) will be used.
++  #github_branch:
++
++  #
++  # platforms is a list of platforms, and each platform has a name and a list of versions.
++  #
++  # platforms:
++  # - name: Fedora
++  #   versions:
++  #   - all
++  #   - 25
++  # - name: SomePlatform
++  #   versions:
++  #   - all
++  #   - 1.0
++  #   - 7
++  #   - 99.99
++
++  galaxy_tags: []
++    # List tags for your role here, one per line. A tag is a keyword that describes
++    # and categorizes the role. Users find roles by searching for tags. Be sure to
++    # remove the '[]' above, if you add tags to this list.
++    #
++    # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
++    #       Maximum 20 tags per role.
++
++dependencies: []
++  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
++  # if you add dependencies to this list.
+\ No newline at end of file
+diff --git a/roles/gitlab-sshkey/tasks/main.yml b/roles/gitlab-sshkey/tasks/main.yml
+new file mode 100644
+index 00000000..7371b6a5
+--- /dev/null
++++ b/roles/gitlab-sshkey/tasks/main.yml
+@@ -0,0 +1,68 @@
++---
++# tasks file for gitlab-sshkey
++
++- assert:
++    that:
++      - username is defined
++      - pubkey is defined
++      - title is defined
++
++# Login as root user
++- name: Get access token for admin user
++  uri:
++    url: "{{ gitlab_uri }}/oauth/token"
++    method: POST
++    body_format: json
++    body:
++      grant_type: password
++      username: root
++      password: "{{ gitlab_root_password }}"
++    return_content: yes
++  register: auth
++
++# Search for buildbot user
++- name: Find user
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users?username={{ username }}"
++    method: GET
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    return_content: yes
++  register: founduser
++
++- name: Save new user
++  set_fact:
++    user: '{{ founduser.json[0] }}'
++  when: founduser.json|length > 0
++
++# Get SSH keys for buildbot user
++- name: Get user SSH keys
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys"
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    return_content: yes
++  register: keys
++
++- name: Delete obsolete keys
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys/{{ item.id }}"
++    method: DELETE
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    status_code: 204
++  when:
++    - (item.title == title and item.key != pubkey) or (item.title != title and item.key == pubkey)
++  loop: "{{ keys.json }}"
++
++- name: Add new key
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys"
++    method: POST
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    body_format: json
++    body:
++      title: '{{ title }}'
++      key: "{{ pubkey }}"
++    status_code: 201
+diff --git a/roles/gitlab-sshkey/tests/inventory b/roles/gitlab-sshkey/tests/inventory
+new file mode 100644
+index 00000000..878877b0
+--- /dev/null
++++ b/roles/gitlab-sshkey/tests/inventory
+@@ -0,0 +1,2 @@
++localhost
++
+diff --git a/roles/gitlab-sshkey/tests/test.yml b/roles/gitlab-sshkey/tests/test.yml
+new file mode 100644
+index 00000000..358a3b10
+--- /dev/null
++++ b/roles/gitlab-sshkey/tests/test.yml
+@@ -0,0 +1,5 @@
++---
++- hosts: localhost
++  remote_user: root
++  roles:
++    - gitlab-sshkey
+\ No newline at end of file
+diff --git a/roles/gitlab-sshkey/vars/main.yml b/roles/gitlab-sshkey/vars/main.yml
+new file mode 100644
+index 00000000..14b88a19
+--- /dev/null
++++ b/roles/gitlab-sshkey/vars/main.yml
+@@ -0,0 +1,2 @@
++---
++# vars file for gitlab-sshkey
+\ No newline at end of file
+diff --git a/roles/gitlab-user/README.md b/roles/gitlab-user/README.md
+new file mode 100644
+index 00000000..225dd44b
+--- /dev/null
++++ b/roles/gitlab-user/README.md
+@@ -0,0 +1,38 @@
++Role Name
++=========
++
++A brief description of the role goes here.
++
++Requirements
++------------
++
++Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
++
++Role Variables
++--------------
++
++A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
++
++Dependencies
++------------
++
++A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
++
++Example Playbook
++----------------
++
++Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
++
++    - hosts: servers
++      roles:
++         - { role: username.rolename, x: 42 }
++
++License
++-------
++
++BSD
++
++Author Information
++------------------
++
++An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+diff --git a/roles/gitlab-user/defaults/main.yml b/roles/gitlab-user/defaults/main.yml
+new file mode 100644
+index 00000000..fd1bdcdd
+--- /dev/null
++++ b/roles/gitlab-user/defaults/main.yml
+@@ -0,0 +1,5 @@
++---
++# defaults file for gitlab-user
++
++gitlab_hostname: "127.0.0.1"
++gitlab_uri: "https://{{ gitlab_hostname }}/"
+diff --git a/roles/gitlab-user/handlers/main.yml b/roles/gitlab-user/handlers/main.yml
+new file mode 100644
+index 00000000..1a06e329
+--- /dev/null
++++ b/roles/gitlab-user/handlers/main.yml
+@@ -0,0 +1,2 @@
++---
++# handlers file for gitlab-user
+\ No newline at end of file
+diff --git a/roles/gitlab-user/meta/main.yml b/roles/gitlab-user/meta/main.yml
+new file mode 100644
+index 00000000..72237997
+--- /dev/null
++++ b/roles/gitlab-user/meta/main.yml
+@@ -0,0 +1,57 @@
++galaxy_info:
++  author: your name
++  description: your description
++  company: your company (optional)
++
++  # If the issue tracker for your role is not on github, uncomment the
++  # next line and provide a value
++  # issue_tracker_url: http://example.com/issue/tracker
++
++  # Some suggested licenses:
++  # - BSD (default)
++  # - MIT
++  # - GPLv2
++  # - GPLv3
++  # - Apache
++  # - CC-BY
++  license: license (GPLv2, CC-BY, etc)
++
++  min_ansible_version: 1.2
++
++  # If this a Container Enabled role, provide the minimum Ansible Container version.
++  # min_ansible_container_version:
++
++  # Optionally specify the branch Galaxy will use when accessing the GitHub
++  # repo for this role. During role install, if no tags are available,
++  # Galaxy will use this branch. During import Galaxy will access files on
++  # this branch. If Travis integration is configured, only notifications for this
++  # branch will be accepted. Otherwise, in all cases, the repo's default branch
++  # (usually master) will be used.
++  #github_branch:
++
++  #
++  # platforms is a list of platforms, and each platform has a name and a list of versions.
++  #
++  # platforms:
++  # - name: Fedora
++  #   versions:
++  #   - all
++  #   - 25
++  # - name: SomePlatform
++  #   versions:
++  #   - all
++  #   - 1.0
++  #   - 7
++  #   - 99.99
++
++  galaxy_tags: []
++    # List tags for your role here, one per line. A tag is a keyword that describes
++    # and categorizes the role. Users find roles by searching for tags. Be sure to
++    # remove the '[]' above, if you add tags to this list.
++    #
++    # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
++    #       Maximum 20 tags per role.
++
++dependencies: []
++  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
++  # if you add dependencies to this list.
+\ No newline at end of file
+diff --git a/roles/gitlab-user/tasks/main.yml b/roles/gitlab-user/tasks/main.yml
+new file mode 100644
+index 00000000..5b538c01
+--- /dev/null
++++ b/roles/gitlab-user/tasks/main.yml
+@@ -0,0 +1,57 @@
++---
++# tasks file for gitlab-user
++
++- assert:
++    that:
++      - new_user is defined
++      - new_user_name is defined
++      - new_user_email is defined
++      - new_user_pass is defined
++
++# Login as root user
++- name: Get access token for admin user
++  uri:
++    url: "{{ gitlab_uri }}/oauth/token"
++    method: POST
++    body_format: json
++    body:
++      grant_type: password
++      username: root
++      password: "{{ gitlab_root_password }}"
++    return_content: yes
++  register: auth
++
++# Search for buildbot user
++- name: Find user
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users?username={{ new_user }}"
++    method: GET
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    return_content: yes
++  register: founduser
++
++- name: Save new user
++  set_fact:
++    user: '{{ founduser.json[0] }}'
++  when: founduser.json|length > 0
++
++- name: Create missing user
++  block:
++  - uri:
++      url: "{{ gitlab_uri }}/api/v4/users"
++      method: POST
++      headers:
++        Authorization: "Bearer {{ auth.json.access_token }}"
++      return_content: yes
++      body_format: json
++      body:
++        username: "{{ new_user }}"
++        email: "{{ new_user_email }}"
++        password: "{{ new_user_pass }}"
++        name: "{{ new_user_name }}"
++    register: newuser
++
++  - set_fact:
++      user: '{{ newuser.json[0] }}'
++  when: founduser.json|length == 0
+diff --git a/roles/gitlab-user/tests/inventory b/roles/gitlab-user/tests/inventory
+new file mode 100644
+index 00000000..878877b0
+--- /dev/null
++++ b/roles/gitlab-user/tests/inventory
+@@ -0,0 +1,2 @@
++localhost
++
+diff --git a/roles/gitlab-user/tests/test.yml b/roles/gitlab-user/tests/test.yml
+new file mode 100644
+index 00000000..9a9a11c5
+--- /dev/null
++++ b/roles/gitlab-user/tests/test.yml
+@@ -0,0 +1,5 @@
++---
++- hosts: localhost
++  remote_user: root
++  roles:
++    - gitlab-user
+\ No newline at end of file
+diff --git a/roles/gitlab-user/vars/main.yml b/roles/gitlab-user/vars/main.yml
+new file mode 100644
+index 00000000..612a06bd
+--- /dev/null
++++ b/roles/gitlab-user/vars/main.yml
+@@ -0,0 +1,2 @@
++---
++# vars file for gitlab-user
+\ No newline at end of file
