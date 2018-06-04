@@ -1,0 +1,517 @@
+## SECTION=middleware
+
+menuconfig LINUX_PAM
+	tristate
+	select FLEX
+	select CRACKLIB if LINUX_PAM_CRACKLIB
+	select DB if LINUX_PAM_USERDB
+	prompt "linux-pam                     "
+	help
+	  Linux Pluggable Authentication Modules
+	  http://www.kernel.org/pub/linux/libs/pam/
+
+if LINUX_PAM
+
+menu "pam modules                   "
+
+	config LINUX_PAM_ACCESS
+		bool
+		prompt "PAM access module"
+		help
+		  The pam_access PAM module is mainly for access
+		  management. It provides logdaemon style login access
+		  control based on login names, host or domain names,
+		  internet addresses or network numbers, or on terminal
+		  line names in case of non-networked logins.
+
+	config LINUX_PAM_CRACKLIB
+		bool
+		prompt "PAM cracklib module"
+		help
+		  This module can be plugged into the password stack of
+		  a given application to provide some plug-in strength-
+		  checking for passwords.
+
+	config LINUX_PAM_DEBUG
+		bool
+		prompt "PAM debug module"
+		help
+		  The pam_debug PAM module is intended as a debugging
+		  aide for determining how the PAM stack is operating.
+
+	config LINUX_PAM_DENY
+		bool
+		prompt "PAM deny module"
+		help
+		  This module can be used to deny access. It always
+		  indicates a failure to the application through the PAM
+		  framework. It might be suitable for using for default
+		  (the OTHER) entries.
+
+	config LINUX_PAM_ECHO
+		bool
+		prompt "PAM echo module"
+		help
+		  The pam_echo PAM module is for printing text messages
+		  to inform user about special things.
+
+	config LINUX_PAM_ENV
+		bool
+		prompt "PAM env module"
+		help
+		  The pam_env PAM module allows the (un)setting of
+		  environment variables. Supported is the use of
+		  previously set environment variables as well as
+		  PAM_ITEMs such as PAM_RHOST.
+
+	config LINUX_PAM_EXEC
+		bool
+		prompt "PAM exec module"
+		help
+		  pam_exec is a PAM module that can be used to run an
+		  external command.
+
+	config LINUX_PAM_FAILDELAY
+		bool
+		prompt "PAM faildelay module"
+		help
+		  pam_faildelay is a PAM module that can be used to set
+		  the delay on failure per-application.
+		  If no delay is given, pam_faildelay will use the value
+		  of FAIL_DELAY from /etc/login.defs. 
+
+	config LINUX_PAM_FILTER
+		bool
+		prompt "PAM filter module"
+		help
+		  This module is intended to be a platform for providing
+		  access to all of the input/output that passes between
+		  the user and the application. It is only suitable for
+		  tty-based and (stdin/stdout) applications.
+		  
+		  To function this module requires filters to be
+		  installed on the system. The single filter provided
+		  with the module simply transposes upper and lower case
+		  letters in the input and output streams. (This can be
+		  very annoying and is not kind to termcap based editors).
+
+	config LINUX_PAM_FTP
+		bool
+		prompt "PAM ftp module"
+		help
+		  pam_ftp is a PAM module which provides a pluggable
+		  anonymous ftp mode of access.
+		  This module is not safe and easily spoofable.
+
+	config LINUX_PAM_GROUP
+		bool
+		prompt "PAM group module"
+		help
+		  The pam_group PAM module does not authenticate the
+		  user, but instead it grants group memberships (in the
+		  credential setting phase of the authentication module)
+		  to the user. Such memberships are based on the service
+		  they are applying for.
+
+	config LINUX_PAM_ISSUE
+		bool
+		prompt "PAM issue module"
+		help
+		  pam_issue is a PAM module to prepend an issue file to
+		  the username prompt. It also by default parses escape
+		  codes in the issue file similar to some common getty's
+		  (using \x format).
+
+	config LINUX_PAM_KEYINIT
+		bool
+		prompt "PAM keyinit module"
+		help
+		  The pam_keyinit PAM module ensures that the invoking
+		  process has a session keyring other than the user
+		  default session keyring.
+
+	config LINUX_PAM_LASTLOG
+		bool
+		prompt "PAM lastlog module"
+		help
+		  pam_lastlog is a PAM module to display a line of
+		  information about the last login of the user. In
+		  addition, the module maintains the /var/log/lastlog
+		  file.
+
+	config LINUX_PAM_LIMITS
+		bool
+		prompt "PAM limits module"
+		help
+		  The pam_limits PAM module sets limits on the system
+		  resources that can be obtained in a user-session.
+		  Users of uid=0 are affected by this limits, too.
+		  The module must not be called by a multithreaded
+		  application.
+
+	config LINUX_PAM_LISTFILE
+		bool
+		prompt "PAM listfile module"
+		help
+		  pam_listfile is a PAM module which provides a way to
+		  deny or allow services based on an arbitrary file.
+		  
+		  No credentials are awarded by this module.
+
+	config LINUX_PAM_LOCALUSER
+		bool
+		prompt "PAM localuser module"
+		help
+		  pam_localuser is a PAM module to help implementing
+		  site-wide login policies, where they typically include
+		  a subset of the network's users and a few accounts
+		  that are local to a particular workstation. Using
+		  pam_localuser and pam_wheel or pam_listfile is an
+		  effective way to restrict access to either local users
+		  and/or a subset of the network's users.
+		  
+		  This could also be implemented using pam_listfile.so
+		  and a very short awk script invoked by cron, but it's
+		  common enough to have been separated out. 
+
+	config LINUX_PAM_LOGINUID
+		bool
+		prompt "PAM loginuid module"
+		help
+		  The pam_loginuid module sets the loginuid process
+		  attribute for the process that was authenticated. This
+		  is necessary for applications to be correctly audited.
+		  This PAM module should only be used for entry point
+		  applications like: login, sshd, gdm, vsftpd, crond and
+		  atd. There are probably other entry point applications
+		  besides these. You should not use it for applications
+		  like sudo or su as that defeats the purpose by
+		  changing the loginuid to the account they just
+		  switched to.
+
+	config LINUX_PAM_MAIL
+		bool
+		prompt "PAM mail module"
+		help
+		  The pam_mail PAM module provides the "you have new
+		  mail" service to the user. It can be plugged into any
+		  application that has credential or session hooks. It
+		  gives a single message indicating the newness of any
+		  mail it finds in the user's mail folder. This module
+		  also sets the PAM environment variable, MAIL, to the
+		  user's mail directory.
+
+	config LINUX_PAM_MKHOMEDIR
+		bool
+		prompt "PAM mkhomedir module"
+		help
+		  The pam_mkhomedir PAM module will create a users home
+		  directory if it does not exist when the session begins.
+		  This allows users to be present in central database
+		  (such as NIS, kerberos or LDAP) without using a
+		  distributed file system or pre-creating a large number
+		  of directories. The skeleton directory (usually
+		  /etc/skel/) is used to copy default files and also
+		  set's a umask for the creation.
+		  
+		  The new users home directory will not be removed after
+		  logout of the user.
+
+	config LINUX_PAM_MOTD
+		bool
+		prompt "PAM motd module"
+		help
+		  pam_motd is a PAM module that can be used to display
+		  arbitrary motd (message of the day) files after a
+		  succesful login. By default the /etc/motd file is
+		  shown. The message size is limited to 64KB.
+
+	config LINUX_PAM_NAMESPACE
+		bool
+		prompt "PAM namespace module"
+		help
+		  This module allows setup of private namespaces with
+		  polyinstantiated directories. Directories can be
+		  polyinstantiated based on user name or, in the case of
+		  SELinux, user name, sensitivity level or complete
+		  security context.
+
+	config LINUX_PAM_NOLOGIN
+		bool
+		prompt "PAM netlogin module"
+		help
+		  pam_nologin is a PAM module that prevents users from
+		  logging into the system when /etc/nologin exists. The
+		  contents of the /etc/nologin file are displayed to the
+		  user. The pam_nologin module has no effect on the root
+		  user's ability to log in.
+
+	config LINUX_PAM_PERMIT
+		bool
+		prompt "PAM permit module"
+		help
+		  pam_permit is a PAM module that always permit access.
+		  It does nothing else.
+		  This module is very dangerous. It should be used with
+		  extreme caution.
+
+	config LINUX_PAM_PWHISTORY
+		bool
+		prompt "PAM pwhistory module"
+		help
+		  This module saves the last passwords for each user in
+		  order to force password change history and keep the
+		  user from alternating between the same password too
+		  frequently. 
+
+	config LINUX_PAM_RHOST
+		bool
+		prompt "PAM rhost module"
+		help
+		  This module performs the standard network
+		  authentication for services, as used by traditional
+		  implementations of rlogin  and rsh etc.
+
+	config LINUX_PAM_ROOTOK
+		bool
+		prompt "PAM rootok module"
+		help
+		  pam_rootok is a PAM module that authenticates the user
+		  if their UID is 0. Applications that are created
+		  setuid-root generally retain the UID of the user but
+		  run with the authority of an enhanced effective-UID.
+		  It is the real UID  that is checked.
+
+	config LINUX_PAM_SECURETTY
+		bool
+		prompt "PAM securetty module"
+		help
+		  pam_securetty is a PAM module that allows root logins
+		  only if the user is logging in on a "secure" tty, as
+		  defined by the listing in /etc/securetty.
+		  pam_securetty also checks to make sure that
+		  /etc/securetty is a plain file and not world writable.
+
+	config LINUX_PAM_SELINUX
+		bool
+		prompt "PAM selinux module"
+		help
+		  pam_selinux sets up the default security context for the next execed shell.
+
+	config LINUX_PAM_SHELLS
+		bool
+		prompt "PAM shells module"
+		help
+		  pam_shells is a PAM module that only allows access to
+		  the system if the users shell is listed in /etc/shells.
+
+	config LINUX_PAM_SUCCEED_IF
+		bool
+		prompt "PAM succeed_if module"
+		help
+		  pam_succeed_if.so is designed to succeed or fail
+		  authentication based on characteristics of the account
+		  belonging to the user being authenticated. One use is
+		  to select whether to load other modules based on this
+		  test.
+
+	config LINUX_PAM_TALLY
+		bool
+		prompt "PAM tally module"
+		help
+		  This module maintains a count of attempted accesses,
+		  can reset count on success, can deny access if too
+		  many attempts fail.
+
+	config LINUX_PAM_TALLY2
+		bool
+		prompt "PAM tally2 module"
+		help
+		  This module maintains a count of attempted accesses,
+		  can reset count on success, can deny access if too
+		  many attempts fail.
+
+	config LINUX_PAM_TIME
+		bool
+		prompt "PAM time module"
+		help
+		  The pam_time PAM module does not authenticate the user,
+		  but instead it restricts access to a system and or
+		  specific applications at various times of the day and
+		  on specific days or over various terminal lines. This
+		  module can be configured to deny access to (individual)
+		  users based on their name, the time of day, the day of
+		  week, the service they are applying for and their
+		  terminal from which they are making their request.
+
+	config LINUX_PAM_TIMESTAMP
+		bool
+		prompt "PAM timestamp module"
+		help
+		  pam_timestamp caches successful authentication attempts,
+		  and allows you to use a recent successful attempt as the
+		  basis for authentication. This is similar mechanism
+		  which is used in sudo.
+
+	config LINUX_PAM_UMASK
+		bool
+		prompt "PAM umask module"
+		help
+		  pam_umask is a PAM module to set the file mode
+		  creation mask of the current environment. The umask
+		  affects the default permissions assigned to newly
+		  created files.
+
+	config LINUX_PAM_UNIX
+		bool
+		prompt "PAM unix module"
+		help
+		  This is the standard Unix authentication module.
+		  It uses standard calls from the system's libraries
+		  to retrieve and set account information as well as
+		  authentication. Usually this is obtained from the
+		  /etc/passwd and the /etc/shadow file as well if
+		  shadow is enabled.
+
+	config LINUX_PAM_USERDB
+		bool
+		prompt "PAM userdb module"
+		help
+		  The pam_userdb module is used to verify a
+		  username/password pair against values stored in a
+		  Berkeley DB database. The database is indexed by
+		  the username, and the data fields corresponding to
+		  the username keys are the passwords.
+
+	config LINUX_PAM_WARN
+		bool
+		prompt "PAM warn module"
+		help
+		  pam_warn is a PAM module that logs the service,
+		  terminal, user, remote user and remote host to
+		  syslog(3). The items are not probed for, but instead
+		  obtained from the standard PAM items. The module
+		  always returns PAM_IGNORE, indicating that it does not
+		  want to affect the authentication process.
+
+	config LINUX_PAM_WHEEL
+		bool
+		prompt "PAM wheel module"
+		help
+		  The pam_wheel PAM module is used to enforce the
+		  so-called wheel group. By default it permits root
+		  access to the system if the applicant user is a member
+		  of the wheel group. If no group with this name exist,
+		  the module is using the group with the group-ID 0.
+
+	config LINUX_PAM_XAUTH
+		bool
+		prompt "PAM xauth module"
+		help
+		  The pam_xauth PAM module is designed to forward xauth
+		  keys (sometimes referred to as "cookies") between users.
+
+endmenu
+
+menu "install options               "
+
+choice 
+	prompt "config file option"
+	default LINUX_PAM_CONFIG_DIR
+
+	config LINUX_PAM_CONFIG_DIR
+		bool
+		prompt "Use config file directory /etc/pam.d/"
+
+	config LINUX_PAM_CONFIG_FILE
+		bool
+		prompt "Use single config file /etc/pam.conf"
+endchoice
+
+if LINUX_PAM_FILTER
+	config LINUX_PAM_FILTER_UPPERLOWER
+		bool
+		prompt "install program upperLOWER"
+		default n
+		help
+		  This is a sample filter program, for use with
+		  pam_filter. This filter simply transposes upper
+		  and lower case letters, it is intended for
+		  demonstration purposes and it serves no purpose
+		  other than to annoy the user...
+endif
+
+if LINUX_PAM_MKHOMEDIR
+	config LINUX_PAM_MKHOMEDIR_MKHOMEDIR_HELPER
+		bool
+		prompt "install program mkhomedir_helper"
+		help
+		  mkhomedir_helper - Helper binary that creates home
+		  directories. mkhomedir_helper is a helper program
+		  for the pam_mkhomedir module that creates home
+		  directories and populates them with contents of the
+		  specified skel directory.
+endif
+
+if LINUX_PAM_TALLY
+	config LINUX_PAM_TALLY_PAM_TALLY
+		bool
+		prompt "install program pam_tally"
+		help
+		  pam_tally - The login counter (tallying) module.
+		  pam_tally is an (optional) application which can be
+		  used to interrogate and manipulate the counter file.
+		  It can display users´ counts, set individual counts,
+		  or clear all counts. Setting artificially high
+		  counts may be useful for blocking users without
+		  changing their passwords. The faillog command can be
+		  used instead of pam_tally to to maintain the counter
+		  file.
+endif
+
+if LINUX_PAM_TALLY2
+	config LINUX_PAM_TALLY2_PAM_TALLY2
+		bool
+		prompt "install program pam_tally2"
+		help
+		  pam_tally2 - The login counter (tallying) module.
+		  pam_tally2 is an (optional) application which can
+		  be used to interrogate and manipulate the counter
+		  file. It can display users´ counts, set individual
+		  counts, or clear all counts. Setting artificially
+		  high counts may be useful for blocking users without
+		  changing their passwords.
+endif
+
+if LINUX_PAM_TIMESTAMP
+	config LINUX_PAM_TIMESTAMP_TIMESTAMP_CHECK
+		bool
+		prompt "install program pam_timestamp_check"
+		help
+		  pam_timestamp_check - Check to see if the default
+		  timestamp is valid.
+endif
+
+if LINUX_PAM_UNIX
+	config LINUX_PAM_UNIX_UNIX_UPDATE
+		bool
+		prompt "install program unix_update [SELINUX BROKEN]"
+		depends on BROKEN
+		help
+		  unix_update - Helper binary that updates the password
+		  of a given user. The purpose of the helper is to enable
+		  tighter confinement of login and password changing
+		  services. The helper is thus called only when SELinux
+		  is enabled and in the enforcing mode on the system.
+
+	config LINUX_PAM_UNIX_UNIX_CHKPWD
+		bool
+		prompt "install program unix_chkpwd"
+		help
+		  unix_chkpwd - Helper binary that verifies the password
+		  of the current user.
+endif
+
+endmenu
+
+endif

@@ -1,0 +1,103 @@
+From 40606831c29d2e78fa8ddd9862b9d99b0c61cffb Mon Sep 17 00:00:00 2001
+From: unknown author <unknown.author@example.com>
+Date: Tue, 15 Mar 2011 16:38:43 -0500
+Subject: [PATCH 3/4] ntp_refclock
+
+---
+ ntpd/ntp_refclock.c |   65 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 65 insertions(+), 0 deletions(-)
+
+diff --git a/ntpd/ntp_refclock.c b/ntpd/ntp_refclock.c
+index 08c0e40..21e24bb 100644
+--- a/ntpd/ntp_refclock.c
++++ b/ntpd/ntp_refclock.c
+@@ -12,6 +12,7 @@
+ #include "ntp_refclock.h"
+ #include "ntp_stdlib.h"
+ #include "ntp_assert.h"
++#include "ntp_calendar.h"
+ 
+ #include <stdio.h>
+ 
+@@ -416,7 +417,29 @@ refclock_process_f(
+ 	double fudge
+ 	)
+ {
++	/* GMM */
++	static int iInitialSet=0;
++	double doffset=0;
++	l_fp step_offset;
++		
+ 	l_fp offset, ltemp;
++	
++	/*
++	GMM - If the year is non zero, use the year! 
++	*/
++	
++	if( pp->year > 0 && pp->year < 100 )
++	{	 
++		struct calendar jt;
++		
++		//caljulian(ntp_time,&jt);
++		jt.yearday  = 1;
++		jt.monthday = 1;
++		jt.month    = 1;
++		jt.hour = jt.minute = jt.second = 0;
++		jt.year = pp->year + 2000;
++		pp->yearstart = caltontp(&jt);
++	}	
+ 
+ 	/*
+ 	 * Compute the timecode timestamp from the days, hours, minutes,
+@@ -433,6 +456,48 @@ refclock_process_f(
+ 	offset.l_uf = 0;
+ 	DTOLFP(pp->nsec / 1e9, &ltemp);
+ 	L_ADD(&offset, &ltemp);
++
++	/* GMM - Do local time*/
++	if( pp->sloppyclockflag & CLK_FLAG4 )
++	{
++		struct calendar jt;
++		struct tm tm_local;
++		time_t utc_time;
++		caljulian(offset.l_ui, &jt);
++		tm_local.tm_sec = jt.second;
++		tm_local.tm_min = jt.minute;
++		tm_local.tm_hour = jt.hour;
++		tm_local.tm_mday = jt.monthday;
++		tm_local.tm_mon = jt.month - 1;
++		tm_local.tm_year = jt.year - 1900;
++		tm_local.tm_isdst = -1; //Unknown.
++		utc_time = mktime(&tm_local);
++
++		jt.yearday  = 1;
++		jt.monthday = 1;
++		jt.month    = 1;
++		jt.hour = jt.minute = jt.second = 0;
++		jt.year = 1970;
++		offset.l_ui = caltontp(&jt) + (u_long) utc_time;
++		
++	}
++
++	/* GMM - set the time after 8 samples */
++	if( iInitialSet < 8 )
++	{
++		iInitialSet++;
++	}
++	else if( iInitialSet == 8 )
++	{
++		step_offset = offset;
++		L_SUB(&step_offset, &pp->lastrec);
++		LFPTOD(&step_offset, doffset);
++
++
++		step_systime(doffset);
++		iInitialSet++;
++	}	
++	
+ 	refclock_process_offset(pp, offset, pp->lastrec, fudge);
+ 	return (1);
+ }
+-- 
+1.7.1
+

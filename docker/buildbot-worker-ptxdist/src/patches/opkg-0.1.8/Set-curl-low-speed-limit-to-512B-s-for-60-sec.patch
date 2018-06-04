@@ -1,0 +1,30 @@
+From f062a37722d81f2c7d2c94a9b340e69250acea60 Mon Sep 17 00:00:00 2001
+From: George McCollister <george.mccollister@gmail.com>
+Date: Wed, 4 Apr 2012 09:57:41 -0500
+Subject: [PATCH] Set curl low speed limit to 512B/s for 60 sec
+
+If using curl and the transfer speed drops below 512B/s for 60 sec the
+connection will abort. I've added this to protect against stalled
+connections since no keep alive is used.
+
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ libopkg/opkg_download.c |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/libopkg/opkg_download.c b/libopkg/opkg_download.c
+index bdb0d14..6e2a039 100644
+--- a/libopkg/opkg_download.c
++++ b/libopkg/opkg_download.c
+@@ -135,6 +135,8 @@ opkg_download(const char *src, const char *dest_file_name,
+     {
+ 	curl_easy_setopt (curl, CURLOPT_URL, src);
+ 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, file);
++	curl_easy_setopt (curl, CURLOPT_LOW_SPEED_LIMIT, 512);
++	curl_easy_setopt (curl, CURLOPT_LOW_SPEED_TIME, 60);
+ 
+ 	res = curl_easy_perform (curl);
+ 	fclose (file);
+-- 
+1.7.8.4
+
