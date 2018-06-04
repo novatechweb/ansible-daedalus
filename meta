@@ -1,6 +1,6 @@
 Version: 1
-Previous: b5d1a2458c11f8edc4a80b206a59d398f84a2570
-Head: 365ab1c3da3f09fb7063d12472fe01bd131ac40f
+Previous: 2c7ab83099055dd9f82b3eaa1193e449cba02da4
+Head: 22f397cf6af469e3e1cb1ab801ffd2585c52354b
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -83,5 +83,6 @@ Applied:
   buildbot-playbook: c40871ccb1156cd4e4dc1d104a9e1d585c85e1bb
   playbook-extract-privilege-escalation: 35c09e170f3f5f1564f94fa3a5014d086015ae2e
   TMP: 365ab1c3da3f09fb7063d12472fe01bd131ac40f
+  refresh-temp: 22f397cf6af469e3e1cb1ab801ffd2585c52354b
 Unapplied:
 Hidden:
