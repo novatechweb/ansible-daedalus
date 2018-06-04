@@ -1,5 +1,5 @@
 Bottom: 3cfa2b71874684217200db03068e3c47ccc024d4
-Top:    3cfa2b71874684217200db03068e3c47ccc024d4
+Top:    c24ac0185362c52824cb3c62caf51e9eb4cf7063
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 16:46:58 -0500
 
@@ -12,4 +12,15 @@ This fix limits the rotation to the actual log files, excluding copies.
 
 
 ---
-
+diff --git a/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2 b/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
+index ca03e8e8..9100576b 100644
+--- a/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
++++ b/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
+@@ -1,6 +1,6 @@
+ # Docker container for exim4 logrotate script
+ 
+-{{ exim4_syslog_datavolume_dir }}/exim4/* {
++{{ exim4_syslog_datavolume_dir }}/exim4/*log {
+     daily
+     dateext
+     ifempty
