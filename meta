@@ -1,6 +1,6 @@
 Version: 1
-Previous: cc3e66b280d322683b8a85d6d18d633f8ed28037
-Head: d93f26e622e7bc4190684d3322165a78852fcf3e
+Previous: 2776cdcf31bd91691ade8a2f37c08d4f210008bc
+Head: 9ee48bff21ddd0814be941c231530102ea1b603c
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -49,8 +49,7 @@ Applied:
   svn-create-required-directories: 13517e8842c903e0e65a530a0b5b243329629248
   wiki-downgrade-extensions: e4889824f7a36b81aa76a715fdedceedbc04e6b5
   buildbot-master: 092981741dccb353ae9f46c94d10481bafba9328
-  buildbot-worker-ntel: f8779a0024b6a627b4a1c94bb89afcb72a963d45
-  add-buildbot-ntel-worker: d93f26e622e7bc4190684d3322165a78852fcf3e
+  buildbot-worker-ntel: 9ee48bff21ddd0814be941c231530102ea1b603c
 Unapplied:
   buildbot-worker-ptxdist: c9838d0794ddd489531e5a5ae3b50bd5f158fd4b
   add-buildbot-ptxdist-worker: 24dbcb864c4707d129844430cc01aaa166498008
