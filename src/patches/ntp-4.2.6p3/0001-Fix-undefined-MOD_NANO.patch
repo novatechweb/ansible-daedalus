@@ -1,0 +1,42 @@
+From 928a73f209ea47f72ab8611148472cd676f6d591 Mon Sep 17 00:00:00 2001
+From: Alexander Stein <alexander.stein@systec-electronic.com>
+Date: Tue, 5 Jan 2010 13:13:02 +0100
+Subject: [PATCH 1/4] Fix undefined MOD_NANO
+
+With gcc version 4.4.1 (Sourcery G++ Lite 2009q3-67) I get this error:
+
+ntp_loopfilter.c: In function 'local_clock':
+ntp_loopfilter.c:571: error: 'MOD_NANO' undeclared (first use in this function)
+ntp_loopfilter.c:571: error: (Each undeclared identifier is reported only once
+ntp_loopfilter.c:571: error: for each function it appears in.)
+ntp_loopfilter.c: In function 'loop_config':
+ntp_loopfilter.c:896: error: 'MOD_NANO' undeclared (first use in this function)
+make[4]: *** [ntp_loopfilter.o] Error 1
+
+Fix it by chaning MOD_NANO to STA_NANO.
+
+This may be related to some specific toolchains, due to some defines. I use the
+Codesourcery Sourcery G++ Lite 2009q3-67 toolchain.
+
+Signed-off-by: Alexander Stein <alexander.stein@systec-electronic.com>
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+---
+ ntpd/ntp_loopfilter.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/ntpd/ntp_loopfilter.c b/ntpd/ntp_loopfilter.c
+index 1846b55..dea4a64 100644
+--- a/ntpd/ntp_loopfilter.c
++++ b/ntpd/ntp_loopfilter.c
+@@ -517,7 +517,7 @@ local_clock(
+ 			ntv.modes = MOD_STATUS;
+ 		} else {
+ #ifdef STA_NANO
+-			ntv.modes = MOD_BITS | MOD_NANO;
++			ntv.modes = MOD_BITS | STA_NANO;
+ #else /* STA_NANO */
+ 			ntv.modes = MOD_BITS;
+ #endif /* STA_NANO */
+-- 
+1.7.1
+
