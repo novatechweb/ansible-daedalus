@@ -1,6 +1,6 @@
 Version: 1
-Previous: 544d2a9d75d5e9d5d4cf5a9e43ffc7a822b6f28d
-Head: c232d499bc17f785554ee489e96e9d1a181f6c2a
+Previous: 6f9b378dbf50c741a349836990d84c0c4056bc0c
+Head: d191e5d3fbbfe1705c6eeb331bebad2d7e3df405
 Applied:
   all-ansible-2.4: 1e009cab3a732ef6933798bedd5ea8c872da7b80
   all-remove-submodules: a28862d5b0a5a522df1a782d6779254491ce29ff
@@ -75,7 +75,6 @@ Applied:
   all-improve-idempotency: 13fba41af0ed55321aceeeaff360ebeb69b9ef14
   fixup-tmp-rework-ip-address-network: 574f0790016671d22dccf4981171467f9673ed2b
   buildbot-ssh-keygen: 10e1f5dc19017303313fdd517229b3ac45df1b8d
-  tmp: ea452e103b33967772d1b16b0b64c79508cd15d7
-  refresh-temp: c232d499bc17f785554ee489e96e9d1a181f6c2a
+  tmp: d191e5d3fbbfe1705c6eeb331bebad2d7e3df405
 Unapplied:
 Hidden:
