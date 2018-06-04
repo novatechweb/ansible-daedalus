@@ -1,0 +1,68 @@
+---
+# tasks file for gitlab-sshkey
+
+- assert:
+    that:
+      - username is defined
+      - pubkey is defined
+      - title is defined
+
+# Login as root user
+- name: Get access token for admin user
+  uri:
+    url: "{{ gitlab_uri }}/oauth/token"
+    method: POST
+    body_format: json
+    body:
+      grant_type: password
+      username: root
+      password: "{{ gitlab_root_password }}"
+    return_content: yes
+  register: auth
+
+# Search for buildbot user
+- name: Find user
+  uri:
+    url: "{{ gitlab_uri }}/api/v4/users?username={{ username }}"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ auth.json.access_token }}"
+    return_content: yes
+  register: founduser
+
+- name: Save new user
+  set_fact:
+    user: '{{ founduser.json[0] }}'
+  when: founduser.json|length > 0
+
+# Get SSH keys for buildbot user
+- name: Get user SSH keys
+  uri:
+    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys"
+    headers:
+      Authorization: "Bearer {{ auth.json.access_token }}"
+    return_content: yes
+  register: keys
+
+- name: Delete obsolete keys
+  uri:
+    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys/{{ item.id }}"
+    method: DELETE
+    headers:
+      Authorization: "Bearer {{ auth.json.access_token }}"
+    status_code: 204
+  when:
+    - (item.title == title and item.key != pubkey) or (item.title != title and item.key == pubkey)
+  loop: "{{ keys.json }}"
+
+- name: Add new key
+  uri:
+    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ auth.json.access_token }}"
+    body_format: json
+    body:
+      title: '{{ title }}'
+      key: "{{ pubkey }}"
+    status_code: 201

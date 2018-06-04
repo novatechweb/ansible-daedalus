@@ -32,3 +32,15 @@
     volumes: '{{ buildbot_volumes }}'
     env: '{{ buildbot_env }}'
     ports: '{{ buildbot_port_args }}'
+
+- name: Grab ssh public key
+  command: >
+    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+  changed_when: false
+  register: output
+
+- name: Add buildbot_master host
+  add_host:
+    name: buildbot_master
+    pubkey: "{{ output.stdout }}"
+    ip_addr: "{{ buildbot_ip_addr }}"
