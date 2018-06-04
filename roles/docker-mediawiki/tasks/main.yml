@@ -180,7 +180,7 @@
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ wiki_dv_name }}/var/www/html:z'
     env:
-      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
+      WIKI_HOSTNAME: '{{ wiki_hostname }}'
       WIKI_MAIL_USER: 'wiki'
       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
