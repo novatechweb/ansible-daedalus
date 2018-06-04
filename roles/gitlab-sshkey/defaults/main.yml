@@ -1,0 +1,5 @@
+---
+# defaults file for gitlab-sshkey
+
+gitlab_hostname: "127.0.0.1"
+gitlab_uri: "https://{{ gitlab_hostname }}/"
