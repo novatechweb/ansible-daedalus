@@ -1,5 +1,5 @@
 Bottom: a88b2cf277264a053dbfa24c3e6616b1b19e2f6d
-Top:    a88b2cf277264a053dbfa24c3e6616b1b19e2f6d
+Top:    f4a922612e928d3e89119ba0dc770d374fa3712a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 16:34:33 -0500
 
@@ -7,4 +7,234 @@ New role gitlab-sshkey
 
 
 ---
-
+diff --git a/roles/gitlab-sshkey/README.md b/roles/gitlab-sshkey/README.md
+new file mode 100644
+index 00000000..225dd44b
+--- /dev/null
++++ b/roles/gitlab-sshkey/README.md
+@@ -0,0 +1,38 @@
++Role Name
++=========
++
++A brief description of the role goes here.
++
++Requirements
++------------
++
++Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
++
++Role Variables
++--------------
++
++A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
++
++Dependencies
++------------
++
++A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
++
++Example Playbook
++----------------
++
++Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
++
++    - hosts: servers
++      roles:
++         - { role: username.rolename, x: 42 }
++
++License
++-------
++
++BSD
++
++Author Information
++------------------
++
++An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+diff --git a/roles/gitlab-sshkey/defaults/main.yml b/roles/gitlab-sshkey/defaults/main.yml
+new file mode 100644
+index 00000000..4a970d4e
+--- /dev/null
++++ b/roles/gitlab-sshkey/defaults/main.yml
+@@ -0,0 +1,5 @@
++---
++# defaults file for gitlab-sshkey
++
++gitlab_hostname: "127.0.0.1"
++gitlab_uri: "https://{{ gitlab_hostname }}/"
+diff --git a/roles/gitlab-sshkey/handlers/main.yml b/roles/gitlab-sshkey/handlers/main.yml
+new file mode 100644
+index 00000000..bea41d29
+--- /dev/null
++++ b/roles/gitlab-sshkey/handlers/main.yml
+@@ -0,0 +1,2 @@
++---
++# handlers file for gitlab-sshkey
+\ No newline at end of file
+diff --git a/roles/gitlab-sshkey/meta/main.yml b/roles/gitlab-sshkey/meta/main.yml
+new file mode 100644
+index 00000000..72237997
+--- /dev/null
++++ b/roles/gitlab-sshkey/meta/main.yml
+@@ -0,0 +1,57 @@
++galaxy_info:
++  author: your name
++  description: your description
++  company: your company (optional)
++
++  # If the issue tracker for your role is not on github, uncomment the
++  # next line and provide a value
++  # issue_tracker_url: http://example.com/issue/tracker
++
++  # Some suggested licenses:
++  # - BSD (default)
++  # - MIT
++  # - GPLv2
++  # - GPLv3
++  # - Apache
++  # - CC-BY
++  license: license (GPLv2, CC-BY, etc)
++
++  min_ansible_version: 1.2
++
++  # If this a Container Enabled role, provide the minimum Ansible Container version.
++  # min_ansible_container_version:
++
++  # Optionally specify the branch Galaxy will use when accessing the GitHub
++  # repo for this role. During role install, if no tags are available,
++  # Galaxy will use this branch. During import Galaxy will access files on
++  # this branch. If Travis integration is configured, only notifications for this
++  # branch will be accepted. Otherwise, in all cases, the repo's default branch
++  # (usually master) will be used.
++  #github_branch:
++
++  #
++  # platforms is a list of platforms, and each platform has a name and a list of versions.
++  #
++  # platforms:
++  # - name: Fedora
++  #   versions:
++  #   - all
++  #   - 25
++  # - name: SomePlatform
++  #   versions:
++  #   - all
++  #   - 1.0
++  #   - 7
++  #   - 99.99
++
++  galaxy_tags: []
++    # List tags for your role here, one per line. A tag is a keyword that describes
++    # and categorizes the role. Users find roles by searching for tags. Be sure to
++    # remove the '[]' above, if you add tags to this list.
++    #
++    # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
++    #       Maximum 20 tags per role.
++
++dependencies: []
++  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
++  # if you add dependencies to this list.
+\ No newline at end of file
+diff --git a/roles/gitlab-sshkey/tasks/main.yml b/roles/gitlab-sshkey/tasks/main.yml
+new file mode 100644
+index 00000000..5ef23647
+--- /dev/null
++++ b/roles/gitlab-sshkey/tasks/main.yml
+@@ -0,0 +1,68 @@
++---
++# tasks file for gitlab-sshkey
++
++- assert:
++    that:
++      - username is defined
++      - pubkey is defined
++      - title is defined
++
++# Login as root user
++- name: Get access token for admin user
++  uri:
++    url: "{{ gitlab_uri }}/oauth/token"
++    method: POST
++    body_format: json
++    body:
++      grant_type: password
++      username: root
++      password: "{{ gitlab_root_password }}"
++    return_content: yes
++  register: auth
++
++# Search for buildbot user
++- name: Find user
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users?username={{ username }}"
++    method: GET
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    return_content: yes
++  register: founduser
++
++- name: Save new user
++  set_fact:
++    user: '{{ founduser.json[0] }}'
++  when: founduser.json|length > 0
++
++# Get SSH keys for buildbot user
++- name: Get user SSH keys
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys"
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    return_content: yes
++  register: keys
++
++- name: Delete obsolete keys
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys/{{ item.id }}"
++    method: DELETE
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    status_code: 204
++  when:
++    - item.title == title or item.key == pubkey
++  loop: "{{ keys.json }}"
++
++- name: Add new key
++  uri:
++    url: "{{ gitlab_uri }}/api/v4/users/{{ user.id }}/keys"
++    method: POST
++    headers:
++      Authorization: "Bearer {{ auth.json.access_token }}"
++    body_format: json
++    body:
++      title: '{{ title }}'
++      key: "{{ pubkey }}"
++    status_code: 201
+diff --git a/roles/gitlab-sshkey/tests/inventory b/roles/gitlab-sshkey/tests/inventory
+new file mode 100644
+index 00000000..878877b0
+--- /dev/null
++++ b/roles/gitlab-sshkey/tests/inventory
+@@ -0,0 +1,2 @@
++localhost
++
+diff --git a/roles/gitlab-sshkey/tests/test.yml b/roles/gitlab-sshkey/tests/test.yml
+new file mode 100644
+index 00000000..358a3b10
+--- /dev/null
++++ b/roles/gitlab-sshkey/tests/test.yml
+@@ -0,0 +1,5 @@
++---
++- hosts: localhost
++  remote_user: root
++  roles:
++    - gitlab-sshkey
+\ No newline at end of file
+diff --git a/roles/gitlab-sshkey/vars/main.yml b/roles/gitlab-sshkey/vars/main.yml
+new file mode 100644
+index 00000000..14b88a19
+--- /dev/null
++++ b/roles/gitlab-sshkey/vars/main.yml
+@@ -0,0 +1,2 @@
++---
++# vars file for gitlab-sshkey
+\ No newline at end of file
