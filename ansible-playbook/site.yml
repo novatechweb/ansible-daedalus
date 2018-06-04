@@ -15,10 +15,6 @@
 
 - name: Bacula
   hosts: bacula
-  remote_user: ansibleremote
-  become: true
-  become_user: root
-  become_method: sudo
   roles:
   - role: mariadb
     mariadb_open_firewall: true
@@ -34,10 +30,6 @@
   # - role: bacula-catalog
 - name: Install/Setup Docker images and containers
   hosts: docker-hosts
-  remote_user: ansibleremote
-  become: true
-  become_user: root
-  become_method: sudo
   roles:
   - name: Setup SSH Daemon
     role: sshd
@@ -113,20 +105,12 @@
 
 - name: Assemble Bacula backup scripts
   hosts: bacula
-  remote_user: ansibleremote
-  become: true
-  become_user: root
-  become_method: sudo
   roles:
   - role: bacula-script
     assemble_scripts: true
 
 - name: Cleanup tasks
   hosts: all
-  remote_user: ansibleremote
-  become: true
-  become_user: root
-  become_method: sudo
   tasks:
   - name: Copy credentials to the /etc dir
     copy:

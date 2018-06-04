@@ -1,0 +1,6 @@
+---
+
+ansible_user: ansibleremote
+ansible_become: yes
+ansible_become_method: sudo
+ansible_become_user: root
