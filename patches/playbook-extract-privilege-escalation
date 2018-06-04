@@ -1,5 +1,5 @@
 Bottom: af36419776a6ea085693be2de887edb28acde20e
-Top:    af36419776a6ea085693be2de887edb28acde20e
+Top:    71c9dbbf72fc5386020972c46396c46f7739365f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:07:02 -0500
 
@@ -10,4 +10,74 @@ and unnecessary boilerplate when writing new plays.
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/buildbot-worker/privileges.yml b/ansible-playbook/group_vars/buildbot-worker/privileges.yml
+new file mode 100644
+index 00000000..705a55e5
+--- /dev/null
++++ b/ansible-playbook/group_vars/buildbot-worker/privileges.yml
+@@ -0,0 +1,6 @@
++---
++
++ansible_user: ansibleremote
++ansible_become: yes
++ansible_become_method: sudo
++ansible_become_user: root
+diff --git a/ansible-playbook/group_vars/daedalus/privileges.yml b/ansible-playbook/group_vars/daedalus/privileges.yml
+new file mode 100644
+index 00000000..705a55e5
+--- /dev/null
++++ b/ansible-playbook/group_vars/daedalus/privileges.yml
+@@ -0,0 +1,6 @@
++---
++
++ansible_user: ansibleremote
++ansible_become: yes
++ansible_become_method: sudo
++ansible_become_user: root
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index b43da100..4db45478 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -15,10 +15,6 @@
+ 
+ - name: Bacula
+   hosts: bacula
+-  remote_user: ansibleremote
+-  become: true
+-  become_user: root
+-  become_method: sudo
+   roles:
+   - role: mariadb
+     mariadb_open_firewall: true
+@@ -34,10 +30,6 @@
+   # - role: bacula-catalog
+ - name: Install/Setup Docker images and containers
+   hosts: docker-hosts
+-  remote_user: ansibleremote
+-  become: true
+-  become_user: root
+-  become_method: sudo
+   roles:
+   - name: Setup SSH Daemon
+     role: sshd
+@@ -113,20 +105,12 @@
+ 
+ - name: Assemble Bacula backup scripts
+   hosts: bacula
+-  remote_user: ansibleremote
+-  become: true
+-  become_user: root
+-  become_method: sudo
+   roles:
+   - role: bacula-script
+     assemble_scripts: true
+ 
+ - name: Cleanup tasks
+   hosts: all
+-  remote_user: ansibleremote
+-  become: true
+-  become_user: root
+-  become_method: sudo
+   tasks:
+   - name: Copy credentials to the /etc dir
+     copy:
