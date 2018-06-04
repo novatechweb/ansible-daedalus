@@ -1,5 +1,5 @@
 Bottom: 15e4f0f938bcdf8de07025248e8497bdf318cf18
-Top:    15e4f0f938bcdf8de07025248e8497bdf318cf18
+Top:    3b6f87337be02c422c40f75cd3b028d61cd15c30
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:26:52 -0500
 
@@ -10,4 +10,49 @@ common docker tasks are for all docker hosts.
 
 
 ---
-
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 4db45478..be3f73ab 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -28,31 +28,26 @@
+   - role: bacula-script
+     assemble_scripts: false
+   # - role: bacula-catalog
+-- name: Install/Setup Docker images and containers
++
++- name: Prepare Docker host systems
+   hosts: docker-hosts
+   roles:
+   - name: Setup SSH Daemon
+     role: sshd
+     tags:
+     - sshd
+-  - name: Run bacula-restores symlinks
+-    role: bacula-restores
+-    tags:
+-    - bacula_restores
+   - name: Run common Docker tasks
+     role: docker-common
+     tags:
+     - docker_common
+-    services:
+-      - svn
+-      - openldap
+-      - exim4
+-      - gitlab
+-      - wiki
+-      - mantisbt
+-      - build
+-      - testssh
+-      - buildbot
++
++- name: Install/Setup Docker images and containers on daedalus
++  hosts: daedalus
++  roles:
++  - name: Run bacula-restores symlinks
++    role: bacula-restores
++    tags:
++    - bacula_restores
+   - name: Configure Docker networking
+     role: docker-networking
+     tags:
