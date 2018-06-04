@@ -1,0 +1,1031 @@
+Bottom: 6198c57c2cb43331e67adcd805ae62612aa2684e
+Top:    0961e3e454570a2272113a63f775403e28110704
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-04 10:36:19 -0500
+
+Refresh of tmp
+
+---
+diff --git a/Vagrantfile b/Vagrantfile
+index 3e886539..e037c694 100644
+--- a/Vagrantfile
++++ b/Vagrantfile
+@@ -1,6 +1,40 @@
++$bbworker = <<-SCRIPT
++yum install -y \
++    epel-release
++
++yum install -y \
++    device-mapper-persistent-data \
++    git \
++    lvm2 \
++    python-pip \
++    yum-utils
++
++yum-config-manager \
++  --add-repo \
++  https://download.docker.com/linux/centos/docker-ce.repo
++
++yum remove -y \
++    docker \
++    docker-client \
++    docker-client-latest \
++    docker-common \
++    docker-latest \
++    docker-latest-logrotate \
++    docker-logrotate
++
++yum install -y \
++    docker-ce
++
++pip install \
++    docker
++
++systemctl start docker
++docker run --rm hello-world
++SCRIPT
++
+ Vagrant.configure("2") do |config|
+ 
+-    config.vm.define "vmdaedalus.novatech-llc.com", primary: true do |main|
++    config.vm.define "vmdaedalus", primary: true do |main|
+         main.vm.box = "daedalus"
+         main.vm.box_url = "vmdaedalus/vmdaedalus-virtualbox.box"
+         main.vm.hostname = "vmdaedalus.novatech-llc.com"
+@@ -19,11 +53,15 @@ Vagrant.configure("2") do |config|
+             mount_options: ["ro"]
+     end
+ 
+-    config.vm.define "buildbot-worker.novatech-llc.com" do |worker|
+-        worker.vm.box = "centos/atomic-host"
+-        worker.vm.hostname = "buildbot-worker.novatech-llc.com"
++    config.vm.define "bbworker" do |worker|
++        worker.vm.box = "centos/7"
++        worker.vm.hostname = "bbworker.novatech-llc.com"
+         worker.vm.provider "virtualbox" do |vb|
+             vb.name = "bbworker"
++            vb.cpus = 1
+         end
++        worker.vm.network "private_network", ip: "192.168.0.150", netmask:"255.255.0.0"
++        worker.vm.provision "shell", inline: $bbworker
++
+     end
+ end
+diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
+index 29d7c9f8..866f76e7 100644
+--- a/ansible-playbook/group_vars/all/buildbot.yml
++++ b/ansible-playbook/group_vars/all/buildbot.yml
+@@ -1,5 +1,8 @@
+ ---
+-buildbot_version: 1.1.1
+-buildbot_worker_port: 9989
+-buildbot_worker_ntel: worker-ntel
+-buildbot_worker_ptxdist: worker-ptxdist
++buildbot_version:                    1.1.2
++buildbot_worker_port:                9989
++buildbot_worker_ntel:                worker-ntel
++buildbot_worker_ptxdist:             worker-ptxdist
++buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin length=20") }}'
++buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel length=20") }}'
++buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist length=20") }}'
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 41773f2e..cb021d0e 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -1,7 +1,7 @@
+ ---
+ # passwords
+-openldap_admin_password:                 '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=admin,dc=novatech length=20") }}'
+-openldap_proxyagent_password:            '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=proxyagent,dc=novatech length=20") }}'
++openldap_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=admin,dc=novatech length=20") }}'
++openldap_proxyagent_password:        '{{ lookup("password", playbook_dir + "/credentials/ldap/cn=proxyagent,dc=novatech length=20") }}'
+ wiki_db_root_password:               '{{ lookup("password", playbook_dir + "/credentials/wiki/db/root length=20") }}'
+ wiki_db_password:                    '{{ lookup("password", playbook_dir + "/credentials/wiki/db/user length=20") }}'
+ wiki_email_password:                 '{{ lookup("password", playbook_dir + "/credentials/wiki/email/wiki@novatech-llc.com length=20") }}'
+@@ -17,8 +17,5 @@ buildsystem_ssh_root_user_password:  '{{ lookup("password", playbook_dir + "/cre
+ buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root length=20") }}'
+ buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
+ svn_password:                        '{{ lookup("password", playbook_dir + "/credentials/svn/ansible length=20") }}'
+-buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin length=20") }}'
+-buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel length=20") }}'
+-buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist length=20") }}'
+ 
+ svn_username:                        'ansible'
+diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
+index 8917e7ce..ae3590a2 100644
+--- a/ansible-playbook/group_vars/docker-hosts/repos.yml
++++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
+@@ -7,3 +7,5 @@ wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
+ mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
+ svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
+ buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
++buildbot_worker_ntel_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ntel.git
++buildbot_worker_ptxdist_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ptxdist.git
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+index fb4f69a0..f567d255 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+@@ -1,65 +1,4 @@
+ ---
+ 
+-svn_ip_addr: 172.16.0.101/16
+-svn_hostname: svn.novatech-llc.com
+-svn_port_args:
+-    - "{{ svn_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ svn_ip_addr | ipaddr('address') }}:443:443"
+-
+-gitlab_ip_addr: 172.16.0.102/16
+-gitlab_hostname: git.novatech-llc.com
+-gitlab_port_args:
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:443:443"
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:22:22"
+-
+-wiki_ip_addr: 172.16.0.103/16
+-wiki_hostname: wiki.novatech-llc.com
+-wiki_port_args:
+-    - "{{ wiki_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ wiki_ip_addr | ipaddr('address') }}:443:443"
+-
+-mantisbt_ip_addr: 172.16.0.104/16
+-mantisbt_hostname: mantis.novatech-llc.com
+-mantisbt_port_args:
+-    - "{{ mantisbt_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ mantisbt_ip_addr | ipaddr('address') }}:443:443"
+-
+-build_ip_addr: 172.16.0.105/16
+-build_hostname: buildsystem.novatech-llc.com
+-build_port_args:
+-    - "{{ build_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ build_ip_addr | ipaddr('address') }}:443:443"
+-
+-testssh_ip_addr: 172.16.0.106/16
+-testssh_hostname: testssh.novatech-llc.com
+-testssh_port_args:
+-    - "{{ testssh_ip_addr | ipaddr('address') }}:2200:22"
+-
+-exim4_ip_addr: 172.16.0.107/16
+-exim4_hostname: mail.novatech-llc.com
+-exim4_port_args:
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:25:25"
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:465:465"
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:587:587"
+-
+-openldap_ip_addr: 172.16.0.108/16
+-openldap_hostname: ldap.novatech-llc.com
+-openldap_port_args:
+-    - "{{ openldap_ip_addr | ipaddr('address') }}:389:389"
+-    - "{{ openldap_ip_addr | ipaddr('address') }}:636:636"
+-
+-phpldapadmin_ip_addr: 172.16.0.108/16
+-phpldapadmin_hostname: ldap.novatech-llc.com
+-phpldapadmin_port_args:
+-    - "{{ phpldapadmin_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ phpldapadmin_ip_addr | ipaddr('address') }}:443:443"
+-
+-phpmyadmin_ip_addr: 172.16.0.109/16
+-phpmyadmin_hostname: phpmyadmin.novatech-llc.com
+-
+-buildbot_ip_addr: 172.16.0.110/16
+-buildbot_hostname: buildbot.novatech-llc.com
+-buildbot_port_args:
+-    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
++daedalus_subnet: 172.16.0.0/16
++daedalus_net_connection: "Bridge br0"
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+index 0dceb525..f55400be 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+@@ -1,65 +1,4 @@
+ ---
+ 
+-svn_ip_addr: 172.16.0.201/16
+-svn_hostname: svn.novatech-llc.com
+-svn_port_args:
+-    - "{{ svn_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ svn_ip_addr | ipaddr('address') }}:443:443"
+-
+-gitlab_ip_addr: 172.16.0.202/16
+-gitlab_hostname: git.novatech-llc.com
+-gitlab_port_args:
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:443:443"
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:22:22"
+-
+-wiki_ip_addr: 172.16.0.203/16
+-wiki_hostname: wiki.novatech-llc.com
+-wiki_port_args:
+-    - "{{ wiki_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ wiki_ip_addr | ipaddr('address') }}:443:443"
+-
+-mantisbt_ip_addr: 172.16.0.204/16
+-mantisbt_hostname: mantis.novatech-llc.com
+-mantisbt_port_args:
+-    - "{{ mantisbt_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ mantisbt_ip_addr | ipaddr('address') }}:443:443"
+-
+-build_ip_addr: 172.16.0.205/16
+-build_hostname: buildsystem.novatech-llc.com
+-build_port_args:
+-    - "{{ build_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ build_ip_addr | ipaddr('address') }}:443:443"
+-
+-testssh_ip_addr: 172.16.0.206/16
+-testssh_hostname: testssh.novatech-llc.com
+-testssh_port_args:
+-    - "{{ testssh_ip_addr | ipaddr('address') }}:2200:22"
+-
+-exim4_ip_addr: 172.16.0.207/16
+-exim4_hostname: mail.novatech-llc.com
+-exim4_port_args:
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:25:25"
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:465:465"
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:587:587"
+-
+-openldap_ip_addr: 172.16.0.208/16
+-openldap_hostname: ldap.novatech-llc.com
+-openldap_port_args:
+-    - "{{ openldap_ip_addr | ipaddr('address') }}:389:389"
+-    - "{{ openldap_ip_addr | ipaddr('address') }}:636:636"
+-
+-phpldapadmin_ip_addr: 172.16.0.208/16
+-phpldapadmin_hostname: ldap.novatech-llc.com
+-phpldapadmin_port_args:
+-    - "{{ phpldapadmin_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ phpldapadmin_ip_addr | ipaddr('address') }}:443:443"
+-
+-phpmyadmin_ip_addr: 172.16.0.209/16
+-phpmyadmin_hostname: phpmyadmin.novatech-llc.com
+-
+-buildbot_ip_addr: 172.16.0.210/16
+-buildbot_hostname: buildbot.novatech-llc.com
+-buildbot_port_args:
+-    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
++daedalus_subnet: 172.16.103.0/16
++daedalus_net_connection: "Bridge br0"
+diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
+deleted file mode 100644
+index 53b96f84..00000000
+--- a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
++++ /dev/null
+@@ -1,33 +0,0 @@
+----
+-
+-container_addr_map:
+-  svn:
+-    ip_addr: 192.168.0.101
+-    hostname: svn.novatech-llc.com
+-  git:
+-    ip_addr: 192.168.0.102
+-    hostname: git.novatech-llc.com
+-  wiki:
+-    ip_addr: 192.168.0.103
+-    hostname: wiki.novatech-llc.com
+-  mantisbt:
+-    ip_addr: 192.168.0.104
+-    hostname: mantis.novatech-llc.com
+-  build:
+-    ip_addr: 192.168.0.105
+-    hostname: buildsystem.novatech-llc.com
+-  testssh:
+-    ip_addr: 192.168.0.106
+-    hostname: testssh.novatech-llc.com
+-  exim4:
+-    ip_addr: 192.168.0.107
+-    hostname: mail.novatech-llc.com
+-  ldap:
+-    ip_addr: 192.168.0.108
+-    hostname: ldap.novatech-llc.com
+-  phpldapadmin:
+-    ip_addr: 192.168.0.108
+-    hostname: ldap.novatech-llc.com
+-  phpmyadmin:
+-    ip_addr: 192.168.0.109
+-    hostname: phpmyadmin.novatech-llc.com
+diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml
+index 79bbb96d..bdc04890 100644
+--- a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml
+@@ -1,65 +1,4 @@
+ ---
+ 
+-svn_ip_addr: 192.168.0.101/16
+-svn_hostname: svn.novatech-llc.com
+-svn_port_args:
+-    - "{{ svn_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ svn_ip_addr | ipaddr('address') }}:443:443"
+-
+-gitlab_ip_addr: 192.168.0.102/16
+-gitlab_hostname: git.novatech-llc.com
+-gitlab_port_args:
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:443:443"
+-    - "{{ gitlab_ip_addr | ipaddr('address') }}:22:22"
+-
+-wiki_ip_addr: 192.168.0.103/16
+-wiki_hostname: wiki.novatech-llc.com
+-wiki_port_args:
+-    - "{{ wiki_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ wiki_ip_addr | ipaddr('address') }}:443:443"
+-
+-mantisbt_ip_addr: 192.168.0.104/16
+-mantisbt_hostname: mantis.novatech-llc.com
+-mantisbt_port_args:
+-    - "{{ mantisbt_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ mantisbt_ip_addr | ipaddr('address') }}:443:443"
+-
+-build_ip_addr: 192.168.0.105/16
+-build_hostname: buildsystem.novatech-llc.com
+-build_port_args:
+-    - "{{ build_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ build_ip_addr | ipaddr('address') }}:443:443"
+-
+-testssh_ip_addr: 192.168.0.106/16
+-testssh_hostname: testssh.novatech-llc.com
+-testssh_port_args:
+-    - "{{ testssh_ip_addr | ipaddr('address') }}:2200:22"
+-
+-exim4_ip_addr: 192.168.0.107/16
+-exim4_hostname: mail.novatech-llc.com
+-exim4_port_args:
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:25:25"
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:465:465"
+-    - "{{ exim4_ip_addr | ipaddr('address') }}:587:587"
+-
+-openldap_ip_addr: 192.168.0.108/16
+-openldap_hostname: ldap.novatech-llc.com
+-openldap_port_args:
+-    - "{{ openldap_ip_addr | ipaddr('address') }}:389:389"
+-    - "{{ openldap_ip_addr | ipaddr('address') }}:636:636"
+-
+-phpldapadmin_ip_addr: 192.168.0.108/16
+-phpldapadmin_hostname: ldap.novatech-llc.com
+-phpldapadmin_port_args:
+-    - "{{ phpldapadmin_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ phpldapadmin_ip_addr | ipaddr('address') }}:443:443"
+-
+-phpmyadmin_ip_addr: 192.168.0.109/16
+-phpmyadmin_hostname: phpmyadmin.novatech-llc.com
+-
+-buildbot_ip_addr: 192.168.0.110/16
+-buildbot_hostname: buildbot.novatech-llc.com
+-buildbot_port_args:
+-    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
+-    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
++daedalus_subnet: 192.168.0.0/24
++daedalus_net_connection: "System enp0s8"
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 82d8ce8c..180f96b4 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -4,7 +4,7 @@
+ - name: Dump Variables
+   hosts: all
+   tags:
+-    - debugging
++  - debugging
+   tasks:
+   - template:
+       src: templates/dump_variables
+@@ -26,13 +26,14 @@
+   - role: bacula-director
+   - role: bacula-storage
+     tags:
+-      - bacula_storage
++    - bacula_storage
+   - role: bacula-client
+   - role: bacula-console
+   - role: bacula-script
+     assemble_scripts: false
+   # - role: bacula-catalog
+-- name: Install/Setup Docker images and containers
++
++- name: Prepare Docker host systems
+   hosts: docker-hosts
+   remote_user: ansibleremote
+   become: true
+@@ -43,26 +44,36 @@
+     role: sshd
+     tags:
+     - sshd
+-  - name: Run bacula-restores symlinks
+-    role: bacula-restores
+-    tags:
+-    - bacula_restores
+   - name: Run common Docker tasks
+     role: docker-common
+     tags:
+     - docker_common
+-    services:
+-      - svn
+-      - openldap
+-      - exim4
+-      - gitlab
+-      - wiki
+-      - mantisbt
+-      - build
+-      - testssh
+-      - buildbot
++
++- name: Install/Setup Docker images and containers on daedalus
++  hosts: daedalus
++  remote_user: ansibleremote
++  become: true
++  become_user: root
++  become_method: sudo
++  roles:
++  - name: Run bacula-restores symlinks
++    role: bacula-restores
++    tags:
++    - bacula_restores
+   - name: Configure Docker networking
+     role: docker-networking
++    connection: '{{ daedalus_net_connection }}'
++    subnet: '{{ daedalus_subnet }}'
++    services:
++    - svn
++    - openldap
++    - exim4
++    - gitlab
++    - wiki
++    - mantisbt
++    - build
++    - testssh
++    - buildbot
+     tags:
+     - docker_networking
+   - name: Build the openssl Docker volume
+@@ -100,18 +111,13 @@
+     role: docker-buildsystem
+     tags:
+     - buildsystem_container
+-  - name: Build and start the Buildbot master container
+-    role: buildbot-master
+-    tags:
+-      - buildbot
+-      - buildbot-master
+ 
+ - name: Setup the Build System (Test Station) with repo data
+   hosts: buildsystem
+   roles:
+   - role: buildsystem
+     tags:
+-     - buildsystem_container
++    - buildsystem_container
+ 
+ - name: Assemble Bacula backup scripts
+   hosts: bacula
+@@ -132,14 +138,7 @@
+   tasks:
+   - name: Copy credentials to the /etc dir
+     copy:
+-      src: ./credentials/{{ inventory_hostname }}
+-      dest: /etc/ansible-credentials/
+-      owner: root
+-      group: root
+-      mode: 'u=rw,g=,o='
+-  - name: Copy build system credentials to /etc dir
+-    copy:
+-      src: ./credentials/buildsystem.novatech-llc.com
++      src: "{{ playbook_dir }}/credentials/"
+       dest: /etc/ansible-credentials/
+       owner: root
+       group: root
+diff --git a/docker/buildbot-worker-ptxdist/Dockerfile b/docker/buildbot-worker-ptxdist/Dockerfile
+index 69c1f474..d916a1ac 100644
+--- a/docker/buildbot-worker-ptxdist/Dockerfile
++++ b/docker/buildbot-worker-ptxdist/Dockerfile
+@@ -1,11 +1,49 @@
++FROM        ubuntu:trusty AS ptxdist-build
++
++ENV PTXDIST_VERSION 2012.09.1
++
++# Install security updates and required packages
++RUN apt-get update \
++&&  DEBIAN_FRONTEND=noninteractive \
++    apt-get -y install -q \
++        autoconf \
++        bison \
++        build-essential \
++        checkinstall \
++        flex \
++        gawk \
++        gcc \
++        gettext \
++        git \
++        libncurses5-dev \
++        make \
++        python-dev \
++        texinfo \
++        wget
++
++# Install ptxdist, a build system
++COPY src /usr/src/ptxdist-${PTXDIST_VERSION}
++WORKDIR /usr/src/ptxdist-${PTXDIST_VERSION}
++
++RUN touch ptxdist \
++&&  ./autogen.sh \
++&&  ./configure \
++&&  make \
++&&  checkinstall \
++        --type=debian \
++        --default \
++        --pkgname=ptxdist \
++        --pkgversion="${PTXDIST_VERSION}" \
++        --install=no
++
++
+ FROM        krallin/ubuntu-tini:trusty
+-MAINTAINER  Buildbot maintainers
+ 
+ WORKDIR /buildbot
+ 
+ RUN apt-get update \
+ &&  DEBIAN_FRONTEND=noninteractive \
+-    apt-get -y install wget \
++    apt-get -y install -q wget \
+ &&  wget -qO /etc/apt/trusted.gpg.d/ptx-archive-key.gpg https://debian.pengutronix.de/debian/ptx-archive-key.gpg \
+ &&  wget -qO /etc/apt/sources.list.d/pengutronix.list   https://debian.pengutronix.de/debian/pengutronix.list \
+ &&  apt-get update \
+@@ -16,6 +54,8 @@ RUN apt-get update \
+         oselas.toolchain-2012.12.1-i686-atom-linux-gnu-gcc-4.7.2-glibc-2.16.0-binutils-2.22-kernel-3.6-sanitized \
+ &&  rm -rf /var/lib/apt/lists/*
+ 
++COPY --from=ptxdist-build /usr/src/pptxdist_${PTXDIST_VERSION}-1_amd64.deb /
++
+ # Install security updates and required packages
+ RUN apt-get update \
+ &&  DEBIAN_FRONTEND=noninteractive \
+@@ -76,13 +116,6 @@ RUN useradd --comment "Buildbot Server" --home-dir "/home/buildbot" --shell "/bi
+ &&  chown -v -R buildbot:buildbot "/home/buildbot" \
+ &&  useradd --comment "Gnome Display Manager" --home-dir "/var/lib/gdm" --shell "/sbin/nologin" --user-group --system gdm
+ 
+-# Install ptxdist, a build system
+-COPY ptxdist/ /tmp/ptxdist/
+-ARG PTXDIST_REPO="git@git.novatech-llc.com:andrew.cooper/ptxdist.git"
+-ARG PTXDIST_COMMIT="libconfig"
+-ARG SECRET_HOST_IP
+-RUN "/tmp/ptxdist/install.sh"
+-
+ USER buildbot
+ 
+ CMD ["/home/buildbot/start.sh"]
+diff --git a/provision.sh b/provision.sh
+index c3c88721..cb0c413e 100755
+--- a/provision.sh
++++ b/provision.sh
+@@ -9,7 +9,6 @@ ANSIBLE_SSH_ARGS='-o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o Contr
+ exec ansible-playbook \
+         --connection=ssh \
+         --timeout=30 \
+-        --limit="vmdaedalus.novatech-llc.com" \
+         --inventory-file=/home/coopera/Developer/testdaedalus/vmdaedalus/vagrant_ansible_inventory \
+-        -v \
+-        ansible-playbook/site.yml "$@"
++        -vv \
++        ansible-playbook/buildbot.yml "$@"
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 5fee835d..cfb0ce40 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -5,8 +5,9 @@
+ buildbot_ip_addr: '127.0.0.1'
+ buildbot_hostname: buildbot.example.com
+ buildbot_port_args: 
+-  - '80'
+-  - '443'
++  - '8080'
++  - '8443'
++  - '9989'
+ 
+ # Network names
+ buildbot_networks:
+@@ -39,7 +40,7 @@ buildbot_volumes:
+ 
+ buildbot_env:
+   BUILDBOT_DATABASE: 'sqlite:///{{ buildbot_data_path }}/state.sqlite'
+-  BUILDBOT_WEB_PORT: '80'
++  BUILDBOT_WEB_PORT: '8080'
+   BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
+   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
+   BUILDBOT_SMTP_USER: 'Dean.cox'
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 94a1884f..ff25c6fb 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -32,3 +32,15 @@
+     volumes: '{{ buildbot_volumes }}'
+     env: '{{ buildbot_env }}'
+     ports: '{{ buildbot_port_args }}'
++
++- name: Grab ssh public key
++  command: >
++    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
++  changed_when: false
++  register: output
++
++- name: Add buildbot_master host
++  add_host:
++    name: buildbot_master
++    pubkey: "{{ output.stdout }}"
++    ip_addr: "{{ buildbot_ip_addr }}"
+diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
+index e2a4a407..38c477a5 100644
+--- a/roles/buildbot-worker-ntel/defaults/main.yml
++++ b/roles/buildbot-worker-ntel/defaults/main.yml
+@@ -2,22 +2,31 @@
+ # defaults file for buildbot-worker-ntel
+ 
+ # The hostname passed as an envirnment variable into the container
+-container_addr_map:
+-  buildbot:
+-    ip_addr: '127.0.0.1'
+-    hostname: buildbot-worker-ntel.example.com
+-
+ # Network names
+ docker_network_frontend: 'frontend'
+ 
+-buildbot_worker_data_path: '/buildbot'
+-
+-# the name of the image being duilt and used for the container
+-buildbot_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
+-buildbot_image_name: '{{ docker_registry_username }}/buildbot-worker-ntel'
++buildbot_worker_ntel_build_args:
++  BUILDBOT_UID: '1000'
++  BUILDBOT_VERSION: 'v1.1.2'
+ 
+ # the name of the container being started
+-buildbot_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
++buildbot_worker_ntel_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
++
++buildbot_worker_ntel_data_path: '/buildbot'
++
++# the name of the data volume used by the container
++buildbot_worker_ntel_data_volume: '{{ docker_name_prefix }}buildbot-worker-ntel_data'
++
++buildbot_worker_ntel_env:
++  BUILDBOT_MASTER: '{{ buildbot_master }}'
++  BUILDBOT_WORKER_PORT: '9989'
++  BUILDBOT_WORKER_NAME: 'worker-ntel'
++  BUILDBOT_WORKER_PASS: 'pass'
++
++# the name of the image being built and used for the container
++buildbot_worker_ntel_image_dir: '{{ docker_projects_dir }}/buildbot-worker-ntel'
++buildbot_worker_ntel_image_name: '{{ docker_registry_username }}/buildbot-worker-ntel'
++buildbot_worker_ntel_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
+ 
+-# the name of the data-volume used by the container
+-buildbot_dv_name: '{{ docker_name_prefix }}buildbot-worker-ntel_DV'
++buildbot_worker_ntel_volumes:
++  - '{{ buildbot_worker_ntel_data_volume }}:{{ buildbot_worker_ntel_data_path }}:z'
+diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
+index 5d3d8e3f..2b54d81f 100644
+--- a/roles/buildbot-worker-ntel/tasks/main.yml
++++ b/roles/buildbot-worker-ntel/tasks/main.yml
+@@ -1,2 +1,34 @@
+ ---
+-# tasks file for buildbot-worker-ntel
+\ No newline at end of file
++# tasks file for buildbot-worker-ntel
++
++# This will generate passwords for these accounts.
++- assert:
++    that:
++    - buildbot_worker_ntel_password is defined
++
++- name: Create buildbot data volume
++  docker_volume:
++    name: '{{ buildbot_worker_ntel_data_volume }}'
++
++- name: Checkout image repo
++  git:
++    repo: '{{ buildbot_worker_ntel_image_repo }}'
++    version: master
++    dest: '{{ buildbot_worker_ntel_image_dir }}'
++
++- name: Create buildbot worker image
++  docker_image:
++    name: '{{ buildbot_worker_ntel_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ buildbot_worker_ntel_image_dir }}'
++    buildargs: '{{ buildbot_worker_ntel_build_args }}'
++    force: true
++
++- name: Start buildbot container
++  docker_container:
++    name: '{{ buildbot_worker_ntel_container_name }}'
++    image: '{{ buildbot_worker_ntel_image_name }}:{{ docker_image_tag }}'
++    # networks: '{{ buildbot_worker_ntel_networks }}'
++    volumes: '{{ buildbot_worker_ntel_volumes }}'
++    env: '{{ buildbot_worker_ntel_env }}'
++    # ports: '{{ buildbot_worker_ntel_port_args }}'
+diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
+index 9cdd8b6f..09e1da11 100644
+--- a/roles/buildbot-worker-ptxdist/defaults/main.yml
++++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
+@@ -2,22 +2,31 @@
+ # defaults file for buildbot-worker-ptxdist
+ 
+ # The hostname passed as an envirnment variable into the container
+-container_addr_map:
+-  buildbot:
+-    ip_addr: '127.0.0.1'
+-    hostname: buildbot-worker-ptxdist.example.com
+-
+ # Network names
+ docker_network_frontend: 'frontend'
+ 
+-buildbot_worker_ptxdist_data_path: '/buildbot'
+-
+-# the name of the image being duilt and used for the container
+-buildbot_worker_ptxdist_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git
+-buildbot_worker_ptxdist_image_name: '{{ docker_registry_username }}/buildbot-worker-ptxdist'
++buildbot_worker_ptxdist_build_args:
++  BUILDBOT_UID: '1000'
++  BUILDBOT_VERSION: 'v1.1.2'
+ 
+ # the name of the container being started
+ buildbot_worker_ptxdist_container_name: '{{ docker_name_prefix }}buildbot-worker-ptxdist'
+ 
+-# the name of the data-volume used by the container
+-buildbot_worker_ptxdist_dv_name: '{{ docker_name_prefix }}buildbot-worker-ptxdist_DV'
++buildbot_worker_ptxdist_data_path: '/buildbot'
++
++# the name of the data volume used by the container
++buildbot_worker_ptxdist_data_volume: '{{ docker_name_prefix }}buildbot-worker-ptxdist_data'
++
++buildbot_worker_ptxdist_env:
++  BUILDBOT_MASTER: '{{ buildbot_ip_addr }}'
++  BUILDBOT_WORKER_PORT: '9989'
++  BUILDBOT_WORKER_NAME: 'worker-ptxdist'
++  BUILDBOT_WORKER_PASS: 'pass'
++
++# the name of the image being built and used for the container
++buildbot_worker_ptxdist_image_dir: '{{ docker_projects_dir }}/buildbot-worker-ptxdist'
++buildbot_worker_ptxdist_image_name: '{{ docker_registry_username }}/buildbot-worker-ptxdist'
++buildbot_worker_ptxdist_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git
++
++buildbot_worker_ptxdist_volumes:
++  - '{{ buildbot_worker_ptxdist_data_volume }}:{{ buildbot_worker_ptxdist_data_path }}:z'
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index 9bc8c930..6c2f07f4 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -8,23 +8,27 @@
+ 
+ - name: Create buildbot data volume
+   docker_volume:
+-    name: '{{ buildbot_dv_name }}'
++    name: '{{ buildbot_worker_ptxdist_data_volume }}'
+ 
+ - name: Checkout image repo
+   git:
+     repo: '{{ buildbot_worker_ptxdist_image_repo }}'
+     version: master
+-    dest: '{{ docker_projects_dir }}/buildbot-worker-ptxdist'
++    dest: '{{ buildbot_worker_ptxdist_image_dir }}'
+ 
+-- name: Create buildbot master image
++- name: Create buildbot worker image
+   docker_image:
+     name: '{{ buildbot_worker_ptxdist_image_name }}'
+     tag: '{{ docker_image_tag }}'
+-    path: '{{ docker_projects_dir }}/buildbot-worker-ptxdist'
++    path: '{{ buildbot_worker_ptxdist_image_dir }}'
++    buildargs: '{{ buildbot_worker_ptxdist_build_args }}'
++    force: true
+ 
+ - name: Start buildbot container
+   docker_container:
+     name: '{{ buildbot_worker_ptxdist_container_name }}'
+     image: '{{ buildbot_worker_ptxdist_image_name }}:{{ docker_image_tag }}'
+-    volumes:
+-      - '{{ buildbot_worker_ptxdist_dv_name }}:{{ buildbot_worker_ptxdist_data_path }}:z'
++    # networks: '{{ buildbot_worker_ptxdist_networks }}'
++    volumes: '{{ buildbot_worker_ptxdist_volumes }}'
++    env: '{{ buildbot_worker_ptxdist_env }}'
++    # ports: '{{ buildbot_worker_ptxdist_port_args }}'
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+index d6084266..694f4144 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+@@ -25,7 +25,7 @@
+     detach: True
+     image: "{{ name_prefix }}teststation_database_server_image"
+     name: "{{ name_prefix }}TestStation_database_server"
+-    ports: "{{ build_ip_addr | ipaddr('address') }}:3306:3306"
++    ports: "{{ build_ip_addr }}:3306:3306"
+     state: "{{ container_start_state_nondata }}"
+     restart_policy: no
+     volumes_from:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+index 66410ad5..6e3ad103 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+@@ -14,7 +14,7 @@
+     image: "{{ name_prefix }}teststation_http_image"
+     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
+     name: "{{ name_prefix }}TestStation_http_server"
+-    ports: "{{ build_ip_addr | ipaddr('address') }}:80:80"
++    ports: "{{ build_ip_addr }}:80:80"
+     state: "{{ container_start_state_nondata }}"
+     restart_policy: no
+     volumes_from:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+index dfd77aa8..b4512ea9 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+@@ -20,7 +20,7 @@
+     image: "{{ name_prefix }}teststation_ssh_image"
+     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
+     name: "{{ name_prefix }}TestStation_ssh_server"
+-    ports: "{{ build_ip_addr | ipaddr('address') }}:22:22"
++    ports: "{{ build_ip_addr }}:22:22"
+     restart_policy: no
+     state: "{{ container_start_state_nondata }}"
+     volumes_from:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+index 32847ea8..4258e7cc 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+@@ -31,6 +31,6 @@
+     detach: True
+     image: "{{ name_prefix }}teststation_ssh_server_manualtest_image"
+     name: "{{ name_prefix }}TestStation_ssh_server_manualtest"
+-    ports: "{{ testssh_ip_addr | ipaddr('address') }}:22:22"
++    ports: "{{ testssh_ip_addr }}:22:22"
+     state: "{{ container_start_state_nondata }}"
+     restart_policy: no
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+index e4b49c02..917ec2db 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+@@ -13,7 +13,7 @@
+     detach: True
+     image: "{{ name_prefix }}teststation_tftp_image"
+     name: "{{ name_prefix }}TestStation_tftp_server"
+-    ports: "{{ build_ip_addr | ipaddr('address') }}:69:69/udp"
++    ports: "{{ build_ip_addr }}:69:69/udp"
+     state: "{{ container_start_state_nondata }}"
+     restart_policy: no
+     volumes_from:
+diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
+deleted file mode 100644
+index ac007e45..00000000
+--- a/roles/docker-common/tasks/ip_addr.yml
++++ /dev/null
+@@ -1,44 +0,0 @@
+----
+-# file: roles/docker-common/tasks/ip_addr.yaml
+-
+-- name: install needed network manager libs
+-  yum:
+-    name: NetworkManager-glib
+-    state: installed
+-  register: nm_packages
+-
+-- name: Restart NetworkManager
+-  service:
+-    name: NetworkManager
+-    state: restarted
+-  when: nm_packages.changed
+-
+-# nmcli always returns 'changed', so we need
+-# to manually detect changes to the interface file
+-- name: Get interface checksum
+-  command: nmcli connection show "{{ network_connection }}"
+-  register: network_pre
+-
+-- name: Add service IP addresses
+-  command: >
+-    nmcli connection 
+-    modify '{{ network_connection }}' 
+-    +ipv4.addresses '{{ lookup('vars', item + "_ip_addr") | ipaddr }}'
+-  loop: "{{ services }}"
+- 
+-- sysctl:
+-    name: net.ipv4.ip_forward
+-    value: 1
+-    sysctl_set: yes
+-    state: present
+-    reload: yes
+-  when: ansible_os_family == "RedHat"
+-
+-- name: Get interface checksum
+-  command: nmcli connection show "{{ network_connection }}"
+-  register: network_post
+-
+-- name: make IPs active if needed
+-  command: nmcli connection up "{{ network_connection }}"
+-  when: 
+-    - ( network_pre != network_post )
+diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
+index d2de5a35..da2d022b 100644
+--- a/roles/docker-common/tasks/main.yml
++++ b/roles/docker-common/tasks/main.yml
+@@ -4,8 +4,6 @@
+ - import_tasks: engine-redhat.yml
+   when: ansible_os_family == "RedHat"
+ 
+-- import_tasks: ip_addr.yml
+-
+ - import_tasks: packages.yml
+ 
+ - import_tasks: configure.yml
+diff --git a/roles/docker-common/templates/daemon.json.j2 b/roles/docker-common/templates/daemon.json.j2
+index 57de7390..6f6a7376 100644
+--- a/roles/docker-common/templates/daemon.json.j2
++++ b/roles/docker-common/templates/daemon.json.j2
+@@ -1,4 +1,5 @@
+ {
+   "log-driver": "json-file",
+-  "log-opts": {"max-size": "10m", "max-file": "3"}
++  "log-opts": {"max-size": "10m", "max-file": "3"},
++  "hosts": ["unix:///var/run/docker.sock", "tcp://{{ ansible_default_ipv4["address"] }}:2375"]
+ }
+diff --git a/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2 b/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
+index ca03e8e8..9100576b 100644
+--- a/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
++++ b/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
+@@ -1,6 +1,6 @@
+ # Docker container for exim4 logrotate script
+ 
+-{{ exim4_syslog_datavolume_dir }}/exim4/* {
++{{ exim4_syslog_datavolume_dir }}/exim4/*log {
+     daily
+     dateext
+     ifempty
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index d2cf0a7c..2adb1104 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -204,7 +204,7 @@
+ - name: Wait for gitlab to be fully running
+   wait_for:
+     delay: 10
+-    host: "{{ gitlab_ip_addr | ipaddr('address') }}"
++    host: "{{ gitlab_ip_addr }}"
+     port: 22
+     state: started
+     timeout: 180
+diff --git a/roles/docker-networking/tasks/main.yml b/roles/docker-networking/tasks/main.yml
+index 595e8bb7..c8c15c6a 100644
+--- a/roles/docker-networking/tasks/main.yml
++++ b/roles/docker-networking/tasks/main.yml
+@@ -1,6 +1,14 @@
+ ---
+ # tasks file for docker-networking
+ 
++- assert:
++    that:
++    - connection is defined
++    - subnet is defined
++    - services is defined
++
++- import_tasks: ip_addr.yml
++
+ - name: Create frontend network for services
+   docker_network:
+     name: '{{ docker_network_frontend }}'
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index 29c29990..0a14ad8a 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -175,7 +175,7 @@
+ # - name: wait for LDAP to start
+ #   wait_for:
+ #     delay: 5
+-#     host: '{{ openldap_ip_addr | ipaddr('address') }}'
++#     host: '{{ openldap_ip_addr }}'
+ #     port: 389
+ #     state: started
+ 
+diff --git a/vmdaedalus/vagrant_ansible_inventory b/vmdaedalus/vagrant_ansible_inventory
+index c6b5207d..162650d9 100644
+--- a/vmdaedalus/vagrant_ansible_inventory
++++ b/vmdaedalus/vagrant_ansible_inventory
+@@ -1,14 +1,17 @@
+ # Generated by Vagrant
+ 
+-vmdaedalus.novatech-llc.com network_connection="System enp0s8" ansible_host=127.0.0.1 ansible_port=2222 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/vmdaedalus.novatech-llc.com/virtualbox/private_key'
+-buildbot-worker.novatech-llc.com ansible_host=127.0.0.1 ansible_port=2200 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/buildbot-worker.novatech-llc.com/virtualbox/private_key'
++vmdaedalus.novatech-llc.com ansible_host=127.0.0.1 ansible_port=2222 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/vmdaedalus/virtualbox/private_key' network_connection="System enp0s8"
++bbworker ansible_host=127.0.0.1 ansible_port=2200 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/bbworker/virtualbox/private_key'
+ 
+ [bacula]
+ vmdaedalus.novatech-llc.com
+ 
+-[docker-hosts]
++[daedalus]
+ vmdaedalus.novatech-llc.com
+ 
+-[buildbot]
++[docker-hosts]
+ vmdaedalus.novatech-llc.com
+-buildbot-worker.novatech-llc.com
++bbworker
++
++[buildbot-worker]
++bbworker
