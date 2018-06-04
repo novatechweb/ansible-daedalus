@@ -1,0 +1,8 @@
+## SECTION=image
+
+config IMAGE_JFFS2_128
+	bool
+	select HOST_MTD_UTILS
+	prompt "Generate images/root.jffs2_128 "
+	help
+	  Build image for Eurotech Vulcan w/ 128KiB flash erase size.

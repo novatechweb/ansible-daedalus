@@ -1,0 +1,12 @@
+#!/bin/sh
+
+. "$(dirname "$(readlink -f "$0")")/libwrapper.sh" || exit
+
+cc_check_args "${@}"
+
+LINKING=0
+
+cc_add_fortify
+cpp_add_target_extra
+
+wrapper_exec "$@"
