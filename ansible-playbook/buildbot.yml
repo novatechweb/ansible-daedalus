@@ -13,6 +13,14 @@
     tags:
     - buildbot-master
 
+  - name: Add buildbot user to Gitlab
+    role: gitlab-user
+    vars:
+      new_user: buildbot
+      new_user_name: Build Robot
+      new_user_email: buildbot@novatech-llc.com
+      new_user_pass: "{{ lookup('password', '/dev/null') }}"
+
 - name: Setup Buildbot worker system
   hosts: buildbot-worker
   become: true
