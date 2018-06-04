@@ -1,6 +1,6 @@
 Version: 1
-Previous: be42949c35de36617be94fafbe19d95bed9a92c8
-Head: 98afe4b357d8e07c4a266799d09c9a67b35a400e
+Previous: 318a2451800aa774ffe0c6572858c3b8e1e9bf91
+Head: e75f9f3ab7e8a828a5b4c65d71188b2fb65b7ca8
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -79,5 +79,6 @@ Applied:
   gitlab_user-create-role: 02819dc4dcc23e50fcb9721df3c6e77be7ed54fa
   common-docker-enable-tcp: 5db865f580efd2a0d4d8d6482d48702e7730314c
   exim4-logrotate-configuration: 98afe4b357d8e07c4a266799d09c9a67b35a400e
+  refresh-temp: e75f9f3ab7e8a828a5b4c65d71188b2fb65b7ca8
 Unapplied:
 Hidden:
