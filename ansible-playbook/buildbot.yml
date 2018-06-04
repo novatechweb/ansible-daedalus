@@ -1,0 +1,67 @@
+---
+
+- name: Install/Setup Docker images and containers on daedalus
+  hosts: daedalus
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+  - buildbot
+  roles:
+  - name: Build and start the Buildbot master container
+    role: buildbot-master
+    tags:
+    - buildbot-master
+
+  - name: Add buildbot user to Gitlab
+    role: gitlab-user
+    vars:
+      new_user: buildbot
+      new_user_name: Build Robot
+      new_user_email: buildbot@novatech-llc.com
+      new_user_pass: "{{ lookup('password', '/dev/null') }}"
+
+- name: Setup Buildbot worker system
+  hosts: buildbot-worker
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+  - buildbot
+  - buildbot-worker
+  vars:
+    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+  roles:
+  - role: buildbot-worker-ntel
+  - role: buildbot-worker-ptxdist
+
+- name: Gitlab public keys for buildbot containers
+  hosts: daedalus
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+  - buildbot
+  roles:
+  - name: Add buildbot_master pubkey to buildbot user
+    role: gitlab-sshkey
+    vars:
+      username: buildbot
+      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
+      title: "buildbot_master"
+  - name: Add buildbot_worker_ntel pubkey to buildbot user
+    tags:
+    - buildbot
+    role: gitlab-sshkey
+    vars:
+      username: buildbot
+      pubkey: "{{ hostvars.buildbot_worker_ntel.pubkey }}"
+      title: "buildbot_worker_ntel"
+  - name: Add buildbot_worker_ptxdist pubkey to buildbot user
+    tags:
+    - buildbot
+    role: gitlab-sshkey
+    vars:
+      username: buildbot
+      pubkey: "{{ hostvars.buildbot_worker_ptxdist.pubkey }}"
+      title: "buildbot_worker_ptxdist"
