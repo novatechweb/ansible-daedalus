@@ -1,0 +1,13 @@
+Bottom: 15e4f0f938bcdf8de07025248e8497bdf318cf18
+Top:    15e4f0f938bcdf8de07025248e8497bdf318cf18
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-04 17:26:52 -0500
+
+Create new play for docker-hosts tasks
+
+The majority of the docker container tasks belong to daedalus, while the
+common docker tasks are for all docker hosts.
+
+
+---
+
