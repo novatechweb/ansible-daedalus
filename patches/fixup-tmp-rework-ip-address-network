@@ -1,5 +1,5 @@
 Bottom: 87049c35151c076814b0f7be8ae11312585ee279
-Top:    f59d5ed5306951f66980d95ae1b6a91ab4aa120e
+Top:    bd0024b76cc9c19cba04b30172d75b725be5933f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -7,6 +7,78 @@ fixup! tmp-rework-ip-address-network
 
 
 ---
+diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
+new file mode 100644
+index 00000000..77d9ce6a
+--- /dev/null
++++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
+@@ -0,0 +1,66 @@
++---
++
++svn_ip_addr: "{{ daedalus_subnet | ipaddr('101') | ipaddr('address') }}"
++svn_hostname: svn.novatech-llc.com
++svn_port_args:
++- "{{ svn_ip_addr }}:80:80"
++- "{{ svn_ip_addr }}:443:443"
++
++gitlab_ip_addr: "{{ daedalus_subnet | ipaddr('102') | ipaddr('address') }}"
++gitlab_hostname: git.novatech-llc.com
++gitlab_port_args:
++- "{{ gitlab_ip_addr }}:80:80"
++- "{{ gitlab_ip_addr }}:443:443"
++- "{{ gitlab_ip_addr }}:22:22"
++
++wiki_ip_addr: "{{ daedalus_subnet | ipaddr('103') | ipaddr('address') }}"
++wiki_hostname: wiki.novatech-llc.com
++wiki_port_args:
++- "{{ wiki_ip_addr }}:80:80"
++- "{{ wiki_ip_addr }}:443:443"
++
++mantisbt_ip_addr: "{{ daedalus_subnet | ipaddr('104') | ipaddr('address') }}"
++mantisbt_hostname: mantis.novatech-llc.com
++mantisbt_port_args:
++- "{{ mantisbt_ip_addr }}:80:80"
++- "{{ mantisbt_ip_addr }}:443:443"
++
++build_ip_addr: "{{ daedalus_subnet | ipaddr('105') | ipaddr('address') }}"
++build_hostname: buildsystem.novatech-llc.com
++build_port_args:
++- "{{ build_ip_addr }}:80:80"
++- "{{ build_ip_addr }}:443:443"
++
++testssh_ip_addr: "{{ daedalus_subnet | ipaddr('106') | ipaddr('address') }}"
++testssh_hostname: testssh.novatech-llc.com
++testssh_port_args:
++- "{{ testssh_ip_addr }}:2200:22"
++
++exim4_ip_addr: "{{ daedalus_subnet | ipaddr('107') | ipaddr('address') }}"
++exim4_hostname: mail.novatech-llc.com
++exim4_port_args:
++- "{{ exim4_ip_addr }}:25:25"
++- "{{ exim4_ip_addr }}:465:465"
++- "{{ exim4_ip_addr }}:587:587"
++
++openldap_ip_addr: "{{ daedalus_subnet | ipaddr('108') | ipaddr('address') }}"
++openldap_hostname: ldap.novatech-llc.com
++openldap_port_args:
++- "{{ openldap_ip_addr }}:389:389"
++- "{{ openldap_ip_addr }}:636:636"
++
++phpldapadmin_ip_addr: "{{ daedalus_subnet | ipaddr('108') | ipaddr('address') }}"
++phpldapadmin_hostname: ldap.novatech-llc.com
++phpldapadmin_port_args:
++- "{{ phpldapadmin_ip_addr }}:80:80"
++- "{{ phpldapadmin_ip_addr }}:443:443"
++
++phpmyadmin_ip_addr: "{{ daedalus_subnet | ipaddr('109') | ipaddr('address') }}"
++phpmyadmin_hostname: phpmyadmin.novatech-llc.com
++
++buildbot_ip_addr: "{{ daedalus_subnet | ipaddr('110') | ipaddr('address') }}"
++buildbot_hostname: buildbot.novatech-llc.com
++buildbot_port_args:
++- "{{ buildbot_ip_addr }}:80:8080"
++- "{{ buildbot_ip_addr }}:443:8443"
++- "{{ buildbot_ip_addr }}:9989:9989"
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 index 3434cb2e..f567d255 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
