@@ -1,5 +1,5 @@
 Bottom: 30e227b685d7adcda37ab62f2923a60f9daf8a19
-Top:    75d7c7fd613caa688d7ae1e29bd1d4845566cf49
+Top:    73013273d6e69516734b58b5aeb1e71cc6cc1b55
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -9,12 +9,12 @@ Add buildbot role
 ---
 diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
 new file mode 100644
-index 00000000..6b069548
+index 00000000..86476751
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/buildbot.yml
 @@ -0,0 +1,3 @@
 +---
-+buildbot_version: 1.1.1
++buildbot_version: 1.1.2
 +buildbot_worker_port: 9989
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 index cf366ea4..3434cb2e 100644

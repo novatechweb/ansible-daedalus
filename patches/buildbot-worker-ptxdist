@@ -1,5 +1,5 @@
-Bottom: 2ed66559d396939a13f5720ba55386328e9748cd
-Top:    5ab3b04a46bb75825d21f96b3d40694b3c07fa7d
+Bottom: 05b1694f1ed604c8c532743c63f3befd23f64347
+Top:    e460071508a2cdc50e249956ae75e88f2a90f1a7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 10:52:21 -0500
 
@@ -7,11 +7,11 @@ Add buildbot PTXdist worker Docker image
 
 ---
 diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
-index d5a1a447..29d7c9f8 100644
+index 7ad40a83..c918df8f 100644
 --- a/ansible-playbook/group_vars/all/buildbot.yml
 +++ b/ansible-playbook/group_vars/all/buildbot.yml
 @@ -2,3 +2,4 @@
- buildbot_version: 1.1.1
+ buildbot_version: 1.1.2
  buildbot_worker_port: 9989
  buildbot_worker_ntel: worker-ntel
 +buildbot_worker_ptxdist: worker-ptxdist
