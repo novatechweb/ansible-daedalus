@@ -1,6 +1,6 @@
 Version: 1
-Previous: 417d2ea8a5f3f24bbad105ce2166aadd7f776ed7
-Head: be0de41b3c6a62e1a7ccf8129dea8f775afdc86e
+Previous: 6d87ed32fcdba9b49aa7c45efed00707a590aefb
+Head: 5d4bbf30d79dcb407dd8cbc705b75f371d311916
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -77,5 +77,6 @@ Applied:
   buildbot-ssh-keygen: 1b1e609ba2d472157c2513fd8e3605d7faa1cff3
   gitlab_sshkey-create-role: 7ba6cde23a3f425677c4cf65f7390dd60762f8c0
   gitlab_user-create-role: be0de41b3c6a62e1a7ccf8129dea8f775afdc86e
+  refresh-temp: 5d4bbf30d79dcb407dd8cbc705b75f371d311916
 Unapplied:
 Hidden:
