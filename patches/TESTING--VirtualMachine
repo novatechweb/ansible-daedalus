@@ -1,5 +1,5 @@
 Bottom: fc3161c1a4f23080b68d869fb7f2869ab1e0ef54
-Top:    883a33cd5fba4d2a21beeba1e3734275abd4ae34
+Top:    395ff0182410fc250deefa934e90432104575314
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -117,6 +117,15 @@ index 00000000..ae3590a2
 +buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
 +buildbot_worker_ntel_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ntel.git
 +buildbot_worker_ptxdist_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ptxdist.git
+diff --git a/ansible-playbook/host_vars/bbworker/privileges.yml b/ansible-playbook/host_vars/bbworker/privileges.yml
+new file mode 100644
+index 00000000..fa188ba9
+--- /dev/null
++++ b/ansible-playbook/host_vars/bbworker/privileges.yml
+@@ -0,0 +1,3 @@
++---
++
++ansible_user: vagrant
 diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 new file mode 100644
 index 00000000..53b96f84
@@ -227,6 +236,15 @@ index 00000000..79bbb96d
 +buildbot_port_args:
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
 +    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
+diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml
+new file mode 100644
+index 00000000..fa188ba9
+--- /dev/null
++++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml
+@@ -0,0 +1,3 @@
++---
++
++ansible_user: vagrant
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index 3c3b77e8..20ca10b3 100644
 --- a/ansible-playbook/site.yml

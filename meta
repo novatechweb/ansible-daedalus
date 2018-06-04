@@ -1,6 +1,6 @@
 Version: 1
-Previous: decdef434fdbeb36e135db95de1de9d740f3b403
-Head: b748b84288f1378e53d50f9e7a550ee6b6bd6b81
+Previous: 15967a9166ae31bb48f411585a42b33474ef130b
+Head: ecd8305b1da2e48ad7afcecc9e1035bbb711b754
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -69,19 +69,18 @@ Applied:
   mariadb-fix-bind-address: a21d5dabb0534222ffd9a5a35f84ed6f07cd3e29
   tmp-wiki-database: 5d2a5f30f77d01f1f0e55c450f4de7b0e52b49ff
   tmp-mantis-database: 563a3e7cfbde07611cec2c314ca4a187ad164535
-  TESTING--VirtualMachine: ed84a9687f4038565d785f34ae856cc2b5f2099e
-  mediawiki-remove-libicu52: 29bdffb4b556d7a4841c02c93e066e9ddd6198a1
-  bacula-update-syntax: ba7cc4bf1d0f8bbdc59ce69325b62daf66851785
-  all-improve-idempotency: c51bf2672340b607f634cca8b2996cbbcfe4d5c1
-  fixup-tmp-rework-ip-address-network: 35b59b44c890a1ee8448e420d80ff8a0f3557408
-  buildbot-ssh-keygen: 90d31b9677c153891de69b753320f964f06e4145
-  gitlab_sshkey-create-role: e531f8cecbf1be18ece9a8d01a8dd3eb447642b3
-  gitlab_user-create-role: 21f1a97efd9cf573eef8ca9c37f1203386362f8b
-  common-docker-enable-tcp: 3fdc45c438035edbd1e4f3a863cad6bb552bf833
-  exim4-logrotate-configuration: cabd98bef908426148f042bff3ddf7d3326220fb
-  buildbot-update-port-args: 3920d6406efc5214517649f952621a8af5efafad
-  buildbot-playbook: 62f8818965b5cc500147f26362d79a7667728a95
-  playbook-extract-privilege-escalation: 0a9d36133d0e0bc5bd68b30dbc42a389de76a96c
-  refresh-temp: b748b84288f1378e53d50f9e7a550ee6b6bd6b81
+  TESTING--VirtualMachine: a970eb6fe445eb0958f769b614922f1a1087c1b2
+  mediawiki-remove-libicu52: c1a1ae6f29c3d2249933143a47b15d997ede870a
+  bacula-update-syntax: 79dfb5f486cd3b3c384ab72cf61627bbbcc34797
+  all-improve-idempotency: 1be5ecd97e4d17b78291e75605c36da6cc2acf0b
+  fixup-tmp-rework-ip-address-network: dab04d38fd2758e855044811855eeb2c83e51405
+  buildbot-ssh-keygen: 836ef38cd2e21edec624dfbe490dc374207d42ec
+  gitlab_sshkey-create-role: b82963b4ab69ba7659a224ff95e5a910adcb2b5c
+  gitlab_user-create-role: 1bc6213549222e9f0d59ee6e9acb1e32d40d8cf8
+  common-docker-enable-tcp: a9923397d1feb42e311be998d28f7158270b6361
+  exim4-logrotate-configuration: 6907b48494e093c2ca7898c795ae950f53a5df79
+  buildbot-update-port-args: 2611260a37bca2520b564b4a974264fd8e43c4ae
+  buildbot-playbook: a289e4989bf190791f1523e2af43d78119fe4ef9
+  playbook-extract-privilege-escalation: ecd8305b1da2e48ad7afcecc9e1035bbb711b754
 Unapplied:
 Hidden:
