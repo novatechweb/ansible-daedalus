@@ -1,0 +1,10 @@
+Bottom: 031b08e8b1c3d24063b695939c4242cb89c6c6bd
+Top:    031b08e8b1c3d24063b695939c4242cb89c6c6bd
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-04 16:44:17 -0500
+
+Enable TCP interface of docker
+
+
+---
+
