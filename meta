@@ -1,6 +1,6 @@
 Version: 1
-Previous: a4ffd15a0d4aa1f0441b87a4117f54ce735517b7
-Head: bf02ab6b0d484f8d1c03d0dd0be82df9ab715d96
+Previous: 577c2529d15b7d87c02cffcb63cfbf6957c9f122
+Head: 1481019dd6cc42a1a25de9ea6ab92312d61c85b9
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -51,30 +51,30 @@ Applied:
   buildbot-master: 092981741dccb353ae9f46c94d10481bafba9328
   buildbot-worker-ntel: 9ee48bff21ddd0814be941c231530102ea1b603c
   buildbot-worker-ptxdist: bf02ab6b0d484f8d1c03d0dd0be82df9ab715d96
+  fix-ssh-folder-permission: db73fe4b2a36c8546f4e3516eb86192b8581ec1f
+  update-ntel-builds-for-new: 2fc38c2ffe0a7276206db741e633bb71b2bd0721
+  add-parameter-for-buildbot: cba95ac1d306394197df3058917a664e175104c0
+  update-ptxdist-build-factories: d8b74c96500592999310f746ec0e07e228ff0f84
+  sshd-create-role: 622a3cadfd24c8fcf58a43f0822bc34878e448be
+  wiki-create-required-directories: 24ffb7d6e40d6396ae70ca055df8c36abca5c2db
+  mantis-create-required-directories: 8c37133a2c9173072fb6c6de070f28bca258e462
+  buildbot-parameterize-env: 5895432534796734c8698b031ecf05d808b0c421
+  buildbot-image-entrypoint: 34da84ec311d3eea7457f1e74f3ab672e8897814
+  buildbot-dependencies: 4912e27277dd075b4106e37dc377c1ce29ba9574
+  playbook-simplify-credentials: 0df75bc1968b5c50d5e899ed686e017cc4e61172
+  all-normalize-vars: 0a34e5dd1b5b144b5e95d8d4028767cd3278d3a7
+  tmp-update-gitlab-version: 97aa3fe799ae36db355a3e35053d343c780a7432
+  fixup-all-docker-image-repositories: 1915c00409db0bf02910abd28cb92f174f6b1a54
+  tmp-update-openldap: f91c72852201b05ed24ef4ce337592e47878a370
+  mariadb-fix-bind-address: 6955f7c36693d82160ae4a2c6aa768220f33fa79
+  tmp-wiki-database: e9feee8c5fa7891da95de05a69de6018458bafa4
+  tmp-mantis-database: 2e1c52e29d6a477f5641fe90dd6fb5f514fd4ab7
+  TESTING--VirtualMachine: e17930b468705924b0d6193489b55d584e1cd22c
+  mediawiki-remove-libicu52: 0b2eb1b20d8241846084fc5fc073c5ef9cbe6d17
+  bacula-update-syntax: f4f1db6271b006af0ba0353b9b118c007da0f595
+  all-improve-idempotency: 911a4a0c19ba7a9b546e6cf4f63084638863d600
+  fixup-tmp-rework-ip-address-network: ab9a660de1de74a807cc93abb2d6363927408c5e
+  buildbot-ssh-keygen: b8d46bef4428fa03cf45399900b3f2fb22ad47d4
+  tmp: 1481019dd6cc42a1a25de9ea6ab92312d61c85b9
 Unapplied:
-  fix-ssh-folder-permission: 8051b5e01ded9bce0ea7dee42194cc6025c6aaba
-  update-ntel-builds-for-new: 3dbc21a68fe65840baf0ec835a5df0af341205be
-  add-parameter-for-buildbot: 6c00cdc94dc1fb71cca806b6dd34d732935d624f
-  update-ptxdist-build-factories: dfddc9d9eac28fc842c453b322d978025d3c546d
-  sshd-create-role: ee1a1a92d179ece42dab5db3826e1d710aee16c7
-  wiki-create-required-directories: fa4670672e4ec1d7f70486fff3f7c10c29345279
-  mantis-create-required-directories: b903df1f53b6a125722257a226978641247a800b
-  buildbot-parameterize-env: f8a389556ce3bb02aeb77ad35ea0c29302c06299
-  buildbot-image-entrypoint: 4358b7e7645746d2ef2f4e87922fbde18bcf3470
-  buildbot-dependencies: 1e74e4fc8b459a90f7bc6ec820a015992912a080
-  playbook-simplify-credentials: d3b873ff2ce78f49adbfadb66138dd6d1076f06e
-  all-normalize-vars: 9195e7ba933cb39394870ef48fcfd0b1c59bf000
-  tmp-update-gitlab-version: f5efc3cddfe4cbf61f3435bbab30a51fc49e9339
-  fixup-all-docker-image-repositories: 52d65b4fff496c85c2dde458c58d45f0d8d3d9d4
-  tmp-update-openldap: e8185541e3b4c7300c60f01604e94bd58e8fbaeb
-  mariadb-fix-bind-address: b5d43c2182836ae2bd0cbaac633c5932fe5642df
-  tmp-wiki-database: fcc1b9e7c85603782365b1bd120429f8407b202a
-  tmp-mantis-database: 077176607127f91cb3cb0b642058fcfb6a7a8414
-  TESTING--VirtualMachine: ad10b6b0dd63bae0a8b84bf99ad62d773f313cd3
-  mediawiki-remove-libicu52: 435594495f41abedefa076b0b230321df86a227e
-  bacula-update-syntax: 5de6843f8b9f06e5a27791ad6b0f8c3663f90820
-  all-improve-idempotency: 13fba41af0ed55321aceeeaff360ebeb69b9ef14
-  fixup-tmp-rework-ip-address-network: 574f0790016671d22dccf4981171467f9673ed2b
-  buildbot-ssh-keygen: 10e1f5dc19017303313fdd517229b3ac45df1b8d
-  tmp: 5879c6afb7520033f43018449393f8c24e80dbb9
 Hidden:
