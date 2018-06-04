@@ -1,5 +1,5 @@
 Bottom: 75d7c7fd613caa688d7ae1e29bd1d4845566cf49
-Top:    6d149a1cd688a8ebd98ea7ef7a131d6f396ce280
+Top:    2ed66559d396939a13f5720ba55386328e9748cd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 10:51:57 -0500
 
@@ -282,33 +282,42 @@ index 00000000..225dd44b
 +An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
 new file mode 100644
-index 00000000..e2a4a407
+index 00000000..38c477a5
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/defaults/main.yml
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,32 @@
 +---
 +# defaults file for buildbot-worker-ntel
 +
 +# The hostname passed as an envirnment variable into the container
-+container_addr_map:
-+  buildbot:
-+    ip_addr: '127.0.0.1'
-+    hostname: buildbot-worker-ntel.example.com
-+
 +# Network names
 +docker_network_frontend: 'frontend'
 +
-+buildbot_worker_data_path: '/buildbot'
-+
-+# the name of the image being duilt and used for the container
-+buildbot_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
-+buildbot_image_name: '{{ docker_registry_username }}/buildbot-worker-ntel'
++buildbot_worker_ntel_build_args:
++  BUILDBOT_UID: '1000'
++  BUILDBOT_VERSION: 'v1.1.2'
 +
 +# the name of the container being started
-+buildbot_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
++buildbot_worker_ntel_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
 +
-+# the name of the data-volume used by the container
-+buildbot_dv_name: '{{ docker_name_prefix }}buildbot-worker-ntel_DV'
++buildbot_worker_ntel_data_path: '/buildbot'
++
++# the name of the data volume used by the container
++buildbot_worker_ntel_data_volume: '{{ docker_name_prefix }}buildbot-worker-ntel_data'
++
++buildbot_worker_ntel_env:
++  BUILDBOT_MASTER: '{{ buildbot_master }}'
++  BUILDBOT_WORKER_PORT: '9989'
++  BUILDBOT_WORKER_NAME: 'worker-ntel'
++  BUILDBOT_WORKER_PASS: 'pass'
++
++# the name of the image being built and used for the container
++buildbot_worker_ntel_image_dir: '{{ docker_projects_dir }}/buildbot-worker-ntel'
++buildbot_worker_ntel_image_name: '{{ docker_registry_username }}/buildbot-worker-ntel'
++buildbot_worker_ntel_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
++
++buildbot_worker_ntel_volumes:
++  - '{{ buildbot_worker_ntel_data_volume }}:{{ buildbot_worker_ntel_data_path }}:z'
 diff --git a/roles/buildbot-worker-ntel/handlers/main.yml b/roles/buildbot-worker-ntel/handlers/main.yml
 new file mode 100644
 index 00000000..6347b70a
@@ -407,13 +416,55 @@ index 00000000..8353ad9d
 +done
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
 new file mode 100644
-index 00000000..5d3d8e3f
+index 00000000..79f6ee08
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
-@@ -0,0 +1,2 @@
+@@ -0,0 +1,45 @@
 +---
 +# tasks file for buildbot-worker-ntel
-\ No newline at end of file
++
++# This will generate passwords for these accounts.
++- assert:
++    that:
++    - buildbot_worker_ntel_password is defined
++
++- name: Create buildbot data volume
++  docker_volume:
++    name: '{{ buildbot_worker_ntel_data_volume }}'
++
++- name: Checkout image repo
++  git:
++    repo: '{{ buildbot_worker_ntel_image_repo }}'
++    version: master
++    dest: '{{ buildbot_worker_ntel_image_dir }}'
++
++- name: Create buildbot worker image
++  docker_image:
++    name: '{{ buildbot_worker_ntel_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ buildbot_worker_ntel_image_dir }}'
++    buildargs: '{{ buildbot_worker_ntel_build_args }}'
++    force: true
++
++- name: Start buildbot container
++  docker_container:
++    name: '{{ buildbot_worker_ntel_container_name }}'
++    image: '{{ buildbot_worker_ntel_image_name }}:{{ docker_image_tag }}'
++    # networks: '{{ buildbot_worker_ntel_networks }}'
++    volumes: '{{ buildbot_worker_ntel_volumes }}'
++    env: '{{ buildbot_worker_ntel_env }}'
++    # ports: '{{ buildbot_worker_ntel_port_args }}'
++
++- name: Grab ssh public key
++  command: >
++    docker exec '{{ buildbot_worker_ntel_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
++  changed_when: false
++  register: output
++
++- name: Add buildbot_worker_ntel host
++  add_host:
++    name: buildbot_worker_ntel
++    pubkey: "{{ output.stdout }}"
 diff --git a/roles/buildbot-worker-ntel/tests/inventory b/roles/buildbot-worker-ntel/tests/inventory
 new file mode 100644
 index 00000000..878877b0
