@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2fae0f8cc4e64d022526802e1364be87604a19b1
-Head: 86712d245ff982f6596e8e5623ff410df4c8cb6f
+Previous: 6fc4ffc6731aefdc8a40febc9b3b19b5c86df72f
+Head: c40871ccb1156cd4e4dc1d104a9e1d585c85e1bb
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -69,18 +69,17 @@ Applied:
   mariadb-fix-bind-address: 375a4a496a5a3f6ef07001c331d59c1357ac6c1e
   tmp-wiki-database: ce3806a1fd9b0505fd505b9c74e3be93b51a611d
   tmp-mantis-database: 030a8c1f8422e7c247bceba7a61b17a008328419
-  TESTING--VirtualMachine: d75d5ac3cd0f045c86aff2dd730e314a523490d9
-  mediawiki-remove-libicu52: d58f832850a521be35477bff4a5a9b8822122065
-  bacula-update-syntax: b355775e74114ef9e1b643eb5320d55347239a6e
-  all-improve-idempotency: cc314330dca5330f67d8e5f383f79ef05eee8434
-  fixup-tmp-rework-ip-address-network: 18ff22837b8336fcaaf8cb3d469104462a790924
-  buildbot-ssh-keygen: b61c23a54e18d3ebedebdf7c0078cfcab9202ddd
-  gitlab_sshkey-create-role: 0ebe80c9c3d5ba2d2fd816a4a876d7cb0d15ed17
-  gitlab_user-create-role: aa3131c40c41d0f97a771fcdf9103ee717caf569
-  common-docker-enable-tcp: 68677facbf81457877cb3f9f7fc9de47a2e88bc9
-  exim4-logrotate-configuration: 443156e9daea168041d7d69b9e799a476facd299
-  buildbot-update-port-args: 232f0e10b35f21711b76d0380b039d84f9f9e9b5
-  buildbot-playbook: 19f7d502aad482e505729e75be40ef41e920bb8e
-  refresh-temp: 86712d245ff982f6596e8e5623ff410df4c8cb6f
+  TESTING--VirtualMachine: f389879ffaea960cd3c4553d43d42283080cd058
+  mediawiki-remove-libicu52: 0e8354733a0a85e3de1ccf146ee533b2ac7de426
+  bacula-update-syntax: ada0bb766c46669309cd617b62e4af253c9b2bad
+  all-improve-idempotency: a9e82cbeb8fcc2cea87a0f6a2629845ab0a2e5fc
+  fixup-tmp-rework-ip-address-network: 61a583063187473ab87652049d5b0325b4ab847b
+  buildbot-ssh-keygen: 8948e7800aa3dadd373d6e03b890f1216dea4a7f
+  gitlab_sshkey-create-role: ac18df87c4e32add6638df528fa084efe79d8bc1
+  gitlab_user-create-role: f3ae9a8ecb6ec4a9e650958ecf5e66db0c5af966
+  common-docker-enable-tcp: 9107dfb1649e192763e3ad11f215b463c84ba7e4
+  exim4-logrotate-configuration: 5c8385b27aa549a8f512d3f3b9759f2d5ba9ce84
+  buildbot-update-port-args: 15bbe0977856821084f8e4688edd86cc63c8931c
+  buildbot-playbook: c40871ccb1156cd4e4dc1d104a9e1d585c85e1bb
 Unapplied:
 Hidden:

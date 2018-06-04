@@ -1,5 +1,5 @@
 Bottom: 9da0a9d355080b2ef7f5dd467b1c7ac8f8fec8f9
-Top:    5150c14402d54e162bc8d7b74f0436210f2b281a
+Top:    174e24fe5d97805fd6ad52d0339fc27018745048
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -102,10 +102,10 @@ index 00000000..e037c694
 +end
 diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
 new file mode 100644
-index 00000000..8917e7ce
+index 00000000..ae3590a2
 --- /dev/null
 +++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
-@@ -0,0 +1,9 @@
+@@ -0,0 +1,11 @@
 +---
 +
 +openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
@@ -115,6 +115,8 @@ index 00000000..8917e7ce
 +mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
 +svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
 +buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
++buildbot_worker_ntel_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ntel.git
++buildbot_worker_ptxdist_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ptxdist.git
 diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 new file mode 100644
 index 00000000..53b96f84
