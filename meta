@@ -1,6 +1,6 @@
 Version: 1
-Previous: 29095766cb8a9c8847fa32b4b85805113cdf38a4
-Head: 232f0e10b35f21711b76d0380b039d84f9f9e9b5
+Previous: 111fee7d0c6ce9fc4672e33606fc25944a0e2ad1
+Head: eca442fc9bb0566d22f8aa1922dbc0b5964bfee0
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -80,5 +80,6 @@ Applied:
   common-docker-enable-tcp: 68677facbf81457877cb3f9f7fc9de47a2e88bc9
   exim4-logrotate-configuration: 443156e9daea168041d7d69b9e799a476facd299
   buildbot-update-port-args: 232f0e10b35f21711b76d0380b039d84f9f9e9b5
+  buildbot-playbook: eca442fc9bb0566d22f8aa1922dbc0b5964bfee0
 Unapplied:
 Hidden:

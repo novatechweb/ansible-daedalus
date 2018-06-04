@@ -1,0 +1,10 @@
+Bottom: 5ad5952c4ae4e151b00cbdcfd8057dc9f279b110
+Top:    5ad5952c4ae4e151b00cbdcfd8057dc9f279b110
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-04 16:52:30 -0500
+
+Extract buildbot tasks into separate playbook
+
+
+---
+
