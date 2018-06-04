@@ -1,0 +1,45 @@
+---
+# tasks file for buildbot-worker-ptxdist
+
+# This will generate passwords for these accounts.
+- assert:
+    that:
+    - buildbot_worker_ptxdist_password is defined
+
+- name: Create buildbot data volume
+  docker_volume:
+    name: '{{ buildbot_worker_ptxdist_data_volume }}'
+
+- name: Checkout image repo
+  git:
+    repo: '{{ buildbot_worker_ptxdist_image_repo }}'
+    version: master
+    dest: '{{ buildbot_worker_ptxdist_image_dir }}'
+
+- name: Create buildbot worker image
+  docker_image:
+    name: '{{ buildbot_worker_ptxdist_image_name }}'
+    tag: '{{ docker_image_tag }}'
+    path: '{{ buildbot_worker_ptxdist_image_dir }}'
+    buildargs: '{{ buildbot_worker_ptxdist_build_args }}'
+    force: true
+
+- name: Start buildbot container
+  docker_container:
+    name: '{{ buildbot_worker_ptxdist_container_name }}'
+    image: '{{ buildbot_worker_ptxdist_image_name }}:{{ docker_image_tag }}'
+    # networks: '{{ buildbot_worker_ptxdist_networks }}'
+    volumes: '{{ buildbot_worker_ptxdist_volumes }}'
+    env: '{{ buildbot_worker_ptxdist_env }}'
+    # ports: '{{ buildbot_worker_ptxdist_port_args }}'
+
+- name: Grab ssh public key
+  command: >
+    docker exec '{{ buildbot_worker_ptxdist_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+  changed_when: false
+  register: output
+
+- name: Add buildbot_worker_ptxdist host
+  add_host:
+    name: buildbot_worker_ptxdist
+    pubkey: "{{ output.stdout }}"
