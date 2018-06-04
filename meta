@@ -1,6 +1,6 @@
 Version: 1
-Previous: 91e09b7479ca65af2b9a51fc3ff591018d9ec0b3
-Head: 697a5a15d36d015cc6826bcf172cc19c65e07021
+Previous: 91ffddfeb51f05de46bd62a01510308654a63d04
+Head: 6178fe316bf03d1d0ecf8109c8f4a4f32b03b015
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -69,12 +69,11 @@ Applied:
   mariadb-fix-bind-address: 6955f7c36693d82160ae4a2c6aa768220f33fa79
   tmp-wiki-database: e9feee8c5fa7891da95de05a69de6018458bafa4
   tmp-mantis-database: 2e1c52e29d6a477f5641fe90dd6fb5f514fd4ab7
-  TESTING--VirtualMachine: e17930b468705924b0d6193489b55d584e1cd22c
-  mediawiki-remove-libicu52: 0b2eb1b20d8241846084fc5fc073c5ef9cbe6d17
-  bacula-update-syntax: f4f1db6271b006af0ba0353b9b118c007da0f595
-  all-improve-idempotency: 911a4a0c19ba7a9b546e6cf4f63084638863d600
-  fixup-tmp-rework-ip-address-network: ab9a660de1de74a807cc93abb2d6363927408c5e
-  buildbot-ssh-keygen: b8d46bef4428fa03cf45399900b3f2fb22ad47d4
-  refresh-temp: 697a5a15d36d015cc6826bcf172cc19c65e07021
+  TESTING--VirtualMachine: 68559e5f1d26835cf08c948b500b6caebcb7aa09
+  mediawiki-remove-libicu52: fbbe3ffae542e433757e102b15e4392cf562416c
+  bacula-update-syntax: eca9c878ea62a929a10cc00f74c3ce986421fb99
+  all-improve-idempotency: 2973fa8ffbaf8d6fe4cad622fcd54ec3cddd9739
+  fixup-tmp-rework-ip-address-network: 256401ac4d654b1b3b0d4097ab4724802bf7cc3d
+  buildbot-ssh-keygen: 6178fe316bf03d1d0ecf8109c8f4a4f32b03b015
 Unapplied:
 Hidden:
