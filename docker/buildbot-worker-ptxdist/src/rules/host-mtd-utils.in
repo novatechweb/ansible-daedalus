@@ -1,9 +1,0 @@
-## SECTION=hosttools_noprompt
-## SECTION=hosttools_platform
-
-config HOST_MTD_UTILS
-	tristate
-	select HOST_LIBLZO
-	select HOST_ZLIB
-	select HOST_LIBUUID
-	default ALLYES

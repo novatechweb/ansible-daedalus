@@ -1,0 +1,268 @@
+Bottom: 31ae6cfce104ccc4551a0272c4b3818c06a28832
+Top:    7af6f8629aece034fdc208989c8de31be5101a1c
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:59 -0500
+
+Add buildbot role
+
+
+---
+diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
+new file mode 100644
+index 00000000..6b069548
+--- /dev/null
++++ b/ansible-playbook/group_vars/all/buildbot.yml
+@@ -0,0 +1,3 @@
++---
++buildbot_version: 1.1.1
++buildbot_worker_port: 9989
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+index cf366ea4..3434cb2e 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+@@ -30,3 +30,10 @@ phpldapadmin_network:
+ phpmyadmin_network:
+   ip_addr: 172.16.0.109
+   hostname: phpmyadmin.novatech-llc.com
++
++buildbot_network:
++  ip_addr: 172.16.0.110
++  hostname: buildbot.novatech-llc.com
++  port_args:
++    - '{{ buildbot_network.ip_addr }}:80:80'
++    - '{{ buildbot_network.ip_addr }}:443:443'
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+index a12d209b..9fd2bd1c 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+@@ -67,3 +67,10 @@ phpldapadmin_network:
+ phpmyadmin_network:
+   ip_addr: 172.16.0.209
+   hostname: phpmyadmin.novatech-llc.com
++
++buildbot_network:
++  ip_addr: 172.16.0.210
++  hostname: buildbot.novatech-llc.com
++  port_args:
++    - '{{ buildbot_network.ip_addr }}:80:80'
++    - '{{ buildbot_network.ip_addr }}:443:443'
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 673e61b6..c47c128d 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -68,6 +68,11 @@
+     role: docker-buildsystem
+     tags:
+     - buildsystem_container
++  - name: Build and start the Buildbot master container
++    role: buildbot-master
++    tags:
++      - buildbot
++      - buildbot-master
+ 
+ - name: Setup the Build System (Test Station) with repo data
+   hosts: buildsystem
+diff --git a/ansible-playbook/staging b/ansible-playbook/staging
+index e544fd42..25764e80 100644
+--- a/ansible-playbook/staging
++++ b/ansible-playbook/staging
+@@ -6,3 +6,7 @@ testdaedalus.novatech-llc.com
+ 
+ [buildsystem]
+ buildsystem.novatech-llc.com
++
++[buildbot]
++testdaedalus.novatech-llc.com
++buildbot-worker.novatech-llc.com
+diff --git a/roles/buildbot-master/README.md b/roles/buildbot-master/README.md
+new file mode 100644
+index 00000000..225dd44b
+--- /dev/null
++++ b/roles/buildbot-master/README.md
+@@ -0,0 +1,38 @@
++Role Name
++=========
++
++A brief description of the role goes here.
++
++Requirements
++------------
++
++Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
++
++Role Variables
++--------------
++
++A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
++
++Dependencies
++------------
++
++A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
++
++Example Playbook
++----------------
++
++Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
++
++    - hosts: servers
++      roles:
++         - { role: username.rolename, x: 42 }
++
++License
++-------
++
++BSD
++
++Author Information
++------------------
++
++An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+new file mode 100644
+index 00000000..64802d00
+--- /dev/null
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -0,0 +1,56 @@
++---
++# defaults file for buildbot
++
++# The hostname passed as an envirnment variable into the container
++container_addr_map:
++  buildbot:
++    ip_addr: '127.0.0.1'
++    hostname: buildbot.example.com
++
++# the port mappings used when starting the container
++container_port_map:
++  buildbot:
++    port_args: 
++      - '{{ container_addr_map.buildbot.ip_addr }}:443:443'
++
++# Network names
++buildbot_networks:
++  - name: '{{ docker_network_frontend }}'
++
++buildbot_data_path: '/buildbot'
++
++# the name of the image being duilt and used for the container
++buildbot_image_repo: https://github.com/novatechweb/docker-buildbot-master.git
++buildbot_image_name: '{{ docker_registry_username }}/buildbot'
++buildbot_image_dir: '{{ docker_projects_dir }}/buildbot-master'
++
++# the name of the container being started
++buildbot_container_name: '{{ docker_name_prefix }}buildbot'
++
++# the name of the data-volume used by the container
++buildbot_dv_name: '{{ docker_name_prefix }}buildbot_DV'
++
++# restore directories to temporarly store data being restored into docker containers
++buildbot_docker_backup_dir: '{{ docker_backup_dir }}/buildbot'
++host_buildbot_docker_restore_dir: '{{ bacula_dest }}{{ buildbot_docker_backup_dir }}'
++
++buildbot_build_args:
++  BUILDBOT_UID: '1000'
++  BUILDBOT_VERSION: 'v1.1.2'
++  BUILDBOT_TIMEZONE: 'America/Chicago'
++
++buildbot_volumes:
++  - '{{ buildbot_dv_name }}:{{ buildbot_data_path }}:z'
++
++buildbot_env:
++  BUILDBOT_DATABASE: 'sqlite:///{{ buildbot_data_path }}/state.sqlite'
++  BUILDBOT_WEB_PORT: '80'
++  BUILDBOT_WEB_URL: 'http://{{ container_addr_map.buildbot.hostname }}/'
++  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
++  BUILDBOT_SMTP_USER: 'Dean.cox'
++  BUILDBOT_SMTP_PASS: 'no5156'
++  BUILDBOT_WORKER_PORT: '9989'
++  BUILDBOT_WORKER_NTEL: 'worker-ntel'
++  BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
++  BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
++  BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
+diff --git a/roles/buildbot-master/env.yml b/roles/buildbot-master/env.yml
+new file mode 100644
+index 00000000..7ef0578f
+--- /dev/null
++++ b/roles/buildbot-master/env.yml
+@@ -0,0 +1,22 @@
++BUILDBOT_VERSION=1.1.1
++BUILDBOT_UID=1000
++
++BUILDBOT_VOL_CACHE=/home/coopera/Developer/buildbot-mounts/cache:/cache
++BUILDBOT_VOL_MASTER=/home/coopera/Developer/buildbot-mounts/buildbot:/buildbot
++BUILDBOT_VOL_NTEL=/home/coopera/Developer/buildbot-mounts/worker-ntel:/buildbot
++BUILDBOT_VOL_PTXDIST=/home/coopera/Developer/buildbot-mounts/worker-ptxdist:/buildbot
++BUILDBOT_VOL_SECRETS=./secrets:/run/secrets:ro
++
++BUILDBOT_DATABASE=sqlite:////cache/state.sqlite
++BUILDBOT_MASTER=buildbot
++BUILDBOT_TIMEZONE=America/Chicago
++BUILDBOT_HOST_PORT=172.16.103.71:80
++BUILDBOT_WEB_PORT=8010
++BUILDBOT_WEB_URL=http://buildbot.novatech-llc.com/
++
++BUILDBOT_WORKER_NTEL=worker-ntel
++BUILDBOT_WORKER_PASSWORD=pass
++BUILDBOT_WORKER_PORT=9989
++BUILDBOT_WORKER_PTXDIST=worker-ptxdist
++
++BUILDBOT_ENVIRONMENT_BLACKLIST=DOCKER_BUILDBOT*,BUILDBOT_ENV_*,BUILDBOT_1*,BUILDBOT_ENVIRONMENT_BLACKLIST,BUILDBOT_WORKER_PASSWORD
+diff --git a/roles/buildbot-master/meta/main.yml b/roles/buildbot-master/meta/main.yml
+new file mode 100644
+index 00000000..5999cdd5
+--- /dev/null
++++ b/roles/buildbot-master/meta/main.yml
+@@ -0,0 +1,4 @@
++---
++dependencies: []
++  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
++  # if you add dependencies to this list.
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+new file mode 100644
+index 00000000..88501072
+--- /dev/null
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -0,0 +1,34 @@
++---
++# tasks file for buildbot
++
++# This will generate passwords for these accounts.
++- assert:
++    that:
++    - buildbot_admin_password is defined
++
++- name: Create buildbot data volume
++  docker_volume:
++    name: '{{ buildbot_dv_name }}'
++
++- name: Checkout image repo
++  git:
++    repo: '{{ buildbot_image_repo }}'
++    version: master
++    dest: '{{ buildbot_image_dir }}'
++
++- name: Create buildbot master image
++  docker_image:
++    name: '{{ buildbot_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ buildbot_image_dir }}'
++    buildargs: '{{ buildbot_build_args }}'
++    force: true
++
++- name: Start buildbot container
++  docker_container:
++    name: '{{ buildbot_container_name }}'
++    image: '{{ buildbot_image_name }}:{{ docker_image_tag }}'
++    networks: '{{ buildbot_networks }}'
++    volumes: '{{ buildbot_volumes }}'
++    env: '{{ buildbot_env }}'
++    ports: '{{ container_port_map.buildbot.port_args }}'
+diff --git a/roles/buildbot-master/vars/main.yml b/roles/buildbot-master/vars/main.yml
+new file mode 100644
+index 00000000..eed3963e
+--- /dev/null
++++ b/roles/buildbot-master/vars/main.yml
+@@ -0,0 +1,2 @@
++---
++# vars file for buildbot

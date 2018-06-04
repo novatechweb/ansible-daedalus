@@ -1,3 +1,0 @@
-#!/bin/bash
-
-${PTXDIST_TOPDIR}/tests/kwrapper boot

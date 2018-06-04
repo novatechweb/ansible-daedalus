@@ -1,5 +1,0 @@
-## SECTION=hosttools_noprompt
-
-config HOST_UNFS3
-	bool
-	default y
