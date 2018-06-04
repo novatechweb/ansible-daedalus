@@ -28,31 +28,26 @@
   - role: bacula-script
     assemble_scripts: false
   # - role: bacula-catalog
-- name: Install/Setup Docker images and containers
+
+- name: Prepare Docker host systems
   hosts: docker-hosts
   roles:
   - name: Setup SSH Daemon
     role: sshd
     tags:
     - sshd
-  - name: Run bacula-restores symlinks
-    role: bacula-restores
-    tags:
-    - bacula_restores
   - name: Run common Docker tasks
     role: docker-common
     tags:
     - docker_common
-    services:
-      - svn
-      - openldap
-      - exim4
-      - gitlab
-      - wiki
-      - mantisbt
-      - build
-      - testssh
-      - buildbot
+
+- name: Install/Setup Docker images and containers on daedalus
+  hosts: daedalus
+  roles:
+  - name: Run bacula-restores symlinks
+    role: bacula-restores
+    tags:
+    - bacula_restores
   - name: Configure Docker networking
     role: docker-networking
     tags:
