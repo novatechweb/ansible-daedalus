@@ -1,5 +1,5 @@
 Bottom: c82596dbbebc8cf6633f7d5c88016cff86417b3d
-Top:    3b558615d61c0132e4458b85bf113d9c07ee2c89
+Top:    9dc26f9e75afe38a3a828b47fba818842deef383
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-05 13:48:16 -0500
 
@@ -24,6 +24,19 @@ index 81d9b004..25c1b3b1 100644
      subnet: '{{ daedalus_subnet }}'
      services:
      - svn
+diff --git a/docker/docker-mantisbt/docker-entrypoint.sh b/docker/docker-mantisbt/docker-entrypoint.sh
+index c517f76a..2a948ac8 100755
+--- a/docker/docker-mantisbt/docker-entrypoint.sh
++++ b/docker/docker-mantisbt/docker-entrypoint.sh
+@@ -109,7 +109,7 @@ case ${1} in
+         # Apache gets grumpy about PID files pre-existing
+         rm -f /var/run/apache2/apache2.pid
+         # Start apache
+-        exec apache2 -D FOREGROUND
++        exec apache2-foreground
+         ;;
+ 
+     config_inc)
 diff --git a/docker/docker-mediawiki/docker-entrypoint.sh b/docker/docker-mediawiki/docker-entrypoint.sh
 index 0e8fc7e2..ff93cb5c 100755
 --- a/docker/docker-mediawiki/docker-entrypoint.sh
