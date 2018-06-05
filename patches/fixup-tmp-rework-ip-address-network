@@ -1,5 +1,5 @@
 Bottom: d6d3717a76e9e30d2e19f02f670aeb7963ef49c6
-Top:    59780bd657d03eea8e491bea634b071c42b974f6
+Top:    b9f9e8de4ef494f1d29b9f589b8450a2face7164
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -749,7 +749,7 @@ index 5a98cc37..4fe13727 100644
      name: net.ipv4.ip_forward
      value: 1
 diff --git a/roles/docker-networking/tasks/main.yml b/roles/docker-networking/tasks/main.yml
-index 595e8bb7..1b1569c6 100644
+index 595e8bb7..bc56ac58 100644
 --- a/roles/docker-networking/tasks/main.yml
 +++ b/roles/docker-networking/tasks/main.yml
 @@ -1,6 +1,14 @@
@@ -758,7 +758,7 @@ index 595e8bb7..1b1569c6 100644
  
 +- assert:
 +    that:
-+    - net_connection is defined
++    - network_connection is defined
 +    - subnet is defined
 +    - services is defined
 +

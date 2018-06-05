@@ -1,6 +1,6 @@
 Version: 1
-Previous: 32123c00535041f007d03d3fe0bc3cf426f6f24f
-Head: 43ff2b19276f438e97f213cef3f28685643e7685
+Previous: 2d671d9d37c345539ad0254b1b0ca6067207a5e3
+Head: 4124f4cc43ec3a843981469cbf80efea54fffc8e
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -73,16 +73,15 @@ Applied:
   mediawiki-remove-libicu52: 462260e9f8a265c6625d679cf387cb3fced2554e
   bacula-update-syntax: 8f51c632935b1664c537aa600fcf6aa50462064c
   all-improve-idempotency: 6ef25d384a99a49ae1604a14a22b984a9f1be3e0
-  fixup-tmp-rework-ip-address-network: 61c965327f4b1eac3eadf41a04619cb923b9ed6e
-  buildbot-ssh-keygen: 1e245b77bac0a9044235b8affdafae6de1e6772a
-  gitlab_sshkey-create-role: bde215261ddd99e36bb7d5a166dff6c493feae9e
-  gitlab_user-create-role: 82f135ddc11714733ee2a19e3261c8dcb6efb2a0
-  common-docker-enable-tcp: c9c010e65ebdfd2ee122e1a38cfda7a711ffefcc
-  exim4-logrotate-configuration: dcabcd95302efddccc68d993937d4dd136344bd2
-  buildbot-update-port-args: ddeaedba1b7600a7685cbaf324df1ded5c85d2cf
-  buildbot-playbook: c710a833418203add785337bf69c3ec8a2355da7
-  playbook-extract-docker-hosts: c78a15a3264e811f58e309fa6384a609ac277067
-  playbook-fix-credential-copy: bd632050b88204787ace932544a74440229ee8ce
-  refresh-temp: 43ff2b19276f438e97f213cef3f28685643e7685
+  fixup-tmp-rework-ip-address-network: 3a82164137971a36e003cdb1b10c2013b3607533
+  buildbot-ssh-keygen: 220317aa9f347f4d0b7dea8c2316fee4e5f97142
+  gitlab_sshkey-create-role: 683c86d3a932a564b2121c92d9996cd56f2fca0b
+  gitlab_user-create-role: 492b826458852826dc015a9443ecdf231446f9f0
+  common-docker-enable-tcp: a5046e1e31a08141aa20b2091512dd7772155c13
+  exim4-logrotate-configuration: 9248fb84478ea9db837542db2263613f0bae3ffc
+  buildbot-update-port-args: b542891235456b37a0a4df77b76ca32451f748f5
+  buildbot-playbook: 55e6a84ea2a3106fb69aada06d1682525d5a1458
+  playbook-extract-docker-hosts: 3826aa65e1593490f80b545664ed860386887831
+  playbook-fix-credential-copy: 4124f4cc43ec3a843981469cbf80efea54fffc8e
 Unapplied:
 Hidden:
