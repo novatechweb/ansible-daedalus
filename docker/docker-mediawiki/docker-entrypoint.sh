@@ -108,10 +108,8 @@ case ${1} in
     wiki)
         # verify permissions
         chown -R www-data:www-data ${WIKI_BASE_DIR}
-        # Apache gets grumpy about PID files pre-existing
-        rm -f /var/run/apache2/apache2.pid
         # Start apache
-        exec apache2 -D FOREGROUND
+        exec apache2-foreground
         ;;
 
     LocalSettings)
