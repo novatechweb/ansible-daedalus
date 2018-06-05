@@ -1,5 +1,5 @@
-Bottom: 6758522c60fb2d415e4fac49a6b307e1409504ce
-Top:    37e8def6c233c6c25cdeba8c0a680b37eed13204
+Bottom: 938d1e267235384d46cea3a9c5957cf0a3331f2f
+Top:    0c0ed37df04e3b3982c1c6dbd99241005b174938
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:26:52 -0500
 
@@ -11,7 +11,7 @@ common docker tasks are for all docker hosts.
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 4d732132..e9587369 100644
+index 5203a0e9..db9517d2 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -28,31 +28,26 @@

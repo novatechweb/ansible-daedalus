@@ -1,6 +1,6 @@
 Version: 1
-Previous: 8df11c42844fb4d6b89d47cd31c2466f1eb46ee9
-Head: 8b8ea6b01491497ca5293c7f77dec0b7eebaf633
+Previous: dcdf4b9f54d6e31cff43025eb99c67dfb2107602
+Head: 13a4d10bba8ffaa6ee9b52f802293a660563055f
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -80,10 +80,9 @@ Applied:
   common-docker-enable-tcp: 638394ff68df0663ce7cac0574de4026958d9367
   exim4-logrotate-configuration: 3be5c425db2eb12633ae3af4aede230bc10457e9
   buildbot-update-port-args: 489fd808648c61bf17e9ab172e7a405a9afa7373
-  buildbot-playbook: 78e47d44a8b94b89a870c6cdcb497fb71e95ccdb
-  playbook-extract-privilege-escalation: fa243c2bd8fb127ab9e1dde2bebc852649be509c
-  playboook-extract-docker-hosts: 297e33ba9812963976120ba64e71532975483af1
-  playbook-fix-credential-copy: d92fdd12b78fc388ebc470d4137649788e60518b
-  refresh-temp: 8b8ea6b01491497ca5293c7f77dec0b7eebaf633
+  buildbot-playbook: 7132223f84854d850b9aaa66188a89268e786cc2
+  playbook-extract-privilege-escalation: c5797ef116847391f1686ccfc1a4455197c9cdce
+  playboook-extract-docker-hosts: b9cd4145fe68025276e2e1f13040cb0e4d668169
+  playbook-fix-credential-copy: 13a4d10bba8ffaa6ee9b52f802293a660563055f
 Unapplied:
 Hidden:
