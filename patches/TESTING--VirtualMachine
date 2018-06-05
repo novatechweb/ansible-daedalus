@@ -1,5 +1,5 @@
-Bottom: fc3161c1a4f23080b68d869fb7f2869ab1e0ef54
-Top:    395ff0182410fc250deefa934e90432104575314
+Bottom: a21045f6e3e4661e8d2f8e010c671a7376221807
+Top:    94ce76ec91cbeffe89a0cb9c5764be1d5047f33a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -1294,7 +1294,7 @@ index 38cbfae8..61ea4f65 100644
  # *****************************************************************************
  # restore the gitlab backup
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 1b9ecfd7..31f92287 100644
+index 65c58fe5..0ece4eec 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -100,6 +100,7 @@

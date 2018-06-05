@@ -1,5 +1,5 @@
 Bottom: 2b0afb1aeb8fdcfd73a3737a3162be6b015abe40
-Top:    fc3161c1a4f23080b68d869fb7f2869ab1e0ef54
+Top:    a21045f6e3e4661e8d2f8e010c671a7376221807
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:56:24 -0500
 
@@ -34,7 +34,7 @@ index 4ee5f22b..5908d24e 100644
  mantisbt_db_dv_name: '{{ docker_name_prefix }}mantisbt_db_DV'
  
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 3752cc00..1b9ecfd7 100644
+index 3752cc00..65c58fe5 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -28,6 +28,15 @@
@@ -76,17 +76,12 @@ index 3752cc00..1b9ecfd7 100644
 -    repo: '{{ mantisbt_db_image_repo }}'
 -    version: master
 -    dest: '{{ docker_projects_dir }}/docker-mysql-data'
-+# - name: Checkout db repo
-+#   git:
-+#     repo: '{{ mantisbt_db_image_repo }}'
-+#     version: master
-+#     dest: '{{ docker_projects_dir }}/docker-mysql-data'
- 
- - name: build data-container image
-   docker_image:
-     name: '{{ mantisbt_db_image_name }}'
-     tag: '{{ docker_image_tag }}'
-     path: '{{ docker_projects_dir }}/docker-mysql-data'
+-
+-- name: build data-container image
+-  docker_image:
+-    name: '{{ mantisbt_db_image_name }}'
+-    tag: '{{ docker_image_tag }}'
+-    path: '{{ docker_projects_dir }}/docker-mysql-data'
 -
 -# *****************************************************************************
 -# copy the MySQL config to the restore directory
@@ -100,7 +95,18 @@ index 3752cc00..1b9ecfd7 100644
 -  - largefile.cnf
 -  - character-set.cnf
 -
-+    force: true
++# - name: Checkout db repo
++#   git:
++#     repo: '{{ mantisbt_db_image_repo }}'
++#     version: master
++#     dest: '{{ docker_projects_dir }}/docker-mysql-data'
++
++# - name: build data-container image
++#   docker_image:
++#     name: '{{ mantisbt_db_image_name }}'
++#     tag: '{{ docker_image_tag }}'
++#     path: '{{ docker_projects_dir }}/docker-mysql-data'
++#     force: true
 +  
  # *****************************************************************************
  # Create the data volumes
