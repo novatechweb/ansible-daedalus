@@ -101,7 +101,7 @@
     - buildsystem_container
 
 - name: Setup the buildbot containers
-  include: buildbot.yml
+  import_playbook: buildbot.yml
 
 - name: Setup the Build System (Test Station) with repo data
   hosts: buildsystem
