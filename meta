@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2d1d4a199064a4cbe3cf2e0b05330a0d8bc0eb1c
-Head: c5797ef116847391f1686ccfc1a4455197c9cdce
+Previous: 9e85b20abcc155ecebefb30356f0a6186f78fd36
+Head: 7132223f84854d850b9aaa66188a89268e786cc2
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -81,7 +81,6 @@ Applied:
   exim4-logrotate-configuration: 3be5c425db2eb12633ae3af4aede230bc10457e9
   buildbot-update-port-args: 489fd808648c61bf17e9ab172e7a405a9afa7373
   buildbot-playbook: 7132223f84854d850b9aaa66188a89268e786cc2
-  playbook-extract-privilege-escalation: c5797ef116847391f1686ccfc1a4455197c9cdce
 Unapplied:
   playbook-extract-docker-hosts: b9cd4145fe68025276e2e1f13040cb0e4d668169
   playbook-fix-credential-copy: 13a4d10bba8ffaa6ee9b52f802293a660563055f
