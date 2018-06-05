@@ -3,7 +3,7 @@
 
 - assert:
     that:
-    - net_connection is defined
+    - network_connection is defined
     - subnet is defined
     - services is defined
 
