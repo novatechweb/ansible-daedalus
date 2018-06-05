@@ -1,5 +1,5 @@
 Version: 1
-Previous: 80b55768c1be4cd9a2942822dfdfedb552f88523
+Previous: a4708685c13582eb65e753c72ba05adffccb52b9
 Head: b9cd4145fe68025276e2e1f13040cb0e4d668169
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
@@ -82,7 +82,7 @@ Applied:
   buildbot-update-port-args: 489fd808648c61bf17e9ab172e7a405a9afa7373
   buildbot-playbook: 7132223f84854d850b9aaa66188a89268e786cc2
   playbook-extract-privilege-escalation: c5797ef116847391f1686ccfc1a4455197c9cdce
-  playboook-extract-docker-hosts: b9cd4145fe68025276e2e1f13040cb0e4d668169
+  playbook-extract-docker-hosts: b9cd4145fe68025276e2e1f13040cb0e4d668169
 Unapplied:
   playbook-fix-credential-copy: 13a4d10bba8ffaa6ee9b52f802293a660563055f
 Hidden:
