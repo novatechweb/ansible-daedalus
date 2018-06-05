@@ -1,6 +1,6 @@
 Version: 1
-Previous: 752aa8efe61df88366f2fa806bc13aefe5bcc2bc
-Head: d92fdd12b78fc388ebc470d4137649788e60518b
+Previous: 8df11c42844fb4d6b89d47cd31c2466f1eb46ee9
+Head: 8b8ea6b01491497ca5293c7f77dec0b7eebaf633
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -84,5 +84,6 @@ Applied:
   playbook-extract-privilege-escalation: fa243c2bd8fb127ab9e1dde2bebc852649be509c
   playboook-extract-docker-hosts: 297e33ba9812963976120ba64e71532975483af1
   playbook-fix-credential-copy: d92fdd12b78fc388ebc470d4137649788e60518b
+  refresh-temp: 8b8ea6b01491497ca5293c7f77dec0b7eebaf633
 Unapplied:
 Hidden:
