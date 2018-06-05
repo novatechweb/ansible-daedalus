@@ -1,6 +1,6 @@
 Version: 1
-Previous: c5db3087c78a0d716c51eea62d1121ebac1429c0
-Head: 4124f4cc43ec3a843981469cbf80efea54fffc8e
+Previous: adc27e2c53859b17e0c75807268bf08b5913b76c
+Head: 7f299dca626051be1fe9d019fe6b97bb333a4efd
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -83,5 +83,6 @@ Applied:
   buildbot-playbook: 55e6a84ea2a3106fb69aada06d1682525d5a1458
   playbook-extract-docker-hosts: 3826aa65e1593490f80b545664ed860386887831
   playbook-fix-credential-copy: 4124f4cc43ec3a843981469cbf80efea54fffc8e
+  wiki-update-entrypoint: 7f299dca626051be1fe9d019fe6b97bb333a4efd
 Unapplied:
 Hidden:

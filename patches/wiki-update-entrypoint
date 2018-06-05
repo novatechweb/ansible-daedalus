@@ -1,0 +1,14 @@
+Bottom: c82596dbbebc8cf6633f7d5c88016cff86417b3d
+Top:    c82596dbbebc8cf6633f7d5c88016cff86417b3d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-05 13:48:16 -0500
+
+Update docker-entrypoint to call parent container's entrypoint
+
+After updating the parent image, our entrypoint wasn't setting some environment
+variables correctly. Using the parent's entrypoint script after our setup
+fixes this problem.
+
+
+---
+
