@@ -1,0 +1,37 @@
+Bottom: 217d4cb4c17ec80d999779dc2c81ac0b63a0b50d
+Top:    89ea2a98f469d48f2775cd8df8ea9d0851147290
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-05 09:07:05 -0500
+
+Refresh of playbook-fix-credential-copy
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index eefa9706..81d9b004 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -129,7 +129,7 @@
+     assemble_scripts: true
+ 
+ - name: Cleanup tasks
+-  hosts: all
++  hosts: daedalus
+   remote_user: ansibleremote
+   become: true
+   become_user: root
+@@ -137,14 +137,7 @@
+   tasks:
+   - name: Copy credentials to the /etc dir
+     copy:
+-      src: ./credentials/{{ inventory_hostname }}
+-      dest: /etc/ansible-credentials/
+-      owner: root
+-      group: root
+-      mode: 'u=rw,g=,o='
+-  - name: Copy build system credentials to /etc dir
+-    copy:
+-      src: ./credentials/buildsystem.novatech-llc.com
++      src: "{{ playbook_dir }}/credentials/"
+       dest: /etc/ansible-credentials/
+       owner: root
+       group: root
