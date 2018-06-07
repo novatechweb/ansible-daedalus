@@ -1,0 +1,66 @@
+Bottom: 59caab22b8e6a4a504cd10a443f256408ba241df
+Top:    b0ad5e2254e04320765cee08237b832897364060
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-07 13:55:43 -0500
+
+Refresh of fixup-tmp-rework-ip-address-network
+
+---
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+index f55400be..5111648b 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+@@ -1,4 +1,4 @@
+ ---
+ 
+ daedalus_subnet: 172.16.103.0/16
+-daedalus_net_connection: "Bridge br0"
++daedalus_net_connection: "enp5s0f0"
+diff --git a/roles/docker-networking/tasks/hosts.yml b/roles/docker-networking/tasks/hosts.yml
+new file mode 100644
+index 00000000..f96b3d8b
+--- /dev/null
++++ b/roles/docker-networking/tasks/hosts.yml
+@@ -0,0 +1,14 @@
++---
++# file: roles/docker-common/tasks/ip_addr.yaml
++# Add each service to the /etc/hosts file
++
++- name: "Build /etc/hosts file"
++  lineinfile: 
++    path: /etc/hosts
++    regexp: '.*{{ hostname }}$'
++    line:  '{{ ip_addr }} {{ hostname }}'
++    state: present
++  vars:
++    ip_addr: '{{ lookup("vars", item + "_ip_addr") }}'
++    hostname: '{{ lookup("vars", item + "_hostname") }}'
++  loop: "{{ services }}"
+diff --git a/roles/docker-networking/tasks/ip_addr.yml b/roles/docker-networking/tasks/ip_addr.yml
+index 4fe13727..f5d4ff8b 100644
+--- a/roles/docker-networking/tasks/ip_addr.yml
++++ b/roles/docker-networking/tasks/ip_addr.yml
+@@ -23,7 +23,9 @@
+   command: >
+     nmcli connection 
+     modify '{{ network_connection }}' 
+-    +ipv4.addresses '{{ lookup('vars', item + "_ip_addr") }}/{{ subnet | ipaddr("prefix") }}'
++    +ipv4.addresses '{{ ip_addr }}/{{ subnet | ipaddr("prefix") }}'
++  vars:
++    ip_addr: '{{ lookup("vars", item + "_ip_addr") }}'
+   loop: "{{ services }}"
+  
+ - sysctl:
+diff --git a/roles/docker-networking/tasks/main.yml b/roles/docker-networking/tasks/main.yml
+index bc56ac58..c220b585 100644
+--- a/roles/docker-networking/tasks/main.yml
++++ b/roles/docker-networking/tasks/main.yml
+@@ -9,6 +9,8 @@
+ 
+ - import_tasks: ip_addr.yml
+ 
++- import_tasks: hosts.yml
++
+ - name: Create frontend network for services
+   docker_network:
+     name: '{{ docker_network_frontend }}'
