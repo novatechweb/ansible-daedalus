@@ -1,17 +1,23 @@
-Bottom: 8ecab48c1cc278604056b44d899095183255dfef
-Top:    8b13ef364cc34849d708477688bc5cb08a6e1ad9
+Bottom: c9c87a415f09bdb4cbdd4b393eba1d049323b7c0
+Top:    4bd1de25381b838abc3cf980fd475e256d33e170
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-05-17 14:39:04 -0500
+Date:   2018-06-07 13:46:13 -0500
 
 Add environment variables for parameters
 
-
 ---
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index dde9cdb8..b13cd1d2 100644
+index 521c8237..b13cd1d2 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
-@@ -20,9 +20,10 @@ RUN pip --no-cache-dir install \
+@@ -1,4 +1,5 @@
+-FROM        buildbot/buildbot-master:v0.9.13
++ARG         BUILDBOT_VERSION=latest
++FROM        buildbot/buildbot-master:$BUILDBOT_VERSION
+ MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
+ 
+ WORKDIR /buildbot
+@@ -19,9 +20,10 @@ RUN pip --no-cache-dir install \
  
  # Create buildbot user
  ARG BUILDBOT_UID=1000
