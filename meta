@@ -1,5 +1,5 @@
 Version: 1
-Previous: 726300e3397a832301d5d7b220499fe55b9143a5
+Previous: 033680a9c4fab18c9ba12668f1db31cbae8f3f53
 Head: 3290f8e379528daa8024b7a9a512e8717ebedeb5
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
@@ -84,5 +84,5 @@ Applied:
   wiki-update-entrypoint: 931c5ea7e73d39375046dce9587f9b5d733d4309
   playbook-add-docker_health-module: 3290f8e379528daa8024b7a9a512e8717ebedeb5
 Unapplied:
-Hidden:
   TESTING--VirtualMachine: 760639abdd6620d442c38442d1194d2cac0ff05a
+Hidden:
