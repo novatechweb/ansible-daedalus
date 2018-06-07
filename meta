@@ -1,6 +1,6 @@
 Version: 1
-Previous: fceee66aa6155ed21d1a2ba686333e474ccf7502
-Head: 87f8f8ab2fab0665a6d4a9dfa16413d1462a9207
+Previous: de57e36262abc47b8436aa30ed3469361f4de46e
+Head: a4194b1d2b246a624959b23324be63330c7ec3fe
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -41,6 +41,7 @@ Applied:
   exim4-ignore-monolithic-template: 80bdc4477529d33b846f3bcb5eae73e2bcfa3ea4
   exim4-install-key-crt: 97d03780524841b1798c01a853c85042df46f1a4
   exim4-exec-account-script: 87f8f8ab2fab0665a6d4a9dfa16413d1462a9207
+  exim4-logrotate-configuration: a4194b1d2b246a624959b23324be63330c7ec3fe
 Unapplied:
   ldap-wait-on-startup: b17ee5fa850b3e3c707582871b47789040806e5b
   ldap-add-phpldapadmin: 92a19476deb66aa451f2c60d8593dd1b4f70eba1
@@ -80,7 +81,6 @@ Unapplied:
   gitlab_sshkey-create-role: 37cb62becef70d3e34face29327ae65e592e8c14
   gitlab_user-create-role: ceda946c38f4aa04b3cae45114afbdfe6250e16c
   common-docker-enable-tcp: 04739b17b98b38fad5a79e5879d5c3000ca91636
-  exim4-logrotate-configuration: 9f63433b9b3e08a1aa66dc5ec016d23b4c072543
   buildbot-update-port-args: 7aa89632cea303d346050ba264863994b945574e
   buildbot-playbook: 7fd26848f07002206885430c6a13d1afb756e434
   playbook-extract-docker-hosts: 532ee0039a0b2393282f675cde1047a7a1617d40
