@@ -1,6 +1,6 @@
 Version: 1
-Previous: 8772476ccd24ae8aebc8d24c15d8005d762e47a8
-Head: 0bd1ab1139ef06c6b0d4666d7fa94f760a68306e
+Previous: cb1f610de74af966a3db41928129ad8409a138d5
+Head: 335fc4f6e8228d7f31aa4b71f0684028bb97e384
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -72,6 +72,7 @@ Applied:
   bacula-update-syntax: eb7b8c6f0b1e02b1aa5c99cd79e0578001db8da8
   all-improve-idempotency: 07d9761be204356fec88d3e9f6d8414bd189915f
   fixup-tmp-rework-ip-address-network: 0bd1ab1139ef06c6b0d4666d7fa94f760a68306e
+  refresh-temp: 335fc4f6e8228d7f31aa4b71f0684028bb97e384
 Unapplied:
   TESTING--VirtualMachine: 760639abdd6620d442c38442d1194d2cac0ff05a
   buildbot-ssh-keygen: f06350691e0aac9de6178870d8a5141cd6ad7665
