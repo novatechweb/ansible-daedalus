@@ -1,6 +1,6 @@
 Version: 1
-Previous: 0b7277f3a6161401ebf1dc1f88c719c5d4c040dd
-Head: a9b72bdcc4a69ef3f19b69bb00b7b65f869dbfed
+Previous: d31976dd6c217c088c982f9bfd2e809d9025f89e
+Head: ccbc5bb8ffbf36a4e685f67a5e657b8b01d25920
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -14,8 +14,8 @@ Applied:
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
   all-docker-image-repositories: 513fae15bcf7d21e432924a7aad2c4a11ff840a5
   fixup-all-docker-image-repositories: a9b72bdcc4a69ef3f19b69bb00b7b65f869dbfed
+  common-common-variables: ccbc5bb8ffbf36a4e685f67a5e657b8b01d25920
 Unapplied:
-  common-common-variables: 00300a9425e48dc28f77443fa9ea9a992ca0caca
   all-move-vars-to-defaults: 05c522d1209b6026293d0f7f85ec196cbc269d23
   playbook-remove-docker-pull-images: e2587af79d9b830afc5fda84b4ec083b754d8edb
   all-docker_container: 72bf11af33444eafdfc8e93c2dc6cbacb88b34bf
