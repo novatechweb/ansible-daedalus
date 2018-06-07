@@ -1,6 +1,6 @@
 Version: 1
-Previous: b2a97d7f79e761b87febd679e7e2bf9cd160ad04
-Head: 7b59c4d233ea7ff623f71259c7588a520869c841
+Previous: 122bcca1ea62ae2b7ec7bd6dd06b82b0019f96cf
+Head: 90f1c997f026d1358a202a7bcaf7c97c6341fe9c
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -80,10 +80,9 @@ Applied:
   exim4-logrotate-configuration: 16faf61274725b5076a6f6e25896f914b5a411c1
   buildbot-update-port-args: 865fb5f2101b93ebd04b7a95e2ddf9e0999dde71
   buildbot-playbook: 53a4b3c12c27197d8292e1ee6319c43cb98f5221
-  playbook-extract-docker-hosts: a64aee15a3d1df145742ef431193947f58d0d38e
-  playbook-fix-credential-copy: 67938bebc0331d58b84a2b25d92a0f23eac0f1e7
-  wiki-update-entrypoint: f2806ff75e1c3719f2e7ef354c10ab078d6f2b35
-  refresh-temp: 57a976cf454231fa98e16bdfc62a30379b73952c
-  refresh-temp-0: 7b59c4d233ea7ff623f71259c7588a520869c841
+  playbook-extract-docker-hosts: d5831a01b30e1d6f23055563c0a625ba33206c30
+  playbook-fix-credential-copy: 9960d537978b35493ad8d99023ebac4346e3652d
+  wiki-update-entrypoint: db2947a3a44b50415f52dadc2d0e71adf39b8617
+  refresh-temp: 90f1c997f026d1358a202a7bcaf7c97c6341fe9c
 Unapplied:
 Hidden:

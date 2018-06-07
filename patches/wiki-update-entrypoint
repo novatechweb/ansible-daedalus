@@ -1,5 +1,5 @@
-Bottom: 447ba4e156ec7cf39908d7c8eebd22b597e7fcb7
-Top:    b0ad5e2254e04320765cee08237b832897364060
+Bottom: bd5b90d1e3159570e9c11c98b54213e89d611b36
+Top:    ac513631fd49036caba05af4fdfe7a7c8178cafe
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-05 13:48:16 -0500
 
@@ -12,10 +12,10 @@ fixes this problem.
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 81d9b004..25c1b3b1 100644
+index e1abd2b7..a5787c37 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -58,7 +58,7 @@
+@@ -62,7 +62,7 @@
      - bacula_restores
    - name: Configure Docker networking
      role: docker-networking
