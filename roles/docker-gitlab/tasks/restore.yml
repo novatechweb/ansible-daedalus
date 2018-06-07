@@ -41,6 +41,14 @@
     chdir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/'
   when: gitlab_backup.file_list != []
 
+- name: Wait for gitlab to be fully running
+  docker_health:
+    name: '{{ gitlab_container_name }}'
+  register: health
+  retries: 60
+  delay: 5
+  until: health.Health.Status == "healthy"
+
 # *****************************************************************************
 # cleanup
 
