@@ -1,5 +1,5 @@
 Bottom: 327acfc2c523b67d4e436e75836256f95af35a3b
-Top:    8c566a009002f44f19f57f878960bb4c1672e5e8
+Top:    a007e512514d0ab610a2e6aec6df631b9a236462
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -126,7 +126,7 @@ index 3434cb2e..f567d255 100644
 +daedalus_subnet: 172.16.0.0/16
 +daedalus_net_connection: "Bridge br0"
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
-index 9fd2bd1c..f55400be 100644
+index 9fd2bd1c..5111648b 100644
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 @@ -1,76 +1,4 @@
@@ -207,7 +207,7 @@ index 9fd2bd1c..f55400be 100644
 -    - '{{ buildbot_network.ip_addr }}:80:80'
 -    - '{{ buildbot_network.ip_addr }}:443:443'
 +daedalus_subnet: 172.16.103.0/16
-+daedalus_net_connection: "Bridge br0"
++daedalus_net_connection: "enp5s0f0"
 diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 deleted file mode 100644
 index 53b96f84..00000000
@@ -725,14 +725,34 @@ index c179d7cb..5ca42dbc 100644
        WIKI_MAIL_USER: 'wiki'
        WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
      image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+diff --git a/roles/docker-networking/tasks/hosts.yml b/roles/docker-networking/tasks/hosts.yml
+new file mode 100644
+index 00000000..f96b3d8b
+--- /dev/null
++++ b/roles/docker-networking/tasks/hosts.yml
+@@ -0,0 +1,14 @@
++---
++# file: roles/docker-common/tasks/ip_addr.yaml
++# Add each service to the /etc/hosts file
++
++- name: "Build /etc/hosts file"
++  lineinfile: 
++    path: /etc/hosts
++    regexp: '.*{{ hostname }}$'
++    line:  '{{ ip_addr }} {{ hostname }}'
++    state: present
++  vars:
++    ip_addr: '{{ lookup("vars", item + "_ip_addr") }}'
++    hostname: '{{ lookup("vars", item + "_hostname") }}'
++  loop: "{{ services }}"
 diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-networking/tasks/ip_addr.yml
-similarity index 82%
+similarity index 80%
 rename from roles/docker-common/tasks/ip_addr.yml
 rename to roles/docker-networking/tasks/ip_addr.yml
-index 5a98cc37..4fe13727 100644
+index 5a98cc37..f5d4ff8b 100644
 --- a/roles/docker-common/tasks/ip_addr.yml
 +++ b/roles/docker-networking/tasks/ip_addr.yml
-@@ -20,9 +20,12 @@
+@@ -20,9 +20,14 @@
    register: network_pre
  
  - name: Add service IP addresses
@@ -742,17 +762,19 @@ index 5a98cc37..4fe13727 100644
 +  command: >
 +    nmcli connection 
 +    modify '{{ network_connection }}' 
-+    +ipv4.addresses '{{ lookup('vars', item + "_ip_addr") }}/{{ subnet | ipaddr("prefix") }}'
++    +ipv4.addresses '{{ ip_addr }}/{{ subnet | ipaddr("prefix") }}'
++  vars:
++    ip_addr: '{{ lookup("vars", item + "_ip_addr") }}'
 +  loop: "{{ services }}"
 + 
  - sysctl:
      name: net.ipv4.ip_forward
      value: 1
 diff --git a/roles/docker-networking/tasks/main.yml b/roles/docker-networking/tasks/main.yml
-index 595e8bb7..bc56ac58 100644
+index 595e8bb7..c220b585 100644
 --- a/roles/docker-networking/tasks/main.yml
 +++ b/roles/docker-networking/tasks/main.yml
-@@ -1,6 +1,14 @@
+@@ -1,6 +1,16 @@
  ---
  # tasks file for docker-networking
  
@@ -763,6 +785,8 @@ index 595e8bb7..bc56ac58 100644
 +    - services is defined
 +
 +- import_tasks: ip_addr.yml
++
++- import_tasks: hosts.yml
 +
  - name: Create frontend network for services
    docker_network:

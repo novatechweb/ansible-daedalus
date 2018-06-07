@@ -1,6 +1,6 @@
 Version: 1
-Previous: 444bf40987b16f4d8b5faf333bed0992e235688f
-Head: c58f558ea4a590c98fb15f0bd2bbd982ce25a405
+Previous: 2699256b7ac2bb7941ed15e067faf0e8ea8e09ad
+Head: f2806ff75e1c3719f2e7ef354c10ab078d6f2b35
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -72,17 +72,16 @@ Applied:
   wiki-remove-libicu52: 5babc9e954ff0ffb8205eb2fb8ce4b5a86b39e79
   bacula-update-syntax: 3633b7bd5d2b91f491a19f61759ad1e9171533d5
   all-improve-idempotency: 1e209e3f6e7f8f61a75424863fc2a6034e68a598
-  fixup-tmp-rework-ip-address-network: c3ee6900367c215421a14b12be04fffff4c0e232
-  buildbot-ssh-keygen: c0cec85c0c330cad01585764eefa772d5cdb5f5a
-  gitlab_sshkey-create-role: 1403d98111a34eee7e92be34ba65cc3d7ed5e222
-  gitlab_user-create-role: 7400fe1395b9937295f9702a52487df4c75fcd5d
-  common-docker-enable-tcp: a35a098fc6b71f9a86e9b3219c1b4ea6d9122442
-  exim4-logrotate-configuration: 61ea8aedb815ee308f2e93854a60b7f83c3fb18e
-  buildbot-update-port-args: a80c6621d3b2d56ca068d4156136bda5af84c8e9
-  buildbot-playbook: 365ed1cf8b2102456f799091991032aa0b0bad63
-  playbook-extract-docker-hosts: 1278da87ce523d9ef6ee134e34ec2834e4035240
-  playbook-fix-credential-copy: 1cb4d8fbf61245297066232cb58d6d80c6060fa3
-  wiki-update-entrypoint: ca5bed970806a6bfbc24ebcebfb032ad3a2f7761
-  refresh-temp: c58f558ea4a590c98fb15f0bd2bbd982ce25a405
+  fixup-tmp-rework-ip-address-network: 75e5dfac68a012937457cb10ef29a3f78aecb45f
+  buildbot-ssh-keygen: 95a6569814b782112e29200f01ae20270f3763ba
+  gitlab_sshkey-create-role: 4dfe887b706e947725bca8dde60009ce6fe1b582
+  gitlab_user-create-role: 8ae679968c6ed13d12f02dce69811dc0b4a8a16d
+  common-docker-enable-tcp: cea6b3611dea7616374e0adfada2a38620c732aa
+  exim4-logrotate-configuration: 16faf61274725b5076a6f6e25896f914b5a411c1
+  buildbot-update-port-args: 865fb5f2101b93ebd04b7a95e2ddf9e0999dde71
+  buildbot-playbook: 53a4b3c12c27197d8292e1ee6319c43cb98f5221
+  playbook-extract-docker-hosts: a64aee15a3d1df145742ef431193947f58d0d38e
+  playbook-fix-credential-copy: 67938bebc0331d58b84a2b25d92a0f23eac0f1e7
+  wiki-update-entrypoint: f2806ff75e1c3719f2e7ef354c10ab078d6f2b35
 Unapplied:
 Hidden:
