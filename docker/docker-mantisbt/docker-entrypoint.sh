@@ -109,7 +109,7 @@ case ${1} in
         # Apache gets grumpy about PID files pre-existing
         rm -f /var/run/apache2/apache2.pid
         # Start apache
-        exec apache2-foreground
+        exec apache2 -D FOREGROUND
         ;;
 
     config_inc)
