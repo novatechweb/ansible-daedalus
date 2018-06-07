@@ -1,5 +1,5 @@
-Bottom: 55bae62afc27c7fc6850ae1368e82d9c6d60d1f6
-Top:    8bf016323dadf1acb0463ae1eae94f57c5471b6a
+Bottom: fe423c6df99ecc009ac9a702d026b78c8461ef69
+Top:    fe423c6df99ecc009ac9a702d026b78c8461ef69
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-05 13:48:16 -0500
 
@@ -11,45 +11,4 @@ fixes this problem.
 
 
 ---
-diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index d99a7e37..d886bf1b 100644
---- a/ansible-playbook/site.yml
-+++ b/ansible-playbook/site.yml
-@@ -48,7 +48,7 @@
-     - bacula_restores
-   - name: Configure Docker networking
-     role: docker-networking
--    net_connection: '{{ daedalus_net_connection }}'
-+    network_connection: '{{ daedalus_net_connection }}'
-     subnet: '{{ daedalus_subnet }}'
-     services:
-     - svn
-diff --git a/docker/docker-mantisbt/docker-entrypoint.sh b/docker/docker-mantisbt/docker-entrypoint.sh
-index c517f76a..2a948ac8 100755
---- a/docker/docker-mantisbt/docker-entrypoint.sh
-+++ b/docker/docker-mantisbt/docker-entrypoint.sh
-@@ -109,7 +109,7 @@ case ${1} in
-         # Apache gets grumpy about PID files pre-existing
-         rm -f /var/run/apache2/apache2.pid
-         # Start apache
--        exec apache2 -D FOREGROUND
-+        exec apache2-foreground
-         ;;
- 
-     config_inc)
-diff --git a/docker/docker-mediawiki/docker-entrypoint.sh b/docker/docker-mediawiki/docker-entrypoint.sh
-index 0e8fc7e2..ff93cb5c 100755
---- a/docker/docker-mediawiki/docker-entrypoint.sh
-+++ b/docker/docker-mediawiki/docker-entrypoint.sh
-@@ -108,10 +108,8 @@ case ${1} in
-     wiki)
-         # verify permissions
-         chown -R www-data:www-data ${WIKI_BASE_DIR}
--        # Apache gets grumpy about PID files pre-existing
--        rm -f /var/run/apache2/apache2.pid
-         # Start apache
--        exec apache2 -D FOREGROUND
-+        exec apache2-foreground
-         ;;
- 
-     LocalSettings)
+
