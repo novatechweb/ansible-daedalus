@@ -1,5 +1,5 @@
 Bottom: 327acfc2c523b67d4e436e75836256f95af35a3b
-Top:    a007e512514d0ab610a2e6aec6df631b9a236462
+Top:    73e3afb491be42903c225d4e86ec4ec7d1982454
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:34:57 -0500
 
@@ -562,7 +562,7 @@ index 4760f5c2..4594a26a 100644
      restart_policy: no
      state: started
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index e4268e33..d1931f58 100644
+index e4268e33..ab4a79a4 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -1,13 +1,12 @@
@@ -585,11 +585,165 @@ index e4268e33..d1931f58 100644
  
  # database usernames and passwords
  gitlab_db_user: novatech
+@@ -18,31 +17,20 @@ gitlab_db_user: novatech
+ # the name of the image being duilt and used for the container
+ gitlab_image_repo: 'https://github.com/novatechweb/docker-gitlab.git'
+ gitlab_image_name: 'gitlab/gitlab-ce:10.1.7-ce.0'
+-# gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
+-# gitlab_db_image_name: '{{ docker_registry_username }}/postgres'
+-# redis_image_name: '{{ docker_registry_username }}/redis'
+ 
+ # the name of the gitlab container
+ gitlab_container_name: '{{ docker_name_prefix }}gitlab'
+ 
+-# the name of the redis container for gitlab
+-# gitlab_redis_container_name: '{{ docker_name_prefix }}gitlab_redis'
+-
+-# the name of the postgres container for gitlab
+-# gitlab_db_container_name: '{{ docker_name_prefix }}gitlab_db'
+-
+ # the name of the config-volume used by the container
+ gitlab_cv_name: '{{ docker_name_prefix }}gitlab_CV'
+ 
+ # the name of the data-volume used by the container
+ gitlab_dv_name: '{{ docker_name_prefix }}gitlab_DV'
+ 
+-# the name of the data-volume used by the postgres container
+-# gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
+-
+ # restore directories to temporarly store data being restored into docker containers
+ gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
+ gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
++gitlab_backup_mountpoint: '/mnt/backups'
+ 
+ # Network names
+ docker_network_frontend: 'frontend'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index bab47a2c..2adb1104 100644
+index bab47a2c..eed25402 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
-@@ -178,8 +178,8 @@
+@@ -58,12 +58,6 @@
+     group: root
+     mode: 'u=rw,g=r,o='
+ 
+-# - name: copy env-file
+-#   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ gitlab_config_dir }}'
+-
+-# - name: copy script
+-#   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ gitlab_config_dir }}'
+-
+ - name: exists - state file
+   stat:
+     path: '{{ gitlab_config_dir }}/restore.date.txt'
+@@ -71,28 +65,6 @@
+     get_md5: False
+   register: st_gitlab_restore
+ 
+-# *****************************************************************************
+-# Update or make the image.
+-
+-# - name: Checkout image repo
+-#   git:
+-#     repo: '{{ gitlab_image_repo }}'
+-#     version: master
+-#     dest: '{{ docker_projects_dir }}/docker-gitlab'
+-
+-# - name: build image
+-#   docker_image:
+-#     name: '{{ gitlab_image_name }}'
+-#     tag: '{{ docker_image_tag }}'
+-#     path: '{{ docker_projects_dir }}/docker-gitlab'
+-
+-# Data volume image is now the same as the container image
+-#- name: build image
+-#  docker_image:
+-#    image_name: '{{ gitlab_dv_image_name }}'
+-#    image_tag: '{{ docker_image_tag }}'
+-#    dockerfile_dir: '{{ docker_projects_dir }}/docker-gitlab'
+-
+ # *****************************************************************************
+ # Create the data volumes
+ 
+@@ -100,93 +72,27 @@
+   docker_volume:
+     name: '{{ gitlab_cv_name }}'
+ 
+-
+ - name: data-volume container (gitlab)
+   docker_volume:
+     name: '{{ gitlab_dv_name }}'
+ 
+-# - name: data-volume container (postgres)
+-#   docker_volume:
+-#     name: '{{ gitlab_db_dv_name }}'
+-
+-# - name: stop prev container (postgres)
+-#   docker_container:
+-#     image: '{{ gitlab_db_image_name }}'
+-#     name: '{{ gitlab_db_container_name }}'
+-#     state: stopped
+-
+-# - name: initial populate (postgres)
+-#   docker_db_init:
+-#     image_name: '{{ gitlab_db_image_name }}'
+-#     image_tag: '{{ docker_image_tag }}'
+-#     container_name: '{{ gitlab_db_dv_name }}_init_db'
+-#     data_volume_container_name: '{{ gitlab_db_dv_name }}'
+-#     data_volume_dir: '{{ docker_projects_dir }}/docker-gitlab/postgres/'
+-#     database_name: gitlabhq_production
+-#     database_user: '{{ gitlab_db_user }}'
+-#     database_password: '{{ gitlab_db_password | quote }}'
+-
+ # *****************************************************************************
+-# Start the data container running
+-
+-# - name: start container (redis)
+-#   docker_container:
+-#     name: '{{ gitlab_redis_container_name }}'
+-#     detach: true
+-#     restart_policy: no
+-#     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
+-#     networks:
+-#       - name: '{{ docker_network_frontend }}'
+-
+-# - name: start container (postgres)
+-#   docker_container:
+-#     name: '{{ gitlab_db_container_name }}'
+-#     detach: true
+-#     restart_policy: no
+-#     volumes_from: '{{ gitlab_db_dv_name }}'
+-#     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
+-#     networks:
+-#       - name: '{{ docker_network_frontend }}'
+-
+-# - name: start container (gitlab)
+-#   docker_container:
+-#     name: '{{ gitlab_container_name }}'
+-#     detach: true
+-#     restart_policy: no
+-#     hostname: '{{ gitlab_hostname }}'
+-#     ports: '{{ gitlab_ports }}'
+-#     networks:
+-#       - name: '{{ docker_network_frontend }}'
+-#     volumes-from:
+-#       - '{{ openssl_dv_name }}'
+-#       - '{{ gitlab_dv_name }}'
+-#     env:
+-#       - GITLAB_HOST={{ gitlab_hostname }}
+-#       - GITLAB_SSH_HOST={{ gitlab_hostname }}
+-#       - DB_USER={{ gitlab_db_user }}
+-#       - DB_PASS={{ gitlab_db_password | quote }}
+-#       - SMTP_HOST={{ exim4_hostname }}
+-#       - SMTP_PASS={{ gitlab_email_password | quote }}
+-#       - LDAP_PASS={{ openldap_proxyagent_password | quote }}
+-#       - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
+-#       - GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }}
+-#     env-file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
+-#     image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
++# Create the data containers
+ 
+ - name: create container (gitlab)
+   docker_container:
      name: '{{ gitlab_container_name }}'
      detach: true
      restart_policy: no
@@ -600,15 +754,184 @@ index bab47a2c..2adb1104 100644
      networks:
        - name: '{{ docker_network_frontend }}'
      volumes:
-@@ -204,7 +204,7 @@
- - name: Wait for gitlab to be fully running
-   wait_for:
-     delay: 10
--    host: '{{ gitlab_network.ip_addr }}'
-+    host: "{{ gitlab_ip_addr }}"
-     port: 22
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+       - '{{ gitlab_cv_name }}:/etc/gitlab:z'
+       - '{{ gitlab_dv_name }}:/var/opt/gitlab:z'
+-      - '{{ gitlab_docker_backup_dir }}:/mnt/backups:z'
++      - '{{ gitlab_docker_backup_dir }}:{{ gitlab_backup_mountpoint }}:z'
+     image: '{{ gitlab_image_name }}'
+     state: present
+ 
+@@ -202,12 +108,12 @@
      state: started
-     timeout: 180
+ 
+ - name: Wait for gitlab to be fully running
+-  wait_for:
+-    delay: 10
+-    host: '{{ gitlab_network.ip_addr }}'
+-    port: 22
+-    state: started
+-    timeout: 180
++  docker_health:
++    name: '{{ gitlab_container_name }}'
++  register: gitlab_health
++  retries: 60
++  delay: 5
++  until: gitlab_health.Health.Status == 'healthy'
+ 
+ # *****************************************************************************
+ # restore?
+@@ -215,3 +121,15 @@
+ - include_tasks: restore.yml
+   when: st_gitlab_restore.stat.exists == False
+   tags: restore
++
++# *****************************************************************************
++# Set gitlab root user password
++
++- name: Set gitlab root user password
++  command: >
++    docker exec -t {{ gitlab_container_name }}
++    gitlab-rails runner 
++      'user=User.where(id: 1).first;
++      user.password="{{ gitlab_root_password }}";
++      user.password_confirmation="{{ gitlab_root_password }}";
++      user.save!'
+diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
+index 61ea4f65..03feff74 100644
+--- a/roles/docker-gitlab/tasks/restore.yml
++++ b/roles/docker-gitlab/tasks/restore.yml
+@@ -5,8 +5,10 @@
+ # Get data from tape
+ 
+ - name: find files
+-  files_in_dir:
++  find:
+     path: '{{ gitlab_docker_restore_dir }}'
++    file_type: any
++    follow: true
+   register: gitlab_backup
+ 
+ - name: data from tape
+@@ -16,12 +18,23 @@
+     fileset: '{{ bacula_fileset }}'
+     dest: '{{ bacula_dest }}'
+     path_to_restore: '{{ gitlab_docker_backup_dir }}'
+-  when: gitlab_backup.file_list == []
++  when: gitlab_backup.matched == 0
+ 
+-- name: find files
+-  files_in_dir:
++- name: find gitlab config backups
++  find:
+     path: '{{ gitlab_docker_restore_dir }}'
+-  register: gitlab_backup
++    pattern: 'etc-gitlab-*.tgz'
++    file_type: any
++    follow: true
++  register: gitlab_config
++
++- name: find gitlab data backups
++  find:
++    path: '{{ gitlab_docker_restore_dir }}'
++    pattern: '*_gitlab_backup.tar'
++    file_type: any
++    follow: true
++  register: gitlab_data
+ 
+ # - name: File permissions
+ #   file:
+@@ -35,20 +48,49 @@
+ # *****************************************************************************
+ # restore the gitlab backup
+ 
+-- name: Copy backup file to container
++- name: Copy backup files to container
+   copy:
+     remote_src: yes
+-    src: '{{ gitlab_docker_restore_dir }}/{{ gitlab_backup.file_list | first}}'
++    src: '{{ item.path }}'
+     dest: '{{ gitlab_docker_backup_dir }}/'
+     owner: root
+     group: root
+     mode: 'u=rwx,g=rwx,o=rwx'
++  loop: 
++  - '{{ gitlab_config.files | first }}'
++  - '{{ gitlab_data.files | first }}'
++
++- name: Extract gitlab configuration and SSH keys
++  command: >
++    docker exec -t {{ gitlab_container_name }}
++    /bin/sh -c 'tar vxf {{ gitlab_backup_mountpoint }}/etc-gitlab-*.tgz -C /'
++
++- name: Stop gitlab services
++  command: >
++    docker exec -t {{ gitlab_container_name }} gitlab-ctl stop {{ item }}
++  loop:
++    - unicorn
++    - sidekiq
+ 
+ - name: gitlab restore script
+   command: >
+-    docker exec -t {{ gitlab_container_name }} /bin/sh -c
+-    'gitlab-ctl stop unicorn && gitlab-ctl stop sidekiq && gitlab-rake gitlab:backup:restore force=yes'
+-  when: gitlab_backup.file_list != []
++    docker exec -t {{ gitlab_container_name }} gitlab-rake gitlab:backup:restore force=yes
++
++- name: Gitlab reconfigure
++  command: >
++    docker exec -t {{ gitlab_container_name }} gitlab-ctl reconfigure
++
++- name: Start gitlab services
++  command: >
++    docker exec -t {{ gitlab_container_name }} gitlab-ctl start
++
++- name: Wait for gitlab to be fully running
++  docker_health:
++    name: '{{ gitlab_container_name }}'
++  register: gitlab_health
++  retries: 60
++  delay: 5
++  until: gitlab_health.Health.Status == 'healthy'
+ 
+ # *****************************************************************************
+ # cleanup
+diff --git a/roles/docker-gitlab/templates/before_backup.j2 b/roles/docker-gitlab/templates/before_backup.j2
+index a85ea225..4ae29594 100644
+--- a/roles/docker-gitlab/templates/before_backup.j2
++++ b/roles/docker-gitlab/templates/before_backup.j2
+@@ -6,5 +6,5 @@ docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest ba
+ mkdir -p -m u=rwx,g=rwx,o= {{ gitlab_docker_backup_dir }}
+ docker exec -t {{ gitlab_container_name }} gitlab_rake gitlab:backup:create
+ docker exec -t {{ gitlab_container_name }} /bin/sh -c \
+-    'umask 0077; tar czf /mnt/backups/$(date "+etc-gitlab-\%s.tgz") -C / etc/gitlab'
++    'umask 0077; tar vczf {{ gitlab_backup_mountpoint }}/$(date "+etc-gitlab-\%s.tgz") --exclude=gitlab.rb -C / etc/gitlab'
+ {% endif %}
+diff --git a/roles/docker-gitlab/templates/config.sh.j2 b/roles/docker-gitlab/templates/config.sh.j2
+deleted file mode 100644
+index 4df5fa31..00000000
+--- a/roles/docker-gitlab/templates/config.sh.j2
++++ /dev/null
+@@ -1,19 +0,0 @@
+-# *****************************************************************************
+-# Variables used in the backup/restore/import scripts
+-
+-DOCKER_IMAGE_TAG='{{ docker_image_tag }}'
+-
+-{ # variables for gitLab
+-  GITLAB_IMAGE_NAME='{{ gitlab_image_name }}'
+-  GITLAB_DV_IMAGE_NAME='{{ gitlab_dv_image_name }}'
+-  GITLAB_CONTAINER_NAME='{{ gitlab_container_name }}'
+-  GITLAB_DB_CONTAINER_NAME='{{ gitlab_db_container_name }}'
+-  GITLAB_REDIS_CONTAINER_NAME='{{ gitlab_redis_container_name }}'
+-  GITLAB_DV_NAME='{{ gitlab_dv_name }}'
+-  HOST_GITLAB_RESTORE_DIR='{{ gitlab_docker_restore_dir }}'
+-  HOST_GITLAB_BACKUP_DIR='{{ gitlab_docker_backup_dir }}'
+-
+-  # this file should be only readable by root since username and password exist in the file in plain text
+-  GITLAB_DB_USER='{{ gitlab_db_user }}'
+-  GITLAB_DB_PASSWORD='{{ gitlab_db_password }}'
+-}
 diff --git a/roles/docker-gitlab/templates/gitlab.rb.j2 b/roles/docker-gitlab/templates/gitlab.rb.j2
 index 39984189..6ccaa864 100644
 --- a/roles/docker-gitlab/templates/gitlab.rb.j2
