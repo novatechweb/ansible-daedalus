@@ -1,6 +1,6 @@
 Version: 1
-Previous: a21d66b79e0596c335494d37650d827256cef83d
-Head: 92a19476deb66aa451f2c60d8593dd1b4f70eba1
+Previous: efd0d675e70b0f01dabec0104035d7c238ff156e
+Head: 91d7479d2d6112e67e6ba2e29d9c0486845ef44a
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -43,6 +43,7 @@ Applied:
   exim4-exec-account-script: 87f8f8ab2fab0665a6d4a9dfa16413d1462a9207
   ldap-wait-on-startup: b17ee5fa850b3e3c707582871b47789040806e5b
   ldap-add-phpldapadmin: 92a19476deb66aa451f2c60d8593dd1b4f70eba1
+  tmp-update-openldap: 91d7479d2d6112e67e6ba2e29d9c0486845ef44a
 Unapplied:
   ssl-limit-scope: 92967dbe64dc17e8684f64f1178ce224ca96d656
   svn-hotcopy: c7f0cc08c62cf4bce5e4913dfa1fe9a183085c4f
@@ -69,7 +70,6 @@ Unapplied:
   all-normalize-vars: ae9d6eba46478cc1242ed0a2c08e8a3b1e6fbb0a
   tmp-update-gitlab-version: c2df0ee87c6f589185b5fa34ee32ac2a414e6fb2
   fixup-all-docker-image-repositories: de908af1f27a214a66da2ea0daf184d0be4b4f0e
-  tmp-update-openldap: 42b4455b291f97078922aa28e5346c6c2ff390eb
   mariadb-fix-bind-address: 00ec11e04bbe204c262773927656c2097ef8f197
   tmp-wiki-database: 4ca22d1e3eef601ed71868b01fb79e5464a160df
   tmp-mantis-database: 128e5cda2ee8ecd9c29b1e067769c648aeec7c78
