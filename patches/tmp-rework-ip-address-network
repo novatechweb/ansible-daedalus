@@ -1,5 +1,5 @@
 Bottom: 28ba9c07d57a02e0904e056e2e5bca9c45bdd664
-Top:    863ec5158acd16395c5ff4282d579df6390093e1
+Top:    c16d84d55eaaf069b46959756ca8dfe228f7c59a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-23 10:42:28 -0500
 
@@ -9,7 +9,7 @@ temporary patch test changes to ip/port variable structure
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 586c30de..04b0a1ac 100644
+index 586c30de..1a3bef02 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -1,17 +1,17 @@
@@ -27,18 +27,18 @@ index 586c30de..04b0a1ac 100644
 -mantisbt_db_root_password:           '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.mantisbt.hostname + "/db/root length=20") }}'
 -mantisbt_db_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.mantisbt.hostname + "/db/" + mantisbt_db_user + " length=20") }}'
 -mantisbt_email_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.mantisbt.hostname + "/email/mantis@novatech-llc.com length=20") }}'
-+ldap_admin_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + openldap_network.hostname + "/cn=admin,dc=novatech length=20") }}'
-+ldap_proxyagent_password:            '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + openldap_network.hostname + "/cn=proxyagent,dc=novatech length=20") }}'
-+wiki_db_root_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_network.hostname + "/db/root length=20") }}'
-+wiki_db_password:                    '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_network.hostname + "/db/" + wiki_db_user + " length=20") }}'
-+wiki_email_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_network.hostname + "/email/wiki@novatech-llc.com length=20") }}'
-+gitlab_db_password:                  '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_network.hostname + "/db/" + gitlab_db_user + " length=20") }}'
-+gitlab_root_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_network.hostname + "/users/root length=20") }}'
-+gitlab_email_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_network.hostname + "/email/gitlab@novatech-llc.com length=20") }}'
-+gitlab_secrets_db_key_base:          '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_network.hostname + "/key/GITLAB_SECRETS_DB_KEY_BASE length=40") }}'
-+mantisbt_db_root_password:           '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_network.hostname + "/db/root length=20") }}'
-+mantisbt_db_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_network.hostname + "/db/" + mantisbt_db_user + " length=20") }}'
-+mantisbt_email_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_network.hostname + "/email/mantis@novatech-llc.com length=20") }}'
++ldap_admin_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + openldap_hostname + "/cn=admin,dc=novatech length=20") }}'
++ldap_proxyagent_password:            '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + openldap_hostname + "/cn=proxyagent,dc=novatech length=20") }}'
++wiki_db_root_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_hostname + "/db/root length=20") }}'
++wiki_db_password:                    '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_hostname + "/db/" + wiki_db_user + " length=20") }}'
++wiki_email_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_hostname + "/email/wiki@novatech-llc.com length=20") }}'
++gitlab_db_password:                  '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_hostname + "/db/" + gitlab_db_user + " length=20") }}'
++gitlab_root_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_hostname + "/users/root length=20") }}'
++gitlab_email_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_hostname + "/email/gitlab@novatech-llc.com length=20") }}'
++gitlab_secrets_db_key_base:          '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_hostname + "/key/GITLAB_SECRETS_DB_KEY_BASE length=40") }}'
++mantisbt_db_root_password:           '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_hostname + "/db/root length=20") }}'
++mantisbt_db_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_hostname + "/db/" + mantisbt_db_user + " length=20") }}'
++mantisbt_email_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_hostname + "/email/mantis@novatech-llc.com length=20") }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/prod length=20") }}'
  buildsystem_ssh_root_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/root length=20") }}'
  buildsystem_database_root_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/root length=20") }}'
@@ -408,10 +408,10 @@ index f00fdf9f..2872b14d 100644
      restart_policy: always
      state: started
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index b742c18f..d23d6636 100644
+index b742c18f..da6f808e 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
-@@ -1,18 +1,13 @@
+@@ -1,18 +1,12 @@
  ---
  
  # The hostname passed as an envirnment variable into the container
@@ -427,18 +427,17 @@ index b742c18f..d23d6636 100644
 -      - '{{ container_addr_map.git.ip_addr }}:80:80'
 -      - '{{ container_addr_map.git.ip_addr }}:443:443'
 -      - '{{ container_addr_map.git.ip_addr }}:22:22'
-+git_network:
-+  ip_addr: '127.0.0.1'
-+  hostname: git.example.com
-+  port_args: 
-+    - '{{ gitlab_network.ip_addr }}:80:80'
-+    - '{{ gitlab_network.ip_addr }}:443:443'
-+    - '{{ gitlab_network.ip_addr }}:22:22'
++gitlab_ip_addr: '127.0.0.1'
++gitlab_hostname: git.example.com
++gitlab_port_args: 
++    - 80
++    - 443
++    - 22
  
  # database usernames and passwords
  gitlab_db_user: novatech
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index a91a3a6a..e7aa983b 100644
+index a91a3a6a..820930e3 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -148,19 +148,19 @@
@@ -447,8 +446,8 @@ index a91a3a6a..e7aa983b 100644
      restart_policy: always
 -    hostname: '{{ container_addr_map.git.hostname }}'
 -    ports: '{{ container_port_map.git.port_args }}'
-+    hostname: '{{ gitlab_network.hostname }}'
-+    ports: '{{ git_network.port_args }}'
++    hostname: '{{ gitlab_hostname }}'
++    ports: '{{ gitlab_port_args }}'
      networks:
        - name: '{{ docker_network_frontend }}'
      volumes-from:
@@ -457,12 +456,12 @@ index a91a3a6a..e7aa983b 100644
      env:
 -      - GITLAB_HOST={{ container_addr_map.git.hostname }}
 -      - GITLAB_SSH_HOST={{ container_addr_map.git.hostname }}
-+      - GITLAB_HOST={{ gitlab_network.hostname }}
-+      - GITLAB_SSH_HOST={{ gitlab_network.hostname }}
++      - GITLAB_HOST={{ gitlab_hostname }}
++      - GITLAB_SSH_HOST={{ gitlab_hostname }}
        - DB_USER={{ gitlab_db_user }}
        - DB_PASS={{ gitlab_db_password | quote }}
 -      - SMTP_HOST={{ container_addr_map.exim4.hostname }}
-+      - SMTP_HOST={{ exim4_network.hostname }}
++      - SMTP_HOST={{ exim4_hostname }}
        - SMTP_PASS={{ gitlab_email_password | quote }}
        - LDAP_PASS={{ ldap_proxyagent_password | quote }}
        - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
@@ -476,10 +475,10 @@ index a91a3a6a..e7aa983b 100644
      state: started
      timeout: 180
 diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
-index e4df7a7f..95730ece 100644
+index e4df7a7f..f4c72a80 100644
 --- a/roles/docker-mantisbt/defaults/main.yml
 +++ b/roles/docker-mantisbt/defaults/main.yml
-@@ -1,17 +1,12 @@
+@@ -1,17 +1,11 @@
  ---
  
  # The hostname passed as an envirnment variable into the container
@@ -494,7 +493,6 @@ index e4df7a7f..95730ece 100644
 -    port_args:
 -      - '{{ container_addr_map.mantisbt.ip_addr }}:80:80'
 -      - '{{ container_addr_map.mantisbt.ip_addr }}:443:443'
-+network:
 +mantisbt_ip_addr: '127.0.0.1'
 +mantisbt_hostname: mantis.example.com
 +mantisbt_port_args:
@@ -504,7 +502,7 @@ index e4df7a7f..95730ece 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 09a26f2a..b3ecf6f6 100644
+index 09a26f2a..4ec4a5de 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -159,15 +159,15 @@
@@ -513,8 +511,8 @@ index 09a26f2a..b3ecf6f6 100644
      restart_policy: always
 -    hostname: '{{ container_addr_map.mantisbt.hostname }}'
 -    ports: '{{ container_port_map.mantisbt.port_args }}'
-+    hostname: '{{ mantisbt_network.hostname }}'
-+    ports: '{{ mantisbt_network.port_args }}'
++    hostname: '{{ mantisbt_hostname }}'
++    ports: '{{ mantisbt_port_args }}'
      networks:
        - name: '{{ docker_network_frontend }}'
      volumes-from: 
@@ -522,7 +520,7 @@ index 09a26f2a..b3ecf6f6 100644
        - '{{ mantisbt_dv_name }}'
      env: 
 -      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
-+      - MANTISBT_HOSTNAME={{ mantisbt_network.hostname }}
++      - MANTISBT_HOSTNAME={{ mantisbt_hostname }}
        - MANTISBT_MAIL_USER=mantis
        - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
        - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}
@@ -554,7 +552,7 @@ index dbfe9716..68feb554 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index da4f23d8..6615a53e 100644
+index da4f23d8..370e292d 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -129,8 +129,8 @@
@@ -563,8 +561,8 @@ index da4f23d8..6615a53e 100644
      restart_policy: always
 -    hostname: '{{ container_addr_map.wiki.hostname }}' 
 -    ports: '{{ container_port_map.wiki.port_args }}'
-+    hostname: '{{ wiki_network.hostname }}'
-+    ports: '{{ wiki_network.port_args }}'
++    hostname: '{{ wiki_hostname }}'
++    ports: '{{ wiki_port_args }}'
      networks:
        - name: '{{ docker_network_frontend }}'
      volumes-from: 
@@ -742,10 +740,10 @@ index bb416344..9529f078 100644
  # The repositories that will be created/imported durring a data-volume restore
  svn_repos: 'example'
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index c458e282..183bb213 100644
+index c458e282..998eb5eb 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
-@@ -80,16 +80,16 @@
+@@ -80,15 +80,15 @@
      name: '{{ svn_container_name }}'
      detach: true
      restart_policy: always
@@ -760,9 +758,6 @@ index c458e282..183bb213 100644
        - '{{ svn_dv_name }}:/var/lib/svn:z'
      env:
 -      SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
--      SVN_LDAP_PASSWORD: '{{ ldap_proxyagent_password }}'
 +      SVN_HOSTNAME: '{{ svn_hostname }}'
-+      SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
+       SVN_LDAP_PASSWORD: '{{ ldap_proxyagent_password }}'
      image: '{{ svn_image_name }}:{{ docker_image_tag }}'
- 
- # *****************************************************************************
