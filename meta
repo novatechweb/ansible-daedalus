@@ -1,6 +1,6 @@
 Version: 1
-Previous: cf3800e477cba6192257de4c1d9c8a04fd2c389e
-Head: 691eac1f001c2474f1dd65420cb38da1ff5eafcf
+Previous: 208532bf9479bd0e89ad465340f6ab51ceafa199
+Head: 7b46ea190e7070bb04cbff93c4161c21e0551df5
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -12,8 +12,7 @@ Applied:
   bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
-  all-docker-image-repositories: ed15f20ffd027b61ee184a77a8447632655c6025
-  refresh-temp: 691eac1f001c2474f1dd65420cb38da1ff5eafcf
+  all-docker-image-repositories: 7b46ea190e7070bb04cbff93c4161c21e0551df5
 Unapplied:
   all-move-vars-to-defaults: 05c522d1209b6026293d0f7f85ec196cbc269d23
   playbook-remove-docker-pull-images: e2587af79d9b830afc5fda84b4ec083b754d8edb

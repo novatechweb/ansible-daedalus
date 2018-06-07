@@ -1,5 +1,5 @@
 Bottom: 80c749b0fa371a3a0ea32f2651020893c9e6c77c
-Top:    c83d0f4cd43faddbabd30a82dee78d37606cd436
+Top:    5eba6bdf5055a343ca6015f657f691c43a1d53a9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -7,6 +7,36 @@ Move git checkouts to respective roles
 
 
 ---
+diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
+index aaf9299a..9acd909a 100644
+--- a/ansible-playbook/group_vars/docker-hosts/docker.yml
++++ b/ansible-playbook/group_vars/docker-hosts/docker.yml
+@@ -8,3 +8,10 @@ docker_name_prefix: ''
+ 
+ # the user name portion of the docker image name
+ docker_registry_username: novatechweb
++
++# the base directory where the docker projects will be checked out
++docker_projects_dir: '/opt/docker/{{ docker_image_tag }}'
++docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag }}'
++
++# restore directories to temporarly store data being restored into docker containers
++docker_backup_dir: '/tmp/docker'
+diff --git a/roles/docker-common/defaults/main.yml b/roles/docker-common/defaults/main.yml
+index aaf9299a..ed97d539 100644
+--- a/roles/docker-common/defaults/main.yml
++++ b/roles/docker-common/defaults/main.yml
+@@ -1,10 +1 @@
+ ---
+-
+-# The tag of the immage currently being used to build the container
+-docker_image_tag: production
+-
+-# A prefix to seperate containers and images without removing running containers
+-docker_name_prefix: ''
+-
+-# the user name portion of the docker image name
+-docker_registry_username: novatechweb
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
 index 85be0141..da75e132 100644
 --- a/roles/docker-common/tasks/main.yml
@@ -37,13 +67,14 @@ index 85be0141..da75e132 100644
  - name: Check if baculavirt selinux module exists
    stat:
 diff --git a/roles/docker-common/vars/main.yml b/roles/docker-common/vars/main.yml
-index eab14eae..b4b1526c 100644
+index eab14eae..ed97d539 100644
 --- a/roles/docker-common/vars/main.yml
 +++ b/roles/docker-common/vars/main.yml
-@@ -2,25 +2,6 @@
- 
- #docker_project_repository: https://github.com/JosephLutz/docker-project.git
- 
+@@ -1,30 +1 @@
+ ---
+-
+-#docker_project_repository: https://github.com/JosephLutz/docker-project.git
+-
 -# the git repositoryies to check out for building the docker containers
 -docker_projects:
 -  - name: docker-openldap
@@ -63,9 +94,13 @@ index eab14eae..b4b1526c 100644
 -  - name: docker-exim4
 -    repo: https://github.com/novatechweb/docker-exim4.git
 -
- # the base directory where the docker projects will be checked out
- docker_projects_dir: '/opt/docker/{{ docker_image_tag }}'
- docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag }}'
+-# the base directory where the docker projects will be checked out
+-docker_projects_dir: '/opt/docker/{{ docker_image_tag }}'
+-docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag }}'
+-
+-# restore directories to temporarly store data being restored into docker containers
+-docker_backup_dir: '/tmp/docker'
+-docker_restore_dir: '{{ bacula_dest }}{{ docker_backup_dir }}'
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
 index 0c155b43..49eccc30 100644
 --- a/roles/docker-exim4/tasks/main.yml
