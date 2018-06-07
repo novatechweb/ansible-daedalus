@@ -36,14 +36,14 @@
     follow: true
   register: gitlab_data
 
-- name: File permissions
-  file:
-    path: '{{ gitlab_docker_restore_dir }}/{{ item }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rwx,g=rwx,o='
-  with_items: '{{ gitlab_backup.file_list | default([]) }}'
+# - name: File permissions
+#   file:
+#     path: '{{ gitlab_docker_restore_dir }}/{{ item }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rwx,g=rwx,o='
+#   with_items: '{{ gitlab_backup.file_list | default([]) }}'
 
 # *****************************************************************************
 # restore the gitlab backup
