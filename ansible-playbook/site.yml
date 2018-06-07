@@ -18,7 +18,8 @@
   - role: bacula-script
     assemble_scripts: false
   - role: bacula-catalog
-- name: Install/Setup Docker images and containers
+
+- name: Prepare Docker host systems
   hosts: docker-hosts
   remote_user: ansibleremote
   become: true
@@ -33,16 +34,18 @@
     role: docker-common
     tags:
     - docker_common
-    services:
-      - svn
-      - openldap
-      - exim4
-      - gitlab
-      - wiki
-      - mantisbt
-      - build
-      - testssh
-      - buildbot
+
+- name: Install/Setup Docker images and containers on daedalus
+  hosts: daedalus
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+  - name: Run bacula-restores symlinks
+    role: bacula-restores
+    tags:
+    - bacula_restores
   - name: Configure Docker networking
     role: docker-networking
     net_connection: '{{ daedalus_net_connection }}'
@@ -100,6 +103,10 @@
 
 - name: Setup the Build System (Test Station) with repo data
   hosts: buildsystem
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
   roles:
   - role: buildsystem
     tags:
