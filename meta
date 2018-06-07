@@ -1,6 +1,6 @@
 Version: 1
-Previous: c5e66234a03936feb8a9f74aa8ecae00ef8cb4e1
-Head: 90026b3c12c3641636f5f302398d2c0eab0c006d
+Previous: 8772476ccd24ae8aebc8d24c15d8005d762e47a8
+Head: 0bd1ab1139ef06c6b0d4666d7fa94f760a68306e
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -68,11 +68,12 @@ Applied:
   mariadb-fix-bind-address: 00ec11e04bbe204c262773927656c2097ef8f197
   tmp-wiki-database: 4ca22d1e3eef601ed71868b01fb79e5464a160df
   tmp-mantis-database: 128e5cda2ee8ecd9c29b1e067769c648aeec7c78
+  wiki-remove-libicu52: c697aa5b2f2e63f9b3b9d8598a82ef790d123541
+  bacula-update-syntax: eb7b8c6f0b1e02b1aa5c99cd79e0578001db8da8
+  all-improve-idempotency: 07d9761be204356fec88d3e9f6d8414bd189915f
+  fixup-tmp-rework-ip-address-network: 0bd1ab1139ef06c6b0d4666d7fa94f760a68306e
+Unapplied:
   TESTING--VirtualMachine: 760639abdd6620d442c38442d1194d2cac0ff05a
-  wiki-remove-libicu52: 5babc9e954ff0ffb8205eb2fb8ce4b5a86b39e79
-  bacula-update-syntax: 3633b7bd5d2b91f491a19f61759ad1e9171533d5
-  all-improve-idempotency: 1e209e3f6e7f8f61a75424863fc2a6034e68a598
-  fixup-tmp-rework-ip-address-network: 57f5db791e4679d3837c929bdc4439723387874a
   buildbot-ssh-keygen: f06350691e0aac9de6178870d8a5141cd6ad7665
   gitlab_sshkey-create-role: 8edf34f3d5d27164c7fbe3dfb681a2514276497b
   gitlab_user-create-role: 14d1ff9eec87711e02f4823189536359118eb4a3
@@ -84,5 +85,4 @@ Applied:
   playbook-fix-credential-copy: 66aaa602be7c5918700f1080b3c7724e24d2c0bd
   wiki-update-entrypoint: 08084c5fee73b287066d30fe5d2d347084db6340
   playbook-add-docker_health-module: 90026b3c12c3641636f5f302398d2c0eab0c006d
-Unapplied:
 Hidden:
