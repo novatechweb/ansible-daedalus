@@ -1,4 +1,4 @@
 ---
 
 daedalus_subnet: 172.16.103.0/16
-daedalus_net_connection: "Bridge br0"
+daedalus_net_connection: "enp5s0f0"

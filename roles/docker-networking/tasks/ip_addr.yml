@@ -23,7 +23,9 @@
   command: >
     nmcli connection 
     modify '{{ network_connection }}' 
-    +ipv4.addresses '{{ lookup('vars', item + "_ip_addr") }}/{{ subnet | ipaddr("prefix") }}'
+    +ipv4.addresses '{{ ip_addr }}/{{ subnet | ipaddr("prefix") }}'
+  vars:
+    ip_addr: '{{ lookup("vars", item + "_ip_addr") }}'
   loop: "{{ services }}"
  
 - sysctl:
