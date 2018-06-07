@@ -6,5 +6,5 @@ docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest ba
 mkdir -p -m u=rwx,g=rwx,o= {{ gitlab_docker_backup_dir }}
 docker exec -t {{ gitlab_container_name }} gitlab_rake gitlab:backup:create
 docker exec -t {{ gitlab_container_name }} /bin/sh -c \
-    'umask 0077; tar czf /mnt/backups/$(date "+etc-gitlab-\%s.tgz") -C / etc/gitlab'
+    'umask 0077; tar vczf {{ gitlab_backup_mountpoint }}/$(date "+etc-gitlab-\%s.tgz") --exclude=gitlab.rb -C / etc/gitlab'
 {% endif %}
