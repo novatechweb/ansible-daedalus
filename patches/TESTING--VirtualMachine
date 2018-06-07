@@ -1,5 +1,5 @@
 Bottom: a21045f6e3e4661e8d2f8e010c671a7376221807
-Top:    94ce76ec91cbeffe89a0cb9c5764be1d5047f33a
+Top:    3b4fba89604217852990adb7c1aeb8f2574645d8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -29,10 +29,10 @@ index e69de29b..c1a0118f 100644
 +/.vagrant/
 diff --git a/Vagrantfile b/Vagrantfile
 new file mode 100644
-index 00000000..e037c694
+index 00000000..6ed5da6d
 --- /dev/null
 +++ b/Vagrantfile
-@@ -0,0 +1,67 @@
+@@ -0,0 +1,80 @@
 +$bbworker = <<-SCRIPT
 +yum install -y \
 +    epel-release
@@ -75,11 +75,20 @@ index 00000000..e037c694
 +        main.vm.hostname = "vmdaedalus.novatech-llc.com"
 +        main.vm.provider "virtualbox" do |vb|
 +            vb.name = "vmdaedalus"
-+            vb.memory = 4096
++            vb.memory = 6000
 +            vb.cpus = 4
 +        end
 +    #    config.vm.network "public_network", ip: "192.168.0.100", netmask:"255.255.0.0", bridge: "enp0s31f6"
-+        main.vm.network "private_network", ip: "192.168.0.100", netmask:"255.255.0.0"
++        main.vm.network "private_network", 
++            ip: "192.168.0.100", 
++            netmask:"255.255.0.0"
++
++        main.vm.network "forwarded_port",
++            guest: 2375,
++            host: 12375,
++            protocol: "tcp",
++            id: "docker"
++
 +        main.vm.synced_folder "/mnt/vm/bacula-restores",
 +            "/mnt/bacula-restores",
 +            id: "bacula-restores",
@@ -95,7 +104,11 @@ index 00000000..e037c694
 +            vb.name = "bbworker"
 +            vb.cpus = 1
 +        end
-+        worker.vm.network "private_network", ip: "192.168.0.150", netmask:"255.255.0.0"
++
++        worker.vm.network "private_network", 
++            ip: "192.168.0.150", 
++            netmask:"255.255.0.0"
++
 +        worker.vm.provision "shell", inline: $bbworker
 +
 +    end

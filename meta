@@ -1,6 +1,6 @@
 Version: 1
-Previous: 11b86f68f294ce6564fe20f4f001391ac22a7c27
-Head: 3d04536110d5f0201f6f29b7808699646b3c97db
+Previous: a96db5b02480120f65faa1345b9426a3a2f05f5e
+Head: ca5bed970806a6bfbc24ebcebfb032ad3a2f7761
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -68,21 +68,20 @@ Applied:
   mariadb-fix-bind-address: 00ec11e04bbe204c262773927656c2097ef8f197
   tmp-wiki-database: 4ca22d1e3eef601ed71868b01fb79e5464a160df
   tmp-mantis-database: 128e5cda2ee8ecd9c29b1e067769c648aeec7c78
-  TESTING--VirtualMachine: e18ed8e20147794f59a21aed32f2f8df2e491eb0
-  wiki-remove-libicu52: e52280ac4c72760dd700690bd8e2abbdeaa77446
-  bacula-update-syntax: 5ca535a9121bc04bd81a84693fe80b7ba19423fe
-  all-improve-idempotency: 5f2dc71897899d8984d9a91188a5f4d759296026
-  fixup-tmp-rework-ip-address-network: 12cf143eb4c0d6b67b601ad89b8af7da36d1efde
-  buildbot-ssh-keygen: 43784273b9f61c46715c36c3b9f8cb3f2118fcec
-  gitlab_sshkey-create-role: 3b3ac361089d1888fac4528f06a43c2a19a569fb
-  gitlab_user-create-role: f364ff95fdf6828c93a1fa86c8baf2551e342e47
-  common-docker-enable-tcp: dba2c924876209364b348c66492a37636e304215
-  exim4-logrotate-configuration: f9a94ba081cf1ef6d5f2db58b7aa6fdf9f5322ae
-  buildbot-update-port-args: 4441ef8ceb5150049069280b73bf2870291c0149
-  buildbot-playbook: 61d851e0df6741fc16df9408e86a9a9a9ac94045
-  playbook-extract-docker-hosts: 21874b9d4b39dee45e107a3ab11a4f501f6dbc9e
-  playbook-fix-credential-copy: 9e8e19a838ada6cdd5a83fefd349a7d1c88a55ca
-  wiki-update-entrypoint: 1d4cd77337ed93802c266574b571ad366dae1522
-  refresh-temp: 3d04536110d5f0201f6f29b7808699646b3c97db
+  TESTING--VirtualMachine: 760639abdd6620d442c38442d1194d2cac0ff05a
+  wiki-remove-libicu52: 5babc9e954ff0ffb8205eb2fb8ce4b5a86b39e79
+  bacula-update-syntax: 3633b7bd5d2b91f491a19f61759ad1e9171533d5
+  all-improve-idempotency: 1e209e3f6e7f8f61a75424863fc2a6034e68a598
+  fixup-tmp-rework-ip-address-network: c3ee6900367c215421a14b12be04fffff4c0e232
+  buildbot-ssh-keygen: c0cec85c0c330cad01585764eefa772d5cdb5f5a
+  gitlab_sshkey-create-role: 1403d98111a34eee7e92be34ba65cc3d7ed5e222
+  gitlab_user-create-role: 7400fe1395b9937295f9702a52487df4c75fcd5d
+  common-docker-enable-tcp: a35a098fc6b71f9a86e9b3219c1b4ea6d9122442
+  exim4-logrotate-configuration: 61ea8aedb815ee308f2e93854a60b7f83c3fb18e
+  buildbot-update-port-args: a80c6621d3b2d56ca068d4156136bda5af84c8e9
+  buildbot-playbook: 365ed1cf8b2102456f799091991032aa0b0bad63
+  playbook-extract-docker-hosts: 1278da87ce523d9ef6ee134e34ec2834e4035240
+  playbook-fix-credential-copy: 1cb4d8fbf61245297066232cb58d6d80c6060fa3
+  wiki-update-entrypoint: ca5bed970806a6bfbc24ebcebfb032ad3a2f7761
 Unapplied:
 Hidden:
