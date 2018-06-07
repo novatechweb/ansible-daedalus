@@ -8,22 +8,23 @@ MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
 
 ENV MANTISBT_VERSION 1.2.19
 
-#         ttf-mscorefonts-installer
-
 RUN sed -i 's| main$| main contrib non-free|' /etc/apt/sources.list \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
         libcurl3 \
+        libicu52 \
         libjpeg62-turbo \
         libmcrypt4 \
         libpq5 \
+        ttf-mscorefonts-installer \
+        \
         libcurl4-openssl-dev \
         libfreetype6-dev \
         libicu-dev \
         libjpeg62-turbo-dev \
         libldap2-dev \
         libmcrypt-dev \
-        libpng-dev \
+        libpng12-dev \
         libpq-dev \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
