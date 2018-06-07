@@ -73,6 +73,14 @@
   command: >
     docker exec -t {{ gitlab_container_name }} gitlab-ctl start
 
+- name: Wait for gitlab to be fully running
+  docker_health:
+    name: '{{ gitlab_container_name }}'
+  register: health
+  retries: 60
+  delay: 5
+  until: health.Health.Status == "healthy"
+
 - name: Set root user password in restored database
   command: >
     docker exec -t {{ gitlab_container_name }} 
