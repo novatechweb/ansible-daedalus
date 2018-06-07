@@ -1,6 +1,6 @@
 Version: 1
-Previous: 59277821e641dc19aa1b01bba2e0488a33235e8c
-Head: 483685897143cbdc7576c71793f9aebd651c9f0e
+Previous: 97c8550ea049bd8520e17ebcb16d4a38cfdabe6f
+Head: 513fae15bcf7d21e432924a7aad2c4a11ff840a5
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -13,6 +13,7 @@ Applied:
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
   all-docker-image-repositories: 513fae15bcf7d21e432924a7aad2c4a11ff840a5
+Unapplied:
   common-common-variables: 00300a9425e48dc28f77443fa9ea9a992ca0caca
   all-move-vars-to-defaults: 05c522d1209b6026293d0f7f85ec196cbc269d23
   playbook-remove-docker-pull-images: e2587af79d9b830afc5fda84b4ec083b754d8edb
@@ -32,7 +33,6 @@ Applied:
   common-docker-enable-tcp: 8392b7cb5b6b61573fd5fbe7aa7f1beea786b09e
   common-move-mariadb-config-to-maria: a2ada8f0169df9b61813891ffed66b72b548f0a2
   mariadb-fix-bind-address: 483685897143cbdc7576c71793f9aebd651c9f0e
-Unapplied:
   common-move-sshd-config-to-setup: cad8cb1efb73b916952909d8e2def90eba39866a
   sshd-create-role: cc4a9884ef9153e43b0a54f69c370fb94c7cb499
   buildsystem-credentials: 2e4449e76832dbc681699245f9200cd09aa2182b
