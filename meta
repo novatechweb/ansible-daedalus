@@ -1,6 +1,6 @@
 Version: 1
-Previous: c28876bde989aabb54efeb37221783ba99a0493e
-Head: cad8cb1efb73b916952909d8e2def90eba39866a
+Previous: 713091a555358fc93a0b0fe29ddd09ab13b7ca08
+Head: cc4a9884ef9153e43b0a54f69c370fb94c7cb499
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -31,6 +31,7 @@ Applied:
   common-configure-docker-daemon: d3e8828a0ed095442b57ded59b297ae07751e63a
   common-move-mariadb-config-to-maria: 300a4d6d33e21c5026054955d9d8885c31eddc98
   common-move-sshd-config-to-setup: cad8cb1efb73b916952909d8e2def90eba39866a
+  sshd-create-role: cc4a9884ef9153e43b0a54f69c370fb94c7cb499
 Unapplied:
   buildsystem-credentials: 2e4449e76832dbc681699245f9200cd09aa2182b
   buildsystem-apache2-version-string: a63772fa19642d2b9ce6ab21324a499f1b208a82
@@ -57,7 +58,6 @@ Unapplied:
   mantisbt-create-required-directories: da57078db481ed45650fe3e871b8a4bd635bc20e
   mantisbt-remove-libicu52: 91ed4cc6e933bf96e2544989cda4f1248e4ee193
   mantisbt-update-entrypoint: cd3897938467c297e9e8ce5f43bc609ce859ff00
-  sshd-create-role: 84d5cbe9795b8b82a9ec5d61680d99a4b2a4c421
   buildbot-master: 176bf57a3bc4ff0d689e4e49339738e52011709f
   buildbot-worker-ntel: c0727c661c6f8697761e4bce062ab2690f248955
   buildbot-worker-ptxdist: b73bd7641e8fa45865fd89a295644255b277241b
