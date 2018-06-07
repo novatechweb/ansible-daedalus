@@ -1,12 +1,12 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-mantisbt_network:
-  ip_addr: '127.0.0.1'
-  hostname: mantis.example.com
-  port_args:
-    - '{{ mantisbt_network.ip_addr }}:80:80'
-    - '{{ mantisbt_network.ip_addr }}:443:443'
+network:
+mantisbt_ip_addr: '127.0.0.1'
+mantisbt_hostname: mantis.example.com
+mantisbt_port_args:
+  - '80'
+  - '443'
 
 # database usernames and passwords
 mantisbt_db_user: novatech

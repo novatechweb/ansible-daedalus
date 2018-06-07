@@ -1,12 +1,11 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-svn_network:
-  ip_addr: '127.0.0.1'
-  hostname: svn.example.com
-  port_args: 
-    - '{{ svn_network.ip_addr }}:80:80'
-    - '{{ svn_network.ip_addr }}:443:443'
+svn_ip_addr: '127.0.0.1'
+svn_hostname: svn.example.com
+svn_port_args: 
+  - '80'
+  - '443'
 
 # The repositories that will be created/imported durring a data-volume restore
 svn_repos: 'example'
