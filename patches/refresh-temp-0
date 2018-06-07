@@ -1,0 +1,34 @@
+Bottom: 8664e500678b352fb47016d5cc7a725634eb2722
+Top:    7862acea2a058ad771f659b368ba9cb17a9fc19e
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-07 13:57:26 -0500
+
+Refresh of playbook-extract-docker-hosts
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 25c1b3b1..a5787c37 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -51,6 +51,10 @@
+ 
+ - name: Install/Setup Docker images and containers on daedalus
+   hosts: daedalus
++  remote_user: ansibleremote
++  become: true
++  become_user: root
++  become_method: sudo
+   roles:
+   - name: Run bacula-restores symlinks
+     role: bacula-restores
+@@ -113,6 +117,10 @@
+ 
+ - name: Setup the Build System (Test Station) with repo data
+   hosts: buildsystem
++  remote_user: ansibleremote
++  become: true
++  become_user: root
++  become_method: sudo
+   roles:
+   - role: buildsystem
+     tags:
