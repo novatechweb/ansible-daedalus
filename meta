@@ -1,6 +1,6 @@
 Version: 1
-Previous: f163d9e60a2c606fc0a21217fd93e16f801b6c80
-Head: 894948933a100e3ff8d18b833b4ddce654e35972
+Previous: f3a6423fb8101efa1f8d49bd743d2391a8ed8c14
+Head: 4cfe1b1eb17b33443148602e74b95600eb2670ea
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -50,6 +50,7 @@ Applied:
   wiki-downgrade-extensions: e4889824f7a36b81aa76a715fdedceedbc04e6b5
   wiki-create-required-directories: 120c402a6020e3692fd7e9ad2ce72bb9eea61027
   wiki-remove-libicu52: 894948933a100e3ff8d18b833b4ddce654e35972
+  refresh-temp: 4cfe1b1eb17b33443148602e74b95600eb2670ea
 Unapplied:
   wiki-update-entrypoint: ab5ef049db25ef636a9a6b2e94006c8699fe1168
   mantisbt-update-entrypoint: 8ac3d658ce5d2ced816274670aff473c2d68dd9b
