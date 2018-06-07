@@ -89,7 +89,7 @@
       - '{{ svn_dv_name }}:/var/lib/svn:z'
     env:
       SVN_HOSTNAME: '{{ svn_hostname }}'
-      SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
+      SVN_LDAP_PASSWORD: '{{ ldap_proxyagent_password }}'
     image: '{{ svn_image_name }}:{{ docker_image_tag }}'
 
 # *****************************************************************************

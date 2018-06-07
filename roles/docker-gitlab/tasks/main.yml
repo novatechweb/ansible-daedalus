@@ -148,19 +148,19 @@
     name: '{{ gitlab_container_name }}'
     detach: true
     restart_policy: always
-    hostname: '{{ gitlab_network.hostname }}'
-    ports: '{{ git_network.port_args }}'
+    hostname: '{{ gitlab_hostname }}'
+    ports: '{{ gitlab_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
     volumes-from:
       - '{{ openssl_dv_name }}'
       - '{{ gitlab_dv_name }}'
     env:
-      - GITLAB_HOST={{ gitlab_network.hostname }}
-      - GITLAB_SSH_HOST={{ gitlab_network.hostname }}
+      - GITLAB_HOST={{ gitlab_hostname }}
+      - GITLAB_SSH_HOST={{ gitlab_hostname }}
       - DB_USER={{ gitlab_db_user }}
       - DB_PASS={{ gitlab_db_password | quote }}
-      - SMTP_HOST={{ exim4_network.hostname }}
+      - SMTP_HOST={{ exim4_hostname }}
       - SMTP_PASS={{ gitlab_email_password | quote }}
       - LDAP_PASS={{ ldap_proxyagent_password | quote }}
       - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}

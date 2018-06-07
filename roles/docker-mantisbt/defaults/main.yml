@@ -1,7 +1,6 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-network:
 mantisbt_ip_addr: '127.0.0.1'
 mantisbt_hostname: mantis.example.com
 mantisbt_port_args:
