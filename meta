@@ -1,5 +1,5 @@
 Version: 1
-Previous: 23637d0295eb6bc2cd163c285db1e1e8af36773f
+Previous: 671f84b074c4a7a3dfb06eb81088f0042397a6ac
 Head: cd3897938467c297e9e8ce5f43bc609ce859ff00
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
@@ -51,7 +51,7 @@ Applied:
   wiki-create-required-directories: 120c402a6020e3692fd7e9ad2ce72bb9eea61027
   wiki-remove-libicu52: 7cb8437f087cdb2fc9dd3ba6f3fc512364eb246f
   wiki-update-entrypoint: 93d37dd7c1794152d0b5dd1a1691390d2b26884c
-  mantis-create-required-directories: da57078db481ed45650fe3e871b8a4bd635bc20e
+  mantisbt-create-required-directories: da57078db481ed45650fe3e871b8a4bd635bc20e
   mantis-remove-libicu52: 91ed4cc6e933bf96e2544989cda4f1248e4ee193
   mantisbt-update-entrypoint: cd3897938467c297e9e8ce5f43bc609ce859ff00
 Unapplied:
