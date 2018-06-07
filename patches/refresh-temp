@@ -1,0 +1,21 @@
+Bottom: 31cd0ed376741ff9a1ce0385398241657d813006
+Top:    4ff01026dfc04974ff5bc2abfaa2f4863421fc02
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-07 14:12:02 -0500
+
+Refresh of wiki-update-entrypoint
+
+---
+diff --git a/docker/docker-mantisbt/docker-entrypoint.sh b/docker/docker-mantisbt/docker-entrypoint.sh
+index 2a948ac8..c517f76a 100755
+--- a/docker/docker-mantisbt/docker-entrypoint.sh
++++ b/docker/docker-mantisbt/docker-entrypoint.sh
+@@ -109,7 +109,7 @@ case ${1} in
+         # Apache gets grumpy about PID files pre-existing
+         rm -f /var/run/apache2/apache2.pid
+         # Start apache
+-        exec apache2-foreground
++        exec apache2 -D FOREGROUND
+         ;;
+ 
+     config_inc)
