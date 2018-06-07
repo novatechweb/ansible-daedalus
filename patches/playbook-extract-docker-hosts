@@ -1,5 +1,5 @@
-Bottom: 2aa225fa6b8ea052c2ee3f1b2b07d6f59b78cddc
-Top:    cb66a678382355a7b826874c1f74c0b7e56c6a77
+Bottom: 470692fce72eb60cc0cefc8ae7b37d1e4399cf66
+Top:    470692fce72eb60cc0cefc8ae7b37d1e4399cf66
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:26:52 -0500
 
@@ -10,65 +10,4 @@ common docker tasks are for all docker hosts.
 
 
 ---
-diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 9b298156..2c19752c 100644
---- a/ansible-playbook/site.yml
-+++ b/ansible-playbook/site.yml
-@@ -32,7 +32,8 @@
-   - role: bacula-script
-     assemble_scripts: false
-   # - role: bacula-catalog
--- name: Install/Setup Docker images and containers
-+
-+- name: Prepare Docker host systems
-   hosts: docker-hosts
-   remote_user: ansibleremote
-   become: true
-@@ -43,24 +44,22 @@
-     role: sshd
-     tags:
-     - sshd
--  - name: Run bacula-restores symlinks
--    role: bacula-restores
--    tags:
--    - bacula_restores
-   - name: Run common Docker tasks
-     role: docker-common
-     tags:
-     - docker_common
--    services:
--      - svn
--      - openldap
--      - exim4
--      - gitlab
--      - wiki
--      - mantisbt
--      - build
--      - testssh
--      - buildbot
-+
-+- name: Install/Setup Docker images and containers on daedalus
-+  hosts: daedalus
-+  remote_user: ansibleremote
-+  become: true
-+  become_user: root
-+  become_method: sudo
-+  roles:
-+  - name: Run bacula-restores symlinks
-+    role: bacula-restores
-+    tags:
-+    - bacula_restores
-   - name: Configure Docker networking
-     role: docker-networking
-     net_connection: '{{ daedalus_net_connection }}'
-@@ -118,6 +117,10 @@
- 
- - name: Setup the Build System (Test Station) with repo data
-   hosts: buildsystem
-+  remote_user: ansibleremote
-+  become: true
-+  become_user: root
-+  become_method: sudo
-   roles:
-   - role: buildsystem
-     tags:
+
