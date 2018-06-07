@@ -1,5 +1,5 @@
-Bottom: 44f3d21c8fcc6b4b9dba6fb874c31439d7528b81
-Top:    52290bbf8d2f05c2ded173be630086dbb6b32ad3
+Bottom: fe046b9e9a6d7fd4255e20a2e35f9dd371580304
+Top:    71f62ca7b689158eaf71a54acdebd03fa3b2c926
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:42:10 -0500
 
@@ -116,10 +116,10 @@ index 0da097e8..0e7407ba 100644
  
  - name: start container (gitlab)
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 2124a54a..3352d62c 100644
+index 1342960f..97afc8de 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -110,16 +110,12 @@
+@@ -113,16 +113,12 @@
  # Create the data volumes
  
  - name: data-volume container (mantisbt)
@@ -140,7 +140,7 @@ index 2124a54a..3352d62c 100644
  
  - name: stop prev container (mysql)
    docker_container:
-@@ -149,7 +145,7 @@
+@@ -152,7 +148,7 @@
      name: '{{ mantisbt_db_container_name }}'
      detach: true
      restart_policy: always
@@ -150,7 +150,7 @@ index 2124a54a..3352d62c 100644
      image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
  
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index cfcd636a..87463776 100644
+index 6635d9fc..a9183249 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -87,16 +87,12 @@

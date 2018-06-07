@@ -1,5 +1,5 @@
-Bottom: f2d9dd23ab38f555a8d987cb67d70fd47ba94b95
-Top:    44f3d21c8fcc6b4b9dba6fb874c31439d7528b81
+Bottom: 93a7a924158e9ff9a421a8516905182648b5295e
+Top:    fe046b9e9a6d7fd4255e20a2e35f9dd371580304
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -238,10 +238,10 @@ index f28e1bdc..896fa010 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 7d2c6898..2124a54a 100644
+index 6d374c60..1342960f 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -145,14 +145,34 @@
+@@ -148,14 +148,34 @@
  # Start the data container running
  
  - name: start container (mysql)
@@ -298,7 +298,7 @@ index ad6d61e8..2a5319d5 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 3dda287b..cfcd636a 100644
+index 0ca009b7..6635d9fc 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -119,14 +119,32 @@

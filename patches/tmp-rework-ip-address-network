@@ -1,5 +1,5 @@
-Bottom: 1efa4f0542fc81a5885e61af7c8ce47767503ef6
-Top:    e8d2d36735f59221b6ff5ff543baeaaa65b3dd7b
+Bottom: 28ba9c07d57a02e0904e056e2e5bca9c45bdd664
+Top:    19ac1839f9a10aa64938cf70ca15c369694ff1dc
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-23 10:42:28 -0500
 
@@ -485,10 +485,10 @@ index e4df7a7f..a7ba2221 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 7d183bc1..dd57984f 100644
+index 09a26f2a..b3ecf6f6 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -156,15 +156,15 @@
+@@ -159,15 +159,15 @@
      name: '{{ mantisbt_container_name }}'
      detach: true
      restart_policy: always
@@ -536,7 +536,7 @@ index dbfe9716..1ad4ad9a 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 60286ff5..ce0edd94 100644
+index da4f23d8..6615a53e 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -129,8 +129,8 @@

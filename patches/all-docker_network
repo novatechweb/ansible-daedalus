@@ -1,5 +1,5 @@
-Bottom: 52290bbf8d2f05c2ded173be630086dbb6b32ad3
-Top:    1efa4f0542fc81a5885e61af7c8ce47767503ef6
+Bottom: 71f62ca7b689158eaf71a54acdebd03fa3b2c926
+Top:    28ba9c07d57a02e0904e056e2e5bca9c45bdd664
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -116,10 +116,10 @@ index 896fa010..e4df7a7f 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 3352d62c..7d183bc1 100644
+index 97afc8de..09a26f2a 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -148,6 +148,8 @@
+@@ -151,6 +151,8 @@
      volumes_from:
        - '{{ mantisbt_db_dv_name }}'
      image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
@@ -128,7 +128,7 @@ index 3352d62c..7d183bc1 100644
  
  - name: start container (mantisbt)
    docker_container:
-@@ -156,10 +158,8 @@
+@@ -159,10 +161,8 @@
      restart_policy: always
      hostname: '{{ container_addr_map.mantisbt.hostname }}'
      ports: '{{ container_port_map.mantisbt.port_args }}'
@@ -153,7 +153,7 @@ index 2a5319d5..dbfe9716 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 87463776..60286ff5 100644
+index a9183249..da4f23d8 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -121,6 +121,8 @@

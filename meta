@@ -1,6 +1,6 @@
 Version: 1
-Previous: ee6a1d55fa8cb86073b52a086818180a19feaf9a
-Head: 7b46ea190e7070bb04cbff93c4161c21e0551df5
+Previous: d531e2fa324436ee83d6febe35676ee097b2079e
+Head: ecea417bdde09bd014337557ebb3e54713561154
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -13,13 +13,13 @@ Applied:
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
   all-distribute-image-repo-checkout: 7b46ea190e7070bb04cbff93c4161c21e0551df5
+  all-move-vars-to-defaults: 82eeabbc47bc025a05f19754686a2f9c3aaf2fb6
+  playbook-remove-docker-pull-images: 3cb8ec111eb26ef049834ebb5addbb0dcb789bf3
+  all-docker_container: a2ab8296d92f46b0f8dbf377d2592d6406602fbb
+  all-docker_volume: 63e5541d201df2ef3dfd21d01257d19464c236e6
+  all-docker_network: ecf2fa3f5332437e63a942696fcab35a60741603
+  tmp-rework-ip-address-network: ecea417bdde09bd014337557ebb3e54713561154
 Unapplied:
-  all-move-vars-to-defaults: 05c522d1209b6026293d0f7f85ec196cbc269d23
-  playbook-remove-docker-pull-images: e2587af79d9b830afc5fda84b4ec083b754d8edb
-  all-docker_container: 72bf11af33444eafdfc8e93c2dc6cbacb88b34bf
-  all-docker_volume: 8689fee575880a61c5833f80da56d1ebc3868ee7
-  all-docker_network: ada8905edb3243c4cbf1d446d82e4e36e42765d3
-  tmp-rework-ip-address-network: c9b5ddb2382390418bed957538ce16b0ae0d2385
   all-docker_image: d4b031f41a07079b1caa87dc929a2bca8909fd9b
   playbook-remove-docker-build-base-image: ee015db153ec8c5276f45569c21e8b1dadcf137d
   all-cut-dependencies: b77917bbf4a126edeaa07b3f8a0cf7da45fabc76
