@@ -1,0 +1,37 @@
+Bottom: fe423c6df99ecc009ac9a702d026b78c8461ef69
+Top:    31cd0ed376741ff9a1ce0385398241657d813006
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-07 14:10:30 -0500
+
+Refresh of wiki-update-entrypoint
+
+---
+diff --git a/docker/docker-mantisbt/docker-entrypoint.sh b/docker/docker-mantisbt/docker-entrypoint.sh
+index c517f76a..2a948ac8 100755
+--- a/docker/docker-mantisbt/docker-entrypoint.sh
++++ b/docker/docker-mantisbt/docker-entrypoint.sh
+@@ -109,7 +109,7 @@ case ${1} in
+         # Apache gets grumpy about PID files pre-existing
+         rm -f /var/run/apache2/apache2.pid
+         # Start apache
+-        exec apache2 -D FOREGROUND
++        exec apache2-foreground
+         ;;
+ 
+     config_inc)
+diff --git a/docker/docker-mediawiki/docker-entrypoint.sh b/docker/docker-mediawiki/docker-entrypoint.sh
+index 0e8fc7e2..ff93cb5c 100755
+--- a/docker/docker-mediawiki/docker-entrypoint.sh
++++ b/docker/docker-mediawiki/docker-entrypoint.sh
+@@ -108,10 +108,8 @@ case ${1} in
+     wiki)
+         # verify permissions
+         chown -R www-data:www-data ${WIKI_BASE_DIR}
+-        # Apache gets grumpy about PID files pre-existing
+-        rm -f /var/run/apache2/apache2.pid
+         # Start apache
+-        exec apache2 -D FOREGROUND
++        exec apache2-foreground
+         ;;
+ 
+     LocalSettings)

@@ -1,6 +1,6 @@
 Version: 1
-Previous: 40cf5a4e496f350403d41ce252b11cc6f47a7237
-Head: e4ec27841f64871ec44a6255fc03063eb003449e
+Previous: 0be5a29a859f79567da049827395396d45dfa933
+Head: c872cea32ff5043b24c0d1019a340d855d40ae14
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -51,6 +51,7 @@ Applied:
   wiki-create-required-directories: 120c402a6020e3692fd7e9ad2ce72bb9eea61027
   wiki-remove-libicu52: 894948933a100e3ff8d18b833b4ddce654e35972
   wiki-update-entrypoint: e4ec27841f64871ec44a6255fc03063eb003449e
+  refresh-temp: c872cea32ff5043b24c0d1019a340d855d40ae14
 Unapplied:
   buildbot-master: 176bf57a3bc4ff0d689e4e49339738e52011709f
   buildbot-worker-ntel: c0727c661c6f8697761e4bce062ab2690f248955
