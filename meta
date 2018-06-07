@@ -1,6 +1,6 @@
 Version: 1
-Previous: cb1f610de74af966a3db41928129ad8409a138d5
-Head: 335fc4f6e8228d7f31aa4b71f0684028bb97e384
+Previous: a3ac14789ca177c19b89f036ac2148ba32e59e8a
+Head: f2d72aad9f52f328fb9e5099aa6cf4d62b36faa1
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -71,8 +71,7 @@ Applied:
   wiki-remove-libicu52: c697aa5b2f2e63f9b3b9d8598a82ef790d123541
   bacula-update-syntax: eb7b8c6f0b1e02b1aa5c99cd79e0578001db8da8
   all-improve-idempotency: 07d9761be204356fec88d3e9f6d8414bd189915f
-  fixup-tmp-rework-ip-address-network: 0bd1ab1139ef06c6b0d4666d7fa94f760a68306e
-  refresh-temp: 335fc4f6e8228d7f31aa4b71f0684028bb97e384
+  fixup-tmp-rework-ip-address-network: f2d72aad9f52f328fb9e5099aa6cf4d62b36faa1
 Unapplied:
   TESTING--VirtualMachine: 760639abdd6620d442c38442d1194d2cac0ff05a
   buildbot-ssh-keygen: f06350691e0aac9de6178870d8a5141cd6ad7665
