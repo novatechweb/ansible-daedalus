@@ -1,5 +1,5 @@
-Bottom: 0271c0a16031cbde75f845ac810adcd01d97f342
-Top:    94dd7716837d3bfd8a77a57c5718b1f8ada57a3e
+Bottom: ae275932da43d11f15ec934c737fe2bc4da57ba6
+Top:    c83d0f4cd43faddbabd30a82dee78d37606cd436
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 13:56:09 -0500
 
@@ -7,7 +7,7 @@ Refresh of all-docker-image-repositories
 
 ---
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 2b99b556..3752cc00 100644
+index 7d2c6898..6d374c60 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -58,9 +58,6 @@
@@ -31,10 +31,10 @@ index 2b99b556..3752cc00 100644
 +    dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
 +
  - name: build image
-   docker_image:
-     name: '{{ mantisbt_image_name }}'
+   docker_build:
+     image_name: '{{ mantisbt_image_name }}'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 7b65f235..d80e12ae 100644
+index 3dda287b..0ca009b7 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -58,9 +58,6 @@
@@ -55,5 +55,5 @@ index 7b65f235..d80e12ae 100644
 +  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
 +
  - name: build image
-   docker_image:
-     name: '{{ wiki_image_name }}'
+   docker_build:
+     image_name: '{{ wiki_image_name }}'

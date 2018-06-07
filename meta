@@ -1,6 +1,6 @@
 Version: 1
-Previous: 97c8550ea049bd8520e17ebcb16d4a38cfdabe6f
-Head: 513fae15bcf7d21e432924a7aad2c4a11ff840a5
+Previous: 0b7277f3a6161401ebf1dc1f88c719c5d4c040dd
+Head: a9b72bdcc4a69ef3f19b69bb00b7b65f869dbfed
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -13,6 +13,7 @@ Applied:
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
   all-docker-image-repositories: 513fae15bcf7d21e432924a7aad2c4a11ff840a5
+  fixup-all-docker-image-repositories: a9b72bdcc4a69ef3f19b69bb00b7b65f869dbfed
 Unapplied:
   common-common-variables: 00300a9425e48dc28f77443fa9ea9a992ca0caca
   all-move-vars-to-defaults: 05c522d1209b6026293d0f7f85ec196cbc269d23
@@ -72,7 +73,6 @@ Unapplied:
   playbook-simplify-credentials: 52572e0507b55165db4edd2f2954991f13009e98
   all-normalize-vars: ae9d6eba46478cc1242ed0a2c08e8a3b1e6fbb0a
   tmp-update-gitlab-version: c2df0ee87c6f589185b5fa34ee32ac2a414e6fb2
-  fixup-all-docker-image-repositories: de908af1f27a214a66da2ea0daf184d0be4b4f0e
   tmp-wiki-database: 4ca22d1e3eef601ed71868b01fb79e5464a160df
   tmp-mantis-database: 128e5cda2ee8ecd9c29b1e067769c648aeec7c78
   bacula-update-syntax: eb7b8c6f0b1e02b1aa5c99cd79e0578001db8da8
