@@ -40,11 +40,20 @@ Vagrant.configure("2") do |config|
         main.vm.hostname = "vmdaedalus.novatech-llc.com"
         main.vm.provider "virtualbox" do |vb|
             vb.name = "vmdaedalus"
-            vb.memory = 4096
+            vb.memory = 6000
             vb.cpus = 4
         end
     #    config.vm.network "public_network", ip: "192.168.0.100", netmask:"255.255.0.0", bridge: "enp0s31f6"
-        main.vm.network "private_network", ip: "192.168.0.100", netmask:"255.255.0.0"
+        main.vm.network "private_network", 
+            ip: "192.168.0.100", 
+            netmask:"255.255.0.0"
+
+        main.vm.network "forwarded_port",
+            guest: 2375,
+            host: 12375,
+            protocol: "tcp",
+            id: "docker"
+
         main.vm.synced_folder "/mnt/vm/bacula-restores",
             "/mnt/bacula-restores",
             id: "bacula-restores",
@@ -60,7 +69,11 @@ Vagrant.configure("2") do |config|
             vb.name = "bbworker"
             vb.cpus = 1
         end
-        worker.vm.network "private_network", ip: "192.168.0.150", netmask:"255.255.0.0"
+
+        worker.vm.network "private_network", 
+            ip: "192.168.0.150", 
+            netmask:"255.255.0.0"
+
         worker.vm.provision "shell", inline: $bbworker
 
     end
