@@ -1,5 +1,5 @@
 Bottom: efe78ecff2e5945d7fa73be9f552d7b0e0a0df45
-Top:    ceb35731b4a2b09edff6b36b831ea8cd679cf821
+Top:    7f698e53594e2646b13306cf658592a66772ed7d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:55:57 -0500
 
@@ -8,7 +8,7 @@ Fix wiki mysql database provision
 
 ---
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index a444eac8..8a608ebd 100644
+index a444eac8..36f6bd3e 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -18,7 +18,7 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
@@ -20,11 +20,18 @@ index a444eac8..8a608ebd 100644
  
  # the name of the container being started
  wiki_container_name: '{{ docker_name_prefix }}wiki'
+@@ -42,3 +42,6 @@ wiki_database_backup_file: '/wikidb.sql'
+ 
+ # Network names
+ docker_network_frontend: 'frontend'
++
++# the name of the sql database used by mediawiki
++wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 7028fa6d..81694f34 100644
+index 7028fa6d..868e5917 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -94,36 +94,39 @@
+@@ -94,35 +94,41 @@
    docker_volume:
      name: '{{ wiki_db_dv_name }}'
  
@@ -60,19 +67,22 @@ index 7028fa6d..81694f34 100644
 +    volumes:
 +      - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
 +    env:
-+      MYSQL_DATABASE: 'wikidb'
++      MYSQL_DATABASE: '{{ wiki_database_name }}'
 +      MYSQL_ROOT_PASSWORD: '{{ wiki_db_root_password }}'
 +      MYSQL_USER: '{{ wiki_db_user }}'
 +      MYSQL_PASSWORD: '{{ wiki_db_password }}'
      networks:
        - name: '{{ docker_network_frontend }}'
- 
++    state: started
++
 +- name: wait for mysql initialization to complete
 +  shell: >
 +      printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
 +      '{{ wiki_db_container_name }}'
-+      mysql --host=localhost --user={{ wiki_db_user | quote }}
-+      --password={{ wiki_db_password | quote }} wikidb
++      mysql --host=localhost
++      --user={{ wiki_db_user | quote }}
++      --password={{ wiki_db_password | quote }}
++      '{{ wiki_database_name }}'
 +  register: container_status
 +  retries: 20
 +  delay: 3
@@ -80,11 +90,10 @@ index 7028fa6d..81694f34 100644
 +
 +# *****************************************************************************
 +# Start the data container running
-+
+ 
  - name: start container (mediwiki)
    docker_container:
-     name: '{{ wiki_container_name }}'
-@@ -133,9 +136,9 @@
+@@ -133,14 +139,15 @@
      ports: '{{ wiki_port_args }}'
      networks:
        - name: '{{ docker_network_frontend }}'
@@ -97,3 +106,20 @@ index 7028fa6d..81694f34 100644
      env:
        WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
        WIKI_MAIL_USER: 'wiki'
+       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
+     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
++    state: started
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-mediawiki/templates/config.sh.j2 b/roles/docker-mediawiki/templates/config.sh.j2
+index 28f6a40f..4e6831e3 100644
+--- a/roles/docker-mediawiki/templates/config.sh.j2
++++ b/roles/docker-mediawiki/templates/config.sh.j2
+@@ -10,5 +10,5 @@
+   HOST_WIKI_BACKUP_DIR='{{ wiki_docker_backup_dir }}'
+   STATIC_BACKUP_FILE='{{ wiki_static_backup_file }}'
+   DATABASE_BACKUP_FILE='{{ wiki_database_backup_file }}'
+-  WIKI_DB_DB_NAME='wikidb'
++  WIKI_DB_DB_NAME='{{ wiki_database_name }}'
+ }
