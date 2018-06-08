@@ -1,6 +1,6 @@
 Version: 1
-Previous: a71c587241d6108b6e061e79764bc0c0603d38a6
-Head: 5a9dd5b544fc3b1c23e52170a72b526c1fcd7c19
+Previous: b2b0078bdf8d69d37fca23dc1b8887753b3d24eb
+Head: 12a09783820a39871069dc4682776d26b1575443
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -19,8 +19,8 @@ Applied:
   all-docker_container: 300335333994f21c928166a9a09ead17a558b254
   all-docker_volume: 8431b7c577c227eacfd82ce8ebc331bf1cfa7dd1
   all-docker_network: 5a9dd5b544fc3b1c23e52170a72b526c1fcd7c19
+  all-docker_image: 12a09783820a39871069dc4682776d26b1575443
 Unapplied:
-  all-docker_image: c40eeced8effd3f634d2d48906cd76028157ffb8
   playbook-remove-docker-build-base-image: 65e10a665998b4c4e14f6aef3960a960caee8587
   all-cut-dependencies: 1c74a62f6691df1163d24c59088e60052863f440
   bacula-improve-bacula-bootstrap-script: b70d480970aa2efdfb267c2362c258ca0a446045
