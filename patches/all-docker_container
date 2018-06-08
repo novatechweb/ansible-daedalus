@@ -1,5 +1,5 @@
 Bottom: b41a6d454344645d0f80c1338d88405ac9d76d3f
-Top:    d71cb793d581ce43379c8128c346032eec774047
+Top:    cbd69c3d7a7103a60a1d983b94facc35c2970e9f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -245,7 +245,7 @@ index fdc64277..ccda4c3c 100644
  # database usernames and passwords
  gitlab_db_user: novatech
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index f88b8136..73f762ae 100644
+index f88b8136..10271473 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -129,19 +129,47 @@
@@ -269,7 +269,7 @@ index f88b8136..73f762ae 100644
 +    name: '{{ gitlab_db_container_name }}'
 +    detach: true
 +    restart_policy: '{{ docker_restart_policy }}'
-+    volumes-from: '{{ gitlab_db_dv_name }}'
++    volumes_from: '{{ gitlab_db_dv_name }}'
 +    image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
  
  - name: start container (gitlab)
@@ -287,7 +287,7 @@ index f88b8136..73f762ae 100644
 +      - '{{ gitlab_redis_container_name }}:gitlab-redis'
 +      - '{{ gitlab_db_container_name }}:gitlab-db'
 +      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-+    volumes-from:
++    volumes_from:
 +      - '{{ openssl_dv_name }}'
 +      - '{{ gitlab_dv_name }}'
 +    env:
@@ -321,7 +321,7 @@ index bbe1b72f..7e8179c4 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index f0119408..7df7d1af 100644
+index f0119408..45c1a895 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -148,14 +148,34 @@
@@ -335,7 +335,7 @@ index f0119408..7df7d1af 100644
 +    name: '{{ mantisbt_db_container_name }}'
 +    detach: true
 +    restart_policy: '{{ docker_restart_policy }}'
-+    volumes-from:
++    volumes_from:
 +      - '{{ mantisbt_db_dv_name }}'
 +    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
  
@@ -353,7 +353,7 @@ index f0119408..7df7d1af 100644
 +      -'{{ openldap_container_name }}:mantisbt_ldap'
 +      -'{{ mantisbt_db_container_name }}:mantisbt_db'
 +      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-+    volumes-from: 
++    volumes_from: 
 +      - '{{ openssl_dv_name }}'
 +      - '{{ mantisbt_dv_name }}'
 +    env: 
@@ -381,7 +381,7 @@ index 69e2da86..a963f71b 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index ac687e81..c6e2e960 100644
+index ac687e81..5128f7d2 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -119,14 +119,32 @@
@@ -395,7 +395,7 @@ index ac687e81..c6e2e960 100644
 +    name: '{{ wiki_db_container_name }}'
 +    detach: true
 +    restart_policy: '{{ docker_restart_policy }}'
-+    volumes-from: '{{ wiki_db_dv_name }}'
++    volumes_from: '{{ wiki_db_dv_name }}'
 +    image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
  
  - name: start container (mediwiki)
@@ -412,7 +412,7 @@ index ac687e81..c6e2e960 100644
 +      - '{{ openldap_container_name }}:wiki_ldap'
 +      - '{{ wiki_db_container_name }}:wiki_db'
 +      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-+    volumes-from: 
++    volumes_from: 
 +      - '{{ openssl_dv_name }}'
 +      - '{{ wiki_dv_name }}'
 +      env:
@@ -444,7 +444,7 @@ index 1c27b7b0..1154f52c 100644
  openldap_backup_files:
    - ldif_file: LDAP_database_0000.ldif
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 8bc12514..e43e7de4 100644
+index 8bc12514..1ef879c3 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -86,21 +86,52 @@
@@ -479,7 +479,7 @@ index 8bc12514..e43e7de4 100644
 +    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.ldap.hostname }}'
 +    ports: '{{ container_port_map.ldap.port_args }}'
-+    volumes-from:
++    volumes_from:
 +      - '{{ openssl_dv_name }}'
 +      - '{{ openldap_dv_name }}'
 +    env:
@@ -496,7 +496,7 @@ index 8bc12514..e43e7de4 100644
 +    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.ldap.hostname }}'
 +    ports: '{{ container_port_map.phpldapadmin.port_args }}'
-+    volumes-from:
++    volumes_from:
 +      - '{{ openssl_dv_name }}'
 +    env:
 +      PHPLDAPADMIN_HTTPS: 'false'
@@ -576,7 +576,7 @@ index 53a0db66..17e66a42 100644
  # The repositories that will be created/imported durring a data-volume restore
  svn_repos: 'example'
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index d0590180..8abf6024 100644
+index d0590180..5110de79 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -78,9 +78,21 @@
@@ -594,7 +594,7 @@ index d0590180..8abf6024 100644
 +    ports: '{{ container_port_map.svn.port_args }}'
 +    link:
 +      - '{{ openldap_container_name }}:ldap'
-+    volumes-from:
++    volumes_from:
 +      - '{{ openssl_dv_name }}'
 +      - '{{ svn_dv_name }}'
 +    env:
@@ -605,7 +605,7 @@ index d0590180..8abf6024 100644
  # *****************************************************************************
  # restore?
 diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
-index 47f048e0..5a8f10fd 100644
+index 47f048e0..f17b49bc 100644
 --- a/roles/docker-svn/tasks/restore.yml
 +++ b/roles/docker-svn/tasks/restore.yml
 @@ -36,9 +36,21 @@
@@ -615,7 +615,7 @@ index 47f048e0..5a8f10fd 100644
 -  command: 'docker run -ti --rm --volumes-from {{ svn_dv_name }} -v {{ svn_docker_restore_dir }}:/tmp/import_export {{ svn_image_name }}:{{ docker_image_tag }} import {{ svn_repos }}'
 +  docker_container:
 +    detach: False
-+    volumes-from:
++    volumes_from:
 +      - '{{ svn_dv_name }}'
 +    volumes:
 +      - '{{ svn_docker_restore_dir }}:/tmp/import_export:z'
