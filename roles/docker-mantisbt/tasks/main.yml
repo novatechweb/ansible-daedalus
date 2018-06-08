@@ -189,4 +189,3 @@
 
 - include_tasks: restore.yml
   when: st_mantisbt_restore.stat.exists == False
-  tags: restore

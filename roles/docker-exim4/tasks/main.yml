@@ -123,7 +123,6 @@
 
 - include_tasks: restore.yml
   when: st_exim4_restore.stat.exists == False
-  tags: restore
 
 # *****************************************************************************
 # Email accounts

@@ -9,6 +9,6 @@ ANSIBLE_SSH_ARGS='-o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o Contr
 exec ansible-playbook \
         --connection=ssh \
         --timeout=30 \
-        --inventory-file=/home/coopera/Developer/testdaedalus/vmdaedalus/vagrant_ansible_inventory \
+        --inventory-file=ansible-playbook/staging \
         -vv \
         ansible-playbook/site.yml "$@"

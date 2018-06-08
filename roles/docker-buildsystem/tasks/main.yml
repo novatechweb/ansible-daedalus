@@ -120,4 +120,3 @@
 
 - import_tasks: restore.yml
   when: st_buildsystem_restore.stat.exists == False
-  tags: restore

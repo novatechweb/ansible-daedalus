@@ -97,4 +97,3 @@
 
 - include_tasks: restore.yml
   when: st_openssl_restore.stat.exists == False
-  tags: restore
