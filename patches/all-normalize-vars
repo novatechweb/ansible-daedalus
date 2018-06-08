@@ -1,5 +1,5 @@
 Bottom: b62e11a7ad087ebf5e5f52b91d5ce5f7a154f6e4
-Top:    b62e11a7ad087ebf5e5f52b91d5ce5f7a154f6e4
+Top:    b0288e03f5f1808bc5c6b15f124a96fff1e80906
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 11:30:36 -0500
 
@@ -12,4 +12,652 @@ Improve consistency in variable names:
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 586c30de..8d742df6 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -1,7 +1,7 @@
+ ---
+ # passwords
+-ldap_admin_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.ldap.hostname + "/cn=admin,dc=novatech length=20") }}'
+-ldap_proxyagent_password:            '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.ldap.hostname + "/cn=proxyagent,dc=novatech length=20") }}'
++openldap_admin_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.openldap.hostname + "/cn=admin,dc=novatech length=20") }}'
++openldap_proxyagent_password:        '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.openldap.hostname + "/cn=proxyagent,dc=novatech length=20") }}'
+ wiki_db_root_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.wiki.hostname + "/db/root length=20") }}'
+ wiki_db_password:                    '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.wiki.hostname + "/db/" + wiki_db_user + " length=20") }}'
+ wiki_email_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + container_addr_map.wiki.hostname + "/email/wiki@novatech-llc.com length=20") }}'
+diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
+index 20d48fc4..36de52a7 100644
+--- a/roles/docker-exim4/defaults/main.yml
++++ b/roles/docker-exim4/defaults/main.yml
+@@ -14,7 +14,7 @@ exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ exim4_docker_backup_dir: '{{ docker_backup_dir }}/EXIM4'
+-host_exim4_docker_restore_dir: '{{ bacula_dest }}{{ exim4_docker_backup_dir }}'
++exim4_docker_restore_dir: '{{ bacula_dest }}{{ exim4_docker_backup_dir }}'
+ 
+ # files restored from tape
+ exim4_backup_file: '/exim4.tar'
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 49eccc30..9ca79f7d 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -10,7 +10,7 @@
+ - name: restore dir
+   file:
+     state: directory
+-    path: '{{ host_exim4_docker_restore_dir }}'
++    path: '{{ exim4_docker_restore_dir }}'
+     owner: root
+     group: tape
+     mode: 'u=rwx,g=rwx,o=rx'
+diff --git a/roles/docker-exim4/tasks/restore.yml b/roles/docker-exim4/tasks/restore.yml
+index a8ad81b1..cf94cf73 100644
+--- a/roles/docker-exim4/tasks/restore.yml
++++ b/roles/docker-exim4/tasks/restore.yml
+@@ -6,7 +6,7 @@
+ 
+ - name: exists - exim4 archive
+   stat:
+-    path: '{{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }}'
++    path: '{{ exim4_docker_restore_dir }}{{ exim4_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_exim4_backup_file
+@@ -22,7 +22,7 @@
+ 
+ - name: Set permissions for data-volume data
+   file:
+-    path: '{{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }}'
++    path: '{{ exim4_docker_restore_dir }}{{ exim4_backup_file }}'
+     state: touch
+     owner: root
+     group: root
+@@ -30,7 +30,7 @@
+ 
+ - name: exists - exim4 archive
+   stat:
+-    path: '{{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }}'
++    path: '{{ exim4_docker_restore_dir }}{{ exim4_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_exim4_backup_file
+@@ -39,7 +39,7 @@
+ # restore the archive
+ 
+ - name: restore archive
+-  shell: 'cat {{ host_exim4_docker_restore_dir }}{{ exim4_backup_file }} | docker run -i --rm --volumes-from {{ exim4_dv_name }} {{ exim4_image_name }}:{{ docker_image_tag }} restore'
++  shell: 'cat {{ exim4_docker_restore_dir }}{{ exim4_backup_file }} | docker run -i --rm --volume {{ exim4_cv_name }}:/etc/exim4:z {{ exim4_image_name }}:{{ docker_image_tag }} restore'
+   when: st_exim4_backup_file.stat.exists == True
+ 
+ # *****************************************************************************
+@@ -47,7 +47,7 @@
+ 
+ - name: remove - exim4 archive
+   file:
+-    path: '{{ host_exim4_docker_restore_dir }}'
++    path: '{{ exim4_docker_restore_dir }}'
+     state: absent
+ 
+ - name: State file
+diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
+index 8911fb99..1588bd2c 100644
+--- a/roles/docker-gitlab/defaults/main.yml
++++ b/roles/docker-gitlab/defaults/main.yml
+@@ -41,4 +41,4 @@ gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
+-host_gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
++gitlab_docker_restore_dir: '{{ bacula_dest }}{{ gitlab_docker_backup_dir }}'
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index aeab7bf9..f88b8136 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -11,7 +11,7 @@
+ - name: restore dir
+   file:
+     state: directory
+-    path: '{{ host_gitlab_docker_restore_dir }}'
++    path: '{{ gitlab_docker_restore_dir }}'
+     owner: root
+     group: tape
+     mode: 'u=rwx,g=rwx,o=rx'
+diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
+index 6d40fff5..b9f74ee0 100644
+--- a/roles/docker-gitlab/tasks/restore.yml
++++ b/roles/docker-gitlab/tasks/restore.yml
+@@ -6,7 +6,7 @@
+ 
+ - name: find files
+   files_in_dir:
+-    path: '{{ host_gitlab_docker_restore_dir }}'
++    path: '{{ gitlab_docker_restore_dir }}'
+   register: gitlab_backup
+ 
+ - name: data from tape
+@@ -20,12 +20,12 @@
+ 
+ - name: find files
+   files_in_dir:
+-    path: '{{ host_gitlab_docker_restore_dir }}'
++    path: '{{ gitlab_docker_restore_dir }}'
+   register: gitlab_backup
+ 
+ - name: File permissions
+   file:
+-    path: '{{ host_gitlab_docker_restore_dir }}/{{ item }}'
++    path: '{{ gitlab_docker_restore_dir }}/{{ item }}'
+     state: touch
+     owner: root
+     group: root
+@@ -46,7 +46,7 @@
+ 
+ - name: Remove files
+   file:
+-    path: '{{ host_gitlab_docker_restore_dir }}'
++    path: '{{ gitlab_docker_restore_dir }}'
+     state: absent
+ 
+ - name: State file
+diff --git a/roles/docker-gitlab/templates/config.sh.j2 b/roles/docker-gitlab/templates/config.sh.j2
+index e2dd8098..4df5fa31 100644
+--- a/roles/docker-gitlab/templates/config.sh.j2
++++ b/roles/docker-gitlab/templates/config.sh.j2
+@@ -10,7 +10,7 @@ DOCKER_IMAGE_TAG='{{ docker_image_tag }}'
+   GITLAB_DB_CONTAINER_NAME='{{ gitlab_db_container_name }}'
+   GITLAB_REDIS_CONTAINER_NAME='{{ gitlab_redis_container_name }}'
+   GITLAB_DV_NAME='{{ gitlab_dv_name }}'
+-  HOST_GITLAB_RESTORE_DIR='{{ host_gitlab_docker_restore_dir }}'
++  HOST_GITLAB_RESTORE_DIR='{{ gitlab_docker_restore_dir }}'
+   HOST_GITLAB_BACKUP_DIR='{{ gitlab_docker_backup_dir }}'
+ 
+   # this file should be only readable by root since username and password exist in the file in plain text
+diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
+index f28e1bdc..bbe1b72f 100644
+--- a/roles/docker-mantisbt/defaults/main.yml
++++ b/roles/docker-mantisbt/defaults/main.yml
+@@ -39,7 +39,7 @@ mantisbt_db_dv_name: '{{ docker_name_prefix }}mantisbt_db_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ mantisbt_docker_backup_dir: '{{ docker_backup_dir }}/MANTISBT'
+-host_mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_dir }}'
++mantisbt_docker_restore_dir: '{{ bacula_dest }}{{ mantisbt_docker_backup_dir }}'
+ 
+ # files restored from tape
+ mantisbt_static_backup_file: '/mantisbt.tar'
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 6d374c60..f0119408 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -12,7 +12,7 @@
+ - name: restore dir
+   file:
+     state: directory
+-    path: '{{ host_mantisbt_docker_restore_dir }}'
++    path: '{{ mantisbt_docker_restore_dir }}'
+     owner: root
+     group: tape
+     mode: 'u=rwx,g=rwx,o=rx'
+@@ -162,7 +162,7 @@
+ 
+ - name: cleanup - import mysql config
+   file:
+-    path: '{{ host_mantisbt_docker_restore_dir }}/{{ item }}'
++    path: '{{ mantisbt_docker_restore_dir }}/{{ item }}'
+     state: absent
+   with_items:
+   - largefile.cnf
+diff --git a/roles/docker-mantisbt/tasks/restore.yml b/roles/docker-mantisbt/tasks/restore.yml
+index 19eeaa85..6289ba78 100644
+--- a/roles/docker-mantisbt/tasks/restore.yml
++++ b/roles/docker-mantisbt/tasks/restore.yml
+@@ -6,21 +6,21 @@
+ 
+ - name: exists - Static
+   stat:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_mantisbt_static_archive
+ 
+ - name: exists - SQL (files table)
+   stat:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_mantisbt_files_table_SQL_file
+ 
+ - name: exists - SQL (remaining tables)
+   stat:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_mantisbt_SQL_file
+@@ -36,7 +36,7 @@
+ 
+ - name: permissions - Static
+   file:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
+     state: touch
+     owner: root
+     group: root
+@@ -44,7 +44,7 @@
+ 
+ - name: permissions - SQL (files table)
+   file:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
+     state: touch
+     owner: root
+     group: root
+@@ -52,7 +52,7 @@
+ 
+ - name: permissions - SQL (remaining tables)
+   file:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
+     state: touch
+     owner: root
+     group: root
+@@ -60,21 +60,21 @@
+ 
+ - name: exists - Static
+   stat:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_static_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_mantisbt_static_archive
+ 
+ - name: exists - SQL (files table)
+   stat:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_files_table_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_mantisbt_files_table_SQL_file
+ 
+ - name: exists - SQL (remaining tables)
+   stat:
+-    path: '{{ host_mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
++    path: '{{ mantisbt_docker_restore_dir }}{{ mantisbt_database_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_mantisbt_SQL_file
+@@ -93,7 +93,7 @@
+ 
+ - name: Remove - Static and SQL
+   file:
+-    path: '{{ host_mantisbt_docker_restore_dir }}'
++    path: '{{ mantisbt_docker_restore_dir }}'
+     state: absent
+ 
+ - name: State file
+diff --git a/roles/docker-mantisbt/templates/config.sh.j2 b/roles/docker-mantisbt/templates/config.sh.j2
+index 7e5bbc50..f9538c8a 100644
+--- a/roles/docker-mantisbt/templates/config.sh.j2
++++ b/roles/docker-mantisbt/templates/config.sh.j2
+@@ -6,7 +6,7 @@
+   MANTISBT_DB_CONTAINER_NAME='{{ mantisbt_db_container_name }}'
+   MANTISBT_DV_NAME='{{ mantisbt_dv_name }}'
+   MANTISBT_DB_DV_NAME='{{ mantisbt_db_dv_name }}'
+-  HOST_MANTISBT_RESTORE_DIR='{{ host_mantisbt_docker_restore_dir }}'
++  HOST_MANTISBT_RESTORE_DIR='{{ mantisbt_docker_restore_dir }}'
+   HOST_MANTISBT_BACKUP_DIR='{{ mantisbt_docker_backup_dir }}'
+   STATIC_BACKUP_FILE='{{ mantisbt_static_backup_file }}'
+   DATABASE_BACKUP_FILE='{{ mantisbt_database_backup_file }}'
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index 57880398..216ec39c 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -38,7 +38,7 @@ wiki_db_dv_name: '{{ docker_name_prefix }}wiki_db_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ wiki_docker_backup_dir: '{{ docker_backup_dir }}/WIKI'
+-host_wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
++wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
+ 
+ # files restored from tape
+ wiki_static_backup_file: '/mediawiki.tar'
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 0ca009b7..ac687e81 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -12,7 +12,7 @@
+ - name: restore dir
+   file:
+     state: directory
+-    path: '{{ host_wiki_docker_restore_dir }}'
++    path: '{{ wiki_docker_restore_dir }}'
+     owner: root
+     group: tape
+     mode: 'u=rwx,g=rwx,o=rx'
+diff --git a/roles/docker-mediawiki/tasks/restore.yml b/roles/docker-mediawiki/tasks/restore.yml
+index 0307d424..6ff541ed 100644
+--- a/roles/docker-mediawiki/tasks/restore.yml
++++ b/roles/docker-mediawiki/tasks/restore.yml
+@@ -6,14 +6,14 @@
+ 
+ - name: exists - Static
+   stat:
+-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
++    path: '{{ wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_wiki_static_archive
+ 
+ - name: exists - SQL
+   stat:
+-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
++    path: '{{ wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_wiki_SQL_file
+@@ -29,7 +29,7 @@
+ 
+ - name: permissions - Static
+   file:
+-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
++    path: '{{ wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
+     state: touch
+     owner: root
+     group: root
+@@ -37,7 +37,7 @@
+ 
+ - name: permissions - SQL
+   file:
+-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
++    path: '{{ wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
+     state: touch
+     owner: root
+     group: root
+@@ -45,14 +45,14 @@
+ 
+ - name: exists - Static
+   stat:
+-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
++    path: '{{ wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_wiki_static_archive
+ 
+ - name: exists - SQL
+   stat:
+-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
++    path: '{{ wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_wiki_SQL_file
+@@ -71,7 +71,7 @@
+ 
+ - name: Remove - Static and SQL
+   file:
+-    path: '{{ host_wiki_docker_restore_dir }}'
++    path: '{{ wiki_docker_restore_dir }}'
+     state: absent
+ 
+ - name: State file
+diff --git a/roles/docker-mediawiki/templates/config.sh.j2 b/roles/docker-mediawiki/templates/config.sh.j2
+index db89e992..28f6a40f 100644
+--- a/roles/docker-mediawiki/templates/config.sh.j2
++++ b/roles/docker-mediawiki/templates/config.sh.j2
+@@ -6,7 +6,7 @@
+   WIKI_DB_CONTAINER_NAME='{{ wiki_db_container_name }}'
+   WIKI_DV_NAME='{{ wiki_dv_name }}'
+   WIKI_DB_DV_NAME='{{ wiki_db_dv_name }}'
+-  HOST_WIKI_RESTORE_DIR='{{ host_wiki_docker_restore_dir }}'
++  HOST_WIKI_RESTORE_DIR='{{ wiki_docker_restore_dir }}'
+   HOST_WIKI_BACKUP_DIR='{{ wiki_docker_backup_dir }}'
+   STATIC_BACKUP_FILE='{{ wiki_static_backup_file }}'
+   DATABASE_BACKUP_FILE='{{ wiki_database_backup_file }}'
+diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
+index 35028b03..55e28c00 100644
+--- a/roles/docker-openldap/defaults/main.yml
++++ b/roles/docker-openldap/defaults/main.yml
+@@ -30,13 +30,11 @@ openldap_image_name: '{{ docker_registry_username }}/ldap'
+ openldap_container_name: '{{ docker_name_prefix }}ldap'
+ 
+ # the name of the data-volume used by the container
+-openldap_dv_name: '{{ docker_name_prefix }}ldap_DV'
++openldap_dv_name: '{{ docker_name_prefix }}openldap_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ openldap_docker_backup_dir: '{{ docker_backup_dir }}/LDAP'
+-host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
+-
+-
++openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
+ 
+ # *****************************************************************************
+ # Utility container - phpldapadmin
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index 332dba7b..8bc12514 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -5,8 +5,8 @@
+ # A manuel step of setting the passwords into the LDAP database is required
+ - assert:
+     that:
+-    - ldap_admin_password is defined
+-    - ldap_proxyagent_password is defined
++    - openldap_admin_password is defined
++    - openldap_proxyagent_password is defined
+ 
+ # *****************************************************************************
+ # Setup the directory where the backup and restore is to take place
+@@ -14,7 +14,7 @@
+ - name: restore dir
+   file:
+     state: directory
+-    path: '{{ host_openldap_docker_restore_dir }}'
++    path: '{{ openldap_docker_restore_dir }}'
+     owner: root
+     group: tape
+     mode: 'u=rwx,g=rwx,o=rx'
+@@ -112,7 +112,7 @@
+ # Set the LDAP passwords
+ 
+ - name: set LDAP admin password
+-  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ ldap_admin_password | quote }}'
++  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ openldap_admin_password | quote }}'
+ 
+ - name: set LDAP proxyagent password
+-  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_proxyagent_pass {{ ldap_admin_password | quote }} {{ ldap_proxyagent_password | quote }}'
++  command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_proxyagent_pass {{ openldap_admin_password | quote }} {{ openldap_proxyagent_password | quote }}'
+diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
+index 27c05365..370f4797 100644
+--- a/roles/docker-openldap/tasks/restore.yml
++++ b/roles/docker-openldap/tasks/restore.yml
+@@ -6,8 +6,8 @@
+ 
+ - name: find files
+   files_in_dir:
+-    path: '{{ host_openldap_docker_restore_dir }}'
+-  register: ldap_backup
++    path: '{{ openldap_docker_restore_dir }}'
++  register: openldap_backup
+ 
+ - name: Get data-volume data from tape
+   bacula:
+@@ -16,11 +16,11 @@
+     fileset: '{{ bacula_fileset }}'
+     dest: '{{ bacula_dest }}'
+     path_to_restore: '{{ openldap_docker_backup_dir }}'
+-  when: ldap_backup.file_list == []
++  when: openldap_backup.file_list == []
+ 
+ - name: Set permissions for data-volume data
+   file:
+-    path: '{{ host_openldap_docker_restore_dir }}/{{ item.ldif_file }}'
++    path: '{{ openldap_docker_restore_dir }}/{{ item.ldif_file }}'
+     state: touch
+     owner: root
+     group: root
+@@ -45,7 +45,7 @@
+ 
+ - name: Remove database backup file
+   file:
+-    path: '{{ host_openldap_docker_restore_dir }}'
++    path: '{{ openldap_docker_restore_dir }}'
+     state: absent
+ 
+ - name: State file
+diff --git a/roles/docker-openssl/defaults/main.yml b/roles/docker-openssl/defaults/main.yml
+index 7e661a4b..770403a3 100644
+--- a/roles/docker-openssl/defaults/main.yml
++++ b/roles/docker-openssl/defaults/main.yml
+@@ -9,7 +9,7 @@ openssl_dv_name: '{{ docker_name_prefix }}openssl_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ openssl_docker_backup_dir: '{{ docker_backup_dir }}/openssl'
+-host_openssl_docker_restore_dir: '{{ bacula_dest }}{{ openssl_docker_backup_dir }}'
++openssl_docker_restore_dir: '{{ bacula_dest }}{{ openssl_docker_backup_dir }}'
+ 
+ # files restored from tape
+ openssl_backup_file: '/openssl.tar'
+diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
+index 05b9a20d..28087fa1 100644
+--- a/roles/docker-openssl/tasks/main.yml
++++ b/roles/docker-openssl/tasks/main.yml
+@@ -7,7 +7,7 @@
+ - name: restore dir
+   file:
+     state: directory
+-    path: '{{ host_openssl_docker_restore_dir }}'
++    path: '{{ openssl_docker_restore_dir }}'
+     owner: root
+     group: tape
+     mode: 'u=rwx,g=rwx,o=rx'
+diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
+index b53be30f..9fe3ea42 100644
+--- a/roles/docker-openssl/tasks/restore.yml
++++ b/roles/docker-openssl/tasks/restore.yml
+@@ -6,7 +6,7 @@
+ 
+ - name: exists - openssl archive
+   stat:
+-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
++    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_openssl_backup_file
+@@ -22,7 +22,7 @@
+ 
+ - name: Set permissions for data-volume data
+   file:
+-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
++    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+     state: touch
+     owner: root
+     group: root
+@@ -30,7 +30,7 @@
+ 
+ - name: exists - openssl archive
+   stat:
+-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
++    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+     get_checksum: False
+     get_md5: False
+   register: st_openssl_backup_file
+@@ -39,7 +39,7 @@
+ # restore the archive
+ 
+ - name: extract archive
+-  shell: "cat {{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }} | docker run -i --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} extract"
++  shell: "cat {{ openssl_docker_restore_dir }}{{ openssl_backup_file }} | docker run -i --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} extract"
+   when: st_openssl_backup_file.stat.exists == True
+ 
+ # *****************************************************************************
+@@ -47,7 +47,7 @@
+ 
+ - name: remove - openssl archive
+   file:
+-    path: '{{ host_openssl_docker_restore_dir }}'
++    path: '{{ openssl_docker_restore_dir }}'
+     state: absent
+ 
+ - name: State file
+diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
+index 22242684..53a0db66 100644
+--- a/roles/docker-svn/defaults/main.yml
++++ b/roles/docker-svn/defaults/main.yml
+@@ -26,4 +26,4 @@ svn_dv_name: '{{ docker_name_prefix }}svn_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ svn_docker_backup_dir: '{{ docker_backup_dir }}/SVN'
+-host_svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
++svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index a34e61d0..d0590180 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -7,7 +7,7 @@
+ - name: restore dir
+   file:
+     state: directory
+-    path: '{{ host_svn_docker_restore_dir }}'
++    path: '{{ svn_docker_restore_dir }}'
+     owner: root
+     group: tape
+     mode: 'u=rwx,g=rwx,o=rx'
+@@ -80,7 +80,7 @@
+ - name: start container
+   docker_run:
+     container_name: '{{ svn_container_name }}'
+-    docker_run_arguments: '--hostname={{ container_addr_map.svn.hostname }} {{ container_port_map.svn.port_args }} --link {{ openldap_container_name }}:ldap --volumes-from {{ openssl_dv_name }} --volumes-from {{ svn_dv_name }} --env SVN_HOSTNAME={{ container_addr_map.svn.hostname }} --env SVN_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }} {{ svn_image_name }}:{{ docker_image_tag }}'
++    docker_run_arguments: '--hostname={{ container_addr_map.svn.hostname }} {{ container_port_map.svn.port_args }} --link {{ openldap_container_name }}:ldap --volumes-from {{ openssl_dv_name }} --volumes-from {{ svn_dv_name }} --env SVN_HOSTNAME={{ container_addr_map.svn.hostname }} --env SVN_LDAP_PASSWORD={{ openldap_proxyagent_password | quote }} {{ svn_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
+index aef103f2..47f048e0 100644
+--- a/roles/docker-svn/tasks/restore.yml
++++ b/roles/docker-svn/tasks/restore.yml
+@@ -6,7 +6,7 @@
+ 
+ - name: find files
+   files_in_dir:
+-    path: '{{ host_svn_docker_restore_dir }}'
++    path: '{{ svn_docker_restore_dir }}'
+   register: svn_repo_backup
+ 
+ - name: data from tape
+@@ -20,12 +20,12 @@
+ 
+ - name: find files
+   files_in_dir:
+-    path: '{{ host_svn_docker_restore_dir }}'
++    path: '{{ svn_docker_restore_dir }}'
+   register: svn_repo_backup
+ 
+ - name: File permissions
+   file:
+-    path: '{{ host_svn_docker_restore_dir }}/{{ item }}'
++    path: '{{ svn_docker_restore_dir }}/{{ item }}'
+     state: touch
+     owner: root
+     group: root
+@@ -36,7 +36,7 @@
+ # restore the svn backup
+ 
+ - name: restore svn repositories
+-  command: 'docker run -ti --rm --volumes-from {{ svn_dv_name }} -v {{ host_svn_docker_restore_dir }}:/tmp/import_export {{ svn_image_name }}:{{ docker_image_tag }} import {{ svn_repos }}'
++  command: 'docker run -ti --rm --volumes-from {{ svn_dv_name }} -v {{ svn_docker_restore_dir }}:/tmp/import_export {{ svn_image_name }}:{{ docker_image_tag }} import {{ svn_repos }}'
+   when: not((svn_repos is undefined) or (svn_repos is none) or (svn_repos|trim == '')) or svn_repo_backup.file_list != []
+ 
+ # *****************************************************************************
+@@ -44,7 +44,7 @@
+ 
+ - name: Remove files
+   file:
+-    path: '{{ host_svn_docker_restore_dir }}'
++    path: '{{ svn_docker_restore_dir }}'
+     state: absent
+ 
+ - name: State file
