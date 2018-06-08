@@ -110,7 +110,7 @@
     restart_policy: '{{ docker_restart_policy }}'
     hostname: '{{ container_addr_map.ldap.hostname }}'
     ports: '{{ container_port_map.ldap.port_args }}'
-    volumes-from:
+    volumes_from:
       - '{{ openssl_dv_name }}'
       - '{{ openldap_dv_name }}'
     env:
@@ -124,7 +124,7 @@
     restart_policy: '{{ docker_restart_policy }}'
     hostname: '{{ container_addr_map.ldap.hostname }}'
     ports: '{{ container_port_map.phpldapadmin.port_args }}'
-    volumes-from:
+    volumes_from:
       - '{{ openssl_dv_name }}'
     env:
       PHPLDAPADMIN_HTTPS: 'false'

@@ -86,7 +86,7 @@
     ports: '{{ container_port_map.svn.port_args }}'
     link:
       - '{{ openldap_container_name }}:ldap'
-    volumes-from:
+    volumes_from:
       - '{{ openssl_dv_name }}'
       - '{{ svn_dv_name }}'
     env:

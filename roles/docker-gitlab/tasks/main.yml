@@ -140,7 +140,7 @@
     name: '{{ gitlab_db_container_name }}'
     detach: true
     restart_policy: '{{ docker_restart_policy }}'
-    volumes-from: '{{ gitlab_db_dv_name }}'
+    volumes_from: '{{ gitlab_db_dv_name }}'
     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (gitlab)
@@ -155,7 +155,7 @@
       - '{{ gitlab_redis_container_name }}:gitlab-redis'
       - '{{ gitlab_db_container_name }}:gitlab-db'
       - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-    volumes-from:
+    volumes_from:
       - '{{ openssl_dv_name }}'
       - '{{ gitlab_dv_name }}'
     env:

@@ -38,7 +38,7 @@
 - name: restore svn repositories
   docker_container:
     detach: False
-    volumes-from:
+    volumes_from:
       - '{{ svn_dv_name }}'
     volumes:
       - '{{ svn_docker_restore_dir }}:/tmp/import_export:z'

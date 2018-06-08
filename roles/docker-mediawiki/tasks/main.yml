@@ -123,7 +123,7 @@
     name: '{{ wiki_db_container_name }}'
     detach: true
     restart_policy: '{{ docker_restart_policy }}'
-    volumes-from: '{{ wiki_db_dv_name }}'
+    volumes_from: '{{ wiki_db_dv_name }}'
     image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (mediwiki)
@@ -137,7 +137,7 @@
       - '{{ openldap_container_name }}:wiki_ldap'
       - '{{ wiki_db_container_name }}:wiki_db'
       - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-    volumes-from: 
+    volumes_from: 
       - '{{ openssl_dv_name }}'
       - '{{ wiki_dv_name }}'
       env:
