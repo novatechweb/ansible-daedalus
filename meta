@@ -1,6 +1,6 @@
 Version: 1
-Previous: bb168a8f7b57126e11d76b4da10fab4bc0ab3f22
-Head: a626b2dd7e259b3c0c4432067d1403a8cb40d7af
+Previous: 4577c41004feeeeca569a8ad4b875bd496bc9bb5
+Head: 71ab99459469dce53432118b67cfc909802fd96b
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -28,6 +28,7 @@ Applied:
   common-remove-backup-directory: aba4fb5d4e8682f04c3cd168e387f207e2ab6ffd
   common-remove-container-conf: 0312840607c213da407f1b9e1c1f905b2e373133
   common-configure-docker-daemon: a626b2dd7e259b3c0c4432067d1403a8cb40d7af
+  refresh-temp: 71ab99459469dce53432118b67cfc909802fd96b
 Unapplied:
   common-docker-enable-tcp: 8392b7cb5b6b61573fd5fbe7aa7f1beea786b09e
   common-move-mariadb-config-to-maria: a2ada8f0169df9b61813891ffed66b72b548f0a2
