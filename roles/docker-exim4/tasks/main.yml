@@ -106,7 +106,7 @@
     hostname: '{{ container_addr_map.exim4.hostname }}'
     ports: '{{ container_port_map.exim4.port_args }}'
     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     state: started
     volumes:
       - '{{ exim4_dv_name }}:/var/spool/exim4:z'

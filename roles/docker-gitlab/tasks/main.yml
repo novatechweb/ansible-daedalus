@@ -132,14 +132,14 @@
   docker_container:
     name: '{{ gitlab_redis_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (postgres)
   docker_container:
     name: '{{ gitlab_db_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     volumes-from: '{{ gitlab_db_dv_name }}'
     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
 
@@ -147,7 +147,7 @@
   docker_container:
     name: '{{ gitlab_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     hostname: '{{ container_addr_map.git.hostname }}'
     ports: '{{ container_port_map.git.port_args }}'
     link:

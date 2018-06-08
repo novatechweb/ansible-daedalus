@@ -122,7 +122,7 @@
   docker_container:
     name: '{{ wiki_db_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     volumes-from: '{{ wiki_db_dv_name }}'
     image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
 
@@ -130,7 +130,7 @@
   docker_container:
     name: '{{ wiki_container_name }}'
     detach: true
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     hostname: '{{ container_addr_map.wiki.hostname }}' 
     ports: '{{ container_port_map.wiki.port_args }}'
     link:
