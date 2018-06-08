@@ -1,5 +1,5 @@
-Bottom: 05b1694f1ed604c8c532743c63f3befd23f64347
-Top:    e460071508a2cdc50e249956ae75e88f2a90f1a7
+Bottom: 685a16fe0d704dfad4f4184e882e0105714fa471
+Top:    630648bff915207637c9abf9c437cc4f657bd344
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 10:52:21 -0500
 
@@ -16,7 +16,7 @@ index 7ad40a83..c918df8f 100644
  buildbot_worker_ntel: worker-ntel
 +buildbot_worker_ptxdist: worker-ptxdist
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 3fa1e99f..c5ebfa0d 100644
+index cc9cb3dc..e79429d7 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -19,3 +19,4 @@ buildsystem_database_build_password: '{{ lookup("password", inventory_dir + "/cr
