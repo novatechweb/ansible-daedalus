@@ -1,5 +1,5 @@
 Bottom: b41a6d454344645d0f80c1338d88405ac9d76d3f
-Top:    05a9fbba377dfd529ceae32c601f1082c424185f
+Top:    d71cb793d581ce43379c8128c346032eec774047
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -9,6 +9,17 @@ Cleaner than a single long docker run invocation
 
 
 ---
+diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
+index 9acd909a..1e26c99f 100644
+--- a/ansible-playbook/group_vars/docker-hosts/docker.yml
++++ b/ansible-playbook/group_vars/docker-hosts/docker.yml
+@@ -15,3 +15,6 @@ docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag
+ 
+ # restore directories to temporarly store data being restored into docker containers
+ docker_backup_dir: '/tmp/docker'
++
++# docker service restart policy
++docker_restart_policy: 'always'
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 index b084bfef..061495c8 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
@@ -97,6 +108,78 @@ index cdbad40e..9d4820f9 100644
    TestStation_ssh_server:
      dir_name: docker-TestStation_ssh_server
      url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_ssh_server.git
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+index 1ab11330..2cc83270 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+@@ -27,6 +27,6 @@
+     name: "{{ name_prefix }}TestStation_database_server"
+     ports: "{{ container_addr_map.build.ip_addr }}:3306:3306"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - "{{ name_prefix }}TestStation_database_data"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+index 883d3f4b..9dee514f 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+@@ -16,7 +16,7 @@
+     name: "{{ name_prefix }}TestStation_http_server"
+     ports: "{{ container_addr_map.build.ip_addr }}:80:80"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - "{{ name_prefix }}TestStation_http_data_buildsystem"
+ #      - "{{ name_prefix }}TestStation_http_data_ipkg"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+index 1e3333b4..2be1cb0c 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+@@ -21,7 +21,7 @@
+     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
+     name: "{{ name_prefix }}TestStation_ssh_server"
+     ports: "{{ container_addr_map.build.ip_addr }}:22:22"
+-    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
+     state: "{{ container_start_state_nondata }}"
+     volumes_from:
+       - "{{ name_prefix }}TestStation_database_data"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+index 6f95f9e2..1f4c4b10 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+@@ -33,4 +33,4 @@
+     name: "{{ name_prefix }}TestStation_ssh_server_manualtest"
+     ports: "{{ container_addr_map.testssh.ip_addr }}:22:22"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+index a6498fcf..821fbe0f 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+@@ -15,6 +15,6 @@
+     name: "{{ name_prefix }}TestStation_tftp_server"
+     ports: "{{ container_addr_map.build.ip_addr }}:69:69/udp"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - "{{ name_prefix }}TestStation_tftp_data"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
+index 94246679..f52909d5 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
+@@ -14,6 +14,6 @@
+     image: "{{ name_prefix }}teststation_cron_image"
+     name: "{{ name_prefix }}TestStation_cron_service"
+     state: "{{ container_start_state_nondata }}"
+-    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - "{{ name_prefix }}TestStation_http_data_ncdiso"
 diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
 index 36de52a7..8a1f2ef2 100644
 --- a/roles/docker-exim4/defaults/main.yml
@@ -122,7 +205,7 @@ index 36de52a7..8a1f2ef2 100644
  exim4_image_repo: https://github.com/novatechweb/docker-exim4.git
  
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 9ca79f7d..4cc13caa 100644
+index 9ca79f7d..d670d37d 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -101,9 +101,16 @@
@@ -137,7 +220,7 @@ index 9ca79f7d..4cc13caa 100644
 +    hostname: '{{ container_addr_map.exim4.hostname }}'
 +    ports: '{{ container_port_map.exim4.port_args }}'
 +    image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    state: started
 +    volumes:
 +      - '{{ exim4_dv_name }}:/var/spool/exim4:z'
@@ -162,7 +245,7 @@ index fdc64277..ccda4c3c 100644
  # database usernames and passwords
  gitlab_db_user: novatech
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index f88b8136..8cc97adb 100644
+index f88b8136..73f762ae 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -129,19 +129,47 @@
@@ -175,7 +258,7 @@ index f88b8136..8cc97adb 100644
 +  docker_container:
 +    name: '{{ gitlab_redis_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    image: '{{ redis_image_name }}:{{ docker_image_tag }}'
  
  - name: start container (postgres)
@@ -185,7 +268,7 @@ index f88b8136..8cc97adb 100644
 +  docker_container:
 +    name: '{{ gitlab_db_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    volumes-from: '{{ gitlab_db_dv_name }}'
 +    image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
  
@@ -196,7 +279,7 @@ index f88b8136..8cc97adb 100644
 +  docker_container:
 +    name: '{{ gitlab_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.git.hostname }}'
 +    ports: '{{ container_port_map.git.port_args }}'
 +    link:
@@ -238,7 +321,7 @@ index bbe1b72f..7e8179c4 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index f0119408..2a286ea2 100644
+index f0119408..7df7d1af 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -148,14 +148,34 @@
@@ -251,7 +334,7 @@ index f0119408..2a286ea2 100644
 +  docker_container:
 +    name: '{{ mantisbt_db_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    volumes-from:
 +      - '{{ mantisbt_db_dv_name }}'
 +    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
@@ -263,7 +346,7 @@ index f0119408..2a286ea2 100644
 +  docker_container:
 +    name: '{{ mantisbt_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.mantisbt.hostname }}'
 +    ports: '{{ container_port_map.mantisbt.port_args }}'
 +    link: 
@@ -298,7 +381,7 @@ index 69e2da86..a963f71b 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index ac687e81..f201c8ea 100644
+index ac687e81..c6e2e960 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -119,14 +119,32 @@
@@ -311,7 +394,7 @@ index ac687e81..f201c8ea 100644
 +  docker_container:
 +    name: '{{ wiki_db_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    volumes-from: '{{ wiki_db_dv_name }}'
 +    image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
  
@@ -322,7 +405,7 @@ index ac687e81..f201c8ea 100644
 +  docker_container:
 +    name: '{{ wiki_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.wiki.hostname }}' 
 +    ports: '{{ container_port_map.wiki.port_args }}'
 +    link:
@@ -361,7 +444,7 @@ index 1c27b7b0..1154f52c 100644
  openldap_backup_files:
    - ldif_file: LDAP_database_0000.ldif
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 8bc12514..f395576b 100644
+index 8bc12514..e43e7de4 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -86,21 +86,52 @@
@@ -393,7 +476,7 @@ index 8bc12514..f395576b 100644
 +  docker_container:
 +    name: '{{ openldap_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.ldap.hostname }}'
 +    ports: '{{ container_port_map.ldap.port_args }}'
 +    volumes-from:
@@ -410,7 +493,7 @@ index 8bc12514..f395576b 100644
 +  docker_container:
 +    name: '{{ phpldapadmin_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.ldap.hostname }}'
 +    ports: '{{ container_port_map.phpldapadmin.port_args }}'
 +    volumes-from:
@@ -493,7 +576,7 @@ index 53a0db66..17e66a42 100644
  # The repositories that will be created/imported durring a data-volume restore
  svn_repos: 'example'
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index d0590180..6498a5d2 100644
+index d0590180..8abf6024 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -78,9 +78,21 @@
@@ -506,7 +589,7 @@ index d0590180..6498a5d2 100644
 +  docker_container:
 +    name: '{{ svn_container_name }}'
 +    detach: true
-+    restart_policy: always
++    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.svn.hostname }}'
 +    ports: '{{ container_port_map.svn.port_args }}'
 +    link:
