@@ -1,5 +1,5 @@
-Bottom: b62e11a7ad087ebf5e5f52b91d5ce5f7a154f6e4
-Top:    93a7a924158e9ff9a421a8516905182648b5295e
+Bottom: b0288e03f5f1808bc5c6b15f124a96fff1e80906
+Top:    b41a6d454344645d0f80c1338d88405ac9d76d3f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -77,7 +77,7 @@ index 14e80559..5bb91654 100644
  docker run --rm \
      --volumes-from {{ exim4_dv_name }} \
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index 8911fb99..fce4efac 100644
+index 1588bd2c..fdc64277 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -21,8 +21,8 @@ gitlab_db_user: novatech
@@ -168,7 +168,7 @@ index ced10907..2f9735c7 100644
  pushd {{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}
  ./mantisbt.sh backup
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 57880398..ad6d61e8 100644
+index 216ec39c..69e2da86 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -22,7 +22,7 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
@@ -219,10 +219,10 @@ index 71ebb80f..4983fc1b 100644
  pushd {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}
  ./mediawiki.sh backup
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 35028b03..1a7e08ee 100644
+index 55e28c00..1c27b7b0 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
-@@ -42,7 +42,7 @@ host_openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_di
+@@ -40,7 +40,7 @@ openldap_docker_restore_dir: '{{ bacula_dest }}{{ openldap_docker_backup_dir }}'
  # Utility container - phpldapadmin
  
  # the name of the image used for the container
