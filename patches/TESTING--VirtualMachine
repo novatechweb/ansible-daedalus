@@ -1,5 +1,5 @@
-Bottom: 04d46a05afa45359e103c4e66f99a428772dab72
-Top:    6895f2f8aa74fb80a026f4eb28b5471fc1c216ba
+Bottom: 754c91ab974e1565570ba3b0c1b2589d735b6c12
+Top:    106806b30a17ebe411e723b093016618b2815256
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -259,7 +259,7 @@ index 00000000..fa188ba9
 +
 +ansible_user: vagrant
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index d886bf1b..05b92112 100644
+index 9ca28fa2..03bca01f 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -1,6 +1,18 @@
@@ -1265,12 +1265,12 @@ index cf94cf73..69102432 100644
  - name: exists - exim4 archive
    stat:
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index 19ab40fe..03feff74 100644
+index 38cbfae8..61ea4f65 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
-@@ -36,14 +36,14 @@
-     follow: true
-   register: gitlab_data
+@@ -23,14 +23,14 @@
+     path: '{{ gitlab_docker_restore_dir }}'
+   register: gitlab_backup
  
 -- name: File permissions
 -  file:
@@ -1384,7 +1384,7 @@ index 6289ba78..78f66b97 100644
  - name: exists - Static
    stat:
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 30580e1c..5ca42dbc 100644
+index 253b3a19..863b9815 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -98,6 +98,7 @@
