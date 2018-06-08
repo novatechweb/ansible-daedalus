@@ -102,7 +102,7 @@
     name: '{{ wiki_db_container_name }}'
     detach: true
     restart_policy: always
-    image: '{{ wiki_db_image }}'
+    image: '{{ wiki_db_image_name }}'
     volumes:
       - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
     env:
