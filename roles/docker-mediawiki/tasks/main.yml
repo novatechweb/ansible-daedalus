@@ -58,7 +58,7 @@
     group: tape
     mode: 'u=rw,g=r,o='
 
-- name: exists - state file (mediawiki)
+- name: exists - state file
   stat:
     path: '{{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}/restore.date.txt'
     get_checksum: False
@@ -97,12 +97,12 @@
 # *****************************************************************************
 # Start the database
 
-- name: Start initialization of empty volume
+- name: start container (mysql)
   docker_container:
     name: '{{ wiki_db_container_name }}'
     detach: true
     restart_policy: always
-    image: '{{ wiki_db_image_name }}:{{ wiki_db_image_tag }}'
+    image: '{{ wiki_db_image }}'
     volumes:
       - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
     env:
@@ -113,7 +113,7 @@
     networks:
       - name: '{{ docker_network_frontend }}'
 
-- name: wait for initialization to complete
+- name: wait for mysql initialization to complete
   shell: >
       printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
       '{{ wiki_db_container_name }}'
