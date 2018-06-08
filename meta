@@ -1,6 +1,6 @@
 Version: 1
-Previous: 7d8745c4713796b9277cefcaab9df495bfaf3715
-Head: 82eb2bc5fd355c534e08845e16a96c66492bbbd0
+Previous: c2033a521df77fe296bfa3466de18d147a72e4c4
+Head: 17335278493122f6711e53ae5bfbf48b402190ed
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -24,8 +24,7 @@ Applied:
   all-cut-dependencies: 1c74a62f6691df1163d24c59088e60052863f440
   bacula-improve-bacula-bootstrap-script: b70d480970aa2efdfb267c2362c258ca0a446045
   common-update-python-docker-client: 692116323ff41d3c806c51b2bdad9fb4ce0d9332
-  common-install-latest-available: df5d28ae4f108e26fa5063adbfb9fdfeb794b7b5
-  refresh-temp: 82eb2bc5fd355c534e08845e16a96c66492bbbd0
+  common-install-latest-available: 17335278493122f6711e53ae5bfbf48b402190ed
 Unapplied:
   common-remove-backup-directory: 4564d61643adf81f68035c09fdd235d71750b582
   common-remove-container-conf: 9ea538d9af072fd29a3a732795c35822e79c2289
