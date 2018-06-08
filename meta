@@ -1,6 +1,6 @@
 Version: 1
-Previous: 7fe5de974384644ac42cebdea273f504c0968cc2
-Head: 69de959c5e3f4d07131827c26e68f9e67118b59d
+Previous: aa226c067d3029b9f0147645f44b7d2b5689e1a9
+Head: 54545b5ceb6935b961ecf3a503643b5e43c112f4
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -68,8 +68,8 @@ Applied:
   buildbot-image-entrypoint: 48aab7ad4fc9aaef65b7a77f3f8cc23e39518a6f
   buildbot-dependencies: 572169aa76d93fab97d4564c5947c0d815beae81
   playbook-simplify-credentials: 69de959c5e3f4d07131827c26e68f9e67118b59d
+  tmp-update-gitlab-version: 54545b5ceb6935b961ecf3a503643b5e43c112f4
 Unapplied:
-  tmp-update-gitlab-version: c2df0ee87c6f589185b5fa34ee32ac2a414e6fb2
   tmp-wiki-database: 4ca22d1e3eef601ed71868b01fb79e5464a160df
   tmp-mantis-database: 128e5cda2ee8ecd9c29b1e067769c648aeec7c78
   bacula-update-syntax: eb7b8c6f0b1e02b1aa5c99cd79e0578001db8da8
