@@ -69,10 +69,8 @@
 # Create the data volumes
 
 - name: data-volume container
-  docker_datavolume:
-    image_name: '{{ svn_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ svn_dv_name }}'
+  docker_volume:
+    name: '{{ svn_dv_name }}'
 
 # *****************************************************************************
 # Start the data container running
@@ -86,9 +84,9 @@
     ports: '{{ container_port_map.svn.port_args }}'
     link:
       - '{{ openldap_container_name }}:ldap'
-    volumes-from:
-      - '{{ openssl_dv_name }}'
-      - '{{ svn_dv_name }}'
+    volumes:
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+      - '{{ svn_dv_name }}:/var/lib/svn:z'
     env:
       SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
       SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
