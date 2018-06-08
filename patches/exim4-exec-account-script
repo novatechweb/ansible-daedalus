@@ -1,5 +1,5 @@
-Bottom: 287c062af6f6d11aa40c030e0fd7585040ee3c4b
-Top:    b9b55189bbb06ca698f45303a5cf70bde63964ff
+Bottom: 7a431332c5aaa27d1adb86d93d429cb4e85598df
+Top:    85c49c816076cbd4e748a95aaf2e7d33b92a8875
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -11,7 +11,7 @@ execute script within existing container.
 
 ---
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 43e565d4..21357723 100644
+index 9f533c69..ef69f2fc 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -127,5 +127,5 @@

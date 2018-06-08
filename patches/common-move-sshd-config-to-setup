@@ -1,5 +1,5 @@
-Bottom: 5a0591393ced9d65631b47f7d18ce80356266847
-Top:    8d1415aa22edb74f9c6f36cee900229885a9f0df
+Bottom: 0065eecc57b5f56c2d902ca45f8f94c7ba20cc6e
+Top:    69498a554db2f0b9be80e2d0e31f80267caa548a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -8,11 +8,11 @@ Move sshd config to setup-remote-user role
 
 ---
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index d8c857f4..d2de5a35 100644
+index 05894452..da2d022b 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
-@@ -7,7 +7,6 @@
- - import_tasks: ip_addr.yml
+@@ -5,7 +5,6 @@
+   when: ansible_os_family == "RedHat"
  
  - import_tasks: packages.yml
 -- import_tasks: sshd_settings.yml

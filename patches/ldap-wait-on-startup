@@ -1,5 +1,5 @@
-Bottom: b9b55189bbb06ca698f45303a5cf70bde63964ff
-Top:    014a0f301203c1ec8050d76b9a7aa279547b4b81
+Bottom: 2cf0da3e8b1d6e0fd6043e08457002243e0cb5d5
+Top:    6301e7536ecb260345e8f2f31c29128288901474
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -12,7 +12,7 @@ ensure the service is running properly.
 
 ---
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index c8c2170b..04199054 100644
+index a96473bf..52535d45 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -149,6 +149,13 @@
@@ -27,4 +27,4 @@ index c8c2170b..04199054 100644
 +    state: started
 +
  - name: set LDAP admin password
-   command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ ldap_admin_password | quote }}'
+   command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ openldap_admin_password | quote }}'
