@@ -1,5 +1,5 @@
 Bottom: 05a9fbba377dfd529ceae32c601f1082c424185f
-Top:    05a9fbba377dfd529ceae32c601f1082c424185f
+Top:    663ffa9ea19d35e175c071639d462d337babdbfe
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:42:10 -0500
 
@@ -8,4 +8,356 @@ Use docker named volumes
 Instead of a data container, use docker named volume
 
 ---
-
+diff --git a/docker/docker-mantisbt/mantisbt.sh b/docker/docker-mantisbt/mantisbt.sh
+index 7c584d4d..44dc2c31 100755
+--- a/docker/docker-mantisbt/mantisbt.sh
++++ b/docker/docker-mantisbt/mantisbt.sh
+@@ -56,8 +56,8 @@ done
+ # make certian the containers exist
+ docker inspect ${MANTISBT_CONTAINER_NAME} > /dev/null
+ docker inspect ${MANTISBT_DB_CONTAINER_NAME} > /dev/null
+-docker inspect ${MANTISBT_DV_NAME} > /dev/null
+-docker inspect ${MANTISBT_DB_DV_NAME} > /dev/null
++docker volume inspect ${MANTISBT_DV_NAME} > /dev/null
++docker volume inspect ${MANTISBT_DB_DV_NAME} > /dev/null
+ 
+ get_db_user_and_password() {
+     db_user="$(docker 2>&1 exec ${MANTISBT_CONTAINER_NAME} grep -e '^$g_db_username' config_inc.php|sed 's|^.* = \"\(.*\)\";$|\1|' || true)"
+diff --git a/docker/docker-mediawiki/mediawiki.sh b/docker/docker-mediawiki/mediawiki.sh
+index d52bd317..be0f4f07 100755
+--- a/docker/docker-mediawiki/mediawiki.sh
++++ b/docker/docker-mediawiki/mediawiki.sh
+@@ -53,8 +53,8 @@ done
+ # make certian the containers exist
+ docker inspect ${WIKI_CONTAINER_NAME} > /dev/null
+ docker inspect ${WIKI_DB_CONTAINER_NAME} > /dev/null
+-docker inspect ${WIKI_DV_NAME} > /dev/null
+-docker inspect ${WIKI_DB_DV_NAME} > /dev/null
++docker volume inspect ${WIKI_DV_NAME} > /dev/null
++docker volume inspect ${WIKI_DB_DV_NAME} > /dev/null
+ 
+ get_db_user_and_password() {
+     db_user="$(docker 2>&1 exec ${WIKI_CONTAINER_NAME} grep -e '^$wgDBuser' LocalSettings.php|sed 's|^.* = \"\(.*\)\";$|\1|' || true)"
+diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
+index 8a1f2ef2..087ad336 100644
+--- a/roles/docker-exim4/defaults/main.yml
++++ b/roles/docker-exim4/defaults/main.yml
+@@ -23,6 +23,9 @@ exim4_image_name: '{{ docker_registry_username }}/exim4'
+ # the name of the container being started
+ exim4_container_name: '{{ docker_name_prefix }}exim4'
+ 
++# the name of the config-volume used by the container
++exim4_cv_name: '{{ docker_name_prefix }}exim4_CV'
++
+ # the name of the data-volume used by the container
+ exim4_dv_name: '{{ docker_name_prefix }}exim4_DV'
+ 
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index 4cc13caa..c2a0e354 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -92,10 +92,12 @@
+ # Create the data volumes
+ 
+ - name: data-volume container
+-  docker_datavolume:
+-    image_name: '{{ exim4_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ exim4_dv_name }}'
++  docker_volume:
++    name: '{{ exim4_cv_name }}'
++
++- name: data-volume container
++  docker_volume:
++    name: '{{ exim4_dv_name }}'
+ 
+ # *****************************************************************************
+ # Start the data container running
+@@ -109,6 +111,7 @@
+     restart_policy: always
+     state: started
+     volumes:
++      - '{{ exim4_cv_name }}:/etc/exim4:z'
+       - '{{ exim4_dv_name }}:/var/spool/exim4:z'
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+ 
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 8cc97adb..6e5b5c7e 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -97,16 +97,12 @@
+ # Create the data volumes
+ 
+ - name: data-volume container (gitlab)
+-  docker_datavolume:
+-    image_name: '{{ gitlab_dv_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ gitlab_dv_name }}'
++  docker_volume:
++    name: '{{ gitlab_dv_name }}'
+ 
+ - name: data-volume container (postgres)
+-  docker_datavolume:
+-    image_name: '{{ gitlab_db_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ gitlab_db_dv_name }}'
++  docker_volume:
++    name: '{{ gitlab_db_dv_name }}'
+ 
+ - name: stop prev container (postgres)
+   docker_container:
+@@ -140,7 +136,7 @@
+     name: '{{ gitlab_db_container_name }}'
+     detach: true
+     restart_policy: always
+-    volumes-from: '{{ gitlab_db_dv_name }}'
++    volumes_from: '{{ gitlab_db_dv_name }}'
+     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (gitlab)
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 2a286ea2..289ae4fd 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -113,16 +113,12 @@
+ # Create the data volumes
+ 
+ - name: data-volume container (mantisbt)
+-  docker_datavolume:
+-    image_name: '{{ mantisbt_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ mantisbt_dv_name }}'
++  docker_volume:
++    name: '{{ mantisbt_dv_name }}'
+ 
+ - name: data-volume container (mysql)
+-  docker_datavolume:
+-    image_name: '{{ mantisbt_db_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ mantisbt_db_dv_name }}'
++  docker_volume:
++    name: '{{ mantisbt_db_dv_name }}'
+ 
+ - name: stop prev container (mysql)
+   docker_container:
+@@ -152,7 +148,7 @@
+     name: '{{ mantisbt_db_container_name }}'
+     detach: true
+     restart_policy: always
+-    volumes-from:
++    volumes_from:
+       - '{{ mantisbt_db_dv_name }}'
+     image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
+ 
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index f201c8ea..3ad710ae 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -87,16 +87,12 @@
+ # Create the data volumes
+ 
+ - name: data-volume container (mediwiki)
+-  docker_datavolume:
+-    image_name: '{{ wiki_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ wiki_dv_name }}'
++  docker_volume:
++    name: '{{ wiki_dv_name }}'
+ 
+ - name: data-volume container (mysql)
+-  docker_datavolume:
+-    image_name: '{{ wiki_db_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ wiki_db_dv_name }}'
++  docker_volume:
++    name: '{{ wiki_db_dv_name }}'
+ 
+ - name: stop prev container (mysql)
+   docker_container:
+@@ -123,7 +119,7 @@
+     name: '{{ wiki_db_container_name }}'
+     detach: true
+     restart_policy: always
+-    volumes-from: '{{ wiki_db_dv_name }}'
++    volumes_from: '{{ wiki_db_dv_name }}'
+     image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (mediwiki)
+@@ -140,11 +136,11 @@
+     volumes-from: 
+       - '{{ openssl_dv_name }}'
+       - '{{ wiki_dv_name }}'
+-      env:
+-        - WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }}
+-        - WIKI_MAIL_USER=wiki
+-        - WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }}
+-      image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
++    env:
++      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
++      WIKI_MAIL_USER: 'wiki'
++      WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
++    image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
+index 1154f52c..f7ee6996 100644
+--- a/roles/docker-openldap/defaults/main.yml
++++ b/roles/docker-openldap/defaults/main.yml
+@@ -34,6 +34,7 @@ openldap_image_name: '{{ docker_registry_username }}/ldap'
+ openldap_container_name: '{{ docker_name_prefix }}ldap'
+ 
+ # the name of the data-volume used by the container
++openldap_cv_name: '{{ docker_name_prefix }}openldap_CV'
+ openldap_dv_name: '{{ docker_name_prefix }}openldap_DV'
+ 
+ # restore directories to temporarly store data being restored into docker containers
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index f395576b..02384ac8 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -76,11 +76,13 @@
+ # *****************************************************************************
+ # Create the data volumes
+ 
+-- name: data-volume container
+-  docker_datavolume:
+-    image_name: '{{ openldap_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ openldap_dv_name }}'
++- name: config volume
++  docker_volume:
++    name: '{{ openldap_cv_name }}'
++
++- name: data volume
++  docker_volume:
++    name: '{{ openldap_dv_name }}'
+ 
+ # *****************************************************************************
+ # Populate the ldap data-volume with default data
+@@ -92,7 +94,8 @@
+     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+     command: ['init_data_volumes']
+     volumes:
+-      - '{{ openldap_dv_name }}'
++      - '{{ openldap_cv_name }}:/etc/ldap:z'
++      - '{{ openldap_dv_name }}:/var/lib/ldap:z'
+   when: st_openldap_restore.stat.exists == False
+ 
+ - name: initial populate
+@@ -110,9 +113,10 @@
+     restart_policy: always
+     hostname: '{{ container_addr_map.ldap.hostname }}'
+     ports: '{{ container_port_map.ldap.port_args }}'
+-    volumes-from:
+-      - '{{ openssl_dv_name }}'
+-      - '{{ openldap_dv_name }}'
++    volumes:
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
++      - '{{ openldap_cv_name }}:/etc/ldap:z'
++      - '{{ openldap_dv_name }}:/var/lib/ldap:z'
+     env:
+       LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
+     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+@@ -124,8 +128,8 @@
+     restart_policy: always
+     hostname: '{{ container_addr_map.ldap.hostname }}'
+     ports: '{{ container_port_map.phpldapadmin.port_args }}'
+-    volumes-from:
+-      - '{{ openssl_dv_name }}'
++    volumes:
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+     env:
+       PHPLDAPADMIN_HTTPS: 'false'
+       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
+diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
+index 370f4797..d139794e 100644
+--- a/roles/docker-openldap/tasks/restore.yml
++++ b/roles/docker-openldap/tasks/restore.yml
+@@ -34,7 +34,7 @@
+   command: 'docker stop {{ openldap_container_name }}'
+ 
+ - name: load ldif files
+-  command: 'docker run --rm --volumes-from {{ openldap_dv_name }} -v {{ host_openldap_docker_restore_dir }}:/tmp/import_export {{ openldap_image_name }}:{{ docker_image_tag }} apply_ldif -n {{ item.dbnum }} -l {{ item.ldif_file }}'
++  command: 'docker run --rm --volume {{ openldap_cv_name }}:/etc/ldap:z --volume {{ openldap_dv_name }}:/var/lib/ldap:z -v {{ host_openldap_docker_restore_dir }}:/tmp/import_export {{ openldap_image_name }}:{{ docker_image_tag }} apply_ldif -n {{ item.dbnum }} -l {{ item.ldif_file }}'
+   with_items: '{{ openldap_backup_files }}'
+ 
+ - name: restart container (ldap)
+diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
+index 5522f437..53d4b541 100644
+--- a/roles/docker-openssl/tasks/main.yml
++++ b/roles/docker-openssl/tasks/main.yml
+@@ -69,11 +69,9 @@
+ # *****************************************************************************
+ # Create the data volumes
+ 
+-- name: data-volume container
+-  docker_datavolume:
+-    image_name: '{{ openssl_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ openssl_dv_name }}'
++- name: certificates volume
++  docker_volume:
++    name: '{{ openssl_dv_name }}'
+ 
+ # *****************************************************************************
+ # Populate the openssl data-volume with default data
+diff --git a/roles/docker-openssl/templates/before_backup.j2 b/roles/docker-openssl/templates/before_backup.j2
+index 3120162c..d07e5ef7 100644
+--- a/roles/docker-openssl/templates/before_backup.j2
++++ b/roles/docker-openssl/templates/before_backup.j2
+@@ -5,7 +5,8 @@
+ docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/openssl"
+ mkdir -p -m u=rwx,g=rwx,o= {{ openssl_docker_backup_dir }}
+ docker run --rm \
+-    --volumes-from {{ openssl_dv_name }} \
++    --volume {{ openssl_dv_name }}:/etc/ssl/private:z \
+     {{ openssl_image_name }}:{{ docker_image_tag }} backup > \
+         {{ openssl_docker_backup_dir }}{{ openssl_backup_file }}
++
+ {% endif %}
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index 6498a5d2..98e6f8b0 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -69,10 +69,8 @@
+ # Create the data volumes
+ 
+ - name: data-volume container
+-  docker_datavolume:
+-    image_name: '{{ svn_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    data_volume_container_name: '{{ svn_dv_name }}'
++  docker_volume:
++    name: '{{ svn_dv_name }}'
+ 
+ # *****************************************************************************
+ # Start the data container running
+@@ -86,9 +84,9 @@
+     ports: '{{ container_port_map.svn.port_args }}'
+     link:
+       - '{{ openldap_container_name }}:ldap'
+-    volumes-from:
+-      - '{{ openssl_dv_name }}'
+-      - '{{ svn_dv_name }}'
++    volumes:
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
++      - '{{ svn_dv_name }}:/var/lib/svn:z'
+     env:
+       SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
+       SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
+diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
+index 5a8f10fd..0a3fa25a 100644
+--- a/roles/docker-svn/tasks/restore.yml
++++ b/roles/docker-svn/tasks/restore.yml
+@@ -38,9 +38,8 @@
+ - name: restore svn repositories
+   docker_container:
+     detach: False
+-    volumes-from:
+-      - '{{ svn_dv_name }}'
+     volumes:
++      - '{{ svn_dv_name }}:/var/lib/svn:z'
+       - '{{ svn_docker_restore_dir }}:/tmp/import_export:z'
+     image: '{{ svn_image_name }}:{{ docker_image_tag }}'
+     command: ['import', '{{ svn_repos }}']
