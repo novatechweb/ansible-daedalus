@@ -1,5 +1,5 @@
-Bottom: 013158951ec6bb6e0ce05b94c38f0ab307bbe914
-Top:    158d2a75e7c4ebc17c34a27151e81fec3aa2e5bf
+Bottom: 8cfce3a6d25b8c9428ec68b44ced93aef418f6de
+Top:    c8d47a38026c021e9c06c62d5bff53b329fbdf02
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -10,10 +10,10 @@ Roles create it themselves
 
 ---
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index 7f9e8f5d..e955efa4 100644
+index 396b842c..7ef3f40c 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
-@@ -9,13 +9,6 @@
+@@ -8,13 +8,6 @@
  - import_tasks: sshd_settings.yml
  - import_tasks: mariadb_settings.yml
  

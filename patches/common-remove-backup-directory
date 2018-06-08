@@ -1,5 +1,5 @@
-Bottom: 9d31f3c2dd302d7049daf25907f6cf240b1b3ff7
-Top:    013158951ec6bb6e0ce05b94c38f0ab307bbe914
+Bottom: 7fa0514d6c0696bd9f2fe114beb75ea90ea1091a
+Top:    8cfce3a6d25b8c9428ec68b44ced93aef418f6de
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -10,10 +10,10 @@ Roles create their own backup directories
 
 ---
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index b588fb61..7f9e8f5d 100644
+index fafbba3a..396b842c 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
-@@ -9,15 +9,6 @@
+@@ -8,15 +8,6 @@
  - import_tasks: sshd_settings.yml
  - import_tasks: mariadb_settings.yml
  
@@ -29,7 +29,7 @@ index b588fb61..7f9e8f5d 100644
  - name: base docker_container.conf dir
    file:
      state: directory
-@@ -35,22 +26,3 @@
+@@ -34,22 +25,3 @@
  
  - include_tasks: selinux-backula-policy.yml
    when: (docker_bacula_pp.stat.exists is defined) and (docker_bacula_pp.stat.exists == false)
