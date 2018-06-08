@@ -27,21 +27,21 @@
     path_to_restore: '{{ wiki_docker_backup_dir }}'
   when: st_wiki_static_archive.stat.exists == False or st_wiki_SQL_file.stat.exists == False
 
-- name: permissions - Static
-  file:
-    path: '{{ wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rw,g=rw,o='
+# - name: permissions - Static
+#   file:
+#     path: '{{ wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rw,g=rw,o='
 
-- name: permissions - SQL
-  file:
-    path: '{{ wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
-    state: touch
-    owner: root
-    group: root
-    mode: 'u=rw,g=rw,o='
+# - name: permissions - SQL
+#   file:
+#     path: '{{ wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
+#     state: touch
+#     owner: root
+#     group: root
+#     mode: 'u=rw,g=rw,o='
 
 - name: exists - Static
   stat:
