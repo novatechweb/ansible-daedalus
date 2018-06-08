@@ -47,3 +47,6 @@ mantisbt_database_files_table_backup_file: '/mantisbtdb-files_table.sql'
 
 # Network names
 docker_network_frontend: 'frontend'
+
+# the name of the sql database used by mantisbt
+mantisbt_database_name: 'bugtracker'
