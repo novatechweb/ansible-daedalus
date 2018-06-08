@@ -1,5 +1,5 @@
 Bottom: 906e56c3f9933ab045c48d2fdb6bdcac1a120b22
-Top:    4729070369cb8af76851fa0187205d2d14989dc0
+Top:    bb85210c33906ea96d92d0f8ca5af8cb2864bb5d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -113,6 +113,19 @@ index 00000000..6ed5da6d
 +
 +    end
 +end
+diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
+index 0d394562..ff71231f 100644
+--- a/ansible-playbook/group_vars/docker-hosts/docker.yml
++++ b/ansible-playbook/group_vars/docker-hosts/docker.yml
+@@ -17,7 +17,7 @@ docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag
+ docker_backup_dir: '/tmp/docker'
+ 
+ # docker service restart policy
+-docker_restart_policy: 'always'
++docker_restart_policy: 'no'
+ 
+ # Network names
+ docker_network_frontend: 'frontend'
 diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
 new file mode 100644
 index 00000000..ae3590a2
