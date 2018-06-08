@@ -122,10 +122,10 @@
       --user={{ wiki_db_user | quote }}
       --password={{ wiki_db_password | quote }}
       '{{ wiki_database_name }}'
-  register: container_status
+  register: db_status
   retries: 20
   delay: 3
-  until: "container_status.rc == 0"
+  until: "db_status.rc == 0"
 
 # *****************************************************************************
 # Start the data container running
