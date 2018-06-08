@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4a072aecf4dfdfaa3a7a306b1808397725937d2c
-Head: c4fac8fba78225572a800ccaf94de49a919b2bf1
+Previous: 89dd6aef46e93c3ee84060507cfb0119c10aa919
+Head: 0c4e3569f18575bfb190a28d5e4f1f95ee4c5b81
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -70,6 +70,7 @@ Applied:
   playbook-simplify-credentials: 69de959c5e3f4d07131827c26e68f9e67118b59d
   tmp-update-gitlab-version: 86ef70e032a5c50798a1f60fdf66938789265748
   tmp-wiki-database: 0c4e3569f18575bfb190a28d5e4f1f95ee4c5b81
+Unapplied:
   tmp-mantis-database: cc9f2c2610c78111bbfbeab9a6e11f8b34b6f40b
   bacula-update-syntax: c2616e18f76830ad45506683cf918aae6eb87493
   all-improve-idempotency: 9cf8c4e0f8bc4d145a7704fa0b03871a86abed63
@@ -82,5 +83,4 @@ Applied:
   playbook-fix-credential-copy: a8f437113e190af304a951751a3ca6cb360add77
   playbook-add-docker_health-module: 0e6dbe70903d8553510fc74bf92fa441bb92738a
   TESTING--VirtualMachine: c4fac8fba78225572a800ccaf94de49a919b2bf1
-Unapplied:
 Hidden:
