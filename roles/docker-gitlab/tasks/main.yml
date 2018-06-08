@@ -129,19 +129,47 @@
 # Start the data container running
 
 - name: start container (redis)
-  docker_run:
-    container_name: '{{ gitlab_redis_container_name }}'
-    docker_run_arguments: '{{ redis_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ gitlab_redis_container_name }}'
+    detach: true
+    restart_policy: always
+    image: '{{ redis_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (postgres)
-  docker_run:
-    container_name: '{{ gitlab_db_container_name }}'
-    docker_run_arguments: '--volumes-from {{ gitlab_db_dv_name }} {{ gitlab_db_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ gitlab_db_container_name }}'
+    detach: true
+    restart_policy: always
+    volumes-from: '{{ gitlab_db_dv_name }}'
+    image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (gitlab)
-  docker_run:
-    container_name: '{{ gitlab_container_name }}'
-    docker_run_arguments: '--hostname={{ container_addr_map.git.hostname }} {{ container_port_map.git.port_args }} --link {{ openldap_container_name }}:gitlab-ldap --link {{ gitlab_redis_container_name }}:gitlab-redis --link {{ gitlab_db_container_name }}:gitlab-db --link {{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }} --volumes-from {{ openssl_dv_name }} --volumes-from {{ gitlab_dv_name }} --env GITLAB_HOST={{ container_addr_map.git.hostname }} --env GITLAB_SSH_HOST={{ container_addr_map.git.hostname }} --env DB_USER={{ gitlab_db_user }} --env DB_PASS={{ gitlab_db_password | quote }} --env SMTP_HOST={{ container_addr_map.exim4.hostname }} --env SMTP_PASS={{ gitlab_email_password | quote }} --env LDAP_PASS={{ ldap_proxyagent_password | quote }} --env GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }} --env GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }} --env-file {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ gitlab_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ gitlab_container_name }}'
+    detach: true
+    restart_policy: always
+    hostname: '{{ container_addr_map.git.hostname }}'
+    ports: '{{ container_port_map.git.port_args }}'
+    link:
+      - '{{ openldap_container_name }}:gitlab-ldap'
+      - '{{ gitlab_redis_container_name }}:gitlab-redis'
+      - '{{ gitlab_db_container_name }}:gitlab-db'
+      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+    volumes-from:
+      - '{{ openssl_dv_name }}'
+      - '{{ gitlab_dv_name }}'
+    env:
+      - GITLAB_HOST={{ container_addr_map.git.hostname }}
+      - GITLAB_SSH_HOST={{ container_addr_map.git.hostname }}
+      - DB_USER={{ gitlab_db_user }}
+      - DB_PASS={{ gitlab_db_password | quote }}
+      - SMTP_HOST={{ container_addr_map.exim4.hostname }}
+      - SMTP_PASS={{ gitlab_email_password | quote }}
+      - LDAP_PASS={{ ldap_proxyagent_password | quote }}
+      - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
+      - GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }}
+    env-file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
+    image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
 
 - name: Wait for gitlab to be fully running
   wait_for:

@@ -78,9 +78,21 @@
 # Start the data container running
 
 - name: start container
-  docker_run:
-    container_name: '{{ svn_container_name }}'
-    docker_run_arguments: '--hostname={{ container_addr_map.svn.hostname }} {{ container_port_map.svn.port_args }} --link {{ openldap_container_name }}:ldap --volumes-from {{ openssl_dv_name }} --volumes-from {{ svn_dv_name }} --env SVN_HOSTNAME={{ container_addr_map.svn.hostname }} --env SVN_LDAP_PASSWORD={{ openldap_proxyagent_password | quote }} {{ svn_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ svn_container_name }}'
+    detach: true
+    restart_policy: always
+    hostname: '{{ container_addr_map.svn.hostname }}'
+    ports: '{{ container_port_map.svn.port_args }}'
+    link:
+      - '{{ openldap_container_name }}:ldap'
+    volumes-from:
+      - '{{ openssl_dv_name }}'
+      - '{{ svn_dv_name }}'
+    env:
+      SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
+      SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
+    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
 
 # *****************************************************************************
 # restore?
