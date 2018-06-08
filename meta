@@ -1,6 +1,6 @@
 Version: 1
-Previous: 762ebb8a8c8927945031f368793d413ade37a311
-Head: ad54b542252ca332a4a6a2c794a54a07f07bef91
+Previous: 3c7d3ebd4cb8f6eb3f72f418044cdfb2328a3fc9
+Head: 7195721edef4f5569bc884045fd15f48ebbd56a2
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -48,18 +48,18 @@ Applied:
   ldap-add-phpldapadmin: 9a39a591e9a6493581347a64b525c2b58c5cdf11
   tmp-update-openldap: 2017501525f4d95cfde149e003a3a6e7777bc7cf
   ssl-limit-scope: ad54b542252ca332a4a6a2c794a54a07f07bef91
+  svn-hotcopy: abdd0ca0fd4adbd3d281e1f3021d2f2d444194f0
+  svn-allow-empty: 7947cae191f79be05f96389a3b2184cc07768aea
+  svn-create-required-directories: bb39014601cc4689de63e4ab500b2befe780106f
+  wiki-downgrade-extensions: 149546cbe28a019bcf09991133b8c8daeab62668
+  wiki-create-required-directories: ae3b0f8424449ebb82f729e397e7f4e83ffc4eb9
+  wiki-remove-libicu52: a5c0acbb25a4cecb039d18a856ba8986f51a6b40
+  wiki-update-entrypoint: 7d8b37d1293f70bcd51cdf188197dbd1372f19cc
+  mantisbt-create-required-directories: 09f5f3423bb1f3e6cdd0f823b87f3eefb72a7690
+  mantisbt-remove-libicu52: 6dfe1a85dc661dbe0adebebaedb84387d19f57b7
+  mantisbt-update-entrypoint: 663265a44aaac207e3890dec5e13dd2a71496478
+  buildbot-master: 7195721edef4f5569bc884045fd15f48ebbd56a2
 Unapplied:
-  svn-hotcopy: c7f0cc08c62cf4bce5e4913dfa1fe9a183085c4f
-  svn-allow-empty: fd0fe41565326db4387da73b7ade9a80e8e57482
-  svn-create-required-directories: 13517e8842c903e0e65a530a0b5b243329629248
-  wiki-downgrade-extensions: e4889824f7a36b81aa76a715fdedceedbc04e6b5
-  wiki-create-required-directories: 120c402a6020e3692fd7e9ad2ce72bb9eea61027
-  wiki-remove-libicu52: 7cb8437f087cdb2fc9dd3ba6f3fc512364eb246f
-  wiki-update-entrypoint: 93d37dd7c1794152d0b5dd1a1691390d2b26884c
-  mantisbt-create-required-directories: da57078db481ed45650fe3e871b8a4bd635bc20e
-  mantisbt-remove-libicu52: 91ed4cc6e933bf96e2544989cda4f1248e4ee193
-  mantisbt-update-entrypoint: cd3897938467c297e9e8ce5f43bc609ce859ff00
-  buildbot-master: 176bf57a3bc4ff0d689e4e49339738e52011709f
   buildbot-worker-ntel: c0727c661c6f8697761e4bce062ab2690f248955
   buildbot-worker-ptxdist: b73bd7641e8fa45865fd89a295644255b277241b
   buildbot-fix-ssh-folder-permission: d1ab0f99e5dc932d94f59abd44db984bfa6ab8a5
