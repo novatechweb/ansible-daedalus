@@ -1,0 +1,59 @@
+Bottom: ca62ec28a8ced17cf0b2ad056fe79a36bf11975f
+Top:    55b2a8b4064bed2c301d5beb74f44221a926cd67
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-08 09:20:26 -0500
+
+Refresh of tmp-wiki-database
+
+---
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index 437ef7c7..94ef795b 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -18,8 +18,7 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
+ 
+ # the name of the image being duilt and used for the container
+ wiki_image_name: '{{ docker_registry_username }}/wiki'
+-wiki_db_image_name: 'mysql'
+-wiki_db_image_tag: '5'
++wiki_db_image: 'mysql:5'
+ 
+ # the name of the container being started
+ wiki_container_name: '{{ docker_name_prefix }}wiki'
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index fb3b827e..67b60ab5 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -58,7 +58,7 @@
+     group: tape
+     mode: 'u=rw,g=r,o='
+ 
+-- name: exists - state file (mediawiki)
++- name: exists - state file
+   stat:
+     path: '{{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}/restore.date.txt'
+     get_checksum: False
+@@ -97,12 +97,12 @@
+ # *****************************************************************************
+ # Start the database
+ 
+-- name: Start initialization of empty volume
++- name: start container (mysql)
+   docker_container:
+     name: '{{ wiki_db_container_name }}'
+     detach: true
+     restart_policy: always
+-    image: '{{ wiki_db_image_name }}:{{ wiki_db_image_tag }}'
++    image: '{{ wiki_db_image }}'
+     volumes:
+       - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
+     env:
+@@ -113,7 +113,7 @@
+     networks:
+       - name: '{{ docker_network_frontend }}'
+ 
+-- name: wait for initialization to complete
++- name: wait for mysql initialization to complete
+   shell: >
+       printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
+       '{{ wiki_db_container_name }}'
