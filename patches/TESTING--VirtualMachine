@@ -1,5 +1,5 @@
 Bottom: 465a31a5eb224bf9d72596205e19a28516c797dd
-Top:    1e8608bc091fe53232757329ee1e60011988a412
+Top:    e3c9f38f8cf8c33d73e094429f660245e7cc8d8e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -259,7 +259,7 @@ index 00000000..fa188ba9
 +
 +ansible_user: vagrant
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 9ca28fa2..03bca01f 100644
+index 9ca28fa2..87e2e447 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -1,6 +1,18 @@
@@ -281,16 +281,7 @@ index 9ca28fa2..03bca01f 100644
  - name: Bacula
    hosts: bacula
    remote_user: ansibleremote
-@@ -13,6 +25,8 @@
-     mariadb_remote_root_access: false
-   - role: bacula-director
-   - role: bacula-storage
-+    tags:
-+      - bacula_storage
-   - role: bacula-client
-   - role: bacula-console
-   - role: bacula-script
-@@ -30,6 +44,10 @@
+@@ -30,6 +42,10 @@
      role: sshd
      tags:
      - sshd
@@ -314,95 +305,6 @@ index 00000000..3c11ab92
 +PLAYBOOK VARS:
 +
 +{{ vars | to_yaml }}
-diff --git a/ansible-runner/Dockerfile b/ansible-runner/Dockerfile
-new file mode 100644
-index 00000000..288b5ff2
---- /dev/null
-+++ b/ansible-runner/Dockerfile
-@@ -0,0 +1,40 @@
-+FROM ubuntu:latest
-+
-+RUN apt-get update \
-+&&  DEBIAN_FRONTEND=noninteractive apt-get install \
-+    -y \
-+    curl \
-+    git \
-+    openssh-client \
-+    python \
-+    python-svn \
-+    rsync \
-+    sshpass \
-+    subversion \
-+    vim
-+    
-+# Install pip
-+RUN curl -O https://bootstrap.pypa.io/get-pip.py \
-+&&  python get-pip.py --no-cache-dir
-+
-+RUN pip --no-cache-dir install \
-+    'ansible'
-+
-+ARG UID=1000
-+ARG GID=1000
-+
-+RUN groupadd \
-+    --gid ${GID} \
-+    --system \
-+    ansible \
-+&&  useradd \
-+    --comment "Ansible User" \
-+    --create-home \
-+    --gid ${GID} \
-+    --uid ${UID} \
-+    --system \
-+    ansible
-+
-+WORKDIR /ansible
-+VOLUME /ansible
-+USER ansible
-diff --git a/ansible-runner/build.sh b/ansible-runner/build.sh
-new file mode 100755
-index 00000000..96e80c66
---- /dev/null
-+++ b/ansible-runner/build.sh
-@@ -0,0 +1,12 @@
-+#!/bin/bash
-+
-+PWD=$(readlink -f $(dirname $0))
-+CONTEXT=$(readlink -f "$PWD/..")
-+cd $PWD
-+
-+docker build \
-+--build-arg UID="$(id -u)" \
-+--build-arg GID="$(id -g)" \
-+--pull \
-+--tag "daedalus-provisioner:latest" \
-+"$PWD"
-diff --git a/ansible-runner/run.sh b/ansible-runner/run.sh
-new file mode 100755
-index 00000000..f80680fe
---- /dev/null
-+++ b/ansible-runner/run.sh
-@@ -0,0 +1,19 @@
-+#!/bin/bash
-+
-+PWD=$(readlink -f $(dirname $0))
-+CONTEXT=$(readlink -f "$PWD/..")
-+cd $PWD
-+
-+exec docker run \
-+--env ANSIBLE_ROLES_PATH=/ansible \
-+--init \
-+--interactive \
-+--mount type=bind,src="$CONTEXT",dst="/ansible" \
-+--mount type=bind,src="$HOME/.ssh",dst="/home/ansible/.ssh" \
-+--network=host \
-+--rm \
-+--tty \
-+--user ansible \
-+--workdir "/ansible/ansible-playbook" \
-+daedalus-provisioner \
-+"$@"
 diff --git a/ansible.cfg b/ansible.cfg
 new file mode 100644
 index 00000000..7dbeeeb4
@@ -888,7 +790,7 @@ index 00000000..7dbeeeb4
 +# context = 3
 diff --git a/provision.sh b/provision.sh
 new file mode 100755
-index 00000000..ad58dd05
+index 00000000..3762e89d
 --- /dev/null
 +++ b/provision.sh
 @@ -0,0 +1,14 @@
@@ -903,144 +805,9 @@ index 00000000..ad58dd05
 +exec ansible-playbook \
 +        --connection=ssh \
 +        --timeout=30 \
-+        --inventory-file=/home/coopera/Developer/testdaedalus/vmdaedalus/vagrant_ansible_inventory \
++        --inventory-file=ansible-playbook/staging \
 +        -vv \
 +        ansible-playbook/site.yml "$@"
-diff --git a/roles/bacula-catalog/tasks/main.yml b/roles/bacula-catalog/tasks/main.yml
-index 2d22328a..3deb3fad 100644
---- a/roles/bacula-catalog/tasks/main.yml
-+++ b/roles/bacula-catalog/tasks/main.yml
-@@ -4,3 +4,4 @@
-   register: filecount
- - include_tasks: restore-catalog-with-bsr.yml
-   when: filecount.stdout_lines[1] == "0"
-+  tags: restore
-diff --git a/roles/bacula-restores/README.md b/roles/bacula-restores/README.md
-new file mode 100644
-index 00000000..225dd44b
---- /dev/null
-+++ b/roles/bacula-restores/README.md
-@@ -0,0 +1,38 @@
-+Role Name
-+=========
-+
-+A brief description of the role goes here.
-+
-+Requirements
-+------------
-+
-+Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-+
-+Role Variables
-+--------------
-+
-+A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-+
-+Dependencies
-+------------
-+
-+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-+
-+Example Playbook
-+----------------
-+
-+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-+
-+    - hosts: servers
-+      roles:
-+         - { role: username.rolename, x: 42 }
-+
-+License
-+-------
-+
-+BSD
-+
-+Author Information
-+------------------
-+
-+An optional section for the role authors to include contact information, or a website (HTML is not allowed).
-diff --git a/roles/bacula-restores/defaults/main.yml b/roles/bacula-restores/defaults/main.yml
-new file mode 100644
-index 00000000..540bc127
---- /dev/null
-+++ b/roles/bacula-restores/defaults/main.yml
-@@ -0,0 +1,2 @@
-+---
-+# defaults file for bacula-restores
-\ No newline at end of file
-diff --git a/roles/bacula-restores/handlers/main.yml b/roles/bacula-restores/handlers/main.yml
-new file mode 100644
-index 00000000..66e6f986
---- /dev/null
-+++ b/roles/bacula-restores/handlers/main.yml
-@@ -0,0 +1,2 @@
-+---
-+# handlers file for bacula-restores
-\ No newline at end of file
-diff --git a/roles/bacula-restores/meta/main.yml b/roles/bacula-restores/meta/main.yml
-new file mode 100644
-index 00000000..72237997
---- /dev/null
-+++ b/roles/bacula-restores/meta/main.yml
-@@ -0,0 +1,57 @@
-+galaxy_info:
-+  author: your name
-+  description: your description
-+  company: your company (optional)
-+
-+  # If the issue tracker for your role is not on github, uncomment the
-+  # next line and provide a value
-+  # issue_tracker_url: http://example.com/issue/tracker
-+
-+  # Some suggested licenses:
-+  # - BSD (default)
-+  # - MIT
-+  # - GPLv2
-+  # - GPLv3
-+  # - Apache
-+  # - CC-BY
-+  license: license (GPLv2, CC-BY, etc)
-+
-+  min_ansible_version: 1.2
-+
-+  # If this a Container Enabled role, provide the minimum Ansible Container version.
-+  # min_ansible_container_version:
-+
-+  # Optionally specify the branch Galaxy will use when accessing the GitHub
-+  # repo for this role. During role install, if no tags are available,
-+  # Galaxy will use this branch. During import Galaxy will access files on
-+  # this branch. If Travis integration is configured, only notifications for this
-+  # branch will be accepted. Otherwise, in all cases, the repo's default branch
-+  # (usually master) will be used.
-+  #github_branch:
-+
-+  #
-+  # platforms is a list of platforms, and each platform has a name and a list of versions.
-+  #
-+  # platforms:
-+  # - name: Fedora
-+  #   versions:
-+  #   - all
-+  #   - 25
-+  # - name: SomePlatform
-+  #   versions:
-+  #   - all
-+  #   - 1.0
-+  #   - 7
-+  #   - 99.99
-+
-+  galaxy_tags: []
-+    # List tags for your role here, one per line. A tag is a keyword that describes
-+    # and categorizes the role. Users find roles by searching for tags. Be sure to
-+    # remove the '[]' above, if you add tags to this list.
-+    #
-+    # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
-+    #       Maximum 20 tags per role.
-+
-+dependencies: []
-+  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
-+  # if you add dependencies to this list.
-\ No newline at end of file
 diff --git a/roles/bacula-restores/tasks/main.yml b/roles/bacula-restores/tasks/main.yml
 new file mode 100644
 index 00000000..560f5ba8
@@ -1073,35 +840,6 @@ index 00000000..560f5ba8
 +    force: yes
 +    mode: '{{ item.mode }}'
 +  with_items: '{{ bacula_restores_list.files }}'
-diff --git a/roles/bacula-restores/tests/inventory b/roles/bacula-restores/tests/inventory
-new file mode 100644
-index 00000000..878877b0
---- /dev/null
-+++ b/roles/bacula-restores/tests/inventory
-@@ -0,0 +1,2 @@
-+localhost
-+
-diff --git a/roles/bacula-restores/tests/test.yml b/roles/bacula-restores/tests/test.yml
-new file mode 100644
-index 00000000..3b1d784a
---- /dev/null
-+++ b/roles/bacula-restores/tests/test.yml
-@@ -0,0 +1,5 @@
-+---
-+- hosts: localhost
-+  remote_user: root
-+  roles:
-+    - bacula-restores
-\ No newline at end of file
-diff --git a/roles/bacula-restores/vars/main.yml b/roles/bacula-restores/vars/main.yml
-new file mode 100644
-index 00000000..393c5674
---- /dev/null
-+++ b/roles/bacula-restores/vars/main.yml
-@@ -0,0 +1,2 @@
-+---
-+# vars file for bacula-restores
-\ No newline at end of file
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 index 8b0fdae3..694f4144 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
@@ -1174,15 +912,6 @@ index 94246679..b692d16f 100644
 +    restart_policy: no
      volumes_from:
        - "{{ name_prefix }}TestStation_http_data_ncdiso"
-diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
-index 50b4e81c..2b626b35 100644
---- a/roles/docker-buildsystem/tasks/main.yml
-+++ b/roles/docker-buildsystem/tasks/main.yml
-@@ -120,3 +120,4 @@
- 
- - import_tasks: restore.yml
-   when: st_buildsystem_restore.stat.exists == False
-+  tags: restore
 diff --git a/roles/docker-buildsystem/tasks/restore.yml b/roles/docker-buildsystem/tasks/restore.yml
 index be79a681..26766490 100644
 --- a/roles/docker-buildsystem/tasks/restore.yml
@@ -1211,7 +940,7 @@ index be79a681..26766490 100644
  # *****************************************************************************
  # For old backups that included the mysql database.
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index ef69f2fc..4594a26a 100644
+index ef69f2fc..c081706c 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -87,6 +87,7 @@
@@ -1231,14 +960,6 @@ index ef69f2fc..4594a26a 100644
      state: started
      volumes:
        - '{{ exim4_cv_name }}:/etc/exim4:z'
-@@ -122,6 +123,7 @@
- 
- - include_tasks: restore.yml
-   when: st_exim4_restore.stat.exists == False
-+  tags: restore
- 
- # *****************************************************************************
- # Email accounts
 diff --git a/roles/docker-exim4/tasks/restore.yml b/roles/docker-exim4/tasks/restore.yml
 index cf94cf73..69102432 100644
 --- a/roles/docker-exim4/tasks/restore.yml
@@ -1292,7 +1013,7 @@ index 38cbfae8..61ea4f65 100644
  # *****************************************************************************
  # restore the gitlab backup
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 96a87fe3..38e207ea 100644
+index 96a87fe3..92605a06 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -84,6 +84,7 @@
@@ -1321,11 +1042,6 @@ index 96a87fe3..38e207ea 100644
      hostname: '{{ mantisbt_hostname }}'
      ports: '{{ mantisbt_port_args }}'
      networks:
-@@ -188,3 +189,4 @@
- 
- - include_tasks: restore.yml
-   when: st_mantisbt_restore.stat.exists == False
-+  tags: restore
 diff --git a/roles/docker-mantisbt/tasks/restore.yml b/roles/docker-mantisbt/tasks/restore.yml
 index 6289ba78..78f66b97 100644
 --- a/roles/docker-mantisbt/tasks/restore.yml
@@ -1384,7 +1100,7 @@ index 6289ba78..78f66b97 100644
  - name: exists - Static
    stat:
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 273f43c4..5303effc 100644
+index 273f43c4..96348fdc 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -82,6 +82,7 @@
@@ -1413,11 +1129,6 @@ index 273f43c4..5303effc 100644
      hostname: '{{ wiki_hostname }}'
      ports: '{{ wiki_port_args }}'
      networks:
-@@ -154,3 +155,4 @@
- 
- - include_tasks: restore.yml
-   when: st_mediawiki_restore.stat.exists == False
-+  tags: restore
 diff --git a/roles/docker-mediawiki/tasks/restore.yml b/roles/docker-mediawiki/tasks/restore.yml
 index 6ff541ed..f2b3409a 100644
 --- a/roles/docker-mediawiki/tasks/restore.yml
@@ -1521,15 +1232,6 @@ index 8fb5ac24..feaf93e7 100644
  
  # *****************************************************************************
  # restore the openldap backup
-diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
-index bf716ae4..8f0eaf8c 100644
---- a/roles/docker-openssl/tasks/main.yml
-+++ b/roles/docker-openssl/tasks/main.yml
-@@ -97,3 +97,4 @@
- 
- - include_tasks: restore.yml
-   when: st_openssl_restore.stat.exists == False
-+  tags: restore
 diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
 index ba36c6f3..1cfc3d4f 100644
 --- a/roles/docker-openssl/tasks/restore.yml
@@ -1556,7 +1258,7 @@ index ba36c6f3..1cfc3d4f 100644
  - name: exists - openssl archive
    stat:
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index 661fec43..9b7e0bbd 100644
+index 661fec43..61e42e4e 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -61,10 +61,10 @@
@@ -1580,11 +1282,6 @@ index 661fec43..9b7e0bbd 100644
      hostname: '{{ svn_hostname }}'
      ports: '{{ svn_port_args }}'
      networks:
-@@ -98,3 +98,4 @@
- 
- - include_tasks: restore.yml
-   when: st_svn_restore.stat.exists == False
-+  tags: restore
 diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
 index 0a3fa25a..22e72047 100644
 --- a/roles/docker-svn/tasks/restore.yml
