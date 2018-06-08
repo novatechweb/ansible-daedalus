@@ -1,6 +1,6 @@
 Version: 1
-Previous: 21a9f3a91b27a3107f5fed5348a50ffb038034ef
-Head: b8c451368ea7c503786ca36e2f914b43cddc3ee3
+Previous: 95436363e598d370304af9e2d083b75abd9b2751
+Head: 2a08f5c46319993672b141bbe05ea8a7792225f2
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -71,16 +71,16 @@ Applied:
   tmp-update-gitlab-version: f81a00b39ec54741f553d9aec9933ce8e22169f7
   tmp-wiki-database: 282e8cc388de79f6ef75e1d27a8a59c97599f46a
   tmp-mantis-database: b8c451368ea7c503786ca36e2f914b43cddc3ee3
+  bacula-update-syntax: b3caf83b84b650f02e195a811df8f10231a28c2e
+  all-improve-idempotency: bcb5280300222dee60a6e646be8f3856895850a4
+  buildbot-ssh-keygen: 6821c17d7bdea7ea6396c7afbb598c859784a9e8
+  gitlab_sshkey-create-role: 5a56dc25c0bb33480c9ec77ae16bfe91c70a223d
+  gitlab_user-create-role: a05511ca3bb679afdaa7538e4652798211e4eed3
+  buildbot-update-port-args: ca5045a626e6c846a6d6c68272f57c0706d63abc
+  buildbot-playbook: 5904456c0aa36a413076845818627db544013844
+  playbook-extract-docker-hosts: 2896e62cf2bf2a50701a7b5841a48320c5d73abf
+  playbook-fix-credential-copy: a06f42b335a2433efd28c8ada75c3fd4e94de5d2
+  playbook-add-docker_health-module: 197d2119fa496907f2f48268bd12f4b0b407904d
+  TESTING--VirtualMachine: 2a08f5c46319993672b141bbe05ea8a7792225f2
 Unapplied:
-  bacula-update-syntax: f596696418b0e18adae2d51ccfa9b21a2062021b
-  all-improve-idempotency: 96ae6bfd9d6a09ba25000de10c1e5b291d9be3a4
-  buildbot-ssh-keygen: 33ad7eeb881abd64e2109bc8d1297bb8c7e7135e
-  gitlab_sshkey-create-role: 1f347d9c8f853c252d6b4ff55af0082e378d470b
-  gitlab_user-create-role: a669308c31228fb7d124cbff94c7fe3a91a3d787
-  buildbot-update-port-args: a61aa9bf5ba334fbdfb9c91e706d810c9931cf51
-  buildbot-playbook: f9d4542d647f3cd86cd4cc4d8ce6b13288355582
-  playbook-extract-docker-hosts: b088d7ccc4952356e80b053dcaf84222a315481d
-  playbook-fix-credential-copy: 8faf3311a821ab6313006339ced6ddce3e2bcf00
-  playbook-add-docker_health-module: 32a18eb4be8ed256b4115c85a17d2e7442e8f679
-  TESTING--VirtualMachine: d92caf11bcd410d62e9bac7e7d8b1c594f3708f6
 Hidden:
