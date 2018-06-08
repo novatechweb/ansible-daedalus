@@ -1,5 +1,5 @@
 Bottom: ee266c9e3aed1d1cc6d5b31cc13d2e7c6ffdbe38
-Top:    d412c2b91ec3779887b31035e1ea6fbf03021fef
+Top:    7e622bd11f74e999615676332dcb670c6c0a38f1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -212,10 +212,10 @@ index da9ffa23..d1875f90 100644
  # the name of the container being started
  phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index ea01537f..2d6a09d9 100644
+index ea01537f..79921674 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
-@@ -124,6 +124,20 @@
+@@ -124,6 +124,21 @@
      networks:
        - name: '{{ docker_network_frontend }}'
  
@@ -232,6 +232,7 @@ index ea01537f..2d6a09d9 100644
 +    name: '{{ phpldapadmin_image_name }}'
 +    tag: '{{ docker_image_tag }}'
 +    path: '{{ docker_projects_dir }}/docker-phpldapadmin'
++    force: "{{ docker_image_force_build }}"
 +
  - name: start container (phpldapadmin)
    docker_container:
