@@ -1,5 +1,5 @@
-Bottom: 21a2c56815f249c90d5f694c002e803d08955c5a
-Top:    5e38dd26c1d58f898cacc44ec391af9182935ab0
+Bottom: 02b7c57c050bacb1f91421c395e619da752d0141
+Top:    5c222f22d7f97e19a00b6c41215df06e39e730bb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -11,7 +11,7 @@ that can be pulled from docker hub.
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 2ec6350c..227164b7 100644
+index a32df6d4..466ceb98 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -25,10 +25,6 @@
@@ -24,7 +24,7 @@ index 2ec6350c..227164b7 100644
 -    - base_images
    - name: Configure Docker networking
      role: docker-networking
-     tags:
+     net_connection: '{{ daedalus_net_connection }}'
 diff --git a/roles/docker-build-base-image/LICENSE b/roles/docker-build-base-image/LICENSE
 deleted file mode 100644
 index 8cdb8451..00000000

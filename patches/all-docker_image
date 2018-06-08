@@ -1,5 +1,5 @@
-Bottom: e8d2d36735f59221b6ff5ff543baeaaa65b3dd7b
-Top:    21a2c56815f249c90d5f694c002e803d08955c5a
+Bottom: ede4f6cef691c74a1607158d2127462dee82f42b
+Top:    02b7c57c050bacb1f91421c395e619da752d0141
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -25,7 +25,7 @@ index b984d740..11c50d32 100644
 +    path: '{{ docker_projects_dir }}/base-images/{{ item.key }}/{{ item.value.relative_dir }}'
    with_dict: "{{ docker_build_base_images }}"
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index ddd2a45e..43e565d4 100644
+index dc5bddd3..9f533c69 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -83,10 +83,10 @@
@@ -44,7 +44,7 @@ index ddd2a45e..43e565d4 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index e7aa983b..7e8556c1 100644
+index b9b281e5..3b754f74 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -81,14 +81,14 @@
@@ -68,11 +68,11 @@ index e7aa983b..7e8556c1 100644
  #    image_tag: '{{ docker_image_tag }}'
  #    dockerfile_dir: '{{ docker_projects_dir }}/docker-gitlab'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index dd57984f..d982b4e8 100644
+index 15bd4735..f16b50c8 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -77,10 +77,10 @@
-     dest: '{{ docker_projects_dir }}/docker-mantisbt'
+@@ -80,10 +80,10 @@
+     dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
  
  - name: build image
 -  docker_build:
@@ -86,7 +86,7 @@ index dd57984f..d982b4e8 100644
  
  - name: Checkout db repo
    git:
-@@ -89,10 +89,10 @@
+@@ -92,10 +92,10 @@
      dest: '{{ docker_projects_dir }}/docker-mysql-data'
  
  - name: build data-container image
@@ -102,11 +102,11 @@ index dd57984f..d982b4e8 100644
  # *****************************************************************************
  # copy the MySQL config to the restore directory
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index ce0edd94..00e4c2b7 100644
+index 6fa18b33..7028fa6d 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -78,10 +78,10 @@
-     dest: '{{ docker_projects_dir }}/docker-mediawiki'
+   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
  
  - name: build image
 -  docker_build:
@@ -121,7 +121,7 @@ index ce0edd94..00e4c2b7 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 4da8f5e6..c8c2170b 100644
+index bf7502d7..a96473bf 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -68,10 +68,10 @@
@@ -140,7 +140,7 @@ index 4da8f5e6..c8c2170b 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
-index 7d4ff5a7..7bb3bf84 100644
+index 53d4b541..bf716ae4 100644
 --- a/roles/docker-openssl/tasks/main.yml
 +++ b/roles/docker-openssl/tasks/main.yml
 @@ -61,10 +61,10 @@
@@ -159,7 +159,7 @@ index 7d4ff5a7..7bb3bf84 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index d1eeb954..4ca233a6 100644
+index 75e0cd5a..661fec43 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -60,10 +60,11 @@
