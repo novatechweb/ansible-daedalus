@@ -1,5 +1,5 @@
-Bottom: 1c40ddc64b4b829fcb353d69f960b3be962c7a6d
-Top:    907d8819e2df4c21adfe5f5ab7baf6985fc5bd68
+Bottom: 7a674925d820ce0ffe62630b82a9cf93ddc52b3e
+Top:    c2617623da1447c71229c13a6dcadd5f85a99099
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 14:12:12 -0500
 
@@ -8,10 +8,10 @@ Updates to openldap
 
 ---
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 50ea0a18..b39d8ee5 100644
+index 2d6a09d9..eee473c7 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
-@@ -106,7 +106,7 @@
+@@ -107,7 +107,7 @@
  # *****************************************************************************
  # Start the data container running
  
@@ -20,7 +20,7 @@ index 50ea0a18..b39d8ee5 100644
    docker_container:
      name: '{{ openldap_container_name }}'
      detach: true
-@@ -122,6 +122,19 @@
+@@ -123,6 +123,19 @@
      image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
      networks:
        - name: '{{ docker_network_frontend }}'
@@ -40,7 +40,7 @@ index 50ea0a18..b39d8ee5 100644
  
  # *****************************************************************************
  # Update or make the image.
-@@ -154,21 +167,15 @@
+@@ -155,21 +168,15 @@
        - name: '{{ docker_network_frontend }}'
      image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
  
