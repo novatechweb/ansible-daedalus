@@ -1,6 +1,6 @@
 Version: 1
-Previous: b3f2556817737bb71f75930491e869cd8d984232
-Head: 87109ec2fe0cf960e8c5e884c126789edf89d423
+Previous: 7afc004f974c53e12a4e8b2a6890dce3e3793b9d
+Head: cc9f2c2610c78111bbfbeab9a6e11f8b34b6f40b
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -70,8 +70,7 @@ Applied:
   playbook-simplify-credentials: 69de959c5e3f4d07131827c26e68f9e67118b59d
   tmp-update-gitlab-version: 86ef70e032a5c50798a1f60fdf66938789265748
   tmp-wiki-database: 0c4e3569f18575bfb190a28d5e4f1f95ee4c5b81
-  tmp-mantis-database: e652f57c4fb22909b856254d53aab6ed68b582a9
-  refresh-temp: 87109ec2fe0cf960e8c5e884c126789edf89d423
+  tmp-mantis-database: cc9f2c2610c78111bbfbeab9a6e11f8b34b6f40b
 Unapplied:
   bacula-update-syntax: eb7b8c6f0b1e02b1aa5c99cd79e0578001db8da8
   all-improve-idempotency: 07d9761be204356fec88d3e9f6d8414bd189915f
