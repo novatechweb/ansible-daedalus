@@ -1,5 +1,5 @@
-Bottom: d412c2b91ec3779887b31035e1ea6fbf03021fef
-Top:    703036ee284e0feab3d35d98881bd4c7055914bb
+Bottom: 7e622bd11f74e999615676332dcb670c6c0a38f1
+Top:    ce4701dcd5e5bf7dac37dbf604539a36777255a8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 14:12:12 -0500
 
@@ -8,7 +8,7 @@ Updates to openldap
 
 ---
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 2d6a09d9..eee473c7 100644
+index 79921674..edb103c3 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -107,7 +107,7 @@
@@ -40,7 +40,7 @@ index 2d6a09d9..eee473c7 100644
  
  # *****************************************************************************
  # Update or make the image.
-@@ -155,21 +168,15 @@
+@@ -156,21 +169,15 @@
        - name: '{{ docker_network_frontend }}'
      image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
  
