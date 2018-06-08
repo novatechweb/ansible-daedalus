@@ -1,5 +1,5 @@
 Bottom: efe78ecff2e5945d7fa73be9f552d7b0e0a0df45
-Top:    55b2a8b4064bed2c301d5beb74f44221a926cd67
+Top:    ceb35731b4a2b09edff6b36b831ea8cd679cf821
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:55:57 -0500
 
@@ -8,7 +8,7 @@ Fix wiki mysql database provision
 
 ---
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index a444eac8..94ef795b 100644
+index a444eac8..8a608ebd 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -18,7 +18,7 @@ wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
@@ -16,12 +16,12 @@ index a444eac8..94ef795b 100644
  # the name of the image being duilt and used for the container
  wiki_image_name: '{{ docker_registry_username }}/wiki'
 -wiki_db_image_name: '{{ docker_registry_username }}/mysql'
-+wiki_db_image: 'mysql:5'
++wiki_db_image_name: 'mysql:5'
  
  # the name of the container being started
  wiki_container_name: '{{ docker_name_prefix }}wiki'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 7028fa6d..67b60ab5 100644
+index 7028fa6d..81694f34 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -94,36 +94,39 @@
@@ -56,7 +56,7 @@ index 7028fa6d..67b60ab5 100644
      restart_policy: always
 -    volumes_from: '{{ wiki_db_dv_name }}'
 -    image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
-+    image: '{{ wiki_db_image }}'
++    image: '{{ wiki_db_image_name }}'
 +    volumes:
 +      - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
 +    env:
