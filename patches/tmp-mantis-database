@@ -1,5 +1,5 @@
 Bottom: 795749f8b9effa57176339a943877b48693e12a2
-Top:    c66cb3da8347c53e608b652509ec14799a4d726c
+Top:    5b3c40765fb3fa7d297372999d94466227ffeacc
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:56:24 -0500
 
@@ -41,15 +41,13 @@ index ddc8a8de..29727bd9 100644
 +# the name of the sql database used by mantisbt
 +mantisbt_database_name: 'bugtracker'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 62396985..8a83cd8b 100644
+index 62396985..08c65221 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -84,33 +84,7 @@
-     name: '{{ mantisbt_image_name }}'
-     tag: '{{ docker_image_tag }}'
+@@ -86,31 +86,6 @@
      path: '{{ docker_projects_dir }}/docker-mantisbt'
--    force: "{{ docker_image_force_build }}"
--
+     force: "{{ docker_image_force_build }}"
+ 
 -- name: Checkout db repo
 -  git:
 -    repo: '{{ mantisbt_db_image_repo }}'
@@ -75,11 +73,10 @@ index 62396985..8a83cd8b 100644
 -  - largefile.cnf
 -  - character-set.cnf
 -
-+  
  # *****************************************************************************
  # Create the data volumes
  
-@@ -118,44 +92,67 @@
+@@ -118,44 +93,67 @@
    docker_volume:
      name: '{{ mantisbt_dv_name }}'
  
@@ -172,7 +169,7 @@ index 62396985..8a83cd8b 100644
  - name: start container (mantisbt)
    docker_container:
      name: '{{ mantisbt_container_name }}'
-@@ -165,14 +162,14 @@
+@@ -165,14 +163,14 @@
      ports: '{{ mantisbt_port_args }}'
      networks:
        - name: '{{ docker_network_frontend }}'
