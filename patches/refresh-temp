@@ -1,0 +1,145 @@
+Bottom: 9b498c3e8aa3d0148649dff11bfd1d32d2fe3827
+Top:    ca62ec28a8ced17cf0b2ad056fe79a36bf11975f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-08 09:16:31 -0500
+
+Refresh of tmp-wiki-database
+
+---
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 253b3a19..fb3b827e 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -9,7 +9,7 @@
+ # *****************************************************************************
+ # Setup the directory where the backup and restore is to take place
+ 
+-- name: restore dir (wiki)
++- name: restore dir
+   file:
+     state: directory
+     path: '{{ wiki_docker_restore_dir }}'
+@@ -19,7 +19,7 @@
+     recurse: no
+     setype: svirt_sandbox_file_t
+ 
+-- name: docker_container.conf dir (wiki)
++- name: docker_container.conf dir
+   file:
+     state: directory
+     path: '{{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
+@@ -28,15 +28,6 @@
+     mode: 'u=rwx,g=rx,o=rx'
+     recurse: no
+ 
+-- name: docker_container.conf dir (mysql)
+-  file:
+-    state: directory
+-    path: '{{ docker_restore_config_base_dir }}/{{ wiki_db_dv_name }}'
+-    owner: root
+-    group: root
+-    mode: 'u=rwx,g=rx,o=rx'
+-    recurse: no
+-
+ # *****************************************************************************
+ # backup script part
+ 
+@@ -74,13 +65,6 @@
+     get_md5: False
+   register: st_mediawiki_restore
+ 
+-- name: exists - state file (mysql)
+-  stat:
+-    path: '{{ docker_restore_config_base_dir }}/{{ wiki_db_dv_name }}/restore.date.txt'
+-    get_checksum: False
+-    get_md5: False
+-  register: st_mediawiki_db_restore
+-
+ # *****************************************************************************
+ # Update or make the image.
+ 
+@@ -110,62 +94,39 @@
+   docker_volume:
+     name: '{{ wiki_db_dv_name }}'
+ 
+-# - name: initial populate (mysql)
+-#   docker_db_init:
+-#     image_name: '{{ wiki_db_image_name }}'
+-#     image_tag: '{{ wiki_db_image_tag }}'
+-#     container_name: '{{ wiki_db_dv_name }}_init_db'
+-#     data_volume_container_name: '{{ wiki_db_dv_name }}'
+-#     database_name: wikidb
+-#     database_user: '{{ wiki_db_user }}'
+-#     database_password: '{{ wiki_db_password | quote }}'
+-#     database_root_password: '{{ wiki_db_root_password | quote }}'
+-
+-- name: initialize mysql container
+-  when: st_mediawiki_db_restore.stat.exists == False
+-  block:
+-  - name: Start initialization of empty volume
+-    docker_container:
+-      name: '{{ wiki_db_dv_name}}_init_db'
+-      image: '{{ wiki_db_image_name }}:{{ wiki_db_image_tag }}'
+-      volumes:
+-        - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
+-      env:
+-        MYSQL_DATABASE: 'wikidb'
+-        MYSQL_ROOT_PASSWORD: '{{ wiki_db_root_password }}'
+-        MYSQL_USER: '{{ wiki_db_user }}'
+-        MYSQL_PASSWORD: '{{ wiki_db_password }}'
+-  - name: wait for initialization to complete
+-    shell: >
+-        printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
+-        {{ wiki_db_dv_name}}_init_db 
+-        mysql --host=localhost --user={{ wiki_db_user | quote }}
+-        --password={{ wiki_db_password | quote }} wikidb
+-    register: container_status
+-    retries: 20
+-    delay: 3
+-    until: "container_status.rc == 0"
+-  - name: remove initialization container
+-  docker_container:
+-      name: '{{ wiki_db_dv_name}}_init_db'
+-    state: stopped
+-  - name: State file
+-    shell: 'date --rfc-3339=seconds > {{ docker_restore_config_base_dir }}/{{ wiki_db_dv_name }}/restore.date.txt'
+-
+ # *****************************************************************************
+-# Start the data container running
++# Start the database
+ 
+-- name: start container (mysql)
++- name: Start initialization of empty volume
+   docker_container:
+     name: '{{ wiki_db_container_name }}'
+     detach: true
+     restart_policy: always
++    image: '{{ wiki_db_image_name }}:{{ wiki_db_image_tag }}'
+     volumes:
+       - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
+-    image: '{{ wiki_db_image_name }}:{{ wiki_db_image_tag }}'
++    env:
++      MYSQL_DATABASE: 'wikidb'
++      MYSQL_ROOT_PASSWORD: '{{ wiki_db_root_password }}'
++      MYSQL_USER: '{{ wiki_db_user }}'
++      MYSQL_PASSWORD: '{{ wiki_db_password }}'
+     networks:
+       - name: '{{ docker_network_frontend }}'
+ 
++- name: wait for initialization to complete
++  shell: >
++      printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
++      '{{ wiki_db_container_name }}'
++      mysql --host=localhost --user={{ wiki_db_user | quote }}
++      --password={{ wiki_db_password | quote }} wikidb
++  register: container_status
++  retries: 20
++  delay: 3
++  until: "container_status.rc == 0"
++
++# *****************************************************************************
++# Start the data container running
++
+ - name: start container (mediwiki)
+   docker_container:
+     name: '{{ wiki_container_name }}'
