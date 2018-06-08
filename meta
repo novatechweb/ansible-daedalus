@@ -1,6 +1,6 @@
 Version: 1
-Previous: 799155da8853a92097167d607a18afd3d29d175e
-Head: 4d2b864aa09e2aba9609205aa34e46117a2f757e
+Previous: 5bafd60b53265a48134a4748b16ea86c53286f1f
+Head: 0db579cdee7d38f73bf272eb626fb09eecee4119
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -76,8 +76,7 @@ Applied:
   buildbot-ssh-keygen: 77429b8a3cdeb01f85599ec0246c2448dd9d995e
   gitlab_sshkey-create-role: 91b23a81670e9796888d0ffbd18dfcf1117e8166
   gitlab_user-create-role: 3174487b9cf94c63a9c5431aa52326b23a6db381
-  buildbot-update-port-args: 627e3747fb5183f1d279759813a3e6bb13c04c02
-  refresh-temp: 4d2b864aa09e2aba9609205aa34e46117a2f757e
+  buildbot-update-port-args: 0db579cdee7d38f73bf272eb626fb09eecee4119
 Unapplied:
   buildbot-playbook: 7fd26848f07002206885430c6a13d1afb756e434
   playbook-extract-docker-hosts: 532ee0039a0b2393282f675cde1047a7a1617d40
