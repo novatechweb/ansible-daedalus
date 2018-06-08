@@ -106,19 +106,22 @@
     volumes:
       - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
     env:
-      MYSQL_DATABASE: 'wikidb'
+      MYSQL_DATABASE: '{{ wiki_database_name }}'
       MYSQL_ROOT_PASSWORD: '{{ wiki_db_root_password }}'
       MYSQL_USER: '{{ wiki_db_user }}'
       MYSQL_PASSWORD: '{{ wiki_db_password }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    state: started
 
 - name: wait for mysql initialization to complete
   shell: >
       printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
       '{{ wiki_db_container_name }}'
-      mysql --host=localhost --user={{ wiki_db_user | quote }}
-      --password={{ wiki_db_password | quote }} wikidb
+      mysql --host=localhost
+      --user={{ wiki_db_user | quote }}
+      --password={{ wiki_db_password | quote }}
+      '{{ wiki_database_name }}'
   register: container_status
   retries: 20
   delay: 3
@@ -144,6 +147,7 @@
       WIKI_MAIL_USER: 'wiki'
       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+    state: started
 
 # *****************************************************************************
 # restore?

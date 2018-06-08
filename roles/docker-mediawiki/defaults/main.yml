@@ -42,3 +42,6 @@ wiki_database_backup_file: '/wikidb.sql'
 
 # Network names
 docker_network_frontend: 'frontend'
+
+# the name of the sql database used by mediawiki
+wiki_database_name: wikidb
