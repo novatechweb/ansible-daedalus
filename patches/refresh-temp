@@ -1,5 +1,5 @@
-Bottom: ea47c4d9f77571571379fc8ed9b035e53d705bdf
-Top:    39966e89a3b1be8a42f581aedfbf38af1d1d2335
+Bottom: e0cbfe241d6fece6f0888f578cb56e86683f09a3
+Top:    3bf513bf7d831a289f7946a1683bdf170e3b4937
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 09:01:54 -0500
 
@@ -123,11 +123,11 @@ index 5111648b..aa95e93b 100644
 +phpmyadmin_ip_addr:   172.16.103.109
 +buildbot_ip_addr:     172.16.103.110
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 2f70867f..de8660ab 100644
+index a32df6d4..57779616 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -60,7 +60,7 @@
-   roles:
+@@ -31,7 +31,7 @@
+     - base_images
    - name: Configure Docker networking
      role: docker-networking
 -    net_connection: '{{ daedalus_net_connection }}'
