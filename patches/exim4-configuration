@@ -1,5 +1,5 @@
 Bottom: dd0086f4e8d5b2ebffbbf1b161ffd7bcd90a1d28
-Top:    9d98240133b546d3969aadbccf36c88f75b093a2
+Top:    834726dcc3c814068cf1fbf361f55fbb90dae646
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -501,7 +501,7 @@ index 00000000..340ced01
 +.endif
 diff --git a/docker/docker-exim4/etc/exim4/update-exim4.conf.conf b/docker/docker-exim4/etc/exim4/update-exim4.conf.conf
 new file mode 100644
-index 00000000..35f5589a
+index 00000000..2e267dd7
 --- /dev/null
 +++ b/docker/docker-exim4/etc/exim4/update-exim4.conf.conf
 @@ -0,0 +1,31 @@
@@ -525,7 +525,7 @@ index 00000000..35f5589a
 +
 +dc_eximconfig_configtype='internet'
 +dc_other_hostnames='novatech-llc.com'
-+dc_local_interfaces='127.0.0.1 ; ::1'
++dc_local_interfaces=''
 +dc_readhost=''
 +dc_relay_domains=''
 +dc_minimaldns='false'

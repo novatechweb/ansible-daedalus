@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4651a18f112d3c36742bdcb12d46bfebdf4c83ba
-Head: 59674d0c5a7ee95ae18a0a53d7c1586bab464298
+Previous: 906ba5b24321a6cc2bde33d6806c2297fd8f4ed5
+Head: e47e1d0269817d3093c0ae37b71dfe2c1c07fbd0
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -36,8 +36,7 @@ Applied:
   buildsystem-credentials: 574f6c50bee1b5fb4f1fc9584016bf32bfd57fea
   buildsystem-apache2-version-string: 5d970c20a6ce7a42e733c85e0c6b87951e94c022
   buildsystem-limit-mysql-backups: 8f873e8f9c4e065c0277ee694d5ceeed48bfd8ef
-  exim4-configuration: 729a81f15ee06fa3e175fafc0fed18639b551992
-  refresh-temp: 59674d0c5a7ee95ae18a0a53d7c1586bab464298
+  exim4-configuration: e47e1d0269817d3093c0ae37b71dfe2c1c07fbd0
 Unapplied:
   exim4-dockerfile: b2c96272cf99d7fa2791f0c06a4bf4afb30bf647
   exim4-ip-address: d336ef58683cfdf0f71f3988150c311a7832cb1e
