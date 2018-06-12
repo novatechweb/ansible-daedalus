@@ -1,6 +1,6 @@
 Version: 1
-Previous: b3c1846053a9bef86a64a79523cca865c46b538b
-Head: 4dedde582053f0a6171b86dfda203c681674238c
+Previous: b70d0e96555ff18fec94bc813a4eed5a85f19f56
+Head: 73b91ebd6eb0142acb2229b22724ea6073bbb231
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -59,24 +59,24 @@ Applied:
   mantisbt-remove-libicu52: 3b654f9b25728d95b8319fc981cf503d0ea64952
   mantisbt-update-entrypoint: d90c887d6267d57449a5c8509ec51d9356331071
   buildbot-master: 4dedde582053f0a6171b86dfda203c681674238c
+  buildbot-worker-host: e7c2869c803c44d9920ddc72374fe11de6b9bfad
+  playbook-extract-docker-hosts: 2c996a07da33b032660205a04d250e891d0c2386
+  buildbot-worker-ntel: 876c2ee08cd9657489758b3c2cfb700aa6193a45
+  buildbot-worker-ptxdist: 63f7e4841f3ae7ee320e67e8e88c3865a2453aad
+  buildbot-fix-ssh-folder-permission: db0fe07ec6598237b845fa1f9fb0089d83ddf8d0
+  buildbot-update-ntel-builds: a1da553de84d11624745f820f6578e067ba2a4cc
+  buildbot-parameterize-env: 51aff9274bfd4f70ce71ac4edeef0a7eba50d65c
+  buildbot-update-ptxdist-builds: 873ec8a24635de3c2d045d36387015493408b609
+  buildbot-image-entrypoint: f05082f932dbcab403193f2a2e791d8e5f352d08
+  buildbot-dependencies: a6bee33f51e871d833046a172be38bd3ffb823bc
+  playbook-simplify-credentials: cc76defcecfde91339a232a57ae00c8bdf0475bf
+  tmp-update-gitlab-version: 7ab71c6d9b410c09be24161dcdca83b12ec90e9a
+  tmp-wiki-database: b8560f15526167bafd92229c75eaf46cb99f0b07
+  tmp-mantis-database: 53e5f5fe6ee1c67c9e6589cc0e95c6afdcdf074f
+  bacula-update-syntax: e4f4ad3270968c26a38f8c7993747745c625d508
+  all-improve-idempotency: ad9840a3deba37cda56a4bcc31104324620d16e4
+  buildbot-ssh-keygen: 73b91ebd6eb0142acb2229b22724ea6073bbb231
 Unapplied:
-  buildbot-worker-host: fe328438309168a707dd4a9d1139c9bb274c2d06
-  playbook-extract-docker-hosts: 8b540358f829c611b4960f1165027069b5fff39f
-  buildbot-worker-ntel: c82611dae8f86df4f7293fd8b66783bf352811f2
-  buildbot-worker-ptxdist: 148fea7542abf738e0c25e0e3325b8d488c073de
-  buildbot-fix-ssh-folder-permission: bec8962a2381b9d6b4a89366176647c80545d4a2
-  buildbot-update-ntel-builds: 249b9e8c729b52d8f4eaa8be3c05656d639f6176
-  buildbot-parameterize-env: 58d5be43550df921209f3b402047420c33aa144b
-  buildbot-update-ptxdist-builds: 093168f151c522778f2a24fc4303c92bd87536e4
-  buildbot-image-entrypoint: ca221df2e3ba490bc031cb86ab7f9e915cc5e1d7
-  buildbot-dependencies: c485c64611a71f2dee1b0ffb9d390f9b108e29f8
-  playbook-simplify-credentials: 57694d703666e5ee5f9f44102f97891a7e762af2
-  tmp-update-gitlab-version: d08a27f34d38115b29eecb58650a45fa36f62dee
-  tmp-wiki-database: 4905a926f95bd70248f31dc636e9316a2f392997
-  tmp-mantis-database: 3b9b064b387c5109fa0ac0fe9ac5a1986c19db8f
-  bacula-update-syntax: 51ecc428d383bdf0ce61d79d5ef9638075c3d1c5
-  all-improve-idempotency: 7755f610f505fe3c651bcc502deb8dcce0c6d785
-  buildbot-ssh-keygen: 2e75485d7ef368b1798c51c0f0b6131ab12ee4c4
   gitlab_sshkey-create-role: b2860000a5bfb4355b91e8c3f9111360bd928766
   gitlab_user-create-role: f8716d598ebe3805d7512d948bdbaed4252f4934
   playbook-fix-credential-copy: cdb623fd426542576a5dbe6cff4f418a532ac281
