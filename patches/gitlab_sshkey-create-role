@@ -1,5 +1,5 @@
 Bottom: dd191153ab70fab43bdb2967e41d0773aaacdcf0
-Top:    8188ef503d752276ebb2064cc88b8d44ac0d335c
+Top:    a17637d7e33c356153b25a017f8a89cb639a1425
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 16:34:33 -0500
 
@@ -7,6 +7,45 @@ New role gitlab-sshkey
 
 
 ---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index ab38571b..e8629926 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -34,3 +34,34 @@
+   roles:
+   - role: buildbot-worker-ntel
+   - role: buildbot-worker-ptxdist
++
++- name: Gitlab public keys for buildbot containers
++  hosts: daedalus
++  become: true
++  become_user: root
++  become_method: sudo
++  tags:
++  - buildbot
++  roles:
++  - name: Add buildbot_master pubkey to buildbot user
++    role: gitlab-sshkey
++    vars:
++      username: buildbot
++      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
++      title: "buildbot_master"
++  - name: Add buildbot_worker_ntel pubkey to buildbot user
++    tags:
++    - buildbot
++    role: gitlab-sshkey
++    vars:
++      username: buildbot
++      pubkey: "{{ hostvars.buildbot_worker_ntel.pubkey }}"
++      title: "buildbot_worker_ntel"
++  - name: Add buildbot_worker_ptxdist pubkey to buildbot user
++    tags:
++    - buildbot
++    role: gitlab-sshkey
++    vars:
++      username: buildbot
++      pubkey: "{{ hostvars.buildbot_worker_ptxdist.pubkey }}"
++      title: "buildbot_worker_ptxdist"
 diff --git a/roles/gitlab-sshkey/README.md b/roles/gitlab-sshkey/README.md
 new file mode 100644
 index 00000000..225dd44b
