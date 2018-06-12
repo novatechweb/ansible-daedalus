@@ -1,5 +1,5 @@
 Bottom: ea47c4d9f77571571379fc8ed9b035e53d705bdf
-Top:    ea47c4d9f77571571379fc8ed9b035e53d705bdf
+Top:    e8cb0f498c10850588e4f478ba54433eaefb64a9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 08:58:45 -0500
 
@@ -8,4 +8,342 @@ temporary
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
+index 77d9ce6a..42db8fdb 100644
+--- a/ansible-playbook/group_vars/docker-hosts/networking.yml
++++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
+@@ -1,64 +1,53 @@
+ ---
+ 
+-svn_ip_addr: "{{ daedalus_subnet | ipaddr('101') | ipaddr('address') }}"
+ svn_hostname: svn.novatech-llc.com
+ svn_port_args:
+ - "{{ svn_ip_addr }}:80:80"
+ - "{{ svn_ip_addr }}:443:443"
+ 
+-gitlab_ip_addr: "{{ daedalus_subnet | ipaddr('102') | ipaddr('address') }}"
+ gitlab_hostname: git.novatech-llc.com
+ gitlab_port_args:
+ - "{{ gitlab_ip_addr }}:80:80"
+ - "{{ gitlab_ip_addr }}:443:443"
+ - "{{ gitlab_ip_addr }}:22:22"
+ 
+-wiki_ip_addr: "{{ daedalus_subnet | ipaddr('103') | ipaddr('address') }}"
+ wiki_hostname: wiki.novatech-llc.com
+ wiki_port_args:
+ - "{{ wiki_ip_addr }}:80:80"
+ - "{{ wiki_ip_addr }}:443:443"
+ 
+-mantisbt_ip_addr: "{{ daedalus_subnet | ipaddr('104') | ipaddr('address') }}"
+ mantisbt_hostname: mantis.novatech-llc.com
+ mantisbt_port_args:
+ - "{{ mantisbt_ip_addr }}:80:80"
+ - "{{ mantisbt_ip_addr }}:443:443"
+ 
+-build_ip_addr: "{{ daedalus_subnet | ipaddr('105') | ipaddr('address') }}"
+ build_hostname: buildsystem.novatech-llc.com
+ build_port_args:
+ - "{{ build_ip_addr }}:80:80"
+ - "{{ build_ip_addr }}:443:443"
+ 
+-testssh_ip_addr: "{{ daedalus_subnet | ipaddr('106') | ipaddr('address') }}"
+ testssh_hostname: testssh.novatech-llc.com
+ testssh_port_args:
+ - "{{ testssh_ip_addr }}:2200:22"
+ 
+-exim4_ip_addr: "{{ daedalus_subnet | ipaddr('107') | ipaddr('address') }}"
+ exim4_hostname: mail.novatech-llc.com
+ exim4_port_args:
+ - "{{ exim4_ip_addr }}:25:25"
+ - "{{ exim4_ip_addr }}:465:465"
+ - "{{ exim4_ip_addr }}:587:587"
+ 
+-openldap_ip_addr: "{{ daedalus_subnet | ipaddr('108') | ipaddr('address') }}"
+ openldap_hostname: ldap.novatech-llc.com
+ openldap_port_args:
+ - "{{ openldap_ip_addr }}:389:389"
+ - "{{ openldap_ip_addr }}:636:636"
+ 
+-phpldapadmin_ip_addr: "{{ daedalus_subnet | ipaddr('108') | ipaddr('address') }}"
+ phpldapadmin_hostname: ldap.novatech-llc.com
+ phpldapadmin_port_args:
+ - "{{ phpldapadmin_ip_addr }}:80:80"
+ - "{{ phpldapadmin_ip_addr }}:443:443"
+ 
+-phpmyadmin_ip_addr: "{{ daedalus_subnet | ipaddr('109') | ipaddr('address') }}"
+ phpmyadmin_hostname: phpmyadmin.novatech-llc.com
+ 
+-buildbot_ip_addr: "{{ daedalus_subnet | ipaddr('110') | ipaddr('address') }}"
+ buildbot_hostname: buildbot.novatech-llc.com
+ buildbot_port_args:
+ - "{{ buildbot_ip_addr }}:80:8080"
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+index f567d255..5e2d2774 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+@@ -1,4 +1,18 @@
+ ---
+ 
++ansible_user: ansibleremote
++
+ daedalus_subnet: 172.16.0.0/16
+ daedalus_net_connection: "Bridge br0"
++
++svn_ip_addr:          172.16.0.101
++gitlab_ip_addr:       172.16.0.102
++wiki_ip_addr:         172.16.0.103
++mantisbt_ip_addr:     172.16.0.104
++build_ip_addr:        172.16.0.105
++testssh_ip_addr:      172.16.0.106
++exim4_ip_addr:        172.16.0.107
++openldap_ip_addr:     172.16.0.108
++phpldapadmin_ip_addr: 172.16.0.108
++phpmyadmin_ip_addr:   172.16.0.109
++buildbot_ip_addr:     172.16.0.110
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+index 5111648b..aa95e93b 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+@@ -1,4 +1,18 @@
+ ---
+ 
+-daedalus_subnet: 172.16.103.0/16
++ansible_user: ansibleremote
++
++daedalus_subnet: 172.16.0.0/16
+ daedalus_net_connection: "enp5s0f0"
++
++svn_ip_addr:          172.16.103.101
++gitlab_ip_addr:       172.16.103.102
++wiki_ip_addr:         172.16.103.103
++mantisbt_ip_addr:     172.16.103.104
++build_ip_addr:        172.16.103.105
++testssh_ip_addr:      172.16.103.106
++exim4_ip_addr:        172.16.103.107
++openldap_ip_addr:     172.16.103.108
++phpldapadmin_ip_addr: 172.16.103.108
++phpmyadmin_ip_addr:   172.16.103.109
++buildbot_ip_addr:     172.16.103.110
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 2f70867f..de8660ab 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -60,7 +60,7 @@
+   roles:
+   - name: Configure Docker networking
+     role: docker-networking
+-    net_connection: '{{ daedalus_net_connection }}'
++    network_connection: '{{ daedalus_net_connection }}'
+     subnet: '{{ daedalus_subnet }}'
+     services:
+     - svn
+diff --git a/ansible-playbook/staging b/ansible-playbook/staging
+index 25764e80..cae6414d 100644
+--- a/ansible-playbook/staging
++++ b/ansible-playbook/staging
+@@ -1,12 +1,15 @@
++testdaedalus.novatech-llc.com ansible_host=172.16.0.200
++bbworker ansible_host=127.0.0.1 ansible_port=20022 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/bbworker/virtualbox/private_key'
++
+ [bacula]
+ testdaedalus.novatech-llc.com
+ 
+-[docker-hosts]
++[daedalus]
+ testdaedalus.novatech-llc.com
+ 
+-[buildsystem]
+-buildsystem.novatech-llc.com
+-
+-[buildbot]
++[docker-hosts]
+ testdaedalus.novatech-llc.com
+-buildbot-worker.novatech-llc.com
++bbworker
++
++[buildbot-worker]
++bbworker
+diff --git a/roles/docker-common/tasks/packages.yml b/roles/docker-common/tasks/packages.yml
+index ca85796b..fbc788ff 100644
+--- a/roles/docker-common/tasks/packages.yml
++++ b/roles/docker-common/tasks/packages.yml
+@@ -1,6 +1,21 @@
+ ---
+ # file: roles/docker-common/tasks/package.yaml
+ 
++# if the older python package docker-py was already installed, we need to remove
++# both docker-py and docker and then reinstall docker.
+ - name: Install docker python module
+   pip:
+-    name: docker==2.7.0
++    name: docker-py
++    state: absent
++  register: docker_py
++
++- name: Uninstall docker python module if docker-py was installed
++  pip:
++    name: docker
++    state: absent
++  when: docker_py.changed
++
++- name: Install docker python module
++  pip:
++    name: docker
++    state: present
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 82072b97..69620336 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -108,12 +108,12 @@
+     state: started
+ 
+ - name: Wait for gitlab to be fully running
+-  wait_for:
+-    delay: 10
+-    host: '{{ gitlab_network.ip_addr }}'
+-    port: 22
+-    state: started
+-    timeout: 180
++  docker_health:
++    name: '{{ gitlab_container_name }}'
++  register: health
++  retries: 60
++  delay: 5
++  until: health.Health.Status == "healthy"
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
+index 68e208c8..b32fce7d 100644
+--- a/roles/docker-gitlab/tasks/restore.yml
++++ b/roles/docker-gitlab/tasks/restore.yml
+@@ -73,6 +73,14 @@
+   command: >
+     docker exec -t {{ gitlab_container_name }} gitlab-ctl start
+ 
++- name: Wait for gitlab to be fully running
++  docker_health:
++    name: '{{ gitlab_container_name }}'
++  register: health
++  retries: 60
++  delay: 5
++  until: health.Health.Status == "healthy"
++
+ - name: Set root user password in restored database
+   command: >
+     docker exec -t {{ gitlab_container_name }} 
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 08c65221..241372b3 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -123,7 +123,7 @@
+ 
+ - name: start container (mysql)
+   docker_container:
+-    name: '{{ mantisbt_db_dv_name}}'
++    name: '{{ mantisbt_db_container_name}}'
+     detach: true
+     restart_policy: '{{ docker_restart_policy }}'
+     image: '{{ mantisbt_db_image_name }}'
+@@ -141,7 +141,7 @@
+ - name: wait for initialization to complete
+   shell: >
+       printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
+-      '{{ mantisbt_db_dv_name}}'
++      '{{ mantisbt_db_container_name}}'
+       mysql --host=localhost 
+       --user={{ mantisbt_db_user | quote }}
+       --password={{ mantisbt_db_password | quote }} 
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 9f7f65cf..4e8eb137 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -144,7 +144,7 @@
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+       - '{{ wiki_dv_name }}/var/www/html:z'
+     env:
+-      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
++      WIKI_HOSTNAME: '{{ wiki_hostname }}'
+       WIKI_MAIL_USER: 'wiki'
+       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
+     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+diff --git a/roles/docker-networking/tasks/ip_addr.yml b/roles/docker-networking/tasks/ip_addr.yml
+index f5d4ff8b..5ef28e7f 100644
+--- a/roles/docker-networking/tasks/ip_addr.yml
++++ b/roles/docker-networking/tasks/ip_addr.yml
+@@ -23,9 +23,9 @@
+   command: >
+     nmcli connection 
+     modify '{{ network_connection }}' 
+-    +ipv4.addresses '{{ ip_addr }}/{{ subnet | ipaddr("prefix") }}'
++    +ipv4.addresses '{{ ip_addr }}'
+   vars:
+-    ip_addr: '{{ lookup("vars", item + "_ip_addr") }}'
++    ip_addr: '{{ lookup("vars", item + "_ip_addr") }}/{{ subnet | ipaddr("prefix") }}'
+   loop: "{{ services }}"
+  
+ - sysctl:
+diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
+index 966c9a93..7c922cd5 100644
+--- a/roles/mariadb/tasks/main.yml
++++ b/roles/mariadb/tasks/main.yml
+@@ -3,31 +3,42 @@
+     that:
+     - mariadb_root_password is defined
+ - name: Install MariaDB
+-  yum: name={{ item }} state=present
++  yum: 
++    name: '{{ item }}'
++    state: present
+   with_items:
+     - mariadb-server
+     - mariadb
+ - name: Config MariaDB server
+-  template: src=ansible.cnf.j2 dest={{ mariadb_server_config_dir }}/ansible.cnf
+-            owner=root group=root mode=0644 backup=yes
++  template:
++    src: ansible.cnf.j2
++    dest: '{{ mariadb_server_config_dir }}/ansible.cnf'
++    owner: root 
++    group: root 
++    mode: 0644 
++    backup: yes
++- name: Set host mysqld bind-address
++  template:
++    src: mariadb-bind-address.j2
++    dest: '{{ mariadb_server_config_dir }}/mariadb-bind-address.cnf'
++    owner: root 
++    group: root 
++    mode: 0644 
++    backup: yes
+ - name: Enable and start MariaDB service
+-  service: name=mariadb enabled=yes state=started
++  service: 
++    name: mariadb 
++    enabled: yes 
++    state: started
+ - name: Check previous installation
+-  stat: path={{ mariadb_client_config }}
++  stat: 
++    path: '{{ mariadb_client_config }}'
+   register: cfg
+ - include_tasks: initial_config.yml
+   when: cfg.stat.exists is defined and cfg.stat.exists == false
+ - name: Open the firewall
+-  firewalld: service=mysql permanent=true state=enabled
++  firewalld: 
++    service: mysql 
++    permanent: true 
++    state: enabled
+   when: mariadb_open_firewall
+-- name: Set host mysqld bind-address
+-  template:
+-    src: mariadb-bind-address.j2
+-    dest: /etc/my.cnf.d/mariadb-bind-address.cnf
+-  register: bind_cnf
+-- name: Restart MariaDB service
+-  service:
+-    name: mariadb
+-    enabled: yes
+-    state: restarted
+-  when: bind_cnf.changed
