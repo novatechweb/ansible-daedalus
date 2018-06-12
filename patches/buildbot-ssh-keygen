@@ -1,5 +1,5 @@
 Bottom: f035c1b490231dca88b34bb686c14fbb862cc157
-Top:    afac38baa887182022de9c013ba5f30a904789cd
+Top:    03e126ffdb8b11779aefd5b4792b0a6a701e431a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-31 16:31:30 -0500
 
@@ -26,3 +26,21 @@ index 71002f8b..85c28248 100755
 +ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/null 2>/dev/null
  
  ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
+ 
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 3415bab6..ff25c6fb 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -33,6 +33,12 @@
+     env: '{{ buildbot_env }}'
+     ports: '{{ buildbot_port_args }}'
+ 
++- name: Grab ssh public key
++  command: >
++    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
++  changed_when: false
++  register: output
++
+ - name: Add buildbot_master host
+   add_host:
+     name: buildbot_master
