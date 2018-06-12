@@ -1,6 +1,21 @@
 ---
 # file: roles/docker-common/tasks/package.yaml
 
+# if the older python package docker-py was already installed, we need to remove
+# both docker-py and docker and then reinstall docker.
 - name: Install docker python module
   pip:
-    name: docker==2.7.0
+    name: docker-py
+    state: absent
+  register: docker_py
+
+- name: Uninstall docker python module if docker-py was installed
+  pip:
+    name: docker
+    state: absent
+  when: docker_py.changed
+
+- name: Install docker python module
+  pip:
+    name: docker
+    state: present
