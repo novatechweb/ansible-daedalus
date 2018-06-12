@@ -17,6 +17,14 @@
     group: root 
     mode: 0644 
     backup: yes
+- name: Set host mysqld bind-address
+  template:
+    src: mariadb-bind-address.j2
+    dest: '{{ mariadb_server_config_dir }}/mariadb-bind-address.cnf'
+    owner: root 
+    group: root 
+    mode: 0644 
+    backup: yes
 - name: Enable and start MariaDB service
   service: 
     name: mariadb 
@@ -34,14 +42,3 @@
     permanent: true 
     state: enabled
   when: mariadb_open_firewall
-- name: Set host mysqld bind-address
-  template:
-    src: mariadb-bind-address.j2
-    dest: /etc/my.cnf.d/mariadb-bind-address.cnf
-  register: bind_cnf
-- name: Restart MariaDB service
-  service:
-    name: mariadb
-    enabled: yes
-    state: restarted
-  when: bind_cnf.changed
