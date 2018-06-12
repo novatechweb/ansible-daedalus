@@ -1,6 +1,6 @@
 Version: 1
-Previous: 239bad392cb05d11636c4437e8975eca411dee74
-Head: 51ecc428d383bdf0ce61d79d5ef9638075c3d1c5
+Previous: 4c9f875fbce8fe677c57550fafb60cdc2865df0a
+Head: 1b5c6cbc09ddea9447a8ab7eab4874cc6570b48a
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -72,15 +72,15 @@ Applied:
   tmp-wiki-database: 4905a926f95bd70248f31dc636e9316a2f392997
   tmp-mantis-database: 3b9b064b387c5109fa0ac0fe9ac5a1986c19db8f
   bacula-update-syntax: 51ecc428d383bdf0ce61d79d5ef9638075c3d1c5
+  all-improve-idempotency: 7755f610f505fe3c651bcc502deb8dcce0c6d785
+  buildbot-ssh-keygen: 2e75485d7ef368b1798c51c0f0b6131ab12ee4c4
+  gitlab_sshkey-create-role: b2860000a5bfb4355b91e8c3f9111360bd928766
+  gitlab_user-create-role: f8716d598ebe3805d7512d948bdbaed4252f4934
+  buildbot-update-port-args: 586f17a0f254ad313edbee082bf9d943cec85e86
+  buildbot-playbook: 3aab9e88845dff5eca3edc1b7026598023cd357e
+  playbook-extract-docker-hosts: 635dc9a8cbb82f604957c69c2a2e8d3c1191e1be
+  playbook-fix-credential-copy: cdb623fd426542576a5dbe6cff4f418a532ac281
+  playbook-add-docker_health-module: df469e8c0c70de966e4258292491bd3028f325e4
+  TESTING--VirtualMachine: 1b5c6cbc09ddea9447a8ab7eab4874cc6570b48a
 Unapplied:
-  all-improve-idempotency: c0cd9b182871c741649259434cbf00c77fc58a9e
-  buildbot-ssh-keygen: 6665e440afacec84cca4de31fc53cc6dc18a2aa4
-  gitlab_sshkey-create-role: 3145e061b4cb97076dba0806df06bd0baa483f70
-  gitlab_user-create-role: ecb98cfc097967144dd3a8df401006931b29b037
-  buildbot-update-port-args: 9ebbb9745d90398d47ca8113b8f110be70c3f695
-  buildbot-playbook: 763a132e727235b15152a5c194f144de1744913c
-  playbook-extract-docker-hosts: ccaa10a76bcddada0f2bd7050a1f5b2d9a74eb49
-  playbook-fix-credential-copy: 904b883c1f119848499e0e5b740dabea61271576
-  playbook-add-docker_health-module: 7ed30a5cedb2c99b52b1bca20daee0cc1b62ea54
-  TESTING--VirtualMachine: 42f5e5d9dd20635ccd1f7390a23c44fab3835a8b
 Hidden:
