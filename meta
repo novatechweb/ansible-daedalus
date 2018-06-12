@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2312d32ed3ecd512a0bb8d4261d05a3e4938f29c
-Head: 0f42c62eac0e563bc6a521ab1dcec56c56bccce6
+Previous: b7ec9fef47d5729461d6fdce99cfb6c86d698bfa
+Head: 8bff166a1a0554ed465a68203a64a5b5e1984969
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -82,5 +82,6 @@ Applied:
   playbook-fix-credential-copy: 7b30acab20a08910a1d8885b88468a148af4aa1b
   playbook-add-docker_health-module: 5d89a722276237621f9b3716afc7082d566264cc
   TESTING--VirtualMachine: 0f42c62eac0e563bc6a521ab1dcec56c56bccce6
+  refresh-temp: 8bff166a1a0554ed465a68203a64a5b5e1984969
 Unapplied:
 Hidden:
