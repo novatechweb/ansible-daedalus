@@ -1,5 +1,5 @@
 Bottom: aec201736a4f68bf24a0feaac19075cd3c2d9ec1
-Top:    d52c8fc5bd11120387bedcf4dbc60c56e9234e1f
+Top:    e3ba019abfcdc9c9fcc9804b920eeb7f5dfb106e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -10,14 +10,53 @@ We don't use this file, so ignore it
 
 ---
 diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
-index 8d9d35cb..d15e26ce 100755
+index 8d9d35cb..3c3e0a26 100755
 --- a/docker/docker-exim4/docker-entrypoint.sh
 +++ b/docker/docker-exim4/docker-entrypoint.sh
-@@ -21,7 +21,6 @@ chown -R root:mail /var/mail
+@@ -20,27 +20,25 @@ chown -R root:mail /var/mail
+ 
  case ${1} in
      exim4)
-         if   [[ -f ${CONFIG_PATH}/update-exim4.conf.conf ]] \
+-        if   [[ -f ${CONFIG_PATH}/update-exim4.conf.conf ]] \
 -          && [[ -f ${CONFIG_PATH}/exim4.conf.template ]] \
-           && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
-         then
-             # set the hostname
+-          && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
+-        then
+-            # set the hostname
+-            echo "${HOSTNAME}" > /etc/mailname
+-            # copy certificate
+-            [ -e /etc/ssl/private/exim.crt ] \
+-                && rm -f ${CONFIG_PATH}/exim.crt \
+-                && cp $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt \
+-                && chmod 640 ${CONFIG_PATH}/exim.crt \
+-                && chown root:Debian-exim ${CONFIG_PATH}/exim.crt
+-            # copy key
+-            [ -e /etc/ssl/private/exim.key ] \
+-                && rm -f ${CONFIG_PATH}/exim.key \
+-                && cp $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key \
+-                && chmod 640 ${CONFIG_PATH}/exim.key \
+-                && chown root:Debian-exim ${CONFIG_PATH}/exim.key
+-            # run the debian utility to update/generate the configuration
+-            $(which update-exim4.conf) --verbose
+-        fi
++        # set the hostname
++        echo "${HOSTNAME}" > /etc/mailname
++
++        # copy certificate
++        [ -e /etc/ssl/private/exim.crt ] \
++            && rm -f ${CONFIG_PATH}/exim.crt \
++            && cp $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt \
++            && chmod 640 ${CONFIG_PATH}/exim.crt \
++            && chown root:Debian-exim ${CONFIG_PATH}/exim.crt
++
++        # copy key
++        [ -e /etc/ssl/private/exim.key ] \
++            && rm -f ${CONFIG_PATH}/exim.key \
++            && cp $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key \
++            && chmod 640 ${CONFIG_PATH}/exim.key \
++            && chown root:Debian-exim ${CONFIG_PATH}/exim.key
++
++        # run the debian utility to update/generate the configuration
++        $(which update-exim4.conf) --verbose
+         
+         # Check configuration
+         if ! /usr/sbin/exim4 -bV > /dev/null ; then
