@@ -1,6 +1,6 @@
 Version: 1
-Previous: ad27ba4686d1b26b80aa584c2ecf67dbc02247ec
-Head: fcdaa4b3838e8c33c62a91c298b23e7c0464241e
+Previous: 9051b2ef425f3fe595d5c0197a09000038e41489
+Head: 242d5d8b33e6653025e0333054af0c0254f7e2e7
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -63,6 +63,7 @@ Applied:
   playbook-extract-docker-hosts: 8b540358f829c611b4960f1165027069b5fff39f
   buildbot-worker-ntel: c82611dae8f86df4f7293fd8b66783bf352811f2
   buildbot-worker-ptxdist: fcdaa4b3838e8c33c62a91c298b23e7c0464241e
+  refresh-temp: 242d5d8b33e6653025e0333054af0c0254f7e2e7
 Unapplied:
   buildbot-fix-ssh-folder-permission: bec8962a2381b9d6b4a89366176647c80545d4a2
   buildbot-update-ntel-builds: 249b9e8c729b52d8f4eaa8be3c05656d639f6176

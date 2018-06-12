@@ -1,0 +1,17 @@
+Bottom: 2f199841bf7063c810a248ba60bdc342c6866560
+Top:    61fdca97fa9bb58202e8304a936b48f90e147313
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-12 09:43:41 -0500
+
+Refresh of buildbot-worker-ptxdist
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 213d3e55..5fc5bb7e 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -25,3 +25,4 @@
+     buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+   roles:
+   - role: buildbot-worker-ntel
++  - role: buildbot-worker-ptxdist
