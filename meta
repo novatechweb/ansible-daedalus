@@ -1,6 +1,6 @@
 Version: 1
-Previous: 09450afcdc3f2b4ccd8f0d43e05f1933bdbcae32
-Head: 6dff685935722293ac6c2fab70aa0ab47f01385e
+Previous: 812103244264991ae3dfa4f538519fb9379be738
+Head: 9d370d985312b3a756c35faa5d784302a333c8a9
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -60,6 +60,7 @@ Applied:
   mantisbt-update-entrypoint: d90c887d6267d57449a5c8509ec51d9356331071
   buildbot-master: ea9f952497f506c53bcb8678a1e12aae68b2265c
   buildbot-worker-host: 6dff685935722293ac6c2fab70aa0ab47f01385e
+  refresh-temp: 9d370d985312b3a756c35faa5d784302a333c8a9
 Unapplied:
   buildbot-worker-ntel: 74c585358053054d76ca6255406e11eca0fad7de
   buildbot-worker-ptxdist: ce5a5279cea04117c9ec0effb0eb0728720cb57c
