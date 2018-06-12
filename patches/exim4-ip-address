@@ -3,7 +3,10 @@ Top:    6d595304d69b66b20b2f2d51c1664d83dad1866d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
-Cleaner method to get ip address
+Remove local interface configuration
+
+exim4 container will listen on all interfaces available within
+the container.
 
 
 ---
