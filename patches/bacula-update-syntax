@@ -1,5 +1,5 @@
 Bottom: 9aab154932bf3a00737f93de53c0953935bfc593
-Top:    9f4099e5994b920864f9509835f6f509dd9a3377
+Top:    8dbe3e46d315d70697207da99cab646bb04b5125
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-25 10:19:41 -0500
 
@@ -132,3 +132,50 @@ index 7fb68000..c15db314 100644
 +  file:
 +    path: '{{ bacula_storage_tmp_dir.stdout }} '
 +    state: absent
+diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
+index 966c9a93..dc0a5b6d 100644
+--- a/roles/mariadb/tasks/main.yml
++++ b/roles/mariadb/tasks/main.yml
+@@ -3,22 +3,36 @@
+     that:
+     - mariadb_root_password is defined
+ - name: Install MariaDB
+-  yum: name={{ item }} state=present
++  yum: 
++    name: '{{ item }}'
++    state: present
+   with_items:
+     - mariadb-server
+     - mariadb
+ - name: Config MariaDB server
+-  template: src=ansible.cnf.j2 dest={{ mariadb_server_config_dir }}/ansible.cnf
+-            owner=root group=root mode=0644 backup=yes
++  template:
++    src: ansible.cnf.j2
++    dest: '{{ mariadb_server_config_dir }}/ansible.cnf'
++    owner: root 
++    group: root 
++    mode: 0644 
++    backup: yes
+ - name: Enable and start MariaDB service
+-  service: name=mariadb enabled=yes state=started
++  service: 
++    name: mariadb 
++    enabled: yes 
++    state: started
+ - name: Check previous installation
+-  stat: path={{ mariadb_client_config }}
++  stat: 
++    path: '{{ mariadb_client_config }}'
+   register: cfg
+ - include_tasks: initial_config.yml
+   when: cfg.stat.exists is defined and cfg.stat.exists == false
+ - name: Open the firewall
+-  firewalld: service=mysql permanent=true state=enabled
++  firewalld: 
++    service: mysql 
++    permanent: true 
++    state: enabled
+   when: mariadb_open_firewall
+ - name: Set host mysqld bind-address
+   template:

@@ -1,6 +1,6 @@
 Version: 1
-Previous: 1f3cf3bed37829380a95ed95e709e3a3639a3497
-Head: 5962d02c5797328c3aa8f66092164871e3c4e735
+Previous: cd49ce34e09233ebb79a8089b461e69675b3b5a9
+Head: 42f5e5d9dd20635ccd1f7390a23c44fab3835a8b
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -71,17 +71,16 @@ Applied:
   tmp-update-gitlab-version: 47912b7fe4a527c7726223f25e3f39b20f37659c
   tmp-wiki-database: c986429d75f939fb66b2192da7cfa3b583516866
   tmp-mantis-database: 894c69c008ac2bd3fab3080e0b846c60fa202356
-  bacula-update-syntax: 5c3105b8902e267932d4395eef5329dd4397b1ad
-  all-improve-idempotency: 1ec5aaae233f3af1317aaa2c617fa2579ea7867c
-  buildbot-ssh-keygen: b8e7754ad6f637966f8676a78330d3b4414a9cc3
-  gitlab_sshkey-create-role: 89b18954335c26bbd6dbc09121bef9b4b3986e40
-  gitlab_user-create-role: 66d88f8cb2b5a96084e07b9cc183184368f2d55e
-  buildbot-update-port-args: a5ce98195bdb8226b58f6d2908b3ee2a740d5c0d
-  buildbot-playbook: 025e4da8707bc9514f4029c2c303047f7a5b24a5
-  playbook-extract-docker-hosts: 124fcc34020449c15b279cdc6756d2a94618a3e9
-  playbook-fix-credential-copy: a410b7a46787449282e3b5eb4bd0ce32a7dcdc50
-  playbook-add-docker_health-module: 6de11fdd05904c80101f880385f8c21feab253c9
-  TESTING--VirtualMachine: e75074958b4c4f334a608c541848858410778e27
-  refresh-temp: 5962d02c5797328c3aa8f66092164871e3c4e735
+  bacula-update-syntax: 14803baa0347d8a45c9039568e5fd3ca701c018f
+  all-improve-idempotency: c0cd9b182871c741649259434cbf00c77fc58a9e
+  buildbot-ssh-keygen: 6665e440afacec84cca4de31fc53cc6dc18a2aa4
+  gitlab_sshkey-create-role: 3145e061b4cb97076dba0806df06bd0baa483f70
+  gitlab_user-create-role: ecb98cfc097967144dd3a8df401006931b29b037
+  buildbot-update-port-args: 9ebbb9745d90398d47ca8113b8f110be70c3f695
+  buildbot-playbook: 763a132e727235b15152a5c194f144de1744913c
+  playbook-extract-docker-hosts: ccaa10a76bcddada0f2bd7050a1f5b2d9a74eb49
+  playbook-fix-credential-copy: 904b883c1f119848499e0e5b740dabea61271576
+  playbook-add-docker_health-module: 7ed30a5cedb2c99b52b1bca20daee0cc1b62ea54
+  TESTING--VirtualMachine: 42f5e5d9dd20635ccd1f7390a23c44fab3835a8b
 Unapplied:
 Hidden:
