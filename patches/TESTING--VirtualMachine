@@ -1,5 +1,5 @@
 Bottom: 0748d5f53997cad431a55174b510302a78be3097
-Top:    33f625bfeabb1131b027d699d7cd70dff67e9b74
+Top:    7a7af15a0f3bc38ea3bec5d0300a998f73320492
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -29,10 +29,10 @@ index e69de29b..c1a0118f 100644
 +/.vagrant/
 diff --git a/Vagrantfile b/Vagrantfile
 new file mode 100644
-index 00000000..6ed5da6d
+index 00000000..b2f0fba5
 --- /dev/null
 +++ b/Vagrantfile
-@@ -0,0 +1,80 @@
+@@ -0,0 +1,96 @@
 +$bbworker = <<-SCRIPT
 +yum install -y \
 +    epel-release
@@ -89,6 +89,11 @@ index 00000000..6ed5da6d
 +            protocol: "tcp",
 +            id: "docker"
 +
++        main.vm.network "forwarded_port", 
++            guest: 22, 
++            host: 10022,
++            id: "ssh"
++
 +        main.vm.synced_folder "/mnt/vm/bacula-restores",
 +            "/mnt/bacula-restores",
 +            id: "bacula-restores",
@@ -104,10 +109,21 @@ index 00000000..6ed5da6d
 +            vb.name = "bbworker"
 +            vb.cpus = 1
 +        end
-+
++        
 +        worker.vm.network "private_network", 
 +            ip: "192.168.0.150", 
 +            netmask:"255.255.0.0"
++
++        worker.vm.network "forwarded_port",
++            guest: 2375,
++            host: 22375,
++            protocol: "tcp",
++            id: "docker"
++
++        worker.vm.network "forwarded_port", 
++            guest: 22, 
++            host: 20022,
++            id: "ssh"
 +
 +        worker.vm.provision "shell", inline: $bbworker
 +
@@ -152,127 +168,32 @@ index 00000000..fa188ba9
 +---
 +
 +ansible_user: vagrant
-diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
-new file mode 100644
-index 00000000..53b96f84
---- /dev/null
-+++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
-@@ -0,0 +1,33 @@
-+---
-+
-+container_addr_map:
-+  svn:
-+    ip_addr: 192.168.0.101
-+    hostname: svn.novatech-llc.com
-+  git:
-+    ip_addr: 192.168.0.102
-+    hostname: git.novatech-llc.com
-+  wiki:
-+    ip_addr: 192.168.0.103
-+    hostname: wiki.novatech-llc.com
-+  mantisbt:
-+    ip_addr: 192.168.0.104
-+    hostname: mantis.novatech-llc.com
-+  build:
-+    ip_addr: 192.168.0.105
-+    hostname: buildsystem.novatech-llc.com
-+  testssh:
-+    ip_addr: 192.168.0.106
-+    hostname: testssh.novatech-llc.com
-+  exim4:
-+    ip_addr: 192.168.0.107
-+    hostname: mail.novatech-llc.com
-+  ldap:
-+    ip_addr: 192.168.0.108
-+    hostname: ldap.novatech-llc.com
-+  phpldapadmin:
-+    ip_addr: 192.168.0.108
-+    hostname: ldap.novatech-llc.com
-+  phpmyadmin:
-+    ip_addr: 192.168.0.109
-+    hostname: phpmyadmin.novatech-llc.com
 diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml
 new file mode 100644
-index 00000000..79bbb96d
+index 00000000..ccbedf8a
 --- /dev/null
 +++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/networking.yml
-@@ -0,0 +1,65 @@
-+---
-+
-+svn_ip_addr: 192.168.0.101/16
-+svn_hostname: svn.novatech-llc.com
-+svn_port_args:
-+    - "{{ svn_ip_addr | ipaddr('address') }}:80:80"
-+    - "{{ svn_ip_addr | ipaddr('address') }}:443:443"
-+
-+gitlab_ip_addr: 192.168.0.102/16
-+gitlab_hostname: git.novatech-llc.com
-+gitlab_port_args:
-+    - "{{ gitlab_ip_addr | ipaddr('address') }}:80:80"
-+    - "{{ gitlab_ip_addr | ipaddr('address') }}:443:443"
-+    - "{{ gitlab_ip_addr | ipaddr('address') }}:22:22"
-+
-+wiki_ip_addr: 192.168.0.103/16
-+wiki_hostname: wiki.novatech-llc.com
-+wiki_port_args:
-+    - "{{ wiki_ip_addr | ipaddr('address') }}:80:80"
-+    - "{{ wiki_ip_addr | ipaddr('address') }}:443:443"
-+
-+mantisbt_ip_addr: 192.168.0.104/16
-+mantisbt_hostname: mantis.novatech-llc.com
-+mantisbt_port_args:
-+    - "{{ mantisbt_ip_addr | ipaddr('address') }}:80:80"
-+    - "{{ mantisbt_ip_addr | ipaddr('address') }}:443:443"
-+
-+build_ip_addr: 192.168.0.105/16
-+build_hostname: buildsystem.novatech-llc.com
-+build_port_args:
-+    - "{{ build_ip_addr | ipaddr('address') }}:80:80"
-+    - "{{ build_ip_addr | ipaddr('address') }}:443:443"
-+
-+testssh_ip_addr: 192.168.0.106/16
-+testssh_hostname: testssh.novatech-llc.com
-+testssh_port_args:
-+    - "{{ testssh_ip_addr | ipaddr('address') }}:2200:22"
-+
-+exim4_ip_addr: 192.168.0.107/16
-+exim4_hostname: mail.novatech-llc.com
-+exim4_port_args:
-+    - "{{ exim4_ip_addr | ipaddr('address') }}:25:25"
-+    - "{{ exim4_ip_addr | ipaddr('address') }}:465:465"
-+    - "{{ exim4_ip_addr | ipaddr('address') }}:587:587"
-+
-+openldap_ip_addr: 192.168.0.108/16
-+openldap_hostname: ldap.novatech-llc.com
-+openldap_port_args:
-+    - "{{ openldap_ip_addr | ipaddr('address') }}:389:389"
-+    - "{{ openldap_ip_addr | ipaddr('address') }}:636:636"
-+
-+phpldapadmin_ip_addr: 192.168.0.108/16
-+phpldapadmin_hostname: ldap.novatech-llc.com
-+phpldapadmin_port_args:
-+    - "{{ phpldapadmin_ip_addr | ipaddr('address') }}:80:80"
-+    - "{{ phpldapadmin_ip_addr | ipaddr('address') }}:443:443"
-+
-+phpmyadmin_ip_addr: 192.168.0.109/16
-+phpmyadmin_hostname: phpmyadmin.novatech-llc.com
-+
-+buildbot_ip_addr: 192.168.0.110/16
-+buildbot_hostname: buildbot.novatech-llc.com
-+buildbot_port_args:
-+    - "{{ buildbot_ip_addr | ipaddr('address') }}:80:80"
-+    - "{{ buildbot_ip_addr | ipaddr('address') }}:443:443"
-diff --git a/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml
-new file mode 100644
-index 00000000..fa188ba9
---- /dev/null
-+++ b/ansible-playbook/host_vars/vmdaedalus.novatech-llc.com/privileges.yml
-@@ -0,0 +1,3 @@
+@@ -0,0 +1,18 @@
 +---
 +
 +ansible_user: vagrant
++
++daedalus_subnet: 192.168.0.0/16
++daedalus_net_connection: "enp5s0f0"
++
++svn_ip_addr:          192.168.0.101
++gitlab_ip_addr:       192.168.0.102
++wiki_ip_addr:         192.168.0.103
++mantisbt_ip_addr:     192.168.0.104
++build_ip_addr:        192.168.0.105
++testssh_ip_addr:      192.168.0.106
++exim4_ip_addr:        192.168.0.107
++openldap_ip_addr:     192.168.0.108
++phpldapadmin_ip_addr: 192.168.0.108
++phpmyadmin_ip_addr:   192.168.0.109
++buildbot_ip_addr:     192.168.0.110
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 9ca28fa2..87e2e447 100644
+index 9ca28fa2..2f70867f 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -1,6 +1,18 @@
@@ -294,6 +215,15 @@ index 9ca28fa2..87e2e447 100644
  - name: Bacula
    hosts: bacula
    remote_user: ansibleremote
+@@ -17,7 +29,7 @@
+   - role: bacula-console
+   - role: bacula-script
+     assemble_scripts: false
+-  - role: bacula-catalog
++  # - role: bacula-catalog
+ 
+ - name: Prepare Docker host systems
+   hosts: docker-hosts
 @@ -30,6 +42,10 @@
      role: sshd
      tags:
@@ -1118,14 +1048,14 @@ index 00000000..c148b6f5
 +vmdaedalus-virtualbox.box
 diff --git a/vmdaedalus/vagrant_ansible_inventory b/vmdaedalus/vagrant_ansible_inventory
 new file mode 100644
-index 00000000..9e73a23a
+index 00000000..51db39f0
 --- /dev/null
 +++ b/vmdaedalus/vagrant_ansible_inventory
 @@ -0,0 +1,17 @@
 +# Generated by Vagrant
 +
-+vmdaedalus.novatech-llc.com ansible_host=127.0.0.1 ansible_port=2222 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/vmdaedalus/virtualbox/private_key'
-+bbworker ansible_host=127.0.0.1 ansible_port=2200 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/bbworker/virtualbox/private_key'
++vmdaedalus.novatech-llc.com ansible_host=127.0.0.1 ansible_port=10022 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/vmdaedalus/virtualbox/private_key'
++bbworker ansible_host=127.0.0.1 ansible_port=20022 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/bbworker/virtualbox/private_key'
 +
 +[bacula]
 +vmdaedalus.novatech-llc.com
