@@ -20,26 +20,25 @@ chown -R root:mail /var/mail
 
 case ${1} in
     exim4)
-        if   [[ -f ${CONFIG_PATH}/update-exim4.conf.conf ]] \
-          && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
-        then
-            # set the hostname
-            echo "${HOSTNAME}" > /etc/mailname
-            # copy certificate
-            [ -e /etc/ssl/private/exim.crt ] \
-                && rm -f ${CONFIG_PATH}/exim.crt \
-                && cp $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt \
-                && chmod 640 ${CONFIG_PATH}/exim.crt \
-                && chown root:Debian-exim ${CONFIG_PATH}/exim.crt
-            # copy key
-            [ -e /etc/ssl/private/exim.key ] \
-                && rm -f ${CONFIG_PATH}/exim.key \
-                && cp $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key \
-                && chmod 640 ${CONFIG_PATH}/exim.key \
-                && chown root:Debian-exim ${CONFIG_PATH}/exim.key
-            # run the debian utility to update/generate the configuration
-            $(which update-exim4.conf) --verbose
-        fi
+        # set the hostname
+        echo "${HOSTNAME}" > /etc/mailname
+
+        # copy certificate
+        [ -e /etc/ssl/private/exim.crt ] \
+            && rm -f ${CONFIG_PATH}/exim.crt \
+            && cp $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt \
+            && chmod 640 ${CONFIG_PATH}/exim.crt \
+            && chown root:Debian-exim ${CONFIG_PATH}/exim.crt
+
+        # copy key
+        [ -e /etc/ssl/private/exim.key ] \
+            && rm -f ${CONFIG_PATH}/exim.key \
+            && cp $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key \
+            && chmod 640 ${CONFIG_PATH}/exim.key \
+            && chown root:Debian-exim ${CONFIG_PATH}/exim.key
+
+        # run the debian utility to update/generate the configuration
+        $(which update-exim4.conf) --verbose
         
         # Check configuration
         if ! /usr/sbin/exim4 -bV > /dev/null ; then
