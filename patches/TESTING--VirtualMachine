@@ -1,5 +1,5 @@
-Bottom: 84495c2869fef7a643a1451e86ec58843e01ab36
-Top:    ced808994424d8e0486cac8d95594a2240951194
+Bottom: 56b7e1fddd69c177bf2ed3ad769e652287e55107
+Top:    d9b25ff39ffd41152305fa1588d21dc9eefaec40
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -837,7 +837,7 @@ index cf94cf73..69102432 100644
  - name: exists - exim4 archive
    stat:
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index aeeef7a4..68e208c8 100644
+index 9f892702..b32fce7d 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
 @@ -26,14 +26,14 @@

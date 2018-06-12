@@ -1,5 +1,5 @@
 Bottom: 3dcb3886b367b93897d142a16165cc735c24ecbe
-Top:    84495c2869fef7a643a1451e86ec58843e01ab36
+Top:    56b7e1fddd69c177bf2ed3ad769e652287e55107
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-07 13:59:04 -0500
 
@@ -139,3 +139,45 @@ index 00000000..57cf6357
 +
 +if __name__ == '__main__':
 +    main()
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 82072b97..69620336 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -108,12 +108,12 @@
+     state: started
+ 
+ - name: Wait for gitlab to be fully running
+-  wait_for:
+-    delay: 10
+-    host: '{{ gitlab_network.ip_addr }}'
+-    port: 22
+-    state: started
+-    timeout: 180
++  docker_health:
++    name: '{{ gitlab_container_name }}'
++  register: health
++  retries: 60
++  delay: 5
++  until: health.Health.Status == "healthy"
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
+index aeeef7a4..9f892702 100644
+--- a/roles/docker-gitlab/tasks/restore.yml
++++ b/roles/docker-gitlab/tasks/restore.yml
+@@ -73,6 +73,14 @@
+   command: >
+     docker exec -t {{ gitlab_container_name }} gitlab-ctl start
+ 
++- name: Wait for gitlab to be fully running
++  docker_health:
++    name: '{{ gitlab_container_name }}'
++  register: health
++  retries: 60
++  delay: 5
++  until: health.Health.Status == "healthy"
++
+ - name: Set root user password in restored database
+   command: >
+     docker exec -t {{ gitlab_container_name }}
