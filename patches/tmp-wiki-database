@@ -1,5 +1,5 @@
 Bottom: 923cfef90d6bb05318dad273015b99c40bed9fdc
-Top:    56b8fc7e96ceffb7cceb85ab99eed1ec82d96dee
+Top:    194f8ade1668f7a2c588bb09362b22eef3d314c8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:55:57 -0500
 
@@ -28,7 +28,7 @@ index a444eac8..36f6bd3e 100644
 +# the name of the sql database used by mediawiki
 +wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 27e4a26a..9f7f65cf 100644
+index 27e4a26a..4e8eb137 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -95,35 +95,41 @@
@@ -104,7 +104,8 @@ index 27e4a26a..9f7f65cf 100644
 +      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
 +      - '{{ wiki_dv_name }}/var/www/html:z'
      env:
-       WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
+-      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
++      WIKI_HOSTNAME: '{{ wiki_hostname }}'
        WIKI_MAIL_USER: 'wiki'
        WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
      image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
