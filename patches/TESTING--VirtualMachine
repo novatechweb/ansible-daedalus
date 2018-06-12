@@ -1,5 +1,5 @@
 Bottom: 0748d5f53997cad431a55174b510302a78be3097
-Top:    7a7af15a0f3bc38ea3bec5d0300a998f73320492
+Top:    8afbbc6de1cb221e2453b7babde26ab091d1b635
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -144,21 +144,22 @@ index 0d394562..ff71231f 100644
  docker_network_frontend: 'frontend'
 diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
 new file mode 100644
-index 00000000..ae3590a2
+index 00000000..ddb6a36b
 --- /dev/null
 +++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
-@@ -0,0 +1,11 @@
+@@ -0,0 +1,12 @@
 +---
 +
-+openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
-+openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
-+phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
-+wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
-+mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
-+svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
 +buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
 +buildbot_worker_ntel_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ntel.git
 +buildbot_worker_ptxdist_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ptxdist.git
++exim4_image_repo: https://github.com/AndrewCooper/docker-exim4.git
++mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
++openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
++openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
++phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
++svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
++wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
 diff --git a/ansible-playbook/host_vars/bbworker/privileges.yml b/ansible-playbook/host_vars/bbworker/privileges.yml
 new file mode 100644
 index 00000000..fa188ba9
