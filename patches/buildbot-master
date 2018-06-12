@@ -1,5 +1,5 @@
 Bottom: c38060c7aafb6e43d436c80e865fa497a0fa08c2
-Top:    0ff4a98f70bbcdd4755bb46c5cdbad657698a8cf
+Top:    78db8b5fb5df1ca51f07525b1b8831514ed9e5ec
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 09:28:28 -0500
 
@@ -137,10 +137,10 @@ index 00000000..7ef0578f
 +BUILDBOT_ENVIRONMENT_BLACKLIST=DOCKER_BUILDBOT*,BUILDBOT_ENV_*,BUILDBOT_1*,BUILDBOT_ENVIRONMENT_BLACKLIST,BUILDBOT_WORKER_PASSWORD
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 00000000..ff25c6fb
+index 00000000..3415bab6
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,40 @@
 +---
 +# tasks file for buildbot
 +
@@ -175,12 +175,6 @@ index 00000000..ff25c6fb
 +    volumes: '{{ buildbot_volumes }}'
 +    env: '{{ buildbot_env }}'
 +    ports: '{{ buildbot_port_args }}'
-+
-+- name: Grab ssh public key
-+  command: >
-+    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
-+  changed_when: false
-+  register: output
 +
 +- name: Add buildbot_master host
 +  add_host:
