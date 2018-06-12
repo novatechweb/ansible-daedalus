@@ -1,0 +1,29 @@
+Bottom: 957512deea49c4a6efff95f96849266c9dfb6fc2
+Top:    32db4ecd4a3e946fca09c4f23bca760e6d38e5d0
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-12 09:43:24 -0500
+
+Refresh of buildbot-worker-ntel
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 25b1c8ac..213d3e55 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -12,3 +12,16 @@
+     role: buildbot-master
+     tags:
+     - buildbot-master
++
++- name: Setup Buildbot worker system
++  hosts: buildbot-worker
++  become: true
++  become_user: root
++  become_method: sudo
++  tags:
++  - buildbot
++  - buildbot-worker
++  vars:
++    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
++  roles:
++  - role: buildbot-worker-ntel
