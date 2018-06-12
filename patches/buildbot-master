@@ -1,5 +1,5 @@
 Bottom: c38060c7aafb6e43d436c80e865fa497a0fa08c2
-Top:    df590d46e43d257735bd93f5514defd5b26cc682
+Top:    8ddf10564a2d8fea149a4f29b204f8274decb177
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:59 -0500
 
@@ -32,18 +32,6 @@ index 81f28fda..0965a252 100644
  
  - name: Setup the Build System (Test Station) with repo data
    hosts: buildsystem
-diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index e544fd42..25764e80 100644
---- a/ansible-playbook/staging
-+++ b/ansible-playbook/staging
-@@ -6,3 +6,7 @@ testdaedalus.novatech-llc.com
- 
- [buildsystem]
- buildsystem.novatech-llc.com
-+
-+[buildbot]
-+testdaedalus.novatech-llc.com
-+buildbot-worker.novatech-llc.com
 diff --git a/roles/buildbot-master/README.md b/roles/buildbot-master/README.md
 new file mode 100644
 index 00000000..225dd44b
