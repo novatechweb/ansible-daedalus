@@ -123,7 +123,7 @@
 
 - name: start container (mysql)
   docker_container:
-    name: '{{ mantisbt_db_dv_name}}'
+    name: '{{ mantisbt_db_container_name}}'
     detach: true
     restart_policy: '{{ docker_restart_policy }}'
     image: '{{ mantisbt_db_image_name }}'
@@ -141,7 +141,7 @@
 - name: wait for initialization to complete
   shell: >
       printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
-      '{{ mantisbt_db_dv_name}}'
+      '{{ mantisbt_db_container_name}}'
       mysql --host=localhost 
       --user={{ mantisbt_db_user | quote }}
       --password={{ mantisbt_db_password | quote }} 
