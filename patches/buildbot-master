@@ -1,5 +1,5 @@
 Bottom: c38060c7aafb6e43d436c80e865fa497a0fa08c2
-Top:    b9e23c134bf86b5da9ee8f12cb339e4254c2dbe0
+Top:    c95b1133441da82285b94e6b76de1ba2a22bd507
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 09:28:28 -0500
 
@@ -8,14 +8,14 @@ Add buildbot role and new playbook
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
 new file mode 100644
-index 00000000..e8629926
+index 00000000..4d04b6bb
 --- /dev/null
 +++ b/ansible-playbook/buildbot.yml
-@@ -0,0 +1,67 @@
+@@ -0,0 +1,14 @@
 +---
 +
-+- name: Install/Setup Docker images and containers on daedalus
-+  hosts: daedalus
++- name: Install/Setup Docker images and containers
++  hosts: docker-hosts
 +  become: true
 +  become_user: root
 +  become_method: sudo
@@ -26,59 +26,6 @@ index 00000000..e8629926
 +    role: buildbot-master
 +    tags:
 +    - buildbot-master
-+
-+  - name: Add buildbot user to Gitlab
-+    role: gitlab-user
-+    vars:
-+      new_user: buildbot
-+      new_user_name: Build Robot
-+      new_user_email: buildbot@novatech-llc.com
-+      new_user_pass: "{{ lookup('password', '/dev/null') }}"
-+
-+- name: Setup Buildbot worker system
-+  hosts: buildbot-worker
-+  become: true
-+  become_user: root
-+  become_method: sudo
-+  tags:
-+  - buildbot
-+  - buildbot-worker
-+  vars:
-+    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
-+  roles:
-+  - role: buildbot-worker-ntel
-+  - role: buildbot-worker-ptxdist
-+
-+- name: Gitlab public keys for buildbot containers
-+  hosts: daedalus
-+  become: true
-+  become_user: root
-+  become_method: sudo
-+  tags:
-+  - buildbot
-+  roles:
-+  - name: Add buildbot_master pubkey to buildbot user
-+    role: gitlab-sshkey
-+    vars:
-+      username: buildbot
-+      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
-+      title: "buildbot_master"
-+  - name: Add buildbot_worker_ntel pubkey to buildbot user
-+    tags:
-+    - buildbot
-+    role: gitlab-sshkey
-+    vars:
-+      username: buildbot
-+      pubkey: "{{ hostvars.buildbot_worker_ntel.pubkey }}"
-+      title: "buildbot_worker_ntel"
-+  - name: Add buildbot_worker_ptxdist pubkey to buildbot user
-+    tags:
-+    - buildbot
-+    role: gitlab-sshkey
-+    vars:
-+      username: buildbot
-+      pubkey: "{{ hostvars.buildbot_worker_ptxdist.pubkey }}"
-+      title: "buildbot_worker_ptxdist"
 diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
 new file mode 100644
 index 00000000..86476751
@@ -102,50 +49,6 @@ index 81f28fda..6c2c17d9 100644
  - name: Setup the Build System (Test Station) with repo data
    hosts: buildsystem
    roles:
-diff --git a/roles/buildbot-master/README.md b/roles/buildbot-master/README.md
-new file mode 100644
-index 00000000..225dd44b
---- /dev/null
-+++ b/roles/buildbot-master/README.md
-@@ -0,0 +1,38 @@
-+Role Name
-+=========
-+
-+A brief description of the role goes here.
-+
-+Requirements
-+------------
-+
-+Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-+
-+Role Variables
-+--------------
-+
-+A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-+
-+Dependencies
-+------------
-+
-+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-+
-+Example Playbook
-+----------------
-+
-+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-+
-+    - hosts: servers
-+      roles:
-+         - { role: username.rolename, x: 42 }
-+
-+License
-+-------
-+
-+BSD
-+
-+Author Information
-+------------------
-+
-+An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
 index 00000000..64802d00
@@ -236,16 +139,6 @@ index 00000000..7ef0578f
 +BUILDBOT_WORKER_PTXDIST=worker-ptxdist
 +
 +BUILDBOT_ENVIRONMENT_BLACKLIST=DOCKER_BUILDBOT*,BUILDBOT_ENV_*,BUILDBOT_1*,BUILDBOT_ENVIRONMENT_BLACKLIST,BUILDBOT_WORKER_PASSWORD
-diff --git a/roles/buildbot-master/meta/main.yml b/roles/buildbot-master/meta/main.yml
-new file mode 100644
-index 00000000..5999cdd5
---- /dev/null
-+++ b/roles/buildbot-master/meta/main.yml
-@@ -0,0 +1,4 @@
-+---
-+dependencies: []
-+  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
-+  # if you add dependencies to this list.
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
 index 00000000..ff25c6fb
