@@ -1,5 +1,5 @@
 Bottom: 40a83ebe74d2965358e614a8e204b9402254c9e0
-Top:    6c1b13f52283ddf2c707efd50cccc96906fb2430
+Top:    aa763c66a5c613ada242cd00ef4283ccf8f86acf
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:26:52 -0500
 
@@ -10,6 +10,20 @@ common docker tasks are for all docker hosts.
 
 
 ---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 4d04b6bb..25b1c8ac 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -1,7 +1,7 @@
+ ---
+ 
+-- name: Install/Setup Docker images and containers
+-  hosts: docker-hosts
++- name: Install/Setup Docker images and containers on daedalus
++  hosts: daedalus
+   become: true
+   become_user: root
+   become_method: sudo
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index 6c2c17d9..9a699b6d 100644
 --- a/ansible-playbook/site.yml
@@ -50,3 +64,17 @@ index 6c2c17d9..9a699b6d 100644
    roles:
    - role: buildsystem
      tags:
+diff --git a/ansible-playbook/staging b/ansible-playbook/staging
+index 6c319766..111ea4f7 100644
+--- a/ansible-playbook/staging
++++ b/ansible-playbook/staging
+@@ -1,6 +1,9 @@
+ [bacula]
+ testdaedalus.novatech-llc.com
+ 
++[daedalus]
++testdaedalus.novatech-llc.com
++
+ [docker-hosts]
+ testdaedalus.novatech-llc.com
+ buildbot-worker.novatech-llc.com
