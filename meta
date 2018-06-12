@@ -1,6 +1,6 @@
 Version: 1
-Previous: 3fe5dedc673dae54a93a537314c213d5ca9eb252
-Head: c39ecbf4524808346f7a9e55945946918d4e8b25
+Previous: 527d51d4372b539a08223ba7cf0cbf3a53dee65d
+Head: 4c2155b36710c9f6ed9dd99eccec105f605bf05b
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -32,6 +32,7 @@ Applied:
   common-move-mariadb-config-to-maria: 44d2393e56dbaaf24a4ef20e2ec3e794714194fa
   mariadb-fix-bind-address: b95764f53eac131ebb4561e6b334d8923538c038
   refresh-temp: c39ecbf4524808346f7a9e55945946918d4e8b25
+  refresh-temp-0: 4c2155b36710c9f6ed9dd99eccec105f605bf05b
 Unapplied:
   common-move-sshd-config-to-setup: 1fb121178462d67fb45ad89d15e9e18b46067b99
   sshd-create-role: 92bac25149f31ffcad13d4fad2c1b87059bd1b73
