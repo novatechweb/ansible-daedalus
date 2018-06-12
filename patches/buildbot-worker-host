@@ -1,0 +1,12 @@
+Bottom: df590d46e43d257735bd93f5514defd5b26cc682
+Top:    df590d46e43d257735bd93f5514defd5b26cc682
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-12 09:21:01 -0500
+
+Add new host buildbot-worker.novatech-llc.com
+
+Runs buildbot worker containers
+
+
+---
+
