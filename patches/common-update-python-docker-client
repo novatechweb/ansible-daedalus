@@ -1,5 +1,5 @@
 Bottom: 0cb5f9d8a9d6c254232c53ed1a0c88415b4557b0
-Top:    d7aa35c19f580ad39e8ae726acdb6e90b017841f
+Top:    4a9359ba528b3465a44690d4c0bb198d03f60fde
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -12,10 +12,10 @@ package name 'docker' on pypi.
 
 ---
 diff --git a/roles/docker-common/tasks/packages.yml b/roles/docker-common/tasks/packages.yml
-index 16f732c4..ca85796b 100644
+index 16f732c4..fbc788ff 100644
 --- a/roles/docker-common/tasks/packages.yml
 +++ b/roles/docker-common/tasks/packages.yml
-@@ -1,18 +1,6 @@
+@@ -1,18 +1,21 @@
  ---
  # file: roles/docker-common/tasks/package.yaml
  
@@ -24,15 +24,28 @@ index 16f732c4..ca85796b 100644
 -    name: python-docker-py-1.4.0
 -    state: present
 -  when: ansible_os_family == "RedHat"
--
++# if the older python package docker-py was already installed, we need to remove
++# both docker-py and docker and then reinstall docker.
++- name: Install docker python module
++  pip:
++    name: docker-py
++    state: absent
++  register: docker_py
+ 
 -- name: Install docker-py (1.4.0)
 -  command: pip2 install docker-py==1.4.0
 -  when: ansible_os_family == "Archlinux"
--
++- name: Uninstall docker python module if docker-py was installed
++  pip:
++    name: docker
++    state: absent
++  when: docker_py.changed
+ 
 -- name: Install docker-py (1.4.0)
 +- name: Install docker python module
    pip:
 -    name: docker-py
 -    version: 1.4.0
 -  when: (ansible_os_family != "RedHat") and (ansible_os_family != "Archlinux")
-+    name: docker==2.7.0
++    name: docker
++    state: present
