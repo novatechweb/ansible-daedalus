@@ -1,5 +1,5 @@
-Bottom: 448217ee1cde13e85db3c3ff72db0356a65e41cf
-Top:    476ff4a59e74d0e06abd68e6fbd55edbba07c807
+Bottom: aec201736a4f68bf24a0feaac19075cd3c2d9ec1
+Top:    d52c8fc5bd11120387bedcf4dbc60c56e9234e1f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -10,7 +10,7 @@ We don't use this file, so ignore it
 
 ---
 diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
-index 7080bd49..84e1ca01 100755
+index 8d9d35cb..d15e26ce 100755
 --- a/docker/docker-exim4/docker-entrypoint.sh
 +++ b/docker/docker-exim4/docker-entrypoint.sh
 @@ -21,7 +21,6 @@ chown -R root:mail /var/mail
