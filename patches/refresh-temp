@@ -1,0 +1,23 @@
+Bottom: 0d8ce007439f96c7c50594dc4af8ae64c669f131
+Top:    08766482d4b69c3b5869ea852a35b0f7c5581508
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-12 09:49:06 -0500
+
+Refresh of buildbot-worker-host
+
+---
+diff --git a/ansible-playbook/production b/ansible-playbook/production
+index 07414537..67202894 100644
+--- a/ansible-playbook/production
++++ b/ansible-playbook/production
+@@ -3,6 +3,10 @@ daedalus.novatech-llc.com
+ 
+ [docker-hosts]
+ daedalus.novatech-llc.com
++buildbot-worker.novatech-llc.com
+ 
+ [buildsystem]
+ buildsystem.novatech-llc.com
++
++[buildbot-worker]
++buildbot-worker.novatech-llc.com
