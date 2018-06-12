@@ -1,6 +1,6 @@
 Version: 1
-Previous: cb0151e21524bea785d03060ad1ebd83974c0217
-Head: 60291f62cfad124e0dc77512a9513d930e787744
+Previous: 239bad392cb05d11636c4437e8975eca411dee74
+Head: 51ecc428d383bdf0ce61d79d5ef9638075c3d1c5
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -71,8 +71,7 @@ Applied:
   tmp-update-gitlab-version: d08a27f34d38115b29eecb58650a45fa36f62dee
   tmp-wiki-database: 4905a926f95bd70248f31dc636e9316a2f392997
   tmp-mantis-database: 3b9b064b387c5109fa0ac0fe9ac5a1986c19db8f
-  bacula-update-syntax: 250afdd79e66e6aedd4f50c3f3701a3f42464d2c
-  refresh-temp: 60291f62cfad124e0dc77512a9513d930e787744
+  bacula-update-syntax: 51ecc428d383bdf0ce61d79d5ef9638075c3d1c5
 Unapplied:
   all-improve-idempotency: c0cd9b182871c741649259434cbf00c77fc58a9e
   buildbot-ssh-keygen: 6665e440afacec84cca4de31fc53cc6dc18a2aa4
