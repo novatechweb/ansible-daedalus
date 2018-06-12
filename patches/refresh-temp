@@ -1,5 +1,5 @@
-Bottom: 8afbbc6de1cb221e2453b7babde26ab091d1b635
-Top:    ea47c4d9f77571571379fc8ed9b035e53d705bdf
+Bottom: 5e4767b668fa63e23e92250a8f0a87d024ac6aec
+Top:    906019518445e465769d6b65a2c073cdfc3e242f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 08:56:58 -0500
 
@@ -75,7 +75,7 @@ index 9e2f0b60..82072b97 100644
        - name: '{{ docker_network_frontend }}'
      volumes:
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index 61ea4f65..68e208c8 100644
+index 38cbfae8..aeeef7a4 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
 @@ -5,8 +5,9 @@
@@ -104,7 +104,7 @@ index 61ea4f65..68e208c8 100644
 +    follow: yes
    register: gitlab_backup
  
- # - name: File permissions
+ - name: File permissions
 @@ -35,20 +38,49 @@
  # *****************************************************************************
  # restore the gitlab backup
