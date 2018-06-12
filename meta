@@ -1,6 +1,6 @@
 Version: 1
-Previous: a25899d9291830f3844e2e4256e120acb10b601b
-Head: 69264129db2662f477df2cf55cdbe5157b63a5c5
+Previous: 71743e1ae87748bc30fe578245a6891c0c67d86e
+Head: 39b86036330e025e9d2efc30a18d11db34e4de26
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -84,5 +84,6 @@ Applied:
   TESTING--VirtualMachine: b0958c24a532e4f67c9873b42910bec8f36d98da
   refresh-temp: 4bcc465884d873e1a370e8c6c146e7cbbe74765c
   tmp: 69264129db2662f477df2cf55cdbe5157b63a5c5
+  refresh-temp-0: 39b86036330e025e9d2efc30a18d11db34e4de26
 Unapplied:
 Hidden:
