@@ -1,5 +1,5 @@
 Bottom: 0fa8a72c0b916f9590d2c50a6254ca3ce460eb84
-Top:    5a0317e1a673b028fd81e6dd6ddb9ac21bc2730d
+Top:    2ccbc6390623a665bcccefdd44a62d335a9996e8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 14:46:15 -0500
 
@@ -8,28 +8,40 @@ Fix mariadb bind ip address
 
 ---
 diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
-index 61b296f3..966c9a93 100644
+index 61b296f3..4436e593 100644
 --- a/roles/mariadb/tasks/main.yml
 +++ b/roles/mariadb/tasks/main.yml
-@@ -20,15 +20,14 @@
+@@ -10,6 +10,14 @@
+ - name: Config MariaDB server
+   template: src=ansible.cnf.j2 dest={{ mariadb_server_config_dir }}/ansible.cnf
+             owner=root group=root mode=0644 backup=yes
++- name: Set host mysqld bind-address
++  template:
++    src: mariadb-bind-address.j2
++    dest: '{{ mariadb_server_config_dir }}/mariadb-bind-address.cnf'
++    owner: root 
++    group: root 
++    mode: 0644 
++    backup: yes
+ - name: Enable and start MariaDB service
+   service: name=mariadb enabled=yes state=started
+ - name: Check previous installation
+@@ -20,15 +28,3 @@
  - name: Open the firewall
    firewalld: service=mysql permanent=true state=enabled
    when: mariadb_open_firewall
 -- name: Set host ssh ListenAddress
-+- name: Set host mysqld bind-address
-   template:
-     src: mariadb-bind-address.j2
-     dest: /etc/my.cnf.d/mariadb-bind-address.cnf
+-  template:
+-    src: mariadb-bind-address.j2
+-    dest: /etc/my.cnf.d/mariadb-bind-address.cnf
 -  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
 -
-+  register: bind_cnf
- - name: Restart MariaDB service
-   service:
-     name: mariadb
-     enabled: yes
-     state: restarted
+-- name: Restart MariaDB service
+-  service:
+-    name: mariadb
+-    enabled: yes
+-    state: restarted
 -  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
-+  when: bind_cnf.changed
 diff --git a/roles/mariadb/templates/mariadb-bind-address.j2 b/roles/mariadb/templates/mariadb-bind-address.j2
 index f30ea73a..831edde0 100644
 --- a/roles/mariadb/templates/mariadb-bind-address.j2
