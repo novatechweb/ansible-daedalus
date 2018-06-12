@@ -10,7 +10,7 @@
 ##! URL on which GitLab will be reachable.
 ##! For more details on configuring external_url see:
 ##! https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab
-external_url 'https://{{ git_hostname }}'
+external_url 'https://{{ gitlab_hostname }}'
 
 ## Roles for multi-instance GitLab
 ##! The default is to have no roles enabled, which results in GitLab running as an all-in-one instance.
@@ -45,7 +45,7 @@ external_url 'https://{{ git_hostname }}'
 ## gitlab.yml configuration
 ##! Docs: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/gitlab.yml.md
 ################################################################################
-gitlab_rails['gitlab_ssh_host'] = '{{ git_hostname }}'
+gitlab_rails['gitlab_ssh_host'] = '{{ gitlab_hostname }}'
 gitlab_rails['time_zone'] = 'America/Chicago'
 
 ### Email Settings
@@ -200,7 +200,7 @@ gitlab_rails['ldap_enabled'] = true
 gitlab_rails['ldap_servers'] = YAML.load <<-'EOS'
   main: # 'main' is the GitLab 'provider ID' of this LDAP server
     label: 'NovaTech'
-    host: '{{ ldap_hostname }}'
+    host: '{{ openldap_hostname }}'
     port: 389
     uid: 'uid'
     bind_dn: 'cn=proxyagent,dc=novatech'
