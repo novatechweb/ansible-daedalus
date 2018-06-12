@@ -1,6 +1,6 @@
 Version: 1
-Previous: 9e7ac12f4e30e44cc0a7fbf590939997559ba395
-Head: 750e42017b201ad5eab5a8064af0374345c5a0e5
+Previous: 9601e587cda1a96a2b564c5568cc01d25e67870a
+Head: 96a9da7133fca3dae3aea54a957a2308758594b1
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -39,6 +39,7 @@ Applied:
   exim4-configuration: e47e1d0269817d3093c0ae37b71dfe2c1c07fbd0
   exim4-dockerfile: caaf4a4814215443616cbba4b298c3207d1a815f
   exim4-ip-address: 750e42017b201ad5eab5a8064af0374345c5a0e5
+  refresh-temp: 96a9da7133fca3dae3aea54a957a2308758594b1
 Unapplied:
   exim4-mailname: ce75fa09ada9390eb2dd78ce4df460eb7d026970
   exim4-ignore-monolithic-template: 94216d5a396deb6be79265b72209caba14d6cb50
