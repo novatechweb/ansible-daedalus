@@ -1,5 +1,5 @@
 Bottom: 65297e0ea870f3b3198bb958651f87ad52f999b4
-Top:    7becaa0ae0cc3af16cd80f46321456792d004735
+Top:    274477a847124e862d089b22912bb70d7eb669f3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -160,11 +160,11 @@ index 00000000..ddb6a36b
 +phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
 +svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
 +wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
-diff --git a/ansible-playbook/host_vars/bbworker/privileges.yml b/ansible-playbook/host_vars/bbworker/privileges.yml
+diff --git a/ansible-playbook/host_vars/buildbot-worker.novatech-llc.com/privileges.yml b/ansible-playbook/host_vars/buildbot-worker.novatech-llc.com/privileges.yml
 new file mode 100644
 index 00000000..fa188ba9
 --- /dev/null
-+++ b/ansible-playbook/host_vars/bbworker/privileges.yml
++++ b/ansible-playbook/host_vars/buildbot-worker.novatech-llc.com/privileges.yml
 @@ -0,0 +1,3 @@
 +---
 +
