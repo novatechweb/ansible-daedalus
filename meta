@@ -1,6 +1,6 @@
 Version: 1
-Previous: cc0066fec1798c7e567d4ea9efd55f89109ead87
-Head: 14e62885cdc09c1959026aeaf6a12fd42a946603
+Previous: 7981782fb7f2fd7a9680d3cd425fd9f930cfe2dd
+Head: 2c143a6fd87d2f51f8b6a0846ac89adfe78828c3
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -78,8 +78,8 @@ Applied:
   buildbot-ssh-keygen: dc0f5a9b82f450e77520a23ee349395456ffc540
   gitlab_user-create-role: 5370d01203603649b5cdb8c2c5fb17761d72d4dc
   gitlab_sshkey-create-role: 14e62885cdc09c1959026aeaf6a12fd42a946603
+  playbook-fix-credential-copy: 96b7c7d57753825a1f1fedb43e391f0873378eeb
+  playbook-add-docker_health-module: 42d7d4d96ab453df3f566e6e20c9b44d37b18e16
+  TESTING--VirtualMachine: 2c143a6fd87d2f51f8b6a0846ac89adfe78828c3
 Unapplied:
-  playbook-fix-credential-copy: cdb623fd426542576a5dbe6cff4f418a532ac281
-  playbook-add-docker_health-module: df469e8c0c70de966e4258292491bd3028f325e4
-  TESTING--VirtualMachine: 1b5c6cbc09ddea9447a8ab7eab4874cc6570b48a
 Hidden:
