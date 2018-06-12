@@ -1,5 +1,5 @@
 Bottom: 08766482d4b69c3b5869ea852a35b0f7c5581508
-Top:    df6b13d6ea97479a4e827c95b1198719983bbe35
+Top:    f549536de064c41c97ab39d93c1c7e214477c2e5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:26:52 -0500
 
@@ -24,6 +24,20 @@ index 4d04b6bb..25b1c8ac 100644
    become: true
    become_user: root
    become_method: sudo
+diff --git a/ansible-playbook/production b/ansible-playbook/production
+index 67202894..cb652b51 100644
+--- a/ansible-playbook/production
++++ b/ansible-playbook/production
+@@ -1,6 +1,9 @@
+ [bacula]
+ daedalus.novatech-llc.com
+ 
++[daedalus]
++daedalus.novatech-llc.com
++
+ [docker-hosts]
+ daedalus.novatech-llc.com
+ buildbot-worker.novatech-llc.com
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index 6c2c17d9..9a699b6d 100644
 --- a/ansible-playbook/site.yml
