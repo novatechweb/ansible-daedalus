@@ -1,5 +1,5 @@
 Bottom: 03e126ffdb8b11779aefd5b4792b0a6a701e431a
-Top:    c0df1aa3f779778fac7e687fc25be91a3d993f7d
+Top:    dd191153ab70fab43bdb2967e41d0773aaacdcf0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 16:34:54 -0500
 
@@ -7,6 +7,25 @@ New role gitlab-user
 
 
 ---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 5fc5bb7e..ab38571b 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -13,6 +13,14 @@
+     tags:
+     - buildbot-master
+ 
++  - name: Add buildbot user to Gitlab
++    role: gitlab-user
++    vars:
++      new_user: buildbot
++      new_user_name: Build Robot
++      new_user_email: buildbot@novatech-llc.com
++      new_user_pass: "{{ lookup('password', '/dev/null') }}"
++
+ - name: Setup Buildbot worker system
+   hosts: buildbot-worker
+   become: true
 diff --git a/roles/gitlab-user/README.md b/roles/gitlab-user/README.md
 new file mode 100644
 index 00000000..225dd44b
