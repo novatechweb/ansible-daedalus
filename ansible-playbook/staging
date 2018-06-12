@@ -6,7 +6,3 @@ testdaedalus.novatech-llc.com
 
 [buildsystem]
 buildsystem.novatech-llc.com
-
-[buildbot]
-testdaedalus.novatech-llc.com
-buildbot-worker.novatech-llc.com
