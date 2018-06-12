@@ -57,43 +57,12 @@
     owner: root
     group: root
     mode: 'u=rw,g=r,o='
-
-# - name: copy env-file
-#   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ gitlab_config_dir }}'
-
-# - name: copy script
-#   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ gitlab_config_dir }}'
-
 - name: exists - state file
   stat:
     path: '{{ gitlab_config_dir }}/restore.date.txt'
     get_checksum: False
     get_md5: False
   register: st_gitlab_restore
-
-# *****************************************************************************
-# Update or make the image.
-
-# - name: Checkout image repo
-#   git:
-#     repo: '{{ gitlab_image_repo }}'
-#     version: master
-#     dest: '{{ docker_projects_dir }}/docker-gitlab'
-
-# - name: build image
-#   docker_image:
-#     name: '{{ gitlab_image_name }}'
-#     tag: '{{ docker_image_tag }}'
-#     path: '{{ docker_projects_dir }}/docker-gitlab'
-#     force: "{{ docker_image_force_build }}"
-
-# Data volume image is now the same as the container image
-#- name: build image
-#  docker_image:
-#    image_name: '{{ gitlab_dv_image_name }}'
-#    image_tag: '{{ docker_image_tag }}'
-#    dockerfile_dir: '{{ docker_projects_dir }}/docker-gitlab'
-#    force: "{{ docker_image_force_build }}"
 
 # *****************************************************************************
 # Create the data volumes
@@ -107,13 +76,16 @@
   docker_volume:
     name: '{{ gitlab_dv_name }}'
 
+# *****************************************************************************
+# Create the gitlab container
+
 - name: create container (gitlab)
   docker_container:
     name: '{{ gitlab_container_name }}'
     detach: true
     restart_policy: '{{ docker_restart_policy }}'
-    hostname: '{{ gitlab_network.hostname }}'
-    ports: '{{ gitlab_network.port_args }}'
+    hostname: '{{ gitlab_hostname }}'
+    ports: '{{ gitlab_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
     volumes:
