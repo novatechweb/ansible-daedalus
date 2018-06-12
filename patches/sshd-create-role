@@ -1,5 +1,5 @@
-Bottom: 3708ae823aab3860cce664bbc054f82a4625d743
-Top:    d80b73401075f34fa236b0f87fc26ab9ba460c37
+Bottom: 249cfc3b7cd177e228405c0f00d03011c8a442fe
+Top:    5d7f1adebf24b9cf747ed8153c8607c25593283d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:14:44 -0500
 
@@ -8,7 +8,7 @@ Create new role sshd for configuring ssh server daemon
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index ff4a6048..ed16fbc4 100644
+index d5721eb4..81f28fda 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -25,6 +25,10 @@

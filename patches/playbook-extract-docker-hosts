@@ -1,5 +1,5 @@
-Bottom: ef65ae20dd31639d9b9a2ef7bcaa90bc4e7a4a61
-Top:    b8a7525455bebcddee07249252e0532bd6439593
+Bottom: b35f0b58692e0ee9ab3d6cbff30382aefda2a37b
+Top:    141e7053964e2d5a289391660bc9c4f557831aae
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:26:52 -0500
 
@@ -11,7 +11,7 @@ common docker tasks are for all docker hosts.
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index b7bee5ae..7cd187c5 100644
+index 6c2c17d9..9a699b6d 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -18,7 +18,8 @@
@@ -38,7 +38,7 @@ index b7bee5ae..7cd187c5 100644
 +  roles:
    - name: Configure Docker networking
      role: docker-networking
-     net_connection: '{{ daedalus_net_connection }}'
+     network_connection: '{{ daedalus_net_connection }}'
 @@ -90,6 +99,10 @@
  
  - name: Setup the Build System (Test Station) with repo data

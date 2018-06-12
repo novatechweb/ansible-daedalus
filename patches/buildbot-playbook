@@ -1,5 +1,5 @@
-Bottom: bc1bf324d74aa5be7c909351adaf126086db909e
-Top:    ef65ae20dd31639d9b9a2ef7bcaa90bc4e7a4a61
+Bottom: 1ebbf32df82ca1f4ffd7507e6d11ea5c61a89720
+Top:    b35f0b58692e0ee9ab3d6cbff30382aefda2a37b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 16:52:30 -0500
 
@@ -81,7 +81,7 @@ index 00000000..e8629926
 +      pubkey: "{{ hostvars.buildbot_worker_ptxdist.pubkey }}"
 +      title: "buildbot_worker_ptxdist"
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index fa22ed60..b7bee5ae 100644
+index 0965a252..6c2c17d9 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -84,11 +84,9 @@
