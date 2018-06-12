@@ -3,9 +3,10 @@ Top:    e3ba019abfcdc9c9fcc9804b920eeb7f5dfb106e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
-Ignore exim4.conf.template
+Always update configuration on startup
 
-We don't use this file, so ignore it
+The entrypoint script will always copy updated certificates and incorporate
+updated configuration on container startup.
 
 
 ---
