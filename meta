@@ -1,6 +1,6 @@
 Version: 1
-Previous: b9ac7ec97bf74b00acabc9c6924286df1cd1967c
-Head: 882829d2625fb579eed797efe0540cd5a2d132f8
+Previous: 1bc35d825adf1fba62d8ec61a6253de0644a7519
+Head: 5a9dd5b544fc3b1c23e52170a72b526c1fcd7c19
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -19,6 +19,7 @@ Applied:
   all-docker_container: 300335333994f21c928166a9a09ead17a558b254
   all-docker_volume: 8431b7c577c227eacfd82ce8ebc331bf1cfa7dd1
   all-docker_network: 5a9dd5b544fc3b1c23e52170a72b526c1fcd7c19
+Unapplied:
   all-docker_image: 376b5b67893bdaacc48d0dcd4579fcbd9dde9141
   playbook-remove-docker-build-base-image: b6eb0f606fed4721993fc731e5703c3ff578d12b
   all-cut-dependencies: 80a8d0c77211f90b3c4419e3bea0f5b2949ede5b
@@ -83,5 +84,4 @@ Applied:
   playbook-add-docker_health-module: 96d47ad16a9b92c6b14fe3d13fb395371242bc96
   TESTING--VirtualMachine: 772e00a2f027d7060ad70d590a8b20dd4e035170
   refresh-temp: 882829d2625fb579eed797efe0540cd5a2d132f8
-Unapplied:
 Hidden:
