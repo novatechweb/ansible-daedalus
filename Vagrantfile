@@ -54,6 +54,11 @@ Vagrant.configure("2") do |config|
             protocol: "tcp",
             id: "docker"
 
+        main.vm.network "forwarded_port", 
+            guest: 22, 
+            host: 10022,
+            id: "ssh"
+
         main.vm.synced_folder "/mnt/vm/bacula-restores",
             "/mnt/bacula-restores",
             id: "bacula-restores",
@@ -69,10 +74,21 @@ Vagrant.configure("2") do |config|
             vb.name = "bbworker"
             vb.cpus = 1
         end
-
+        
         worker.vm.network "private_network", 
             ip: "192.168.0.150", 
             netmask:"255.255.0.0"
+
+        worker.vm.network "forwarded_port",
+            guest: 2375,
+            host: 22375,
+            protocol: "tcp",
+            id: "docker"
+
+        worker.vm.network "forwarded_port", 
+            guest: 22, 
+            host: 20022,
+            id: "ssh"
 
         worker.vm.provision "shell", inline: $bbworker
 
