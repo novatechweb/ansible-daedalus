@@ -1,5 +1,5 @@
-Bottom: c7e505d4bca7b2a3cc0b6c58ccb0f0c68b1d52a8
-Top:    448217ee1cde13e85db3c3ff72db0356a65e41cf
+Bottom: 6d595304d69b66b20b2f2d51c1664d83dad1866d
+Top:    aec201736a4f68bf24a0feaac19075cd3c2d9ec1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -8,7 +8,7 @@ No need to delete /etc/mailname before overwrite
 
 ---
 diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
-index a99acea8..7080bd49 100755
+index e6fb458d..8d9d35cb 100755
 --- a/docker/docker-exim4/docker-entrypoint.sh
 +++ b/docker/docker-exim4/docker-entrypoint.sh
 @@ -25,8 +25,6 @@ case ${1} in
@@ -18,5 +18,5 @@ index a99acea8..7080bd49 100755
 -            [ -e /etc/mailname ] \
 -                && rm -rf /etc/mailname
              echo "${HOSTNAME}" > /etc/mailname
-             # set local IP addr
-             LOCAL_IP_ADDR=$(getent hosts $HOSTNAME | cut -d ' ' -f 1)
+             # copy certificate
+             [ -e /etc/ssl/private/exim.crt ] \
