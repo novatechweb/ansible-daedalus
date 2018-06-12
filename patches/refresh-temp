@@ -1,0 +1,35 @@
+Bottom: 39966e89a3b1be8a42f581aedfbf38af1d1d2335
+Top:    ced808994424d8e0486cac8d95594a2240951194
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-12 09:04:28 -0500
+
+Refresh of common-update-python-docker-client
+
+---
+diff --git a/roles/docker-common/tasks/packages.yml b/roles/docker-common/tasks/packages.yml
+index ca85796b..fbc788ff 100644
+--- a/roles/docker-common/tasks/packages.yml
++++ b/roles/docker-common/tasks/packages.yml
+@@ -1,6 +1,21 @@
+ ---
+ # file: roles/docker-common/tasks/package.yaml
+ 
++# if the older python package docker-py was already installed, we need to remove
++# both docker-py and docker and then reinstall docker.
+ - name: Install docker python module
+   pip:
+-    name: docker==2.7.0
++    name: docker-py
++    state: absent
++  register: docker_py
++
++- name: Uninstall docker python module if docker-py was installed
++  pip:
++    name: docker
++    state: absent
++  when: docker_py.changed
++
++- name: Install docker python module
++  pip:
++    name: docker
++    state: present
