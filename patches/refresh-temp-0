@@ -1,0 +1,31 @@
+Bottom: b8c2ba8fc7cf33b4155bcd6ec7125c4d70ab3d36
+Top:    ea47c4d9f77571571379fc8ed9b035e53d705bdf
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-12 08:57:30 -0500
+
+Refresh of TESTING--VirtualMachine
+
+---
+diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
+index ae3590a2..ddb6a36b 100644
+--- a/ansible-playbook/group_vars/docker-hosts/repos.yml
++++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
+@@ -1,11 +1,12 @@
+ ---
+ 
+-openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
+-openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
+-phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
+-wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
+-mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
+-svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
+ buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
+ buildbot_worker_ntel_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ntel.git
+ buildbot_worker_ptxdist_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ptxdist.git
++exim4_image_repo: https://github.com/AndrewCooper/docker-exim4.git
++mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
++openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
++openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
++phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
++svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
++wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
