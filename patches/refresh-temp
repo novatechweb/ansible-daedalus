@@ -1,0 +1,42 @@
+Bottom: 5b4f7903191312ad9df2eb7674984050cb644c69
+Top:    ac747acd41531cc82daee8eadb8b21da2e9b9a2a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-12 09:10:18 -0500
+
+Refresh of mariadb-fix-bind-address
+
+---
+diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
+index dc0a5b6d..7c922cd5 100644
+--- a/roles/mariadb/tasks/main.yml
++++ b/roles/mariadb/tasks/main.yml
+@@ -17,6 +17,14 @@
+     group: root 
+     mode: 0644 
+     backup: yes
++- name: Set host mysqld bind-address
++  template:
++    src: mariadb-bind-address.j2
++    dest: '{{ mariadb_server_config_dir }}/mariadb-bind-address.cnf'
++    owner: root 
++    group: root 
++    mode: 0644 
++    backup: yes
+ - name: Enable and start MariaDB service
+   service: 
+     name: mariadb 
+@@ -34,14 +42,3 @@
+     permanent: true 
+     state: enabled
+   when: mariadb_open_firewall
+-- name: Set host mysqld bind-address
+-  template:
+-    src: mariadb-bind-address.j2
+-    dest: /etc/my.cnf.d/mariadb-bind-address.cnf
+-  register: bind_cnf
+-- name: Restart MariaDB service
+-  service:
+-    name: mariadb
+-    enabled: yes
+-    state: restarted
+-  when: bind_cnf.changed
