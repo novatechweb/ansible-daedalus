@@ -1,6 +1,6 @@
 Version: 1
-Previous: d150a4b3ee6f51c8243973ad4b83bb5a4aa60ee4
-Head: 27ab9a5b158cc5dca3b773fadc5023fdaf7d3c79
+Previous: 240397df500d473d8247980ca4e603bdf6382597
+Head: 306f21c9d535aec9ad9f613073810ac80ca20e09
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -68,8 +68,7 @@ Applied:
   buildbot-image-entrypoint: 373bdac8fa9fe39f6c9234fa646eab382a3148ee
   buildbot-dependencies: 1dab04e53a610eefc551849119526b4c353eefd2
   playbook-simplify-credentials: bdabe780c7577c6da12b288e9635a8aa85e93d0d
-  tmp-update-gitlab-version: 3925883718155c54a80fd632b5d9f5f76ececdd6
-  refresh-temp: 27ab9a5b158cc5dca3b773fadc5023fdaf7d3c79
+  tmp-update-gitlab-version: 306f21c9d535aec9ad9f613073810ac80ca20e09
 Unapplied:
   tmp-wiki-database: d9a45c8c3e375211274ae286c92cb96b24289701
   tmp-mantis-database: 2e3d92bbd9920a25d29e6e2a7964ad4ee348f014
