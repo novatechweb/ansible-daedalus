@@ -1,6 +1,6 @@
 Version: 1
-Previous: d21d113b5d81343529e8d03cec91614dc5d2307d
-Head: b51bccaaeaedbccdc84e00a21f86c4f82b93bb07
+Previous: 206ff5a3eac07ff0cd08f1a4e0996caf7b8b807a
+Head: aa22d56c1f7de6a2c818cf439ecd0666df631312
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -82,5 +82,6 @@ Applied:
   playbook-add-docker_health-module: 5a82ba1f68a83efc3c8592ededcca5229f0563f0
   TESTING--VirtualMachine: 77dfbdc9a434dd0dd76da5d8b32191c8c978a6c3
   daedalus-add-new-role: b51bccaaeaedbccdc84e00a21f86c4f82b93bb07
+  refresh-temp: aa22d56c1f7de6a2c818cf439ecd0666df631312
 Unapplied:
 Hidden:
