@@ -1,6 +1,6 @@
 Version: 1
-Previous: a6c75a95235f7a8ce1789e78971250f23878ef37
-Head: 3f61927867178c2f5aa41524146525b6336ca184
+Previous: c3505847e88fde540d3c963356413e022ed55370
+Head: dc414fb531c930aeb4d10775563b196249cead8e
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -80,7 +80,7 @@ Applied:
   gitlab_sshkey-create-role: 4f7604d49249c32e7631928e8cbe6ce145a28bb7
   playbook-fix-credential-copy: 047f6a5b44a282f29aab4a775ba9a8cce4bba68d
   playbook-add-docker_health-module: 3f61927867178c2f5aa41524146525b6336ca184
+  TESTING--VirtualMachine: 858bb149a7a2727868f20069380821a6eeeb1ee0
+  daedalus-add-new-role: dc414fb531c930aeb4d10775563b196249cead8e
 Unapplied:
-  TESTING--VirtualMachine: 1fee2ac4954b18b45dad9294b55f39e24bd98993
-  daedalus-add-new-role: 0a3f460519d7e836352e5365dc99102992690e03
 Hidden:

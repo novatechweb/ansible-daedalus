@@ -1,5 +1,5 @@
-Bottom: 7b2bd5c683e154899398cf6d7bf7788d42df441f
-Top:    fa71c44c6ead3c39ee5b98919df7b2adb597b270
+Bottom: aae25e9bf998614b831fc2093f8e432798c99abc
+Top:    eba8a40fe3a9e0ff02dc12785c06751e5710d3a9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -868,11 +868,11 @@ index cf94cf73..69102432 100644
  - name: exists - exim4 archive
    stat:
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index 9f892702..b32fce7d 100644
+index f553ff0c..fc4cc59c 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
-@@ -26,14 +26,14 @@
-     follow: yes
+@@ -23,14 +23,14 @@
+     path: '{{ gitlab_docker_restore_dir }}'
    register: gitlab_backup
  
 -- name: File permissions
@@ -893,7 +893,7 @@ index 9f892702..b32fce7d 100644
 +#   with_items: '{{ gitlab_backup.file_list | default([]) }}'
  
  # *****************************************************************************
- # restore the gitlab backup
+ # restore the gitlap backup
 diff --git a/roles/docker-mantisbt/tasks/restore.yml b/roles/docker-mantisbt/tasks/restore.yml
 index 6289ba78..78f66b97 100644
 --- a/roles/docker-mantisbt/tasks/restore.yml
