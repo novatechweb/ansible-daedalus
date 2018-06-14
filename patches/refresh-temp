@@ -1,0 +1,38 @@
+Bottom: 6f6145f139e46bdfa3e803ae4e870f3c6d02a2b5
+Top:    10a9ca3823e3d88f87643dfc4834e1f1fb3835be
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-14 14:49:52 -0500
+
+Refresh of all-distribute-image-repo-checkout
+
+---
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index b838d709..4b5912f2 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -58,12 +58,6 @@
+     group: tape
+     mode: 'u=rw,g=r,o='
+ 
+-- name: copy env-file
+-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
+-
+-- name: copy script
+-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
+-
+ - name: exists - state file
+   stat:
+     path: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/restore.date.txt'
+@@ -80,6 +74,12 @@
+     version: master
+     dest: '{{ docker_projects_dir }}/docker-gitlab'
+ 
++- name: copy env-file
++  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
++
++- name: copy script
++  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
++
+ - name: build image
+   docker_image:
+     name: '{{ gitlab_image_name }}'
