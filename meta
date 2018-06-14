@@ -1,6 +1,6 @@
 Version: 1
-Previous: c3505847e88fde540d3c963356413e022ed55370
-Head: dc414fb531c930aeb4d10775563b196249cead8e
+Previous: 4c6896af83c292fef7cb0272243b5b22458e30f5
+Head: 56fa1742f5caecd8ac114cf4747bf416076007c8
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -70,17 +70,17 @@ Applied:
   buildbot-image-entrypoint: f3d8eefd4749f01b07c4d12b4a6d560e1cc6c69d
   buildbot-dependencies: f6da4a7af919e62e8fdcca5dd19ecf8e9db7ac3b
   playbook-simplify-credentials: 8f6a84589afb89afe26f96004182f97e3b13164c
-  update-gitlab-to-10-1: 455ec8d8465a1b7d96bca8d45df58a7221995ee6
-  tmp-wiki-database: ec1a875588b2519f24fa7c17fd44b477579268cb
-  tmp-mantis-database: 77ab170a726319ee53be2e63935a0df1f97b63ae
-  bacula-update-syntax: 7ad85dc9a022a17c3589e6e3d55bf052606a82f6
-  all-improve-idempotency: bd266637efdad097dc8488add34a33783e5a754a
-  buildbot-ssh-keygen: 662ed3f7723ef0d9c4d627e08340fd7a690f7b5f
-  gitlab_user-create-role: 7604a184229cd6d410ddcc44ce9b41d742555697
-  gitlab_sshkey-create-role: 4f7604d49249c32e7631928e8cbe6ce145a28bb7
-  playbook-fix-credential-copy: 047f6a5b44a282f29aab4a775ba9a8cce4bba68d
-  playbook-add-docker_health-module: 3f61927867178c2f5aa41524146525b6336ca184
-  TESTING--VirtualMachine: 858bb149a7a2727868f20069380821a6eeeb1ee0
-  daedalus-add-new-role: dc414fb531c930aeb4d10775563b196249cead8e
+  tmp-wiki-database: ee24278000c3200ad202d65e3d1f0c71c79d8cf2
+  tmp-mantis-database: fccff193422227e10edf71aa1ed653a09109f958
+  bacula-update-syntax: 3d77bbe0d040595511b2d01af664f4f0d82589bf
+  all-improve-idempotency: 2c5e425ef1a837359b3a070ee5a1390736fc7681
+  buildbot-ssh-keygen: 272d1ef620e385162c5c022f0bbb862d11d24aa2
+  gitlab_user-create-role: 7eef86d7a6e1092d4d9044aa7e9876291528b61f
+  gitlab_sshkey-create-role: 6d2d7ff6364c18e00b34a7417e06e3c725122f6a
+  playbook-fix-credential-copy: d430cbadaa8b94be80b1d29b694e1898a3fad0ed
+  playbook-add-docker_health-module: 7980749e68dce486f262469996a090a3f5952da2
+  TESTING--VirtualMachine: 1230bb11047cca3c604a74de5ea2f1ebdadfd4cf
+  daedalus-add-new-role: 8ab83f4929d0f2e878bb280ac2f882ea0df016d2
+  update-gitlab-to-10-1: 56fa1742f5caecd8ac114cf4747bf416076007c8
 Unapplied:
 Hidden:
