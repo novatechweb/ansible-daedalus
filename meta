@@ -1,5 +1,5 @@
 Version: 1
-Previous: 234e766d6eb7e8cd899b916b683eded1ec984580
+Previous: e04947e272549fff9020d9ca83e8b6327810e015
 Head: f63d99a14b2a7f37e20bfa489f193d0c602d151d
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
@@ -72,7 +72,6 @@ Applied:
   playbook-simplify-credentials: 8f6a84589afb89afe26f96004182f97e3b13164c
   update-gitlab-to-10-1: f63d99a14b2a7f37e20bfa489f193d0c602d151d
 Unapplied:
-  tmp-update-gitlab-version: a28fed216afab88e7f569d75ec339959945cdaad
   tmp-wiki-database: cf1fa6cb7f718e2f2d7e547b20869e305c586385
   tmp-mantis-database: dcfc93435d1ef95f6481b9c38fe7b7a2f692456c
   bacula-update-syntax: 657012f7e5830d300e8f0897e3d9e5d9007b4154
