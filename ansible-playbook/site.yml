@@ -13,6 +13,16 @@
       src: /tmp/ansible_variables
       dest: "{{inventory_hostname}}_ansible_variables"
 
+- name: Configure daedalus partitioning
+  hosts: daedalus
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  tags: daedalus
+  roles: 
+  - role: daedalus
+
 - name: Bacula
   hosts: bacula
   remote_user: ansibleremote
