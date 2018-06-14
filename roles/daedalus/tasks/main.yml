@@ -1,0 +1,30 @@
+---
+
+
+- name: Create autoextend policy for thin pool
+  template:
+    dest: "/etc/lvm/profile/{{ daedalus_thinpool_profile_name }}.profile"
+    src: thinpool.profile.j2
+    mode: u=r,g=r,o=r
+    owner: root
+    group: root
+
+- name: Create a thin pool of the remaining free space
+  lvol:
+    vg: "{{ daedalus_thinpool_vg }}"
+    opts: --metadataprofile {{ daedalus_thinpool_profile_name }}
+    shrink: false
+    size: "{{ daedalus_thinpool_size }}"
+    thinpool: "{{ daedalus_thinpool_name }}"
+    state: present
+
+- name: Get information about the new thin pool volume
+  command: >
+    lvs --reportformat json -o+lv_all {{ daedalus_thinpool_vg }}/{{ daedalus_thinpool_name }}
+  register: output
+  changed_when: false
+
+- name: Set information as a fact
+  set_fact:
+    docker_thinpool_lv: '{{ (output.stdout | from_json)["report"][0]["lv"][0] }}'
+  changed_when: false
