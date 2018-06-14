@@ -1,6 +1,6 @@
 Version: 1
-Previous: 3dab5b1a876278657b3ea5feac4100f130ae2f49
-Head: 6fa41204e1039a850edd9bf38fad3ac4a61cfe3e
+Previous: 1b9632fa7f6a6e7c483c40509cf915207101c571
+Head: 11e1a83afd1aa27d8815d0da53f43de2b728aff3
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -12,8 +12,7 @@ Applied:
   bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
-  all-distribute-image-repo-checkout: 7b46ea190e7070bb04cbff93c4161c21e0551df5
-  refresh-temp: 6fa41204e1039a850edd9bf38fad3ac4a61cfe3e
+  all-distribute-image-repo-checkout: 11e1a83afd1aa27d8815d0da53f43de2b728aff3
 Unapplied:
   all-move-vars-to-defaults: 82eeabbc47bc025a05f19754686a2f9c3aaf2fb6
   all-normalize-vars: 96c2daafbb401ea6f54b88f07555a8f46cd6e446
