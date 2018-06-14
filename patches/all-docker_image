@@ -1,5 +1,5 @@
-Bottom: 3bf513bf7d831a289f7946a1683bdf170e3b4937
-Top:    2acde35e212ec8bfddb07754c34015af2394450e
+Bottom: a38dc3b068a97b80e09f67a240477907ad59d933
+Top:    4b40bfd7dcad81c930a264f30ad71f1a9d90bcfd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -223,11 +223,11 @@ index a745a5ef..fa74e754 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index f298fcbf..9eda5465 100644
+index 06f0a979..a2b696f8 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -81,17 +81,19 @@
-     dest: '{{ docker_projects_dir }}/docker-gitlab'
+   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
  
  - name: build image
 -  docker_build:

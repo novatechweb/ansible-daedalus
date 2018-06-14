@@ -1,5 +1,5 @@
-Bottom: b41a6d454344645d0f80c1338d88405ac9d76d3f
-Top:    cbd69c3d7a7103a60a1d983b94facc35c2970e9f
+Bottom: 5a45b27d991aec7e8f25865bf82b33044a3f2931
+Top:    a234b21eb0fd595a1b17c9dc95c720c06c207f3c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -245,7 +245,7 @@ index fdc64277..ccda4c3c 100644
  # database usernames and passwords
  gitlab_db_user: novatech
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index f88b8136..10271473 100644
+index c807af17..3957c3a2 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -129,19 +129,47 @@

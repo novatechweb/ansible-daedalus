@@ -1,5 +1,5 @@
-Bottom: 88d0677d21d8877f340c9a7f44d2e6b36a265c46
-Top:    3bf513bf7d831a289f7946a1683bdf170e3b4937
+Bottom: 852877369f558435001b6972c5d972d449149ff1
+Top:    a38dc3b068a97b80e09f67a240477907ad59d933
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -482,7 +482,7 @@ index ccda4c3c..5e14d572 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index c6a5e942..f298fcbf 100644
+index 387e7adf..06f0a979 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -130,6 +130,8 @@

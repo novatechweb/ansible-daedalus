@@ -1,5 +1,5 @@
-Bottom: cbd69c3d7a7103a60a1d983b94facc35c2970e9f
-Top:    88d0677d21d8877f340c9a7f44d2e6b36a265c46
+Bottom: a234b21eb0fd595a1b17c9dc95c720c06c207f3c
+Top:    852877369f558435001b6972c5d972d449149ff1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:42:10 -0500
 
@@ -82,7 +82,7 @@ index d670d37d..3cebb60d 100644
        - '{{ openssl_dv_name }}:/etc/ssl/private:z'
  
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 10271473..c6a5e942 100644
+index 3957c3a2..387e7adf 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -97,16 +97,12 @@
