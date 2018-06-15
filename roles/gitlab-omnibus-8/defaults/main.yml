@@ -1,5 +1,7 @@
 ---
 
+gitlab_version: 8.8.0
+
 # The hostname passed as an envirnment variable into the container
 gitlab_ip_addr: '127.0.0.1'
 gitlab_hostname: git.example.com

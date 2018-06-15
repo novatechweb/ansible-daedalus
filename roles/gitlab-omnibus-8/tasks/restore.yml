@@ -8,6 +8,7 @@
   find:
     path: '{{ gitlab_docker_restore_dir }}'
     file_type: any
+    pattern: '*_{{gitlab_version))_gitlab_backup.tar'
   register: gitlab_backup
 
 - name: data from tape
@@ -24,16 +25,17 @@
     path: '{{ gitlab_docker_restore_dir }}'
     file_type: any
     follow: yes
+    pattern: '*_{{gitlab_version))_gitlab_backup.tar'
   register: gitlab_backup
 
 - name: File permissions
   file:
-    path: '{{ gitlab_docker_restore_dir }}/{{ item }}'
+    path: '{{ item.path }}'
     state: touch
     owner: root
     group: root
     mode: 'u=rwx,g=rwx,o='
-  with_items: '{{ gitlab_backup.file_list | default([]) }}'
+  with_items: '{{ gitlab_backup.files | default([]) }}'
 
 # *****************************************************************************
 # restore the gitlab backup

@@ -1,0 +1,78 @@
+---
+
+- name: Install/Setup Docker images and containers on daedalus
+  hosts: daedalus
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+  - set_fact:
+      openssl_dv_name: openssl_DV
+
+  # - name: Gitlab 7.14.3
+  #   include_role: 
+  #     name: docker-gitlab
+  
+  # - name: Gitlab 8.8.0
+  #   include_role:
+  #     name: gitlab-sameersbn-8
+  #   vars:
+  #     docker_name_prefix: 'sameersbn8-'
+  #     upgrade: true
+  #     old_prefix: ''
+
+  # - name: Backup Gitlab 8.8.0
+  #   command: >
+  #     docker exec -u git sameersbn8-gitlab
+  #     bundle exec rake gitlab:backup:create
+
+  # - name: Rename backup file
+  #   block:
+  #   - find:
+  #       path: '/tmp/docker/GIT'
+  #       pattern: '*_gitlab_backup.tar'
+  #     register: backups
+  #   - set_fact:
+  #       backup_file: '{{ backups.files[0].path | replace("_gitlab_backup.tar","_8.8.0_gitlab_backup.tar") }}'
+  #     when: backups.matched > 0
+  #   - file:
+  #       path: /tmp/bacula-restores/tmp/docker/GIT
+  #       state: directory
+  #   - command: >
+  #       mv "{{ backups.files[0].path }}"
+  #       "/tmp/bacula-restores/{{ backup_file }}"
+  #     when: backups.matched > 0
+
+  # - name: Shutdown Gitlab 8.8.0
+  #   docker_container: 
+  #     name: '{{ old_prefix }}{{ item }}'
+  #     state: stopped
+  #   loop:
+  #   - gitlab
+  #   - gitlab-redis
+  #   - gitlab-db
+  #   vars:
+  #     old_prefix: 'sameersbn8-'
+
+  - name: Gitlab Omnibus 8.8.0
+    include_role:
+      name: gitlab-omnibus-8
+    vars:
+      docker_name_prefix: 'omnibus8-'
+
+  # - name: Gitlab Omnibus 9.5.0
+  #   include_role:
+  #     name: gitlab-omnibus-9
+  #   vars:
+  #     old_prefix: 'omnibus8-'
+  #     docker_name_prefix: 'omnibus9-'
+  #     upgrade: true
+
+  # - name: Gitlab Omnibus 10.1.7
+  #   include_role:
+  #     name: gitlab-omnibus-10
+  #   vars:
+  #     old_prefix: 'omnibus9-'
+  #     docker_name_prefix: 'omnibus10-'
+  #     upgrade: true
