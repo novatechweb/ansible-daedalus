@@ -1,6 +1,6 @@
 Version: 1
-Previous: f090438d017f5d080ffc1d791be2299f3ae8eed2
-Head: 420943e8c2b330484d7d962fcbf11f11064eadc9
+Previous: 854827dffaf99aa821483f56df0a5989dede4e7e
+Head: 6debbb7efbb4603fdc468955325237a806a8788c
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -60,6 +60,7 @@ Applied:
   mantisbt-update-entrypoint: 9875ae514bf06ef36d35c48d1364400f9630f8f8
   buildbot-master: c8fa5a602ea37e0237bdddc2239a5a60a24f7544
   buildbot-worker-host: 6debbb7efbb4603fdc468955325237a806a8788c
+Unapplied:
   playbook-extract-docker-hosts: 82f28615f01153523e59b7dc9f36decfdf545c18
   buildbot-worker-ntel: 6faa7f8ec2cabfe06ff327a76d390637749733dc
   buildbot-worker-ptxdist: 0200da66ba15ea05de118834ed932e7e076d3453
@@ -82,5 +83,4 @@ Applied:
   TESTING--VirtualMachine: e8d9f15962400c568b49c31c2d96d4a2ed151d7d
   daedalus-add-new-role: d388c7079d41beeb7485c33706e0a335d4309dbf
   update-gitlab-to-10-1: 420943e8c2b330484d7d962fcbf11f11064eadc9
-Unapplied:
 Hidden:
