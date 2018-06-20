@@ -1,5 +1,5 @@
 Bottom: e24272a6e3f12345c585196cb07a4cdebbefd982
-Top:    41cce43f059f01becac52b9d0535bf54903736b4
+Top:    f914c2598ee4ffa690a47afe87912cafb45b7c36
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 13:51:33 -0500
 
@@ -9,7 +9,7 @@ Update gitlab to 10.1
 ---
 diff --git a/ansible-playbook/gitlab.yml b/ansible-playbook/gitlab.yml
 new file mode 100644
-index 00000000..eb296595
+index 00000000..4d6482cd
 --- /dev/null
 +++ b/ansible-playbook/gitlab.yml
 @@ -0,0 +1,126 @@
@@ -119,7 +119,7 @@ index 00000000..eb296595
 +    # - { last: "8.15",  version: "8.16",  tag: "8.16.9-ce.0"  } # Health-check failure
 +    # - { last: "8.16",  version: "8.17",  tag: "8.17.8-ce.0"  } # Health-check failure
 +    # - { last: "8.17",  version: "9.0",   tag: "9.0.13-ce.0"  } # Health-check failure
-+    # - { last: "9.0",   version: "9.1",   tag: "9.1.10-ce.0"  } 
++    # - { last: "9.0",   version: "9.1",   tag: "9.1.10-ce.0"  } # docker healthcheck introduced
 +    # - { last: "9.1",   version: "9.2",   tag: "9.2.10-ce.0"  }
 +    # - { last: "9.2",   version: "9.3",   tag: "9.3.11-ce.0"  }
 +    # - { last: "9.3",   version: "9.4",   tag: "9.4.7-ce.0"   }
