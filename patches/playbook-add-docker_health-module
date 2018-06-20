@@ -1,5 +1,5 @@
 Bottom: 590047138e1b4bd701739fb7f12edd5a76fd36e7
-Top:    f355a18a11da9eb270a27313fea7cd82ed693840
+Top:    edb50c0be82e3de2ba88ed9f43b877c8643ff2e3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-07 13:59:04 -0500
 
@@ -9,7 +9,7 @@ Add new module docker_health
 ---
 diff --git a/ansible-playbook/library/docker_health.py b/ansible-playbook/library/docker_health.py
 new file mode 100644
-index 00000000..57cf6357
+index 00000000..c9622c3b
 --- /dev/null
 +++ b/ansible-playbook/library/docker_health.py
 @@ -0,0 +1,126 @@
@@ -68,9 +68,9 @@ index 00000000..57cf6357
 +  docker_health:
 +    name: mycontainer
 +    register: health
-+    retries: 10
-+    delay: 3
-+    until: '{{ health.Heath.Status }} is "healthy"'
++    retries: 5
++    delay: 30
++    until: health.Health.Status == "healthy"
 +'''
 +
 +RETURN = '''
