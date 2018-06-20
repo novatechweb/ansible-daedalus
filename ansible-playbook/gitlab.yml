@@ -104,7 +104,7 @@
     # - { last: "8.15",  version: "8.16",  tag: "8.16.9-ce.0"  } # Health-check failure
     # - { last: "8.16",  version: "8.17",  tag: "8.17.8-ce.0"  } # Health-check failure
     # - { last: "8.17",  version: "9.0",   tag: "9.0.13-ce.0"  } # Health-check failure
-    # - { last: "9.0",   version: "9.1",   tag: "9.1.10-ce.0"  } 
+    # - { last: "9.0",   version: "9.1",   tag: "9.1.10-ce.0"  } # docker healthcheck introduced
     # - { last: "9.1",   version: "9.2",   tag: "9.2.10-ce.0"  }
     # - { last: "9.2",   version: "9.3",   tag: "9.3.11-ce.0"  }
     # - { last: "9.3",   version: "9.4",   tag: "9.4.7-ce.0"   }
