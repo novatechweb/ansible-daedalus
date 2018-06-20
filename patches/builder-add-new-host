@@ -1,5 +1,5 @@
 Bottom: 88c28a3933ebe4bdd745ab9eff14d59ec12ffd05
-Top:    7fedb00fda6dae6e1ca942255c34fb580838fb9e
+Top:    98f574c982230e5fc411b432bcc77c94513641d1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 09:21:01 -0500
 
@@ -10,32 +10,32 @@ Runs buildbot worker containers
 
 ---
 diff --git a/ansible-playbook/production b/ansible-playbook/production
-index 07414537..67202894 100644
+index 07414537..eb6bccf7 100644
 --- a/ansible-playbook/production
 +++ b/ansible-playbook/production
 @@ -3,6 +3,10 @@ daedalus.novatech-llc.com
  
  [docker-hosts]
  daedalus.novatech-llc.com
-+buildbot-worker.novatech-llc.com
++builder.novatech-llc.com
  
  [buildsystem]
  buildsystem.novatech-llc.com
 +
-+[buildbot-worker]
-+buildbot-worker.novatech-llc.com
++[builder]
++builder.novatech-llc.com
 diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index e544fd42..6c319766 100644
+index e544fd42..3da6bb1f 100644
 --- a/ansible-playbook/staging
 +++ b/ansible-playbook/staging
 @@ -3,6 +3,10 @@ testdaedalus.novatech-llc.com
  
  [docker-hosts]
  testdaedalus.novatech-llc.com
-+buildbot-worker.novatech-llc.com
++builder.novatech-llc.com
  
  [buildsystem]
  buildsystem.novatech-llc.com
 +
-+[buildbot-worker]
-+buildbot-worker.novatech-llc.com
++[builder]
++builder.novatech-llc.com
