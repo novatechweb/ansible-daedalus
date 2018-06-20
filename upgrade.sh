@@ -10,5 +10,5 @@ exec ansible-playbook \
         --connection=ssh \
         --timeout=30 \
         --inventory-file=ansible-playbook/staging \
-        -vv \
+        -vvv \
         ansible-playbook/gitlab.yml "$@"

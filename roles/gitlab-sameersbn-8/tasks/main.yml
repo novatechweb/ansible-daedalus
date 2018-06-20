@@ -71,7 +71,6 @@
 - include_tasks: upgrade.yml
   when:
   - upgrade == True
-  - st_gitlab_restore.stat.exists == False
 
 # *****************************************************************************
 # Update or make the image.
@@ -158,7 +157,8 @@
     - '{{ gitlab_docker_backup_dir }}:/home/git/backups'
     env:
       DEBUG: 'true'
-      GITLAB_TIMEZONE: "America/Chicago"
+      DEBUG_ENTRYPOINT: 'true'
+      GITLAB_TIMEZONE: "America\\/Chicago"
       GITLAB_HOST: "{{ gitlab_hostname }}"
       GITLAB_SSH_HOST: "{{ gitlab_hostname }}"
       DB_HOST: "{{ gitlab_db_container_name }}"
@@ -182,7 +182,7 @@
       dest: /tmp/secrets.yml
   - command: >
       docker cp /tmp/secrets.yml
-      "{{gitlab_container_name}}:/etc/docker-gitlab/runtime/config/gitlabhq/secrets.yml"
+      "{{gitlab_container_name}}:/var/cache/gitlab/config/gitlabhq/secrets.yml"
   
 - name: start container (gitlab)
   docker_container:
@@ -191,10 +191,10 @@
 
 - name: Wait for gitlab to be fully running
   uri:
-    url: 'http://{{ gitlab_hostname }}/users/sign_in'
+    url: 'https://{{ gitlab_hostname }}/users/sign_in'
   register: health
-  retries: 60
-  delay: 5
+  retries: 10
+  delay: 30
   until: health.status == 200
 
 # *****************************************************************************
