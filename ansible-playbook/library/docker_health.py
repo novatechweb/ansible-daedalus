@@ -53,9 +53,9 @@ EXAMPLES = '''
   docker_health:
     name: mycontainer
     register: health
-    retries: 10
-    delay: 3
-    until: '{{ health.Heath.Status }} is "healthy"'
+    retries: 5
+    delay: 30
+    until: health.Health.Status == "healthy"
 '''
 
 RETURN = '''
