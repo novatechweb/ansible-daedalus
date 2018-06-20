@@ -1,6 +1,6 @@
 Version: 1
-Previous: 801239b0afc29a05161262ad1fd493838ec91032
-Head: 6debbb7efbb4603fdc468955325237a806a8788c
+Previous: c8af7be521f2e7c1c807b78e3b91d56222ea97ab
+Head: 95215e8c9c0290f08a680dbbb345312281f22d1b
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -60,6 +60,7 @@ Applied:
   mantisbt-update-entrypoint: 9875ae514bf06ef36d35c48d1364400f9630f8f8
   buildbot-master: c8fa5a602ea37e0237bdddc2239a5a60a24f7544
   builder-add-new-host: 6debbb7efbb4603fdc468955325237a806a8788c
+  refresh-temp: 95215e8c9c0290f08a680dbbb345312281f22d1b
 Unapplied:
   playbook-extract-docker-hosts: 82f28615f01153523e59b7dc9f36decfdf545c18
   buildbot-worker-ntel: 6faa7f8ec2cabfe06ff327a76d390637749733dc
