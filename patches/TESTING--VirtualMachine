@@ -1,5 +1,5 @@
 Bottom: 098c4c0905ca654f12792d50c7b4c1c3e163285e
-Top:    48bf26add043634f79f55eb69fefdb4606259362
+Top:    b104109bec01c4c173f369f93dc54eea82db6eb5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -29,7 +29,7 @@ index e69de29b..c1a0118f 100644
 +/.vagrant/
 diff --git a/Vagrantfile b/Vagrantfile
 new file mode 100644
-index 00000000..b2f0fba5
+index 00000000..a124020d
 --- /dev/null
 +++ b/Vagrantfile
 @@ -0,0 +1,96 @@
@@ -95,8 +95,8 @@ index 00000000..b2f0fba5
 +            id: "ssh"
 +
 +        main.vm.synced_folder "/mnt/vm/bacula-restores",
-+            "/mnt/bacula-restores",
-+            id: "bacula-restores",
++            "/mnt/bacula-storage",
++            id: "bacula-storage",
 +            owner: "root",
 +            group: "root",
 +            mount_options: ["ro"]
@@ -144,16 +144,17 @@ index 4623feba..f9153cdc 100644
  docker_network_frontend: 'frontend'
 diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
 new file mode 100644
-index 00000000..ddb6a36b
+index 00000000..cc4d9cbf
 --- /dev/null
 +++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
-@@ -0,0 +1,12 @@
+@@ -0,0 +1,13 @@
 +---
 +
 +buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
 +buildbot_worker_ntel_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ntel.git
 +buildbot_worker_ptxdist_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ptxdist.git
 +exim4_image_repo: https://github.com/AndrewCooper/docker-exim4.git
++gitlab_image_repo: 'https://github.com/AndrewCooper/docker-gitlab.git'
 +mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
 +openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
 +openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
