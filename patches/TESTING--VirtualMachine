@@ -1,5 +1,5 @@
 Bottom: 098c4c0905ca654f12792d50c7b4c1c3e163285e
-Top:    b104109bec01c4c173f369f93dc54eea82db6eb5
+Top:    3cd9be5ea6560547a07dfa956003d2c28322c59c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -784,34 +784,43 @@ index 00000000..3762e89d
 +        --inventory-file=ansible-playbook/staging \
 +        -vv \
 +        ansible-playbook/site.yml "$@"
+diff --git a/roles/bacula-restores/defaults/main.yml b/roles/bacula-restores/defaults/main.yml
+new file mode 100644
+index 00000000..22b89405
+--- /dev/null
++++ b/roles/bacula-restores/defaults/main.yml
+@@ -0,0 +1,3 @@
++---
++
++bacula_storage: "/mnt/bacula-storage"
 diff --git a/roles/bacula-restores/tasks/main.yml b/roles/bacula-restores/tasks/main.yml
 new file mode 100644
-index 00000000..560f5ba8
+index 00000000..6939a2fc
 --- /dev/null
 +++ b/roles/bacula-restores/tasks/main.yml
 @@ -0,0 +1,26 @@
 +---
 +# tasks file for bacula-restores
 +
-+- name: List bacula-restores
++- name: List bacula storage
 +  find:
-+    paths: /mnt/bacula-restores
++    paths: "{{bacula_storage}}"
 +    file_type: file
 +    recurse: yes
 +  register: bacula_restores_list
 +
-+- name: Create bacula-restores symlinks
++- name: Create bacula storage symlinks
 +  file:
-+    path: '{{ item.path | replace("/mnt/bacula-restores","/tmp/bacula-restores") | dirname }}'
++    path: '{{ item.path | replace("{{bacula_storage}}","{{bacula_dest}}") | dirname }}'
 +    state: directory
 +    force: yes
 +    mode: 0777
 +  with_items: '{{ bacula_restores_list.files }}'
 +
-+- name: Create bacula-restores directories
++- name: Create bacula storage directories
 +  file:
 +    src: '{{ item.path }}'
-+    dest: '{{ item.path | replace("/mnt/bacula-restores","/tmp/bacula-restores") }}'
++    dest: '{{ item.path | replace("{{bacula_storage}}","{{bacula_dest}}") }}'
 +    state: link
 +    force: yes
 +    mode: '{{ item.mode }}'
