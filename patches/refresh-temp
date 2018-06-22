@@ -1,0 +1,53 @@
+Bottom: e9d69d3dac916f028eedd6161ac062467a1a07e8
+Top:    21bc56bbfd9667a79e520d7e4139bfdafa043e62
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-22 09:33:56 -0500
+
+Refresh of TESTING--VirtualMachine
+
+---
+diff --git a/roles/bacula-restores/defaults/main.yml b/roles/bacula-restores/defaults/main.yml
+new file mode 100644
+index 00000000..22b89405
+--- /dev/null
++++ b/roles/bacula-restores/defaults/main.yml
+@@ -0,0 +1,3 @@
++---
++
++bacula_storage: "/mnt/bacula-storage"
+diff --git a/roles/bacula-restores/tasks/main.yml b/roles/bacula-restores/tasks/main.yml
+index 560f5ba8..6939a2fc 100644
+--- a/roles/bacula-restores/tasks/main.yml
++++ b/roles/bacula-restores/tasks/main.yml
+@@ -1,25 +1,25 @@
+ ---
+ # tasks file for bacula-restores
+ 
+-- name: List bacula-restores
++- name: List bacula storage
+   find:
+-    paths: /mnt/bacula-restores
++    paths: "{{bacula_storage}}"
+     file_type: file
+     recurse: yes
+   register: bacula_restores_list
+ 
+-- name: Create bacula-restores symlinks
++- name: Create bacula storage symlinks
+   file:
+-    path: '{{ item.path | replace("/mnt/bacula-restores","/tmp/bacula-restores") | dirname }}'
++    path: '{{ item.path | replace("{{bacula_storage}}","{{bacula_dest}}") | dirname }}'
+     state: directory
+     force: yes
+     mode: 0777
+   with_items: '{{ bacula_restores_list.files }}'
+ 
+-- name: Create bacula-restores directories
++- name: Create bacula storage directories
+   file:
+     src: '{{ item.path }}'
+-    dest: '{{ item.path | replace("/mnt/bacula-restores","/tmp/bacula-restores") }}'
++    dest: '{{ item.path | replace("{{bacula_storage}}","{{bacula_dest}}") }}'
+     state: link
+     force: yes
+     mode: '{{ item.mode }}'
