@@ -60,8 +60,8 @@ Vagrant.configure("2") do |config|
             id: "ssh"
 
         main.vm.synced_folder "/mnt/vm/bacula-restores",
-            "/mnt/bacula-restores",
-            id: "bacula-restores",
+            "/mnt/bacula-storage",
+            id: "bacula-storage",
             owner: "root",
             group: "root",
             mount_options: ["ro"]
