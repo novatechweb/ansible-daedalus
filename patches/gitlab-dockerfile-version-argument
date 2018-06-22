@@ -1,0 +1,12 @@
+Bottom: 69cf4e9eb592354dc2e4e52695e302e755cb8ae0
+Top:    69cf4e9eb592354dc2e4e52695e302e755cb8ae0
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-22 09:27:08 -0500
+
+Add a version argument to the Dockerfile
+
+Allows the user to pick any sameersbn/gitlab version
+
+
+---
+
