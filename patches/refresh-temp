@@ -1,0 +1,169 @@
+Bottom: 2d121959e46c4316d5dc0cf72e181c6c9553c303
+Top:    21f31abfa2e5578e369037bfad8987ad706a5fda
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-22 09:26:04 -0500
+
+Refresh of update-gitlab-to-10-1
+
+---
+diff --git a/ansible-playbook/gitlab.yml b/ansible-playbook/gitlab.yml
+index 4d6482cd..03c67ee4 100644
+--- a/ansible-playbook/gitlab.yml
++++ b/ansible-playbook/gitlab.yml
+@@ -9,7 +9,7 @@
+   tasks:
+   - set_fact:
+       openssl_dv_name: openssl_DV
+-      bacula_storage: "/mnt/bacula-restores"
++      bacula_storage: "/mnt/bacula-storage"
+       gitlab_backup_dir: "/tmp/docker/GIT"
+   - set_fact:
+       gitlab_backup_storage: "{{bacula_storage}}{{gitlab_backup_dir}}"
+@@ -23,70 +23,80 @@
+     - "{{ gitlab_backup_storage }}"
+     - "{{ gitlab_restore_dir }}"
+ 
+-  # - name: Gitlab 7.14.3
+-  #   include_role: 
+-  #     name: docker-gitlab
++  - name: Gitlab 7.14.3 (Sameersbn 7)
++    vars:
++      gitlab_version: "7.14.3"
++      docker_image_tag: "7.14.3"
++      docker_name_prefix: ''
++      upgrade: false
++      restore: true
++    include_role: 
++      name: docker-gitlab
+   
+-  # - name: Gitlab (Sameersbn 8)
+-  #   vars:
+-  #     gitlab_version: "8.0.5"
+-  #     gitlab_image_tag: "8.0.5-1"
+-  #     docker_name_prefix: 'sameersbn8-'
+-  #     upgrade: true
+-  #     old_prefix: ''
+-  #   block:
+-  #   - name: Run Gitlab
+-  #     include_role:
+-  #       name: gitlab-sameersbn-8
+-  #   - name: Backup Gitlab
+-  #     command: >
+-  #       docker exec -u git {{docker_name_prefix}}gitlab bundle exec rake gitlab:backup:create
+-  #   - name: Find backup files
+-  #     find:
+-  #       path: '{{gitlab_backup_dir}}'
+-  #       pattern: '*_gitlab_backup.tar'
+-  #     register: backups
+-  #   - name: Move backups to storage, normalize name
+-  #     loop: '{{ backups.files }}'
+-  #     vars:
+-  #       backup_file: '{{ item.path | basename | replace("gitlab_backup.tar", gitlab_version ~ "_gitlab_backup.tar") }}'
+-  #     command: >
+-  #       mv "{{ item.path }}" "{{gitlab_backup_storage}}/{{ backup_file }}"
+-  #   - name: Shutdown Gitlab
+-  #     docker_container: 
+-  #       name: '{{ docker_name_prefix }}{{ item }}'
+-  #       state: stopped
+-  #     loop:
+-  #     - gitlab
+-  #     - gitlab-redis
+-  #     - gitlab-db
++  - name: Gitlab (Sameersbn 8)
++    vars:
++      gitlab_version: "8.0.5"
++      gitlab_image_tag: "8.0.5"
++      docker_name_prefix: 'sameersbn8-'
++      upgrade: true
++      old_prefix: ''
++    block:
++    - name: Run Gitlab
++      include_role:
++        name: docker-gitlab
++    - name: Backup Gitlab
++      command: >
++        docker exec -u git {{docker_name_prefix}}gitlab bundle exec rake gitlab:backup:create
++    - name: Find backup files
++      find:
++        path: '{{gitlab_backup_dir}}'
++        pattern: '*_gitlab_backup.tar'
++      register: backups
++    - name: Move backups to storage, normalize name
++      loop: '{{ backups.files }}'
++      vars:
++        backup_file: '{{ item.path | basename | replace("gitlab_backup.tar", gitlab_version ~ "_gitlab_backup.tar") }}'
++      command: >
++        mv "{{ item.path }}" "{{gitlab_backup_storage}}/{{ backup_file }}"
++    - name: Shutdown Gitlab
++      docker_container: 
++        name: '{{ docker_name_prefix }}{{ item }}'
++        state: stopped
++      loop:
++      - gitlab
++      - gitlab-redis
++      - gitlab-db
+ 
+-  # - name: Gitlab (Omnibus 8)
+-  #   vars:
+-  #     docker_name_prefix: 'omnibus8.0-'
+-  #     gitlab_version: "8.0"
+-  #     gitlab_image_tag: "8.0.5-ce.0"
+-  #     upgrade: false
+-  #     restore: true
+-  #   block:
+-  #   - name: Find relevant backups
+-  #     find:
+-  #       path: "{{gitlab_backup_storage}}"
+-  #       pattern: "*_{{gitlab_version}}_*"
+-  #     register: backups
+-  #   - file:
+-  #       src: '{{ item.path }}'
+-  #       dest: '{{ item.path | replace(gitlab_backup_storage,gitlab_restore_dir) }}'
+-  #       state: link
+-  #       force: yes
+-  #       mode: '{{ item.mode }}'
+-  #     loop: '{{ backups.files }}'
+-  #   - include_role:
+-  #       name: gitlab-omnibus
++  - name: Gitlab (Omnibus 8)
++    vars:
++      docker_name_prefix: 'omnibus8.0-'
++      gitlab_version: "8.0.5"
++      gitlab_image_tag: "8.0.5-ce.0"
++      upgrade: false
++      restore: true
++    block:
++    - name: Find relevant backups
++      find:
++        path: "{{gitlab_backup_storage}}"
++        pattern: "*_{{gitlab_version}}_*"
++      register: backups
++    - file:
++        src: '{{ item.path }}'
++        dest: '{{ item.path | replace(gitlab_backup_storage,gitlab_restore_dir) }}'
++        state: link
++        force: yes
++        mode: '{{ item.mode }}'
++      loop: '{{ backups.files }}'
++    - include_role:
++        name: gitlab-omnibus
+ 
+   - name: Gitlab Omnibus Upgrade Path
+     loop:
+-    # - { last: "8.0.5",   version: "8.1",   tag: "8.1.4-ce.0"   }
++    - { last: "8.0.5",  version: "8.17.8",  tag: "8.17.8-ce.0"  } # Health-check failure
++    - { last: "8.17.8", version: "9.5.10",   tag: "9.5.10-ce.0"  }
++    - { last: "9.5.10", version: "10.8.4",  tag: "10.8.4-ce.0"  }
++
++    # - { last: "8.0.5", version: "8.1",   tag: "8.1.4-ce.0"   }
+     # - { last: "8.1",   version: "8.2",   tag: "8.2.5-ce.2"   }
+     # - { last: "8.2",   version: "8.3",   tag: "8.3.10-ce.2"  }
+     # - { last: "8.3",   version: "8.4",   tag: "8.4.11-ce.2"  }
+@@ -112,7 +122,6 @@
+     # - { last: "9.5",   version: "10.0",  tag: "10.0.7-ce.0"  }
+     # - { last: "10.0",  version: "10.1",  tag: "10.1.7-ce.0"  }
+     # - { last: "10.1",  version: "10.2",  tag: "10.2.8-ce.0"  }
+-    - { last: "10.2",  version: "10.8",  tag: "10.8.4-ce.0"  }
+     # - { last: "10.8",  version: "11.0",  tag: "11.0.0-rc13.ce.0"  }
+     loop_control:
+       loop_var: play_item

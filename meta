@@ -1,6 +1,6 @@
 Version: 1
-Previous: 17e013d684f7adddde8965f4b8c0b6ce88c2fcd2
-Head: 4f3fa115af4e6cae0ea9043199378ed375b5d499
+Previous: cf41dbaae237ce487f8a1da9630ce299a3ad4d19
+Head: 2efd50fe6417b1ff28bda0f5e9e49aec7e08b97f
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -82,5 +82,6 @@ Applied:
   TESTING--VirtualMachine: cd901f9a5b191ab25af0428ab0483342f14f6b91
   daedalus-add-new-role: 63e245057a8108da40c7fb02c4b0c9a4007e01ee
   update-gitlab-to-10-1: 4f3fa115af4e6cae0ea9043199378ed375b5d499
+  refresh-temp: 2efd50fe6417b1ff28bda0f5e9e49aec7e08b97f
 Unapplied:
 Hidden:
