@@ -1,6 +1,6 @@
 Version: 1
-Previous: cc4e799a704bbb80c69460762736d361a99e9dfd
-Head: 4d0f9d196b2abd1692a70270c195792cf44d0011
+Previous: 3ba6101c67fb99c8bbe96224b1269dc378313f3c
+Head: c65a27040ea2139e4cf9a06254e5a00f6a26f830
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -84,5 +84,6 @@ Applied:
   gitlab-dockerfile-version-argument: 5bbc236f164b49dbadc334dec62b0752c7eede50
   update-gitlab-to-10-1: 5fd14a47393d4e04b602825c8eb76fd656bf1367
   upgrade-gitlab-to-8.0.5: 4d0f9d196b2abd1692a70270c195792cf44d0011
+  refresh-temp: c65a27040ea2139e4cf9a06254e5a00f6a26f830
 Unapplied:
 Hidden:
