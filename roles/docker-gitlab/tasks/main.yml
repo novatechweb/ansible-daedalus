@@ -93,6 +93,8 @@
     tag: '{{ docker_image_tag }}'
     path: '{{ docker_projects_dir }}/docker-gitlab'
     force: "{{ docker_image_force_build }}"
+    buildargs:
+      GITLAB_VERSION: '{{gitlab_version}}'
 
 # *****************************************************************************
 # Create the data volumes

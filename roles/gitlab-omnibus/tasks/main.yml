@@ -121,7 +121,7 @@
   retries: 10
   delay: 30
   until: health is success
-  when: gitlab_version is version('9.1', '<')
+  when: gitlab_version is version('8.17', '<')
 
 - name: Wait for a container to become healthy
   docker_health:
@@ -130,7 +130,7 @@
   retries: 10
   delay: 30
   until: health.Health.Status == "healthy"
-  when: gitlab_version is version('9.1', '>=')
+  when: gitlab_version is version('8.17', '>=')
 
 # *****************************************************************************
 # restore?
@@ -164,3 +164,9 @@
   retries: 10
   delay: 30
   until: check is success
+
+- name: Ensure merge request commits are fetched
+  include_tasks: fetch_merge_requests.yml
+  when: 
+  - gitlab_version is version('9.0', '>=')
+  - gitlab_version is version('10.2', '<')

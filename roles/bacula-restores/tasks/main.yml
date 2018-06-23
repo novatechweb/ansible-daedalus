@@ -1,26 +1,22 @@
 ---
 # tasks file for bacula-restores
 
-- name: List bacula storage
-  find:
-    paths: "{{bacula_storage}}"
-    file_type: file
-    recurse: yes
-  register: bacula_restores_list
+# - name: List bacula storage
+#   find:
+#     paths: "{{bacula_storage}}"
+#     file_type: file
+#     recurse: yes
+#   register: bacula_storage_list
 
-- name: Create bacula storage symlinks
-  file:
-    path: '{{ item.path | replace("{{bacula_storage}}","{{bacula_dest}}") | dirname }}'
-    state: directory
-    force: yes
-    mode: 0777
-  with_items: '{{ bacula_restores_list.files }}'
+# - name: Prepare backup file
+#   include_tasks: prepare_backup_file.yml
+#   loop: '{{bacula_storage_list.files}}'
 
-- name: Create bacula storage directories
-  file:
-    src: '{{ item.path }}'
-    dest: '{{ item.path | replace("{{bacula_storage}}","{{bacula_dest}}") }}'
-    state: link
-    force: yes
-    mode: '{{ item.mode }}'
-  with_items: '{{ bacula_restores_list.files }}'
+- name: synchronize backup storage
+  synchronize:
+    src: "{{bacula_storage}}/"
+    dest: "{{bacula_dest}}/"
+    link_dest: "{{bacula_storage}}/"
+    archive: yes
+    delete: yes
+  delegate_to: "{{ inventory_hostname }}"
