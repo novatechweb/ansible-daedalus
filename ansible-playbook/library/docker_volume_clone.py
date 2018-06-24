@@ -109,7 +109,8 @@ class VolumeManager(DockerBaseClass):
             stdout = self.hlclient.containers.run(
                 image='alpine:latest',
                 command=['/bin/ash', '-c', cmd],
-                auto_remove=True,
+                # auto_remove=True,
+                name='ansible_rsync',
                 stdout=True,
                 stderr=True,
                 volumes={
@@ -117,6 +118,7 @@ class VolumeManager(DockerBaseClass):
                     self.dest: {'bind': '/to', 'mode': 'rw'}
                 }
             )
+            self.hlclient.containers.get('ansible_rsync').remove()
             self.results['rc'] = 0
             self.results['changed'] = True
         except (docker.errors.ContainerError,

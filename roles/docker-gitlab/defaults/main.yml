@@ -18,6 +18,7 @@ gitlab_db_user: novatech
 
 # the name of the image being duilt and used for the container
 gitlab_image_repo: 'https://github.com/novatechweb/docker-gitlab.git'
+gitlab_image_branch: 'master'
 gitlab_image_name: '{{ docker_registry_username }}/gitlab'
 gitlab_image_tag: '{{docker_image_tag}}'
 gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'

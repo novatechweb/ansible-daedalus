@@ -78,7 +78,7 @@
 - name: Checkout image repo
   git:
     repo: '{{ gitlab_image_repo }}'
-    version: master
+    version: '{{ gitlab_image_branch }}'
     dest: '{{ docker_projects_dir }}/docker-gitlab'
 
 - name: copy env-file
