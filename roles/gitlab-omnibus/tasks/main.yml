@@ -30,20 +30,20 @@
 # *****************************************************************************
 # backup script part
 
-# - name: Assemble dir for backup scripts
-#   file:
-#     path: /usr/libexec/bacula/backup-scripts
-#     state: directory
+- name: Assemble dir for backup scripts
+  file:
+    path: /usr/libexec/bacula/backup-scripts
+    state: directory
 
-# - name: before_backup script part
-#   template:
-#     src: before_backup.j2
-#     dest: /usr/libexec/bacula/backup-scripts/55.before_backup.gitlab
+- name: before_backup script part
+  template:
+    src: before_backup.j2
+    dest: /usr/libexec/bacula/backup-scripts/55.before_backup.gitlab
 
-# - name: after_backup script part
-#   template:
-#     src: after_backup.j2
-#     dest: /usr/libexec/bacula/backup-scripts/55.after_backup.gitlab
+- name: after_backup script part
+  template:
+    src: after_backup.j2
+    dest: /usr/libexec/bacula/backup-scripts/55.after_backup.gitlab
 
 # *****************************************************************************
 # update the Docker restore config
