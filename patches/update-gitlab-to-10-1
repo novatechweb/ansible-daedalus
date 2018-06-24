@@ -1,5 +1,5 @@
 Bottom: 21bc56bbfd9667a79e520d7e4139bfdafa043e62
-Top:    4806632d132d2c93d750c14f86f382b417631c38
+Top:    4c3540ae88c6f4a1b7afc49a6a0e5030833db3f5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 13:51:33 -0500
 
@@ -804,7 +804,7 @@ index 00000000..517a713d
 +    gitlab-rails runner /mnt/backups/fetch_merge_requests.rb
 diff --git a/roles/gitlab-omnibus/tasks/main.yml b/roles/gitlab-omnibus/tasks/main.yml
 new file mode 100644
-index 00000000..6d915a22
+index 00000000..dabd77ea
 --- /dev/null
 +++ b/roles/gitlab-omnibus/tasks/main.yml
 @@ -0,0 +1,172 @@
@@ -840,20 +840,20 @@ index 00000000..6d915a22
 +# *****************************************************************************
 +# backup script part
 +
-+# - name: Assemble dir for backup scripts
-+#   file:
-+#     path: /usr/libexec/bacula/backup-scripts
-+#     state: directory
++- name: Assemble dir for backup scripts
++  file:
++    path: /usr/libexec/bacula/backup-scripts
++    state: directory
 +
-+# - name: before_backup script part
-+#   template:
-+#     src: before_backup.j2
-+#     dest: /usr/libexec/bacula/backup-scripts/55.before_backup.gitlab
++- name: before_backup script part
++  template:
++    src: before_backup.j2
++    dest: /usr/libexec/bacula/backup-scripts/55.before_backup.gitlab
 +
-+# - name: after_backup script part
-+#   template:
-+#     src: after_backup.j2
-+#     dest: /usr/libexec/bacula/backup-scripts/55.after_backup.gitlab
++- name: after_backup script part
++  template:
++    src: after_backup.j2
++    dest: /usr/libexec/bacula/backup-scripts/55.after_backup.gitlab
 +
 +# *****************************************************************************
 +# update the Docker restore config
