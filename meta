@@ -1,6 +1,6 @@
 Version: 1
-Previous: 230afafb44103a10975bb912fb35ac7fa42cc57a
-Head: 3d1c498660631076e27e875ae1e3240f22bc3e55
+Previous: 8a8a6276a30764080cc76281517a5a537d7b8703
+Head: 2e4b4dfd673f80a273c84e3238694cf9ec0db987
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -67,8 +67,8 @@ Applied:
   buildbot-fix-ssh-folder-permission: cb74c662c7a5b271ec366c654d95200a4ed3e061
   buildbot-update-ntel-builds: e09c73869032291cd34515e3f025ed91f2b412c3
   buildbot-parameterize-env: 3d1c498660631076e27e875ae1e3240f22bc3e55
+  buildbot-update-ptxdist-builds: 2e4b4dfd673f80a273c84e3238694cf9ec0db987
 Unapplied:
-  buildbot-update-ptxdist-builds: 921e771227f76fb38a3eaf36452e5c4d307237cc
   buildbot-image-entrypoint: 14c45b2bfbdaa4789faf87e0ae76a508d0d241bc
   buildbot-dependencies: 5ab3a80e1e90b63a8489f2e51769e526f3077533
   tmp-wiki-database: 4cafdbb9c46f0e80c574ae365575f2e33183409b
