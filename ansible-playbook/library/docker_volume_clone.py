@@ -1,10 +1,22 @@
 #!/usr/bin/python
 #
 # Copyright 2016 Red Hat | Ansible
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see COPYING
+# or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 __metaclass__ = type
+
+
+try:
+    import docker
+    from docker import utils
+except ImportError:
+    # missing docker-py handled in docker_common
+    pass
+finally:
+    from ansible.module_utils.docker_common import (AnsibleDockerClient,
+                                                    DockerBaseClass)
 
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -63,15 +75,6 @@ EXAMPLES = '''
 RETURN = '''
 '''
 
-try:
-    import docker
-    from docker import utils
-except ImportError:
-    # missing docker-py handled in docker_common
-    pass
-
-from ansible.module_utils.docker_common import AnsibleDockerClient, DockerBaseClass
-
 
 class VolumeManager(DockerBaseClass):
 
@@ -103,7 +106,8 @@ class VolumeManager(DockerBaseClass):
         )
 
     def clone_volume(self):
-        cmd = "apk add --no-cache rsync && /usr/bin/rsync --archive --del /from/ /to/"
+        cmd = """apk add --no-cache rsync \
+                 && /usr/bin/rsync --archive --del /from/ /to/"""
         stdout = ''
         try:
             stdout = self.hlclient.containers.run(
