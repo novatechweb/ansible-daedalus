@@ -1,6 +1,6 @@
 Version: 1
-Previous: d852d5b16463ff0d4d2bd1883c4b98ea14af575b
-Head: bdd06345aa4b1e5fb5136746d5b9e366c1bbb09a
+Previous: 9780a3ab9e45d50e7b7056ddafdf3cd77c941f7b
+Head: 50ee83c0e3be066d4812d5b7bf03baf638c8321a
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -13,6 +13,7 @@ Applied:
   all-docker_image: 9976b0f3861edd23a5f5ebc23df1de4511f6eecf
   playbook-fix-printf-in-docker_build: c747c7bcfa7963b49a0e727800177189185b607c
   all-cut-dependencies: 50ee83c0e3be066d4812d5b7bf03baf638c8321a
+Unapplied:
   playbook-public-keys: 3471af8596b2187cec340bce445ac4ef7c62c2ca
   playbook-remove-freeipa: 95903ce42c4aff7fd729747f5f875cbb5bc45903
   playbook-bringup_sh: 27b6c53c2c8867a7f2951870a85646eab6d7f655
@@ -22,7 +23,6 @@ Applied:
   playbook-simplify-credentials: ca3ad0d0a85d3d39835f6dbddc4310f8587ff665
   playbook-fix-credential-copy: 44bbac289c1dbd2ff5c11d841c8311324b2e7e7c
   playbook-add-docker_health-module: bdd06345aa4b1e5fb5136746d5b9e366c1bbb09a
-Unapplied:
   bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
