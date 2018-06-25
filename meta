@@ -1,6 +1,6 @@
 Version: 1
-Previous: a30b9719bd4c87e1adf8aff58b451b545457931c
-Head: 55d34a89aec4baf3b5c7d7d3130c5bb185a9b278
+Previous: 1fc4bf28f2dd19423ddbc88ab175356ab7a39cf5
+Head: 83f7847971b8a7abf71eee6a371ce59e53c0a40d
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -51,8 +51,8 @@ Applied:
   tmp-update-openldap: dd88ac1406bbb9f79ce86b104ad5174f8541b7d0
   ssl-limit-scope: 135a1eaf3a53da27e7e80a77da079cd34f77f01e
   svn-hotcopy: 55d34a89aec4baf3b5c7d7d3130c5bb185a9b278
+  svn-allow-empty: 83f7847971b8a7abf71eee6a371ce59e53c0a40d
 Unapplied:
-  svn-allow-empty: 2e8e80445b672e46c460919747bf702a83b5c879
   svn-create-required-directories: 7adc0d0e04b10e8b33d8b211cd0fe59ade8b7d9a
   wiki-downgrade-extensions: 4ae1c906ea242cb2a36ab24f249906cdd42da059
   wiki-create-required-directories: cbad85b9a3a89b47ccf5ea87198aa9ac83da793f
