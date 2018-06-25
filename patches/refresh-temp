@@ -1,0 +1,20 @@
+Bottom: 1f4bc5358c81220e95504dc721661b2ed108c8da
+Top:    03664c989b8054491ead7832b98547e5d1fae3f3
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-25 14:35:25 -0500
+
+Refresh of buildbot-worker-ntel
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 310a65be..68dd9801 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -1,6 +1,6 @@
+ ---
+ # passwords
+-buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbotbot/worker_ntel"             , length=20) }}'
++buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel"                , length=20) }}'
+ buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
+ buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
+ buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
