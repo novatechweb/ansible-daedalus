@@ -1,5 +1,5 @@
-Bottom: 6ed15c7f308e1364248c2afde188b5a3b5e0c4e8
-Top:    88c28a3933ebe4bdd745ab9eff14d59ec12ffd05
+Bottom: 205ff3a5f27670822fbd60af75e173d2249c1f84
+Top:    014d0a16593d5ac55af3f16426a360edb91b5b02
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 09:28:28 -0500
 
@@ -36,10 +36,10 @@ index 00000000..86476751
 +buildbot_version: 1.1.2
 +buildbot_worker_port: 9989
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 81f28fda..6c2c17d9 100644
+index 23b1a3d9..b839e1e3 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -85,6 +85,9 @@
+@@ -94,6 +94,9 @@
      tags:
      - buildsystem_container
  
@@ -48,7 +48,7 @@ index 81f28fda..6c2c17d9 100644
 +
  - name: Setup the Build System (Test Station) with repo data
    hosts: buildsystem
-   roles:
+   remote_user: ansibleremote
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
 index 00000000..fa19756e
