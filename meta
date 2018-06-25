@@ -1,6 +1,6 @@
 Version: 1
-Previous: d92ed360481a1371dd3cc4913fbdee5af622fb73
-Head: e69c20f89bb4e3e8ce8c153bf516783c2d4c1272
+Previous: d5531fb4a8c4f7e1f14c0ed16eaf6161ff1d158d
+Head: e82773ae8b0ff8dca8e8467040382b90ba51c790
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -19,6 +19,7 @@ Applied:
   playbook-remove-docker-pull-images: 1dbcfbde667f2401dd1b9fe4b6a370a8093b7632
   playbook-remove-docker-build-base-image: 07cd07da2e9bd6b2e146e72368c237d6e2315bce
   playbook-extract-docker-hosts: e69c20f89bb4e3e8ce8c153bf516783c2d4c1272
+  playbook-simplify-credentials: e82773ae8b0ff8dca8e8467040382b90ba51c790
 Unapplied:
   bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
@@ -69,7 +70,6 @@ Unapplied:
   buildbot-update-ptxdist-builds: 921e771227f76fb38a3eaf36452e5c4d307237cc
   buildbot-image-entrypoint: 14c45b2bfbdaa4789faf87e0ae76a508d0d241bc
   buildbot-dependencies: 5ab3a80e1e90b63a8489f2e51769e526f3077533
-  playbook-simplify-credentials: 5d31d23fd0d6c7a693a69e2a8f530c2bcea24dd2
   tmp-wiki-database: 4cafdbb9c46f0e80c574ae365575f2e33183409b
   tmp-mantis-database: 2d1d8e07ff9a2ac00c15c0287c56591e0de12f0d
   bacula-update-syntax: eecf32b0ab0adb2092242615aa72bbe71e9e56f1
