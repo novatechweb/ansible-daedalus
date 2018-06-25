@@ -1,5 +1,5 @@
-Bottom: 98f574c982230e5fc411b432bcc77c94513641d1
-Top:    d40b22b0d355d3585468091f5b50e334fc66932e
+Bottom: e37a759b130f14b86e01aa3b408f6ca9024578d8
+Top:    e37a759b130f14b86e01aa3b408f6ca9024578d8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 17:26:52 -0500
 
@@ -10,85 +10,4 @@ common docker tasks are for all docker hosts.
 
 
 ---
-diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 4d04b6bb..25b1c8ac 100644
---- a/ansible-playbook/buildbot.yml
-+++ b/ansible-playbook/buildbot.yml
-@@ -1,7 +1,7 @@
- ---
- 
--- name: Install/Setup Docker images and containers
--  hosts: docker-hosts
-+- name: Install/Setup Docker images and containers on daedalus
-+  hosts: daedalus
-   become: true
-   become_user: root
-   become_method: sudo
-diff --git a/ansible-playbook/production b/ansible-playbook/production
-index eb6bccf7..1223c9db 100644
---- a/ansible-playbook/production
-+++ b/ansible-playbook/production
-@@ -1,6 +1,9 @@
- [bacula]
- daedalus.novatech-llc.com
- 
-+[daedalus]
-+daedalus.novatech-llc.com
-+
- [docker-hosts]
- daedalus.novatech-llc.com
- builder.novatech-llc.com
-diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 6c2c17d9..9a699b6d 100644
---- a/ansible-playbook/site.yml
-+++ b/ansible-playbook/site.yml
-@@ -18,7 +18,8 @@
-   - role: bacula-script
-     assemble_scripts: false
-   - role: bacula-catalog
--- name: Install/Setup Docker images and containers
-+
-+- name: Prepare Docker host systems
-   hosts: docker-hosts
-   remote_user: ansibleremote
-   become: true
-@@ -33,6 +34,14 @@
-     role: docker-common
-     tags:
-     - docker_common
-+
-+- name: Install/Setup Docker images and containers on daedalus
-+  hosts: daedalus
-+  remote_user: ansibleremote
-+  become: true
-+  become_user: root
-+  become_method: sudo
-+  roles:
-   - name: Configure Docker networking
-     role: docker-networking
-     network_connection: '{{ daedalus_net_connection }}'
-@@ -90,6 +99,10 @@
- 
- - name: Setup the Build System (Test Station) with repo data
-   hosts: buildsystem
-+  remote_user: ansibleremote
-+  become: true
-+  become_user: root
-+  become_method: sudo
-   roles:
-   - role: buildsystem
-     tags:
-diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index 3da6bb1f..fa054a69 100644
---- a/ansible-playbook/staging
-+++ b/ansible-playbook/staging
-@@ -1,6 +1,9 @@
- [bacula]
- testdaedalus.novatech-llc.com
- 
-+[daedalus]
-+testdaedalus.novatech-llc.com
-+
- [docker-hosts]
- testdaedalus.novatech-llc.com
- builder.novatech-llc.com
+
