@@ -1,5 +1,5 @@
-Bottom: a234b21eb0fd595a1b17c9dc95c720c06c207f3c
-Top:    852877369f558435001b6972c5d972d449149ff1
+Bottom: a49dc762a6e3950f2774af052d597a3ec9c93708
+Top:    86d63ac55384de68a701955770300b1a129961b9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:42:10 -0500
 
@@ -174,7 +174,7 @@ index 5128f7d2..69e4e55c 100644
  # *****************************************************************************
  # restore?
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 1154f52c..f7ee6996 100644
+index dd0484f2..1a00928d 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -34,6 +34,7 @@ openldap_image_name: '{{ docker_registry_username }}/ldap'
@@ -276,11 +276,11 @@ index 5522f437..53d4b541 100644
  # *****************************************************************************
  # Populate the openssl data-volume with default data
 diff --git a/roles/docker-openssl/templates/before_backup.j2 b/roles/docker-openssl/templates/before_backup.j2
-index 3120162c..d07e5ef7 100644
+index 160ff326..75fb3aca 100644
 --- a/roles/docker-openssl/templates/before_backup.j2
 +++ b/roles/docker-openssl/templates/before_backup.j2
 @@ -5,7 +5,8 @@
- docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/openssl"
+ docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z {{ repository_images.debian.image }}:{{ repository_images.debian.tag }} bash -c "rm -rf /tmp/import_export/openssl"
  mkdir -p -m u=rwx,g=rwx,o= {{ openssl_docker_backup_dir }}
  docker run --rm \
 -    --volumes-from {{ openssl_dv_name }} \
