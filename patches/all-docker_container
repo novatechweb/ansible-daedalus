@@ -1,5 +1,5 @@
 Bottom: 3f2c1cdbec550bd6e620b95f538a351e30bd3760
-Top:    a49dc762a6e3950f2774af052d597a3ec9c93708
+Top:    0038b5f4e0b77b6e8cb5fbf39d8e070f5e41f008
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -138,6 +138,84 @@ index ab4dd40d..4a07c812 100644
 +    port_args: 
 +      - '{{ container_addr_map.phpmyadmin.ip_addr }}:80:80'
 +      - '{{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
+diff --git a/ansible-playbook/library/docker_run b/ansible-playbook/library/docker_run
+deleted file mode 100644
+index 54dd490b..00000000
+--- a/ansible-playbook/library/docker_run
++++ /dev/null
+@@ -1,72 +0,0 @@
+-#!/bin/bash
+-
+-# Ansible transports arguments to modules in a file. The
+-# path to the arguments file is in $1, and the file
+-# contains the module's arguments like this:
+-#
+-#       image_name=debian pull_image_tag=8 working_image_tag=current
+-#
+-# Arguments:
+-#    container_name
+-#    docker_run_arguments
+-
+-eval $(sed -e "s/\s?\([^=]+\)\s?=\s?\(\x22\([^\x22]+\)\x22|\x27\([^\x27]+\)\x27|\(\S+\)\)\s?/\1='\2'/p" $1)
+-
+-if [[ -z "${container_name}" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs container_name= argument\"}"
+-    exit 1
+-fi
+-
+-if [[ -z "${docker_run_arguments}" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs docker_run_arguments= argument\"}"
+-    exit 1
+-fi
+-
+-changed='false'
+-
+-# *****************************************************************************
+-# Check if container exists, remove container if it exists
+-
+-docker inspect ${container_name} &> /dev/null
+-exist_result="${?}"
+-
+-if [[ "${exist_result}" == "0" ]]; then
+-    if [[ "$(docker 2>&1 inspect -f '{{ .State.Running }}' ${container_name})" == 'true' ]]; then
+-
+-        docker stop ${container_name} &> /dev/null
+-        stop_result="${?}"
+-
+-        if [[ "${stop_result}" != "0" ]]; then
+-            printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"Failed to determine if container is running.\"}"
+-            exit 1
+-        fi
+-
+-        changed='true'
+-    fi
+-
+-    docker rm -v ${container_name} &> /dev/null
+-    remove_result="${?}"
+-
+-    if [[ "${remove_result}" != "0" ]]; then
+-        printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"Failed to remove container.\"}"
+-        exit 1
+-    fi
+-
+-    changed='true'
+-fi
+-
+-run_command=$(docker 2>&1 run -d --restart=always --name ${container_name} ${docker_run_arguments})
+-result="${?}"
+-
+-if [[ "${result}" == "0" ]]; then
+-    if [[ "${exist_result}" == "0" ]]; then
+-        printf "{\"failed\": false, \"changed\": false, \"msg\": \"Restarted container ${container_name}\"}"
+-        exit 0
+-    else
+-        printf "{\"failed\": false, \"changed\": true, \"msg\": \"Started container ${container_name}\"}"
+-        exit 0
+-    fi
+-else
+-    printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"${run_command}\"}"
+-    exit 1
+-fi
 diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
 index cdbad40e..9d4820f9 100644
 --- a/roles/docker-buildsystem/defaults/main.yml
