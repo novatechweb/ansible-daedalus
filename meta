@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4c672c89994b7ab16ce8e1ec06b214895e0686a2
-Head: eed9d339f6833da0287ec35ede3877f34e0b7316
+Previous: 5b0b98dc42d141f7e392acac310ce6f478a94ef3
+Head: 4146d50fab44f9dc63cd55a60c2c25be8cc1e8b6
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -30,8 +30,8 @@ Applied:
   common-install-latest-available: c306f7910a4a89de164aa9a00de6988603f116fb
   common-remove-backup-directory: b5015d499e263f6802305e4c88757ab46bad0462
   common-remove-container-conf: eed9d339f6833da0287ec35ede3877f34e0b7316
+  common-configure-docker-daemon: 4146d50fab44f9dc63cd55a60c2c25be8cc1e8b6
 Unapplied:
-  common-configure-docker-daemon: 1f8649fa30d1172062f8ec72b05f07ff2bd2337d
   common-docker-enable-tcp: fe18dd95b7caf694000dd362203700db79e93257
   common-move-mariadb-config-to-maria: 438afce75021dab53c42f567e22f839dcebde759
   mariadb-fix-bind-address: a31a5b16d65734f2f302d8e8d1c2c18ce8b7d36c
