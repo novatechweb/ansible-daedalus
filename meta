@@ -1,10 +1,11 @@
 Version: 1
-Previous: 2c2a1c6299780057a8c35983f2605e532836a91a
-Head: caa13cfaf2a96f4f67c40b30f3e55843d92f373e
+Previous: 4a6e98dd47c9a9892614ba44b6bbb982682d7140
+Head: 890949c5a961afe22c40904858b09e0b94fb27de
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
   all-distribute-image-repo-checkout: caa13cfaf2a96f4f67c40b30f3e55843d92f373e
+  all-move-vars-to-defaults: 890949c5a961afe22c40904858b09e0b94fb27de
 Unapplied:
   playbook-public-keys: c48af3c1113cdd9fff2877b63a5a3667a7daec9f
   playbook-remove-freeipa: cdb04f2e51b526d2735636d0d38ffb891a8ddc1a
@@ -14,7 +15,6 @@ Unapplied:
   bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
-  all-move-vars-to-defaults: 1afc2c09c31b96453e180b9d1c60a9de9470015c
   all-normalize-vars: c70e2cf86c19cb86027af6e59c5bada9ab4834e5
   playbook-remove-docker-pull-images: 25f1262db4e11f0322b8ad3a76b9a3a9c2fe8442
   all-docker_container: eb0217db730feccb2774e9509b715836e2d189b2
