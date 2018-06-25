@@ -1,5 +1,5 @@
 Bottom: 205ff3a5f27670822fbd60af75e173d2249c1f84
-Top:    014d0a16593d5ac55af3f16426a360edb91b5b02
+Top:    dd8c303b04c065acc58e30c038edd2541b67b071
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 09:28:28 -0500
 
@@ -35,6 +35,17 @@ index 00000000..86476751
 +---
 +buildbot_version: 1.1.2
 +buildbot_worker_port: 9989
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index c306cadf..d476bf91 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -1,5 +1,6 @@
+ ---
+ # passwords
++buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin"                      , length=20) }}'
+ buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
+ buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
+ buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index 23b1a3d9..b839e1e3 100644
 --- a/ansible-playbook/site.yml
