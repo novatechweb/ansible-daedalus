@@ -25,3 +25,4 @@
     buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
   roles:
   - role: buildbot-worker-ntel
+  - role: buildbot-worker-ptxdist
