@@ -1,5 +1,5 @@
 Version: 1
-Previous: 9780a3ab9e45d50e7b7056ddafdf3cd77c941f7b
+Previous: 0a726f04a4900efd6e7872e960853081f655781e
 Head: 50ee83c0e3be066d4812d5b7bf03baf638c8321a
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
@@ -75,7 +75,7 @@ Unapplied:
   tmp-wiki-database: 4cafdbb9c46f0e80c574ae365575f2e33183409b
   tmp-mantis-database: 2d1d8e07ff9a2ac00c15c0287c56591e0de12f0d
   bacula-update-syntax: eecf32b0ab0adb2092242615aa72bbe71e9e56f1
-  all-improve-idempotency: 08c8caa093fc51c13bd1ffcc1e5f85b9d0ce85f2
+  bacula-improve-idempotency: 08c8caa093fc51c13bd1ffcc1e5f85b9d0ce85f2
   buildbot-ssh-keygen: 45b9e83fd406e0bdd2f6e4e37e578ddb83ad2165
   gitlab_user-create-role: a5a48f723e862ba9718b01715311065a766b8aef
   gitlab_sshkey-create-role: 28fd6c5a8a47dc373344d05bbe6e53f50f370ff2
