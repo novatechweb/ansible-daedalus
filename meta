@@ -1,6 +1,6 @@
 Version: 1
-Previous: 3527a6a9a458bf4b97955be19bfb9cef581b3c1d
-Head: 32fb3a5cf94c46c89758629919d8152b55c552ac
+Previous: f9f89b2b2217ce28b16ebf28ace4645a89f22585
+Head: 6d40630df54b1afb3c6529533784c672a17d56be
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
