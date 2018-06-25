@@ -1,6 +1,6 @@
 Version: 1
-Previous: 398d612f35ccdd67f44d52fe9181f898759c9b8e
-Head: bdd06345aa4b1e5fb5136746d5b9e366c1bbb09a
+Previous: b13722d98e579706e95cb05ab55445c2dbe4d0d1
+Head: be1721d2bdefb18940bae6b06b3ee07c597d12c5
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -22,22 +22,22 @@ Applied:
   playbook-simplify-credentials: ca3ad0d0a85d3d39835f6dbddc4310f8587ff665
   playbook-fix-credential-copy: 44bbac289c1dbd2ff5c11d841c8311324b2e7e7c
   playbook-add-docker_health-module: bdd06345aa4b1e5fb5136746d5b9e366c1bbb09a
+  bacula-fix-bacula-list-jobs-pexpect: a166b5e1c84fee130c4016fd4a2571e52ed69572
+  bacula-remove-unused-pools: db925ca7985c7d91b1840e75e59089e04cb9fe8e
+  bacula-force-sha256-fingerprint-check: f002dd6008039f46e3ee992e4b77706aaa04458d
+  bacula-improve-bacula-bootstrap-script: 11c922fc5bdb8663b4e1eb0189cd9680af03601c
+  common-update-python-docker-client: 35234f8b9a4b3d18a1d210ca0b08e140b8fbdfcd
+  common-install-latest-available: c4fbe98d5b80adb9a69f3b895ace207576b9f208
+  common-remove-backup-directory: b15a0aac7d6799685425a6a7b098944fb66ad63d
+  common-remove-container-conf: 4277c15a08c80ae7d91bb6b6ed3870434872acf8
+  common-configure-docker-daemon: 24a18cbd42d36d8d1d42139e0c5749d53e26a6e1
+  common-docker-enable-tcp: b09989f96a3b5678681de27d070f870b3d2c9b55
+  common-move-mariadb-config-to-maria: 501469d409b03b34cdbe8b595046adb1a17b37a0
+  mariadb-fix-bind-address: 3065f80728b78b9df7b9a218a18ef811f58bfa1b
+  common-move-sshd-config-to-setup: b622149c7393bd92a2da25ccbeb2713d6ebfb24c
+  sshd-create-role: bbb6590266614e507998d54056decf30d8cb6c48
+  buildsystem-credentials: be1721d2bdefb18940bae6b06b3ee07c597d12c5
 Unapplied:
-  bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
-  bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
-  bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
-  bacula-improve-bacula-bootstrap-script: c9d5be7668334051dedff6b34f8d8907c9f213e3
-  common-update-python-docker-client: 70eaf16783fad62c3bb072bc968cb03a7fc1db54
-  common-install-latest-available: 6b82ad77fec338837c2604963a1ef4af3ccc89a1
-  common-remove-backup-directory: afd4148c565be654ba26eae38c2e4b59069c5a9d
-  common-remove-container-conf: aa6d34eb3d0554029baac354d4451c9245e52684
-  common-configure-docker-daemon: 1f8649fa30d1172062f8ec72b05f07ff2bd2337d
-  common-docker-enable-tcp: fe18dd95b7caf694000dd362203700db79e93257
-  common-move-mariadb-config-to-maria: 438afce75021dab53c42f567e22f839dcebde759
-  mariadb-fix-bind-address: a31a5b16d65734f2f302d8e8d1c2c18ce8b7d36c
-  common-move-sshd-config-to-setup: 6fa64dfe5237818d6027369fbbb0985da393509d
-  sshd-create-role: 46c681a6d348190b5326c96a511e0a57b177eefb
-  buildsystem-credentials: 5241a279f29fa55cc158ce2ffdf2eaa47b782bb8
   buildsystem-apache2-version-string: 98dd132bdba6d4a449e2f15cb604de1927b95e7e
   buildsystem-limit-mysql-backups: 902693c734c7af4cd63b4752312a981227241080
   exim4-configuration: e88ec93c6cea684f2135aef2f9df4e31affbe49e
