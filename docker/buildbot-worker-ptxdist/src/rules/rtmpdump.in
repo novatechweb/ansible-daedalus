@@ -1,7 +1,0 @@
-## SECTION=multimedia_libs
-
-config RTMPDUMP
-	tristate
-	prompt "rtmpdump"
-	help
-	  FIXME

@@ -1,0 +1,100 @@
+Bottom: 3cd9be5ea6560547a07dfa956003d2c28322c59c
+Top:    e5b0a34cfc4ac4ff877d2a886f08d252b2f97394
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-14 11:35:58 -0500
+
+Add new role to configure daedalus host
+
+
+
+---
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/lvm.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/lvm.yml
+new file mode 100644
+index 00000000..47b1c905
+--- /dev/null
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/lvm.yml
+@@ -0,0 +1,3 @@
++---
++
++daedalus_thinpool_vg: "virtstorage"
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index de8660ab..280d0724 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -13,6 +13,16 @@
+       src: /tmp/ansible_variables
+       dest: "{{inventory_hostname}}_ansible_variables"
+ 
++- name: Configure daedalus partitioning
++  hosts: daedalus
++  remote_user: ansibleremote
++  become: true
++  become_user: root
++  become_method: sudo
++  tags: daedalus
++  roles: 
++  - role: daedalus
++
+ - name: Bacula
+   hosts: bacula
+   remote_user: ansibleremote
+diff --git a/roles/daedalus/defaults/main.yml b/roles/daedalus/defaults/main.yml
+new file mode 100644
+index 00000000..c53fba02
+--- /dev/null
++++ b/roles/daedalus/defaults/main.yml
+@@ -0,0 +1,8 @@
++---
++
++daedalus_thinpool_vg: "centos"
++daedalus_thinpool_name: "pool"
++daedalus_thinpool_size: "100%FREE"
++daedalus_thinpool_profile_name: "{{ daedalus_thinpool_vg }}-{{ daedalus_thinpool_name }}"
++daedalus_thinpool_autoextend_threshold: 60
++daedalus_thinpool_autoextend_percent: 20
+diff --git a/roles/daedalus/tasks/main.yml b/roles/daedalus/tasks/main.yml
+new file mode 100644
+index 00000000..6fc82ba3
+--- /dev/null
++++ b/roles/daedalus/tasks/main.yml
+@@ -0,0 +1,30 @@
++---
++
++
++- name: Create autoextend policy for thin pool
++  template:
++    dest: "/etc/lvm/profile/{{ daedalus_thinpool_profile_name }}.profile"
++    src: thinpool.profile.j2
++    mode: u=r,g=r,o=r
++    owner: root
++    group: root
++
++- name: Create a thin pool of the remaining free space
++  lvol:
++    vg: "{{ daedalus_thinpool_vg }}"
++    opts: --metadataprofile {{ daedalus_thinpool_profile_name }}
++    shrink: false
++    size: "{{ daedalus_thinpool_size }}"
++    thinpool: "{{ daedalus_thinpool_name }}"
++    state: present
++
++- name: Get information about the new thin pool volume
++  command: >
++    lvs --reportformat json -o+lv_all {{ daedalus_thinpool_vg }}/{{ daedalus_thinpool_name }}
++  register: output
++  changed_when: false
++
++- name: Set information as a fact
++  set_fact:
++    docker_thinpool_lv: '{{ (output.stdout | from_json)["report"][0]["lv"][0] }}'
++  changed_when: false
+diff --git a/roles/daedalus/templates/thinpool.profile.j2 b/roles/daedalus/templates/thinpool.profile.j2
+new file mode 100644
+index 00000000..02945d52
+--- /dev/null
++++ b/roles/daedalus/templates/thinpool.profile.j2
+@@ -0,0 +1,4 @@
++activation {
++	thin_pool_autoextend_threshold={{ daedalus_thinpool_autoextend_threshold }}
++	thin_pool_autoextend_percent={{ daedalus_thinpool_autoextend_percent }}
++}

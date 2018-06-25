@@ -1,7 +1,0 @@
-## SECTION=image
-
-config IMAGE_@PACKAGE@_TGZ
-	tristate
-	prompt "Generate images/@package@.tgz"
-	help
-	  FIXME

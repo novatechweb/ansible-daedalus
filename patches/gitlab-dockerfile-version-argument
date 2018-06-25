@@ -1,0 +1,26 @@
+Bottom: e5b0a34cfc4ac4ff877d2a886f08d252b2f97394
+Top:    21bc56bbfd9667a79e520d7e4139bfdafa043e62
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-22 09:27:08 -0500
+
+Add a version argument to the Dockerfile
+
+Allows the user to pick any sameersbn/gitlab version
+
+
+---
+diff --git a/docker/docker-gitlab-data/Dockerfile b/docker/docker-gitlab-data/Dockerfile
+index e8156c3c..2571036e 100644
+--- a/docker/docker-gitlab-data/Dockerfile
++++ b/docker/docker-gitlab-data/Dockerfile
+@@ -3,8 +3,8 @@
+ #
+ # Version 0.1
+ 
+-FROM sameersbn/gitlab:7.14.3
+-# FROM quay.io/sameersbn/gitlab:8.1.2
++ARG  GITLAB_VERSION=7.14.3
++FROM sameersbn/gitlab:$GITLAB_VERSION
+ MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
+ 
+ # copy wrapper script

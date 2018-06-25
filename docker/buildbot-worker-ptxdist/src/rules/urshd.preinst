@@ -1,6 +1,0 @@
-#!/bin/sh
-
-if [ -x /etc/init.d/urshd ] && [ -z "$DESTDIR" ]; then
-	/etc/init.d/urshd stop
-fi
-

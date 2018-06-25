@@ -1,0 +1,23 @@
+Bottom: 6edb2f683e6f3f27d143bb76b9f10ede08f8c141
+Top:    958f660e592736bb9526bc0e4a5247eb34279c19
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-23 18:01:10 -0500
+
+Upgrade gitlab to 8.0.5
+
+
+
+---
+diff --git a/docker/docker-gitlab-data/Dockerfile b/docker/docker-gitlab-data/Dockerfile
+index 43edab83..f7f79d4e 100644
+--- a/docker/docker-gitlab-data/Dockerfile
++++ b/docker/docker-gitlab-data/Dockerfile
+@@ -3,7 +3,7 @@
+ #
+ # Version 0.1
+ 
+-FROM sameersbn/gitlab:7.14.3
++FROM sameersbn/gitlab:8.0.5
+ MAINTAINER Joseph Lutz <Joseph.Lutz@novatechweb.com>
+ 
+ # copy wrapper script

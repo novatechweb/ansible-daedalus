@@ -1,7 +1,0 @@
-## SECTION=hosttools_noprompt
-## SECTION=hosttools_platform
-
-config HOST_GENIMAGE
-	tristate
-	select HOST_LIBCONFUSE
-	default ALLYES

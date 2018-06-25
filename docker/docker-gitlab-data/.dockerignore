@@ -1,8 +1,0 @@
-.git/*
-LICENSE
-README.md
-backup_script.sh
-gitlab.env.list
-gitlab.sh
-import_script.sh
-restore_script.sh

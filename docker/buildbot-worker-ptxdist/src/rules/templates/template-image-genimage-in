@@ -1,8 +1,0 @@
-## SECTION=image
-
-config IMAGE_@PACKAGE@
-	tristate
-	select HOST_GENIMAGE
-	prompt "Generate images/@package@.@TYPE@"
-	help
-	  FIXME

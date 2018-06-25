@@ -1,1 +1,0 @@
-shell stream tcp nowait root /usr/sbin/rshd

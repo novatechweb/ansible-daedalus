@@ -1,4 +1,0 @@
-## SECTION=bootloader
-
-config BOOTLOADER
-	tristate

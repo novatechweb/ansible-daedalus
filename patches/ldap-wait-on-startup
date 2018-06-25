@@ -1,0 +1,30 @@
+Bottom: 35f0284de2c2853f96573548633a7aa5fba88e9b
+Top:    a5cb86f512861bc8f03ea86181f29e92cdeb148a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Wait on openldap container startup
+
+Occasionally the openldap container would not be ready when attempting
+to add the admin and proxyagent accounts. A wait is required to
+ensure the service is running properly.
+
+
+---
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index 9c102e67..ea01537f 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -150,6 +150,13 @@
+ # *****************************************************************************
+ # Set the LDAP passwords
+ 
++- name: wait for LDAP to start
++  wait_for:
++    delay: 5
++    host: '{{ container_addr_map.ldap.ip_addr }}'
++    port: 389
++    state: started
++
+ - name: set LDAP admin password
+   command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_admin_pass {{ openldap_admin_password | quote }}'

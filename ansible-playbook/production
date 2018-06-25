@@ -1,8 +1,0 @@
-[bacula]
-daedalus.novatech-llc.com
-
-[docker-hosts]
-daedalus.novatech-llc.com
-
-[buildsystem]
-buildsystem.novatech-llc.com

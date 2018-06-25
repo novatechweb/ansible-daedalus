@@ -1,8 +1,0 @@
-## SECTION=communication
-
-config SJINN
-	tristate
-	prompt "sjinn"
-	select LIBC_M
-	help
-	  rs232 comm tool

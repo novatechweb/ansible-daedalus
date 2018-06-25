@@ -1,8 +1,0 @@
-## SECTION=multimedia_xorg_font_cyrillic
-
-config XORG_FONT_CRONYX_CYRILLIC
-	bool
-	select XORG_FONTS
-	prompt "Cronyx cyrillic"
-	help
-	  This package delivers the Cronyx cyrillic BDF fonts

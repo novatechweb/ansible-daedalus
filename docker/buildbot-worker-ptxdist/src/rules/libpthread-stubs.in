@@ -1,4 +1,0 @@
-## SECTION=system_libraries
-
-config LIBPTHREAD_STUBS
-	tristate
