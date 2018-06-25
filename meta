@@ -1,6 +1,6 @@
 Version: 1
-Previous: 08be3e3cdae08b418441e121844eb86492f9e0d8
-Head: 9cf8f9c4a9bb9e0a197566b56ff1f3da88e3b0dd
+Previous: 6b3d016a182e35d272925329854a7ecbc60861b1
+Head: 62f03a226f95f6ac5e6c07966a162832f1a818c1
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -53,8 +53,8 @@ Applied:
   svn-hotcopy: 55d34a89aec4baf3b5c7d7d3130c5bb185a9b278
   svn-allow-empty: 83f7847971b8a7abf71eee6a371ce59e53c0a40d
   svn-create-required-directories: 9cf8f9c4a9bb9e0a197566b56ff1f3da88e3b0dd
+  wiki-downgrade-extensions: 62f03a226f95f6ac5e6c07966a162832f1a818c1
 Unapplied:
-  wiki-downgrade-extensions: 4ae1c906ea242cb2a36ab24f249906cdd42da059
   wiki-create-required-directories: cbad85b9a3a89b47ccf5ea87198aa9ac83da793f
   wiki-remove-libicu52: 03a06788a9e07d73531ebced258122a755d317f0
   wiki-update-entrypoint: 0f692c00808b9f0ca7516de3aaa0a0b810939bcd
