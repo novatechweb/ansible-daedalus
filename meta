@@ -1,6 +1,6 @@
 Version: 1
-Previous: 8b1c2cad5696465a934cd869af6ad6fa6ad2e6c1
-Head: 6d40630df54b1afb3c6529533784c672a17d56be
+Previous: 6d8a7bf0c2fd5ab64fbe54d35bcb4af4e4aea472
+Head: 0c860d0a786a00851466a4bfeb9a8522cb825d6c
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -9,10 +9,10 @@ Applied:
   all-normalize-vars: e6d615c71fcc92d703d8e01d50cc932d3d343742
   all-docker_container: 6c4fc307422fd9873a22a14e520aa6fd71512ade
   all-docker_volume: 6d40630df54b1afb3c6529533784c672a17d56be
+  common-ip-addresses: 0c860d0a786a00851466a4bfeb9a8522cb825d6c
 Unapplied:
   playbook-public-keys: c48af3c1113cdd9fff2877b63a5a3667a7daec9f
   playbook-remove-freeipa: cdb04f2e51b526d2735636d0d38ffb891a8ddc1a
-  common-ip-addresses: 248ed0c0d781e10a8ba5fcde9d63b0dd4cdb3e34
   playbook-bringup_sh: 6cdaf2b361c41d26ff770e4d036554ad48de39c3
   playbook-fix-printf-in-docker_build: b2c6b5a7450e23b7e83d53b11e9ad995e2fcf10d
   bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
