@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2f20c477640a02c0acd11b3aea15f4cf7e8b04a4
-Head: da881a5800cffe74ad65f352489c8d113f841997
+Previous: 23bc51bac981bb447965ee69d00cefbab31fd743
+Head: 3521a185a60fdacd5da52f41a4d3ec79ee5effff
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -24,8 +24,8 @@ Applied:
   playbook-add-docker_health-module: bdd06345aa4b1e5fb5136746d5b9e366c1bbb09a
   bacula-fix-bacula-list-jobs-pexpect: 81d097c3867266d966b40b3182b3488fafdd6f93
   bacula-remove-unused-pools: da881a5800cffe74ad65f352489c8d113f841997
+  bacula-force-sha256-fingerprint-check: 3521a185a60fdacd5da52f41a4d3ec79ee5effff
 Unapplied:
-  bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
   bacula-improve-bacula-bootstrap-script: c9d5be7668334051dedff6b34f8d8907c9f213e3
   common-update-python-docker-client: 70eaf16783fad62c3bb072bc968cb03a7fc1db54
   common-install-latest-available: 6b82ad77fec338837c2604963a1ef4af3ccc89a1
