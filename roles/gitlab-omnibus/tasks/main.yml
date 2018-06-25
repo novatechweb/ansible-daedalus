@@ -8,15 +8,15 @@
 # *****************************************************************************
 # Setup the directory where the backup and restore is to take place
 
-# - name: restore dir
-#   file:
-#     state: directory
-#     path: '{{ gitlab_docker_restore_dir }}'
-#     owner: root
-#     group: tape
-#     mode: 'u=rwx,g=rwx,o=rx'
-#     recurse: no
-#     setype: svirt_sandbox_file_t
+- name: restore dir
+  file:
+    state: directory
+    path: '{{ gitlab_docker_restore_dir }}'
+    owner: root
+    group: tape
+    mode: 'u=rwx,g=rwx,o=rx'
+    recurse: no
+    setype: svirt_sandbox_file_t
 
 - name: docker_container.conf dir
   file:
@@ -74,10 +74,13 @@
 # *****************************************************************************
 # Create the data volumes
 
+- name: backup-volume container (gitlab)
+  docker_volume:
+    name: '{{ gitlab_bv_name }}'
+
 - name: config-volume container (gitlab)
   docker_volume:
     name: '{{ gitlab_cv_name }}'
-
 
 - name: data-volume container (gitlab)
   docker_volume:
@@ -99,7 +102,7 @@
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ gitlab_cv_name }}:/etc/gitlab:z'
       - '{{ gitlab_dv_name }}:/var/opt/gitlab:z'
-      - '{{ gitlab_docker_backup_dir }}:/mnt/backups:z'
+      - '{{ gitlab_bv_name }}:{{ gitlab_bv_mountpoint }}:z'
     image: '{{ gitlab_image_name }}'
     state: present
 

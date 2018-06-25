@@ -4,7 +4,8 @@
 # Backup gitlab
 docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/GIT"
 mkdir -p -m u=rwx,g=rwx,o= {{ gitlab_docker_backup_dir }}
-docker exec -t {{ gitlab_container_name }} gitlab_rake gitlab:backup:create
+docker exec -t {{ gitlab_container_name }} gitlab-rake gitlab:backup:create
 docker exec -t {{ gitlab_container_name }} /bin/sh -c \
-    'umask 0077; tar czf /mnt/backups/$(date "+%s_%Y_%m_%d_{{gitlab_version}}_gitlab_etc.tgz") -C / etc/gitlab'
+    'umask 0077; tar czf {{gitlab_bv_mountpoint}}/$(date "+%s_%Y_%m_%d_{{gitlab_version}}_gitlab_etc.tgz") -C / etc/gitlab'
+docker cp {{ gitlab_container_name }}:{{ gitlab_bv_mountpoint}}/. {{ gitlab_docker_backup_dir }}
 {% endif %}
