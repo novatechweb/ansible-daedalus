@@ -1,6 +1,6 @@
 Version: 1
-Previous: a159a6b14c3d7abbb1411d05b77b8f68f51aa888
-Head: 3120b83dd5bf923f374615893145878776c2d2e2
+Previous: 071dc509085a5c46549dc071c9aed0165076beb0
+Head: bb0f93b9f6140266a39dad1e577ea94ab9dab91f
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -61,6 +61,7 @@ Applied:
   mantisbt-remove-libicu52: 5f192b9a256f2a44b77ef959558338dd54b78501
   mantisbt-update-entrypoint: 4fd5dc0bdad3c8b48b9100f0951d57134b2cac36
   buildbot-master: 3120b83dd5bf923f374615893145878776c2d2e2
+  refresh-temp: bb0f93b9f6140266a39dad1e577ea94ab9dab91f
 Unapplied:
   builder-add-new-host: 2ca63a8b9ff694387a5ada4f712d746262f1ca34
   buildbot-worker-ntel: 9defe60e861c1062a510447d7a02ff1533d4cbd4

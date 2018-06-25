@@ -1,0 +1,19 @@
+Bottom: 014d0a16593d5ac55af3f16426a360edb91b5b02
+Top:    dd8c303b04c065acc58e30c038edd2541b67b071
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-25 14:36:29 -0500
+
+Refresh of buildbot-master
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index c306cadf..d476bf91 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -1,5 +1,6 @@
+ ---
+ # passwords
++buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin"                      , length=20) }}'
+ buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
+ buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
+ buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
