@@ -1,6 +1,6 @@
 Version: 1
-Previous: 448dd6d6ab307959a3138192d299ae79fbecef5c
-Head: 44bbac289c1dbd2ff5c11d841c8311324b2e7e7c
+Previous: d852d5b16463ff0d4d2bd1883c4b98ea14af575b
+Head: bdd06345aa4b1e5fb5136746d5b9e366c1bbb09a
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -21,6 +21,7 @@ Applied:
   playbook-extract-docker-hosts: e69c20f89bb4e3e8ce8c153bf516783c2d4c1272
   playbook-simplify-credentials: ca3ad0d0a85d3d39835f6dbddc4310f8587ff665
   playbook-fix-credential-copy: 44bbac289c1dbd2ff5c11d841c8311324b2e7e7c
+  playbook-add-docker_health-module: bdd06345aa4b1e5fb5136746d5b9e366c1bbb09a
 Unapplied:
   bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
@@ -78,7 +79,6 @@ Unapplied:
   buildbot-ssh-keygen: 45b9e83fd406e0bdd2f6e4e37e578ddb83ad2165
   gitlab_user-create-role: a5a48f723e862ba9718b01715311065a766b8aef
   gitlab_sshkey-create-role: 28fd6c5a8a47dc373344d05bbe6e53f50f370ff2
-  playbook-add-docker_health-module: 0154f5d919ff8c2b361ec4a75f4bcb9620b0470a
   TESTING--VirtualMachine: b491391eafab6b47eb4514fca00d5b99d4d8bec7
   daedalus-add-new-role: 1c77dbc3f06a3d0c6c3bea0aaa777a229be76ed3
   gitlab-dockerfile-version-argument: 5bbc236f164b49dbadc334dec62b0752c7eede50
