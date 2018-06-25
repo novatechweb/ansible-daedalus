@@ -1,6 +1,6 @@
 Version: 1
-Previous: 198b4dd50ca8f4f53781000d9a3c334f646a67ae
-Head: 7618ba05375a8ef6db42949583bf858f14c711e5
+Previous: 37e2ca474889e5cfe35eea31e58823559a5629e1
+Head: 27c8b61eeee5fbb42688eaacabfdedc8c0442599
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -8,6 +8,7 @@ Applied:
   all-move-vars-to-defaults: 890949c5a961afe22c40904858b09e0b94fb27de
   all-normalize-vars: e6d615c71fcc92d703d8e01d50cc932d3d343742
   all-docker_container: 27c8b61eeee5fbb42688eaacabfdedc8c0442599
+Unapplied:
   all-docker_volume: 06b44f083b83f674ba76053410777ee3aacddcd6
   all-docker_network: 463d148f9d4ec9be929f45c68784bd6fd9ceb1cf
   all-docker_image: c6feaf8bbd9292956246b7a0c1ccf9535e0ca814
@@ -70,7 +71,6 @@ Applied:
   buildbot-image-entrypoint: 77105e51c646c0fb51b6c35d41a2c8be126a7564
   buildbot-dependencies: c1a221554bb0060157534986f4b145f442fbd9c6
   tmp-wiki-database: 7618ba05375a8ef6db42949583bf858f14c711e5
-Unapplied:
   tmp-mantis-database: e9fc20ac89567e5ff039e865717fbdb69be440b4
   bacula-update-syntax: 4b78e19e230cc697482bb87b3e0f5899823895df
   bacula-improve-idempotency: 79d1780bcf6547d92082d42ee83c5cc1dc91ddee
