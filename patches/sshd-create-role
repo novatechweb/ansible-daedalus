@@ -1,5 +1,5 @@
-Bottom: 434c82eded676fd5644a28f68843af453d3662c4
-Top:    4342e63e3030292c423a3d5334e40a486a3cc6a6
+Bottom: 0369138b961dd72d07a576851d72c143e15e459e
+Top:    8536020b40de4763db75424587cfd310e29fe1a7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:14:44 -0500
 
@@ -8,10 +8,10 @@ Create new role sshd for configuring ssh server daemon
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 0727917d..23b1a3d9 100644
+index d5721eb4..81f28fda 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -26,6 +26,10 @@
+@@ -25,6 +25,10 @@
    become_user: root
    become_method: sudo
    roles:
