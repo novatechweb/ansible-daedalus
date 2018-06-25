@@ -1,5 +1,5 @@
 Bottom: 21bc56bbfd9667a79e520d7e4139bfdafa043e62
-Top:    4c3540ae88c6f4a1b7afc49a6a0e5030833db3f5
+Top:    f98cf7145f298b81b5e34cf5e7ed2d84f4a5b98d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 13:51:33 -0500
 
@@ -9,10 +9,10 @@ Update gitlab to 10.1
 ---
 diff --git a/ansible-playbook/gitlab.yml b/ansible-playbook/gitlab.yml
 new file mode 100644
-index 00000000..7371cc80
+index 00000000..4e2155de
 --- /dev/null
 +++ b/ansible-playbook/gitlab.yml
-@@ -0,0 +1,98 @@
+@@ -0,0 +1,95 @@
 +---
 +
 +- name: Install/Setup Docker images and containers on daedalus
@@ -39,64 +39,61 @@ index 00000000..7371cc80
 +    - "{{ gitlab_backup_storage }}"
 +    - "{{ gitlab_restore_dir }}"
 +
-+  # - name: Run bacula-restores symlinks
-+  #   include_role:
-+  #     name: bacula-restores
++  - name: Create frontend network for services
++    docker_network:
++      name: '{{ docker_network_frontend }}'
++      state: present
 +
-+  # - name: Gitlab Sameersbn Upgrade Path
-+  #   loop:
-+  #   # - { last: Null,      version: "7.14.3",  tag: "7.14.3" }
-+  #   - { last: "7.14.3",  version: "8.0.5",   tag: "8.0.5"  }
-+  #   loop_control:
-+  #     loop_var: play_item
-+  #   vars:
-+  #     old_prefix: 'sameersbn{{play_item.last}}-'
-+  #     docker_name_prefix: 'sameersbn{{play_item.version}}-'
-+  #     gitlab_version: '{{play_item.version}}'
-+  #     gitlab_image_branch: '{{play_item.version}}'
-+  #     gitlab_image_tag: '{{play_item.tag}}'
-+  #     upgrade: '{{play_item.last is not none}}'
-+  #   include_role:
-+  #     name: docker-gitlab
++  - name: Gitlab Sameersbn Upgrade Path
++    loop:
++    # - { last: Null,      version: "7.14.3",  tag: "7.14.3" }
++    - { last: "7.14.3",  version: "8.0.5",   tag: "8.0.5"  }
++    loop_control:
++      loop_var: play_item
++    vars:
++      old_prefix: 'sameersbn{{play_item.last}}-'
++      docker_name_prefix: 'sameersbn{{play_item.version}}-'
++      gitlab_version: '{{play_item.version}}'
++      gitlab_image_branch: '{{play_item.version}}'
++      gitlab_image_tag: '{{play_item.tag}}'
++      upgrade: '{{play_item.last is not none}}'
++    include_role:
++      name: docker-gitlab
 +  
-+  # - name: Gitlab (Sameersbn 8)
-+  #   vars:
-+  #     gitlab_version: "8.0.5"
-+  #     docker_name_prefix: 'sameersbn8.0.5-'
-+  #   block:
-+  #   - name: Backup Gitlab
-+  #     command: >
-+  #       docker exec -u git {{docker_name_prefix}}gitlab bundle exec rake gitlab:backup:create
++  - name: Gitlab (Sameersbn 8)
++    vars:
++      gitlab_version: "8.0.5"
++      docker_name_prefix: 'sameersbn8.0.5-'
++    block:
++    - name: Backup Gitlab
++      command: >
++        docker exec -u git {{docker_name_prefix}}gitlab bundle exec rake gitlab:backup:create
 +
-+  #   - name: Find backup files
-+  #     find:
-+  #       path: '{{gitlab_backup_dir}}'
-+  #       pattern: '*_gitlab_backup.tar'
-+  #     register: backups
++    - name: Find backup files
++      find:
++        path: '{{gitlab_backup_dir}}'
++        pattern: '*_gitlab_backup.tar'
++      register: backups
 +
-+  #   - name: Move backups to storage, normalize name
-+  #     loop: '{{ backups.files }}'
-+  #     vars:
-+  #       backup_file: '{{ item.path | basename | replace("gitlab_backup.tar", gitlab_version ~ "_gitlab_backup.tar") }}'
-+  #     command: >
-+  #       mv "{{ item.path }}" "{{gitlab_restore_dir}}/{{ backup_file }}"
++    - name: Move backups to storage, normalize name
++      loop: '{{ backups.files }}'
++      vars:
++        backup_file: '{{ item.path | basename | replace("gitlab_backup.tar", gitlab_version ~ "_gitlab_backup.tar") }}'
++      command: >
++        mv "{{ item.path }}" "{{gitlab_restore_dir}}/{{ backup_file }}"
 +
-+  #   - name: Shutdown Gitlab
-+  #     docker_container: 
-+  #       name: '{{ docker_name_prefix }}{{ item }}'
-+  #       state: stopped
-+  #     loop:
-+  #     - gitlab
-+  #     - gitlab-redis
-+  #     - gitlab-db
-+
-+  # - name: Run bacula-restores symlinks
-+  #   include_role:
-+  #     name: bacula-restores
++    - name: Shutdown Gitlab
++      docker_container: 
++        name: '{{ docker_name_prefix }}{{ item }}'
++        state: stopped
++      loop:
++      - gitlab
++      - gitlab-redis
++      - gitlab-db
 +
 +  - name: Gitlab Omnibus Upgrade Path
 +    loop:
-+    # - { last: Null,     version: "8.0.5",  tag: "8.0.5-ce.0"   }
++    - { last: Null,     version: "8.0.5",  tag: "8.0.5-ce.0"   }
 +    - { last: "8.0.5",  version: "8.17.8", tag: "8.17.8-ce.0"  }
 +    - { last: "8.17.8", version: "9.0.13", tag: "9.0.13-ce.0"  }
 +    - { last: "9.0.13", version: "9.5.10", tag: "9.5.10-ce.0"  }
@@ -706,13 +703,13 @@ index 00000000..3f03ba2c
 +  register: st_gitlab_restore
 diff --git a/roles/gitlab-omnibus/defaults/main.yml b/roles/gitlab-omnibus/defaults/main.yml
 new file mode 100644
-index 00000000..a509d4ee
+index 00000000..d8af28cb
 --- /dev/null
 +++ b/roles/gitlab-omnibus/defaults/main.yml
-@@ -0,0 +1,50 @@
+@@ -0,0 +1,39 @@
 +---
 +
-+gitlab_version: "10.1.7"
++gitlab_version: "10.8.4"
 +
 +# The hostname passed as an envirnment variable into the container
 +gitlab_ip_addr: '127.0.0.1'
@@ -725,33 +722,22 @@ index 00000000..a509d4ee
 +# database usernames and passwords
 +gitlab_db_user: novatech
 +
-+# must pass in the following variables
-+# gitlab_db_password: ''
-+
 +# the name of the image being duilt and used for the container
 +gitlab_image_tag: "{{gitlab_version}}-ce.0"
 +gitlab_image_name: 'gitlab/gitlab-ce:{{gitlab_image_tag}}'
-+# gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
-+# gitlab_db_image_name: '{{ docker_registry_username }}/postgres'
-+# redis_image_name: '{{ docker_registry_username }}/redis'
 +
 +# the name of the gitlab container
 +gitlab_container_name: '{{ docker_name_prefix }}gitlab'
 +
-+# the name of the redis container for gitlab
-+# gitlab_redis_container_name: '{{ docker_name_prefix }}gitlab_redis'
-+
-+# the name of the postgres container for gitlab
-+# gitlab_db_container_name: '{{ docker_name_prefix }}gitlab_db'
++# the name of the backup-volume used by the container
++gitlab_bv_name: '{{ docker_name_prefix }}gitlab_BV'
++gitlab_bv_mountpoint: '/mnt/backups'
 +
 +# the name of the config-volume used by the container
 +gitlab_cv_name: '{{ docker_name_prefix }}gitlab_CV'
 +
 +# the name of the data-volume used by the container
 +gitlab_dv_name: '{{ docker_name_prefix }}gitlab_DV'
-+
-+# the name of the data-volume used by the postgres container
-+# gitlab_db_dv_name: '{{ docker_name_prefix }}gitlab_db_DV'
 +
 +# restore directories to temporarly store data being restored into docker containers
 +gitlab_docker_backup_dir: '{{ docker_backup_dir }}/GIT'
@@ -804,10 +790,10 @@ index 00000000..517a713d
 +    gitlab-rails runner /mnt/backups/fetch_merge_requests.rb
 diff --git a/roles/gitlab-omnibus/tasks/main.yml b/roles/gitlab-omnibus/tasks/main.yml
 new file mode 100644
-index 00000000..dabd77ea
+index 00000000..f09245f0
 --- /dev/null
 +++ b/roles/gitlab-omnibus/tasks/main.yml
-@@ -0,0 +1,172 @@
+@@ -0,0 +1,175 @@
 +---
 +# file: roles/docker-gitlab/tasks/main.yaml
 +
@@ -818,15 +804,15 @@ index 00000000..dabd77ea
 +# *****************************************************************************
 +# Setup the directory where the backup and restore is to take place
 +
-+# - name: restore dir
-+#   file:
-+#     state: directory
-+#     path: '{{ gitlab_docker_restore_dir }}'
-+#     owner: root
-+#     group: tape
-+#     mode: 'u=rwx,g=rwx,o=rx'
-+#     recurse: no
-+#     setype: svirt_sandbox_file_t
++- name: restore dir
++  file:
++    state: directory
++    path: '{{ gitlab_docker_restore_dir }}'
++    owner: root
++    group: tape
++    mode: 'u=rwx,g=rwx,o=rx'
++    recurse: no
++    setype: svirt_sandbox_file_t
 +
 +- name: docker_container.conf dir
 +  file:
@@ -884,10 +870,13 @@ index 00000000..dabd77ea
 +# *****************************************************************************
 +# Create the data volumes
 +
++- name: backup-volume container (gitlab)
++  docker_volume:
++    name: '{{ gitlab_bv_name }}'
++
 +- name: config-volume container (gitlab)
 +  docker_volume:
 +    name: '{{ gitlab_cv_name }}'
-+
 +
 +- name: data-volume container (gitlab)
 +  docker_volume:
@@ -909,7 +898,7 @@ index 00000000..dabd77ea
 +      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
 +      - '{{ gitlab_cv_name }}:/etc/gitlab:z'
 +      - '{{ gitlab_dv_name }}:/var/opt/gitlab:z'
-+      - '{{ gitlab_docker_backup_dir }}:/mnt/backups:z'
++      - '{{ gitlab_bv_name }}:{{ gitlab_bv_mountpoint }}:z'
 +    image: '{{ gitlab_image_name }}'
 +    state: present
 +
@@ -982,10 +971,10 @@ index 00000000..dabd77ea
 +  - gitlab_version is version('10.2', '<')
 diff --git a/roles/gitlab-omnibus/tasks/restore.yml b/roles/gitlab-omnibus/tasks/restore.yml
 new file mode 100644
-index 00000000..d773b25f
+index 00000000..45c26502
 --- /dev/null
 +++ b/roles/gitlab-omnibus/tasks/restore.yml
-@@ -0,0 +1,125 @@
+@@ -0,0 +1,120 @@
 +---
 +# file: roles/docker-gitlab/tasks/restore.yaml
 +
@@ -1027,13 +1016,8 @@ index 00000000..d773b25f
 +# restore the gitlab backup
 +
 +- name: Copy backup files to container
-+  copy:
-+    remote_src: yes
-+    src: '{{ item.path }}'
-+    dest: '{{ gitlab_docker_backup_dir }}/'
-+    owner: root
-+    group: root
-+    mode: 'u=rwx,g=rwx,o=rwx'
++  command: >
++      docker cp '{{ item.path }}' {{ gitlab_container_name }}:'{{ gitlab_bv_mountpoint }}'
 +  loop: "{{ gitlab_backup.files }}"
 +
 +- name: shut down gitlab services for restoration
@@ -1047,11 +1031,11 @@ index 00000000..d773b25f
 +  block:
 +  - name: find gitlab secrets archive
 +    find:
-+      path: '{{ gitlab_docker_backup_dir }}'
++      path: '{{ gitlab_docker_restore_dir }}'
 +      pattern: "*_{{gitlab_version}}_gitlab_etc.tgz"
 +    register: backup_files
 +  - set_fact:
-+      backup_file: "/mnt/backups/{{backup_files.files[0]['path'] | basename}}"
++      backup_file: "{{gitlab_bv_mountpoint}}/{{backup_files.files[0]['path'] | basename}}"
 +    when: backup_files.matched > 0
 +  - command: >
 +      docker exec -t {{ gitlab_container_name }}
@@ -1062,11 +1046,11 @@ index 00000000..d773b25f
 +  block:
 +  - name: find gitlab data archive
 +    find:
-+      path: '{{ gitlab_docker_backup_dir }}'
++      path: '{{ gitlab_docker_restore_dir }}'
 +      pattern: "*_{{gitlab_version}}_gitlab_backup.tar"
 +    register: backup_files
 +  - set_fact:
-+      backup_file: "/mnt/backups/{{backup_files.files[0]['path'] | basename | replace('_gitlab_backup.tar','')}}"
++      backup_file: "{{gitlab_bv_mountpoint}}/{{backup_files.files[0]['path'] | basename | replace('_gitlab_backup.tar','')}}"
 +    when: backup_files.matched > 0
 +  - command: >
 +      docker exec -t {{ gitlab_container_name }}
@@ -1149,31 +1133,33 @@ index 00000000..f606f7c7
 +  register: st_gitlab_restore
 diff --git a/roles/gitlab-omnibus/templates/after_backup.j2 b/roles/gitlab-omnibus/templates/after_backup.j2
 new file mode 100644
-index 00000000..85b103f0
+index 00000000..9016eb5e
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/after_backup.j2
-@@ -0,0 +1,6 @@
+@@ -0,0 +1,7 @@
 +{% if gitlab_docker_backup_dir is defined %}
 +
 +# *****************************************************************************
 +# Clean up git
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/GIT"
++docker exec {{ gitlab_container_name }} /bin/bash -c "rm -rf {{ gitlab_bv_mountpoint}}/*"
 +{% endif %}
 diff --git a/roles/gitlab-omnibus/templates/before_backup.j2 b/roles/gitlab-omnibus/templates/before_backup.j2
 new file mode 100644
-index 00000000..7b29c1f6
+index 00000000..6d882a32
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/before_backup.j2
-@@ -0,0 +1,10 @@
+@@ -0,0 +1,11 @@
 +{% if gitlab_docker_backup_dir is defined %}
 +
 +# *****************************************************************************
 +# Backup gitlab
 +docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/GIT"
 +mkdir -p -m u=rwx,g=rwx,o= {{ gitlab_docker_backup_dir }}
-+docker exec -t {{ gitlab_container_name }} gitlab_rake gitlab:backup:create
++docker exec -t {{ gitlab_container_name }} gitlab-rake gitlab:backup:create
 +docker exec -t {{ gitlab_container_name }} /bin/sh -c \
-+    'umask 0077; tar czf /mnt/backups/$(date "+%s_%Y_%m_%d_{{gitlab_version}}_gitlab_etc.tgz") -C / etc/gitlab'
++    'umask 0077; tar czf {{gitlab_bv_mountpoint}}/$(date "+%s_%Y_%m_%d_{{gitlab_version}}_gitlab_etc.tgz") -C / etc/gitlab'
++docker cp {{ gitlab_container_name }}:{{ gitlab_bv_mountpoint}}/. {{ gitlab_docker_backup_dir }}
 +{% endif %}
 diff --git a/roles/gitlab-omnibus/templates/gitlab.rb-10.8.4.j2 b/roles/gitlab-omnibus/templates/gitlab.rb-10.8.4.j2
 new file mode 100644
