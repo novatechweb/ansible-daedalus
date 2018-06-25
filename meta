@@ -1,6 +1,6 @@
 Version: 1
-Previous: f2d4e218a2780a58f6eaf62e8ec6788995e27176
-Head: 95e7e3ba8d129f5879c59cf55a911c2fa937f2e6
+Previous: 78a46fc645c2f2cf3570b4b02f942afd330642bd
+Head: ed9004e41a8df2539254f177b8991789cc300e43
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -43,8 +43,8 @@ Applied:
   exim4-ip-address: f13419a12b27c285c4d7a3e40bb5dac292566667
   exim4-mailname: 4fa2428de7ec1e0621be2fa0c2dc6b683deba5a3
   exim4-always-update-configuration: 95e7e3ba8d129f5879c59cf55a911c2fa937f2e6
+  exim4-install-key-crt: ed9004e41a8df2539254f177b8991789cc300e43
 Unapplied:
-  exim4-install-key-crt: 185a5ed59189f937db11c221b7c312ac31da4e62
   exim4-exec-account-script: fedaae53a9661332ac7ca269d110451e024105c7
   exim4-logrotate-configuration: 1f70a8d6b8263c9801ffb07ee851da2768a5fb26
   ldap-wait-on-startup: 83924e33125661aed474cff71992d967af9b7251
