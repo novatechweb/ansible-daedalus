@@ -1,5 +1,5 @@
 Bottom: a49dc762a6e3950f2774af052d597a3ec9c93708
-Top:    86d63ac55384de68a701955770300b1a129961b9
+Top:    1824a1c7b347a7a3cb408a2c120263b19a392c15
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:42:10 -0500
 
@@ -8,6 +8,66 @@ Use docker named volumes
 Instead of a data container, use docker named volume
 
 ---
+diff --git a/ansible-playbook/library/docker_datavolume b/ansible-playbook/library/docker_datavolume
+deleted file mode 100644
+index f79916f1..00000000
+--- a/ansible-playbook/library/docker_datavolume
++++ /dev/null
+@@ -1,54 +0,0 @@
+-#!/bin/bash
+-
+-# Ansible transports arguments to modules in a file. The
+-# path to the arguments file is in $1, and the file
+-# contains the module's arguments like this:
+-#
+-#       image_name=novatechweb/ldap image_tag=current data_volume_container_name=ldap_DV
+-#
+-# Arguments:
+-#    image_name
+-#    image_tag
+-#    data_volume_container_name
+-
+-eval $(sed -e "s/\s?\([^=]+\)\s?=\s?\(\x22\([^\x22]+\)\x22|\x27\([^\x27]+\)\x27|\(\S+\)\)\s?/\1='\2'/p" $1)
+-
+-if [[ -z "${image_name}" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs image_name= argument\"}"
+-    exit 1
+-fi
+-
+-if [[ -z "${image_tag}" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs image_tag= argument\"}"
+-    exit 1
+-fi
+-
+-if [[ -z "${data_volume_container_name}" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs data_volume_container_name= argument\"}"
+-    exit 1
+-fi
+-
+-# *****************************************************************************
+-# Check if data_volume_container_name exists
+-
+-docker inspect ${data_volume_container_name} &> /dev/null
+-result="${?}"
+-
+-if [[ ${result} == "0" ]]; then
+-    printf "{\"failed\": false, \"changed\": false, \"msg\": \"DataVolume container name already exists: ${data_volume_container_name}\"}"
+-    exit 0
+-fi
+-
+-# *****************************************************************************
+-# create the container for the Data Volume
+-
+-error_msg=$(docker 2>&1 run --name ${data_volume_container_name} --entrypoint /bin/true ${image_name}:${image_tag})
+-result="${?}"
+-
+-if [[ ${result} != "0" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"${error_msg}\"}"
+-    exit 1
+-fi
+-
+-printf "{\"failed\": false, \"changed\": true, \"msg\": \"Created container ${data_volume_container_name} for the Data Volume\"}"
+-exit 0
 diff --git a/docker/docker-mantisbt/mantisbt.sh b/docker/docker-mantisbt/mantisbt.sh
 index 7c584d4d..44dc2c31 100755
 --- a/docker/docker-mantisbt/mantisbt.sh
