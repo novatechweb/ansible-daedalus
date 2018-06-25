@@ -1,5 +1,5 @@
-Bottom: 03664c989b8054491ead7832b98547e5d1fae3f3
-Top:    684e761a6f61690a9c07a619d2c689f8395141eb
+Bottom: 72a11af8a0c1958720520ad6512a3c5dc2274c41
+Top:    d2e48eaf0350b9dca3c31c259090304246a96bad
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 10:52:21 -0500
 
@@ -25,12 +25,12 @@ index 7ad40a83..c918df8f 100644
  buildbot_worker_ntel: worker-ntel
 +buildbot_worker_ptxdist: worker-ptxdist
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 68dd9801..fc895bdf 100644
+index afeff4e3..f3aec6f1 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
-@@ -1,6 +1,7 @@
- ---
+@@ -2,6 +2,7 @@
  # passwords
+ buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin"                      , length=20) }}'
  buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel"                , length=20) }}'
 +buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist"             , length=20) }}'
  buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
