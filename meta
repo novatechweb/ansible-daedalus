@@ -1,6 +1,6 @@
 Version: 1
-Previous: a9024b9471a2e24e385cd75847067b225ea0ee84
-Head: 32fb3a5cf94c46c89758629919d8152b55c552ac
+Previous: 685ad6b27e5941c2672960a01940033a4fb3d41a
+Head: 9976b0f3861edd23a5f5ebc23df1de4511f6eecf
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -10,6 +10,7 @@ Applied:
   all-docker_container: 6c4fc307422fd9873a22a14e520aa6fd71512ade
   all-docker_volume: 6d40630df54b1afb3c6529533784c672a17d56be
   all-docker_network: 32fb3a5cf94c46c89758629919d8152b55c552ac
+  all-docker_image: 9976b0f3861edd23a5f5ebc23df1de4511f6eecf
 Unapplied:
   playbook-public-keys: c48af3c1113cdd9fff2877b63a5a3667a7daec9f
   playbook-remove-freeipa: cdb04f2e51b526d2735636d0d38ffb891a8ddc1a
@@ -19,7 +20,6 @@ Unapplied:
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
   bacula-force-sha256-fingerprint-check: baf87fea54ab21333366b6c2db56047db9dcce2a
   playbook-remove-docker-pull-images: 25f1262db4e11f0322b8ad3a76b9a3a9c2fe8442
-  all-docker_image: 334ba79e1c5ed326a8d1ec25e82a82268f948401
   playbook-remove-docker-build-base-image: 09d4db99a76013205cb5e724a423241249059125
   all-cut-dependencies: 3b2995acb98b078928ca785014d5a2a453e04d19
   bacula-improve-bacula-bootstrap-script: c9d5be7668334051dedff6b34f8d8907c9f213e3
