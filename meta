@@ -1,6 +1,6 @@
 Version: 1
-Previous: a3a86d5d9fb19d7dbc6771c2559ea7c6c1db1d5f
-Head: f32f86c0200dae745f04c79703e290ae824ca5e2
+Previous: dadec92c56e2141c422bcb879ddf044ecb07ceea
+Head: 8177ad1180a362d84ac053ae009a932114f8f7cd
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -61,8 +61,8 @@ Applied:
   mantisbt-remove-libicu52: 5f192b9a256f2a44b77ef959558338dd54b78501
   mantisbt-update-entrypoint: 4fd5dc0bdad3c8b48b9100f0951d57134b2cac36
   buildbot-master: f32f86c0200dae745f04c79703e290ae824ca5e2
+  builder-add-new-host: 8177ad1180a362d84ac053ae009a932114f8f7cd
 Unapplied:
-  builder-add-new-host: 2ca63a8b9ff694387a5ada4f712d746262f1ca34
   buildbot-worker-ntel: 9defe60e861c1062a510447d7a02ff1533d4cbd4
   buildbot-worker-ptxdist: d219e095efea326d7e8a837640eab3293a1eefa8
   buildbot-fix-ssh-folder-permission: f09e161a1a1fe18213a992173d1cc56b3938deec
