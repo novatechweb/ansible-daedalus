@@ -1,5 +1,5 @@
-Bottom: 88c28a3933ebe4bdd745ab9eff14d59ec12ffd05
-Top:    98f574c982230e5fc411b432bcc77c94513641d1
+Bottom: 014d0a16593d5ac55af3f16426a360edb91b5b02
+Top:    159f0f6afafb60a5e8b3c167e908a811fae0bd4a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-12 09:21:01 -0500
 
@@ -10,10 +10,10 @@ Runs buildbot worker containers
 
 ---
 diff --git a/ansible-playbook/production b/ansible-playbook/production
-index 07414537..eb6bccf7 100644
+index bae6e4f9..1223c9db 100644
 --- a/ansible-playbook/production
 +++ b/ansible-playbook/production
-@@ -3,6 +3,10 @@ daedalus.novatech-llc.com
+@@ -6,6 +6,10 @@ daedalus.novatech-llc.com
  
  [docker-hosts]
  daedalus.novatech-llc.com
@@ -25,10 +25,10 @@ index 07414537..eb6bccf7 100644
 +[builder]
 +builder.novatech-llc.com
 diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index e544fd42..3da6bb1f 100644
+index ad0ef4ac..fa054a69 100644
 --- a/ansible-playbook/staging
 +++ b/ansible-playbook/staging
-@@ -3,6 +3,10 @@ testdaedalus.novatech-llc.com
+@@ -6,6 +6,10 @@ testdaedalus.novatech-llc.com
  
  [docker-hosts]
  testdaedalus.novatech-llc.com
