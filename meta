@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4798eb57995388ff9a2476d4af0d281da4bb240c
-Head: 885ff045f2d96fb9faefeddab18bce4b149785ed
+Previous: 8f2e437692e4247ec1673f631d4c21553b248ff3
+Head: bb7accaf4422305b2d6862403d8ac7ea1eb13284
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -64,6 +64,7 @@ Applied:
   builder-add-new-host: 2ca63a8b9ff694387a5ada4f712d746262f1ca34
   buildbot-worker-ntel: 06264c40b55d49d617886a38c09d349663cb601e
   buildbot-worker-ptxdist: 885ff045f2d96fb9faefeddab18bce4b149785ed
+  refresh-temp: bb7accaf4422305b2d6862403d8ac7ea1eb13284
 Unapplied:
   buildbot-fix-ssh-folder-permission: f09e161a1a1fe18213a992173d1cc56b3938deec
   buildbot-update-ntel-builds: 78b8f364ff4f596ce1041907347fc760c65bd2e6
