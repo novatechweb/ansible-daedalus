@@ -1,6 +1,6 @@
 Version: 1
-Previous: ec3c103515529be06866a0df2b17c432633bde4e
-Head: 5e3a76302702479a81fe23a3f25a2aa07ea4031e
+Previous: 31b377922cbb75aa70c8a5f54cb15555cf68dda8
+Head: df192f22001c75deba342bdfca5f2650c6baa8c4
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -70,8 +70,8 @@ Applied:
   buildbot-update-ptxdist-builds: 2e4b4dfd673f80a273c84e3238694cf9ec0db987
   buildbot-image-entrypoint: 845c9d99701f4774261c929b439b0f391460e26d
   buildbot-dependencies: 5e3a76302702479a81fe23a3f25a2aa07ea4031e
+  tmp-wiki-database: df192f22001c75deba342bdfca5f2650c6baa8c4
 Unapplied:
-  tmp-wiki-database: 4cafdbb9c46f0e80c574ae365575f2e33183409b
   tmp-mantis-database: 2d1d8e07ff9a2ac00c15c0287c56591e0de12f0d
   bacula-update-syntax: eecf32b0ab0adb2092242615aa72bbe71e9e56f1
   bacula-improve-idempotency: 08c8caa093fc51c13bd1ffcc1e5f85b9d0ce85f2
