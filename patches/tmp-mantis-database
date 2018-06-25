@@ -1,5 +1,5 @@
 Bottom: b3b7b86dfc08a36e635244eb82af20102e9fbdff
-Top:    0ed193b0973e89b5780d033a25f8773fd28fa822
+Top:    f2727db25b59db36a4809c1491e32b7b621febec
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:56:24 -0500
 
@@ -44,7 +44,7 @@ index 7e8179c4..61e5ff0c 100644
 +# the name of the sql database used by mantisbt
 +mantisbt_database_name: 'bugtracker'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 45c1a895..478f6a6d 100644
+index 45c1a895..ad03e64b 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -85,30 +85,6 @@
@@ -78,7 +78,7 @@ index 45c1a895..478f6a6d 100644
  # *****************************************************************************
  # Create the data volumes
  
-@@ -118,63 +94,86 @@
+@@ -118,51 +94,73 @@
      image_tag: '{{ docker_image_tag }}'
      data_volume_container_name: '{{ mantisbt_dv_name }}'
  
@@ -138,20 +138,15 @@ index 45c1a895..478f6a6d 100644
 +    name: '{{ mantisbt_db_container_name}}'
      detach: true
      restart_policy: '{{ docker_restart_policy }}'
--    volumes_from:
--      - '{{ mantisbt_db_dv_name }}'
--    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
 +    image: '{{ mantisbt_db_image_name }}'
-+    volumes:
-+      - '{{ mantisbt_db_cv_name }}:/etc/mysql/conf.d:z'
-+      - '{{ mantisbt_db_dv_name }}:/var/lib/mysql:z'
+     volumes_from:
+       - '{{ mantisbt_db_dv_name }}'
+-    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
 +    env:
 +      MYSQL_DATABASE: '{{ mantisbt_database_name }}'
 +      MYSQL_ROOT_PASSWORD: '{{ mantisbt_db_root_password }}'
 +      MYSQL_USER: '{{ mantisbt_db_user }}'
 +      MYSQL_PASSWORD: '{{ mantisbt_db_password }}'
-+    networks:
-+      - name: '{{ docker_network_frontend }}'
 +
 +- name: wait for initialization to complete
 +  shell: >
@@ -176,20 +171,14 @@ index 45c1a895..478f6a6d 100644
      restart_policy: '{{ docker_restart_policy }}'
 -    hostname: '{{ container_addr_map.mantisbt.hostname }}'
 -    ports: '{{ container_port_map.mantisbt.port_args }}'
--    link: 
--      -'{{ openldap_container_name }}:mantisbt_ldap'
--      -'{{ mantisbt_db_container_name }}:mantisbt_db'
--      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
--    volumes_from: 
--      - '{{ openssl_dv_name }}'
--      - '{{ mantisbt_dv_name }}'
 +    hostname: '{{ mantisbt_hostname }}'
 +    ports: '{{ mantisbt_port_args }}'
-+    networks:
-+      - name: '{{ docker_network_frontend }}'
-+    volumes: 
-+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
-+      - '{{ mantisbt_dv_name }}:/var/www/html:z'
+     link: 
+       -'{{ openldap_container_name }}:mantisbt_ldap'
+       -'{{ mantisbt_db_container_name }}:mantisbt_db'
+@@ -171,10 +169,10 @@
+       - '{{ openssl_dv_name }}'
+       - '{{ mantisbt_dv_name }}'
      env: 
 -      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
 -      - MANTISBT_MAIL_USER=mantis
