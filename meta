@@ -1,6 +1,6 @@
 Version: 1
-Previous: a791e1eadc8ff8630c0a81f33cc1016170300c90
-Head: 6596acb49578294433d3e0961724911e0437a530
+Previous: 821c30cc11dbb7624074f7abcfd904cf43cacd0c
+Head: 828097ab3705954dd22aef520e162c13550e6863
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -14,8 +14,8 @@ Applied:
   all-cut-dependencies: aab02636e26c48eecb634536e0d275a3ed258424
   playbook-public-keys: 5f9231005e308752fb486d1166a0adcd406989d3
   playbook-remove-freeipa: 6596acb49578294433d3e0961724911e0437a530
+  playbook-bringup_sh: 828097ab3705954dd22aef520e162c13550e6863
 Unapplied:
-  playbook-bringup_sh: 6cdaf2b361c41d26ff770e4d036554ad48de39c3
   playbook-fix-printf-in-docker_build: b2c6b5a7450e23b7e83d53b11e9ad995e2fcf10d
   bacula-fix-bacula-list-jobs-pexpect: 5e37a027758049827686bf8dde0120db215885bc
   bacula-remove-unused-pools: 5f671fe39f68f98cb2aa3d1a9f58fbe62895c143
