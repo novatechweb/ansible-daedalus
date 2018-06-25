@@ -1,5 +1,5 @@
 Version: 1
-Previous: 8300b6295d110f3fbe9c560cfc8ae696d4d55c07
+Previous: 46ee9b3f66b381f82b82c22ec2b07cc2bb805f90
 Head: bdd06345aa4b1e5fb5136746d5b9e366c1bbb09a
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
@@ -37,7 +37,6 @@ Unapplied:
   mariadb-fix-bind-address: a31a5b16d65734f2f302d8e8d1c2c18ce8b7d36c
   common-move-sshd-config-to-setup: 6fa64dfe5237818d6027369fbbb0985da393509d
   sshd-create-role: 46c681a6d348190b5326c96a511e0a57b177eefb
-  buildsystem-credentials: 5241a279f29fa55cc158ce2ffdf2eaa47b782bb8
   buildsystem-apache2-version-string: 98dd132bdba6d4a449e2f15cb604de1927b95e7e
   buildsystem-limit-mysql-backups: 902693c734c7af4cd63b4752312a981227241080
   exim4-configuration: e88ec93c6cea684f2135aef2f9df4e31affbe49e
