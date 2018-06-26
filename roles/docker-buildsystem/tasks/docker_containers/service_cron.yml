@@ -14,6 +14,6 @@
     image: "{{ name_prefix }}teststation_cron_image"
     name: "{{ name_prefix }}TestStation_cron_service"
     state: "{{ container_start_state_nondata }}"
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     volumes_from:
       - "{{ name_prefix }}TestStation_http_data_ncdiso"
