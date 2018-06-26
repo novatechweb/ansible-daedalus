@@ -1,5 +1,5 @@
 Bottom: ff1d3f1895b0f5b7073a5c31cc0d287c1e0c051a
-Top:    b34661bd897e6a163b13168475e826b7edaf7ede
+Top:    017592d95040e1620bd6e0ce23ec237e2cef38e8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-26 09:17:30 -0500
 
@@ -167,7 +167,7 @@ index 3957c3a2..387e7adf 100644
  - name: stop prev container (postgres)
    docker_container:
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 45c1a895..a8ff7fa4 100644
+index 45c1a895..3547b88c 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -113,16 +113,12 @@
@@ -191,29 +191,6 @@ index 45c1a895..a8ff7fa4 100644
  
  - name: stop prev container (mysql)
    docker_container:
-@@ -162,6 +158,7 @@
-     detach: true
-     restart_policy: '{{ docker_restart_policy }}'
-     hostname: '{{ container_addr_map.mantisbt.hostname }}'
-+    hostname: '{{ mantisbt_hostname }}'
-     ports: '{{ container_port_map.mantisbt.port_args }}'
-     link: 
-       -'{{ openldap_container_name }}:mantisbt_ldap'
-@@ -171,10 +168,10 @@
-       - '{{ openssl_dv_name }}'
-       - '{{ mantisbt_dv_name }}'
-     env: 
--      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
--      - MANTISBT_MAIL_USER=mantis
--      - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
--      - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}
-+      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
-+      MANTISBT_MAIL_USER: 'mantis'
-+      MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
-+      MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
-     image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
- 
- # *****************************************************************************
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
 index a95335ca..2a86d85e 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
