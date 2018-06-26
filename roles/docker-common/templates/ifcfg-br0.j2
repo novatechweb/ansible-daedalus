@@ -1,9 +1,0 @@
-# /etc/sysconfig/network-scripts/ifcfg-br0:{{ item.value.bridge_num }}
-DEVICE=br0:{{ item.value.bridge_num }}
-ONBOOT=yes
-BOOTPROTO=static
-IPADDR={{ item.value.ip_addr }}
-NETMASK=255.255.0.0
-NETWORK=172.16.0.0
-BROADCAST=172.16.255.255
-TYPE=Ethernet
