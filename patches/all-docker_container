@@ -1,12 +1,11 @@
 Bottom: 3f2c1cdbec550bd6e620b95f538a351e30bd3760
-Top:    ff1d3f1895b0f5b7073a5c31cc0d287c1e0c051a
+Top:    c63bd9504a6634ca6b6e9860759a4d2ae4202202
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-05-10 12:19:57 -0500
+Date:   2018-06-26 13:05:01 -0500
 
 Use ansible docker_container module
 
 Cleaner than a single long docker run invocation
-
 
 ---
 diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
@@ -457,7 +456,7 @@ index bbe1b72f..7e8179c4 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index f0119408..45c1a895 100644
+index f0119408..a84f4040 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -148,14 +148,34 @@
@@ -493,10 +492,10 @@ index f0119408..45c1a895 100644
 +      - '{{ openssl_dv_name }}'
 +      - '{{ mantisbt_dv_name }}'
 +    env: 
-+      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
-+      - MANTISBT_MAIL_USER=mantis
-+      - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
-+      - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}
++      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
++      MANTISBT_MAIL_USER: 'mantis'
++      MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
++      MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
 +    image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
  
  # *****************************************************************************
