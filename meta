@@ -1,6 +1,6 @@
 Version: 1
-Previous: bef7b4b17bb4e84fbb973e6f402a5fa067346603
-Head: d2bb20b0cf425016de1f722585fe0711dec1d840
+Previous: bb3a202125c7f7bed41ab1fe09f02e6abc32143c
+Head: c017c508f9970d11b9214cf9082d6b49bb7852de
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -16,16 +16,16 @@ Applied:
   playbook-remove-freeipa: 15a3bd94c172c2667c002037c2f449f244cc351c
   playbook-bringup_sh: 13f047061cf696a49d3c43547cd6a9a94574d848
   playbook-remove-docker-pull-images: d2bb20b0cf425016de1f722585fe0711dec1d840
+  playbook-remove-docker-build-base-image: 5c413e2dc62312bc9dbefec286db93cce7fe92a6
+  playbook-extract-docker-hosts: f4e785a04119b775312480429b935bcf61bba726
+  playbook-simplify-credentials: fe5b0056aa7c995e661975ebd80a501953304096
+  playbook-fix-credential-copy: 6aa9555f16dd4eb77b8727e732071acc33cfe60f
+  playbook-add-docker_health-module: ad438738f6309c17e06ebef4a51e0b6b38fa1176
+  bacula-fix-bacula-list-jobs-pexpect: 87a8b558403ab5a48ce750c838354ad34cddf49e
+  bacula-remove-unused-pools: d66283c91463c3a4510dbb23d856d80dfe49e3f4
+  bacula-force-sha256-fingerprint-check: 019b58b99af79c7e7b15fb8b861b62ed51af62f1
+  bacula-improve-bacula-bootstrap-script: c017c508f9970d11b9214cf9082d6b49bb7852de
 Unapplied:
-  playbook-remove-docker-build-base-image: 1bf422b8d78115a7d3704e62e6b0b349a8ea3639
-  playbook-extract-docker-hosts: df060bc613e58aedc709879bece16bdbdb5a1836
-  playbook-simplify-credentials: 70cc729eb551763ede4106962aba7885353f7836
-  playbook-fix-credential-copy: 0c39e6348ae622912b22a8d5527acd54948b78a9
-  playbook-add-docker_health-module: b5a9b2370354ca955bf0fd70ec0c837aad723227
-  bacula-fix-bacula-list-jobs-pexpect: 933b73b5868022652d4db2719ddb7589db87e7cb
-  bacula-remove-unused-pools: e1a540142bb9f9ab2e3204589eaa9d439b5691f0
-  bacula-force-sha256-fingerprint-check: 5e4058c6e2d4bb07d44cd31a77df97a9033ca2ac
-  bacula-improve-bacula-bootstrap-script: 0e277e565fe73383fc3ec8de5ac74fb0b864dc8c
   common-update-python-docker-client: 0bbf51f94f182163e7ca6e54fe48cc2725379c6a
   common-install-latest-available: 38e139d35b2db174d83c8e85f62b3486bce65929
   common-remove-backup-directory: 0a9e770fcc3a8c8d3ec2dccb75afb7a00207aa44
