@@ -1,6 +1,6 @@
 Version: 1
-Previous: 8f21112c5e62554ca0070b37eabd0786ab288985
-Head: a21d7945d4e92604ae9b8545c951e8ea59d5ea62
+Previous: 4763adc2f925f4404d95eb191089bf5cde0134bc
+Head: 0d6557c0e607464044c5105d75dd64de409b48ee
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -48,8 +48,8 @@ Applied:
   exim4-logrotate-configuration: 74157db08c432d86a5fc5f18e124ea4cdd748d05
   ldap-wait-on-startup: ff48c71866068ee0ca5abcb31a7a793eee6b9984
   ldap-add-phpldapadmin: a21d7945d4e92604ae9b8545c951e8ea59d5ea62
+  tmp-update-openldap: 0d6557c0e607464044c5105d75dd64de409b48ee
 Unapplied:
-  tmp-update-openldap: f4c9fb21ab5411f6a7d3d54f736ba6bf737095b5
   ssl-limit-scope: 1c2c2644fd17f9761ce0e25826152844db23f30f
   svn-hotcopy: d30e7805c6c1f3d1a0675e638439ad7c80863d6b
   svn-allow-empty: c41d165a41b7167a447d771cfcf897adad40e0ba
