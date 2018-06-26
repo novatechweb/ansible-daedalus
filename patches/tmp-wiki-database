@@ -1,5 +1,5 @@
 Bottom: c7f603cfe3c73cbd0ed631585f5105713071ee74
-Top:    5ddaf23c0008b7c58867eb8dcdbf35ed23d8b46c
+Top:    017592d95040e1620bd6e0ce23ec237e2cef38e8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:55:57 -0500
 
@@ -29,10 +29,10 @@ index a95335ca..2a86d85e 100644
 +# the name of the sql database used by mediawiki
 +wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 86587ab1..29244da3 100644
+index 86587ab1..0a9243fb 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -94,33 +94,41 @@
+@@ -94,33 +94,39 @@
    docker_volume:
      name: '{{ wiki_db_dv_name }}'
  
@@ -72,8 +72,6 @@ index 86587ab1..29244da3 100644
 +      MYSQL_ROOT_PASSWORD: '{{ wiki_db_root_password }}'
 +      MYSQL_USER: '{{ wiki_db_user }}'
 +      MYSQL_PASSWORD: '{{ wiki_db_password }}'
-+    networks:
-+      - name: '{{ docker_network_frontend }}'
 +    state: started
 +
 +- name: wait for mysql initialization to complete
@@ -94,14 +92,14 @@ index 86587ab1..29244da3 100644
  
  - name: start container (mediwiki)
    docker_container:
-@@ -133,9 +141,9 @@
+@@ -133,9 +139,9 @@
        - '{{ openldap_container_name }}:wiki_ldap'
        - '{{ wiki_db_container_name }}:wiki_db'
        - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
 -    volumes_from: 
 -      - '{{ openssl_dv_name }}'
 -      - '{{ wiki_dv_name }}'
-+    volumes: 
++    volumes:
 +      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
 +      - '{{ wiki_dv_name }}/var/www/html:z'
      env:
