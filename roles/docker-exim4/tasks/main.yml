@@ -101,9 +101,16 @@
 # Start the data container running
 
 - name: start container
-  docker_run:
-    container_name: '{{ exim4_container_name }}'
-    docker_run_arguments: '--hostname={{ container_addr_map.exim4.hostname }} {{ container_port_map.exim4.port_args }} -v {{ exim4_syslog_datavolume_dir }}/exim4:/var/log/exim4 --volumes-from {{ openssl_dv_name }} --volumes-from {{ exim4_dv_name }} {{ exim4_image_name }}:{{ docker_image_tag }}'
+  docker_container:
+    name: '{{ exim4_container_name }}'
+    hostname: '{{ container_addr_map.exim4.hostname }}'
+    ports: '{{ container_port_map.exim4.port_args }}'
+    image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
+    restart_policy: '{{ docker_restart_policy }}'
+    state: started
+    volumes:
+      - '{{ exim4_dv_name }}:/var/spool/exim4:z'
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
 
 # *****************************************************************************
 # restore?
