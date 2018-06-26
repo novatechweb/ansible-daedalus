@@ -1,5 +1,5 @@
 Bottom: 0038b5f4e0b77b6e8cb5fbf39d8e070f5e41f008
-Top:    1b2ffa132d59866ee2c5ae798eab4b94142bfbdb
+Top:    c7f603cfe3c73cbd0ed631585f5105713071ee74
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:42:10 -0500
 
@@ -192,7 +192,7 @@ index 45c1a895..3547b88c 100644
  - name: stop prev container (mysql)
    docker_container:
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 5128f7d2..69e4e55c 100644
+index 5128f7d2..86587ab1 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -87,16 +87,12 @@
@@ -216,7 +216,7 @@ index 5128f7d2..69e4e55c 100644
  
  - name: stop prev container (mysql)
    docker_container:
-@@ -140,11 +136,11 @@
+@@ -140,11 +136,12 @@
      volumes_from: 
        - '{{ openssl_dv_name }}'
        - '{{ wiki_dv_name }}'
@@ -230,6 +230,7 @@ index 5128f7d2..69e4e55c 100644
 +      WIKI_MAIL_USER: 'wiki'
 +      WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
 +    image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
++    state: started
  
  # *****************************************************************************
  # restore?
