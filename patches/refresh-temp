@@ -1,0 +1,48 @@
+Bottom: 6a998894d5d82ddd3fce1682bf5df112d8cba6cf
+Top:    1dee6c64faff4bda15de3a0c8b8720e67046dd92
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-26 09:09:59 -0500
+
+Refresh of all-docker_network
+
+---
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index a2cdb4df..36f6bd3e 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -40,6 +40,8 @@ wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
+ wiki_static_backup_file: '/mediawiki.tar'
+ wiki_database_backup_file: '/wikidb.sql'
+ 
++# Network names
++docker_network_frontend: 'frontend'
+ 
+ # the name of the sql database used by mediawiki
+ wiki_database_name: wikidb
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index c9d5c17a..e22ecc7d 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -135,17 +135,15 @@
+     name: '{{ wiki_container_name }}'
+     detach: true
+     restart_policy: '{{ docker_restart_policy }}'
+-    hostname: '{{ container_addr_map.wiki.hostname }}' 
+-    ports: '{{ container_port_map.wiki.port_args }}'
+-    link:
+-      - '{{ openldap_container_name }}:wiki_ldap'
+-      - '{{ wiki_db_container_name }}:wiki_db'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    hostname: '{{ wiki_hostname }}'
++    ports: '{{ wiki_port_args }}'
++    networks:
++      - name: '{{ docker_network_frontend }}'
+     volumes: 
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+       - '{{ wiki_dv_name }}/var/www/html:z'
+     env:
+-      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
++      WIKI_HOSTNAME: '{{ wiki_hostname }}'
+       WIKI_MAIL_USER: 'wiki'
+       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
+     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
