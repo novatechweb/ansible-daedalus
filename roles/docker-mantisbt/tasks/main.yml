@@ -162,7 +162,6 @@
     detach: true
     restart_policy: '{{ docker_restart_policy }}'
     hostname: '{{ container_addr_map.mantisbt.hostname }}'
-    hostname: '{{ mantisbt_hostname }}'
     ports: '{{ container_port_map.mantisbt.port_args }}'
     link: 
       -'{{ openldap_container_name }}:mantisbt_ldap'
