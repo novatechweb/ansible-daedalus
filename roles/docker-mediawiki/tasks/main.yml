@@ -110,8 +110,6 @@
       MYSQL_ROOT_PASSWORD: '{{ wiki_db_root_password }}'
       MYSQL_USER: '{{ wiki_db_user }}'
       MYSQL_PASSWORD: '{{ wiki_db_password }}'
-    networks:
-      - name: '{{ docker_network_frontend }}'
     state: started
 
 - name: wait for mysql initialization to complete
@@ -141,7 +139,7 @@
       - '{{ openldap_container_name }}:wiki_ldap'
       - '{{ wiki_db_container_name }}:wiki_db'
       - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-    volumes: 
+    volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ wiki_dv_name }}/var/www/html:z'
     env:
