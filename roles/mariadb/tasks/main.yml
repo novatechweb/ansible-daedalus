@@ -3,20 +3,42 @@
     that:
     - mariadb_root_password is defined
 - name: Install MariaDB
-  yum: name={{ item }} state=present
+  yum:
+    name: '{{ item }}'
+    state: present
   with_items:
     - mariadb-server
     - mariadb
 - name: Config MariaDB server
-  template: src=ansible.cnf.j2 dest={{ mariadb_server_config_dir }}/ansible.cnf
-            owner=root group=root mode=0644 backup=yes
+  template:
+    src: ansible.cnf.j2
+    dest: '{{ mariadb_server_config_dir }}/ansible.cnf'
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+- name: Set host mysqld bind-address
+  template:
+    src: mariadb-bind-address.j2
+    dest: '{{ mariadb_server_config_dir }}/mariadb-bind-address.cnf'
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
 - name: Enable and start MariaDB service
-  service: name=mariadb enabled=yes state=started
+  service:
+    name: mariadb
+    enabled: yes
+    state: started
 - name: Check previous installation
-  stat: path={{ mariadb_client_config }}
+  stat:
+    path: '{{ mariadb_client_config }}'
   register: cfg
-- include: initial_config.yml
+- include_tasks: initial_config.yml
   when: cfg.stat.exists is defined and cfg.stat.exists == false
 - name: Open the firewall
-  firewalld: service=mysql permanent=true state=enabled
+  firewalld:
+    service: mysql
+    permanent: true
+    state: enabled
   when: mariadb_open_firewall
