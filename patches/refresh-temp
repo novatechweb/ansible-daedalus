@@ -1,0 +1,30 @@
+Bottom: 0038b5f4e0b77b6e8cb5fbf39d8e070f5e41f008
+Top:    7a7197b0e0adecfc1646d108f8d5d1ea31ca34b3
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-26 09:12:14 -0500
+
+Refresh of all-docker_container
+
+---
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 5128f7d2..0479f7c7 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -140,11 +140,12 @@
+     volumes_from: 
+       - '{{ openssl_dv_name }}'
+       - '{{ wiki_dv_name }}'
+-      env:
+-        - WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }}
+-        - WIKI_MAIL_USER=wiki
+-        - WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }}
+-      image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
++    env:
++      - WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
++      - WIKI_MAIL_USER: 'wiki'
++      - WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
++    image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
++    state: started
+ 
+ # *****************************************************************************
+ # restore?
