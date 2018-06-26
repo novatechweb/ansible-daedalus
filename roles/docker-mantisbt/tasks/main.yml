@@ -171,10 +171,10 @@
       - '{{ openssl_dv_name }}'
       - '{{ mantisbt_dv_name }}'
     env: 
-      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
-      - MANTISBT_MAIL_USER=mantis
-      - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
-      - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}
+      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
+      MANTISBT_MAIL_USER: 'mantis'
+      MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
+      MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
     image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
 
 # *****************************************************************************
