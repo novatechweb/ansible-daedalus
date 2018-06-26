@@ -34,7 +34,7 @@
   command: 'docker stop {{ openldap_container_name }}'
 
 - name: load ldif files
-  command: 'docker run --rm --volumes-from {{ openldap_dv_name }} -v {{ host_openldap_docker_restore_dir }}:/tmp/import_export {{ openldap_image_name }}:{{ docker_image_tag }} apply_ldif -n {{ item.dbnum }} -l {{ item.ldif_file }}'
+  command: 'docker run --rm --volume {{ openldap_cv_name }}:/etc/ldap:z --volume {{ openldap_dv_name }}:/var/lib/ldap:z -v {{ host_openldap_docker_restore_dir }}:/tmp/import_export {{ openldap_image_name }}:{{ docker_image_tag }} apply_ldif -n {{ item.dbnum }} -l {{ item.ldif_file }}'
   with_items: '{{ openldap_backup_files }}'
 
 - name: restart container (ldap)
