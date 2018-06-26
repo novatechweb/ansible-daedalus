@@ -1,0 +1,433 @@
+Bottom: af9430ddfcef27b078008081eb0a934e2d13a86f
+Top:    ebbc7eed40a44415040439f1100cdee8f1656040
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-26 13:13:43 -0500
+
+Refresh of all-docker_image
+
+---
+diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
+index f9faae1c..0d394562 100644
+--- a/ansible-playbook/group_vars/docker-hosts/docker.yml
++++ b/ansible-playbook/group_vars/docker-hosts/docker.yml
+@@ -21,3 +21,6 @@ docker_restart_policy: 'always'
+ 
+ # Network names
+ docker_network_frontend: 'frontend'
++
++# docker force build images
++docker_image_force_build: true
+diff --git a/ansible-playbook/library/docker_build b/ansible-playbook/library/docker_build
+deleted file mode 100644
+index 8cc11edc..00000000
+--- a/ansible-playbook/library/docker_build
++++ /dev/null
+@@ -1,75 +0,0 @@
+-#!/bin/bash
+-
+-# Ansible transports arguments to modules in a file. The
+-# path to the arguments file is in $1, and the file
+-# contains the module's arguments like this:
+-#
+-#       image_name=debian pull_image_tag=8 working_image_tag=current
+-#
+-# Arguments:
+-#    image_name
+-#    image_tag
+-#    dockerfile_dir
+-
+-eval $(sed -e "s/\s?\([^=]+\)\s?=\s?\(\x22\([^\x22]+\)\x22|\x27\([^\x27]+\)\x27|\(\S+\)\)\s?/\1='\2'/p" $1)
+-
+-if [[ -z "${image_name}" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs image_name= argument\"}"
+-    exit 1
+-fi
+-
+-if [[ -z "${image_tag}" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs image_tag= argument\"}"
+-    exit 1
+-fi
+-
+-if [[ -z "${dockerfile_dir}" ]]; then
+-    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs dockerfile_dir= argument\"}"
+-    exit 1
+-fi
+-
+-# *****************************************************************************
+-# Check if image_tag exists, get the current image ID
+-
+-starting_ID=$(docker 2>&1 inspect -f '{{ .Id }}' ${image_name}:${image_tag})
+-starting_id_result="${?}"
+-
+-# *****************************************************************************
+-# rebuild/update/check image
+-
+-build_log=$(docker build --rm --tag ${image_name}:${image_tag} ${dockerfile_dir})
+-build_result="${?}"
+-
+-if [[ ${build_result} != "0" ]]; then
+-    # build failed
+-    printf "{\"failed\": true, \"changed\": true, \"stdout\": \"${build_log}\"}"
+-    exit 1
+-fi
+-
+-# *****************************************************************************
+-# Check image_tag, get the latest image ID
+-
+-ending_ID=$(docker 2>&1 inspect -f '{{ .Id }}' ${image_name}:${image_tag})
+-ending_id_result="${?}"
+-
+-# *****************************************************************************
+-# return the result
+-
+-if [[ "${ending_id_result}" != "0" ]]; then
+-    # build failed
+-    printf "{\"failed\": true, \"changed\": true, \"msg\": \"docker inspect %s:%s  ==>  %s\"}" ${image_name} ${image_tag} ${ending_ID}
+-    exit 1
+-fi
+-
+-if [[ "${starting_id_result}" == "0" ]]; then
+-    if [[ "${starting_ID}" == "${ending_ID}" ]]; then
+-        printf "{\"failed\": false, \"changed\": false, \"msg\": \"Image has not changed.\"}"
+-        exit 0
+-    else
+-        printf "{\"failed\": false, \"changed\": true, \"msg\": \"Image was updated from Id: ${starting_ID} to Id ${ending_ID}\"}"
+-        exit 0
+-    fi
+-else
+-    printf "{\"failed\": false, \"changed\": true, \"msg\": \"Built image ${image_name}:${image_tag}. Id: ${ending_ID}\"}"
+-    exit 0
+-fi
+diff --git a/roles/docker-build-base-image/tasks/main.yml b/roles/docker-build-base-image/tasks/main.yml
+index b984d740..11c50d32 100644
+--- a/roles/docker-build-base-image/tasks/main.yml
++++ b/roles/docker-build-base-image/tasks/main.yml
+@@ -16,8 +16,8 @@
+   with_dict: "{{ docker_build_base_images }}"
+ 
+ - name: build image
+-  docker_build:
+-    image_name: '{{ item.value.image_name }}'
+-    image_tag: '{{ item.value.image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/base-images/{{ item.key }}/{{ item.value.relative_dir }}'
++  docker_image:
++    name: '{{ item.value.image_name }}'
++    tag: '{{ item.value.image_tag }}'
++    path: '{{ docker_projects_dir }}/base-images/{{ item.key }}/{{ item.value.relative_dir }}'
+   with_dict: "{{ docker_build_base_images }}"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
+index 34167b2f..3a0496ca 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_buildsystem.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_http_data_buildsystem_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_http_data_buildsystem.dir_name }}"
+     state: "{{ image_build_state_data }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station build system data
+   docker_container: 
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
+index 3f6150c4..ef3f24ba 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_database.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_database_data_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_database_data.dir_name }}"
+     state: "{{ image_build_state_data }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station database data
+   docker_container: 
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
+index 1c867665..e167a48c 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ipkg.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_http_data_ipkg_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_http_data_ipkg.dir_name }}"
+     state: "{{ image_build_state_data }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station ipkg data
+   docker_container: 
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
+index 27421a72..4e672f6e 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_iso.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_http_data_ncdiso_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_http_data_ncdiso.dir_name }}"
+     state: "{{ image_build_state_data }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station ncd iso data
+   docker_container: 
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
+index 0c950bab..f0d2c7e4 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_ncdrelease.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_http_data_ncdrelease_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_http_data_ncdrelease.dir_name }}"
+     state: "{{ image_build_state_data }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station ncd release data
+   docker_container: 
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
+index 47db0a2f..e2157a00 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_testclient.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_http_data_testclient_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_http_data_testclient.dir_name }}"
+     state: "{{ image_build_state_data }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station  test client data
+   docker_container: 
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
+index 8b296f1b..85b16f0d 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/datacontainer_tftp.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_tftp_data_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_tftp_data.dir_name }}"
+     state: "{{ image_build_state_data }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station tftp data
+   docker_container: 
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+index e88455d0..a32f6a8b 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
+@@ -19,6 +19,7 @@
+     name: "{{ name_prefix }}teststation_database_server_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_database_server.dir_name }}"
+     state: "{{ image_build_state_nondata }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station database server
+   docker_container:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+index dea13311..f3af2a3b 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_http_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_http_server.dir_name }}"
+     state: "{{ image_build_state_nondata }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station http server
+   docker_container:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+index 977ac9a1..f49b020f 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
+@@ -13,6 +13,7 @@
+     name: "{{ name_prefix }}teststation_ssh_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_ssh_server.dir_name }}"
+     state: "{{ image_build_state_nondata }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station ssh server
+   docker_container:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+index 12c95bb1..a1bc6331 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
+@@ -25,6 +25,7 @@
+     name: "{{ name_prefix }}teststation_ssh_server_manualtest_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_ssh_server_manualtest.dir_name }}"
+     state: "{{ image_build_state_nondata }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station production ssh server temp.
+   docker_container:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+index 714027bf..64ca521e 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_tftp_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_tftp_server.dir_name }}"
+     state: "{{ image_build_state_nondata }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station tftp server
+   docker_container:
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/service_backup.yml b/roles/docker-buildsystem/tasks/docker_containers/service_backup.yml
+index c0aebb83..6b459ccb 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/service_backup.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/service_backup.yml
+@@ -18,5 +18,4 @@
+     name: "{{ name_prefix }}teststation_supportsite_backup_restore_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.Backup_Restore.dir_name }}"
+     state: "{{ image_build_state_nondata }}"
+-
+-
++    force: "{{ docker_image_force_build }}"
+diff --git a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
+index f52909d5..8b0712fc 100644
+--- a/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
++++ b/roles/docker-buildsystem/tasks/docker_containers/service_cron.yml
+@@ -7,6 +7,7 @@
+     name: "{{ name_prefix }}teststation_cron_image"
+     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_cron_service.dir_name }}"
+     state: "{{ image_build_state_nondata }}"
++    force: "{{ docker_image_force_build }}"
+ 
+ - name: Start docker container - Test Station cron service
+   docker_container:
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index a745a5ef..fa74e754 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -83,10 +83,11 @@
+     dest: '{{ docker_projects_dir }}/docker-exim4'
+ 
+ - name: build image
+-  docker_build:
+-    image_name: '{{ exim4_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/docker-exim4'
++  docker_image:
++    name: '{{ exim4_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ docker_projects_dir }}/docker-exim4'
++    force: "{{ docker_image_force_build }}"
+ 
+ # *****************************************************************************
+ # Create the data volumes
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 06f0a979..a2b696f8 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -81,17 +81,19 @@
+   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
+ 
+ - name: build image
+-  docker_build:
+-    image_name: '{{ gitlab_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/docker-gitlab'
++  docker_image:
++    name: '{{ gitlab_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ docker_projects_dir }}/docker-gitlab'
++    force: "{{ docker_image_force_build }}"
+ 
+ # Data volume image is now the same as the container image
+ #- name: build image
+-#  docker_build:
++#  docker_image:
+ #    image_name: '{{ gitlab_dv_image_name }}'
+ #    image_tag: '{{ docker_image_tag }}'
+ #    dockerfile_dir: '{{ docker_projects_dir }}/docker-gitlab'
++#    force: "{{ docker_image_force_build }}"
+ 
+ # *****************************************************************************
+ # Create the data volumes
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 4b3307d2..193767b9 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -80,10 +80,11 @@
+     dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
+ 
+ - name: build image
+-  docker_build:
+-    image_name: '{{ mantisbt_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/docker-mantisbt'
++  docker_image:
++    name: '{{ mantisbt_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ docker_projects_dir }}/docker-mantisbt'
++    force: "{{ docker_image_force_build }}"
+ 
+ # *****************************************************************************
+ # Create the data volumes
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 14ba4153..a46a77a4 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -78,10 +78,11 @@
+   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
+ 
+ - name: build image
+-  docker_build:
+-    image_name: '{{ wiki_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/docker-mediawiki'
++  docker_image:
++    name: '{{ wiki_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ docker_projects_dir }}/docker-mediawiki'
++    force: "{{ docker_image_force_build }}"
+ 
+ # *****************************************************************************
+ # Create the data volumes
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index 9e8d987d..9c102e67 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -68,10 +68,11 @@
+ 
+ 
+ - name: build image
+-  docker_build:
+-    image_name: '{{ openldap_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/docker-openldap'
++  docker_image:
++    name: '{{ openldap_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ docker_projects_dir }}/docker-openldap'
++    force: "{{ docker_image_force_build }}"
+ 
+ # *****************************************************************************
+ # Create the data volumes
+diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
+index 53d4b541..ed460998 100644
+--- a/roles/docker-openssl/tasks/main.yml
++++ b/roles/docker-openssl/tasks/main.yml
+@@ -61,10 +61,11 @@
+     dest: '{{ docker_projects_dir }}/docker-openssl'
+ 
+ - name: build image
+-  docker_build:
+-    image_name: '{{ openssl_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/docker-openssl'
++  docker_image:
++    name: '{{ openssl_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ docker_projects_dir }}/docker-openssl'
++    force: "{{ docker_image_force_build }}"
+ 
+ # *****************************************************************************
+ # Create the data volumes
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index d45e1dc9..be88d7ce 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -60,10 +60,11 @@
+     dest: '{{ docker_projects_dir }}/docker-svn'
+ 
+ - name: build image
+-  docker_build:
+-    image_name: '{{ svn_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/docker-svn'
++  docker_image:
++    name: '{{ svn_image_name }}'
++    tag: '{{ docker_image_tag }}'
++    path: '{{ docker_projects_dir }}/docker-svn'
++    force: "{{ docker_image_force_build }}"
+ 
+ # *****************************************************************************
+ # Create the data volumes
