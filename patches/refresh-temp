@@ -1,0 +1,162 @@
+Bottom: 017592d95040e1620bd6e0ce23ec237e2cef38e8
+Top:    7bc2cbefc4ae757b1101dd9548f0bfdc9e71a05a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-26 12:50:26 -0500
+
+Refresh of tmp-mantis-database
+
+---
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 3547b88c..42438370 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -85,30 +85,6 @@
+     image_tag: '{{ docker_image_tag }}'
+     dockerfile_dir: '{{ docker_projects_dir }}/docker-mantisbt'
+ 
+-- name: Checkout db repo
+-  git:
+-    repo: '{{ mantisbt_db_image_repo }}'
+-    version: master
+-    dest: '{{ docker_projects_dir }}/docker-mysql-data'
+-
+-- name: build data-container image
+-  docker_build:
+-    image_name: '{{ mantisbt_db_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    dockerfile_dir: '{{ docker_projects_dir }}/docker-mysql-data'
+-
+-# *****************************************************************************
+-# copy the MySQL config to the restore directory
+-
+-- name: copy mysql config
+-  copy:
+-    src: '{{ item }}'
+-    dest: '{{ host_mantisbt_docker_restore_dir }}/{{ item }}'
+-    setype: svirt_sandbox_file_t
+-  with_items:
+-  - largefile.cnf
+-  - character-set.cnf
+-
+ # *****************************************************************************
+ # Create the data volumes
+ 
+@@ -116,32 +92,39 @@
+   docker_volume:
+     name: '{{ mantisbt_dv_name }}'
+ 
++- name: config-volume container (mysql)
++  docker_volume:
++    name: '{{ mantisbt_db_cv_name }}'
++
+ - name: data-volume container (mysql)
+   docker_volume:
+     name: '{{ mantisbt_db_dv_name }}'
+ 
+-- name: stop prev container (mysql)
+-  docker_container:
+-    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
+-    name: '{{ mantisbt_db_container_name }}'
+-    state: stopped
++# *****************************************************************************
++# Configure the database
+ 
+-- name: initial populate (mysql - import config)
+-  command: 'docker run --rm --volumes-from {{ mantisbt_db_dv_name }} -v {{ host_mantisbt_docker_restore_dir }}:/tmp/conf.d {{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
++- name: make temporary directory for config
++  tempfile:
++    state: directory
++  register: config_tempdir
+ 
+-- name: initial populate (mysql - database)
+-  docker_db_init:
+-    image_name: '{{ mantisbt_db_image_name }}'
+-    image_tag: '{{ docker_image_tag }}'
+-    container_name: '{{ mantisbt_db_dv_name }}_init_db'
+-    data_volume_container_name: '{{ mantisbt_db_dv_name }}'
+-    database_name: bugtracker
+-    database_user: '{{ mantisbt_db_user }}'
+-    database_password: '{{ mantisbt_db_password | quote }}'
+-    database_root_password: '{{ mantisbt_db_root_password | quote }}'
++- name: upload mysql config
++  copy:
++    src: '{{ item }}'
++    dest: '{{ config_tempdir.path }}/{{ item }}'
++  with_items:
++  - largefile.cnf
++  - character-set.cnf
++
++- name: copy mysql config to volume
++  command: >
++    docker run --rm
++    -v '{{ config_tempdir.path }}:/from'
++    -v '{{ mantisbt_db_cv_name }}:/to'
++    alpine /bin/ash -c 'cp -v /from/* /to'
+ 
+ # *****************************************************************************
+-# Start the data container running
++# Start the database
+ 
+ - name: start container (mysql)
+   docker_container:
+@@ -150,7 +133,31 @@
+     restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - '{{ mantisbt_db_dv_name }}'
+-    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
++    image: '{{ mantisbt_db_image_name }}'
++    volumes:
++      - '{{ mantisbt_db_cv_name }}:/etc/mysql/conf.d:z'
++      - '{{ mantisbt_db_dv_name }}:/var/lib/mysql:z'
++    env:
++      MYSQL_DATABASE: '{{ mantisbt_database_name }}'
++      MYSQL_ROOT_PASSWORD: '{{ mantisbt_db_root_password }}'
++      MYSQL_USER: '{{ mantisbt_db_user }}'
++      MYSQL_PASSWORD: '{{ mantisbt_db_password }}'
++
++- name: wait for initialization to complete
++  shell: >
++      printf 'SHOW GLOBAL STATUS\n' | docker exec -i
++      '{{ mantisbt_db_container_name }}'
++      mysql --host=localhost
++      --user={{ mantisbt_db_user | quote }}
++      --password={{ mantisbt_db_password | quote }}
++      '{{ mantisbt_database_name }}'
++  register: db_status
++  retries: 20
++  delay: 3
++  until: "db_status.rc == 0"
++
++# *****************************************************************************
++# Start the data container running
+ 
+ - name: start container (mantisbt)
+   docker_container:
+@@ -159,18 +166,18 @@
+     restart_policy: '{{ docker_restart_policy }}'
+     hostname: '{{ container_addr_map.mantisbt.hostname }}'
+     ports: '{{ container_port_map.mantisbt.port_args }}'
+-    link: 
++    link:
+       -'{{ openldap_container_name }}:mantisbt_ldap'
+       -'{{ mantisbt_db_container_name }}:mantisbt_db'
+       -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+-    volumes_from: 
+-      - '{{ openssl_dv_name }}'
+-      - '{{ mantisbt_dv_name }}'
+-    env: 
+-      - MANTISBT_HOSTNAME={{ container_addr_map.mantisbt.hostname }}
+-      - MANTISBT_MAIL_USER=mantis
+-      - MANTISBT_MAIL_PASSWORD={{ mantisbt_email_password | quote }}
+-      - MANTISBT_LDAP_PASSWORD={{ ldap_proxyagent_password | quote }}
++    env:
++      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
++      MANTISBT_MAIL_USER: 'mantis'
++      MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
++      MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
++    volumes:
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
++      - '{{ mantisbt_dv_name }}:/var/www/html:z'
+     image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
