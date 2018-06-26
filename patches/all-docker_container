@@ -1,5 +1,5 @@
 Bottom: 3f2c1cdbec550bd6e620b95f538a351e30bd3760
-Top:    0038b5f4e0b77b6e8cb5fbf39d8e070f5e41f008
+Top:    7a7197b0e0adecfc1646d108f8d5d1ea31ca34b3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -517,10 +517,10 @@ index 216ec39c..a95335ca 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index ac687e81..5128f7d2 100644
+index ac687e81..0479f7c7 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -119,14 +119,32 @@
+@@ -119,14 +119,33 @@
  # Start the data container running
  
  - name: start container (mysql)
@@ -551,11 +551,12 @@ index ac687e81..5128f7d2 100644
 +    volumes_from: 
 +      - '{{ openssl_dv_name }}'
 +      - '{{ wiki_dv_name }}'
-+      env:
-+        - WIKI_HOSTNAME={{ container_addr_map.wiki.hostname }}
-+        - WIKI_MAIL_USER=wiki
-+        - WIKI_MAIL_PASSWORD={{ wiki_email_password | quote }}
-+      image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
++    env:
++      - WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
++      - WIKI_MAIL_USER: 'wiki'
++      - WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
++    image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
++    state: started
  
  # *****************************************************************************
  # restore?
