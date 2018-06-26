@@ -1,5 +1,5 @@
-Bottom: 7b96344b474b6d11433dc042a1e460b70e069e3a
-Top:    2978d6567621e8f663a36d62188d8eaa087b893b
+Bottom: 04ade1c429d0971a1ce7e76121a4a911b8849a81
+Top:    04ade1c429d0971a1ce7e76121a4a911b8849a81
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 14:46:15 -0500
 
@@ -7,47 +7,4 @@ Fix mariadb bind ip address
 
 
 ---
-diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
-index 61b296f3..4436e593 100644
---- a/roles/mariadb/tasks/main.yml
-+++ b/roles/mariadb/tasks/main.yml
-@@ -10,6 +10,14 @@
- - name: Config MariaDB server
-   template: src=ansible.cnf.j2 dest={{ mariadb_server_config_dir }}/ansible.cnf
-             owner=root group=root mode=0644 backup=yes
-+- name: Set host mysqld bind-address
-+  template:
-+    src: mariadb-bind-address.j2
-+    dest: '{{ mariadb_server_config_dir }}/mariadb-bind-address.cnf'
-+    owner: root 
-+    group: root 
-+    mode: 0644 
-+    backup: yes
- - name: Enable and start MariaDB service
-   service: name=mariadb enabled=yes state=started
- - name: Check previous installation
-@@ -20,15 +28,3 @@
- - name: Open the firewall
-   firewalld: service=mysql permanent=true state=enabled
-   when: mariadb_open_firewall
--- name: Set host ssh ListenAddress
--  template:
--    src: mariadb-bind-address.j2
--    dest: /etc/my.cnf.d/mariadb-bind-address.cnf
--  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
--
--- name: Restart MariaDB service
--  service:
--    name: mariadb
--    enabled: yes
--    state: restarted
--  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
-diff --git a/roles/mariadb/templates/mariadb-bind-address.j2 b/roles/mariadb/templates/mariadb-bind-address.j2
-index f30ea73a..831edde0 100644
---- a/roles/mariadb/templates/mariadb-bind-address.j2
-+++ b/roles/mariadb/templates/mariadb-bind-address.j2
-@@ -1,3 +1,3 @@
- # Bind the database only to the host port
- [mysqld]
--bind-address = {{ ansible_br0["ipv4"]["address"] }}
-+bind-address = {{ ansible_default_ipv4["address"] }}
+

@@ -1,6 +1,6 @@
 Version: 1
-Previous: bf8f879578d60fa6ce8f49776cdd5e87de5eff50
-Head: 7536aed318bfb250ab4ee5be46cb602d5318f2e1
+Previous: c48fe2248ba57f1319a48e2a71ba29407e091972
+Head: 5539d71028edbff35ffcdfb79ceb3649b2f2ce1c
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -14,26 +14,26 @@ Applied:
   all-cut-dependencies: 0b13b1f31b74cb8dcf0c787dadb466b6d16d2128
   playbook-public-keys: 31a53b0b70780859a5a0c391347e4dfa5ef00285
   playbook-remove-freeipa: 7536aed318bfb250ab4ee5be46cb602d5318f2e1
+  playbook-bringup_sh: 4d98ad1531274cdeada1c00095a4116b39be23a2
+  playbook-remove-docker-pull-images: 24ce247e2c1358b0c71042913177ae0d8b025dd7
+  playbook-remove-docker-build-base-image: c394db2680cdf72dd098d917eef432a3d4afcfd1
+  playbook-extract-docker-hosts: 47fa7445599f37e0d4971df4ff454b556859a5a5
+  playbook-simplify-credentials: 71d4c0941cda83d69d52a9cdc4888417da4174b8
+  playbook-fix-credential-copy: ef0924d0abf7e81107fccc9da5860290198780cb
+  playbook-add-docker_health-module: 67eca510940e417ceaf0136ed59deb6a726695b8
+  bacula-fix-bacula-list-jobs-pexpect: 57d5bdd0d00d1d5418db4b45c7b687983eb91951
+  bacula-remove-unused-pools: 11a42e3c6601010ca0352af24730b296e99a10f1
+  bacula-force-sha256-fingerprint-check: a8ec2587a444827ae7f316c2a5b8c402e322a81d
+  bacula-improve-bacula-bootstrap-script: dfd09e5d6d98a112df66c3b5b43c7ba9100e790b
+  common-update-python-docker-client: 5bd7eaf8dd7f19743bdc12d5828c3fecb4df0eaa
+  common-install-latest-available: 063e2ef199780544c0c74d982f1bc05e1be8d907
+  common-remove-backup-directory: b6acb56cfa0c0f39df73e34a16ad89838c8d7ea3
+  common-remove-container-conf: 8cd95df90991442b0c98c6cb809e47e46056fa65
+  common-configure-docker-daemon: a0069d571241550895ae9c7afc54b243d5e2faf8
+  common-docker-enable-tcp: 3805b99c0324bdec6933e2c4673e1a338294e49b
+  common-move-mariadb-config-to-maria: 559942138e65f1da2ce64db306769632cd17f2cd
+  mariadb-fix-bind-address: 5539d71028edbff35ffcdfb79ceb3649b2f2ce1c
 Unapplied:
-  playbook-bringup_sh: cb913565692b59a9c8b545c8aa3be245c73bdd01
-  playbook-remove-docker-pull-images: e36bf8c16132dacdb3e1ee28373fd1f58530a045
-  playbook-remove-docker-build-base-image: 3fc6ddcf8615563512a64c117473294168a82210
-  playbook-extract-docker-hosts: 664eb4f63ede09d4bab64c0888adafdcc27f7dfa
-  playbook-simplify-credentials: 07f26df633f380d2813ab39a1b85d6816fda3dc4
-  playbook-fix-credential-copy: 77054b72dda1a7b877d7170afcbf800360dc682c
-  playbook-add-docker_health-module: f1a67e3b63c0831fe558d9b42364bd57c32b38f5
-  bacula-fix-bacula-list-jobs-pexpect: 3bcadba056e737b2431ff8d7366e0cebaaf883cf
-  bacula-remove-unused-pools: a4bf78d322dfcf44aa49a31d1971c99f1e754479
-  bacula-force-sha256-fingerprint-check: 3ebab78411c1c0f6dc0cc17148d3f95b64c1d3e4
-  bacula-improve-bacula-bootstrap-script: f1dcc4651107c26443fe1415e7cf664949f8f55e
-  common-update-python-docker-client: 0bbf51f94f182163e7ca6e54fe48cc2725379c6a
-  common-install-latest-available: 38e139d35b2db174d83c8e85f62b3486bce65929
-  common-remove-backup-directory: 0a9e770fcc3a8c8d3ec2dccb75afb7a00207aa44
-  common-remove-container-conf: 86800a5e848138fc082e584a9d965405e8aea21b
-  common-configure-docker-daemon: e62e6a4ec0eaec4da05b5788fe912fb43b4dee68
-  common-docker-enable-tcp: d5a6a6ea86d2755d22462ed9c7357d1d68d5111c
-  common-move-mariadb-config-to-maria: 3d56aceabb14599ab33d947903e7543453f9f89c
-  mariadb-fix-bind-address: c720059d55dbf7ba7f7c7eab41836c3621f52a3d
   common-move-sshd-config-to-setup: ed88fe9b962fe5dfd4a6caa5c1c4887d5946d8a0
   sshd-create-role: 71f0b5f2cdc69cbfa1122f7ae81dfad7e5c9172d
   buildsystem-apache2-version-string: a69d2469a25f5020acea5846816f43146115c816

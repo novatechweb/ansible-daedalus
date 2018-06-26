@@ -1,5 +1,5 @@
-Bottom: 6223f50194b5d1c708042f033e0a076020552cef
-Top:    7b96344b474b6d11433dc042a1e460b70e069e3a
+Bottom: c3701c5eb950aca53190db6d852de0895795faa0
+Top:    04ade1c429d0971a1ce7e76121a4a911b8849a81
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -41,12 +41,12 @@ index 54508dd3..00000000
 -    state: restarted
 -  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
 diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
-index 698ee95c..61b296f3 100644
+index b27a0af7..70e29ec6 100644
 --- a/roles/mariadb/tasks/main.yml
 +++ b/roles/mariadb/tasks/main.yml
-@@ -20,3 +20,15 @@
- - name: Open the firewall
-   firewalld: service=mysql permanent=true state=enabled
+@@ -42,3 +42,15 @@
+     permanent: true
+     state: enabled
    when: mariadb_open_firewall
 +- name: Set host ssh ListenAddress
 +  template:
