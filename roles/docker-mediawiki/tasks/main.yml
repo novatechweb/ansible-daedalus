@@ -141,6 +141,7 @@
       WIKI_MAIL_USER: 'wiki'
       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+    state: started
 
 # *****************************************************************************
 # restore?
