@@ -1,5 +1,5 @@
-Bottom: ff1d3f1895b0f5b7073a5c31cc0d287c1e0c051a
-Top:    017592d95040e1620bd6e0ce23ec237e2cef38e8
+Bottom: c63bd9504a6634ca6b6e9860759a4d2ae4202202
+Top:    9b875d063efe76c9720b9371ac72068f820f3b54
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-26 09:17:30 -0500
 
@@ -167,7 +167,7 @@ index 3957c3a2..387e7adf 100644
  - name: stop prev container (postgres)
    docker_container:
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 45c1a895..3547b88c 100644
+index a84f4040..2f524209 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -113,16 +113,12 @@
