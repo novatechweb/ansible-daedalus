@@ -141,9 +141,9 @@
       - '{{ openssl_dv_name }}'
       - '{{ wiki_dv_name }}'
     env:
-      - WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
-      - WIKI_MAIL_USER: 'wiki'
-      - WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
+      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
+      WIKI_MAIL_USER: 'wiki'
+      WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
     state: started
 
