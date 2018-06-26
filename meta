@@ -1,6 +1,6 @@
 Version: 1
-Previous: 35606f9f8393c4086309f378df0da3b9ef6c6761
-Head: 60345f0c17fb592a1b7c2245d21de44bbcb1c06f
+Previous: 8f21112c5e62554ca0070b37eabd0786ab288985
+Head: a21d7945d4e92604ae9b8545c951e8ea59d5ea62
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -26,29 +26,29 @@ Applied:
   bacula-force-sha256-fingerprint-check: a8ec2587a444827ae7f316c2a5b8c402e322a81d
   bacula-improve-bacula-bootstrap-script: dfd09e5d6d98a112df66c3b5b43c7ba9100e790b
   bacula-improve-idempotency: 60345f0c17fb592a1b7c2245d21de44bbcb1c06f
+  common-update-python-docker-client: 8530efa5ac7cfe0439a20893fd34c1de82773846
+  common-install-latest-available: 5f5912a50e1031d00e24007f3f73819f6f13ed26
+  common-remove-backup-directory: 9a39547fe8064cbccffcc3d330e83a18ab4bd107
+  common-remove-container-conf: aacedd1b0ffe33150159fa274d3cd2cfa1bf7101
+  common-configure-docker-daemon: 24f36d85e469e2c9ada1ff72c1196b83cbc50498
+  common-docker-enable-tcp: a7ef4ea888dded5920fe4b739c7c9b847b9f392b
+  common-move-mariadb-config-to-maria: 8ec86032d86a2728815435b7b0ad7a1c3acc06e8
+  mariadb-fix-bind-address: cffcb4a90f118df0342619d594177074a23f8dba
+  common-move-sshd-config-to-setup: 0a6fd2147132fceb6ff52079a63b7d37ac097518
+  sshd-create-role: 6888360dc6050b4be60eb4c2449d0ef33c086ef9
+  buildsystem-apache2-version-string: 516078ce6279957af2e6242ed728c8eeae63cd32
+  buildsystem-limit-mysql-backups: 10d405970ceed626cd494722210da5479c59ee81
+  exim4-configuration: e7fe9e24e91ea55ee6769fbe204715b3c8dcfc2a
+  exim4-dockerfile: 3df038d352bf79aed13b96a43ad8fefd02358f47
+  exim4-ip-address: 1c8e5ef4854f8c687b25c183f6acd482e33de8d7
+  exim4-mailname: afb66bda83936d5d40faedc99aa886ce30d824e8
+  exim4-always-update-configuration: f10cedc54bf841e47e1b0d044480f422b72bb917
+  exim4-install-key-crt: 13126a0e1391ec79676ab89380b37c2c9bdbc9b0
+  exim4-exec-account-script: bc133e28122c43327da49260a57518db9c042c70
+  exim4-logrotate-configuration: 74157db08c432d86a5fc5f18e124ea4cdd748d05
+  ldap-wait-on-startup: ff48c71866068ee0ca5abcb31a7a793eee6b9984
+  ldap-add-phpldapadmin: a21d7945d4e92604ae9b8545c951e8ea59d5ea62
 Unapplied:
-  common-update-python-docker-client: 5bd7eaf8dd7f19743bdc12d5828c3fecb4df0eaa
-  common-install-latest-available: 063e2ef199780544c0c74d982f1bc05e1be8d907
-  common-remove-backup-directory: b6acb56cfa0c0f39df73e34a16ad89838c8d7ea3
-  common-remove-container-conf: 8cd95df90991442b0c98c6cb809e47e46056fa65
-  common-configure-docker-daemon: a0069d571241550895ae9c7afc54b243d5e2faf8
-  common-docker-enable-tcp: 3805b99c0324bdec6933e2c4673e1a338294e49b
-  common-move-mariadb-config-to-maria: 559942138e65f1da2ce64db306769632cd17f2cd
-  mariadb-fix-bind-address: 403c7427a29d1fb3526b958f0b75da94c0105800
-  common-move-sshd-config-to-setup: 73f793786af7526cfa144a87f5a482e79411a09d
-  sshd-create-role: d1344eedea03370cacb1294f7ebb24ef025cd0e8
-  buildsystem-apache2-version-string: eac1a8849a04d662a7fc1b757dec28faf2d17ff2
-  buildsystem-limit-mysql-backups: 62f73fb7918c9a8615c6d8f064bfc34ee0f49d8b
-  exim4-configuration: c9696c838f7e00b88f4a726b791cc6ea5f263a93
-  exim4-dockerfile: fcab9ebc5038faa5e66133cfa2872d7f087a3351
-  exim4-ip-address: 9d86b78cbb599e70647d4fb18789b6fa8a4eefbd
-  exim4-mailname: 1f9ee611bad5d6266a75f991122b5507a59533f5
-  exim4-always-update-configuration: 256230242395e92cfcd07084a9839c3d061b2ac0
-  exim4-install-key-crt: 26e9fb7f22851ffa47ef2fb3aa81496bac2acb44
-  exim4-exec-account-script: e6f070b789501ed8646de36b4ca8b6a1b0cc4ef5
-  exim4-logrotate-configuration: bd9d3e25931e736ba3fe5a1ec8b3ac070f5f953b
-  ldap-wait-on-startup: d9d0c1ac4df9f3b5ed92d0d2167318052bf6121c
-  ldap-add-phpldapadmin: d2c7ad244c5efdd5901106e72cbffc996d0b3c58
   tmp-update-openldap: f4c9fb21ab5411f6a7d3d54f736ba6bf737095b5
   ssl-limit-scope: 1c2c2644fd17f9761ce0e25826152844db23f30f
   svn-hotcopy: d30e7805c6c1f3d1a0675e638439ad7c80863d6b
