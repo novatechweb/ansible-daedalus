@@ -1,6 +1,6 @@
 Version: 1
-Previous: 54c0fbeaab0e2b23bf5b2e487b3fdeea6d1282dd
-Head: 04a8e86c22cf3875903b570983e57aab66973615
+Previous: fcbe7d720f78550cd56af2106b4a7e11ff87908f
+Head: dfd09e5d6d98a112df66c3b5b43c7ba9100e790b
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -25,6 +25,7 @@ Applied:
   bacula-remove-unused-pools: 11a42e3c6601010ca0352af24730b296e99a10f1
   bacula-force-sha256-fingerprint-check: a8ec2587a444827ae7f316c2a5b8c402e322a81d
   bacula-improve-bacula-bootstrap-script: dfd09e5d6d98a112df66c3b5b43c7ba9100e790b
+Unapplied:
   common-update-python-docker-client: 5bd7eaf8dd7f19743bdc12d5828c3fecb4df0eaa
   common-install-latest-available: 063e2ef199780544c0c74d982f1bc05e1be8d907
   common-remove-backup-directory: b6acb56cfa0c0f39df73e34a16ad89838c8d7ea3
@@ -78,5 +79,4 @@ Applied:
   gitlab-dockerfile-version-argument: 5d95cdf893ea9bba39ec2ba741dc0f1a73dc9bc7
   update-gitlab-to-10-1: 607ac4d49164562e867bce5126b59478a947e543
   upgrade-gitlab-to-8.0.5: 04a8e86c22cf3875903b570983e57aab66973615
-Unapplied:
 Hidden:
