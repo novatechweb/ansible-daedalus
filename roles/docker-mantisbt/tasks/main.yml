@@ -163,14 +163,14 @@
     restart_policy: '{{ docker_restart_policy }}'
     hostname: '{{ container_addr_map.mantisbt.hostname }}'
     ports: '{{ container_port_map.mantisbt.port_args }}'
-    link: 
-      -'{{ openldap_container_name }}:mantisbt_ldap'
-      -'{{ mantisbt_db_container_name }}:mantisbt_db'
-      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-    volumes_from: 
+    link:
+      - '{{ openldap_container_name }}:mantisbt_ldap'
+      - '{{ mantisbt_db_container_name }}:mantisbt_db'
+      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+    volumes_from:
       - '{{ openssl_dv_name }}'
       - '{{ mantisbt_dv_name }}'
-    env: 
+    env:
       MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
       MANTISBT_MAIL_USER: 'mantis'
       MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
