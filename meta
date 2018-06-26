@@ -1,10 +1,9 @@
 Version: 1
-Previous: a60bbed058153c15dd83841afa14f71c35183dca
-Head: b7205239230cd60f2dd0064311034aacc4ed4f03
+Previous: c9a3a856018c39a59408a24a176839b55107790c
+Head: 53591c9114e8bc26c53c7f01806dc019ddfbe119
 Applied:
   all-ansible-2.4: 300c2e152c2c235cf117fe235f56bad984c79271
-  bacula-update-syntax: 4bf22cdef58c1deefaf46bdd4a3ba09024d19407
-  refresh-temp: b7205239230cd60f2dd0064311034aacc4ed4f03
+  bacula-update-syntax: 53591c9114e8bc26c53c7f01806dc019ddfbe119
 Unapplied:
   all-remove-submodules: 7be21851c3e88cf99b7858104a925451f79dc580
   all-distribute-image-repo-checkout: e192e0f46077dabd4633f47f503211ded458707f
