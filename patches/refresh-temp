@@ -1,5 +1,5 @@
 Bottom: ff1d3f1895b0f5b7073a5c31cc0d287c1e0c051a
-Top:    6bf109942aac5bb94cbf0138ade6657d9b8eb2b5
+Top:    c63bd9504a6634ca6b6e9860759a4d2ae4202202
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-26 13:02:04 -0500
 
@@ -7,18 +7,10 @@ Refresh of all-docker_volume
 
 ---
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 45c1a895..d9c2de43 100644
+index 45c1a895..a84f4040 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -162,6 +162,7 @@
-     detach: true
-     restart_policy: '{{ docker_restart_policy }}'
-     hostname: '{{ container_addr_map.mantisbt.hostname }}'
-+    hostname: '{{ mantisbt_hostname }}'
-     ports: '{{ container_port_map.mantisbt.port_args }}'
-     link: 
-       -'{{ openldap_container_name }}:mantisbt_ldap'
-@@ -171,10 +172,10 @@
+@@ -171,10 +171,10 @@
        - '{{ openssl_dv_name }}'
        - '{{ mantisbt_dv_name }}'
      env: 
