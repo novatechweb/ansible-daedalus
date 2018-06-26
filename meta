@@ -1,6 +1,6 @@
 Version: 1
-Previous: 370d7566a01fbbbaa2fe376f30f2f302ba713dca
-Head: bef095d24d7554b98b0b1d44327084182cb4fa5e
+Previous: 6ce721224bcc8703d2730f7708cc679d3910aa0e
+Head: dc5f1a6a812a53938e066739d7001f07cf872e4f
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -10,8 +10,8 @@ Applied:
   all-docker_container: 0436cb8fddb34531b2dfea219d29d8103da79bbd
   all-docker_volume: 825df1a6eb37c5a18ff881af85a3bb7a78e59ca0
   tmp-wiki-database: bef095d24d7554b98b0b1d44327084182cb4fa5e
+  all-docker_network: dc5f1a6a812a53938e066739d7001f07cf872e4f
 Unapplied:
-  all-docker_network: a11d11737a0c89472de4d3ab6b1872ab1cbff0df
   all-docker_image: c6feaf8bbd9292956246b7a0c1ccf9535e0ca814
   all-cut-dependencies: 534e43f2da20ddb4756ca21fe17eb242fedcea08
   playbook-public-keys: 831470c8522dfe0cd839a4264ab8b1ce9e628580
