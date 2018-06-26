@@ -1,6 +1,6 @@
 Version: 1
-Previous: 84d447916f3990523326d412cbeb93c490ee47ff
-Head: 84e9cdcb91eb8e7195e096a0026bb7ed23beaecd
+Previous: dd26f2a49558e0da5990932d8b0edf5814a53a66
+Head: 3c3040e7f8f85c933b970055d33d5aa855016400
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -8,8 +8,8 @@ Applied:
   all-move-vars-to-defaults: 890949c5a961afe22c40904858b09e0b94fb27de
   all-normalize-vars: e6d615c71fcc92d703d8e01d50cc932d3d343742
   all-docker_container: 3c3040e7f8f85c933b970055d33d5aa855016400
-  all-docker_volume: 84e9cdcb91eb8e7195e096a0026bb7ed23beaecd
 Unapplied:
+  all-docker_volume: 06b44f083b83f674ba76053410777ee3aacddcd6
   tmp-wiki-database: 30d1b0c43db17f7dac09c5f0f528c9e9a08fcb43
   all-docker_network: a11d11737a0c89472de4d3ab6b1872ab1cbff0df
   all-docker_image: c6feaf8bbd9292956246b7a0c1ccf9535e0ca814
