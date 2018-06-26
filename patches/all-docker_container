@@ -1,5 +1,5 @@
 Bottom: 3f2c1cdbec550bd6e620b95f538a351e30bd3760
-Top:    c63bd9504a6634ca6b6e9860759a4d2ae4202202
+Top:    2b19eb6a3615efe7da4704c3e1caa14d76b7fc6c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-26 13:05:01 -0500
 
@@ -456,7 +456,7 @@ index bbe1b72f..7e8179c4 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index f0119408..a84f4040 100644
+index f0119408..f6125912 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -148,14 +148,34 @@
@@ -484,14 +484,14 @@ index f0119408..a84f4040 100644
 +    restart_policy: '{{ docker_restart_policy }}'
 +    hostname: '{{ container_addr_map.mantisbt.hostname }}'
 +    ports: '{{ container_port_map.mantisbt.port_args }}'
-+    link: 
-+      -'{{ openldap_container_name }}:mantisbt_ldap'
-+      -'{{ mantisbt_db_container_name }}:mantisbt_db'
-+      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-+    volumes_from: 
++    link:
++      - '{{ openldap_container_name }}:mantisbt_ldap'
++      - '{{ mantisbt_db_container_name }}:mantisbt_db'
++      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    volumes_from:
 +      - '{{ openssl_dv_name }}'
 +      - '{{ mantisbt_dv_name }}'
-+    env: 
++    env:
 +      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
 +      MANTISBT_MAIL_USER: 'mantis'
 +      MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
@@ -516,7 +516,7 @@ index 216ec39c..a95335ca 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index ac687e81..cb19329d 100644
+index ac687e81..77f07d20 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -119,14 +119,33 @@
@@ -541,13 +541,13 @@ index ac687e81..cb19329d 100644
 +    name: '{{ wiki_container_name }}'
 +    detach: true
 +    restart_policy: '{{ docker_restart_policy }}'
-+    hostname: '{{ container_addr_map.wiki.hostname }}' 
++    hostname: '{{ container_addr_map.wiki.hostname }}'
 +    ports: '{{ container_port_map.wiki.port_args }}'
 +    link:
 +      - '{{ openldap_container_name }}:wiki_ldap'
 +      - '{{ wiki_db_container_name }}:wiki_db'
 +      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
-+    volumes_from: 
++    volumes_from:
 +      - '{{ openssl_dv_name }}'
 +      - '{{ wiki_dv_name }}'
 +    env:
