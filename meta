@@ -1,8 +1,10 @@
 Version: 1
-Previous: 820960941923f8bcaf0940134d348ae22ece5b04
-Head: f43552cd34d4437538e0c9f4c8e25a07e3c1b915
+Previous: 81e8178ed640543b0f0a35baa8a51173375d8c56
+Head: 4bf22cdef58c1deefaf46bdd4a3ba09024d19407
 Applied:
   all-ansible-2.4: 300c2e152c2c235cf117fe235f56bad984c79271
+  bacula-update-syntax: 4bf22cdef58c1deefaf46bdd4a3ba09024d19407
+Unapplied:
   all-remove-submodules: 7be21851c3e88cf99b7858104a925451f79dc580
   all-distribute-image-repo-checkout: e192e0f46077dabd4633f47f503211ded458707f
   all-move-vars-to-defaults: 7e4207e01386552d089bbcd04a4f080d87e6e17b
@@ -25,8 +27,6 @@ Applied:
   bacula-remove-unused-pools: a4bf78d322dfcf44aa49a31d1971c99f1e754479
   bacula-force-sha256-fingerprint-check: 3ebab78411c1c0f6dc0cc17148d3f95b64c1d3e4
   bacula-improve-bacula-bootstrap-script: f1dcc4651107c26443fe1415e7cf664949f8f55e
-  bacula-update-syntax: f43552cd34d4437538e0c9f4c8e25a07e3c1b915
-Unapplied:
   common-update-python-docker-client: 0bbf51f94f182163e7ca6e54fe48cc2725379c6a
   common-install-latest-available: 38e139d35b2db174d83c8e85f62b3486bce65929
   common-remove-backup-directory: 0a9e770fcc3a8c8d3ec2dccb75afb7a00207aa44
