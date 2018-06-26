@@ -1,6 +1,6 @@
 Version: 1
-Previous: 376b905555b51f7fc3b72433724d0e97e5f5adc2
-Head: 3e2f7bb21e7669d9f9678579977a8ffabb6b1966
+Previous: 326a8d9da59bc45bebab826d02b7a1b621c238eb
+Head: 0b1e03e440350f4468c785e31cf808828f9b6c6c
 Applied:
   all-ansible-2.4: f81e1557b5015baf5f76f2f68131451acd03ad6a
   all-remove-submodules: f53c540d19cd7385676344c4b484216d984f86ce
@@ -9,8 +9,8 @@ Applied:
   all-normalize-vars: e6d615c71fcc92d703d8e01d50cc932d3d343742
   all-docker_container: 0436cb8fddb34531b2dfea219d29d8103da79bbd
   all-docker_volume: 0b1e03e440350f4468c785e31cf808828f9b6c6c
-  tmp-mantis-database: 3e2f7bb21e7669d9f9678579977a8ffabb6b1966
 Unapplied:
+  tmp-mantis-database: 3e2f7bb21e7669d9f9678579977a8ffabb6b1966
   all-docker_network: 9c2d0a87f9319d636ea85c9658b5b6f02bed6771
   all-docker_image: c6feaf8bbd9292956246b7a0c1ccf9535e0ca814
   all-cut-dependencies: 534e43f2da20ddb4756ca21fe17eb242fedcea08
