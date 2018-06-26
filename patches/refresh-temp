@@ -1,0 +1,50 @@
+Bottom: 0ed193b0973e89b5780d033a25f8773fd28fa822
+Top:    f2727db25b59db36a4809c1491e32b7b621febec
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-25 15:55:53 -0500
+
+Refresh of tmp-mantis-database
+
+---
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 478f6a6d..ad03e64b 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -130,16 +130,13 @@
+     detach: true
+     restart_policy: '{{ docker_restart_policy }}'
+     image: '{{ mantisbt_db_image_name }}'
+-    volumes:
+-      - '{{ mantisbt_db_cv_name }}:/etc/mysql/conf.d:z'
+-      - '{{ mantisbt_db_dv_name }}:/var/lib/mysql:z'
++    volumes_from:
++      - '{{ mantisbt_db_dv_name }}'
+     env:
+       MYSQL_DATABASE: '{{ mantisbt_database_name }}'
+       MYSQL_ROOT_PASSWORD: '{{ mantisbt_db_root_password }}'
+       MYSQL_USER: '{{ mantisbt_db_user }}'
+       MYSQL_PASSWORD: '{{ mantisbt_db_password }}'
+-    networks:
+-      - name: '{{ docker_network_frontend }}'
+ 
+ - name: wait for initialization to complete
+   shell: >
+@@ -164,11 +161,13 @@
+     restart_policy: '{{ docker_restart_policy }}'
+     hostname: '{{ mantisbt_hostname }}'
+     ports: '{{ mantisbt_port_args }}'
+-    networks:
+-      - name: '{{ docker_network_frontend }}'
+-    volumes: 
+-      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+-      - '{{ mantisbt_dv_name }}:/var/www/html:z'
++    link: 
++      -'{{ openldap_container_name }}:mantisbt_ldap'
++      -'{{ mantisbt_db_container_name }}:mantisbt_db'
++      -'{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    volumes_from: 
++      - '{{ openssl_dv_name }}'
++      - '{{ mantisbt_dv_name }}'
+     env: 
+       MANTISBT_HOSTNAME: '{{ mantisbt_hostname }}'
+       MANTISBT_MAIL_USER: 'mantis'
