@@ -1,6 +1,6 @@
 Version: 1
-Previous: ececc2f99435f16aadc3ac491d451d49e2e4e451
-Head: 4eb1a495a56f6d68689a1cb4046206482877f1e2
+Previous: 2bd9f1fb409a5227feda2a3f4d1f0a116a0a1856
+Head: 403c7427a29d1fb3526b958f0b75da94c0105800
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -32,8 +32,7 @@ Applied:
   common-configure-docker-daemon: a0069d571241550895ae9c7afc54b243d5e2faf8
   common-docker-enable-tcp: 3805b99c0324bdec6933e2c4673e1a338294e49b
   common-move-mariadb-config-to-maria: 559942138e65f1da2ce64db306769632cd17f2cd
-  mariadb-fix-bind-address: 5539d71028edbff35ffcdfb79ceb3649b2f2ce1c
-  refresh-temp: 4eb1a495a56f6d68689a1cb4046206482877f1e2
+  mariadb-fix-bind-address: 403c7427a29d1fb3526b958f0b75da94c0105800
 Unapplied:
   common-move-sshd-config-to-setup: ed88fe9b962fe5dfd4a6caa5c1c4887d5946d8a0
   sshd-create-role: 71f0b5f2cdc69cbfa1122f7ae81dfad7e5c9172d
