@@ -1,5 +1,5 @@
-Bottom: 1b2ffa132d59866ee2c5ae798eab4b94142bfbdb
-Top:    7498586f681eadf9dafbef15ec8664e52071e340
+Bottom: c7f603cfe3c73cbd0ed631585f5105713071ee74
+Top:    5ddaf23c0008b7c58867eb8dcdbf35ed23d8b46c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 15:55:57 -0500
 
@@ -29,7 +29,7 @@ index a95335ca..2a86d85e 100644
 +# the name of the sql database used by mediawiki
 +wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 69e4e55c..c9d5c17a 100644
+index 86587ab1..29244da3 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -94,33 +94,41 @@
