@@ -1,6 +1,6 @@
 Version: 1
-Previous: fcbe7d720f78550cd56af2106b4a7e11ff87908f
-Head: dfd09e5d6d98a112df66c3b5b43c7ba9100e790b
+Previous: 35606f9f8393c4086309f378df0da3b9ef6c6761
+Head: 60345f0c17fb592a1b7c2245d21de44bbcb1c06f
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -25,6 +25,7 @@ Applied:
   bacula-remove-unused-pools: 11a42e3c6601010ca0352af24730b296e99a10f1
   bacula-force-sha256-fingerprint-check: a8ec2587a444827ae7f316c2a5b8c402e322a81d
   bacula-improve-bacula-bootstrap-script: dfd09e5d6d98a112df66c3b5b43c7ba9100e790b
+  bacula-improve-idempotency: 60345f0c17fb592a1b7c2245d21de44bbcb1c06f
 Unapplied:
   common-update-python-docker-client: 5bd7eaf8dd7f19743bdc12d5828c3fecb4df0eaa
   common-install-latest-available: 063e2ef199780544c0c74d982f1bc05e1be8d907
@@ -70,7 +71,6 @@ Unapplied:
   buildbot-update-ptxdist-builds: e3c87d6f4a81c1b7111d652a7cca5f21d036663e
   buildbot-image-entrypoint: 0768e51b2f5a7c12fe7596bc771fc76138cd0aec
   buildbot-dependencies: 8eb12a726e72166be194997bd2ce989432801537
-  bacula-improve-idempotency: 310c317ef078d991428b86e947b4d9b6b69a7cd1
   buildbot-ssh-keygen: 04bbdc364383d41c5d2ae34c0f5fe38179a93acd
   gitlab_user-create-role: 8fb225f898efde9272a7fb916e17a98a3d93f834
   gitlab_sshkey-create-role: 94f9a1b001883f7957d55de8ae04a15c582e9f0b
