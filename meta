@@ -1,14 +1,13 @@
 Version: 1
-Previous: a564d7beb7d068360cf54c0f9bec92e4d745d071
-Head: 4cccc0f5ce448cd1f5f4d00c869d78c35372b152
+Previous: 3bf19fb74591550a7e1a6c8c9e84b538f663d379
+Head: 16bfa8d7fe8cf4ea0d58080820dc68b81334f903
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
   all-distribute-image-repo-checkout: 33e3ad0ed58e26f01eb5211c014a8c5d89b75251
   all-move-vars-to-defaults: 5b73b47b245d979f79d200a7594e0dd87c158bd6
   all-normalize-vars: ae5b27b6261520ef4d08612b2447172705f12b05
-  all-docker_container: 5f96b68ec3bfc4d774ca574f778519bcec673865
-  refresh-temp: 4cccc0f5ce448cd1f5f4d00c869d78c35372b152
+  all-docker_container: 16bfa8d7fe8cf4ea0d58080820dc68b81334f903
 Unapplied:
   all-docker_volume: aee850503e86c33cb136339818e51cdd3007b75d
   all-docker_network: 2b54b0ef259209e9628a0a4b7c2dccafb0539339
