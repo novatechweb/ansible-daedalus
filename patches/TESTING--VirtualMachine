@@ -1,5 +1,5 @@
-Bottom: ea3f22adc87e6a5432e7adaa610a4014bc7703d1
-Top:    29e4901d3abd51e296494179ef83b4637b9a964f
+Bottom: 608f0f0ead5cc295c4f80ea84cd749b88c103a31
+Top:    8c0a29d84d4c642af3c13d1a7e73386360a7a186
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -1002,7 +1002,7 @@ index 6ff541ed..f2b3409a 100644
  - name: exists - Static
    stat:
 diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
-index 8fb5ac24..feaf93e7 100644
+index 709d1261..a352d792 100644
 --- a/roles/docker-openldap/tasks/restore.yml
 +++ b/roles/docker-openldap/tasks/restore.yml
 @@ -18,14 +18,14 @@

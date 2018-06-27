@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4e3a21847bebe867f4c2afdaf5c8d8c45f6f4bb4
-Head: af578417f916cee4c5f0e8094f078d5214bdb231
+Previous: d5ea978e13421befec23869093b7da9ec6808bd3
+Head: aa51cb92dd3eada35a1a9b35445c586f429e9018
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -13,69 +13,69 @@ Applied:
   all-docker_network: 2b54b0ef259209e9628a0a4b7c2dccafb0539339
   all-docker_image: 4a48357124ccb32efb3f327f6c37f9538f446a1f
   all-cut-dependencies: af578417f916cee4c5f0e8094f078d5214bdb231
+  playbook-public-keys: 20be4500397301e8e87ac5b137414373ddf54317
+  playbook-remove-freeipa: 44d85676f7cd010d2d1dd93722278b7fec9dfbd4
+  playbook-bringup_sh: 1bbf82333e28fc9336211e5921e22023a1ad577e
+  playbook-remove-docker-pull-images: aeb3455952df9fa5c043164925dc99e8f20041af
+  playbook-remove-docker-build-base-image: f6f0c194afa7beefa12f05b1ccaddc019793b666
+  playbook-extract-docker-hosts: c62ebbda0a6cc4da21287faa1be32f5881b0ecb7
+  playbook-simplify-credentials: 7dfb69d27540666592dafb2eb1b75cedd24d34dd
+  playbook-fix-credential-copy: f5723f16fd318a68382d5baa0778da6abc822657
+  playbook-add-docker_health-module: 8ee6695b4736d5a1e4655ad3f356e342956a4368
+  bacula-fix-bacula-list-jobs-pexpect: ba1442894d3b2b0caa6a36014ad6d2c843db9c78
+  bacula-remove-unused-pools: c629f52b4dedc70bddc66f5ce984cac341bed665
+  bacula-force-sha256-fingerprint-check: d31248bf28daf49b5e207125e2d28b0fe7aade58
+  bacula-improve-bacula-bootstrap-script: e9f741056662f496c7a34daf7f562d893fe0f315
+  bacula-improve-idempotency: 118a4a7912365e9edd554738ff46034c4ba2bf00
+  common-update-python-docker-client: 0841d9511b5a43a76b7699ec2aaa78d032057d5b
+  common-install-latest-available: c07fc6cf209988e88e6ebc8fa59529a0c9dcf8e3
+  common-remove-backup-directory: 2e07032ec12f8e5c8aef36031987b01c295ee434
+  common-remove-container-conf: d0aebb42d9443bafca1a9d9a10063ebbf2e4f531
+  common-configure-docker-daemon: ab5c87ff0e799c6a01bb0e03b1cde1a36819c521
+  common-docker-enable-tcp: 44b35e87a60f894b3abd1958f7fe3958b1c7a737
+  common-move-mariadb-config-to-maria: b396fca110a45d5cde41e3e78f59f6c71240b62a
+  mariadb-fix-bind-address: d8bac2778729db6cbc221539f3c7722fc2307759
+  common-move-sshd-config-to-setup: f44b272b0f9524f15b9f887a4e99687e30bab00c
+  sshd-create-role: 542b655d74f0bdf445b7a7e0200ec2e4d0ca2b58
+  buildsystem-apache2-version-string: d24cd31fcda0f3eced40636be5134035f45a0fbd
+  buildsystem-limit-mysql-backups: 15e03c84b40969a6fad72d180b1ec79538b09bd4
+  exim4-configuration: 6d718fbf54799d981f566c767190304307747e9a
+  exim4-dockerfile: 6c906dede8a6d01245bf4f8e390d887d82a955c6
+  exim4-ip-address: ad919ec170392c4c78c6cfea6b5a6f2bd1ddde06
+  exim4-mailname: 177a3b0584ef8f1af5a9db828b0a04ea5bf2a1a6
+  exim4-always-update-configuration: 73c2d5e10d0a29776286023a7e34a2d93e93e64d
+  exim4-install-key-crt: 1ef1f804f57df8c96c7c6a047561636e17268bb4
+  exim4-exec-account-script: ff396cd2cf120017206fec4a10549bd21bd5edcb
+  exim4-logrotate-configuration: acf9ef9f8627a89c6f69cff2846fd199786a5472
+  ldap-add-phpldapadmin: dd858e97ef11ba1b8a48756f2b4d5427f771999e
+  ssl-limit-scope: 884a4c5c2adbbf7fdc79790431b34ce65d2048bc
+  svn-hotcopy: df236a28688faad911a4ba9eb15eacda6b86820d
+  svn-allow-empty: 05b00fdd9d650c3c1b026b53b3a7dd38ae95ed2c
+  svn-create-required-directories: 0ce111b54fdafd876ae7ba01218eda77abcb2fd6
+  wiki-downgrade-extensions: d66ed14f7179cb6c3a7ba46e87a2ec3831a4bdc3
+  wiki-create-required-directories: 088f45df0842ea2cd9cfa19b0e7326b077d75ddc
+  wiki-remove-libicu52: 87fc2fbbf419e5fba5f5faee20d1a42cbbb9af3f
+  wiki-update-entrypoint: 8e92d9e13cefe15442a40e8b6395b102aaf67008
+  mantisbt-create-required-directories: 1d69ba515352017035afebb9c86bc6664d4c93fd
+  mantisbt-remove-libicu52: 2e724031fa7d335d59d6e8b53dafa7896ebd712f
+  mantisbt-update-entrypoint: 4921f4d02a2e17ff4efea6f96f06b443b5e8a8d5
+  buildbot-master: b93f878e46b4fefccfac5682f16620bc3de428b6
+  builder-add-new-host: cd80ff9a135f6c32b2cf520b8079d1574347544c
+  buildbot-worker-ntel: af58f4c369d98e1dad84d4e8ab3a204b4f0aa6df
+  buildbot-worker-ptxdist: b95b4436a65f307a3c0eb9361043a5a3dd9af33d
+  buildbot-fix-ssh-folder-permission: e5995cad81307e7030e59e1d51f82711c4289753
+  buildbot-update-ntel-builds: 0bae3b08580e5da42c937f2d98e87e41411fe694
+  buildbot-parameterize-env: 5c7aed9f0271537331d92813b13a8c702ce51c40
+  buildbot-update-ptxdist-builds: c8b7e3700ca2bcfba26a36340c3c1ff3f786d14b
+  buildbot-image-entrypoint: 9acfec98e2bf097f1f01563f259e1e5453cc0ad7
+  buildbot-dependencies: 1db4a336808c12e073c7451f64734a76e022cbbe
+  buildbot-ssh-keygen: c9e64d1cf40d44c08af282eeb68dba5327342644
+  gitlab_user-create-role: 969b507955001f35634ab828778b35986daa5570
+  gitlab_sshkey-create-role: df59efd7f22815f910e436a26cce5a0d504f46de
+  TESTING--VirtualMachine: 79f9b779fe28eae0611fb4d2b04416a8487c64a7
+  daedalus-add-new-role: 2767ec14a73094b48d36b913fd8d71c4ae7ae35d
+  gitlab-dockerfile-version-argument: 8593a440d9c291bd14e8e11b1380ee7f6a47a8c4
+  update-gitlab-to-10-1: 78a4662e5ce2a09fed2e494c99b6f6a45236ce9f
+  upgrade-gitlab-to-8.0.5: aa51cb92dd3eada35a1a9b35445c586f429e9018
 Unapplied:
-  playbook-public-keys: 4ec7b3c29acc0e23cb25ee5ca0afdace69ac75b2
-  playbook-remove-freeipa: b69bfe7dba88c855a339e8b79eb9572609395994
-  playbook-bringup_sh: 296f9845d2298e076821b4b66600b2cd512fb21a
-  playbook-remove-docker-pull-images: 53a8c310aeb993fae72677a7475f4a0483ab86ec
-  playbook-remove-docker-build-base-image: eb8526c08297fdd82c9c47314d2039886083d6d3
-  playbook-extract-docker-hosts: aff5793e9e2812aee5bce42a08f6d4fbf5c810ba
-  playbook-simplify-credentials: 97d2770676def44f24efbc29b70e8877a5c07ccd
-  playbook-fix-credential-copy: a0a8f9824105b07f4a6ee698b772ec7fde694dd5
-  playbook-add-docker_health-module: d0daba3ecfb9e1ea48de24efdc0fad0ebfd1a2a5
-  bacula-fix-bacula-list-jobs-pexpect: 17d2e39f3eda14f549c4dd745d30db15173ee8d5
-  bacula-remove-unused-pools: fec0cfd198ddf6464b979e56abc232917a9cdf19
-  bacula-force-sha256-fingerprint-check: bcbda760f6cd43a7f5bc827f4bdeea5b5e82370b
-  bacula-improve-bacula-bootstrap-script: b3fa71e863e26c4785ca105e392c57f0a3cf714e
-  bacula-improve-idempotency: 41ed6951fdfdf0b942a1aede5df89336a08a258a
-  common-update-python-docker-client: 0c8c3f27aa0c075e33519cffcd4c94b9792f054f
-  common-install-latest-available: 3a2ff7047d450d0c3374644d5e8483072e0b818b
-  common-remove-backup-directory: 7427a0d07a46ba80172c503ee6735b78cc875f6f
-  common-remove-container-conf: f0f8251517bfc53d744acfaa0502c9d6a4542e41
-  common-configure-docker-daemon: 76e722b3638e00991f64e6e9a2851dd8d08a5348
-  common-docker-enable-tcp: 0ba1add0dd6538791c99eb52fa492f622f7d9896
-  common-move-mariadb-config-to-maria: 9536b2c77af32eedeaf66f16eaddf02e4aa776bb
-  mariadb-fix-bind-address: 18f5587f8c00f9e9f22dd649798d369627b9e0e7
-  common-move-sshd-config-to-setup: 1309cab64f20ec2f4008b4e46c396e11d614bfc3
-  sshd-create-role: 7fc5fac5be4336dff0a6a2fb329f81df55d9cb74
-  buildsystem-apache2-version-string: 41df96f4fcb2cebbc332af2274f096635ffdf220
-  buildsystem-limit-mysql-backups: 1771b14742f30e7738f9ef05871428d219600253
-  exim4-configuration: 942c3cfea76d82a78829a99065bf36018dd17a29
-  exim4-dockerfile: e5f1edf320c099f3dc23a64bec5823321eebc61f
-  exim4-ip-address: 0bff0bd0c796d657f07b5895d6daf5492eb22a6f
-  exim4-mailname: 768b59faccd33ecf6e3aa312795477b403df144e
-  exim4-always-update-configuration: a2839b36009a90e39487c1f9ca5e83deac26382c
-  exim4-install-key-crt: 5eec9daf8f4890489559a657a2443d5e4b42abb7
-  exim4-exec-account-script: 7c8bb584a0a370c08a20d071ebab8dd0868768df
-  exim4-logrotate-configuration: af8936118234d67ab5f95ec1906911dfdd9e913e
-  ldap-add-phpldapadmin: a97f40427b291acb4ea97b9f4541194693535092
-  ssl-limit-scope: 1c2c2644fd17f9761ce0e25826152844db23f30f
-  svn-hotcopy: d30e7805c6c1f3d1a0675e638439ad7c80863d6b
-  svn-allow-empty: c41d165a41b7167a447d771cfcf897adad40e0ba
-  svn-create-required-directories: d192cff89f188c88b910e30e56a6974595e4f41a
-  wiki-downgrade-extensions: b6256cda3c11f20aacf8df9426f2219b01c238f7
-  wiki-create-required-directories: 91fb012f4b585db065c5b53337abd68d6bc7b4d5
-  wiki-remove-libicu52: fdd3dfa8c5d7351f9f13d7a83811627fc4ef96d3
-  wiki-update-entrypoint: 3c4eae85cd42d14c942072de239ef4049d82e193
-  mantisbt-create-required-directories: 654f0504df494b4e72b72073c29531ec31b12e17
-  mantisbt-remove-libicu52: 01c9ccadc99c121da0b5200a3578d8d47174bdb4
-  mantisbt-update-entrypoint: b2a8ad5f8005c591cebb434305d39ba2551bec32
-  buildbot-master: 2f87638710cbd4583a59c5f41371b5a516a3a392
-  builder-add-new-host: bc792758e3dbbcb1239ed6d778cde5c6f5cddacd
-  buildbot-worker-ntel: 07ade87f7d7bf9cba6f967bb698e1fd4ae3d60fc
-  buildbot-worker-ptxdist: 72e2580bc0fe60042df69cfdf1c8743f62421a54
-  buildbot-fix-ssh-folder-permission: 67e40841bee2ce8bb6b2a4b5b9f79ac10589f244
-  buildbot-update-ntel-builds: 09eb5b84d026ac17eb8f11a81f302949e0cc6d08
-  buildbot-parameterize-env: 1a96f45cbbf0327659bb571ca12c472377e887a8
-  buildbot-update-ptxdist-builds: e3c87d6f4a81c1b7111d652a7cca5f21d036663e
-  buildbot-image-entrypoint: 0768e51b2f5a7c12fe7596bc771fc76138cd0aec
-  buildbot-dependencies: 8eb12a726e72166be194997bd2ce989432801537
-  buildbot-ssh-keygen: 04bbdc364383d41c5d2ae34c0f5fe38179a93acd
-  gitlab_user-create-role: 8fb225f898efde9272a7fb916e17a98a3d93f834
-  gitlab_sshkey-create-role: 94f9a1b001883f7957d55de8ae04a15c582e9f0b
-  TESTING--VirtualMachine: 5e75ac0c90e2f1f23693dd3a9b11f98332e93326
-  daedalus-add-new-role: 669cee8c59267ccf1a9c317d2e9597c36d06135c
-  gitlab-dockerfile-version-argument: 5d95cdf893ea9bba39ec2ba741dc0f1a73dc9bc7
-  update-gitlab-to-10-1: 607ac4d49164562e867bce5126b59478a947e543
-  upgrade-gitlab-to-8.0.5: 04a8e86c22cf3875903b570983e57aab66973615
 Hidden:

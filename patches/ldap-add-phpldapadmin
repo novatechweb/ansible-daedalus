@@ -1,5 +1,5 @@
-Bottom: d104afb919e5254a56a762f1b88a2f7042f763c6
-Top:    ec81fd081f1d15175aef916baee3b625425853c3
+Bottom: 1d1f7105885e5e86b52134f40113fee3eb5ba63a
+Top:    43f39606ecdf66d33604994f0780c1861211a688
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:58 -0500
 
@@ -212,12 +212,12 @@ index da9ffa23..d1875f90 100644
  # the name of the container being started
  phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index c9f3eccf..a265c56a 100644
+index 50b2785a..98149212 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
-@@ -125,6 +125,21 @@
+@@ -124,6 +124,21 @@
+     networks:
        - name: '{{ docker_network_frontend }}'
-     state: present
  
 +# *****************************************************************************
 +# Update or make the image.
