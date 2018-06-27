@@ -1,6 +1,6 @@
 Version: 1
-Previous: 653a5b2689df4287c6dd0611e271b709eb5ff516
-Head: cd10192c33485c5b6d630b20cfbf60c8dce5e665
+Previous: 42b255b74a28b41280d4bca44764777f61015f30
+Head: 4bd61f3f15c4037daa84e0d6a7224360f9367693
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -35,8 +35,7 @@ Applied:
   common-move-mariadb-config-to-maria: 28d6a16abbc129b1b9ef5e0d0717676003c36940
   mariadb-fix-bind-address: bf5d56b160aff3031577de2e9e2265822fe8f6fa
   common-move-sshd-config-to-setup: 0af2258b0b5e6c7475c10daeef8cc2934ac6382d
-  sshd-create-role: 9db0497111c50dc28487aafc7fb586d877207d17
-  refresh-temp: cd10192c33485c5b6d630b20cfbf60c8dce5e665
+  sshd-create-role: 4bd61f3f15c4037daa84e0d6a7224360f9367693
 Unapplied:
   buildsystem-apache2-version-string: 6ce37dfb66c98e14a04116d1683b8de9cfb1aa46
   buildsystem-limit-mysql-backups: daf8e96864459919a4514e281831b5e0b148fb26
