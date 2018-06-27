@@ -1,6 +1,6 @@
 Version: 1
-Previous: 62502005402ba5b31c921d585195b159849ea521
-Head: 335f55671b0d9ea551dce4195dc26ff97db5f878
+Previous: f746d8284c5bcc8d4016dbf6ec10b662060243f7
+Head: 3927bfede066bcb26ef2edf4ea3b950bfc6b808f
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -8,8 +8,7 @@ Applied:
   all-move-vars-to-defaults: 5b73b47b245d979f79d200a7594e0dd87c158bd6
   all-normalize-vars: ae5b27b6261520ef4d08612b2447172705f12b05
   all-docker_container: 5f96b68ec3bfc4d774ca574f778519bcec673865
-  ldap-wait-on-startup: 0c94f8979f68bf7304acded5008e17ba00d7edd1
-  refresh-temp: 335f55671b0d9ea551dce4195dc26ff97db5f878
+  ldap-wait-on-startup: 3927bfede066bcb26ef2edf4ea3b950bfc6b808f
 Unapplied:
   all-docker_volume: 87da79458ef6632331e81426cb5f65f9c324f474
   all-docker_network: 8daaabb22ea49a96d81f233d094256a443508841
