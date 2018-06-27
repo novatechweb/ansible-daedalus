@@ -126,18 +126,6 @@
     state: present
 
 # *****************************************************************************
-# restore?
-
-- include_tasks: restore.yml
-  when: st_openldap_restore.stat.exists == False
-  tags: restore
-
-- name: start container (ldap)
-  docker_container:
-    name: '{{ openldap_container_name }}'
-    state: started
-
-# *****************************************************************************
 # Update or make the image.
 - name: Checkout image repo
   git:
@@ -168,6 +156,13 @@
     networks:
       - name: '{{ docker_network_frontend }}'
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
+
+# *****************************************************************************
+# restore?
+
+- include_tasks: restore.yml
+  when: st_openldap_restore.stat.exists == False
+  tags: restore
 
 # *****************************************************************************
 # Set the LDAP passwords
