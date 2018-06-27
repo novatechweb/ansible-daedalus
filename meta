@@ -1,6 +1,6 @@
 Version: 1
-Previous: 11786c56b3f929f4c9c0b2be722baec435e7e441
-Head: 1e7d1317e6e7fa06602129df17d88f454cdef57b
+Previous: 400c1e51f3dd8c7653fe8803b7c35b79302f51e8
+Head: af8936118234d67ab5f95ec1906911dfdd9e913e
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -11,42 +11,42 @@ Applied:
   all-docker_volume: 87da79458ef6632331e81426cb5f65f9c324f474
   all-docker_network: 8daaabb22ea49a96d81f233d094256a443508841
   all-docker_image: ce82f9c5c90d085ef47cbc0c2fb53f39371d54b2
-  all-cut-dependencies: 0b13b1f31b74cb8dcf0c787dadb466b6d16d2128
-  playbook-public-keys: 31a53b0b70780859a5a0c391347e4dfa5ef00285
-  playbook-remove-freeipa: 7536aed318bfb250ab4ee5be46cb602d5318f2e1
-  playbook-bringup_sh: 4d98ad1531274cdeada1c00095a4116b39be23a2
-  playbook-remove-docker-pull-images: 24ce247e2c1358b0c71042913177ae0d8b025dd7
-  playbook-remove-docker-build-base-image: c394db2680cdf72dd098d917eef432a3d4afcfd1
-  playbook-extract-docker-hosts: 47fa7445599f37e0d4971df4ff454b556859a5a5
-  playbook-simplify-credentials: 71d4c0941cda83d69d52a9cdc4888417da4174b8
-  playbook-fix-credential-copy: ef0924d0abf7e81107fccc9da5860290198780cb
-  playbook-add-docker_health-module: 67eca510940e417ceaf0136ed59deb6a726695b8
-  bacula-fix-bacula-list-jobs-pexpect: 57d5bdd0d00d1d5418db4b45c7b687983eb91951
-  bacula-remove-unused-pools: 11a42e3c6601010ca0352af24730b296e99a10f1
-  bacula-force-sha256-fingerprint-check: a8ec2587a444827ae7f316c2a5b8c402e322a81d
-  bacula-improve-bacula-bootstrap-script: dfd09e5d6d98a112df66c3b5b43c7ba9100e790b
-  bacula-improve-idempotency: 60345f0c17fb592a1b7c2245d21de44bbcb1c06f
-  common-update-python-docker-client: 8530efa5ac7cfe0439a20893fd34c1de82773846
-  common-install-latest-available: 5f5912a50e1031d00e24007f3f73819f6f13ed26
-  common-remove-backup-directory: 9a39547fe8064cbccffcc3d330e83a18ab4bd107
-  common-remove-container-conf: aacedd1b0ffe33150159fa274d3cd2cfa1bf7101
-  common-configure-docker-daemon: 24f36d85e469e2c9ada1ff72c1196b83cbc50498
-  common-docker-enable-tcp: a7ef4ea888dded5920fe4b739c7c9b847b9f392b
-  common-move-mariadb-config-to-maria: 8ec86032d86a2728815435b7b0ad7a1c3acc06e8
-  mariadb-fix-bind-address: cffcb4a90f118df0342619d594177074a23f8dba
-  common-move-sshd-config-to-setup: 0a6fd2147132fceb6ff52079a63b7d37ac097518
-  sshd-create-role: 6888360dc6050b4be60eb4c2449d0ef33c086ef9
-  buildsystem-apache2-version-string: 516078ce6279957af2e6242ed728c8eeae63cd32
-  buildsystem-limit-mysql-backups: 10d405970ceed626cd494722210da5479c59ee81
-  exim4-configuration: e7fe9e24e91ea55ee6769fbe204715b3c8dcfc2a
-  exim4-dockerfile: 3df038d352bf79aed13b96a43ad8fefd02358f47
-  exim4-ip-address: 1c8e5ef4854f8c687b25c183f6acd482e33de8d7
-  exim4-mailname: afb66bda83936d5d40faedc99aa886ce30d824e8
-  exim4-always-update-configuration: f10cedc54bf841e47e1b0d044480f422b72bb917
-  exim4-install-key-crt: 13126a0e1391ec79676ab89380b37c2c9bdbc9b0
-  exim4-exec-account-script: bc133e28122c43327da49260a57518db9c042c70
-  exim4-logrotate-configuration: 74157db08c432d86a5fc5f18e124ea4cdd748d05
-  ldap-wait-on-startup: 1e7d1317e6e7fa06602129df17d88f454cdef57b
+  ldap-wait-on-startup: d090cf285523f0e61fc87846896c6a3e373d255f
+  all-cut-dependencies: 1f9d84cbbe0e6b55ce9246614dcac7f60c56385c
+  playbook-public-keys: 4ec7b3c29acc0e23cb25ee5ca0afdace69ac75b2
+  playbook-remove-freeipa: b69bfe7dba88c855a339e8b79eb9572609395994
+  playbook-bringup_sh: 296f9845d2298e076821b4b66600b2cd512fb21a
+  playbook-remove-docker-pull-images: 53a8c310aeb993fae72677a7475f4a0483ab86ec
+  playbook-remove-docker-build-base-image: eb8526c08297fdd82c9c47314d2039886083d6d3
+  playbook-extract-docker-hosts: aff5793e9e2812aee5bce42a08f6d4fbf5c810ba
+  playbook-simplify-credentials: 97d2770676def44f24efbc29b70e8877a5c07ccd
+  playbook-fix-credential-copy: a0a8f9824105b07f4a6ee698b772ec7fde694dd5
+  playbook-add-docker_health-module: d0daba3ecfb9e1ea48de24efdc0fad0ebfd1a2a5
+  bacula-fix-bacula-list-jobs-pexpect: 17d2e39f3eda14f549c4dd745d30db15173ee8d5
+  bacula-remove-unused-pools: fec0cfd198ddf6464b979e56abc232917a9cdf19
+  bacula-force-sha256-fingerprint-check: bcbda760f6cd43a7f5bc827f4bdeea5b5e82370b
+  bacula-improve-bacula-bootstrap-script: b3fa71e863e26c4785ca105e392c57f0a3cf714e
+  bacula-improve-idempotency: 41ed6951fdfdf0b942a1aede5df89336a08a258a
+  common-update-python-docker-client: 0c8c3f27aa0c075e33519cffcd4c94b9792f054f
+  common-install-latest-available: 3a2ff7047d450d0c3374644d5e8483072e0b818b
+  common-remove-backup-directory: 7427a0d07a46ba80172c503ee6735b78cc875f6f
+  common-remove-container-conf: f0f8251517bfc53d744acfaa0502c9d6a4542e41
+  common-configure-docker-daemon: 76e722b3638e00991f64e6e9a2851dd8d08a5348
+  common-docker-enable-tcp: 0ba1add0dd6538791c99eb52fa492f622f7d9896
+  common-move-mariadb-config-to-maria: 9536b2c77af32eedeaf66f16eaddf02e4aa776bb
+  mariadb-fix-bind-address: 18f5587f8c00f9e9f22dd649798d369627b9e0e7
+  common-move-sshd-config-to-setup: 1309cab64f20ec2f4008b4e46c396e11d614bfc3
+  sshd-create-role: 7fc5fac5be4336dff0a6a2fb329f81df55d9cb74
+  buildsystem-apache2-version-string: 41df96f4fcb2cebbc332af2274f096635ffdf220
+  buildsystem-limit-mysql-backups: 1771b14742f30e7738f9ef05871428d219600253
+  exim4-configuration: 942c3cfea76d82a78829a99065bf36018dd17a29
+  exim4-dockerfile: e5f1edf320c099f3dc23a64bec5823321eebc61f
+  exim4-ip-address: 0bff0bd0c796d657f07b5895d6daf5492eb22a6f
+  exim4-mailname: 768b59faccd33ecf6e3aa312795477b403df144e
+  exim4-always-update-configuration: a2839b36009a90e39487c1f9ca5e83deac26382c
+  exim4-install-key-crt: 5eec9daf8f4890489559a657a2443d5e4b42abb7
+  exim4-exec-account-script: 7c8bb584a0a370c08a20d071ebab8dd0868768df
+  exim4-logrotate-configuration: af8936118234d67ab5f95ec1906911dfdd9e913e
 Unapplied:
   ldap-add-phpldapadmin: a97f40427b291acb4ea97b9f4541194693535092
   ssl-limit-scope: 1c2c2644fd17f9761ce0e25826152844db23f30f
