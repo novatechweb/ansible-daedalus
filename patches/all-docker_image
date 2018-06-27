@@ -1,5 +1,5 @@
-Bottom: 0d3b07b55d010ab16633e268a0367468ae0f3633
-Top:    f341ad5508523bdb8d223a85d6eba42764f2f589
+Bottom: 80856a6c2a000b398a3fda1729e32b951ed81a27
+Top:    ef5bf49fe98b1174205982512d4e3b3cf40c45e5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -373,7 +373,7 @@ index 14ba4153..a46a77a4 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 9e8d987d..9c102e67 100644
+index edb5e80a..50b2785a 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -68,10 +68,11 @@
