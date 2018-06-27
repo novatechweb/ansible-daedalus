@@ -1,6 +1,6 @@
 Version: 1
-Previous: 5fac4467876851bf764871978c2e5ce15a012a87
-Head: aee850503e86c33cb136339818e51cdd3007b75d
+Previous: 21535b16d05cf349564f215fbc1c702b25f37f6e
+Head: 2b54b0ef259209e9628a0a4b7c2dccafb0539339
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -10,8 +10,8 @@ Applied:
   all-docker_container: 5f96b68ec3bfc4d774ca574f778519bcec673865
   ldap-wait-on-startup: 3927bfede066bcb26ef2edf4ea3b950bfc6b808f
   all-docker_volume: aee850503e86c33cb136339818e51cdd3007b75d
-Unapplied:
   all-docker_network: 2b54b0ef259209e9628a0a4b7c2dccafb0539339
+Unapplied:
   all-docker_image: ce82f9c5c90d085ef47cbc0c2fb53f39371d54b2
   all-cut-dependencies: 1f9d84cbbe0e6b55ce9246614dcac7f60c56385c
   playbook-public-keys: 4ec7b3c29acc0e23cb25ee5ca0afdace69ac75b2
