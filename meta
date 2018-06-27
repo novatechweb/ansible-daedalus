@@ -1,6 +1,6 @@
 Version: 1
-Previous: 880faeff6d6f7fc9e9241d4532080e28eb350fc4
-Head: d090cf285523f0e61fc87846896c6a3e373d255f
+Previous: dd3c3a52c41da72899696c61fb984091faf542ba
+Head: 5f96b68ec3bfc4d774ca574f778519bcec673865
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -8,11 +8,11 @@ Applied:
   all-move-vars-to-defaults: 5b73b47b245d979f79d200a7594e0dd87c158bd6
   all-normalize-vars: ae5b27b6261520ef4d08612b2447172705f12b05
   all-docker_container: 5f96b68ec3bfc4d774ca574f778519bcec673865
+Unapplied:
   all-docker_volume: 87da79458ef6632331e81426cb5f65f9c324f474
   all-docker_network: 8daaabb22ea49a96d81f233d094256a443508841
   all-docker_image: ce82f9c5c90d085ef47cbc0c2fb53f39371d54b2
   ldap-wait-on-startup: d090cf285523f0e61fc87846896c6a3e373d255f
-Unapplied:
   all-cut-dependencies: 1f9d84cbbe0e6b55ce9246614dcac7f60c56385c
   playbook-public-keys: 4ec7b3c29acc0e23cb25ee5ca0afdace69ac75b2
   playbook-remove-freeipa: b69bfe7dba88c855a339e8b79eb9572609395994
