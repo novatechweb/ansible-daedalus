@@ -1,6 +1,6 @@
 Version: 1
-Previous: 404a7cbaba713927def5f2bb8b574864c3d30b11
-Head: 7becc42d2c8c5588ddf03a36ae2c39506dee1c07
+Previous: 4b426134bb47a7d211ee4ab9be4205267ac57adc
+Head: a97f40427b291acb4ea97b9f4541194693535092
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -11,8 +11,6 @@ Applied:
   all-docker_volume: 87da79458ef6632331e81426cb5f65f9c324f474
   all-docker_network: 8daaabb22ea49a96d81f233d094256a443508841
   all-docker_image: ce82f9c5c90d085ef47cbc0c2fb53f39371d54b2
-  ldap-add-phpldapadmin: 7becc42d2c8c5588ddf03a36ae2c39506dee1c07
-Unapplied:
   all-cut-dependencies: 0b13b1f31b74cb8dcf0c787dadb466b6d16d2128
   playbook-public-keys: 31a53b0b70780859a5a0c391347e4dfa5ef00285
   playbook-remove-freeipa: 7536aed318bfb250ab4ee5be46cb602d5318f2e1
@@ -49,6 +47,8 @@ Unapplied:
   exim4-exec-account-script: bc133e28122c43327da49260a57518db9c042c70
   exim4-logrotate-configuration: 74157db08c432d86a5fc5f18e124ea4cdd748d05
   ldap-wait-on-startup: 1e7d1317e6e7fa06602129df17d88f454cdef57b
+  ldap-add-phpldapadmin: a97f40427b291acb4ea97b9f4541194693535092
+Unapplied:
   ssl-limit-scope: 1c2c2644fd17f9761ce0e25826152844db23f30f
   svn-hotcopy: d30e7805c6c1f3d1a0675e638439ad7c80863d6b
   svn-allow-empty: c41d165a41b7167a447d771cfcf897adad40e0ba
