@@ -1,6 +1,6 @@
 Version: 1
-Previous: 7d3b6388906f6a20e9b3e762a89813cffbce5d1e
-Head: 96f4e5c0e1a75963063cd810e345cbc8b1a4120c
+Previous: 76e427dd00cc3959fef734e469eaf3fdfbea2b28
+Head: 9db0497111c50dc28487aafc7fb586d877207d17
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -36,6 +36,7 @@ Applied:
   mariadb-fix-bind-address: bf5d56b160aff3031577de2e9e2265822fe8f6fa
   common-move-sshd-config-to-setup: 0af2258b0b5e6c7475c10daeef8cc2934ac6382d
   sshd-create-role: 9db0497111c50dc28487aafc7fb586d877207d17
+Unapplied:
   buildsystem-apache2-version-string: 6ce37dfb66c98e14a04116d1683b8de9cfb1aa46
   buildsystem-limit-mysql-backups: daf8e96864459919a4514e281831b5e0b148fb26
   exim4-configuration: 1ba205a7f2eac9f810b9327774ab7326c98834b9
@@ -76,5 +77,4 @@ Applied:
   gitlab-dockerfile-version-argument: 0b536913129b75711cdbe847ec95d7e48e7e10cf
   update-gitlab-to-10-1: 96cf16c49ae30e95a0c37b763b0830d0c8fbb766
   upgrade-gitlab-to-8.0.5: 96f4e5c0e1a75963063cd810e345cbc8b1a4120c
-Unapplied:
 Hidden:
