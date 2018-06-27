@@ -1,5 +1,5 @@
-Bottom: 26aeedeac87adab9069a27c1e117b20e4a52069e
-Top:    0d3b07b55d010ab16633e268a0367468ae0f3633
+Bottom: bd9aadf730d1c88afb04895bcb7d8b8478604b40
+Top:    80856a6c2a000b398a3fda1729e32b951ed81a27
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-25 11:04:31 -0500
 
@@ -1058,7 +1058,7 @@ index 1a00928d..99990b2c 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index b603dd88..9e8d987d 100644
+index c44dfdab..edb5e80a 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -111,30 +111,33 @@
