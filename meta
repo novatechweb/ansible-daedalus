@@ -1,6 +1,6 @@
 Version: 1
-Previous: d5ea978e13421befec23869093b7da9ec6808bd3
-Head: aa51cb92dd3eada35a1a9b35445c586f429e9018
+Previous: b5c596acd8fa0ed6bd50a58e3e191e42ee17e2f2
+Head: 3927bfede066bcb26ef2edf4ea3b950bfc6b808f
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -9,6 +9,7 @@ Applied:
   all-normalize-vars: ae5b27b6261520ef4d08612b2447172705f12b05
   all-docker_container: 5f96b68ec3bfc4d774ca574f778519bcec673865
   ldap-wait-on-startup: 3927bfede066bcb26ef2edf4ea3b950bfc6b808f
+Unapplied:
   all-docker_volume: aee850503e86c33cb136339818e51cdd3007b75d
   all-docker_network: 2b54b0ef259209e9628a0a4b7c2dccafb0539339
   all-docker_image: 4a48357124ccb32efb3f327f6c37f9538f446a1f
@@ -77,5 +78,4 @@ Applied:
   gitlab-dockerfile-version-argument: 8593a440d9c291bd14e8e11b1380ee7f6a47a8c4
   update-gitlab-to-10-1: 78a4662e5ce2a09fed2e494c99b6f6a45236ce9f
   upgrade-gitlab-to-8.0.5: aa51cb92dd3eada35a1a9b35445c586f429e9018
-Unapplied:
 Hidden:
