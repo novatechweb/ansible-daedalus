@@ -1,5 +1,5 @@
-Bottom: f341ad5508523bdb8d223a85d6eba42764f2f589
-Top:    f341ad5508523bdb8d223a85d6eba42764f2f589
+Bottom: d69045a2268117bc0f5dc5bfc32cb790e11ad560
+Top:    ec81fd081f1d15175aef916baee3b625425853c3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 14:12:12 -0500
 
@@ -7,4 +7,78 @@ Updates to openldap
 
 
 ---
-
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index 79921674..a265c56a 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -107,7 +107,7 @@
+ # *****************************************************************************
+ # Start the data container running
+ 
+-- name: start container (ldap)
++- name: create container (ldap)
+   docker_container:
+     name: '{{ openldap_container_name }}'
+     detach: true
+@@ -123,6 +123,7 @@
+     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+     networks:
+       - name: '{{ docker_network_frontend }}'
++    state: present
+ 
+ # *****************************************************************************
+ # Update or make the image.
+@@ -161,6 +162,7 @@
+ 
+ - include_tasks: restore.yml
+   when: st_openldap_restore.stat.exists == False
++  tags: restore
+ 
+ # *****************************************************************************
+ # Set the LDAP passwords
+@@ -168,7 +170,7 @@
+ - name: wait for LDAP to start
+   wait_for:
+     delay: 5
+-    host: '{{ container_addr_map.ldap.ip_addr }}'
++    host: '{{ openldap_ip_addr }}'
+     port: 389
+     state: started
+ 
+diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
+index d139794e..755e9106 100644
+--- a/roles/docker-openldap/tasks/restore.yml
++++ b/roles/docker-openldap/tasks/restore.yml
+@@ -31,14 +31,28 @@
+ # restore the openldap backup
+ 
+ - name: stop container (ldap)
+-  command: 'docker stop {{ openldap_container_name }}'
++  docker_container:
++    name: '{{ openldap_container_name }}'
++    state: stopped
+ 
+-- name: load ldif files
+-  command: 'docker run --rm --volume {{ openldap_cv_name }}:/etc/ldap:z --volume {{ openldap_dv_name }}:/var/lib/ldap:z -v {{ host_openldap_docker_restore_dir }}:/tmp/import_export {{ openldap_image_name }}:{{ docker_image_tag }} apply_ldif -n {{ item.dbnum }} -l {{ item.ldif_file }}'
++- name: restore ldif files
++  docker_container:
++    name: '{{ openldap_container_name }}-restore-{{ item.dbnum }}'
++    cleanup: true
++    detach: false
++    volumes:
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
++      - '{{ openldap_cv_name }}:/etc/ldap:z'
++      - '{{ openldap_dv_name }}:/var/lib/ldap:z'
++      - '{{ openldap_docker_restore_dir }}:/tmp/import_export:z'
++    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
++    command: ['apply_ldif', '-n', '{{ item.dbnum }}', '-l', '{{ item.ldif_file }}']
+   with_items: '{{ openldap_backup_files }}'
+ 
+ - name: restart container (ldap)
+-  command: 'docker start {{ openldap_container_name }}'
++  docker_container:
++    name: '{{ openldap_container_name }}'
++    state: started
+ 
+ # *****************************************************************************
+ # cleanup
