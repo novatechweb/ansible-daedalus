@@ -1,6 +1,6 @@
 Version: 1
-Previous: b9da3840bc18ce71f8f5857e275f2995f2cec273
-Head: 4a48357124ccb32efb3f327f6c37f9538f446a1f
+Previous: 4e3a21847bebe867f4c2afdaf5c8d8c45f6f4bb4
+Head: af578417f916cee4c5f0e8094f078d5214bdb231
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -12,8 +12,8 @@ Applied:
   all-docker_volume: aee850503e86c33cb136339818e51cdd3007b75d
   all-docker_network: 2b54b0ef259209e9628a0a4b7c2dccafb0539339
   all-docker_image: 4a48357124ccb32efb3f327f6c37f9538f446a1f
+  all-cut-dependencies: af578417f916cee4c5f0e8094f078d5214bdb231
 Unapplied:
-  all-cut-dependencies: 1f9d84cbbe0e6b55ce9246614dcac7f60c56385c
   playbook-public-keys: 4ec7b3c29acc0e23cb25ee5ca0afdace69ac75b2
   playbook-remove-freeipa: b69bfe7dba88c855a339e8b79eb9572609395994
   playbook-bringup_sh: 296f9845d2298e076821b4b66600b2cd512fb21a
