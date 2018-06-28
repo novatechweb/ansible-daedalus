@@ -1,6 +1,6 @@
 Version: 1
-Previous: 448d64ea9899ed127e6686e6fe704ee4c11a686e
-Head: 8b999222441a873ce49058b572f26ef2511b0ccd
+Previous: a284ed78f70a6c39a144ac4300faf43dcfa8fec2
+Head: 27ea3fd5c25bef367ce7cd4f1fd3f8f02baf843f
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -71,8 +71,7 @@ Applied:
   buildbot-ssh-keygen: 433c94583ff6a4292a0473562b89782ed41b5fcc
   gitlab_user-create-role: 2cc7a17125941bea5297da458189a13ebe6d79f2
   gitlab_sshkey-create-role: bd677ed4aebb56d3863df007faeb1aec50a3b59a
-  daedalus-add-new-role: 286845b8f0a69fe56b828f2aa9f6d36fd4d1fcf9
-  refresh-temp: 8b999222441a873ce49058b572f26ef2511b0ccd
+  daedalus-add-new-role: 27ea3fd5c25bef367ce7cd4f1fd3f8f02baf843f
 Unapplied:
   TESTING--VirtualMachine: a0bc24c4cff63e4d194d94dba2220cdc0c1569ac
   gitlab-dockerfile-version-argument: 0ef8e291d6dff550f3e2212414b37a56bb592e85
