@@ -1,6 +1,6 @@
 Version: 1
-Previous: 9450344c00050ebda8cdb2044fa6b3c839bbe033
-Head: ff2a4b948a669c6c7826171210309ce85cea90bd
+Previous: e58d3e904d830f87d0f89eca7f54f9051fd89924
+Head: 11553f1941a080576904831df69b7440b7bcf5ac
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -75,6 +75,5 @@ Applied:
   daedalus-add-new-role: e5b1c3a50601d427fe1429355fd55d62eb3fc4cb
   gitlab-dockerfile-version-argument: 0ef8e291d6dff550f3e2212414b37a56bb592e85
   update-gitlab-to-10-1: 11553f1941a080576904831df69b7440b7bcf5ac
-  upgrade-gitlab-to-8.0.5: ff2a4b948a669c6c7826171210309ce85cea90bd
 Unapplied:
 Hidden:
