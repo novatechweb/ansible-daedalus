@@ -1,6 +1,6 @@
 Version: 1
-Previous: 42b255b74a28b41280d4bca44764777f61015f30
-Head: 4bd61f3f15c4037daa84e0d6a7224360f9367693
+Previous: 9450344c00050ebda8cdb2044fa6b3c839bbe033
+Head: ff2a4b948a669c6c7826171210309ce85cea90bd
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -36,45 +36,45 @@ Applied:
   mariadb-fix-bind-address: bf5d56b160aff3031577de2e9e2265822fe8f6fa
   common-move-sshd-config-to-setup: 0af2258b0b5e6c7475c10daeef8cc2934ac6382d
   sshd-create-role: 4bd61f3f15c4037daa84e0d6a7224360f9367693
+  buildsystem-apache2-version-string: bd36f7737719215433d025f8079b1090f65585e0
+  buildsystem-limit-mysql-backups: 5c34f58bc5c1625cae34793b72eb4daf33f0a8da
+  exim4-configuration: 6702187ad9cdcd9f0d7e1540dc8551c77581430a
+  exim4-dockerfile: 8cf1f88445b759667dbfa92a71e2dee2e19e6159
+  exim4-ip-address: 6a7f8aeb383ddf0cbbfc98724785a70d6d5dc4a0
+  exim4-mailname: fc3b95e680be52a21b4a22b25b13f7a7b12474e0
+  exim4-always-update-configuration: 5b85b716a30afebc72acf1260b19d0fc3aa29b05
+  exim4-install-key-crt: 68bc46e5c1fe794273df66f584d544a35eeae639
+  exim4-exec-account-script: 82f898a544868b3b99da91b2f2253c9deba98eb3
+  exim4-logrotate-configuration: 9f8830895623d3865cea43ae7783138e2a04580a
+  ldap-add-phpldapadmin: aae921f003a016613ca53ef0f34fe2098e81ff3f
+  ssl-limit-scope: 87664528a145c47b68018c95d1cd025cb2f0d992
+  svn-hotcopy: 6e432e922febf5c6a107af5fce8dbdb3823f028d
+  svn-allow-empty: 7307630a52fc1d736f16c9bc6ac1d96ea9e5e8e2
+  svn-create-required-directories: 521b7ea41857235775084e5cba311e13180de474
+  wiki-downgrade-extensions: 6367f294e27c85d1d35dac18bd03cb2f1cca006a
+  wiki-create-required-directories: 38495591cf89256cdf50063c3836ebf0462c9d76
+  wiki-remove-libicu52: a08f0587fa4f05ea0fd6f9bcc2a51e24a889c2c9
+  wiki-update-entrypoint: 5fe0f05b83d9301e9c18117b4ffad284b52dc580
+  mantisbt-create-required-directories: cb5e99a5272c303801f7766a227bea72a251855b
+  mantisbt-remove-libicu52: ebfa8cbeb8b2b244af6432cf23012e32ec9d7aad
+  mantisbt-update-entrypoint: c2c5695e0e9019fc571a98d310644619e4864409
+  buildbot-master: 76a84aaaf04737738a9842e84a0e4e2471cf4e23
+  builder-add-new-host: 65101cc669df520f870f5b419dbfd76db6afbb18
+  buildbot-worker-ntel: e76f16bde6e85b49d8f3abfefd24acf11e5e2a9f
+  buildbot-worker-ptxdist: e6f16fa02f6d061f4fabc8ce07ee2100e7dc387c
+  buildbot-fix-ssh-folder-permission: 223901c8f9d70d6b0ccb075c2838157999936f04
+  buildbot-update-ntel-builds: 8820344dc90da43789b402e4c2fe1ea4584ce333
+  buildbot-parameterize-env: 7ce2ef544b9e558f4186a8ee7e2aeb2386ecba2b
+  buildbot-update-ptxdist-builds: 26f40394db30645d46362308930a20f43d624cb6
+  buildbot-image-entrypoint: 02d4e3f189fd8820399bfe8c829bda2e2ec7dad5
+  buildbot-dependencies: b6570a1c44148a7ff228f8beb22fbc2d40ec1b5b
+  buildbot-ssh-keygen: 433c94583ff6a4292a0473562b89782ed41b5fcc
+  gitlab_user-create-role: 2cc7a17125941bea5297da458189a13ebe6d79f2
+  gitlab_sshkey-create-role: bd677ed4aebb56d3863df007faeb1aec50a3b59a
+  TESTING--VirtualMachine: a0bc24c4cff63e4d194d94dba2220cdc0c1569ac
+  daedalus-add-new-role: e5b1c3a50601d427fe1429355fd55d62eb3fc4cb
+  gitlab-dockerfile-version-argument: 0ef8e291d6dff550f3e2212414b37a56bb592e85
+  update-gitlab-to-10-1: 11553f1941a080576904831df69b7440b7bcf5ac
+  upgrade-gitlab-to-8.0.5: ff2a4b948a669c6c7826171210309ce85cea90bd
 Unapplied:
-  buildsystem-apache2-version-string: 6ce37dfb66c98e14a04116d1683b8de9cfb1aa46
-  buildsystem-limit-mysql-backups: daf8e96864459919a4514e281831b5e0b148fb26
-  exim4-configuration: 1ba205a7f2eac9f810b9327774ab7326c98834b9
-  exim4-dockerfile: 8e8d8c8920b4e57be1e39c07cc7d23c05707401d
-  exim4-ip-address: 46e39f442ea2b365c4736519b526667ff7fafeed
-  exim4-mailname: ded77153a74e8f09e94a33a71bb49288d859d004
-  exim4-always-update-configuration: 09621c2c976fa2b128cec7ec92c46e5596d8b238
-  exim4-install-key-crt: e7e5ff294ef942196d4b369d2f96e885ac2e6816
-  exim4-exec-account-script: 1593c153a8b6bd8d989c9b77211c0989c2e12fb3
-  exim4-logrotate-configuration: 94fa29b8b2be0c69939e92192e1cdafe46737ec8
-  ldap-add-phpldapadmin: 18c05e149dc6d9fd48c75577aa321b66c12abbfc
-  ssl-limit-scope: 4ab777c985691750e011e648846e54ce6ff56e76
-  svn-hotcopy: 64a71e1f45f9fa89d000dbac7ad721fa30b7d037
-  svn-allow-empty: 8ab26c1502988c9636e059451172f870c613946a
-  svn-create-required-directories: 39cfae06f92c384fbcee55c7f4d9b32f3d0c002a
-  wiki-downgrade-extensions: dc6a9a7c66d4067ab4eacb0b8bf2aa9096cea285
-  wiki-create-required-directories: cffcdd7a151f208489a750bfd7dd52bc9e5669f4
-  wiki-remove-libicu52: bdd2af14810ff14f2ce760951d01fa05ce034e11
-  wiki-update-entrypoint: ce920d1cddb26f3c4eda3b17123aa9466f8b720c
-  mantisbt-create-required-directories: 35a8b8dee05ad898552548b1c85570aa67a73986
-  mantisbt-remove-libicu52: 638302ec54be3a673a2307f620d53bf56732d3e6
-  mantisbt-update-entrypoint: 8e965927bb35c19c37de6f96e425c9256773420a
-  buildbot-master: 02060d6d45725c2ac430408203db8d43ddd4ffcb
-  builder-add-new-host: bd858a5f2e4ff21bf338667861399c8b297abb85
-  buildbot-worker-ntel: 23ec8f6b4726bd51eefa62f75d1af31c06b547af
-  buildbot-worker-ptxdist: 57bd243dc250e05ee4a36c75dc3f3f0253d67cc2
-  buildbot-fix-ssh-folder-permission: ad888e8045a433f0e231087d4e118cb15ab281c2
-  buildbot-update-ntel-builds: ea3a092e52a6231037b75388accfe5ada5982c6a
-  buildbot-parameterize-env: 142441008d4170617f30326507a1311137c0c80c
-  buildbot-update-ptxdist-builds: d0e79520e6425766a0c1858a8f1c927958b1442c
-  buildbot-image-entrypoint: c74e340040a8cb4b76828a51c6172a67ede45566
-  buildbot-dependencies: 4cd8e6c4a6dc6dcb99311b5e9739cd2a72947b32
-  buildbot-ssh-keygen: 38345360c7e427758c3b1dbd73f8ca5ded2cda9d
-  gitlab_user-create-role: a1312fdb105b4ac40a90b2232eef895b068695a3
-  gitlab_sshkey-create-role: 525f6c0d32444790c394e47a979effe679918403
-  TESTING--VirtualMachine: 38bae3a4bb174e4bc8bf0513e485d5b86486bc2e
-  daedalus-add-new-role: 24a294fca35136cc2926421cf6362ad32e97f100
-  gitlab-dockerfile-version-argument: 0b536913129b75711cdbe847ec95d7e48e7e10cf
-  update-gitlab-to-10-1: 96cf16c49ae30e95a0c37b763b0830d0c8fbb766
-  upgrade-gitlab-to-8.0.5: 96f4e5c0e1a75963063cd810e345cbc8b1a4120c
 Hidden:
