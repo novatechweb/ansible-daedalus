@@ -1,5 +1,5 @@
-Bottom: c348a52e4165027b9619a563b3c1af0dff97e5dd
-Top:    e6c2a20ae9361aede6e6dc080d50a8ab8f21edd1
+Bottom: 87cca875d196b1195b10fd2bab6ebc2da0fe0a20
+Top:    1a50dc7e997f3790eae009c1bb3b726a16c57a11
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 16:34:33 -0500
 
@@ -8,7 +8,7 @@ New role gitlab-sshkey
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 021b36ff..6fe93d99 100644
+index cb8c9ee8..f3214cd6 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -34,3 +34,34 @@
