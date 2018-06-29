@@ -1,6 +1,6 @@
 Version: 1
-Previous: f020b249122fbbe7662f01678a4b40280169b5ce
-Head: 7752fcd1220b15b890b4a479d8cb4e8a330b52cd
+Previous: a7a2baffde798958d74699f4c696e30fc8353fef
+Head: 6215a7c062c60cfda7f859cff87167d3cff9e3ba
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -59,6 +59,8 @@ Applied:
   mantisbt-remove-libicu52: ebfa8cbeb8b2b244af6432cf23012e32ec9d7aad
   mantisbt-update-entrypoint: c2c5695e0e9019fc571a98d310644619e4864409
   buildbot-master: 76a84aaaf04737738a9842e84a0e4e2471cf4e23
+  refresh-temp: 6215a7c062c60cfda7f859cff87167d3cff9e3ba
+Unapplied:
   builder-add-new-host: 65101cc669df520f870f5b419dbfd76db6afbb18
   buildbot-worker-ntel: e76f16bde6e85b49d8f3abfefd24acf11e5e2a9f
   buildbot-worker-ptxdist: e6f16fa02f6d061f4fabc8ce07ee2100e7dc387c
@@ -75,6 +77,4 @@ Applied:
   gitlab-dockerfile-version-argument: b79b7d32a8d5ef8ff0fe911bf418f88144eaa5ce
   update-gitlab-to-10-1: 46906ceb90f90d01c4ccc343d39ecac4614a0ade
   TESTING--VirtualMachine: 1d9738f3c62023fd983de86cc0450a2af07a9946
-  refresh-temp: 7752fcd1220b15b890b4a479d8cb4e8a330b52cd
-Unapplied:
 Hidden:
