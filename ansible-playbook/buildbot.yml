@@ -1,7 +1,7 @@
 ---
 
-- name: Install/Setup Docker images and containers
-  hosts: docker-hosts
+- name: Install/Setup Docker images and containers on Daedalus
+  hosts: daedalus
   become: true
   become_user: root
   become_method: sudo
@@ -22,7 +22,7 @@
       new_user_pass: "{{ lookup('password', '/dev/null') }}"
 
 - name: Setup Buildbot worker system
-  hosts: buildbot-worker
+  hosts: builder
   become: true
   become_user: root
   become_method: sudo
