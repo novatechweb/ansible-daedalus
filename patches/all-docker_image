@@ -1,5 +1,5 @@
-Bottom: 80856a6c2a000b398a3fda1729e32b951ed81a27
-Top:    ef5bf49fe98b1174205982512d4e3b3cf40c45e5
+Bottom: 8cd086816cc4c3df602b6db9845c97631e361541
+Top:    da004049361c9ff1e5dad25920b8f1e5e9b69cd8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-10 12:19:57 -0500
 
@@ -333,7 +333,7 @@ index 06f0a979..a2b696f8 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 4b3307d2..193767b9 100644
+index 8f9bbbc2..aa81c6ec 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -80,10 +80,11 @@

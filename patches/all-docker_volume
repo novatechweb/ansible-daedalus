@@ -1,5 +1,5 @@
 Bottom: 31a0f3630bf0d8e6044598b3d7427ef423e70329
-Top:    bd9aadf730d1c88afb04895bcb7d8b8478604b40
+Top:    28007256c9bd3960ce4ba1f3e18bb431eb0202d7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-26 13:08:23 -0500
 
@@ -167,10 +167,10 @@ index 3957c3a2..387e7adf 100644
  - name: stop prev container (postgres)
    docker_container:
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index f6125912..aec9c993 100644
+index f6125912..22479acc 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -85,67 +85,46 @@
+@@ -85,76 +85,77 @@
      image_tag: '{{ docker_image_tag }}'
      dockerfile_dir: '{{ docker_projects_dir }}/docker-mantisbt'
  
@@ -266,10 +266,11 @@ index f6125912..aec9c993 100644
  
  - name: start container (mysql)
    docker_container:
-@@ -154,7 +133,31 @@
+     name: '{{ mantisbt_db_container_name }}'
+     detach: true
      restart_policy: '{{ docker_restart_policy }}'
-     volumes_from:
-       - '{{ mantisbt_db_dv_name }}'
+-    volumes_from:
+-      - '{{ mantisbt_db_dv_name }}'
 -    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
 +    image: '{{ mantisbt_db_image_name }}'
 +    volumes:
@@ -299,7 +300,7 @@ index f6125912..aec9c993 100644
  
  - name: start container (mantisbt)
    docker_container:
-@@ -167,14 +170,14 @@
+@@ -167,14 +168,14 @@
        - '{{ openldap_container_name }}:mantisbt_ldap'
        - '{{ mantisbt_db_container_name }}:mantisbt_db'
        - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'

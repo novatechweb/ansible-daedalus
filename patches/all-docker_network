@@ -1,5 +1,5 @@
-Bottom: bd9aadf730d1c88afb04895bcb7d8b8478604b40
-Top:    80856a6c2a000b398a3fda1729e32b951ed81a27
+Bottom: 28007256c9bd3960ce4ba1f3e18bb431eb0202d7
+Top:    8cd086816cc4c3df602b6db9845c97631e361541
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-25 11:04:31 -0500
 
@@ -789,10 +789,10 @@ index 7e8179c4..29727bd9 100644
 +# the name of the sql database used by mantisbt
 +mantisbt_database_name: 'bugtracker'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index aec9c993..4b3307d2 100644
+index 22479acc..8f9bbbc2 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -142,6 +142,8 @@
+@@ -140,6 +140,8 @@
        MYSQL_ROOT_PASSWORD: '{{ mantisbt_db_root_password }}'
        MYSQL_USER: '{{ mantisbt_db_user }}'
        MYSQL_PASSWORD: '{{ mantisbt_db_password }}'
@@ -801,7 +801,7 @@ index aec9c993..4b3307d2 100644
  
  - name: wait for initialization to complete
    shell: >
-@@ -164,14 +166,12 @@
+@@ -162,14 +164,12 @@
      name: '{{ mantisbt_container_name }}'
      detach: true
      restart_policy: '{{ docker_restart_policy }}'
