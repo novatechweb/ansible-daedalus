@@ -1,5 +1,5 @@
 Bottom: 981b10de715fdc9409a1c59ca141e89b8c4f998e
-Top:    215d6a276bce3e8fdef7194476d083c98699af61
+Top:    22fee6c95765dc6576bb4dce15b9e2e5d4a34dcb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-29 14:05:26 -0500
 
@@ -46,6 +46,38 @@ index c306cadf..d476bf91 100644
  buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
+diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
+index f908c8f0..835ee49c 100644
+--- a/ansible-playbook/group_vars/docker-hosts/networking.yml
++++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
+@@ -47,3 +47,9 @@ phpldapadmin_port_args:
+ - "{{ phpldapadmin_ip_addr }}:443:443"
+ 
+ phpmyadmin_hostname: phpmyadmin.novatech-llc.com
++
++buildbot_hostname: ldap.novatech-llc.com
++buildbot_port_args:
++- "{{ buildbot_ip_addr }}:80:8080"
++- "{{ buildbot_ip_addr }}:443:8443"
++- "{{ buildbot_ip_addr }}:9989:9989"
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+index c6323198..5e2d2774 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+@@ -15,3 +15,4 @@ exim4_ip_addr:        172.16.0.107
+ openldap_ip_addr:     172.16.0.108
+ phpldapadmin_ip_addr: 172.16.0.108
+ phpmyadmin_ip_addr:   172.16.0.109
++buildbot_ip_addr:     172.16.0.110
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+index b3e366ce..aa95e93b 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+@@ -15,3 +15,4 @@ exim4_ip_addr:        172.16.103.107
+ openldap_ip_addr:     172.16.103.108
+ phpldapadmin_ip_addr: 172.16.103.108
+ phpmyadmin_ip_addr:   172.16.103.109
++buildbot_ip_addr:     172.16.103.110
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index 23b1a3d9..b839e1e3 100644
 --- a/ansible-playbook/site.yml
