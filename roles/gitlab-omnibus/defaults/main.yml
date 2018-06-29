@@ -23,6 +23,8 @@ gitlab_container_name: '{{ docker_name_prefix }}gitlab'
 # the name of the backup-volume used by the container
 gitlab_bv_name: '{{ docker_name_prefix }}gitlab_BV'
 gitlab_bv_mountpoint: '/mnt/backups'
+gitlab_backup_pattern_secrets: "*_{{gitlab_version}}_gitlab_etc.tgz"
+gitlab_backup_pattern_data: "*_{{gitlab_version}}_gitlab_backup.tar"
 
 # the name of the config-volume used by the container
 gitlab_cv_name: '{{ docker_name_prefix }}gitlab_CV'

@@ -7,7 +7,11 @@
 - name: find files
   find:
     path: '{{ gitlab_docker_restore_dir }}'
+    patterns:
+    - "{{gitlab_backup_pattern_secrets}}"
+    - "{{gitlab_backup_pattern_data}}"
     file_type: any
+    follow: yes
   register: gitlab_backup
 
 - name: data from tape
@@ -22,6 +26,9 @@
 - name: find files
   find:
     path: '{{ gitlab_docker_restore_dir }}'
+    patterns:
+    - "{{gitlab_backup_pattern_secrets}}"
+    - "{{gitlab_backup_pattern_data}}"
     file_type: any
     follow: yes
   register: gitlab_backup
@@ -50,32 +57,32 @@
   - unicorn
   - sidekiq
 
-- name: restore gitlab secrets
-  block:
+- block:
   - name: find gitlab secrets archive
     find:
       path: '{{ gitlab_docker_restore_dir }}'
-      pattern: "*_{{gitlab_version}}_gitlab_etc.tgz"
+      pattern: "{{gitlab_backup_pattern_secrets}}"
     register: backup_files
   - set_fact:
       backup_file: "{{gitlab_bv_mountpoint}}/{{backup_files.files[0]['path'] | basename}}"
     when: backup_files.matched > 0
-  - command: >
+  - name: restore gitlab secrets
+    command: >
       docker exec -t {{ gitlab_container_name }}
       /bin/sh -c 'tar vxzf "{{backup_file}}" -C /' 
     when: backup_files.matched > 0
 
-- name: restore gitlab data
-  block:
+- block:
   - name: find gitlab data archive
     find:
       path: '{{ gitlab_docker_restore_dir }}'
-      pattern: "*_{{gitlab_version}}_gitlab_backup.tar"
+      pattern: "{{gitlab_backup_pattern_data}}"
     register: backup_files
   - set_fact:
       backup_file: "{{gitlab_bv_mountpoint}}/{{backup_files.files[0]['path'] | basename | replace('_gitlab_backup.tar','')}}"
     when: backup_files.matched > 0
-  - command: >
+  - name: restore gitlab data
+    command: >
       docker exec -t {{ gitlab_container_name }}
       gitlab-rake gitlab:backup:restore force=yes BACKUP="{{backup_file}}"
     when: backup_files.matched > 0
