@@ -1,18 +1,9 @@
-Bottom: 77049c342d7ee1651010da7b67838f9db66921e5
-Top:    5f36ba21bd67a6dbcb12e5cc8359906230466ffb
+Bottom: 8d08fbeb30ab915cfac4714d71272fa1134ce238
+Top:    8d08fbeb30ab915cfac4714d71272fa1134ce238
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-29 14:13:37 -0500
 
 Refresh of builder-add-new-host
 
 ---
-diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index 9d77e053..8058586d 100644
---- a/ansible-playbook/staging
-+++ b/ansible-playbook/staging
-@@ -1,4 +1,4 @@
--buildbot-worker.novatech-llc.com ansible_host=127.0.0.1 ansible_port=20022 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/bbworker/virtualbox/private_key'
-+builder.novatech-llc.com ansible_host=127.0.0.1 ansible_port=20022 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/bbworker/virtualbox/private_key'
- 
- [bacula]
- testdaedalus.novatech-llc.com
+

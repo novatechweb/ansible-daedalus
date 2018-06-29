@@ -1,6 +1,6 @@
 Version: 1
-Previous: 902e81a5bbf248de09ccf6fd8efb86b0aaf2c9a4
-Head: e776eaebaae7cee3aa5d0726b9fa1d88c7673c51
+Previous: c96fd430ee37d9c5e7a1840217cb4c4c158e2f98
+Head: 69bc18d2ea834315a04d397d880504b9900e2099
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -60,6 +60,8 @@ Applied:
   mantisbt-update-entrypoint: c2c5695e0e9019fc571a98d310644619e4864409
   buildbot-master: f6e93e473e25da01c65654f4f6b4a402f62eba83
   builder-add-new-host: 77e0bfffc65c31ef1c797dffd9ef8005f26c5c08
+  refresh-temp: 69bc18d2ea834315a04d397d880504b9900e2099
+Unapplied:
   buildbot-worker-ntel: 9ef1980a4f6d0da87f4a36735d021579788ea1ff
   buildbot-worker-ptxdist: 1173ed7cca667001821d9f8a01a0c276336a8121
   buildbot-fix-ssh-folder-permission: ca33cdc7de711460225cd732640b22b435432252
@@ -75,6 +77,4 @@ Applied:
   gitlab-dockerfile-version-argument: eceb19bddd9180581f6b8aaf618040f287a8ae01
   update-gitlab-to-10-1: f8f6930ee9aca37a72c3586b6a84b10319d18397
   TESTING--VirtualMachine: eca2562a3bd75b36a5415cc700bf6e34f04a9163
-  refresh-temp: e776eaebaae7cee3aa5d0726b9fa1d88c7673c51
-Unapplied:
 Hidden:
