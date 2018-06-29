@@ -1,6 +1,6 @@
 Version: 1
-Previous: 911df2d30549f90ffa655d1d4d3e9fcc3184aefb
-Head: 77e0bfffc65c31ef1c797dffd9ef8005f26c5c08
+Previous: a0b6ba715a5c3f4a66b76d8389e411e5299bd409
+Head: 0c252202127bcd05e7930a7260f96e23437cce0e
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -60,17 +60,17 @@ Applied:
   mantisbt-update-entrypoint: c2c5695e0e9019fc571a98d310644619e4864409
   buildbot-master: f6e93e473e25da01c65654f4f6b4a402f62eba83
   builder-add-new-host: 77e0bfffc65c31ef1c797dffd9ef8005f26c5c08
+  buildbot-worker-ntel: 9ef1980a4f6d0da87f4a36735d021579788ea1ff
+  buildbot-worker-ptxdist: 1173ed7cca667001821d9f8a01a0c276336a8121
+  buildbot-fix-ssh-folder-permission: ca33cdc7de711460225cd732640b22b435432252
+  buildbot-update-ntel-builds: f738bc2f145ae89f5413f28cf1aa22563033c23f
+  buildbot-parameterize-env: 3b94625707cce239a686137b7262a3c8a6a1004b
+  buildbot-update-ptxdist-builds: ebfcf71f54d5a68c3f78b0d427f3481d2f053742
+  buildbot-image-entrypoint: 578b37757e2d659775678991fc8c9d1909b08bda
+  buildbot-dependencies: 864458eacf70d5be46c04080e2892b3a63b0c230
+  buildbot-ssh-keygen: cb1bf6c025e9031e9b90a279d7ffd71603f3a8b1
+  gitlab_user-create-role: 0c252202127bcd05e7930a7260f96e23437cce0e
 Unapplied:
-  buildbot-worker-ntel: e76f16bde6e85b49d8f3abfefd24acf11e5e2a9f
-  buildbot-worker-ptxdist: e6f16fa02f6d061f4fabc8ce07ee2100e7dc387c
-  buildbot-fix-ssh-folder-permission: 223901c8f9d70d6b0ccb075c2838157999936f04
-  buildbot-update-ntel-builds: 8820344dc90da43789b402e4c2fe1ea4584ce333
-  buildbot-parameterize-env: 7ce2ef544b9e558f4186a8ee7e2aeb2386ecba2b
-  buildbot-update-ptxdist-builds: 26f40394db30645d46362308930a20f43d624cb6
-  buildbot-image-entrypoint: 02d4e3f189fd8820399bfe8c829bda2e2ec7dad5
-  buildbot-dependencies: b6570a1c44148a7ff228f8beb22fbc2d40ec1b5b
-  buildbot-ssh-keygen: 433c94583ff6a4292a0473562b89782ed41b5fcc
-  gitlab_user-create-role: 2cc7a17125941bea5297da458189a13ebe6d79f2
   gitlab_sshkey-create-role: bd677ed4aebb56d3863df007faeb1aec50a3b59a
   daedalus-add-new-role: 27ea3fd5c25bef367ce7cd4f1fd3f8f02baf843f
   gitlab-dockerfile-version-argument: b79b7d32a8d5ef8ff0fe911bf418f88144eaa5ce
