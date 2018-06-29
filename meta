@@ -1,6 +1,6 @@
 Version: 1
-Previous: 886d85752738f5920e939996f131193e87bde6fb
-Head: 8388c22e193a0a14ce2769fe4db18b9bc09d857f
+Previous: eb483dcd16d742bd2083963a34792394dee2168c
+Head: cc71b32de94c298fd2f552402141b2b0bdfeb0bf
 Applied:
   all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
@@ -59,21 +59,21 @@ Applied:
   mantisbt-remove-libicu52: 543f73ef5e33652b6b46c2fd6eb62cd2d609442f
   mantisbt-update-entrypoint: b0560cad8bead07acccb4a4d6994ad78673c1395
   buildbot-master: 8388c22e193a0a14ce2769fe4db18b9bc09d857f
+  builder-add-new-host: 191b4d659b837d743b20660b0e2f901aa8423011
+  buildbot-worker-ntel: c8d21aef5b5b8b00ffd1e6d7d07b126750d0d079
+  buildbot-worker-ptxdist: 36c39a77e8e1a680b88f13fa3f5c4093ec556453
+  buildbot-fix-ssh-folder-permission: 44c02efb8b5c9bd2a8f62362d0aca994e9e64a47
+  buildbot-update-ntel-builds: 6ed5d828562d70fce8af621b6a28dc3ba092e74c
+  buildbot-parameterize-env: 3eafb20ac7a4a64897d3dfe4a14305a795f92c89
+  buildbot-update-ptxdist-builds: 5c9e6e484b5e430f7ecc1874f395a6e95e303435
+  buildbot-image-entrypoint: 3249b6c23fd197815f0b13019010a05f0338967e
+  buildbot-dependencies: 09f4f01d603bd7e7c794f5bfe3215146e8f784e5
+  buildbot-ssh-keygen: 52e9a931938abd018ab930636aef10b3c544afe6
+  gitlab_user-create-role: bd645fbb54b382b3719609184d9449f10bb160d9
+  gitlab_sshkey-create-role: 5dcbe37a9c60a6c971015f09e3ebfe3abec54d68
+  daedalus-add-new-role: 111ab642974bd772eb15c62fcf38741acb23f315
+  gitlab-dockerfile-version-argument: e870aa73e1c2886b67cb32686367cf70d2dc7968
+  update-gitlab-to-10-1: 6e75d0266533cff3e56de80ceeba5e2452e9b213
+  TESTING--VirtualMachine: cc71b32de94c298fd2f552402141b2b0bdfeb0bf
 Unapplied:
-  builder-add-new-host: 6058d0723e9d3dcb2240ec675e3807a36a33183e
-  buildbot-worker-ntel: 9ef1980a4f6d0da87f4a36735d021579788ea1ff
-  buildbot-worker-ptxdist: 1173ed7cca667001821d9f8a01a0c276336a8121
-  buildbot-fix-ssh-folder-permission: ca33cdc7de711460225cd732640b22b435432252
-  buildbot-update-ntel-builds: f738bc2f145ae89f5413f28cf1aa22563033c23f
-  buildbot-parameterize-env: 3b94625707cce239a686137b7262a3c8a6a1004b
-  buildbot-update-ptxdist-builds: ebfcf71f54d5a68c3f78b0d427f3481d2f053742
-  buildbot-image-entrypoint: 578b37757e2d659775678991fc8c9d1909b08bda
-  buildbot-dependencies: 864458eacf70d5be46c04080e2892b3a63b0c230
-  buildbot-ssh-keygen: cb1bf6c025e9031e9b90a279d7ffd71603f3a8b1
-  gitlab_user-create-role: 0c252202127bcd05e7930a7260f96e23437cce0e
-  gitlab_sshkey-create-role: 2518f29b03528170486a5e4cb373a6c14662b0c1
-  daedalus-add-new-role: 305d6fce1e56076d1f1097c4300db8ba7624eaf5
-  gitlab-dockerfile-version-argument: eceb19bddd9180581f6b8aaf618040f287a8ae01
-  update-gitlab-to-10-1: f8f6930ee9aca37a72c3586b6a84b10319d18397
-  TESTING--VirtualMachine: eca2562a3bd75b36a5415cc700bf6e34f04a9163
 Hidden:
