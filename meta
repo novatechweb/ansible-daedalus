@@ -1,8 +1,7 @@
 Version: 1
-Previous: 32b410e283ed61bb496d2077905823087fa86aa6
+Previous: 3b7aa27065b006d73fab94a00d8c11b0354bf15d
 Head: 63329328287c7335fa3a874325179f79bf380edf
 Applied:
-  all-ansible-2.4: 7688970da7f52d09e62542505d3ee685ffa535f0
   all-remove-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
   all-distribute-image-repo-checkout: 33e3ad0ed58e26f01eb5211c014a8c5d89b75251
   all-move-vars-to-defaults: 5b73b47b245d979f79d200a7594e0dd87c158bd6
