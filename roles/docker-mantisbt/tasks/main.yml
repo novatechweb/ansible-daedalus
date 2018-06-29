@@ -132,8 +132,6 @@
     name: '{{ mantisbt_db_container_name }}'
     detach: true
     restart_policy: '{{ docker_restart_policy }}'
-    volumes_from:
-      - '{{ mantisbt_db_dv_name }}'
     image: '{{ mantisbt_db_image_name }}'
     volumes:
       - '{{ mantisbt_db_cv_name }}:/etc/mysql/conf.d:z'
