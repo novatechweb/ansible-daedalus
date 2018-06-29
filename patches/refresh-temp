@@ -1,0 +1,88 @@
+Bottom: dd228e24d2e3d5dfc72b05c1e91227cb86561313
+Top:    2cbbb8c11a062831fa581f68a85cee8576048004
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-29 14:03:26 -0500
+
+Refresh of update-gitlab-to-10-1
+
+---
+diff --git a/roles/gitlab-omnibus/defaults/main.yml b/roles/gitlab-omnibus/defaults/main.yml
+index d8af28cb..0f97c3ac 100644
+--- a/roles/gitlab-omnibus/defaults/main.yml
++++ b/roles/gitlab-omnibus/defaults/main.yml
+@@ -23,6 +23,8 @@ gitlab_container_name: '{{ docker_name_prefix }}gitlab'
+ # the name of the backup-volume used by the container
+ gitlab_bv_name: '{{ docker_name_prefix }}gitlab_BV'
+ gitlab_bv_mountpoint: '/mnt/backups'
++gitlab_backup_pattern_secrets: "*_{{gitlab_version}}_gitlab_etc.tgz"
++gitlab_backup_pattern_data: "*_{{gitlab_version}}_gitlab_backup.tar"
+ 
+ # the name of the config-volume used by the container
+ gitlab_cv_name: '{{ docker_name_prefix }}gitlab_CV'
+diff --git a/roles/gitlab-omnibus/tasks/restore.yml b/roles/gitlab-omnibus/tasks/restore.yml
+index 45c26502..fc564206 100644
+--- a/roles/gitlab-omnibus/tasks/restore.yml
++++ b/roles/gitlab-omnibus/tasks/restore.yml
+@@ -7,7 +7,11 @@
+ - name: find files
+   find:
+     path: '{{ gitlab_docker_restore_dir }}'
++    patterns:
++    - "{{gitlab_backup_pattern_secrets}}"
++    - "{{gitlab_backup_pattern_data}}"
+     file_type: any
++    follow: yes
+   register: gitlab_backup
+ 
+ - name: data from tape
+@@ -22,6 +26,9 @@
+ - name: find files
+   find:
+     path: '{{ gitlab_docker_restore_dir }}'
++    patterns:
++    - "{{gitlab_backup_pattern_secrets}}"
++    - "{{gitlab_backup_pattern_data}}"
+     file_type: any
+     follow: yes
+   register: gitlab_backup
+@@ -50,32 +57,32 @@
+   - unicorn
+   - sidekiq
+ 
+-- name: restore gitlab secrets
+-  block:
++- block:
+   - name: find gitlab secrets archive
+     find:
+       path: '{{ gitlab_docker_restore_dir }}'
+-      pattern: "*_{{gitlab_version}}_gitlab_etc.tgz"
++      pattern: "{{gitlab_backup_pattern_secrets}}"
+     register: backup_files
+   - set_fact:
+       backup_file: "{{gitlab_bv_mountpoint}}/{{backup_files.files[0]['path'] | basename}}"
+     when: backup_files.matched > 0
+-  - command: >
++  - name: restore gitlab secrets
++    command: >
+       docker exec -t {{ gitlab_container_name }}
+       /bin/sh -c 'tar vxzf "{{backup_file}}" -C /' 
+     when: backup_files.matched > 0
+ 
+-- name: restore gitlab data
+-  block:
++- block:
+   - name: find gitlab data archive
+     find:
+       path: '{{ gitlab_docker_restore_dir }}'
+-      pattern: "*_{{gitlab_version}}_gitlab_backup.tar"
++      pattern: "{{gitlab_backup_pattern_data}}"
+     register: backup_files
+   - set_fact:
+       backup_file: "{{gitlab_bv_mountpoint}}/{{backup_files.files[0]['path'] | basename | replace('_gitlab_backup.tar','')}}"
+     when: backup_files.matched > 0
+-  - command: >
++  - name: restore gitlab data
++    command: >
+       docker exec -t {{ gitlab_container_name }}
+       gitlab-rake gitlab:backup:restore force=yes BACKUP="{{backup_file}}"
+     when: backup_files.matched > 0
