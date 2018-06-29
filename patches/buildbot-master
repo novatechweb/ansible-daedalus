@@ -1,21 +1,21 @@
 Bottom: 981b10de715fdc9409a1c59ca141e89b8c4f998e
-Top:    7c2d7837f1bf8b1e5e4529fa38d390463923d95b
+Top:    215d6a276bce3e8fdef7194476d083c98699af61
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-06-12 09:28:28 -0500
+Date:   2018-06-29 14:05:26 -0500
 
 Add buildbot role and new playbook
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
 new file mode 100644
-index 00000000..4d04b6bb
+index 00000000..68181dcc
 --- /dev/null
 +++ b/ansible-playbook/buildbot.yml
 @@ -0,0 +1,14 @@
 +---
 +
-+- name: Install/Setup Docker images and containers
-+  hosts: docker-hosts
++- name: Install/Setup Docker images and containers on Daedalus
++  hosts: daedalus
 +  become: true
 +  become_user: root
 +  become_method: sudo
