@@ -1,0 +1,22 @@
+Bottom: 7c2d7837f1bf8b1e5e4529fa38d390463923d95b
+Top:    215d6a276bce3e8fdef7194476d083c98699af61
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-29 14:05:21 -0500
+
+Refresh of refresh-temp
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 4d04b6bb..68181dcc 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -1,7 +1,7 @@
+ ---
+ 
+-- name: Install/Setup Docker images and containers
+-  hosts: docker-hosts
++- name: Install/Setup Docker images and containers on Daedalus
++  hosts: daedalus
+   become: true
+   become_user: root
+   become_method: sudo
