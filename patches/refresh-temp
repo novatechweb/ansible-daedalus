@@ -1,0 +1,31 @@
+Bottom: 2cbbb8c11a062831fa581f68a85cee8576048004
+Top:    e6a582ea3e369b6118e248527a5a8d60e7af06f0
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-06-29 14:04:14 -0500
+
+Refresh of buildbot-master
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 6fe93d99..43b8e380 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -1,7 +1,7 @@
+ ---
+ 
+-- name: Install/Setup Docker images and containers
+-  hosts: docker-hosts
++- name: Install/Setup Docker images and containers on Daedalus
++  hosts: daedalus
+   become: true
+   become_user: root
+   become_method: sudo
+@@ -22,7 +22,7 @@
+       new_user_pass: "{{ lookup('password', '/dev/null') }}"
+ 
+ - name: Setup Buildbot worker system
+-  hosts: buildbot-worker
++  hosts: builder
+   become: true
+   become_user: root
+   become_method: sudo
