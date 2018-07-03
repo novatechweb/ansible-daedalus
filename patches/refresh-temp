@@ -1,0 +1,49 @@
+Bottom: 7c0b88fca6f8290172bbc8dc99de2848d7edf131
+Top:    29e987890458b0c776bc222f860ae78940de84ca
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 16:22:31 -0500
+
+Refresh of add-new-module-docker_health
+
+---
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 4b5912f2..a2b696f8 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -171,12 +171,12 @@
+     image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: Wait for gitlab to be fully running
+-  docker_health:
+-    name: '{{ gitlab_container_name }}'
+-  register: health
+-  retries: 60
+-  delay: 5
+-  until: health.Health.Status == "healthy"
++  wait_for:
++    delay: 10
++    host: '{{ gitlab_network.ip_addr }}'
++    port: 22
++    state: started
++    timeout: 180
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
+index f553ff0c..b9f74ee0 100644
+--- a/roles/docker-gitlab/tasks/restore.yml
++++ b/roles/docker-gitlab/tasks/restore.yml
+@@ -41,14 +41,6 @@
+     chdir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/'
+   when: gitlab_backup.file_list != []
+ 
+-- name: Wait for gitlab to be fully running
+-  docker_health:
+-    name: '{{ gitlab_container_name }}'
+-  register: health
+-  retries: 60
+-  delay: 5
+-  until: health.Health.Status == "healthy"
+-
+ # *****************************************************************************
+ # cleanup
