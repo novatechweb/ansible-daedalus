@@ -1,0 +1,26 @@
+Bottom: 1e1302e9f95fa6212892030a756bb5da1070a2a1
+Top:    af8ad89c735637a5f8a0441f3aa0668c460890a6
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:45:04 -0500
+
+Fix exim4 logrotate configuration
+
+The logrotate configuration was selecting every file, causing the rotated
+copies to also be rotated, leading to an exponential growth of files.
+
+This fix limits the rotation to the actual log files, excluding copies.
+
+
+---
+diff --git a/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2 b/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
+index ca03e8e8..9100576b 100644
+--- a/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
++++ b/roles/docker-exim4/templates/dockercontainer.exim4.logrotate.j2
+@@ -1,6 +1,6 @@
+ # Docker container for exim4 logrotate script
+ 
+-{{ exim4_syslog_datavolume_dir }}/exim4/* {
++{{ exim4_syslog_datavolume_dir }}/exim4/*log {
+     daily
+     dateext
+     ifempty

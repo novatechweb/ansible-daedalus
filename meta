@@ -1,6 +1,6 @@
 Version: 1
-Previous: 7180cfc8670411845a5cdd4e75d74944df438878
-Head: df39564ac5af42b300e31297ffe1b556aab9bb48
+Previous: d7d684c8b00c5c0cabfc1e9f673aac0988992cad
+Head: 137043bfc720f0d1b83dd77ff4e26de6797af47e
 Applied:
   add-configuration-overrides: 94a0a6bb8234df4b30aa745b306487dddf2a69ce
   update-dockerfile: ccfc54099ee68377f74ab908acd8562c05f61e14
@@ -9,5 +9,6 @@ Applied:
   always-update-configuration-on: 1f36ce6323509c1b756391212c32b93a5413924b
   use-install-to-copy-key-and: c62fcd583b6c0085f402b333a758fe8a1b89e6f7
   exec-account-script-on-exim4: df39564ac5af42b300e31297ffe1b556aab9bb48
+  fix-exim4-logrotate: 137043bfc720f0d1b83dd77ff4e26de6797af47e
 Unapplied:
 Hidden:
