@@ -13,18 +13,6 @@
       src: /tmp/ansible_variables
       dest: "{{inventory_hostname}}_ansible_variables"
 
-- name: Symlink on-disk copies of bacula archives
-  hosts: bacula
-  remote_user: ansibleremote
-  become: true
-  become_user: root
-  become_method: sudo
-  roles: 
-  - name: Run bacula-restores symlinks
-    role: bacula-restores
-    tags:
-    - bacula_restores
-
 - name: Bacula
   hosts: bacula
   remote_user: ansibleremote
@@ -32,6 +20,10 @@
   become_user: root
   become_method: sudo
   roles:
+  - name: Create bacula-restores symlinks
+    role: bacula-restores
+    tags:
+    - bacula_restores
   - role: mariadb
     mariadb_open_firewall: true
     mariadb_remote_root_access: false
