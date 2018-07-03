@@ -1,0 +1,41 @@
+Bottom: 71d628526ed4795460654693dd8cf0862389a21e
+Top:    240703610dbce8a8d8e5401b38a35d7a40218513
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:24:03 -0500
+
+Small fixes to improve idempotency
+
+Generally, adding changed_when parameters or tweaking tasks to ensure changed
+statuses are reported correctly and tasks only run when needed.
+
+
+---
+diff --git a/roles/bacula-storage/tasks/main.yml b/roles/bacula-storage/tasks/main.yml
+index c7074630..ac4cc327 100644
+--- a/roles/bacula-storage/tasks/main.yml
++++ b/roles/bacula-storage/tasks/main.yml
+@@ -19,10 +19,13 @@
+     backup: yes
+ 
+ - name: Check if baculatape selinux module exists
+-  stat: path=/etc/selinux/targeted/modules/active/modules/baculatape.pp
++  command: semodule -l 
+   register: baculatape_pp
++  changed_when: false
++
+ - import_tasks: selinux-tape-policy.yml
+-  when: baculatape_pp.stat.exists is defined and baculatape_pp.stat.exists == false
++  when: "'baculatape\t1.0' not in baculatape_pp.stdout_lines"
++
+ - name: Make sure bacula user is in the tape group
+   user:
+     name: bacula
+@@ -30,6 +33,8 @@
+     append: yes
+ - name: Test Bacula Storage configuration
+   command: /usr/sbin/bacula-sd -t -c {{ bacula_storage_config_dir }}/bacula-sd.conf
++  changed_when: false
++
+ - name: Enable and start Bacula Storage
+   service:
+     name: bacula-sd

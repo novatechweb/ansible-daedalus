@@ -1,10 +1,11 @@
 Version: 1
-Previous: 3b4bd32ceb2fbcfdb048c41093a4cf14df988690
-Head: 123f55754a8366d5c0ee30c7e3b7396122e8732b
+Previous: fd6c2808fcbaf106e037e99664f29bf07d45fc86
+Head: 9110e07218ae2d5b8820510af0d4051eca514e4b
 Applied:
   fix-bacula-list-jobs-pexpect: fe9270190459e645bd4038050a4340b8b345c610
   remove-unused-pools: 315d8dbf17558fdd363d239fc1754a13c09d3c83
   force-sha256-fingerprint-check: 247567166d3d0a61de246617187026b13d7344ab
   improve-bacula-bootstrap: 123f55754a8366d5c0ee30c7e3b7396122e8732b
+  small-fixes-to-improve: 9110e07218ae2d5b8820510af0d4051eca514e4b
 Unapplied:
 Hidden:
