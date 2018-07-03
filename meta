@@ -1,7 +1,8 @@
 Version: 1
-Previous: 259f7785b7c11dc99be4f47f2fffa1cb11cc1c3b
-Head: 7aa16747aae41da1e19b2017cfaaccecec49fc62
+Previous: b469a5c3417f55a017c96a465e913864c08adb91
+Head: 59fff7c8f7c9e900369080770a3c3477a5be382f
 Applied:
   move-sshd-config-to-setup: 7aa16747aae41da1e19b2017cfaaccecec49fc62
+  create-new-role-sshd-for: 59fff7c8f7c9e900369080770a3c3477a5be382f
 Unapplied:
 Hidden:
