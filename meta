@@ -1,8 +1,9 @@
 Version: 1
-Previous: ea065ded703a1025ec57a276b1fb353d1d621eb5
-Head: 9513980af312b2896c3596602743c1388bf2505a
+Previous: 6d98d6ef9f73b5a7d9d5a44681285f867c842e18
+Head: c0690d0525ccdca374abd50a7fbf52bcc5892b7a
 Applied:
   downgrade-extension-to-1-23: a1539c87090772486ad2a1de5795491cc71c1f31
   create-certificate-directories-0: 9513980af312b2896c3596602743c1388bf2505a
+  remove-libicu52-from: c0690d0525ccdca374abd50a7fbf52bcc5892b7a
 Unapplied:
 Hidden:

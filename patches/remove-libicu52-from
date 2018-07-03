@@ -1,0 +1,25 @@
+Bottom: f3727ab278d80ae806030aa4309d8ded04d3bf83
+Top:    e42bf39703915d7647eb1009e45f80f950e7bc4e
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:45:06 -0500
+
+Remove libicu52 from Dockerfile
+
+Newest upstream versions of php:5.6-apache are based on debian stretch and 
+use libicu57, which is already installed. Besides this, libicu-dev would 
+already install libicuXX.
+
+
+---
+diff --git a/docker/docker-mediawiki/Dockerfile b/docker/docker-mediawiki/Dockerfile
+index 6aaefd61..54421165 100644
+--- a/docker/docker-mediawiki/Dockerfile
++++ b/docker/docker-mediawiki/Dockerfile
+@@ -13,7 +13,6 @@ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
+         git \
+         imagemagick \
+-        libicu52 \
+         libicu-dev \
+         libldap2-dev \
+     && \
