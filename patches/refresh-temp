@@ -1,0 +1,45 @@
+Bottom: 43fe26892289ed67b67c6d60e767a25ed5d67b41
+Top:    be39c0073dbf1cbdaa42bdf0f0df4247af0e2da4
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 13:37:54 -0500
+
+Refresh of fixup-add-buildbot-ntel-worker
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index e14b93b9..44af9333 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -21,6 +21,20 @@
+       new_user_email: buildbot@novatech-llc.com
+       new_user_pass: "{{ lookup('password', '/dev/null') }}"
+ 
++- name: Setup Buildbot worker system
++  hosts: builder
++  become: true
++  become_user: root
++  become_method: sudo
++  tags:
++  - buildbot
++  - buildbot-worker
++  vars:
++    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
++  roles:
++  - role: buildbot-worker-ntel
++  - role: buildbot-worker-ptxdist
++
+ - name: Gitlab public keys for buildbot containers
+   hosts: daedalus
+   become: true
+@@ -35,3 +49,11 @@
+       username: buildbot
+       pubkey: "{{ hostvars.buildbot_master.pubkey }}"
+       title: "buildbot_master"
++  - name: Add buildbot_worker_ntel pubkey to buildbot user
++    tags:
++    - buildbot
++    role: gitlab-sshkey
++    vars:
++      username: buildbot
++      pubkey: "{{ hostvars.buildbot_worker_ntel.pubkey }}"
++      title: "buildbot_worker_ntel"
