@@ -1,7 +1,8 @@
 Version: 1
-Previous: 0692d7b7ef0296122ddb00096f9689f68f360968
-Head: fe9270190459e645bd4038050a4340b8b345c610
+Previous: a40b2c37157e23445aa584cd60c7efc901337b3c
+Head: 315d8dbf17558fdd363d239fc1754a13c09d3c83
 Applied:
   fix-bacula-list-jobs-pexpect: fe9270190459e645bd4038050a4340b8b345c610
+  remove-unused-pools: 315d8dbf17558fdd363d239fc1754a13c09d3c83
 Unapplied:
 Hidden:
