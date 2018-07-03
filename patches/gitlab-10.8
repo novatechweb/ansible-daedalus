@@ -1,5 +1,5 @@
 Bottom: 30ad39569bf936b0dc5c40e13a3edff20e5115fa
-Top:    6d29d42a529305eee9ce083d3f7d91f2f774e33a
+Top:    73d4099ac61bc76a7511043f72d9eec90a48fc0b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 13:51:33 -0500
 
@@ -68,7 +68,7 @@ index 5e14d572..0f97c3ac 100644
  docker_network_frontend: 'frontend'
 +gitlab_config_dir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index a2b696f8..f09245f0 100644
+index a2b696f8..61f19ea8 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -21,7 +21,7 @@
@@ -80,7 +80,7 @@ index a2b696f8..f09245f0 100644
      owner: root
      group: root
      mode: 'u=rwx,g=rx,o=rx'
-@@ -49,137 +49,127 @@
+@@ -49,137 +49,117 @@
  # update the Docker restore config
  
  # contains the database username and password
@@ -177,20 +177,20 @@ index a2b696f8..f09245f0 100644
  
  # *****************************************************************************
 -# Start the data container running
-+# Create the gitlab container
- 
+-
 -- name: start container (redis)
-+- name: create container (gitlab)
-   docker_container:
+-  docker_container:
 -    name: '{{ gitlab_redis_container_name }}'
 -    detach: true
 -    restart_policy: '{{ docker_restart_policy }}'
 -    image: '{{ redis_image_name }}:{{ docker_image_tag }}'
 -    networks:
 -      - name: '{{ docker_network_frontend }}'
--
++# Create the gitlab container
+ 
 -- name: start container (postgres)
--  docker_container:
++- name: create container (gitlab)
+   docker_container:
 -    name: '{{ gitlab_db_container_name }}'
 +    name: '{{ gitlab_container_name }}'
      detach: true
@@ -248,22 +248,12 @@ index a2b696f8..f09245f0 100644
 -    port: 22
 -    state: started
 -    timeout: 180
-+  uri:
-+    url: 'https://{{ gitlab_hostname }}/users/sign_in'
-+  register: health
-+  retries: 10
-+  delay: 30
-+  until: health is success
-+  when: gitlab_version is version('8.17', '<')
-+
-+- name: Wait for a container to become healthy
 +  docker_health:
-+    name: "{{gitlab_container_name}}"
++    name: '{{ gitlab_container_name }}'
 +  register: health
-+  retries: 10
-+  delay: 30
++  retries: 60
++  delay: 5
 +  until: health.Health.Status == "healthy"
-+  when: gitlab_version is version('8.17', '>=')
  
  # *****************************************************************************
  # restore?
@@ -304,7 +294,7 @@ index a2b696f8..f09245f0 100644
 +  - gitlab_version is version('9.0', '>=')
 +  - gitlab_version is version('10.2', '<')
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index b9f74ee0..fc564206 100644
+index b9f74ee0..e01594c8 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
 @@ -5,8 +5,13 @@
@@ -341,7 +331,7 @@ index b9f74ee0..fc564206 100644
    register: gitlab_backup
  
  - name: File permissions
-@@ -33,13 +43,76 @@
+@@ -33,13 +43,84 @@
    with_items: '{{ gitlab_backup.file_list | default([]) }}'
  
  # *****************************************************************************
@@ -421,10 +411,18 @@ index b9f74ee0..fc564206 100644
 +       user.password="{{ gitlab_root_password }}";
 +       user.password_confirmation="{{ gitlab_root_password }}";
 +       user.save!'
++
++- name: Wait for gitlab to be fully running
++  docker_health:
++    name: '{{ gitlab_container_name }}'
++  register: health
++  retries: 60
++  delay: 5
++  until: health.Health.Status == "healthy"
  
  # *****************************************************************************
  # cleanup
-@@ -50,5 +123,5 @@
+@@ -50,5 +131,5 @@
      state: absent
  
  - name: State file
