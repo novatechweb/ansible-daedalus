@@ -1,7 +1,7 @@
 Version: 1
-Previous: cde96fdad9bf9543df09400f4b2ac7503f7c5840
-Head: 2304d926cff7cf9935a31aaefbfd1483dea13961
+Previous: 259f7785b7c11dc99be4f47f2fffa1cb11cc1c3b
+Head: 7aa16747aae41da1e19b2017cfaaccecec49fc62
 Applied:
-  move-sshd-config-to-setup: 2304d926cff7cf9935a31aaefbfd1483dea13961
+  move-sshd-config-to-setup: 7aa16747aae41da1e19b2017cfaaccecec49fc62
 Unapplied:
 Hidden:

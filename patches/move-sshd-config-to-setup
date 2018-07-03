@@ -3,7 +3,7 @@ Top:    f0ae3a0e2ea9312ba0434bd353e05181146f53db
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:40:48 -0500
 
-move-sshd-config-to-setup
+Move sshd config to new sshd role
 
 
 ---
