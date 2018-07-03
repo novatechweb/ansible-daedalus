@@ -1,0 +1,26 @@
+Bottom: bc73f6b1710a62a12060c044fdd2e76fd7bcddd4
+Top:    502572c0d2ca56a14a23f0757368e3fdb94a9852
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:46:51 -0500
+
+Update docker-entrypoint to call parent container's entrypoint
+    
+    After updating the parent image, our entrypoint wasn't setting some environment
+    variables correctly. Using the parent's entrypoint script after our setup
+    fixes this problem.
+
+
+---
+diff --git a/docker/docker-mantisbt/docker-entrypoint.sh b/docker/docker-mantisbt/docker-entrypoint.sh
+index c517f76a..2a948ac8 100755
+--- a/docker/docker-mantisbt/docker-entrypoint.sh
++++ b/docker/docker-mantisbt/docker-entrypoint.sh
+@@ -109,7 +109,7 @@ case ${1} in
+         # Apache gets grumpy about PID files pre-existing
+         rm -f /var/run/apache2/apache2.pid
+         # Start apache
+-        exec apache2 -D FOREGROUND
++        exec apache2-foreground
+         ;;
+ 
+     config_inc)
