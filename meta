@@ -1,6 +1,81 @@
 Version: 1
-Previous: 93e7651d17fdc4c8a99cefb22478b90a6dad575b
+Previous: b997bdaa23bfcd482f5dba1ecf0d5be961763d54
 Head: 9e9eb54363e3eba0c891c5be43ebfdd02a183bc5
 Applied:
+  updates-for-ansible-2-4-from-2: 7688970da7f52d09e62542505d3ee685ffa535f0
+  remove-role-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
+  move-git-checkouts-to: 33e3ad0ed58e26f01eb5211c014a8c5d89b75251
+  move-ansible-role-vars-to-role: 5b73b47b245d979f79d200a7594e0dd87c158bd6
+  normalize-variable-names: ae5b27b6261520ef4d08612b2447172705f12b05
+  use-ansible-docker_container: 16bfa8d7fe8cf4ea0d58080820dc68b81334f903
+  use-docker-named-volumes: 8dbf0734b74797fe7e6fa10aa4e14ec7b3b82e12
+  use-docker-named-networks: d7934b6cc30aae352a885c1e9d341e8eceb2e48d
+  use-ansible-docker_image: bd1a47ed375a2af50b2c5435399ddbbf53592002
+  cleanup-dependencies-between: 7dd6ab549dd355cf8ba0fdd655870d2876d53848
+  add-public-key-for-andrew: 413ee6bf19c62735ade0522a7099ade1c63f0a9a
+  remove-freeipa-virtual-machine: c192c55ad386a594a99e57bdadc3aae0afc4675b
+  make-bringup-sh-more-robust: 97f4a73cd4efcf003f11e7cb2dbeecfaa3fde8ab
+  remove-ansible-role-docker: caea4568df38356120332784a990fc4bc0b0e2cf
+  remove-ansible-role-docker-0: c96f792b93fd22ce5c564285bf3561df6e5d8826
+  create-new-play-for-docker: 3f5411d7b2c66c713b6f44fa7a6f57e61c233cc1
+  remove-variables-from: 4ad28b939cc42f2aee98c13a7bdbe384434e9628
+  fix-credential-copy-to-only: 7168c09182b9675cf0cde479f7e61e517126b5e8
+  add-new-module-docker_health: 149ee1715cd6a306eac4ebca2591b2c0533f6c16
+  fix-bacula-list-jobs-pexpect: 17d76204dc2a23676ea0de97012309efb19de7d4
+  remove-unused-pools: aa96fa17a9cea86916b352332bbf735a1a84bd69
+  force-sha256-fingerprint-check: cfd030230235663e336d30b2acbebf1812291960
+  improve-bacula-bootstrap: 18023d10a2b869b4c7809547a4b8a92ef399f23c
+  small-fixes-to-improve: cbfcf52744f2d03b7c795e0ea877824bb4b6e74d
+  update-python-docker-client: a426dd396624547d3b776a296f8e1febeba64408
+  install-latest-available: d9b23b241b4d5e2bfe8a4160e80e2f3ad1160e41
+  remove-backup-directory: 645ca84d30155e643303ef1324f2da04ee5b4e0b
+  remove-container-conf: 0f8db000b366a7de05e3d860020062425f291ae8
+  configure-docker-daemon: 597dfba1e44bbfafe0ab0293d53284b2cec66c09
+  enable-tcp-interface-of-docker: 310dcc31597acd47a316c73f6d1747d155738148
+  move-mariadb-config-to-maria: 740fe1728086dd617b41e258b016a4f2582910b3
+  fix-mariadb-bind-ip-address: 940109d29f1ac7d6fcfe8d80e24e3ea4a974613a
+  move-sshd-config-to-setup: aedf95a9dd4f4c10370f02a7f2da1cacf7f1be2c
+  create-new-role-sshd-for: 1ad11ae23ce2f844c3ca8b5876aa5eeac26555d2
+  update-apache2-version-string: 2595c30838527677875a65c109ebc0386eaec166
+  limit-mysql-backup-databases: dd7282c5a781c6674fe87e404916dfce20c41bde
+  add-configuration-overrides: 878cf752828c94ffe308732e661cf059e54b0314
+  update-dockerfile: 035bfae9513b35d5d5db26d7008fda97a6141e29
+  remove-local-interface: e61bc5f5d7525924bc545d18b8cf995ac1a7c0ca
+  no-need-to-delete-etc-mailname: 1a69758b76f524f83408e3e081baaa8740650f00
+  always-update-configuration-on: a664401603b1cf2c327340fc663f587a2c3f605c
+  use-install-to-copy-key-and: 819b10afc6aae2c9afa0f3c97d48001f5ca40451
+  exec-account-script-on-exim4: 4e40fb68a8d1443dc165dcd0c635e97dcfa0f796
+  fix-exim4-logrotate: e81ce0ddfa1dafa8eb8460179fbafcc8a22601f6
+  add-ldap-administration-docker: abbed66fb4625bb69ce4742f319aca92457c0418
+  update-dockerfile-and: 14e1cf91d91d21916961d69c8978710722eac43f
+  add-hotcopy-restore-commands: a80ad007f3cbae5b368539ddd47a952c7c354ba0
+  start-correctly-with-empty-svn: ed1878a2ea0dc122f4681a2e93186486b7b8e569
+  create-certificate-directories: b7d4635b0ea87f07f573530d18309d4a7409fef1
+  downgrade-extension-to-1-23: eab8155d6916c7b9bb737901ea34f6887ec64248
+  create-certificate-directories-0: f7e3059bca070c7e746e6c3fdc5e88933125e98e
+  remove-libicu52-from: d5bfbf2251447621071f3926df182a74861ebbb7
+  update-docker-entrypoint-to: 1f86c5d822dccc36ab115ac926fadd25c4c11ad3
+  create-certificate-directories-1: 4c7495a9449fb5b61800de06973574cfc3cc98ec
+  patch: 543f73ef5e33652b6b46c2fd6eb62cd2d609442f
+  patch-0: b0560cad8bead07acccb4a4d6994ad78673c1395
+  add-buildbot-role-and-new: 8388c22e193a0a14ce2769fe4db18b9bc09d857f
+  add-new-host-buildbot-worker: 191b4d659b837d743b20660b0e2f901aa8423011
+  add-buildbot-ntel-worker: c8d21aef5b5b8b00ffd1e6d7d07b126750d0d079
+  add-buildbot-ptxdist-worker: 36c39a77e8e1a680b88f13fa3f5c4093ec556453
+  fix-ssh-folder-permission: 44c02efb8b5c9bd2a8f62362d0aca994e9e64a47
+  update-ntel-builds-for-new: 6ed5d828562d70fce8af621b6a28dc3ba092e74c
+  add-environment-variables-for: 3eafb20ac7a4a64897d3dfe4a14305a795f92c89
+  update-ptxdist-build-factories: 5c9e6e484b5e430f7ecc1874f395a6e95e303435
+  use-original-buildbot: 3249b6c23fd197815f0b13019010a05f0338967e
+  install-buildbot-plugin: 09f4f01d603bd7e7c794f5bfe3215146e8f784e5
+  generate-new-ssh-key-on-first: 52e9a931938abd018ab930636aef10b3c544afe6
+  new-role-gitlab-user: bd645fbb54b382b3719609184d9449f10bb160d9
+  new-role-gitlab-sshkey: 5dcbe37a9c60a6c971015f09e3ebfe3abec54d68
+  add-new-role-to-configure: 111ab642974bd772eb15c62fcf38741acb23f315
+  add-a-version-argument-to-the: e870aa73e1c2886b67cb32686367cf70d2dc7968
+  update-gitlab-to-10-1: 6e75d0266533cff3e56de80ceeba5e2452e9b213
+  add-vmdaedalus-inventory: 63329328287c7335fa3a874325179f79bf380edf
+  fixup-add-buildbot-ntel-worker: e40c05e8b1f7c31f6734d60944ad87b5af17aa42
+  parameterize-uris: 9e9eb54363e3eba0c891c5be43ebfdd02a183bc5
 Unapplied:
 Hidden:

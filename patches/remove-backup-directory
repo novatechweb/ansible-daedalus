@@ -1,0 +1,54 @@
+Bottom: e65d216d2f2a35f5563894bdfd9704c565372cf9
+Top:    3d07183656a51afdbebc7580c5d27ff351e97177
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+Remove backup directory creation
+
+Roles create their own backup directories
+
+
+---
+diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
+index fafbba3a..396b842c 100644
+--- a/roles/docker-common/tasks/main.yml
++++ b/roles/docker-common/tasks/main.yml
+@@ -8,15 +8,6 @@
+ - import_tasks: sshd_settings.yml
+ - import_tasks: mariadb_settings.yml
+ 
+-- name: restores base dir
+-  file:
+-    state: directory
+-    path: '{{ docker_restore_dir }}'
+-    owner: root
+-    group: tape
+-    mode: 'u=rwx,g=rwx,o=rx'
+-    recurse: no
+-
+ - name: base docker_container.conf dir
+   file:
+     state: directory
+@@ -34,22 +25,3 @@
+ 
+ - include_tasks: selinux-backula-policy.yml
+   when: (docker_bacula_pp.stat.exists is defined) and (docker_bacula_pp.stat.exists == false)
+-
+-# *****************************************************************************
+-# backup script part
+-#   Docker backup script parts should be between 50 and 59
+-
+-- name: Assemble dir for backup scripts
+-  file:
+-    path: /usr/libexec/bacula/backup-scripts
+-    state: directory
+-
+-- name: Create before_backup script
+-  template:
+-    src: before_backup.j2
+-    dest: /usr/libexec/bacula/backup-scripts/50.before_backup.docker
+-
+-- name: Create after_backup script
+-  template:
+-    src: after_backup.j2
+-    dest: /usr/libexec/bacula/backup-scripts/59.after_backup.docker

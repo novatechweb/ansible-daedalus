@@ -1,0 +1,92 @@
+Bottom: 47de4fa0f4cd24bfca216058923504f7ab377d32
+Top:    ba315419e1a4498b1dd3007395513b406f0a53f8
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-17 16:14:44 -0500
+
+Create new role sshd for configuring ssh server daemon
+
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 0727917d..23b1a3d9 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -26,6 +26,10 @@
+   become_user: root
+   become_method: sudo
+   roles:
++  - name: Setup SSH Daemon
++    role: sshd
++    tags:
++    - sshd
+   - name: Run common Docker tasks
+     role: docker-common
+     tags:
+diff --git a/roles/setup-remote-user/tasks/main.yml b/roles/setup-remote-user/tasks/main.yml
+index ed59a082..a4b3c797 100644
+--- a/roles/setup-remote-user/tasks/main.yml
++++ b/roles/setup-remote-user/tasks/main.yml
+@@ -32,24 +32,3 @@
+     line: 'ansibleremote ALL=(ALL) NOPASSWD: ALL'
+     regexp: 'ansibleremote ALL=(ALL) NOPASSWD: ALL'
+     state: present
+-
+-- name: lockdown root user
+-  lineinfile:
+-    dest: /etc/ssh/sshd_config
+-    regexp: '^[#]?PermitRootLogin .*$'
+-    line: 'PermitRootLogin no'
+-    state: present
+-
+-- name: Set ssh ListenAddress
+-  lineinfile:
+-    dest: /etc/ssh/sshd_config
+-    regexp: '^[#]ListenAddress .*$'
+-    replace: 'ListenAddress {{ ansible_br0["ipv4"]["address"] }}'
+-  when: 
+-    - ansible_os_family == "RedHat"
+-    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+-
+-- name: restart sshd service
+-  service:
+-    name: sshd
+-    state: restarted
+diff --git a/roles/sshd/defaults/main.yml b/roles/sshd/defaults/main.yml
+new file mode 100644
+index 00000000..b3fdd80f
+--- /dev/null
++++ b/roles/sshd/defaults/main.yml
+@@ -0,0 +1,2 @@
++---
++# defaults file for sshd
+\ No newline at end of file
+diff --git a/roles/sshd/tasks/main.yml b/roles/sshd/tasks/main.yml
+new file mode 100644
+index 00000000..6ed31b96
+--- /dev/null
++++ b/roles/sshd/tasks/main.yml
+@@ -0,0 +1,24 @@
++---
++# tasks file for sshd
++
++- name: lockdown root user
++  lineinfile:
++    dest: /etc/ssh/sshd_config
++    regexp: '^[#]?PermitRootLogin .*$'
++    line: 'PermitRootLogin no'
++    state: present
++
++- name: Set ssh ListenAddress
++  lineinfile:
++    dest: /etc/ssh/sshd_config
++    regexp: '^[#]ListenAddress .*$'
++    line: 'ListenAddress {{ ansible_default_ipv4["address"] }}'
++  when: 
++    - ansible_os_family == "RedHat"
++    - ansible_default_ipv4 is defined
++    - ansible_default_ipv4.address is defined
++
++- name: restart sshd service
++  service:
++    name: sshd
++    state: restarted

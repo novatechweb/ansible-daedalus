@@ -1,0 +1,22 @@
+Bottom: 3194ee1e0072ff534efb766e1724d26f65126610
+Top:    8bc8ede9c51fb794018e42d300e4dfab71241c41
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-05-10 12:19:58 -0500
+
+No need to delete /etc/mailname before overwrite
+
+
+---
+diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
+index e6fb458d..8d9d35cb 100755
+--- a/docker/docker-exim4/docker-entrypoint.sh
++++ b/docker/docker-exim4/docker-entrypoint.sh
+@@ -25,8 +25,6 @@ case ${1} in
+           && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
+         then
+             # set the hostname
+-            [ -e /etc/mailname ] \
+-                && rm -rf /etc/mailname
+             echo "${HOSTNAME}" > /etc/mailname
+             # copy certificate
+             [ -e /etc/ssl/private/exim.crt ] \
