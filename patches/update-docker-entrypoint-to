@@ -1,0 +1,29 @@
+Bottom: e42bf39703915d7647eb1009e45f80f950e7bc4e
+Top:    c9d8b3e5e9355a9a7dba80a3f8b12e0ada118bb8
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:45:07 -0500
+
+Update docker-entrypoint to call parent container's entrypoint
+
+After updating the parent image, our entrypoint wasn't setting some environment
+variables correctly. Using the parent's entrypoint script after our setup
+fixes this problem.
+
+
+---
+diff --git a/docker/docker-mediawiki/docker-entrypoint.sh b/docker/docker-mediawiki/docker-entrypoint.sh
+index 0e8fc7e2..ff93cb5c 100755
+--- a/docker/docker-mediawiki/docker-entrypoint.sh
++++ b/docker/docker-mediawiki/docker-entrypoint.sh
+@@ -108,10 +108,8 @@ case ${1} in
+     wiki)
+         # verify permissions
+         chown -R www-data:www-data ${WIKI_BASE_DIR}
+-        # Apache gets grumpy about PID files pre-existing
+-        rm -f /var/run/apache2/apache2.pid
+         # Start apache
+-        exec apache2 -D FOREGROUND
++        exec apache2-foreground
+         ;;
+ 
+     LocalSettings)
