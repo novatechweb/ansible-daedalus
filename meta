@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: cad85c319bcfbd7d5d4d82245cf50ced2790cfd7
+Previous: 3705e08cb2404c3b22ad273dc5d54bab38a10fcf
+Head: 56eaa3898d3bbd3b2c603ea6bde3fb5e026611ca
 Applied:
+  new-role-gitlab-sshkey: 56eaa3898d3bbd3b2c603ea6bde3fb5e026611ca
 Unapplied:
 Hidden:
