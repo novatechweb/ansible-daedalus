@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 87b33bb7de7bdde8a499e5c74b38ba2c45396145
+Previous: 73196324bf4a430a0a19523f296b6620f8c948a5
+Head: 2e4904d0951fb60f702fc4d4150ec39589946a78
 Applied:
+  remove-variables-from: 2e4904d0951fb60f702fc4d4150ec39589946a78
 Unapplied:
 Hidden:

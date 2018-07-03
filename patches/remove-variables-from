@@ -1,0 +1,70 @@
+Bottom: a1075f711913c3dabe99d49231310260bab3ca49
+Top:    ad0041200e5cf8c1b31e9052fe40b992c41f8221
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:24:01 -0500
+
+Remove variables from credential file paths.
+
+Unnecessary, and was causing issues with recursively created
+directories of credentials.
+
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 534a0a67..c306cadf 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -1,20 +1,20 @@
+ ---
+ # passwords
+-openldap_admin_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + openldap_hostname + "/cn=admin,dc=novatech length=20") }}'
+-openldap_proxyagent_password:        '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + openldap_hostname + "/cn=proxyagent,dc=novatech length=20") }}'
+-wiki_db_root_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_hostname + "/db/root length=20") }}'
+-wiki_db_password:                    '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_hostname + "/db/" + wiki_db_user + " length=20") }}'
+-wiki_email_password:                 '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + wiki_hostname + "/email/wiki@novatech-llc.com length=20") }}'
+-gitlab_db_password:                  '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_hostname + "/db/" + gitlab_db_user + " length=20") }}'
+-gitlab_root_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_hostname + "/users/root length=20") }}'
+-gitlab_email_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_hostname + "/email/gitlab@novatech-llc.com length=20") }}'
+-gitlab_secrets_db_key_base:          '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + gitlab_hostname + "/key/GITLAB_SECRETS_DB_KEY_BASE length=40") }}'
+-mantisbt_db_root_password:           '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_hostname + "/db/root length=20") }}'
+-mantisbt_db_password:                '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_hostname + "/db/" + mantisbt_db_user + " length=20") }}'
+-mantisbt_email_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/" + mantisbt_hostname + "/email/mantis@novatech-llc.com length=20") }}'
+-buildsystem_ssh_prod_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/prod length=20") }}'
+-buildsystem_ssh_root_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/root length=20") }}'
+-buildsystem_database_root_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/root length=20") }}'
+-buildsystem_database_build_password: '{{ lookup("file",     inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/readuser") }}'
+-svn_username:                        '{{ lookup("file",     inventory_dir + "/personal_credentials/svn/username") }}'
+-svn_password:                        '{{ lookup("file",     inventory_dir + "/personal_credentials/svn/password") }}'
++buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
++buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
++buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
++buildsystem_ssh_root_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/root"                , length=20) }}'
++gitlab_db_password:                  '{{ lookup("password", playbook_dir + "/credentials/git/db/user"                         , length=20) }}'
++gitlab_email_password:               '{{ lookup("password", playbook_dir + "/credentials/git/email/gitlab@novatech-llc.com"   , length=20) }}'
++gitlab_root_password:                '{{ lookup("password", playbook_dir + "/credentials/git/users/root"                      , length=20) }}'
++gitlab_secrets_db_key_base:          '{{ lookup("password", playbook_dir + "/credentials/git/key/GITLAB_SECRETS_DB_KEY_BASE"  , length=40) }}'
++mantisbt_db_password:                '{{ lookup("password", playbook_dir + "/credentials/mantis/db/user"                      , length=20) }}'
++mantisbt_db_root_password:           '{{ lookup("password", playbook_dir + "/credentials/mantis/db/root"                      , length=20) }}'
++mantisbt_email_password:             '{{ lookup("password", playbook_dir + "/credentials/mantis/email/mantis@novatech-llc.com", length=20) }}'
++openldap_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/openldap/cn=admin,dc=novatech"       , length=20) }}'
++openldap_proxyagent_password:        '{{ lookup("password", playbook_dir + "/credentials/openldap/cn=proxyagent,dc=novatech"  , length=20) }}'
++svn_password:                        '{{ lookup("password", playbook_dir + "/credentials/svn/ansible"                         , length=20) }}'
++svn_username:                        'ansible'
++wiki_db_password:                    '{{ lookup("password", playbook_dir + "/credentials/wiki/db/user"                        , length=20) }}'
++wiki_db_root_password:               '{{ lookup("password", playbook_dir + "/credentials/wiki/db/root"                        , length=20) }}'
++wiki_email_password:                 '{{ lookup("password", playbook_dir + "/credentials/wiki/email/wiki@novatech-llc.com"    , length=20) }}'
+diff --git a/ansible-playbook/group_vars/bacula/credentials.yml b/ansible-playbook/group_vars/bacula/credentials.yml
+index e0a390a3..06898dc5 100644
+--- a/ansible-playbook/group_vars/bacula/credentials.yml
++++ b/ansible-playbook/group_vars/bacula/credentials.yml
+@@ -1,6 +1,6 @@
+ ---
+ # passwords
+-mariadb_root_password:               '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/mariadb/root length=20") }}'
+-bacula_director_password:            '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/bacula/director length=20") }}'
+-bacula_monitor_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/bacula/monitor length=20") }}'
+-mariadb_bacula_password:             '{{ lookup("password", inventory_dir + "/credentials/" + inventory_hostname + "/bacula/mariadb length=20") }}'
++mariadb_root_password:               '{{ lookup("password", playbook_dir + "/credentials/mariadb/root"   , length=20) }}'
++bacula_director_password:            '{{ lookup("password", playbook_dir + "/credentials/bacula/director", length=20) }}'
++bacula_monitor_password:             '{{ lookup("password", playbook_dir + "/credentials/bacula/monitor" , length=20) }}'
++mariadb_bacula_password:             '{{ lookup("password", playbook_dir + "/credentials/bacula/mariadb" , length=20) }}'
