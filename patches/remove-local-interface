@@ -1,0 +1,26 @@
+Bottom: 9dcb8f2a20abb067772e09d8287da09597adea79
+Top:    543f20c60682e6847151071b999d1a0b438cdb4e
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:45:02 -0500
+
+Remove local interface configuration
+
+exim4 container will listen on all interfaces available within
+the container.
+
+
+---
+diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
+index c6290553..e6fb458d 100755
+--- a/docker/docker-exim4/docker-entrypoint.sh
++++ b/docker/docker-exim4/docker-entrypoint.sh
+@@ -28,9 +28,6 @@ case ${1} in
+             [ -e /etc/mailname ] \
+                 && rm -rf /etc/mailname
+             echo "${HOSTNAME}" > /etc/mailname
+-            # set local IP addr
+-            LOCAL_IP_ADDR=$(grep "[ \t]*${HOSTNAME}[ \t]*" /etc/hosts|cut -f 1)
+-            sed -i 's|dc_local_interfaces=.*|dc_local_interfaces='"'${LOCAL_IP_ADDR}'"'|' ${CONFIG_PATH}/update-exim4.conf.conf
+             # copy certificate
+             [ -e /etc/ssl/private/exim.crt ] \
+                 && rm -f ${CONFIG_PATH}/exim.crt \
