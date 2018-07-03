@@ -1,8 +1,7 @@
 Version: 1
-Previous: c652a5cd40372885fca77a6207ed62311ab66401
-Head: d35a117edd5aebb822a9c210e606b40314b89d9c
+Previous: 7ffed4aefc8da8da60e789b3c59e1186ef564c10
+Head: 5a8e08eeaa7fe0d092b4d2eb551454743998f813
 Applied:
-  new-role-gitlab-sshkey: 9d6aa2b2aa4c4cff3b0ef48acd5cb87eec970d06
-  refresh-temp: d35a117edd5aebb822a9c210e606b40314b89d9c
+  new-role-gitlab-sshkey: 5a8e08eeaa7fe0d092b4d2eb551454743998f813
 Unapplied:
 Hidden:
