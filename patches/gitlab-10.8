@@ -1,5 +1,5 @@
 Bottom: 30ad39569bf936b0dc5c40e13a3edff20e5115fa
-Top:    73d4099ac61bc76a7511043f72d9eec90a48fc0b
+Top:    93099a04996dda0b880cd163ca5b107687f7e1fd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-22 13:51:33 -0500
 
@@ -68,7 +68,7 @@ index 5e14d572..0f97c3ac 100644
  docker_network_frontend: 'frontend'
 +gitlab_config_dir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index a2b696f8..61f19ea8 100644
+index a2b696f8..ac60a54b 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -21,7 +21,7 @@
@@ -80,7 +80,7 @@ index a2b696f8..61f19ea8 100644
      owner: root
      group: root
      mode: 'u=rwx,g=rx,o=rx'
-@@ -49,137 +49,117 @@
+@@ -49,137 +49,103 @@
  # update the Docker restore config
  
  # contains the database username and password
@@ -104,8 +104,8 @@ index a2b696f8..61f19ea8 100644
      get_checksum: False
      get_md5: False
    register: st_gitlab_restore
- 
- # *****************************************************************************
+-
+-# *****************************************************************************
 -# Update or make the image.
 -
 -- name: Checkout image repo
@@ -134,12 +134,7 @@ index a2b696f8..61f19ea8 100644
 -#    image_tag: '{{ docker_image_tag }}'
 -#    dockerfile_dir: '{{ docker_projects_dir }}/docker-gitlab'
 -#    force: "{{ docker_image_force_build }}"
-+# upgrade?
-+
-+- include_tasks: upgrade.yml
-+  when:
-+  - upgrade
- 
+-
  # *****************************************************************************
  # Create the data volumes
  
@@ -287,12 +282,6 @@ index a2b696f8..61f19ea8 100644
 +  retries: 10
 +  delay: 30
 +  until: check is success
-+
-+- name: Ensure merge request commits are fetched
-+  include_tasks: fetch_merge_requests.yml
-+  when: 
-+  - gitlab_version is version('9.0', '>=')
-+  - gitlab_version is version('10.2', '<')
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
 index b9f74ee0..e01594c8 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
