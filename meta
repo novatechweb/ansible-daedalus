@@ -1,8 +1,9 @@
 Version: 1
-Previous: a40b2c37157e23445aa584cd60c7efc901337b3c
-Head: 315d8dbf17558fdd363d239fc1754a13c09d3c83
+Previous: e81d0871eb2589e89bd3894def8f81392137a1cf
+Head: 247567166d3d0a61de246617187026b13d7344ab
 Applied:
   fix-bacula-list-jobs-pexpect: fe9270190459e645bd4038050a4340b8b345c610
   remove-unused-pools: 315d8dbf17558fdd363d239fc1754a13c09d3c83
+  force-sha256-fingerprint-check: 247567166d3d0a61de246617187026b13d7344ab
 Unapplied:
 Hidden:
