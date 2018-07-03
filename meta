@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 424ee71491148467f673c3b8d60fd8a9dd7d7a43
+Previous: f1994f876caca811b10a30d2bb7841ec3eced394
+Head: 79f608af01eb424fb0abac793c42ad5eee334b0e
 Applied:
+  updates-for-ansible-2-4-from-2: 79f608af01eb424fb0abac793c42ad5eee334b0e
 Unapplied:
 Hidden:
