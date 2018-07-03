@@ -18,5 +18,4 @@
     name: "{{ name_prefix }}teststation_supportsite_backup_restore_image"
     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.Backup_Restore.dir_name }}"
     state: "{{ image_build_state_nondata }}"
-
-
+    force: "{{ docker_image_force_build }}"
