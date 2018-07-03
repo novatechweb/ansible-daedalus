@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 424ee71491148467f673c3b8d60fd8a9dd7d7a43
+Previous: a171da48b8e9648a8e5ae48611e1df589031c4f4
+Head: d7bdc05e0f53474602bbd246bc2be99cd73053a1
 Applied:
+  make-bringup-sh-more-robust: d7bdc05e0f53474602bbd246bc2be99cd73053a1
 Unapplied:
 Hidden:
