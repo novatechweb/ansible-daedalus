@@ -1,7 +1,8 @@
 Version: 1
-Previous: 73196324bf4a430a0a19523f296b6620f8c948a5
-Head: 2e4904d0951fb60f702fc4d4150ec39589946a78
+Previous: 27072594df664a596f2c629f5f4503c6d0f79fda
+Head: 033b92c94c4951c8980fa5bfc1dc0eee49370ceb
 Applied:
   remove-variables-from: 2e4904d0951fb60f702fc4d4150ec39589946a78
+  fix-credential-copy-to-only: 033b92c94c4951c8980fa5bfc1dc0eee49370ceb
 Unapplied:
 Hidden:
