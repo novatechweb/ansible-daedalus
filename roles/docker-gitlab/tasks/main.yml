@@ -171,12 +171,12 @@
     image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
 
 - name: Wait for gitlab to be fully running
-  docker_health:
-    name: '{{ gitlab_container_name }}'
-  register: health
-  retries: 60
-  delay: 5
-  until: health.Health.Status == "healthy"
+  wait_for:
+    delay: 10
+    host: '{{ gitlab_network.ip_addr }}'
+    port: 22
+    state: started
+    timeout: 180
 
 # *****************************************************************************
 # restore?
