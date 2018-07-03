@@ -63,14 +63,6 @@
     get_checksum: False
     get_md5: False
   register: st_gitlab_restore
-
-# *****************************************************************************
-# upgrade?
-
-- include_tasks: upgrade.yml
-  when:
-  - upgrade
-
 # *****************************************************************************
 # Create the data volumes
 
@@ -157,9 +149,3 @@
   retries: 10
   delay: 30
   until: check is success
-
-- name: Ensure merge request commits are fetched
-  include_tasks: fetch_merge_requests.yml
-  when: 
-  - gitlab_version is version('9.0', '>=')
-  - gitlab_version is version('10.2', '<')
