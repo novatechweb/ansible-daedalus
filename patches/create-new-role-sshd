@@ -1,10 +1,11 @@
-Bottom: f0ae3a0e2ea9312ba0434bd353e05181146f53db
+Bottom: 30ad39569bf936b0dc5c40e13a3edff20e5115fa
 Top:    8273f6c0487a99ec12a485c9fc8e2027168a132b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:42:38 -0500
+Date:   2018-07-03 08:44:06 -0500
 
 Create new role sshd for configuring ssh server daemon
 
+Move sshd config to new sshd role
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
@@ -22,11 +23,49 @@ index 0727917d..23b1a3d9 100644
    - name: Run common Docker tasks
      role: docker-common
      tags:
+diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
+index bc8aac33..4253655f 100644
+--- a/roles/docker-common/tasks/main.yml
++++ b/roles/docker-common/tasks/main.yml
+@@ -5,7 +5,6 @@
+   when: ansible_os_family == "RedHat"
+ 
+ - import_tasks: packages.yml
+-- import_tasks: sshd_settings.yml
+ - import_tasks: mariadb_settings.yml
+ 
+ - import_tasks: configure.yml
+diff --git a/roles/docker-common/tasks/sshd_settings.yml b/roles/docker-common/tasks/sshd_settings.yml
+deleted file mode 100644
+index 933c7f23..00000000
+--- a/roles/docker-common/tasks/sshd_settings.yml
++++ /dev/null
+@@ -1,20 +0,0 @@
+----
+-# file: roles/docker-common/tasks/sshd_settings.yaml
+-
+-- name: Set ssh ListenAddress
+-  replace:
+-    dest: /etc/ssh/sshd_config
+-    regexp: '#ListenAddress 0.0.0.0'
+-    replace: 'ListenAddress {{ ansible_br0["ipv4"]["address"] }}'
+-    backup: yes
+-  when: 
+-    - ansible_os_family == "RedHat"
+-    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+-
+-- name: Restart sshd server
+-  service:
+-    name: sshd
+-    state: restarted
+-  when: 
+-    - ansible_os_family == "RedHat"
+-    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
 diff --git a/roles/setup-remote-user/tasks/main.yml b/roles/setup-remote-user/tasks/main.yml
-index ed59a082..a4b3c797 100644
+index 11e5abd2..a4b3c797 100644
 --- a/roles/setup-remote-user/tasks/main.yml
 +++ b/roles/setup-remote-user/tasks/main.yml
-@@ -32,24 +32,3 @@
+@@ -32,15 +32,3 @@
      line: 'ansibleremote ALL=(ALL) NOPASSWD: ALL'
      regexp: 'ansibleremote ALL=(ALL) NOPASSWD: ALL'
      state: present
@@ -37,15 +76,6 @@ index ed59a082..a4b3c797 100644
 -    regexp: '^[#]?PermitRootLogin .*$'
 -    line: 'PermitRootLogin no'
 -    state: present
--
--- name: Set ssh ListenAddress
--  lineinfile:
--    dest: /etc/ssh/sshd_config
--    regexp: '^[#]ListenAddress .*$'
--    replace: 'ListenAddress {{ ansible_br0["ipv4"]["address"] }}'
--  when: 
--    - ansible_os_family == "RedHat"
--    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
 -
 -- name: restart sshd service
 -  service:
