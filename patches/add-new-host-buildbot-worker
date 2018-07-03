@@ -1,0 +1,47 @@
+Bottom: 30ad39569bf936b0dc5c40e13a3edff20e5115fa
+Top:    659f893a017442f7b04d79f7e588cc51a7f202ac
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:46:53 -0500
+
+Add new host buildbot-worker.novatech-llc.com
+
+Runs buildbot worker containers
+
+
+---
+diff --git a/ansible-playbook/production b/ansible-playbook/production
+index bae6e4f9..1223c9db 100644
+--- a/ansible-playbook/production
++++ b/ansible-playbook/production
+@@ -6,6 +6,10 @@ daedalus.novatech-llc.com
+ 
+ [docker-hosts]
+ daedalus.novatech-llc.com
++builder.novatech-llc.com
+ 
+ [buildsystem]
+ buildsystem.novatech-llc.com
++
++[builder]
++builder.novatech-llc.com
+diff --git a/ansible-playbook/staging b/ansible-playbook/staging
+index ad0ef4ac..8058586d 100644
+--- a/ansible-playbook/staging
++++ b/ansible-playbook/staging
+@@ -1,3 +1,5 @@
++builder.novatech-llc.com ansible_host=127.0.0.1 ansible_port=20022 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/bbworker/virtualbox/private_key'
++
+ [bacula]
+ testdaedalus.novatech-llc.com
+ 
+@@ -6,6 +8,10 @@ testdaedalus.novatech-llc.com
+ 
+ [docker-hosts]
+ testdaedalus.novatech-llc.com
++builder.novatech-llc.com
+ 
+ [buildsystem]
+ buildsystem.novatech-llc.com
++
++[builder]
++builder.novatech-llc.com
