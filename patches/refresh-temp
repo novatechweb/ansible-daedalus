@@ -1,0 +1,37 @@
+Bottom: 73d4099ac61bc76a7511043f72d9eec90a48fc0b
+Top:    93099a04996dda0b880cd163ca5b107687f7e1fd
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 16:24:12 -0500
+
+Refresh of gitlab-10.8
+
+---
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 61f19ea8..ac60a54b 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -63,14 +63,6 @@
+     get_checksum: False
+     get_md5: False
+   register: st_gitlab_restore
+-
+-# *****************************************************************************
+-# upgrade?
+-
+-- include_tasks: upgrade.yml
+-  when:
+-  - upgrade
+-
+ # *****************************************************************************
+ # Create the data volumes
+ 
+@@ -157,9 +149,3 @@
+   retries: 10
+   delay: 30
+   until: check is success
+-
+-- name: Ensure merge request commits are fetched
+-  include_tasks: fetch_merge_requests.yml
+-  when: 
+-  - gitlab_version is version('9.0', '>=')
+-  - gitlab_version is version('10.2', '<')
