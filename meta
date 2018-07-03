@@ -1,7 +1,8 @@
 Version: 1
-Previous: 707f1121b912c7e1b5150ed87df3540f0f6beee7
-Head: ef39d6d6e26e0e21b95d51f41e17aa33f571239f
+Previous: b412bd61f1525ad93a7ae7f942c8b8ec2ae95f09
+Head: 8c4f125223b1fdbbbe8573105979363a5520d9af
 Applied:
   move-mariadb-config-to-maria: ef39d6d6e26e0e21b95d51f41e17aa33f571239f
+  fix-mariadb-bind-ip-address: 8c4f125223b1fdbbbe8573105979363a5520d9af
 Unapplied:
 Hidden:

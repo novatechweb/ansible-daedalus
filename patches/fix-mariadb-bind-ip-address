@@ -1,0 +1,38 @@
+Bottom: aa824cb8da5b3eb40b6110cc109295d727086549
+Top:    3b4722077ece19d86eddb7a4d3e9eb03db4d42fb
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:25:46 -0500
+
+Fix mariadb bind ip address
+
+
+---
+diff --git a/roles/mariadb/tasks/main.yml b/roles/mariadb/tasks/main.yml
+index 70e29ec6..b27a0af7 100644
+--- a/roles/mariadb/tasks/main.yml
++++ b/roles/mariadb/tasks/main.yml
+@@ -42,15 +42,3 @@
+     permanent: true
+     state: enabled
+   when: mariadb_open_firewall
+-- name: Set host ssh ListenAddress
+-  template:
+-    src: mariadb-bind-address.j2
+-    dest: /etc/my.cnf.d/mariadb-bind-address.cnf
+-  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+-
+-- name: Restart MariaDB service
+-  service:
+-    name: mariadb
+-    enabled: yes
+-    state: restarted
+-  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+diff --git a/roles/mariadb/templates/mariadb-bind-address.j2 b/roles/mariadb/templates/mariadb-bind-address.j2
+index f30ea73a..831edde0 100644
+--- a/roles/mariadb/templates/mariadb-bind-address.j2
++++ b/roles/mariadb/templates/mariadb-bind-address.j2
+@@ -1,3 +1,3 @@
+ # Bind the database only to the host port
+ [mysqld]
+-bind-address = {{ ansible_br0["ipv4"]["address"] }}
++bind-address = {{ ansible_default_ipv4["address"] }}
