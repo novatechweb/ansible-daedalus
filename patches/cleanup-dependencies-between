@@ -1,0 +1,214 @@
+Bottom: da004049361c9ff1e5dad25920b8f1e5e9b69cd8
+Top:    9a9b757ffbcfbda78f4da40335fd320ac863f979
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:23:59 -0500
+
+Cleanup dependencies between roles
+
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 1a2fc0a4..9d5a340c 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -71,6 +71,10 @@
+   become_user: root
+   become_method: sudo
+   roles:
++  - name: Run common Docker tasks
++    role: docker-common
++    tags:
++    - docker_common
+   - name: Build base images that are not on Docker Hub
+     role: docker-build-base-image
+     tags:
+@@ -91,11 +95,23 @@
+     - buildbot
+     tags:
+     - docker_networking
++  - name: Build the openssl Docker volume
++    role: docker-openssl
++    tags:
++    - openssl_container
+   - name: Build and start the SVN Docker container
+     role: docker-svn
+     svn_repos: 'ddio NCD_Release'
+     tags:
+     - svn_container
++  - name: Build and start the openldap Docker container
++    role: docker-openldap
++    tags:
++    - openldap_container
++  - name: Build and start the exim4 Docker container
++    role: docker-exim4
++    tags:
++    - exim4_container
+   - name: Build and start the GitLab Docker container
+     role: docker-gitlab
+     gitlab_db_user: novatech
+diff --git a/roles/docker-buildsystem/meta/main.yml b/roles/docker-buildsystem/meta/main.yml
+index 769d7340..7f867d73 100644
+--- a/roles/docker-buildsystem/meta/main.yml
++++ b/roles/docker-buildsystem/meta/main.yml
+@@ -1,5 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+diff --git a/roles/docker-exim4/meta/main.yml b/roles/docker-exim4/meta/main.yml
+index 1543e984..7f867d73 100644
+--- a/roles/docker-exim4/meta/main.yml
++++ b/roles/docker-exim4/meta/main.yml
+@@ -1,13 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-pull-images as a dependency
+-  role: docker-pull-images
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+diff --git a/roles/docker-gitlab/meta/main.yml b/roles/docker-gitlab/meta/main.yml
+index 37985399..7f867d73 100644
+--- a/roles/docker-gitlab/meta/main.yml
++++ b/roles/docker-gitlab/meta/main.yml
+@@ -1,23 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-pull-images as a dependency
+-  role: docker-pull-images
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+-
+-- name: docker-openldap as a dependency
+-  role: docker-openldap
+-  tags:
+-  - openldap_container
+-
+-- name: Build and start the exim4 Docker container
+-  role: docker-exim4
+-  tags:
+-  - exim4_container
+diff --git a/roles/docker-mantisbt/meta/main.yml b/roles/docker-mantisbt/meta/main.yml
+index 37985399..ed97d539 100644
+--- a/roles/docker-mantisbt/meta/main.yml
++++ b/roles/docker-mantisbt/meta/main.yml
+@@ -1,23 +1 @@
+ ---
+-dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-pull-images as a dependency
+-  role: docker-pull-images
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+-
+-- name: docker-openldap as a dependency
+-  role: docker-openldap
+-  tags:
+-  - openldap_container
+-
+-- name: Build and start the exim4 Docker container
+-  role: docker-exim4
+-  tags:
+-  - exim4_container
+diff --git a/roles/docker-mediawiki/meta/main.yml b/roles/docker-mediawiki/meta/main.yml
+index 37985399..ed97d539 100644
+--- a/roles/docker-mediawiki/meta/main.yml
++++ b/roles/docker-mediawiki/meta/main.yml
+@@ -1,23 +1 @@
+ ---
+-dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-pull-images as a dependency
+-  role: docker-pull-images
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+-
+-- name: docker-openldap as a dependency
+-  role: docker-openldap
+-  tags:
+-  - openldap_container
+-
+-- name: Build and start the exim4 Docker container
+-  role: docker-exim4
+-  tags:
+-  - exim4_container
+diff --git a/roles/docker-openldap/meta/main.yml b/roles/docker-openldap/meta/main.yml
+index 1543e984..7f867d73 100644
+--- a/roles/docker-openldap/meta/main.yml
++++ b/roles/docker-openldap/meta/main.yml
+@@ -1,13 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-pull-images as a dependency
+-  role: docker-pull-images
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+diff --git a/roles/docker-openssl/meta/main.yml b/roles/docker-openssl/meta/main.yml
+index d010eced..7f867d73 100644
+--- a/roles/docker-openssl/meta/main.yml
++++ b/roles/docker-openssl/meta/main.yml
+@@ -1,8 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-pull-images as a dependency
+-  role: docker-pull-images
+diff --git a/roles/docker-svn/meta/main.yml b/roles/docker-svn/meta/main.yml
+index 93825ad0..7f867d73 100644
+--- a/roles/docker-svn/meta/main.yml
++++ b/roles/docker-svn/meta/main.yml
+@@ -1,18 +1,2 @@
+ ---
+ dependencies:
+-
+-- name: docker-common as a dependency
+-  role: docker-common
+-
+-- name: docker-pull-images as a dependency
+-  role: docker-pull-images
+-
+-- name: docker-openssl as a dependency
+-  role: docker-openssl
+-  tags:
+-  - openssl_container
+-
+-- name: docker-openldap as a dependency
+-  role: docker-openldap
+-  tags:
+-  - openldap_container
