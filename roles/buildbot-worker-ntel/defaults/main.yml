@@ -5,9 +5,14 @@
 # Network names
 docker_network_frontend: 'frontend'
 
+buildbot_asset_host: 'http://172.16.64.2/~georgem'
+buildbot_hsm_host: "172.16.64.38"
+
 buildbot_worker_ntel_build_args:
   BUILDBOT_UID: '1000'
   BUILDBOT_VERSION: 'v1.1.2'
+  PTK_URI: "{{buildbot_asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
+  PTK_HSM_HOST: "{{buildbot_hsm_host}}"
 
 # the name of the container being started
 buildbot_worker_ntel_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
