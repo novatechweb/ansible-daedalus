@@ -1,7 +1,8 @@
 Version: 1
-Previous: 9ffb9e2a253220be62152a67de9b9030c63f3f41
-Head: cad85c319bcfbd7d5d4d82245cf50ced2790cfd7
+Previous: 3525033eb3c5a83cfd94c63bfc750198d5d3b1b8
+Head: 91dbc44449d1b841e42b3447a3bed8339dfaac8c
 Applied:
   new-role-gitlab-user: cad85c319bcfbd7d5d4d82245cf50ced2790cfd7
+  refresh-temp: 91dbc44449d1b841e42b3447a3bed8339dfaac8c
 Unapplied:
 Hidden:
