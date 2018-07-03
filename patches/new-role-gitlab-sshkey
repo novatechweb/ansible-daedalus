@@ -1,7 +1,7 @@
-Bottom: 9bb0ddccf608a1f1cd10e411627d427d0d0c0642
-Top:    c1a0eeb8af0680d0507a749425b8d41c24977444
+Bottom: ffefc81346132b28108f944117b9bb6f03179bad
+Top:    341926baee8a0731de19522adfb872a911eb6422
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-06-04 16:34:33 -0500
+Date:   2018-07-03 09:12:00 -0500
 
 New role gitlab-sshkey
 
