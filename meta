@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 0c1637582029fb7aad13795038d2ae49681c0f42
+Previous: 65504484e6d42a352f93f6e40fb4a8aa1d7a59f4
+Head: 3c28c2142274c13d8fdf0cf88cb410c25e6a7bb8
 Applied:
+  update-apache2-version-string: 3c28c2142274c13d8fdf0cf88cb410c25e6a7bb8
 Unapplied:
 Hidden:
