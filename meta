@@ -1,8 +1,9 @@
 Version: 1
-Previous: 2270269a4365addcbfb156588e7c76a7558b73aa
-Head: c07d3950cf8180f7d3e65fc9b966ce507172b9ca
+Previous: 2626cfd43a315768613dc5f0172d369e73ea1bb0
+Head: 87c615a46cbab6d27239778d851d3e8a538c0dee
 Applied:
   update-python-docker-client: f35a2ad186010caa828eaba4554fbdca9d691aee
   install-latest-available: c07d3950cf8180f7d3e65fc9b966ce507172b9ca
+  remove-backup-directory: 87c615a46cbab6d27239778d851d3e8a538c0dee
 Unapplied:
 Hidden:
