@@ -1,7 +1,8 @@
 Version: 1
-Previous: b997bdaa23bfcd482f5dba1ecf0d5be961763d54
-Head: 9e9eb54363e3eba0c891c5be43ebfdd02a183bc5
+Previous: ad831ddaf29cc698cbfc6d1999ff3279e2fb9924
+Head: 424ee71491148467f673c3b8d60fd8a9dd7d7a43
 Applied:
+Unapplied:
   updates-for-ansible-2-4-from-2: 7688970da7f52d09e62542505d3ee685ffa535f0
   remove-role-submodules: 163176345e6bab1d5c58af89bf4310163a566cab
   move-git-checkouts-to: 33e3ad0ed58e26f01eb5211c014a8c5d89b75251
@@ -77,5 +78,4 @@ Applied:
   add-vmdaedalus-inventory: 63329328287c7335fa3a874325179f79bf380edf
   fixup-add-buildbot-ntel-worker: e40c05e8b1f7c31f6734d60944ad87b5af17aa42
   parameterize-uris: 9e9eb54363e3eba0c891c5be43ebfdd02a183bc5
-Unapplied:
 Hidden:
