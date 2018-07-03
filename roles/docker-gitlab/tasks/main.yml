@@ -21,7 +21,7 @@
 - name: docker_container.conf dir
   file:
     state: directory
-    path: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
+    path: '{{ gitlab_config_dir }}'
     owner: root
     group: root
     mode: 'u=rwx,g=rx,o=rx'
@@ -49,23 +49,22 @@
 # update the Docker restore config
 
 # contains the database username and password
-- name: make config.sh
+- name: make gitlab.rb
   template:
-    src: config.sh.j2
-    dest: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/config.sh'
+    src: gitlab.rb-{{gitlab_version}}.j2
+    dest: '{{ gitlab_config_dir }}/gitlab.rb'
     backup: yes
     owner: root
-    group: tape
+    group: root
     mode: 'u=rw,g=r,o='
-
 - name: exists - state file
   stat:
-    path: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/restore.date.txt'
+    path: '{{ gitlab_config_dir }}/restore.date.txt'
     get_checksum: False
     get_md5: False
   register: st_gitlab_restore
 
-  # *****************************************************************************
+# *****************************************************************************
 # upgrade?
 
 - include_tasks: upgrade.yml
@@ -73,78 +72,24 @@
   - upgrade
 
 # *****************************************************************************
-# Update or make the image.
-
-- name: Checkout image repo
-  git:
-    repo: '{{ gitlab_image_repo }}'
-    version: '{{ gitlab_image_branch }}'
-    dest: '{{ docker_projects_dir }}/docker-gitlab'
-
-- name: copy env-file
-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
-
-- name: copy script
-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
-
-- name: build image
-  docker_image:
-    name: '{{ gitlab_image_name }}'
-    tag: '{{ docker_image_tag }}'
-    path: '{{ docker_projects_dir }}/docker-gitlab'
-    force: "{{ docker_image_force_build }}"
-    buildargs:
-      GITLAB_VERSION: '{{gitlab_version}}'
-
-# *****************************************************************************
 # Create the data volumes
+
+- name: backup-volume container (gitlab)
+  docker_volume:
+    name: '{{ gitlab_bv_name }}'
+
+- name: config-volume container (gitlab)
+  docker_volume:
+    name: '{{ gitlab_cv_name }}'
 
 - name: data-volume container (gitlab)
   docker_volume:
     name: '{{ gitlab_dv_name }}'
 
-- name: data-volume container (postgres)
-  docker_volume:
-    name: '{{ gitlab_db_dv_name }}'
-
 # *****************************************************************************
-# Start the data container running
+# Create the gitlab container
 
-- name: start container (redis)
-  docker_container:
-    name: '{{ gitlab_redis_container_name }}'
-    detach: true
-    restart_policy: '{{ docker_restart_policy }}'
-    image: '{{ redis_image_name }}:{{ redis_image_tag }}'
-    networks:
-      - name: '{{ docker_network_frontend }}'
-
-- name: start container (postgres)
-  docker_container:
-    name: '{{ gitlab_db_container_name }}'
-    detach: true
-    restart_policy: '{{ docker_restart_policy }}'
-    volumes:
-    - '{{ gitlab_db_dv_name }}:/var/lib/postgresql/data'
-    image: '{{ gitlab_db_image_name }}:{{ gitlab_db_image_tag }}'
-    networks:
-    - name: '{{ docker_network_frontend }}'
-    env:
-      POSTGRES_DB: "gitlabhq_production"
-      POSTGRES_USER: "{{ gitlab_db_user }}"
-      POSTGRES_PASSWORD: "{{ gitlab_db_password | quote }}"
-
-- name: Wait for container (postgres)
-  command: >
-    docker exec --user postgres
-    {{ gitlab_db_container_name }}
-    psql -l
-  register: output
-  retries: 10
-  delay: 3
-  until: output.rc == 0
-
-- name: start container (gitlab)
+- name: create container (gitlab)
   docker_container:
     name: '{{ gitlab_container_name }}'
     detach: true
@@ -154,27 +99,23 @@
     networks:
       - name: '{{ docker_network_frontend }}'
     volumes:
-      - '{{ openssl_dv_name }}:/etc/ssl/private:ro'
-      - '{{ gitlab_dv_name }}:/home/git/data'
-      - '{{ gitlab_docker_backup_dir }}:/home/git/backups'
-    env:
-      DEBUG: 'true'
-      DEBUG_ENTRYPOINT: 'true'
-      GITLAB_TIMEZONE: "America\\/Chicago"
-      GITLAB_HOST: "{{ gitlab_hostname }}"
-      GITLAB_SSH_HOST: "{{ gitlab_hostname }}"
-      DB_HOST: "{{ gitlab_db_container_name }}"
-      DB_USER: "{{ gitlab_db_user }}"
-      DB_PASS: "{{ gitlab_db_password | quote }}"
-      REDIS_HOST: "{{ gitlab_redis_container_name }}"
-      SMTP_HOST: "{{ exim4_hostname }}"
-      SMTP_PASS: "{{ gitlab_email_password | quote }}"
-      LDAP_PASS: "{{ openldap_proxyagent_password | quote }}"
-      GITLAB_ROOT_PASSWORD: "{{ gitlab_root_password | quote }}"
-      GITLAB_SECRETS_DB_KEY_BASE: "{{ gitlab_secrets_db_key_base | quote }}"
-      SSL_DHPARAM_PATH: /etc/ssl/private/dhparam.pem
-    env_file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
-    image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+      - '{{ gitlab_cv_name }}:/etc/gitlab:z'
+      - '{{ gitlab_dv_name }}:/var/opt/gitlab:z'
+      - '{{ gitlab_bv_name }}:{{ gitlab_bv_mountpoint }}:z'
+    image: '{{ gitlab_image_name }}'
+    state: present
+
+- name: Copy config into container
+  command: >
+    docker cp
+    '{{ gitlab_config_dir }}/gitlab.rb'
+    '{{ gitlab_container_name }}:/etc/gitlab/gitlab.rb'
+
+- name: start container (gitlab)
+  docker_container:
+    name: '{{ gitlab_container_name }}'
+    state: started
 
 - name: Wait for gitlab to be fully running
   uri:
@@ -183,9 +124,52 @@
   retries: 10
   delay: 30
   until: health is success
+  when: gitlab_version is version('8.17', '<')
+
+- name: Wait for a container to become healthy
+  docker_health:
+    name: "{{gitlab_container_name}}"
+  register: health
+  retries: 10
+  delay: 30
+  until: health.Health.Status == "healthy"
+  when: gitlab_version is version('8.17', '>=')
 
 # *****************************************************************************
 # restore?
 
 - include_tasks: restore.yml
   when: st_gitlab_restore.stat.exists == False
+
+# *****************************************************************************
+# final maintenance
+
+- name: reconfigure gitlab for updated configuration
+  command: >
+    docker exec -t {{ gitlab_container_name }} gitlab-ctl reconfigure
+  register: reconfigure
+  retries: 10
+  delay: 30
+  until: reconfigure is success
+
+- name: ensure all migrations are complete
+  command: >
+    docker exec -t {{ gitlab_container_name }} gitlab-rake db:migrate
+  register: migrate
+  retries: 10
+  delay: 30
+  until: migrate is success
+
+- name: run a diagnostic check over the application
+  command: >
+    docker exec -t {{ gitlab_container_name }} gitlab-rake gitlab:check
+  register: check
+  retries: 10
+  delay: 30
+  until: check is success
+
+- name: Ensure merge request commits are fetched
+  include_tasks: fetch_merge_requests.yml
+  when: 
+  - gitlab_version is version('9.0', '>=')
+  - gitlab_version is version('10.2', '<')
