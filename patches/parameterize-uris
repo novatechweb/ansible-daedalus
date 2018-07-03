@@ -1,0 +1,30 @@
+Bottom: 4a4f487dfa83e458010934e28c43b34ecfcc091d
+Top:    744e94a0f118bbd81181bbe85e4d05f8255e4ed2
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:58:57 -0500
+
+Parameterize URIs
+
+
+---
+diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
+index 11a726fb..9ed7ba10 100644
+--- a/docker/buildbot-worker-ntel/Dockerfile
++++ b/docker/buildbot-worker-ntel/Dockerfile
+@@ -67,12 +67,14 @@ RUN wget https://bootstrap.pypa.io/get-pip.py \
+     buildbot-worker==${BUILDBOT_VERSION}
+ 
+ # Install software for image signing
+-RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
++ARG PTK_URI="http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
++ARG PTK_HSM_HOST="172.16.64.38"
++RUN curl ${PTK_URI}} \
+ |   tar -v -x -C /tmp \
+ &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
+ &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
+ &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/network_hsm_access_provider/PTKnethsm-5.3.0-15.x86_64.rpm \
+-&&  echo "ET_HSM_NETCLIENT_SERVERLIST=172.16.64.38" > /etc/default/et_hsm \
++&&  echo "ET_HSM_NETCLIENT_SERVERLIST=${PTK_HSM_HOST}" > /etc/default/et_hsm \
+ &&  echo "/opt/safenet/protecttoolkit5/ptk/lib" > /etc/ld.so.conf.d/safenet_ptk.conf \
+ &&  ldconfig -v \
+ &&  rm -rf /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/
