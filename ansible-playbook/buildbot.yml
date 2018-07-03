@@ -35,3 +35,10 @@
       username: buildbot
       pubkey: "{{ hostvars.buildbot_master.pubkey }}"
       title: "buildbot_master"
+
+- name: Setup Buildbot worker system
+  hosts: buildbot-worker
+  vars:
+    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+  roles:
+  - role: buildbot-worker-ptxdist
