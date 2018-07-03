@@ -1,7 +1,8 @@
 Version: 1
-Previous: 77da7c12e257ff668248dcaee8b19e888ed058c7
-Head: 116c6d24f7fc35add83e52ed5522f29c71404246
+Previous: ac59d0c7a26eca3d1ff05d78dc7748a50108d8bf
+Head: c1580a85e63ef78b856f97a718d99a91f058aadc
 Applied:
   gitlab-10.8: 116c6d24f7fc35add83e52ed5522f29c71404246
+  refresh-temp: c1580a85e63ef78b856f97a718d99a91f058aadc
 Unapplied:
 Hidden:
