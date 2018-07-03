@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
+Previous: ae523a6c7c2861855539f2318dcafca69da5eb61
 Head: 0c1637582029fb7aad13795038d2ae49681c0f42
 Applied:
 Unapplied:
+  move-sshd-config-to-setup: 6a583132fc4a755ba1b0e86d796d237fd73c791d
 Hidden:
