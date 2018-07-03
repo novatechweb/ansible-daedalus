@@ -14,7 +14,7 @@
     - buildbot-master
 
 - name: Setup Buildbot worker system
-  hosts: buildbot-worker
+  hosts: builder
   become: true
   become_user: root
   become_method: sudo
