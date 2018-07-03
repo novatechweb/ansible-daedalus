@@ -1,0 +1,28 @@
+---
+
+- name: Install/Setup Docker images and containers on Daedalus
+  hosts: daedalus
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+  - buildbot
+  roles:
+  - name: Build and start the Buildbot master container
+    role: buildbot-master
+    tags:
+    - buildbot-master
+
+- name: Setup Buildbot worker system
+  hosts: buildbot-worker
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+  - buildbot
+  - buildbot-worker
+  vars:
+    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+  roles:
+  - role: buildbot-worker-ntel
+  - role: buildbot-worker-ptxdist
