@@ -1,8 +1,7 @@
 Version: 1
-Previous: 10207a87b60d85d11c628f98d1d0e6e954312473
-Head: bb627bb3c211d0286b1f74453a58e3ddc61eeaf1
+Previous: cde96fdad9bf9543df09400f4b2ac7503f7c5840
+Head: 2304d926cff7cf9935a31aaefbfd1483dea13961
 Applied:
-  move-sshd-config-to-setup: 4e0a15ba2c4f593a7b8640f8e1bf97de01f21b84
-  refresh-temp: bb627bb3c211d0286b1f74453a58e3ddc61eeaf1
+  move-sshd-config-to-setup: 2304d926cff7cf9935a31aaefbfd1483dea13961
 Unapplied:
 Hidden:
