@@ -1,9 +1,9 @@
 Version: 1
-Previous: 850dab9838612f6a81f29df1c58bb1ab29a65657
-Head: 5a8e08eeaa7fe0d092b4d2eb551454743998f813
+Previous: c92d18956a7a89c573c4566e9f87c14e27af1b17
+Head: 09a00710da40b1548e1670eb7ea1ee256a91c6b8
 Applied:
+  add-buildbot-ntel-worker: 09a00710da40b1548e1670eb7ea1ee256a91c6b8
 Unapplied:
-  add-buildbot-ntel-worker: d8c1cee2ed762e57314104c1675f0f4e5968b3d2
   fixup-add-buildbot-ntel-worker: 7963f81a47cd28e152a3992096ea6050d803672e
   parameterize-uris: 67f70f749db4cb7e20164137f85f1aa94c84f7ee
   update-ntel-builds-for-new: 0dc516f410e02822e156a1260bfdb7dc06939a16
