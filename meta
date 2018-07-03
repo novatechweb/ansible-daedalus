@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 0c1637582029fb7aad13795038d2ae49681c0f42
+Previous: 707f1121b912c7e1b5150ed87df3540f0f6beee7
+Head: ef39d6d6e26e0e21b95d51f41e17aa33f571239f
 Applied:
+  move-mariadb-config-to-maria: ef39d6d6e26e0e21b95d51f41e17aa33f571239f
 Unapplied:
 Hidden:
