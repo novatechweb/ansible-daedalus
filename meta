@@ -1,7 +1,8 @@
 Version: 1
-Previous: f1994f876caca811b10a30d2bb7841ec3eced394
-Head: 79f608af01eb424fb0abac793c42ad5eee334b0e
+Previous: 22d5e37241201050e6ae6c5162f4e2eeb64f3de0
+Head: 5941346b4b252f5422eed3b7158ea8d404f5ad76
 Applied:
   updates-for-ansible-2-4-from-2: 79f608af01eb424fb0abac793c42ad5eee334b0e
+  remove-role-submodules: 5941346b4b252f5422eed3b7158ea8d404f5ad76
 Unapplied:
 Hidden:
