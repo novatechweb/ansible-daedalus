@@ -1,9 +1,10 @@
 Version: 1
-Previous: 6ccbe5484f80b3fa06f1a86246dc0e3c5cf5581d
-Head: 6a77716bf2bbc7609fa5ad6a3e5987c8caee9568
+Previous: 65cc79b03fd49404d2f779eb7866c9127edeb05d
+Head: b06ec54a11366c3fa35202c296faf38601570afa
 Applied:
   cleanup-dependencies-between: add0048d22b80057b400565b863f33edab5b29c5
   remove-freeipa-virtual-machine: d2ab9811b356d5a47d90abc3e3d03a237f22729d
   remove-ansible-role-docker: 6a77716bf2bbc7609fa5ad6a3e5987c8caee9568
+  remove-ansible-role-docker-0: b06ec54a11366c3fa35202c296faf38601570afa
 Unapplied:
 Hidden:
