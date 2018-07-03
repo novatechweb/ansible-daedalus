@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 424ee71491148467f673c3b8d60fd8a9dd7d7a43
+Previous: 42dfa220699dc982cf3d0dc6e791a11f6592c965
+Head: 366e5101cb732f9fc5d0c251fb09e3f8ca7ed902
 Applied:
+  add-new-role-to-configure: 366e5101cb732f9fc5d0c251fb09e3f8ca7ed902
 Unapplied:
 Hidden:
