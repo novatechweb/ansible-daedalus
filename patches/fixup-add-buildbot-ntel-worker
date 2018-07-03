@@ -1,5 +1,5 @@
-Bottom: 92e25a5972358c606daab9d9b307e94d83902eb7
-Top:    4a4f487dfa83e458010934e28c43b34ecfcc091d
+Bottom: 43fe26892289ed67b67c6d60e767a25ed5d67b41
+Top:    43fe26892289ed67b67c6d60e767a25ed5d67b41
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:58:56 -0500
 
@@ -7,16 +7,4 @@ fixup! Add buildbot NTEL worker Docker image
 
 
 ---
-diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 11f3fd2e..b9ac17fb 100644
---- a/ansible-playbook/buildbot.yml
-+++ b/ansible-playbook/buildbot.yml
-@@ -14,7 +14,7 @@
-     - buildbot-master
- 
- - name: Setup Buildbot worker system
--  hosts: buildbot-worker
-+  hosts: builder
-   become: true
-   become_user: root
-   become_method: sudo
+
