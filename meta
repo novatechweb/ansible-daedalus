@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 0c1637582029fb7aad13795038d2ae49681c0f42
+Previous: 224c148a079da5051fe803bd064351579c6c9915
+Head: b770f8b6c71c36b9f6427e3e825f3d002013ac9c
 Applied:
+  add-ldap-administration-docker: b770f8b6c71c36b9f6427e3e825f3d002013ac9c
 Unapplied:
 Hidden:
