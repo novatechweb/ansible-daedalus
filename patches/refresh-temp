@@ -1,0 +1,27 @@
+Bottom: bc9a4a28d70c4c05dcfa7b5af5762136594791b6
+Top:    5640abebbeb803875d6f5a37194a424414f92b18
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 16:32:24 -0500
+
+Refresh of add-vmdaedalus-inventory
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 9267bca1..59b6eea4 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -12,6 +12,14 @@
+   - fetch:
+       src: /tmp/ansible_variables
+       dest: "{{inventory_hostname}}_ansible_variables"
++
++- name: Configure daedalus partitioning
++  hosts: daedalus
++  remote_user: ansibleremote
++  become: true
++  become_user: root
++  become_method: sudo
++  roles: 
+   - name: Run bacula-restores symlinks
+     role: bacula-restores
+     tags:

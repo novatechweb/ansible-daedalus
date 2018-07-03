@@ -1,7 +1,8 @@
 Version: 1
-Previous: 4aa2902ee8f65f23b3c5de973c925746e795ca5a
-Head: 627d190983b4abe09dee644593acf3644fa20dc3
+Previous: b1195168f354e01e1532abcd9c60ee5f9366bda2
+Head: 8d46baf6abdf1a4bbd164dab21ea2088a2ab5b0a
 Applied:
   add-vmdaedalus-inventory: 627d190983b4abe09dee644593acf3644fa20dc3
+  refresh-temp: 8d46baf6abdf1a4bbd164dab21ea2088a2ab5b0a
 Unapplied:
 Hidden:
