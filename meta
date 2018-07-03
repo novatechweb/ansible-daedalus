@@ -1,7 +1,8 @@
 Version: 1
-Previous: 25f3a190a54ec316d703d73151eaf4cf752ec8a4
-Head: bd705ff22fe150266f737a14894a657bfebff4f6
+Previous: 6e06e5ae7a2a45544bb467eaeae30f6747ff1ac7
+Head: 62c16601da4fb693cc4655cfbd58b63ff5b616a0
 Applied:
   update-gitlab-to-10-1: bd705ff22fe150266f737a14894a657bfebff4f6
+  refresh-temp: 62c16601da4fb693cc4655cfbd58b63ff5b616a0
 Unapplied:
 Hidden:
