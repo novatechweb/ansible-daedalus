@@ -1,7 +1,8 @@
 Version: 1
-Previous: 93385be2276f10f19959460cca54cd807dba911f
-Head: a08488a35b316a254e58c731f130f3647d4bc5b8
+Previous: 2478a96180554ed4d0aebab9622723c465a48b91
+Head: 3200acc48d5e700b19863fb91a647536feda7a13
 Applied:
   new-role-gitlab-user: a08488a35b316a254e58c731f130f3647d4bc5b8
+  refresh-temp: 3200acc48d5e700b19863fb91a647536feda7a13
 Unapplied:
 Hidden:
