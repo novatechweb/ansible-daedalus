@@ -1,7 +1,8 @@
 Version: 1
-Previous: 1cdbf7fe19e565550fe6c37f08cc5e4314d99639
-Head: 4b4fcb13950592b172465282d935f6b06421bb2f
+Previous: 5111829892546f38a99edafb5ab61ef8e83d406f
+Head: 7c1e52ad9eca200d58f3b83b4d70e042a5736599
 Applied:
   use-ansible-docker_container: 4b4fcb13950592b172465282d935f6b06421bb2f
+  use-docker-named-volumes: 7c1e52ad9eca200d58f3b83b4d70e042a5736599
 Unapplied:
 Hidden:
