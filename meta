@@ -1,9 +1,10 @@
 Version: 1
-Previous: 9407aaf3e85d5b12a7292a32373c412bacd3dd8c
-Head: 027d78aa738e89d5816dbd8a7cfd2ca8d457753b
+Previous: 0647e118495444ffb8423f0e6e5f560a9dff3653
+Head: b75cc363f0676b36a070474b5cb4413fb2b63d80
 Applied:
   add-configuration-overrides: 94a0a6bb8234df4b30aa745b306487dddf2a69ce
   update-dockerfile: ccfc54099ee68377f74ab908acd8562c05f61e14
   remove-local-interface: 027d78aa738e89d5816dbd8a7cfd2ca8d457753b
+  no-need-to-delete-etc-mailname: b75cc363f0676b36a070474b5cb4413fb2b63d80
 Unapplied:
 Hidden:
