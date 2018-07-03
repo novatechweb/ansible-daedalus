@@ -1,0 +1,46 @@
+Bottom: 682231b392fa6ba1b2d223008cf68c3a9c7dbd36
+Top:    7ca2cf1eadfad220e47d6b9078cf3d0be56371dd
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:46:53 -0500
+
+Generate new ssh key on first run
+
+
+---
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index 71002f8b..85c28248 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -1,10 +1,12 @@
+ #!/bin/sh
+ 
++SSH_BITS=${SSH_BITS-"2048"}
++SSH_TYPE=${SSH_TYPE-"rsa"}
++SSH_FILE=${SSH_FILE-"$HOME/.ssh/id_rsa"}
++
+ BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
+ 
+-mkdir -p ${HOME}/.ssh
+-cp -R /run/secrets/ssh/* ${HOME}/.ssh
+-chmod -R 600 ${HOME}/.ssh/*
++ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/null 2>/dev/null
+ 
+ ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
+ 
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 3415bab6..ff25c6fb 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -33,6 +33,12 @@
+     env: '{{ buildbot_env }}'
+     ports: '{{ buildbot_port_args }}'
+ 
++- name: Grab ssh public key
++  command: >
++    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
++  changed_when: false
++  register: output
++
+ - name: Add buildbot_master host
+   add_host:
+     name: buildbot_master
