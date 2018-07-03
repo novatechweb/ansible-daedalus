@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
+Previous: aa0ea0e1e87cf670c3addb9b73b303d1acd26c26
 Head: 358badd767713bdf2ee5707e1af3900335860dc6
 Applied:
 Unapplied:
+  add-buildbot-ntel-worker: a7cb7ec9d6934a3a061e9539427be21be4cc65a4
 Hidden:
