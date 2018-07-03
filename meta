@@ -1,8 +1,8 @@
 Version: 1
-Previous: f898bc8eed838e7978fd3665c666722691344cf9
-Head: e57daed261fb43ffd1e31437a858cdc3bf164735
+Previous: 257d84421716c4c55a7a6cb369c7577c59c3b9ad
+Head: 2ade9549fb73c3445dd3e7980a495566e40cdaa8
 Applied:
   add-buildbot-ptxdist-worker: 2ade9549fb73c3445dd3e7980a495566e40cdaa8
-  update-ptxdist-build-factories: e57daed261fb43ffd1e31437a858cdc3bf164735
 Unapplied:
+  update-ptxdist-build-factories: e57daed261fb43ffd1e31437a858cdc3bf164735
 Hidden:
