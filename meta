@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 033b92c94c4951c8980fa5bfc1dc0eee49370ceb
+Previous: 0692d7b7ef0296122ddb00096f9689f68f360968
+Head: fe9270190459e645bd4038050a4340b8b345c610
 Applied:
+  fix-bacula-list-jobs-pexpect: fe9270190459e645bd4038050a4340b8b345c610
 Unapplied:
 Hidden:
