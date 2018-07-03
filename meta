@@ -1,7 +1,7 @@
 Version: 1
-Previous: 7fe0c95e5cb511fc9e4c5c664a668dfc40673aae
-Head: d48e2ceb669c258e5868005a37179387d3f08d17
+Previous: 93385be2276f10f19959460cca54cd807dba911f
+Head: a08488a35b316a254e58c731f130f3647d4bc5b8
 Applied:
+  new-role-gitlab-user: a08488a35b316a254e58c731f130f3647d4bc5b8
 Unapplied:
-  new-role-gitlab-user: 502725eb378adf80b855d9c4be70e39c53d844e6
 Hidden:
