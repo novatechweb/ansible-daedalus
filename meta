@@ -1,7 +1,7 @@
 Version: 1
-Previous: aa0ea0e1e87cf670c3addb9b73b303d1acd26c26
-Head: 358badd767713bdf2ee5707e1af3900335860dc6
+Previous: f12222d415875645f65fdfedf2e5b71be5ce0897
+Head: 2cc324be9d0da7d93467cd3b03c80ed074fd9322
 Applied:
+  add-buildbot-ntel-worker: 2cc324be9d0da7d93467cd3b03c80ed074fd9322
 Unapplied:
-  add-buildbot-ntel-worker: a7cb7ec9d6934a3a061e9539427be21be4cc65a4
 Hidden:
