@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 0c1637582029fb7aad13795038d2ae49681c0f42
+Previous: 71348936158481c93580eb2e80fa6a8eaf1f2155
+Head: a1539c87090772486ad2a1de5795491cc71c1f31
 Applied:
+  downgrade-extension-to-1-23: a1539c87090772486ad2a1de5795491cc71c1f31
 Unapplied:
 Hidden:
