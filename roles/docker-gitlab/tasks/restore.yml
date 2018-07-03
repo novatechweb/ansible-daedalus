@@ -114,6 +114,14 @@
        user.password_confirmation="{{ gitlab_root_password }}";
        user.save!'
 
+- name: Wait for gitlab to be fully running
+  docker_health:
+    name: '{{ gitlab_container_name }}'
+  register: health
+  retries: 60
+  delay: 5
+  until: health.Health.Status == "healthy"
+
 # *****************************************************************************
 # cleanup
 

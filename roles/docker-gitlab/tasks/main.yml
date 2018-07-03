@@ -118,22 +118,12 @@
     state: started
 
 - name: Wait for gitlab to be fully running
-  uri:
-    url: 'https://{{ gitlab_hostname }}/users/sign_in'
-  register: health
-  retries: 10
-  delay: 30
-  until: health is success
-  when: gitlab_version is version('8.17', '<')
-
-- name: Wait for a container to become healthy
   docker_health:
-    name: "{{gitlab_container_name}}"
+    name: '{{ gitlab_container_name }}'
   register: health
-  retries: 10
-  delay: 30
+  retries: 60
+  delay: 5
   until: health.Health.Status == "healthy"
-  when: gitlab_version is version('8.17', '>=')
 
 # *****************************************************************************
 # restore?
