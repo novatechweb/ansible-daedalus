@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 033b92c94c4951c8980fa5bfc1dc0eee49370ceb
+Previous: 6fae6adfb5b3ce5c89d9ccf3bb2f840ab2ca5f9e
+Head: f35a2ad186010caa828eaba4554fbdca9d691aee
 Applied:
+  update-python-docker-client: f35a2ad186010caa828eaba4554fbdca9d691aee
 Unapplied:
 Hidden:
