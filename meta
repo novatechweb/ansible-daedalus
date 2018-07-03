@@ -1,7 +1,8 @@
 Version: 1
-Previous: 65504484e6d42a352f93f6e40fb4a8aa1d7a59f4
-Head: 3c28c2142274c13d8fdf0cf88cb410c25e6a7bb8
+Previous: 3048f22adce383ef09a57de336249967d4c9548c
+Head: 7c115486d5002464c8ca696fd169e679320ed63d
 Applied:
   update-apache2-version-string: 3c28c2142274c13d8fdf0cf88cb410c25e6a7bb8
+  limit-mysql-backup-databases: 7c115486d5002464c8ca696fd169e679320ed63d
 Unapplied:
 Hidden:
