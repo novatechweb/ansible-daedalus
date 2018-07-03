@@ -9,7 +9,7 @@ openssl_dv_name: '{{ docker_name_prefix }}openssl_DV'
 
 # restore directories to temporarly store data being restored into docker containers
 openssl_docker_backup_dir: '{{ docker_backup_dir }}/openssl'
-host_openssl_docker_restore_dir: '{{ bacula_dest }}{{ openssl_docker_backup_dir }}'
+openssl_docker_restore_dir: '{{ bacula_dest }}{{ openssl_docker_backup_dir }}'
 
 # files restored from tape
 openssl_backup_file: '/openssl.tar'
