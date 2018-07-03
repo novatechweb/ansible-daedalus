@@ -1,7 +1,7 @@
 Version: 1
-Previous: ec651fcae434cc272cafef8b02b0fca614ede0b6
+Previous: 77da7c12e257ff668248dcaee8b19e888ed058c7
 Head: 116c6d24f7fc35add83e52ed5522f29c71404246
 Applied:
-  update-gitlab-to-10-1: 116c6d24f7fc35add83e52ed5522f29c71404246
+  gitlab-10.8: 116c6d24f7fc35add83e52ed5522f29c71404246
 Unapplied:
 Hidden:
