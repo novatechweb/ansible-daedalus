@@ -1,7 +1,8 @@
 Version: 1
-Previous: 6ca8f8fadbfd84454a5322e57cd6001fa9811067
-Head: 6001877fcea74b3ebaa8cd7b162e6e51a28d3119
+Previous: 0d9fe91cc1d7261222c4d8efb8d8f35990634988
+Head: ee266376593f080cdd6666ec22d037e905a57e06
 Applied:
   add-buildbot-role-and-new: 6001877fcea74b3ebaa8cd7b162e6e51a28d3119
+  fix-ssh-folder-permission: ee266376593f080cdd6666ec22d037e905a57e06
 Unapplied:
 Hidden:
