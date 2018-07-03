@@ -1,11 +1,12 @@
 Version: 1
-Previous: 5fc51f1b4b70b9444fa42f5f54956bb4af4591c0
-Head: 1f36ce6323509c1b756391212c32b93a5413924b
+Previous: 46eaa078614cb7fed56d2bc6430a54eca5eb1902
+Head: c62fcd583b6c0085f402b333a758fe8a1b89e6f7
 Applied:
   add-configuration-overrides: 94a0a6bb8234df4b30aa745b306487dddf2a69ce
   update-dockerfile: ccfc54099ee68377f74ab908acd8562c05f61e14
   remove-local-interface: 027d78aa738e89d5816dbd8a7cfd2ca8d457753b
   no-need-to-delete-etc-mailname: b75cc363f0676b36a070474b5cb4413fb2b63d80
   always-update-configuration-on: 1f36ce6323509c1b756391212c32b93a5413924b
+  use-install-to-copy-key-and: c62fcd583b6c0085f402b333a758fe8a1b89e6f7
 Unapplied:
 Hidden:

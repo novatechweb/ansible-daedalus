@@ -1,0 +1,35 @@
+Bottom: 4c64dd84e7e54d54741cba5aad805e713a01c31f
+Top:    ffd4e7f1198dd9946966c30678401fca86937036
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-03 08:45:03 -0500
+
+Use install to copy key and crt
+
+Install will set mode and permissions in one step.
+
+
+---
+diff --git a/docker/docker-exim4/docker-entrypoint.sh b/docker/docker-exim4/docker-entrypoint.sh
+index 3c3e0a26..77a575ee 100755
+--- a/docker/docker-exim4/docker-entrypoint.sh
++++ b/docker/docker-exim4/docker-entrypoint.sh
+@@ -25,17 +25,11 @@ case ${1} in
+ 
+         # copy certificate
+         [ -e /etc/ssl/private/exim.crt ] \
+-            && rm -f ${CONFIG_PATH}/exim.crt \
+-            && cp $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt \
+-            && chmod 640 ${CONFIG_PATH}/exim.crt \
+-            && chown root:Debian-exim ${CONFIG_PATH}/exim.crt
++            && install -oroot -gDebian-exim -m640 $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt
+ 
+         # copy key
+         [ -e /etc/ssl/private/exim.key ] \
+-            && rm -f ${CONFIG_PATH}/exim.key \
+-            && cp $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key \
+-            && chmod 640 ${CONFIG_PATH}/exim.key \
+-            && chown root:Debian-exim ${CONFIG_PATH}/exim.key
++            && install -oroot -gDebian-exim -m640 $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key
+ 
+         # run the debian utility to update/generate the configuration
+         $(which update-exim4.conf) --verbose
