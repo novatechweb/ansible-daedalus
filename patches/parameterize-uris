@@ -1,5 +1,5 @@
 Bottom: a84caa62b552a4a64725301dfc07735a34954d25
-Top:    9e43a1b7aa530a2b257d78bd83b7105628aaba7c
+Top:    0438ecec09cee122d25cd4feacb0f3c6533a8e47
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:58:57 -0500
 
@@ -8,7 +8,7 @@ Parameterize URIs
 
 ---
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
-index 11a726fb..9ed7ba10 100644
+index 11a726fb..cd2088e9 100644
 --- a/docker/buildbot-worker-ntel/Dockerfile
 +++ b/docker/buildbot-worker-ntel/Dockerfile
 @@ -67,12 +67,14 @@ RUN wget https://bootstrap.pypa.io/get-pip.py \
@@ -18,7 +18,7 @@ index 11a726fb..9ed7ba10 100644
 -RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
 +ARG PTK_URI="http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
 +ARG PTK_HSM_HOST="172.16.64.38"
-+RUN curl ${PTK_URI}} \
++RUN curl ${PTK_URI} \
  |   tar -v -x -C /tmp \
  &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
  &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
