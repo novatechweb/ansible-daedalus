@@ -1,5 +1,5 @@
 Bottom: 03147211e4c277726edc0f1afb8f0cde7fe7b6f2
-Top:    c9161c5501041581316848e3c82971b02f67ed86
+Top:    278e7e8d8e54b2110cecdb57882bb072b8902e6e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -30,10 +30,10 @@ index e69de29b..c1a0118f 100644
 +/.vagrant/
 diff --git a/Vagrantfile b/Vagrantfile
 new file mode 100644
-index 00000000..a124020d
+index 00000000..488140b6
 --- /dev/null
 +++ b/Vagrantfile
-@@ -0,0 +1,96 @@
+@@ -0,0 +1,103 @@
 +$bbworker = <<-SCRIPT
 +yum install -y \
 +    epel-release
@@ -127,6 +127,13 @@ index 00000000..a124020d
 +            id: "ssh"
 +
 +        worker.vm.provision "shell", inline: $bbworker
++
++        worker.vm.synced_folder "/mnt/vm/builder",
++            "/mnt/assets",
++            id: "builder-assets",
++            owner: "root",
++            group: "root",
++            mount_options: ["rw"]
 +
 +    end
 +end
