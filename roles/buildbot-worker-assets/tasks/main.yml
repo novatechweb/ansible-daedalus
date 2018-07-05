@@ -1,0 +1,16 @@
+---
+- name: Start asset server
+  docker_container:
+    name: buildbot-assets
+    image: "httpd:alpine"
+    volumes:
+    - "/mnt/assets:/usr/local/apache2/htdocs/:ro"
+    ports:
+    - 80
+  register: asset_server
+
+- set_fact:
+    buildbot_asset_host: "http://\
+    {{asset_server.ansible_facts.docker_container.NetworkSettings.Gateway}}\
+    :{{asset_server.ansible_facts.docker_container.NetworkSettings.Ports['80/tcp'][0].HostPort}}\
+    "
