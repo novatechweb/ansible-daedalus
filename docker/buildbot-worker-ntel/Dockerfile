@@ -69,7 +69,7 @@ RUN wget https://bootstrap.pypa.io/get-pip.py \
 # Install software for image signing
 ARG PTK_URI="http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
 ARG PTK_HSM_HOST="172.16.64.38"
-RUN curl ${PTK_URI}} \
+RUN curl ${PTK_URI} \
 |   tar -v -x -C /tmp \
 &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
 &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
