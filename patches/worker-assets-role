@@ -1,0 +1,12 @@
+Bottom: 43fe26892289ed67b67c6d60e767a25ed5d67b41
+Top:    43fe26892289ed67b67c6d60e767a25ed5d67b41
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-05 14:16:16 -0500
+
+Create new role buildbot-worker-assets
+
+Starts a web server for distributing assets to buildbot workers.
+
+
+---
+

@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 34391a7f5faa8e4465817fc0a1ba84d993e47144
+Previous: ccb462a15c5593bbb2e05c882e77b7b320a1df1d
+Head: d893723dc89571984512f7fcbfd17a1120140072
 Applied:
+  worker-assets-role: d893723dc89571984512f7fcbfd17a1120140072
 Unapplied:
 Hidden:
