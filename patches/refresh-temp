@@ -1,0 +1,27 @@
+Bottom: 2d52fcad5432eb844440d7685123782f36da03d6
+Top:    9e43a1b7aa530a2b257d78bd83b7105628aaba7c
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-05 15:07:31 -0500
+
+Refresh of parameterize-uris
+
+---
+diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
+index 38c477a5..ba3cae5c 100644
+--- a/roles/buildbot-worker-ntel/defaults/main.yml
++++ b/roles/buildbot-worker-ntel/defaults/main.yml
+@@ -5,9 +5,14 @@
+ # Network names
+ docker_network_frontend: 'frontend'
+ 
++buildbot_asset_host: 'http://172.16.64.2/~georgem'
++buildbot_hsm_host: "172.16.64.38"
++
+ buildbot_worker_ntel_build_args:
+   BUILDBOT_UID: '1000'
+   BUILDBOT_VERSION: 'v1.1.2'
++  PTK_URI: "{{buildbot_asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
++  PTK_HSM_HOST: "{{buildbot_hsm_host}}"
+ 
+ # the name of the container being started
+ buildbot_worker_ntel_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
