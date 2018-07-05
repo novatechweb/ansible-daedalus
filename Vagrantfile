@@ -92,5 +92,12 @@ Vagrant.configure("2") do |config|
 
         worker.vm.provision "shell", inline: $bbworker
 
+        worker.vm.synced_folder "/mnt/vm/builder",
+            "/mnt/assets",
+            id: "builder-assets",
+            owner: "root",
+            group: "root",
+            mount_options: ["rw"]
+
     end
 end
