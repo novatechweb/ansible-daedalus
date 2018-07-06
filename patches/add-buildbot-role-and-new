@@ -1,5 +1,5 @@
 Bottom: aece631eae25ec48c7e0a6d071254d00a8e3e910
-Top:    6bc3e4493725787eda22613c8d0a8ddab5a711fe
+Top:    230d2ecc7bfec22eb47fc534e5a4c3003999b5a4
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:46:52 -0500
 
@@ -48,7 +48,7 @@ index c306cadf..d476bf91 100644
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
 diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
-index f908c8f0..835ee49c 100644
+index f908c8f0..42db8fdb 100644
 --- a/ansible-playbook/group_vars/docker-hosts/networking.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
 @@ -47,3 +47,9 @@ phpldapadmin_port_args:
@@ -56,7 +56,7 @@ index f908c8f0..835ee49c 100644
  
  phpmyadmin_hostname: phpmyadmin.novatech-llc.com
 +
-+buildbot_hostname: ldap.novatech-llc.com
++buildbot_hostname: buildbot.novatech-llc.com
 +buildbot_port_args:
 +- "{{ buildbot_ip_addr }}:80:8080"
 +- "{{ buildbot_ip_addr }}:443:8443"
