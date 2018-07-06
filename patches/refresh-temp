@@ -1,0 +1,18 @@
+Bottom: 60a2101d3f1cdbdfc2e6d886016a6c57fa9ef188
+Top:    9ff4f5ad21fb2cd91b5e55158f43ac97fb34dffd
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-06 09:46:29 -0500
+
+Refresh of update-buildbot-to-1.2
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index e888342f..1baa3f49 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -1,4 +1,4 @@
+-FROM        buildbot/buildbot-master:v0.9.13
++FROM        buildbot/buildbot-master:v1.2.0
+ MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
+ 
+ WORKDIR /buildbot
