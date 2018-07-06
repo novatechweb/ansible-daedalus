@@ -1,5 +1,5 @@
-Bottom: b95a9c5b962bb45ca16b772c8621aba96105b50a
-Top:    9abfb1016daa125fcc7071b402b971d064bcb3d0
+Bottom: 0f3c3850aac4ac26ff86572a3e9d7b18870a90c6
+Top:    5d9d94d362457adabea91fdaa53d71e5da6b4a74
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:46:52 -0500
 
@@ -8,10 +8,10 @@ Use original buildbot entrypoint and init daemon
 
 ---
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index b13cd1d2..0c67da56 100644
+index 8205243d..3e48e26e 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
-@@ -9,7 +9,6 @@ ARG BUILDBOT_TIMEZONE="Etc/UTC"
+@@ -8,7 +8,6 @@ ARG BUILDBOT_TIMEZONE="Etc/UTC"
  
  RUN apk --no-cache add \
          openssh \
@@ -19,7 +19,7 @@ index b13cd1d2..0c67da56 100644
  &&  rm /etc/localtime \
  &&  ln -sf /usr/share/zoneinfo/${BUILDBOT_TIMEZONE} /etc/localtime \
  &&  echo "${BUILDBOT_TIMEZONE}" > /etc/timezone
-@@ -27,5 +26,5 @@ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
+@@ -26,5 +25,5 @@ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
  &&  chown -v -R buildbot:buildbot "/home/buildbot"
  
  USER buildbot
