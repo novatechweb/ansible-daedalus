@@ -1,0 +1,19 @@
+Bottom: b95a9c5b962bb45ca16b772c8621aba96105b50a
+Top:    0f3c3850aac4ac26ff86572a3e9d7b18870a90c6
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-06 09:43:11 -0500
+
+Refresh of add-environment-variables-for
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index b13cd1d2..8205243d 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -1,5 +1,4 @@
+-ARG         BUILDBOT_VERSION=latest
+-FROM        buildbot/buildbot-master:$BUILDBOT_VERSION
++FROM        buildbot/buildbot-master:v0.9.13
+ MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
+ 
+ WORKDIR /buildbot
