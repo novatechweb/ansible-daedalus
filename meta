@@ -1,10 +1,9 @@
 Version: 1
-Previous: 2637907c1eaebd1760db3f31baeac033bcdd5d24
-Head: e4545cd29f37ff928b1eadeb973d5575f842dbf9
+Previous: 96782488756180dfc3ed523a8dc003570d1d292c
+Head: 6a95f3e328e02a04349041353be46e5dcb35e709
 Applied:
   ansible-config: 29d7fc0aa3ddae4d1c90c24ef0bb5e59b5a10063
   provision-script: dc0a1d23ee8619551b291a2122afeae9ba7f5613
   unmerged-repos: 6a95f3e328e02a04349041353be46e5dcb35e709
-  refresh-temp: e4545cd29f37ff928b1eadeb973d5575f842dbf9
 Unapplied:
 Hidden:
