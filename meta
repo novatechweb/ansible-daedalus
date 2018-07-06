@@ -1,6 +1,6 @@
 Version: 1
-Previous: 9e33b9e752f938e9cabae784f6694903be860bdd
-Head: e0377aeb5a1442e8e9fc1895640fbcf5ff2caf41
+Previous: 8a7705f15ee5d911906b75ee2ddb817bc78dab94
+Head: 21b3c058974e2e23fa636255a653ed9bf078c67e
 Applied:
   add-buildbot-role-and-new: e5d3157c3a3487849d1158cad3acb0314f84d8bd
   fix-ssh-folder-permission: 4e9d1521a20357b83a3fab757f8a2e1e21c12394
@@ -8,5 +8,6 @@ Applied:
   use-original-buildbot: 0283ebc303780e0d82bef0d29240746332019eb6
   install-buildbot-plugin: 648dc9b0427032a360a447ebc6985bd43c544660
   generate-new-ssh-key-on-first: e0377aeb5a1442e8e9fc1895640fbcf5ff2caf41
+  update-buildbot-to-1.2: 21b3c058974e2e23fa636255a653ed9bf078c67e
 Unapplied:
 Hidden:
