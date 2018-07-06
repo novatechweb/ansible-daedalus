@@ -12,6 +12,7 @@
   - fetch:
       src: /tmp/ansible_variables
       dest: "{{inventory_hostname}}_ansible_variables"
+      flat: yes
 
 - name: Bacula
   hosts: bacula
