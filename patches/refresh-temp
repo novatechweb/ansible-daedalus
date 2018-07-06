@@ -1,0 +1,27 @@
+Bottom: a34892ac5e19d369b589928bd35b6ebfca16aef4
+Top:    fd76b42b5be212b311ea8939bf0c79287a455cd9
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-06 09:10:06 -0500
+
+Refresh of unmerged-repos
+
+---
+diff --git a/ansible-playbook/group_vars/docker-hosts/repos.yml b/ansible-playbook/group_vars/docker-hosts/repos.yml
+new file mode 100644
+index 00000000..cc4d9cbf
+--- /dev/null
++++ b/ansible-playbook/group_vars/docker-hosts/repos.yml
+@@ -0,0 +1,13 @@
++---
++
++buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
++buildbot_worker_ntel_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ntel.git
++buildbot_worker_ptxdist_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ptxdist.git
++exim4_image_repo: https://github.com/AndrewCooper/docker-exim4.git
++gitlab_image_repo: 'https://github.com/AndrewCooper/docker-gitlab.git'
++mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
++openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
++openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
++phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
++svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
++wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
