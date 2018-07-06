@@ -1,0 +1,138 @@
+Bottom: 30ad39569bf936b0dc5c40e13a3edff20e5115fa
+Top:    186696c702ecfa45c52f1cff6896e607376ffb09
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-06 07:13:16 -0500
+
+Refresh of create-role
+
+---
+diff --git a/roles/nexus/defaults/main.yml b/roles/nexus/defaults/main.yml
+new file mode 100644
+index 00000000..d7e28db8
+--- /dev/null
++++ b/roles/nexus/defaults/main.yml
+@@ -0,0 +1,26 @@
++---
++
++nexus_version: "3.12.1"
++
++# The hostname passed as an envirnment variable into the container
++nexus_ip_addr: '127.0.0.1'
++nexus_hostname: nexus.example.com
++nexus_port_args:
++  - '8081'
++
++nexus_image_name: "sonatype/nexus3"
++nexus_image_tag: "{{nexus_version}}"
++
++# the name of the container being started
++nexus_container_name: "{{ docker_name_prefix }}nexus"
++
++# the name of the data-volume used by the container
++nexus_dv_name: "{{ docker_name_prefix }}nexus_DV"
++nexus_dv_path: "/nexus-data"
++
++# restore directories to temporarly store data being restored into docker containers
++nexus_docker_backup_dir: '{{ docker_backup_dir }}/nexus'
++nexus_docker_restore_dir: '{{ bacula_dest }}{{ nexus_docker_backup_dir }}'
++
++# Network names
++nexus_network: "{{docker_network_frontend}}"
+diff --git a/roles/nexus/tasks/main.yml b/roles/nexus/tasks/main.yml
+new file mode 100644
+index 00000000..92e60926
+--- /dev/null
++++ b/roles/nexus/tasks/main.yml
+@@ -0,0 +1,92 @@
++---
++# file: roles/docker-nexus/tasks/main.yaml
++
++- assert:
++    that:
++    - nexus_db_root_password is defined
++    - nexus_db_password is defined
++
++# *****************************************************************************
++# Setup the directory where the backup and restore is to take place
++
++- name: restore dir
++  file:
++    state: directory
++    path: '{{ nexus_docker_restore_dir }}'
++    owner: root
++    group: tape
++    mode: 'u=rwx,g=rwx,o=rx'
++    recurse: no
++    setype: svirt_sandbox_file_t
++
++- name: docker_container.conf dir
++  file:
++    state: directory
++    path: '{{ docker_restore_config_base_dir }}/{{ nexus_dv_name }}'
++    owner: root
++    group: root
++    mode: 'u=rwx,g=rx,o=rx'
++    recurse: no
++
++# *****************************************************************************
++# backup script part
++
++- name: Assemble dir for backup scripts
++  file:
++    path: /usr/libexec/bacula/backup-scripts
++    state: directory
++
++- name: before_backup script part
++  template:
++    src: before_backup.j2
++    dest: /usr/libexec/bacula/backup-scripts/55.before_backup.nexus
++
++- name: after_backup script part
++  template:
++    src: after_backup.j2
++    dest: /usr/libexec/bacula/backup-scripts/55.after_backup.nexus
++
++# *****************************************************************************
++# update the Docker restore config
++
++- name: exists - state file
++  stat:
++    path: '{{ docker_restore_config_base_dir }}/{{ nexus_dv_name }}/restore.date.txt'
++    get_checksum: False
++    get_md5: False
++  register: st_nexus_restore
++
++# *****************************************************************************
++# Create the data volumes
++
++- name: data-volume container (nexus)
++  docker_volume:
++    name: '{{ nexus_dv_name }}'
++
++# *****************************************************************************
++# Start the data container running
++
++- name: start container (nexus)
++  docker_container:
++    name: '{{ nexus_container_name }}'
++    detach: true
++    restart_policy: '{{ docker_restart_policy }}'
++    hostname: '{{ nexus_hostname }}'
++    ports: '{{ nexus_port_args }}'
++    networks:
++      - name: '{{ nexus_network }}'
++    volumes:
++      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
++      - '{{ nexus_dv_name }}:{{ nexus_dv_path }}:z'
++    env:
++      nexus_HOSTNAME: '{{ nexus_hostname }}'
++      nexus_MAIL_USER: 'nexus'
++      nexus_MAIL_PASSWORD: '{{ nexus_email_password | quote }}'
++    image: '{{ nexus_image_name }}:{{ nexus_image_tag }}'
++    state: started
++
++# *****************************************************************************
++# restore?
++
++- include_tasks: restore.yml
++  when: st_nexus_restore.stat.exists == False
