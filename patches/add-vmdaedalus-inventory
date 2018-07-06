@@ -1,5 +1,5 @@
 Bottom: 03147211e4c277726edc0f1afb8f0cde7fe7b6f2
-Top:    278e7e8d8e54b2110cecdb57882bb072b8902e6e
+Top:    d9f8204589927c5f6e03c5c6251342a8fe8b91ad
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-05-17 16:47:42 -0500
 
@@ -200,10 +200,10 @@ index 00000000..ccbedf8a
 +phpmyadmin_ip_addr:   192.168.0.109
 +buildbot_ip_addr:     192.168.0.110
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 2d82aa67..6bd4fed8 100644
+index 2d82aa67..590b9659 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -1,6 +1,18 @@
+@@ -1,6 +1,19 @@
  ---
  # This playbook deploys the whole application stack in this site.
  
@@ -218,11 +218,12 @@ index 2d82aa67..6bd4fed8 100644
 +  - fetch:
 +      src: /tmp/ansible_variables
 +      dest: "{{inventory_hostname}}_ansible_variables"
++      flat: yes
 +
  - name: Bacula
    hosts: bacula
    remote_user: ansibleremote
-@@ -8,6 +20,10 @@
+@@ -8,6 +21,10 @@
    become_user: root
    become_method: sudo
    roles:
