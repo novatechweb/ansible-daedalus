@@ -1,0 +1,26 @@
+---
+
+nexus_version: "3.12.1"
+
+# The hostname passed as an envirnment variable into the container
+nexus_ip_addr: '127.0.0.1'
+nexus_hostname: nexus.example.com
+nexus_port_args:
+  - '8081'
+
+nexus_image_name: "sonatype/nexus3"
+nexus_image_tag: "{{nexus_version}}"
+
+# the name of the container being started
+nexus_container_name: "{{ docker_name_prefix }}nexus"
+
+# the name of the data-volume used by the container
+nexus_dv_name: "{{ docker_name_prefix }}nexus_DV"
+nexus_dv_path: "/nexus-data"
+
+# restore directories to temporarly store data being restored into docker containers
+nexus_docker_backup_dir: '{{ docker_backup_dir }}/nexus'
+nexus_docker_restore_dir: '{{ bacula_dest }}{{ nexus_docker_backup_dir }}'
+
+# Network names
+nexus_network: "{{docker_network_frontend}}"
