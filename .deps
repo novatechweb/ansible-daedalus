@@ -1,0 +1,29 @@
+master
+public-keys
+bootstrap
+daedalus
+ansible-cleanup
+ docker-modules
+  dependency-cleanup
+   extract-docker-hosts
+    credentials
+     docker_health
+     bacula
+     docker-common
+      builder
+      buildsystem
+      gitlab-user
+      gitlab-sshkey
+      buildbot
+      exim4
+      gitlab
+      mantisbt
+      mariadb
+      mediawiki
+      openldap
+      openssl
+      sshd
+      svn
+      nexus
+repo-forks
+debugging
