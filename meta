@@ -1,10 +1,10 @@
 Version: 1
-Previous: 768c72a6413ac3ccead856760931476c753ebc92
-Head: ab282547ef91802fdba764fb5bbe6da41d14f416
+Previous: c1331775b29e51e770a17cb1529a01124c4541ba
+Head: ee475dc1e02ea528f30cdc02592c7d4a2710920d
 Applied:
   add-buildbot-ntel-worker: 148e8ff4926e7422714d809ce0a468b2f291fdbc
   parameterize-uris: ab282547ef91802fdba764fb5bbe6da41d14f416
+  update-ntel-builds-for-new: 6f57f0dffa58d360ba33a47064d9097c9c1818fc
+  hsm-host-config: ee475dc1e02ea528f30cdc02592c7d4a2710920d
 Unapplied:
-  update-ntel-builds-for-new: 3852334cd49f9031ade352fe8336e402a78edb27
-  hsm-host-config: 4c06a939f23eb099521752d99ae90d1aaa0ffa50
 Hidden:
