@@ -1,9 +1,8 @@
 Version: 1
-Previous: f558841161ac55bdb0e02a5cba0e04979dff854a
-Head: 2d7b539a48fc187aa18a4c529ea1982f0c8999d7
+Previous: 0d3d49bb5a0a8782a303b08f4ee1b6d52daee652
+Head: 2a0a8508444cdc4e253d93a7dfadcc88ef139926
 Applied:
-  add-buildbot-role: 62732830979017087b33e4124517f249f38e4ba3
-  refresh-temp: 2d7b539a48fc187aa18a4c529ea1982f0c8999d7
+  add-buildbot-role: 2a0a8508444cdc4e253d93a7dfadcc88ef139926
 Unapplied:
   fix-ssh-folder-permission: 30010a8796e1503942afd85612e34d7d16f58db8
   add-environment-variables-for: c666b2bdbf660a25bc1a5c435ccec5ae626098b5

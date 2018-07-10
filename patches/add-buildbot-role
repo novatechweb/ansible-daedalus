@@ -1,5 +1,5 @@
 Bottom: aece631eae25ec48c7e0a6d071254d00a8e3e910
-Top:    a7d059d0b7ef241febde0a05eb86ab0f0acf6aef
+Top:    5eafa50a9ced08c5e712eec9d8e94324020ea89d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-10 17:00:47 -0500
 
@@ -109,10 +109,10 @@ index 658d5fb1..75985b8a 100644
  # internal web server (usually the html.WebStatus page) is visible. This
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 00000000..48e5ec18
+index 00000000..df2f075c
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -0,0 +1,97 @@
+@@ -0,0 +1,96 @@
 +---
 +# defaults file for buildbot
 +
@@ -150,7 +150,6 @@ index 00000000..48e5ec18
 +
 +# environment passed to the container
 +container_env:
-+  BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
 +  BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
 +  BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
 +  BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
