@@ -36,6 +36,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
 # environment passed to the container
 container_env:
   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+  BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
   BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
   BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
