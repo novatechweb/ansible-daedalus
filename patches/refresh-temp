@@ -1,0 +1,17 @@
+Bottom: 03147211e4c277726edc0f1afb8f0cde7fe7b6f2
+Top:    409c6df4cdc331782b30773ce679395137b5f286
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-10 16:33:40 -0500
+
+Refresh of dump-host-vars
+
+---
+diff --git a/ansible-playbook/templates/dump_variables b/ansible-playbook/templates/dump_variables
+new file mode 100644
+index 00000000..6a8b42ce
+--- /dev/null
++++ b/ansible-playbook/templates/dump_variables
+@@ -0,0 +1,3 @@
++HOSTVARS (ANSIBLE GATHERED, group_vars, host_vars) :
++
++{{ hostvars[inventory_hostname] | to_yaml }}
