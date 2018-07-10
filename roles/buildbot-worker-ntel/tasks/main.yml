@@ -1,0 +1,69 @@
+---
+# tasks file for buildbot-worker-ntel
+
+# This will generate passwords for these accounts.
+- assert:
+    that:
+    - buildbot_worker_ntel_password is defined
+
+- name: Create buildbot cache volume
+  docker_volume:
+    name: '{{ cache_volume }}'
+
+- name: Populate buildbot cache volume
+  loop:
+  - /cache
+  - /cache/downloads
+  - /cache/images
+  - /cache/mirrors
+  - /cache/releases
+  - /cache/sstate
+  docker_container:
+    name: '{{ container_name }}-bootstrap'
+    image: 'alpine:latest'
+    volumes:
+    - '{{ cache_volume }}:{{ cache_path }}:z'
+    detach: no
+    cleanup: yes
+    command: /bin/ash -c 
+      "mkdir -p {{item}} &&
+      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}} &&
+      chmod -v 777 {{item}}"
+
+- name: Create buildbot data volume
+  docker_volume:
+    name: '{{ data_volume }}'
+
+- name: Checkout image repo
+  git:
+    repo: '{{ image_repo }}'
+    version: master
+    dest: '{{ image_dir }}'
+
+- name: Create buildbot worker image
+  docker_image:
+    name: '{{ image_name }}'
+    tag: '{{ docker_image_tag }}'
+    path: '{{ image_dir }}'
+    buildargs: '{{ image_args }}'
+    force: true
+
+- name: Start buildbot container
+  docker_container:
+    name: '{{ container_name }}'
+    image: '{{ image_name }}:{{ docker_image_tag }}'
+    # networks: '{{ buildbot_worker_ntel_networks }}'
+    volumes: '{{ container_volumes }}'
+    env: '{{ container_env }}'
+    # ports: '{{ buildbot_worker_ntel_port_args }}'
+
+- name: Grab ssh public key
+  command: >
+    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+  changed_when: false
+  register: output
+
+- name: Add buildbot_worker_ntel host
+  add_host:
+    name: buildbot_worker_ntel
+    pubkey: "{{ output.stdout }}"
