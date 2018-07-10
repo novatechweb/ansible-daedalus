@@ -1,5 +1,5 @@
 Bottom: aece631eae25ec48c7e0a6d071254d00a8e3e910
-Top:    230d2ecc7bfec22eb47fc534e5a4c3003999b5a4
+Top:    f5c3c4cecac2626a659f3965528865b0340443a0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:46:52 -0500
 
@@ -93,6 +93,21 @@ index 0727917d..ee706b65 100644
  - name: Setup the Build System (Test Station) with repo data
    hosts: buildsystem
    remote_user: ansibleremote
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 658d5fb1..75985b8a 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -68,8 +68,8 @@ c['www'] = {
+ # installation's html.WebStatus home page (linked to the
+ # 'titleURL') and is embedded in the title of the waterfall HTML page.
+ 
+-c['title'] = "workspace"
+-c['titleURL'] = "http://wiki"
++c['title'] = "NovaTech CI"
++c['titleURL'] = "http://git.novatech-llc.com/"
+ 
+ # the 'buildbotURL' string should point to the location where the buildbot's
+ # internal web server (usually the html.WebStatus page) is visible. This
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
 index 00000000..fa19756e

@@ -1,5 +1,5 @@
-Bottom: 6ee9eed7d73380d08962fe1daf65aac31d427238
-Top:    5daf13607cae17ad811838c1d921252bedccae00
+Bottom: 2b6b7c329f5650e850b6c70e0f52f7dbb3a18bb2
+Top:    7d4e89e166d5add80cb36b620858bcf91ede81cb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-10 16:42:12 -0500
 
@@ -7,7 +7,7 @@ Add Gitlab Authentication
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index c3c87d10..78442f9f 100644
+index 0a3aed76..e5fc5149 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -49,6 +49,20 @@ mn = reporters.MailNotifier(

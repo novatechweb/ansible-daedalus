@@ -1,5 +1,5 @@
-Bottom: 396e9aafd8da51e2205176b9d430ee53847c2f87
-Top:    226c422645be65c2faebfbd3e0b129bf4ccdb9bc
+Bottom: 87af5d8ab382e8b06fca38cdc34f5b5b70a6d745
+Top:    329c75b1d7e14dcdc5331e1dbd345550d5a92815
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:46:52 -0500
 
@@ -43,7 +43,7 @@ index c3b2e879..4fbddaa2 100644
  
  # note: this line is matched against to check that this is a buildmaster
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 658d5fb1..c3c87d10 100644
+index 75985b8a..0a3aed76 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -20,7 +20,7 @@ c['change_source'] = []
