@@ -1,5 +1,5 @@
 Bottom: 502ea40e2435c1cd0384115d138c2ee7b0e4b1b6
-Top:    502ea40e2435c1cd0384115d138c2ee7b0e4b1b6
+Top:    230a2b01ccebc193e3698cb2486c8a928cbbeabe
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-10 14:27:30 -0500
 
@@ -7,4 +7,11 @@ Add variable file for HSM host configuration
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/buildbot/hsm.yml b/ansible-playbook/group_vars/buildbot/hsm.yml
+new file mode 100644
+index 00000000..aa3e1150
+--- /dev/null
++++ b/ansible-playbook/group_vars/buildbot/hsm.yml
+@@ -0,0 +1,2 @@
++---
++hsm_host: "172.16.64.38"
