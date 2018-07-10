@@ -1,7 +1,7 @@
 Bottom: 6ee9eed7d73380d08962fe1daf65aac31d427238
-Top:    c6062879c4cbea65cb0bca9c7b4cb03d6c8e87f4
+Top:    81c1db090687a77f9b0a176cd85bd769d959576d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-10 14:30:52 -0500
+Date:   2018-07-10 14:33:52 -0500
 
 Add buildbot NTEL worker Docker image
 
@@ -61,12 +61,20 @@ index d476bf91..afeff4e3 100644
  buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
+diff --git a/ansible-playbook/group_vars/buildbot/hsm.yml b/ansible-playbook/group_vars/buildbot/hsm.yml
+new file mode 100644
+index 00000000..aa3e1150
+--- /dev/null
++++ b/ansible-playbook/group_vars/buildbot/hsm.yml
+@@ -0,0 +1,2 @@
++---
++hsm_host: "172.16.64.38"
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
 new file mode 100644
-index 00000000..11a726fb
+index 00000000..cd2088e9
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/Dockerfile
-@@ -0,0 +1,89 @@
+@@ -0,0 +1,91 @@
 +# buildbot/buildbot-worker
 +
 +# please follow docker best practices
@@ -136,12 +144,14 @@ index 00000000..11a726fb
 +    buildbot-worker==${BUILDBOT_VERSION}
 +
 +# Install software for image signing
-+RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
++ARG PTK_URI="http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
++ARG PTK_HSM_HOST="172.16.64.38"
++RUN curl ${PTK_URI} \
 +|   tar -v -x -C /tmp \
 +&&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
 +&&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
 +&&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/network_hsm_access_provider/PTKnethsm-5.3.0-15.x86_64.rpm \
-+&&  echo "ET_HSM_NETCLIENT_SERVERLIST=172.16.64.38" > /etc/default/et_hsm \
++&&  echo "ET_HSM_NETCLIENT_SERVERLIST=${PTK_HSM_HOST}" > /etc/default/et_hsm \
 +&&  echo "/opt/safenet/protecttoolkit5/ptk/lib" > /etc/ld.so.conf.d/safenet_ptk.conf \
 +&&  ldconfig -v \
 +&&  rm -rf /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/
