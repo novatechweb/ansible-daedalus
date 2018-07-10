@@ -1,5 +1,5 @@
-Bottom: 52e4310eb5cdf6df5aa77526397d7b80d265ac61
-Top:    e2540df4ec08724dc2fb2555fae04a2a8dff37ab
+Bottom: c6062879c4cbea65cb0bca9c7b4cb03d6c8e87f4
+Top:    c6062879c4cbea65cb0bca9c7b4cb03d6c8e87f4
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:58:57 -0500
 
@@ -7,43 +7,4 @@ Parameterize URIs
 
 
 ---
-diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
-index 11a726fb..cd2088e9 100644
---- a/docker/buildbot-worker-ntel/Dockerfile
-+++ b/docker/buildbot-worker-ntel/Dockerfile
-@@ -67,12 +67,14 @@ RUN wget https://bootstrap.pypa.io/get-pip.py \
-     buildbot-worker==${BUILDBOT_VERSION}
- 
- # Install software for image signing
--RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
-+ARG PTK_URI="http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
-+ARG PTK_HSM_HOST="172.16.64.38"
-+RUN curl ${PTK_URI} \
- |   tar -v -x -C /tmp \
- &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
- &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
- &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/network_hsm_access_provider/PTKnethsm-5.3.0-15.x86_64.rpm \
--&&  echo "ET_HSM_NETCLIENT_SERVERLIST=172.16.64.38" > /etc/default/et_hsm \
-+&&  echo "ET_HSM_NETCLIENT_SERVERLIST=${PTK_HSM_HOST}" > /etc/default/et_hsm \
- &&  echo "/opt/safenet/protecttoolkit5/ptk/lib" > /etc/ld.so.conf.d/safenet_ptk.conf \
- &&  ldconfig -v \
- &&  rm -rf /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/
-diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
-index 38c477a5..ba3cae5c 100644
---- a/roles/buildbot-worker-ntel/defaults/main.yml
-+++ b/roles/buildbot-worker-ntel/defaults/main.yml
-@@ -5,9 +5,14 @@
- # Network names
- docker_network_frontend: 'frontend'
- 
-+buildbot_asset_host: 'http://172.16.64.2/~georgem'
-+buildbot_hsm_host: "172.16.64.38"
-+
- buildbot_worker_ntel_build_args:
-   BUILDBOT_UID: '1000'
-   BUILDBOT_VERSION: 'v1.1.2'
-+  PTK_URI: "{{buildbot_asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
-+  PTK_HSM_HOST: "{{buildbot_hsm_host}}"
- 
- # the name of the container being started
- buildbot_worker_ntel_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
+
