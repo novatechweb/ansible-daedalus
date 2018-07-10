@@ -1,6 +1,6 @@
 Version: 1
-Previous: 76004e76275f4d02a83868f217a24fdb5140e48a
-Head: 57072582ea6546b7082ceb4a079701496787e23b
+Previous: 507e0cade1ec0acd7ba431d4a8d002eed3fa39b8
+Head: 92355e94aba7a7dd626b35d11eb5161e27c1ab40
 Applied:
   add-buildbot-role-and-new: d2587580d98cbda7e5ab66c7f58deae5995e1615
   fix-ssh-folder-permission: f4277e645e69986bd3911e7f4a9ff82e1b95c4ac
@@ -10,5 +10,6 @@ Applied:
   generate-new-ssh-key-on-first: f5326b265e42da7a30d9ce70c6787419b43239b8
   update-buildbot-to-1.2: 60ae68c601f4dba91fd722a32bc8fbeb5b202c2a
   gitlab-auth: 57072582ea6546b7082ceb4a079701496787e23b
+  refresh-temp: 92355e94aba7a7dd626b35d11eb5161e27c1ab40
 Unapplied:
 Hidden:
