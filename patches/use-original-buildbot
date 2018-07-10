@@ -1,5 +1,5 @@
-Bottom: a246069b7a7a8ac885186f89c20b45ed61a54ffa
-Top:    d04c093461985ece5126d9ba99e3cd517dacc25d
+Bottom: c77269b7838d9f23fe93c0ef846ca8465f644d12
+Top:    534157eb21f6e476d13d58eedb5d03fe65e273b5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:46:52 -0500
 
@@ -8,7 +8,7 @@ Use original buildbot entrypoint and init daemon
 
 ---
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 8205243d..3e48e26e 100644
+index 4cbbd098..0947a60c 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
 @@ -8,7 +8,6 @@ ARG BUILDBOT_TIMEZONE="Etc/UTC"

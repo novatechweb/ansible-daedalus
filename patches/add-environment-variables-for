@@ -1,5 +1,5 @@
-Bottom: 6a08c3666d9f05ac6fcc3a714d75f8f0351f8a9c
-Top:    a246069b7a7a8ac885186f89c20b45ed61a54ffa
+Bottom: 853ba2713cdebe77320c2166801e52353ee210e2
+Top:    c77269b7838d9f23fe93c0ef846ca8465f644d12
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-03 08:46:52 -0500
 
@@ -8,7 +8,7 @@ Add environment variables for parameters
 
 ---
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 521c8237..8205243d 100644
+index 2b04303b..4cbbd098 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
 @@ -19,9 +19,10 @@ RUN pip --no-cache-dir install \

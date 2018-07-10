@@ -1,7 +1,7 @@
 Bottom: aece631eae25ec48c7e0a6d071254d00a8e3e910
-Top:    2e9adea229413c6294308c6e21e8be4afd59bfc2
+Top:    90e86d5f56636c1eb0ba457bc0885874b28fc0f7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-10 17:00:47 -0500
+Date:   2018-07-10 17:09:40 -0500
 
 Add buildbot role and new playbook
 
@@ -92,6 +92,16 @@ index 0727917d..ee706b65 100644
  - name: Setup the Build System (Test Station) with repo data
    hosts: buildsystem
    remote_user: ansibleremote
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index 521c8237..2b04303b 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -1,4 +1,4 @@
+-FROM        buildbot/buildbot-master:v0.9.13
++FROM        buildbot/buildbot-master:v1.2.0
+ MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
+ 
+ WORKDIR /buildbot
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
 index 658d5fb1..75985b8a 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
