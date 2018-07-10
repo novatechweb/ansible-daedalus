@@ -1,5 +1,5 @@
 Bottom: 6ee9eed7d73380d08962fe1daf65aac31d427238
-Top:    5ab14f9b23ac6e64761f3e668c580a6c24b75b37
+Top:    52e4310eb5cdf6df5aa77526397d7b80d265ac61
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-06-04 10:51:57 -0500
 
@@ -274,50 +274,6 @@ index 00000000..a6343a88
 +
 +ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
-diff --git a/roles/buildbot-worker-ntel/README.md b/roles/buildbot-worker-ntel/README.md
-new file mode 100644
-index 00000000..225dd44b
---- /dev/null
-+++ b/roles/buildbot-worker-ntel/README.md
-@@ -0,0 +1,38 @@
-+Role Name
-+=========
-+
-+A brief description of the role goes here.
-+
-+Requirements
-+------------
-+
-+Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-+
-+Role Variables
-+--------------
-+
-+A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-+
-+Dependencies
-+------------
-+
-+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-+
-+Example Playbook
-+----------------
-+
-+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-+
-+    - hosts: servers
-+      roles:
-+         - { role: username.rolename, x: 42 }
-+
-+License
-+-------
-+
-+BSD
-+
-+Author Information
-+------------------
-+
-+An optional section for the role authors to include contact information, or a website (HTML is not allowed).
 diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
 new file mode 100644
 index 00000000..38c477a5
@@ -356,79 +312,6 @@ index 00000000..38c477a5
 +
 +buildbot_worker_ntel_volumes:
 +  - '{{ buildbot_worker_ntel_data_volume }}:{{ buildbot_worker_ntel_data_path }}:z'
-diff --git a/roles/buildbot-worker-ntel/handlers/main.yml b/roles/buildbot-worker-ntel/handlers/main.yml
-new file mode 100644
-index 00000000..6347b70a
---- /dev/null
-+++ b/roles/buildbot-worker-ntel/handlers/main.yml
-@@ -0,0 +1,2 @@
-+---
-+# handlers file for buildbot-worker-ntel
-\ No newline at end of file
-diff --git a/roles/buildbot-worker-ntel/meta/main.yml b/roles/buildbot-worker-ntel/meta/main.yml
-new file mode 100644
-index 00000000..72237997
---- /dev/null
-+++ b/roles/buildbot-worker-ntel/meta/main.yml
-@@ -0,0 +1,57 @@
-+galaxy_info:
-+  author: your name
-+  description: your description
-+  company: your company (optional)
-+
-+  # If the issue tracker for your role is not on github, uncomment the
-+  # next line and provide a value
-+  # issue_tracker_url: http://example.com/issue/tracker
-+
-+  # Some suggested licenses:
-+  # - BSD (default)
-+  # - MIT
-+  # - GPLv2
-+  # - GPLv3
-+  # - Apache
-+  # - CC-BY
-+  license: license (GPLv2, CC-BY, etc)
-+
-+  min_ansible_version: 1.2
-+
-+  # If this a Container Enabled role, provide the minimum Ansible Container version.
-+  # min_ansible_container_version:
-+
-+  # Optionally specify the branch Galaxy will use when accessing the GitHub
-+  # repo for this role. During role install, if no tags are available,
-+  # Galaxy will use this branch. During import Galaxy will access files on
-+  # this branch. If Travis integration is configured, only notifications for this
-+  # branch will be accepted. Otherwise, in all cases, the repo's default branch
-+  # (usually master) will be used.
-+  #github_branch:
-+
-+  #
-+  # platforms is a list of platforms, and each platform has a name and a list of versions.
-+  #
-+  # platforms:
-+  # - name: Fedora
-+  #   versions:
-+  #   - all
-+  #   - 25
-+  # - name: SomePlatform
-+  #   versions:
-+  #   - all
-+  #   - 1.0
-+  #   - 7
-+  #   - 99.99
-+
-+  galaxy_tags: []
-+    # List tags for your role here, one per line. A tag is a keyword that describes
-+    # and categorizes the role. Users find roles by searching for tags. Be sure to
-+    # remove the '[]' above, if you add tags to this list.
-+    #
-+    # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
-+    #       Maximum 20 tags per role.
-+
-+dependencies: []
-+  # List your role dependencies here, one per line. Be sure to remove the '[]' above,
-+  # if you add dependencies to this list.
-\ No newline at end of file
 diff --git a/roles/buildbot-worker-ntel/tasks/bootstrap.sh b/roles/buildbot-worker-ntel/tasks/bootstrap.sh
 new file mode 100755
 index 00000000..8353ad9d
@@ -503,26 +386,6 @@ index 00000000..79f6ee08
 +  add_host:
 +    name: buildbot_worker_ntel
 +    pubkey: "{{ output.stdout }}"
-diff --git a/roles/buildbot-worker-ntel/tests/inventory b/roles/buildbot-worker-ntel/tests/inventory
-new file mode 100644
-index 00000000..878877b0
---- /dev/null
-+++ b/roles/buildbot-worker-ntel/tests/inventory
-@@ -0,0 +1,2 @@
-+localhost
-+
-diff --git a/roles/buildbot-worker-ntel/tests/test.yml b/roles/buildbot-worker-ntel/tests/test.yml
-new file mode 100644
-index 00000000..98df706d
---- /dev/null
-+++ b/roles/buildbot-worker-ntel/tests/test.yml
-@@ -0,0 +1,5 @@
-+---
-+- hosts: localhost
-+  remote_user: root
-+  roles:
-+    - buildbot-worker-ntel
-\ No newline at end of file
 diff --git a/roles/buildbot-worker-ntel/vars/main.yml b/roles/buildbot-worker-ntel/vars/main.yml
 new file mode 100644
 index 00000000..afdab38e
