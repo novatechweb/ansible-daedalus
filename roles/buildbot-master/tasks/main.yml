@@ -8,34 +8,35 @@
 
 - name: Create buildbot data volume
   docker_volume:
-    name: '{{ buildbot_dv_name }}'
+    name: '{{ data_volume }}'
 
 - name: Checkout image repo
   git:
-    repo: '{{ buildbot_image_repo }}'
+    repo: '{{ image_repo }}'
     version: master
-    dest: '{{ buildbot_image_dir }}'
+    dest: '{{ image_dir }}'
 
 - name: Create buildbot master image
   docker_image:
-    name: '{{ buildbot_image_name }}'
+    name: '{{ image_name }}'
     tag: '{{ docker_image_tag }}'
-    path: '{{ buildbot_image_dir }}'
-    buildargs: '{{ buildbot_build_args }}'
+    path: '{{ image_dir }}'
+    buildargs: '{{ image_args }}'
     force: true
 
 - name: Start buildbot container
   docker_container:
-    name: '{{ buildbot_container_name }}'
-    image: '{{ buildbot_image_name }}:{{ docker_image_tag }}'
-    networks: '{{ buildbot_networks }}'
-    volumes: '{{ buildbot_volumes }}'
-    env: '{{ buildbot_env }}'
+    name: '{{ container_name }}'
+    image: '{{ image_name }}:{{ docker_image_tag }}'
+    networks: '{{ container_networks }}'
+    volumes: '{{ container_volumes }}'
+    env: '{{ container_env }}'
     ports: '{{ buildbot_port_args }}'
+    state: started
 
 - name: Grab ssh public key
   command: >
-    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
   changed_when: false
   register: output
 
