@@ -1,10 +1,10 @@
 Version: 1
-Previous: f3f6b9c814dea578c2398b9a928a14aa95a9aff2
-Head: d2c0dc1613afd85522f716ac2831cd6332380c96
+Previous: 361984959ca3075298d754e00d420e3f13cbd4a8
+Head: 13b1869590958ae4c6b055f1d37568252a3fd1e3
 Applied:
   add-buildbot-role: d2c0dc1613afd85522f716ac2831cd6332380c96
+  fix-ssh-folder-permission: 13b1869590958ae4c6b055f1d37568252a3fd1e3
 Unapplied:
-  fix-ssh-folder-permission: 30010a8796e1503942afd85612e34d7d16f58db8
   add-environment-variables-for: c666b2bdbf660a25bc1a5c435ccec5ae626098b5
   use-original-buildbot: e32d02fa30803c09e5a51340910ef9a07c39c136
   install-buildbot-plugin: 4827a933f51b4c3780735090b64abcbf2a9c6960
