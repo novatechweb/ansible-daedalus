@@ -1,0 +1,10 @@
+Bottom: 502ea40e2435c1cd0384115d138c2ee7b0e4b1b6
+Top:    502ea40e2435c1cd0384115d138c2ee7b0e4b1b6
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-10 14:27:30 -0500
+
+Add variable file for HSM host configuration
+
+
+---
+
