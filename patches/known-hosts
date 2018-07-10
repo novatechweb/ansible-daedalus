@@ -1,5 +1,5 @@
-Bottom: c0ca69dda7084c202aad2ce14fa6f0819136daf5
-Top:    7771d18de0b8577e25ab7fd18fe4a6e2c857f755
+Bottom: 4927241d8d9eb6b0545d6691c0056a16f02faba5
+Top:    4927241d8d9eb6b0545d6691c0056a16f02faba5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-10 16:59:37 -0500
 
@@ -7,55 +7,4 @@ Populate buildbot with gitlab public keys
 
 
 ---
-diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index e14b93b9..63cebaa2 100644
---- a/ansible-playbook/buildbot.yml
-+++ b/ansible-playbook/buildbot.yml
-@@ -7,12 +7,17 @@
-   become_method: sudo
-   tags:
-   - buildbot
-+  pre_tasks:
-+  - name: Scan Gitlab ssh keys
-+    command: ssh-keyscan {{git_hostname}}
-+    register: gitlab_keys
-   roles:
-   - name: Build and start the Buildbot master container
-     role: buildbot-master
-     tags:
-     - buildbot-master
--
-+    vars:
-+      known_hosts: "{{gitlab_keys.stdout}}"
-   - name: Add buildbot user to Gitlab
-     role: gitlab-user
-     vars:
-diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
-index 85c28248..44ec2c12 100755
---- a/docker/buildbot-master/buildbot/start.sh
-+++ b/docker/buildbot-master/buildbot/start.sh
-@@ -8,6 +8,12 @@ BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
- 
- ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/null 2>/dev/null
- 
-+if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
-+then
-+    mkdir -p "${HOME}/.ssh"
-+    ln -s "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
-+fi
-+
- ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
- 
- # Run original buildbot entrypoint
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index df2f075c..7d4285b5 100644
---- a/roles/buildbot-master/defaults/main.yml
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -36,6 +36,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
- # environment passed to the container
- container_env:
-   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
-+  BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
-   BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
-   BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
-   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
+
