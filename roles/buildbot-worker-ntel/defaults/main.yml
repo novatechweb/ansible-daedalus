@@ -1,32 +1,80 @@
 ---
 # defaults file for buildbot-worker-ntel
 
-# The hostname passed as an envirnment variable into the container
-# Network names
-docker_network_frontend: 'frontend'
+# host containing build assets
+asset_host: 'http://{{ansible_facts.default_ipv4.address}}/'
 
-buildbot_worker_ntel_build_args:
-  BUILDBOT_UID: '1000'
-  BUILDBOT_VERSION: 'v1.1.2'
+# address of buildbot master service
+buildbot_master: '{{ansible_facts.default_ipv4.address}}'
 
-# the name of the container being started
-buildbot_worker_ntel_container_name: '{{ docker_name_prefix }}buildbot-worker-ntel'
+# numeric ID of buildbot user
+buildbot_uid: 1000
 
-buildbot_worker_ntel_data_path: '/buildbot'
+# numeric version of buildbot service
+buildbot_version: '1.1.2'
 
-# the name of the data volume used by the container
-buildbot_worker_ntel_data_volume: '{{ docker_name_prefix }}buildbot-worker-ntel_data'
+# port number for workers to communicate with master
+buildbot_worker_port: 9989
 
-buildbot_worker_ntel_env:
+# host path containing configuration files
+config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+
+# mount path of the cache volume
+cache_path: '/cache'
+
+# name of the cache volume
+cache_volume: '{{ docker_name_prefix }}{{ hostname }}-cache'
+
+# environment passed to the container
+container_env:
+  BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
   BUILDBOT_MASTER: '{{ buildbot_master }}'
-  BUILDBOT_WORKER_PORT: '9989'
+  BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
   BUILDBOT_WORKER_NAME: 'worker-ntel'
   BUILDBOT_WORKER_PASS: 'pass'
 
-# the name of the image being built and used for the container
-buildbot_worker_ntel_image_dir: '{{ docker_projects_dir }}/buildbot-worker-ntel'
-buildbot_worker_ntel_image_name: '{{ docker_registry_username }}/buildbot-worker-ntel'
-buildbot_worker_ntel_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
+# the name of the container being started
+container_name: '{{ docker_name_prefix }}{{ hostname }}'
 
-buildbot_worker_ntel_volumes:
-  - '{{ buildbot_worker_ntel_data_volume }}:{{ buildbot_worker_ntel_data_path }}:z'
+# volumes mounted within the container
+container_volumes:
+- '{{ data_volume }}:{{ data_path }}:z'
+- '{{ cache_volume }}:{{ cache_path }}:z'
+- '{{ config_hostdir }}:{{ secrets_path }}'
+
+# mount path of the data volume
+data_path: '/buildbot'
+
+# name of the data volume
+data_volume: '{{ docker_name_prefix }}{{ hostname }}-data'
+
+# hostname
+hostname: buildbot-worker-ntel
+
+# address of hsm cryptographic service
+hsm_host: '{{ansible_facts.default_ipv4.address}}'
+
+# build arguments of the image
+image_args:
+  BUILDBOT_UID: '{{buildbot_uid}}'
+  BUILDBOT_VERSION: 'v{{buildbot_version}}'
+  PTK_URI: '{{asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
+  PTK_HSM_HOST: '{{hsm_host}}'
+
+# directory of the image source
+image_dir: '{{ docker_projects_dir }}/{{ hostname }}'
+
+# name of the image being built
+image_name: '{{ docker_registry_username }}/{{ hostname }}'
+
+# repository URI of the image source
+image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
+
+# host path containing secrets
+secrets_hostdir: '{{ config_hostdir }}'
+
+# name of the ssh known_hosts secret
+secrets_known_hosts: 'known_hosts'
+
+# mount path of the secrets volume
+secrets_path: '/run/secrets'
