@@ -1,8 +1,8 @@
 Version: 1
-Previous: bd30e9d4257a610db1ca9f5b450b132bd0ae2df2
+Previous: 6c997e6ce08139eea18f5ff9578f1c9767137916
 Head: 989614a56cd3e778cdb384cb8a21b570a7e3a450
 Applied:
-  add-buildbot-role-and-new: 989614a56cd3e778cdb384cb8a21b570a7e3a450
+  add-buildbot-role: 989614a56cd3e778cdb384cb8a21b570a7e3a450
 Unapplied:
   fix-ssh-folder-permission: 30010a8796e1503942afd85612e34d7d16f58db8
   add-environment-variables-for: c666b2bdbf660a25bc1a5c435ccec5ae626098b5
