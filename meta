@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 424ee71491148467f673c3b8d60fd8a9dd7d7a43
+Previous: fe02746305a61b3c23bd06e000e05cb7a742d8d5
+Head: 396f547d93afbfac615b3d0faf6c887208ebacc6
 Applied:
+  dump-host-vars: 396f547d93afbfac615b3d0faf6c887208ebacc6
 Unapplied:
 Hidden:

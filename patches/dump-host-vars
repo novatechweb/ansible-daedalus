@@ -1,0 +1,10 @@
+Bottom: 03147211e4c277726edc0f1afb8f0cde7fe7b6f2
+Top:    03147211e4c277726edc0f1afb8f0cde7fe7b6f2
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-10 16:33:22 -0500
+
+Dump all host vars at start of playbook
+
+
+---
+
