@@ -1,5 +1,5 @@
 Bottom: aece631eae25ec48c7e0a6d071254d00a8e3e910
-Top:    5eafa50a9ced08c5e712eec9d8e94324020ea89d
+Top:    2e9adea229413c6294308c6e21e8be4afd59bfc2
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-10 17:00:47 -0500
 
@@ -109,10 +109,10 @@ index 658d5fb1..75985b8a 100644
  # internal web server (usually the html.WebStatus page) is visible. This
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 00000000..df2f075c
+index 00000000..c0988cfb
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -0,0 +1,96 @@
+@@ -0,0 +1,93 @@
 +---
 +# defaults file for buildbot
 +
@@ -153,9 +153,6 @@ index 00000000..df2f075c
 +  BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
 +  BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
 +  BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
-+  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
-+  BUILDBOT_SMTP_USER: 'Dean.cox'
-+  BUILDBOT_SMTP_PASS: 'no5156'
 +  BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
 +  BUILDBOT_WORKER_NTEL: 'worker-ntel'
 +  BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
