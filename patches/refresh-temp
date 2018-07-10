@@ -1,0 +1,203 @@
+Bottom: 532c5e82c58843eeb89166a6885fb4e9936c7fcb
+Top:    d72e0a8364ef41dc88a6fee3a3f0429e327c03a1
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-10 16:04:51 -0500
+
+Refresh of add-buildbot-ptxdist-worker
+
+---
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/start.sh b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+index a6343a88..b23ac658 100755
+--- a/docker/buildbot-worker-ptxdist/buildbot/start.sh
++++ b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+@@ -8,5 +8,11 @@ BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
+ 
+ ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/null 2>/dev/null
+ 
++if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
++then
++    mkdir -p "${HOME}/.ssh"
++    ln -s "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
++fi
++
+ ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
+ exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
+diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
+index 092944c9..9f917097 100644
+--- a/roles/buildbot-worker-ptxdist/defaults/main.yml
++++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
+@@ -1,32 +1,80 @@
+ ---
+ # defaults file for buildbot-worker-ptxdist
+ 
+-# The hostname passed as an envirnment variable into the container
+-# Network names
+-docker_network_frontend: 'frontend'
++# host containing build assets
++asset_host: 'http://{{ansible_facts.default_ipv4.address}}/'
+ 
+-buildbot_worker_ptxdist_build_args:
+-  BUILDBOT_UID: '1000'
+-  BUILDBOT_VERSION: 'v1.1.2'
++# address of buildbot master service
++buildbot_master: '{{ansible_facts.default_ipv4.address}}'
+ 
+-# the name of the container being started
+-buildbot_worker_ptxdist_container_name: '{{ docker_name_prefix }}buildbot-worker-ptxdist'
++# numeric ID of buildbot user
++buildbot_uid: 1000
++
++# numeric version of buildbot service
++buildbot_version: '1.1.2'
++
++# port number for workers to communicate with master
++buildbot_worker_port: 9989
++
++# host path containing configuration files
++config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ 
+-buildbot_worker_ptxdist_data_path: '/buildbot'
++# mount path of the cache volume
++cache_path: '/cache'
+ 
+-# the name of the data volume used by the container
+-buildbot_worker_ptxdist_data_volume: '{{ docker_name_prefix }}buildbot-worker-ptxdist_data'
++# name of the cache volume
++cache_volume: '{{ docker_name_prefix }}{{ hostname }}-cache'
+ 
+-buildbot_worker_ptxdist_env:
++# environment passed to the container
++container_env:
++  BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
+   BUILDBOT_MASTER: '{{ buildbot_master }}'
+-  BUILDBOT_WORKER_PORT: '9989'
++  BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
+   BUILDBOT_WORKER_NAME: 'worker-ptxdist'
+   BUILDBOT_WORKER_PASS: 'pass'
+ 
+-# the name of the image being built and used for the container
+-buildbot_worker_ptxdist_image_dir: '{{ docker_projects_dir }}/buildbot-worker-ptxdist'
+-buildbot_worker_ptxdist_image_name: '{{ docker_registry_username }}/buildbot-worker-ptxdist'
+-buildbot_worker_ptxdist_image_repo: https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git
++# the name of the container being started
++container_name: '{{ docker_name_prefix }}{{ hostname }}'
++
++# volumes mounted within the container
++container_volumes:
++- '{{ data_volume }}:{{ data_path }}:z'
++- '{{ cache_volume }}:{{ cache_path }}:z'
++- '{{ config_hostdir }}:{{ secrets_path }}'
++
++# mount path of the data volume
++data_path: '/buildbot'
++
++# name of the data volume
++data_volume: '{{ docker_name_prefix }}{{ hostname }}-data'
++
++# hostname
++hostname: buildbot-worker-ptxdist
++
++# address of hsm cryptographic service
++hsm_host: '{{ansible_facts.default_ipv4.address}}'
++
++# build arguments of the image
++image_args:
++  BUILDBOT_UID: '{{buildbot_uid}}'
++  BUILDBOT_VERSION: 'v{{buildbot_version}}'
++  PTK_URI: '{{asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
++  PTK_HSM_HOST: '{{hsm_host}}'
++
++# directory of the image source
++image_dir: '{{ docker_projects_dir }}/{{ hostname }}'
++
++# name of the image being built
++image_name: '{{ docker_registry_username }}/{{ hostname }}'
++
++# repository URI of the image source
++image_repo: https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git
++
++# host path containing secrets
++secrets_hostdir: '{{ config_hostdir }}'
++
++# name of the ssh known_hosts secret
++secrets_known_hosts: 'known_hosts'
+ 
+-buildbot_worker_ptxdist_volumes:
+-  - '{{ buildbot_worker_ptxdist_data_volume }}:{{ buildbot_worker_ptxdist_data_path }}:z'
++# mount path of the secrets volume
++secrets_path: '/run/secrets'
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index c2b6144a..179cb373 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -6,36 +6,60 @@
+     that:
+     - buildbot_worker_ptxdist_password is defined
+ 
++- name: Create buildbot cache volume
++  docker_volume:
++    name: '{{ cache_volume }}'
++
++- name: Populate buildbot cache volume
++  loop:
++  - /cache
++  - /cache/ccache
++  - /cache/downloads
++  - /cache/images
++  - /cache/ipkg-repository
++  - /cache/releases
++  docker_container:
++    name: '{{ container_name }}-bootstrap'
++    image: 'alpine:latest'
++    volumes:
++    - '{{ cache_volume }}:{{ cache_path }}:z'
++    detach: no
++    cleanup: yes
++    command: /bin/ash -c 
++      "mkdir -p {{item}} &&
++      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}} &&
++      chmod -v 777 {{item}}"
++
+ - name: Create buildbot data volume
+   docker_volume:
+-    name: '{{ buildbot_worker_ptxdist_data_volume }}'
++    name: '{{ data_volume }}'
+ 
+ - name: Checkout image repo
+   git:
+-    repo: '{{ buildbot_worker_ptxdist_image_repo }}'
++    repo: '{{ image_repo }}'
+     version: master
+-    dest: '{{ buildbot_worker_ptxdist_image_dir }}'
++    dest: '{{ image_dir }}'
+ 
+ - name: Create buildbot worker image
+   docker_image:
+-    name: '{{ buildbot_worker_ptxdist_image_name }}'
++    name: '{{ image_name }}'
+     tag: '{{ docker_image_tag }}'
+-    path: '{{ buildbot_worker_ptxdist_image_dir }}'
+-    buildargs: '{{ buildbot_worker_ptxdist_build_args }}'
++    path: '{{ image_dir }}'
++    buildargs: '{{ image_args }}'
+     force: true
+ 
+ - name: Start buildbot container
+   docker_container:
+-    name: '{{ buildbot_worker_ptxdist_container_name }}'
+-    image: '{{ buildbot_worker_ptxdist_image_name }}:{{ docker_image_tag }}'
++    name: '{{ container_name }}'
++    image: '{{ image_name }}:{{ docker_image_tag }}'
+     # networks: '{{ buildbot_worker_ptxdist_networks }}'
+-    volumes: '{{ buildbot_worker_ptxdist_volumes }}'
+-    env: '{{ buildbot_worker_ptxdist_env }}'
++    volumes: '{{ container_volumes }}'
++    env: '{{ container_env }}'
+     # ports: '{{ buildbot_worker_ptxdist_port_args }}'
+ 
+ - name: Grab ssh public key
+   command: >
+-    docker exec '{{ buildbot_worker_ptxdist_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
++    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+   changed_when: false
+   register: output
