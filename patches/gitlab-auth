@@ -1,5 +1,5 @@
 Bottom: 6ee9eed7d73380d08962fe1daf65aac31d427238
-Top:    3bd8d03183192267eeea1a167c3e2e6629b32712
+Top:    5daf13607cae17ad811838c1d921252bedccae00
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-10 16:42:12 -0500
 
@@ -7,10 +7,31 @@ Add Gitlab Authentication
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index c3c87d10..4fca566a 100644
+index c3c87d10..78442f9f 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -56,13 +56,22 @@ c['www'] = {
+@@ -49,6 +49,20 @@ mn = reporters.MailNotifier(
+ c['services'].append(mn)
+ 
+ ####### WEB SERVER
++userInfoProvider = util.LdapUserInfo(
++        uri=os.getenv('LDAP_URI'),
++        bindUser=os.getenv('LDAP_BIND_USER'),
++        bindPw=os.getenv('LDAP_BIND_PW'),
++        accountBase='ou=user,dc=novatech',
++        groupBase='ou=group,dc=novatech',
++        accountPattern='(&(objectClass=inetOrgPerson)(uid=%(username)s))',
++        accountFullName='displayName',
++        accountEmail='mail',
++        groupMemberPattern='(&(objectClass=groupOfNames)(member=%(dn)s))',
++        groupName='cn',
++        accountExtraFields=['employeeType'],
++)
++
+ c['www'] = {
+     'port': int(os.getenv('BUILDBOT_WEB_PORT',8010)),
+     'plugins': {
+@@ -56,13 +70,22 @@ c['www'] = {
          'console_view': True,
          'grid_view': True,
          },
