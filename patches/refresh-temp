@@ -1,0 +1,23 @@
+Bottom: 6e828c50857ae808503e6dfbb1927dc59c701c87
+Top:    5aaba4fd36cba9e062357c3423a56a217928d394
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-11 16:57:40 -0500
+
+Refresh of sync-bacula-restores
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 2d82aa67..389e047b 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -8,6 +8,10 @@
+   become_user: root
+   become_method: sudo
+   roles:
++  - name: Create bacula-restores symlinks
++    role: bacula-restores
++    tags:
++    - bacula_restores
+   - role: mariadb
+     mariadb_open_firewall: true
+     mariadb_remote_root_access: false
