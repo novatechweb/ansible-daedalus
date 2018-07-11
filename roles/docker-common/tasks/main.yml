@@ -34,24 +34,6 @@
     group: root
     mode: 'u=rwx,g=rx,o=rx'
 
-- name: docker projects base directory
-  file:
-    state: directory
-    path: '{{ docker_projects_dir }}'
-    owner: root
-    group: root
-    mode: 'u=rwx,g=rx,o=rx'
-
-- name: checkout git repositories
-  git:
-    repo: '{{ item.repo }}'
-    dest: '{{ docker_projects_dir }}/{{ item.name }}'
-    clone: yes
-    recursive: yes
-    update: yes
-  with_items: "{{ docker_projects }}"
-  tags:
-    - docker_repositories
 
 - name: Check if baculavirt selinux module exists
   stat:
