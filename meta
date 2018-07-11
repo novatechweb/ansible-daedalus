@@ -1,9 +1,10 @@
 Version: 1
-Previous: 4f4636a03d2272d0d4f47ebaea4699d1714510dc
-Head: a3c872cf4d05927d94c9d15d62dd6e1e924d8c70
+Previous: 0fb9f3d0f19bb8632de9b742211ca03ee5283158
+Head: b251fe2dbb34be7bf710c794716fffb72099e0ad
 Applied:
   add-vmdaedalus-inventory: d0c764177aec374acd98fd479980fd276181a90c
   sync-bacula-restores: 1dd7538a1b734e167ad40ac0026387d7d9b58f6c
   vmbuilder-host: a3c872cf4d05927d94c9d15d62dd6e1e924d8c70
+  refresh-temp: b251fe2dbb34be7bf710c794716fffb72099e0ad
 Unapplied:
 Hidden:
