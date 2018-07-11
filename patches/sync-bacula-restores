@@ -1,0 +1,13 @@
+Bottom: 2f95dab57b18d062043ebc4da91a2c2b51f087ec
+Top:    2f95dab57b18d062043ebc4da91a2c2b51f087ec
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-11 16:55:05 -0500
+
+Add role to synchronize a directory with /tmp/bacula-restores
+
+This is used to have a secondary backup file storage because
+typical restoration deletes the backup files afterward.
+
+
+---
+

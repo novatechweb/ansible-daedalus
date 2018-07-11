@@ -1,7 +1,8 @@
 Version: 1
-Previous: e66eecea5483b9e803443da5db11387fed1792af
-Head: d0c764177aec374acd98fd479980fd276181a90c
+Previous: 0c68140150624429909148e179b3ae653c52b6f0
+Head: 224994d3a1402322a291c9dce43c5f0b086a75c8
 Applied:
   add-vmdaedalus-inventory: d0c764177aec374acd98fd479980fd276181a90c
+  sync-bacula-restores: 224994d3a1402322a291c9dce43c5f0b086a75c8
 Unapplied:
 Hidden:
