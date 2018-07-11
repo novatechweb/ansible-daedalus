@@ -1,7 +1,7 @@
 Version: 1
-Previous: b7ab93ac9bf83992db4ef3c9298324c908f4d879
-Head: bc9bf7eb74317b9d6f7de60c55d4e6eae0a23ede
+Previous: 3120e53ae899660badb5c204aa34a1519bfe3630
+Head: 364985d921130d49705c8b858d6b0e88df4bb4b5
 Applied:
+  add-new-host-buildbot-worker: 364985d921130d49705c8b858d6b0e88df4bb4b5
 Unapplied:
-  add-new-host-buildbot-worker: 1144ee13bb4f9a3ba6728b534f04b9895c920294
 Hidden:
