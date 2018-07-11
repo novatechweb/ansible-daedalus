@@ -1,0 +1,32 @@
+Bottom: 409c6df4cdc331782b30773ce679395137b5f286
+Top:    9bc44c47697a0cecbe7f4d8745fdfa5ba5271e3a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-11 16:56:59 -0500
+
+Refresh of dump-host-vars
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 2d82aa67..cfc2595a 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -1,6 +1,19 @@
+ ---
+ # This playbook deploys the whole application stack in this site.
+ 
++- name: Dump Variables
++  hosts: all
++  tags:
++    - debugging
++  tasks:
++  - template:
++      src: templates/dump_variables
++      dest: /tmp/ansible_variables
++  - fetch:
++      src: /tmp/ansible_variables
++      dest: "{{inventory_hostname}}_ansible_variables"
++      flat: yes
++
+ - name: Bacula
+   hosts: bacula
+   remote_user: ansibleremote
