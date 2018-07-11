@@ -1,9 +1,10 @@
-Bottom: e40c2b35ebf5fca642a287620490313a5e8870fd
-Top:    4927241d8d9eb6b0545d6691c0056a16f02faba5
+Bottom: a9ffb9d948410c342a9330aacbe3ac7e9d83b9e0
+Top:    a1f8c4dbcb5588a6a2b896d6707ac3adf8744452
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-10 16:42:12 -0500
+Date:   2018-07-11 10:46:03 -0500
 
 Add Gitlab Authentication
+
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg

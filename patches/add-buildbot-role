@@ -1,9 +1,10 @@
-Bottom: aece631eae25ec48c7e0a6d071254d00a8e3e910
-Top:    90e86d5f56636c1eb0ba457bc0885874b28fc0f7
+Bottom: 30ad39569bf936b0dc5c40e13a3edff20e5115fa
+Top:    08ffd7ced12c0fa4cd008f695eb55230ce13bea6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-10 17:09:40 -0500
+Date:   2018-07-11 10:46:03 -0500
 
 Add buildbot role and new playbook
+
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
