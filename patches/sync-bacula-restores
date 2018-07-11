@@ -1,5 +1,5 @@
 Bottom: 2f95dab57b18d062043ebc4da91a2c2b51f087ec
-Top:    77334935921eeb9bf6211781066d1e5dbdf3da81
+Top:    2b485f17d72d951a50a5ec93c40edbddc121fa0b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-11 16:55:05 -0500
 
@@ -10,6 +10,21 @@ typical restoration deletes the backup files afterward.
 
 
 ---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 2d82aa67..389e047b 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -8,6 +8,10 @@
+   become_user: root
+   become_method: sudo
+   roles:
++  - name: Create bacula-restores symlinks
++    role: bacula-restores
++    tags:
++    - bacula_restores
+   - role: mariadb
+     mariadb_open_firewall: true
+     mariadb_remote_root_access: false
 diff --git a/roles/bacula-restores/defaults/main.yml b/roles/bacula-restores/defaults/main.yml
 new file mode 100644
 index 00000000..b72968f6
