@@ -2,7 +2,7 @@
 
 mkdir -p $HOME/.ssh
 cp -R /run/secrets/ssh/* $HOME/.ssh
-chmod -R 600 $HOME/.ssh
+chmod -R 600 $HOME/.ssh/*
 
 ln -v -s -f /home/buildbot/buildbot.tac /home/buildbot/master.cfg /home/buildbot/*.py /buildbot
 
