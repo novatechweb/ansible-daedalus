@@ -40,9 +40,10 @@
     name: '{{ openldap_container_name }}-restore-{{ item.dbnum }}'
     cleanup: true
     detach: false
-    volumes_from:
-    - '{{ openssl_dv_name }}'
     volumes:
+    - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+    - '{{ openldap_cv_name }}:/etc/ldap:z'
+    - '{{ openldap_dv_name }}:/var/lib/ldap:z'
     - '{{ openldap_docker_restore_dir }}:/tmp/import_export:z'
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     command: ['apply_ldif', '-n', '{{ item.dbnum }}', '-l', '{{ item.ldif_file }}']
