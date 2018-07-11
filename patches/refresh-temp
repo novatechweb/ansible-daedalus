@@ -1,0 +1,20 @@
+Bottom: 809aec71c8c051820776057931e66d073bec580e
+Top:    a34892ac5e19d369b589928bd35b6ebfca16aef4
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-11 17:07:33 -0500
+
+Refresh of provision-script
+
+---
+diff --git a/provision.sh b/provision.sh
+index 3762e89d..51e8abb5 100755
+--- a/provision.sh
++++ b/provision.sh
+@@ -9,6 +9,6 @@ ANSIBLE_SSH_ARGS='-o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o Contr
+ exec ansible-playbook \
+         --connection=ssh \
+         --timeout=30 \
+-        --inventory-file=ansible-playbook/staging \
++        --inventory-file=ansible-playbook/production \
+         -vv \
+         ansible-playbook/site.yml "$@"
