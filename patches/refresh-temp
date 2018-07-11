@@ -1,0 +1,43 @@
+Bottom: d9f8204589927c5f6e03c5c6251342a8fe8b91ad
+Top:    baf53de1a00264fb5979b9ea619f51b5841b81a7
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-11 16:47:44 -0500
+
+Refresh of add-vmdaedalus-inventory
+
+---
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 590b9659..2d82aa67 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -1,19 +1,6 @@
+ ---
+ # This playbook deploys the whole application stack in this site.
+ 
+-- name: Dump Variables
+-  hosts: all
+-  tags:
+-    - debugging
+-  tasks:
+-  - template:
+-      src: templates/dump_variables
+-      dest: /tmp/ansible_variables
+-  - fetch:
+-      src: /tmp/ansible_variables
+-      dest: "{{inventory_hostname}}_ansible_variables"
+-      flat: yes
+-
+ - name: Bacula
+   hosts: bacula
+   remote_user: ansibleremote
+@@ -21,10 +8,6 @@
+   become_user: root
+   become_method: sudo
+   roles:
+-  - name: Create bacula-restores symlinks
+-    role: bacula-restores
+-    tags:
+-    - bacula_restores
+   - role: mariadb
+     mariadb_open_firewall: true
+     mariadb_remote_root_access: false
