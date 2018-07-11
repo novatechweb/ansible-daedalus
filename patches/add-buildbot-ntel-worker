@@ -1,5 +1,5 @@
-Bottom: 6ee9eed7d73380d08962fe1daf65aac31d427238
-Top:    c6062879c4cbea65cb0bca9c7b4cb03d6c8e87f4
+Bottom: 2d82d0845655c1325bd2ea797f5be154cd54b037
+Top:    1a20b83196cfd3dc0361797f64a7acb2afe7c43b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-10 14:30:52 -0500
 
@@ -7,10 +7,10 @@ Add buildbot NTEL worker Docker image
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index e14b93b9..2a5cd968 100644
+index 63cebaa2..56848222 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
-@@ -21,6 +21,19 @@
+@@ -26,6 +26,19 @@
        new_user_email: buildbot@novatech-llc.com
        new_user_pass: "{{ lookup('password', '/dev/null') }}"
  
@@ -30,7 +30,7 @@ index e14b93b9..2a5cd968 100644
  - name: Gitlab public keys for buildbot containers
    hosts: daedalus
    become: true
-@@ -35,3 +48,9 @@
+@@ -40,3 +53,9 @@
        username: buildbot
        pubkey: "{{ hostvars.buildbot_master.pubkey }}"
        title: "buildbot_master"
