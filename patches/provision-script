@@ -1,5 +1,5 @@
-Bottom: 1b08efc20151978a5f24c054e8ab41df83a56e3d
-Top:    a34892ac5e19d369b589928bd35b6ebfca16aef4
+Bottom: 809aec71c8c051820776057931e66d073bec580e
+Top:    809aec71c8c051820776057931e66d073bec580e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-06 08:58:13 -0500
 
@@ -7,23 +7,4 @@ Add provision script
 
 
 ---
-diff --git a/provision.sh b/provision.sh
-new file mode 100755
-index 00000000..51e8abb5
---- /dev/null
-+++ b/provision.sh
-@@ -0,0 +1,14 @@
-+#! /bin/bash
-+
-+#PYTHONUNBUFFERED=1 \
-+     
-+ANSIBLE_ENABLE_TASK_DEBUGGER=True \
-+ANSIBLE_FORCE_COLOR=true \
-+ANSIBLE_HOST_KEY_CHECKING=false \
-+ANSIBLE_SSH_ARGS='-o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o ControlMaster=auto -o ControlPersist=60s' \
-+exec ansible-playbook \
-+        --connection=ssh \
-+        --timeout=30 \
-+        --inventory-file=ansible-playbook/production \
-+        -vv \
-+        ansible-playbook/site.yml "$@"
+
