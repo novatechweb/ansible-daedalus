@@ -8,6 +8,10 @@
   become_user: root
   become_method: sudo
   roles:
+  - name: Create bacula-restores symlinks
+    role: bacula-restores
+    tags:
+    - bacula_restores
   - role: mariadb
     mariadb_open_firewall: true
     mariadb_remote_root_access: false
