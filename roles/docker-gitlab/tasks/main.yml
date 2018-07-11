@@ -11,7 +11,7 @@
 - name: restore dir
   file:
     state: directory
-    path: '{{ host_gitlab_docker_restore_dir }}'
+    path: '{{ gitlab_docker_restore_dir }}'
     owner: root
     group: tape
     mode: 'u=rwx,g=rwx,o=rx'

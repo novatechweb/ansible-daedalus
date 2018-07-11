@@ -6,14 +6,14 @@
 
 - name: exists - Static
   stat:
-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
+    path: '{{ wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_wiki_static_archive
 
 - name: exists - SQL
   stat:
-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
+    path: '{{ wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_wiki_SQL_file
@@ -29,7 +29,7 @@
 
 - name: permissions - Static
   file:
-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
+    path: '{{ wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
     state: touch
     owner: root
     group: root
@@ -37,7 +37,7 @@
 
 - name: permissions - SQL
   file:
-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
+    path: '{{ wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
     state: touch
     owner: root
     group: root
@@ -45,14 +45,14 @@
 
 - name: exists - Static
   stat:
-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
+    path: '{{ wiki_docker_restore_dir }}{{ wiki_static_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_wiki_static_archive
 
 - name: exists - SQL
   stat:
-    path: '{{ host_wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
+    path: '{{ wiki_docker_restore_dir }}{{ wiki_database_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_wiki_SQL_file
@@ -71,7 +71,7 @@
 
 - name: Remove - Static and SQL
   file:
-    path: '{{ host_wiki_docker_restore_dir }}'
+    path: '{{ wiki_docker_restore_dir }}'
     state: absent
 
 - name: State file

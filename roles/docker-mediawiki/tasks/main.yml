@@ -12,7 +12,7 @@
 - name: restore dir
   file:
     state: directory
-    path: '{{ host_wiki_docker_restore_dir }}'
+    path: '{{ wiki_docker_restore_dir }}'
     owner: root
     group: tape
     mode: 'u=rwx,g=rwx,o=rx'
