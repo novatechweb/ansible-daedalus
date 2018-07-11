@@ -1,8 +1,9 @@
 Version: 1
-Previous: 0c68140150624429909148e179b3ae653c52b6f0
-Head: 224994d3a1402322a291c9dce43c5f0b086a75c8
+Previous: 84a2073f52382893a9c4bd4fa746c92253b3f446
+Head: 1b2e746c9b0909e05717a4f20e3898bddd997224
 Applied:
   add-vmdaedalus-inventory: d0c764177aec374acd98fd479980fd276181a90c
   sync-bacula-restores: 224994d3a1402322a291c9dce43c5f0b086a75c8
+  refresh-temp: 1b2e746c9b0909e05717a4f20e3898bddd997224
 Unapplied:
 Hidden:
