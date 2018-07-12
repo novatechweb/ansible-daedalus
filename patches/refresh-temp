@@ -1,0 +1,43 @@
+Bottom: ea837c97075cf61ae912dafbd79f7c7b2b4a40db
+Top:    5cb88be403c89a5ec86cc7f01f955097f4522cd5
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-12 14:05:23 -0500
+
+Refresh of add-buildbot-role
+
+---
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 94f32383..3adede49 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -1,9 +1,6 @@
+ ---
+ # defaults file for buildbot
+ 
+-# host containing build assets
+-asset_host: 'http://{{ansible_facts.default_ipv4.address}}/'
+-
+ # backup host directory
+ backup_hostdir: '{{ docker_backup_dir }}/buildbot'
+ 
+@@ -82,7 +79,7 @@ image_dir: '{{ docker_projects_dir }}/buildbot-master'
+ image_name: '{{ docker_registry_username }}/buildbot'
+ 
+ # repository URI of the image source
+-image_repo: https://github.com/novatechweb/docker-buildbot-master.git
++image_repo: '{{ buildbot_image_repo | default("https://github.com/novatechweb/docker-buildbot-master.git") }}'
+ 
+ # restoration host directory
+ restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 32ecc922..8d1a8400 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -46,7 +46,7 @@
+ 
+ - name: Grab ssh public key
+   command: >
+-    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
++    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+   changed_when: false
+   register: output
