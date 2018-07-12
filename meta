@@ -1,8 +1,7 @@
 Version: 1
-Previous: 319a426cda74ec20cafb40570cced7c80d9d4efb
-Head: a1ca71f29050ed0ed0946f36bc6067977e406188
+Previous: dd9a0a19c185027d4e79ab046cf80380365d36ad
+Head: abd0bc15a36b0bd9adaf8d54a88fe1befa6c983f
 Applied:
-  worker-assets-role: 80fc82d8dffc9df8d390f002cec2e0f356e0583e
-  refresh-temp: a1ca71f29050ed0ed0946f36bc6067977e406188
+  worker-assets-role: abd0bc15a36b0bd9adaf8d54a88fe1befa6c983f
 Unapplied:
 Hidden:
