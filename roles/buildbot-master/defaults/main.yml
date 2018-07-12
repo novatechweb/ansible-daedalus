@@ -43,6 +43,12 @@ container_env:
   BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
+  GITLAB_URI: 'https://{{ gitlab_hostname }}/'
+  GITLAB_CLIENT_ID: '{{ gitlab_buildbot_id }}'
+  GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_secret }}'
+  LDAP_URI: 'ldap://{{ openldap_hostname }}'
+  LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
+  LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
 
 # the name of the container being started
 container_name: '{{ docker_name_prefix }}buildbot'
