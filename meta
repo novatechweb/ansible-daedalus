@@ -1,7 +1,7 @@
 Version: 1
-Previous: 91a6fd71846518b5579de2f8670ba7335c37fb46
-Head: 347a6231d7e4a60d7863f5d1a7482c1b6321550c
+Previous: 3c3e21c4b1dcf58ee50c0350e14b42eb6bfb6693
+Head: 80fc82d8dffc9df8d390f002cec2e0f356e0583e
 Applied:
+  worker-assets-role: 80fc82d8dffc9df8d390f002cec2e0f356e0583e
 Unapplied:
-  worker-assets-role: 9dabe2dfc0bdf5bcf8914bad412f6acc218cee7b
 Hidden:
