@@ -1,0 +1,67 @@
+Bottom: 046c980d12136b01884720fdf78b87972ba6633c
+Top:    b9ba551fc00edc66905c607f99fe9739a1e8d9e0
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-12 10:47:34 -0500
+
+Refresh of configure-docker-daemon
+
+---
+diff --git a/roles/docker-common/tasks/configure.yml b/roles/docker-common/tasks/configure.yml
+index 34754342..5a29d069 100644
+--- a/roles/docker-common/tasks/configure.yml
++++ b/roles/docker-common/tasks/configure.yml
+@@ -8,7 +8,7 @@
+     group: root
+ 
+ - name: Configure Docker Daemon (host options)
+-  template: 
++  template:
+     dest: /etc/systemd/system/docker.service.d/00-host.conf
+     src: service-host.conf.j2
+     owner: root
+@@ -17,7 +17,7 @@
+   notify: "restart docker service"
+ 
+ - name: Configure Docker Daemon (log driver options)
+-  template: 
++  template:
+     dest: /etc/systemd/system/docker.service.d/10-log.conf
+     src: service-log-json.conf.j2
+     owner: root
+@@ -30,7 +30,7 @@
+   when: docker_storage_driver == "devicemapper"
+ 
+ - name: Configure Docker Daemon (storage driver options)
+-  template: 
++  template:
+     dest: /etc/systemd/system/docker.service.d/20-storage.conf
+     src: service-storage-dm.conf.j2
+     owner: root
+@@ -40,7 +40,7 @@
+   notify: "restart docker service"
+ 
+ - name: Configure Docker Daemon (storage driver options)
+-  template: 
++  template:
+     dest: /etc/systemd/system/docker.service.d/20-storage.conf
+     src: service-storage-ov2.conf.j2
+     owner: root
+@@ -50,7 +50,7 @@
+   notify: "restart docker service"
+ 
+ - name: Configure Docker Daemon (service)
+-  template: 
++  template:
+     dest: /etc/systemd/system/docker.service.d/99-service.conf
+     src: service.conf.j2
+     owner: root
+diff --git a/roles/docker-common/templates/daemon.json.j2 b/roles/docker-common/templates/daemon.json.j2
+deleted file mode 100644
+index 57de7390..00000000
+--- a/roles/docker-common/templates/daemon.json.j2
++++ /dev/null
+@@ -1,4 +0,0 @@
+-{
+-  "log-driver": "json-file",
+-  "log-opts": {"max-size": "10m", "max-file": "3"}
+-}
