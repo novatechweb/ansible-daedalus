@@ -36,6 +36,11 @@
   - buildbot-worker
   vars:
     buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+    known_hosts: "{{gitlab_keys.stdout}}"
+  pre_tasks:
+  - name: Scan Gitlab ssh keys
+    command: ssh-keyscan {{gitlab_hostname}}
+    register: gitlab_keys
   roles:
   - role: buildbot-worker-ptxdist
 
