@@ -58,7 +58,7 @@ container_networks:
 # volumes mounted within the container
 container_volumes:
   - '{{ data_volume }}:{{ data_path }}:z'
-  - '{{ config_hostdir }}:{{ secrets_path }}'
+  - '{{ secrets_hostdir }}/{{secrets_known_hosts}}:{{ secrets_path }}/{{secrets_known_hosts}}'
 
 # mount path of the data volume
 data_path: '/buildbot'
