@@ -1,9 +1,6 @@
 ---
 # defaults file for buildbot
 
-# host containing build assets
-asset_host: 'http://{{ansible_facts.default_ipv4.address}}/'
-
 # backup host directory
 backup_hostdir: '{{ docker_backup_dir }}/buildbot'
 
@@ -82,7 +79,7 @@ image_dir: '{{ docker_projects_dir }}/buildbot-master'
 image_name: '{{ docker_registry_username }}/buildbot'
 
 # repository URI of the image source
-image_repo: https://github.com/novatechweb/docker-buildbot-master.git
+image_repo: '{{ buildbot_image_repo | default("https://github.com/novatechweb/docker-buildbot-master.git") }}'
 
 # restoration host directory
 restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'
