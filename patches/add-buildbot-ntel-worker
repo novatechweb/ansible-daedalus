@@ -1,5 +1,5 @@
 Bottom: 030710037ff423b76f8ff8badf1ba0d9135e98db
-Top:    7c7e4e29d8aff1a4c4f3c57d66573c1eef08ef64
+Top:    7a1b00e7fbc7caec3c5ef8df37e35bb66b6e91e9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:23 -0500
 
@@ -282,7 +282,7 @@ index 00000000..b23ac658
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
 new file mode 100644
-index 00000000..d352d818
+index 00000000..3c51ad76
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/defaults/main.yml
 @@ -0,0 +1,80 @@
@@ -328,7 +328,7 @@ index 00000000..d352d818
 +container_volumes:
 +- '{{ data_volume }}:{{ data_path }}:z'
 +- '{{ cache_volume }}:{{ cache_path }}:z'
-+- '{{ config_hostdir }}:{{ secrets_path }}'
++- '{{ secrets_hostdir }}:{{ secrets_path }}'
 +
 +# mount path of the data volume
 +data_path: '/buildbot'
@@ -356,7 +356,7 @@ index 00000000..d352d818
 +image_name: '{{ docker_registry_username }}/{{ hostname }}'
 +
 +# repository URI of the image source
-+image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
++image_repo: '{{ buildbot_worker_ntel_image_repo | default("https://github.com/novatechweb/docker-buildbot-worker-ntel.git") }}'
 +
 +# host path containing secrets
 +secrets_hostdir: '{{ config_hostdir }}'
@@ -368,10 +368,10 @@ index 00000000..d352d818
 +secrets_path: '/run/secrets'
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
 new file mode 100644
-index 00000000..a65341db
+index 00000000..56a1af2d
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
-@@ -0,0 +1,69 @@
+@@ -0,0 +1,79 @@
 +---
 +# tasks file for buildbot-worker-ntel
 +
@@ -407,6 +407,16 @@ index 00000000..a65341db
 +- name: Create buildbot data volume
 +  docker_volume:
 +    name: '{{ data_volume }}'
++
++- name: Create secrets volume
++  file:
++    path: '{{ secrets_hostdir }}'
++    state: directory
++
++- name: Populate known_hosts secret
++  copy:
++    content: '{{ known_hosts }}'
++    dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
 +
 +- name: Checkout image repo
 +  git:
