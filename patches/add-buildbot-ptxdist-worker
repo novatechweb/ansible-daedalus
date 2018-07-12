@@ -1,5 +1,5 @@
 Bottom: 030710037ff423b76f8ff8badf1ba0d9135e98db
-Top:    e44b1792cc7517520c169f6a30c56f035c3e2e68
+Top:    6bc1fb37be791034eebda2f540d094eba7cbf8b1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:23 -0500
 
@@ -8,10 +8,10 @@ Add buildbot PTXdist worker Docker image
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index bc6c7663..b84e7721 100644
+index bc6c7663..beac6956 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
-@@ -26,6 +26,19 @@
+@@ -26,6 +26,24 @@
        new_user_email: buildbot@novatech-llc.com
        new_user_pass: "{{ lookup('password', '/dev/null') }}"
  
@@ -25,13 +25,18 @@ index bc6c7663..b84e7721 100644
 +  - buildbot-worker
 +  vars:
 +    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
++    known_hosts: "{{gitlab_keys.stdout}}"
++  pre_tasks:
++  - name: Scan Gitlab ssh keys
++    command: ssh-keyscan {{gitlab_hostname}}
++    register: gitlab_keys
 +  roles:
 +  - role: buildbot-worker-ptxdist
 +
  - name: Gitlab public keys for buildbot containers
    hosts: daedalus
    become: true
-@@ -40,3 +53,9 @@
+@@ -40,3 +58,9 @@
        username: buildbot
        pubkey: "{{ hostvars.buildbot_master.pubkey }}"
        title: "buildbot_master"
