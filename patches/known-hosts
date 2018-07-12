@@ -1,5 +1,5 @@
 Bottom: bac2a0672a0ef648d23b62d19d5372cd59225c57
-Top:    39f80103c7ed1e6dd3ba3b39a722d5650e408a13
+Top:    030710037ff423b76f8ff8badf1ba0d9135e98db
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -8,7 +8,7 @@ Populate buildbot with gitlab public keys
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index e14b93b9..63cebaa2 100644
+index e14b93b9..bc6c7663 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -7,12 +7,17 @@
@@ -17,7 +17,7 @@ index e14b93b9..63cebaa2 100644
    - buildbot
 +  pre_tasks:
 +  - name: Scan Gitlab ssh keys
-+    command: ssh-keyscan {{git_hostname}}
++    command: ssh-keyscan {{gitlab_hostname}}
 +    register: gitlab_keys
    roles:
    - name: Build and start the Buildbot master container
