@@ -1,6 +1,6 @@
 Version: 1
-Previous: 5425b4217d0db1237bc302819a508d5808d063b6
-Head: 3419f38fc98d76875eadc46150b4dc9ab000ef2e
+Previous: ee2f61bfc0f12bd6e0017c2ec3cebe57ca6a36d2
+Head: b32e33cdcd51bd95d588c96bfa3a340da8ec769e
 Applied:
   update-python-docker-client: 466f92e7b161efc9fe40d41bb5fe4a831abc8888
   install-latest-available: f3b6c2e0cc8151cffec55cc85f53bf8b50355cd0
@@ -8,5 +8,6 @@ Applied:
   remove-container-conf: fe2b7ecea80a10955057636b71fa716dbeecf3b6
   configure-docker-daemon: 1cc57d66a3be7c8f02cc97d5af9983cfa22386c9
   debian-support: 3419f38fc98d76875eadc46150b4dc9ab000ef2e
+  refresh-temp: b32e33cdcd51bd95d588c96bfa3a340da8ec769e
 Unapplied:
 Hidden:
