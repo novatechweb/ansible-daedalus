@@ -34,6 +34,16 @@
   docker_volume:
     name: '{{ data_volume }}'
 
+- name: Create secrets volume
+  file:
+    path: '{{ secrets_hostdir }}'
+    state: directory
+
+- name: Populate known_hosts secret
+  copy:
+    content: '{{ known_hosts }}'
+    dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
+
 - name: Checkout image repo
   git:
     repo: '{{ image_repo }}'

@@ -40,7 +40,7 @@ container_name: '{{ docker_name_prefix }}{{ hostname }}'
 container_volumes:
 - '{{ data_volume }}:{{ data_path }}:z'
 - '{{ cache_volume }}:{{ cache_path }}:z'
-- '{{ config_hostdir }}:{{ secrets_path }}'
+- '{{ secrets_hostdir }}:{{ secrets_path }}'
 
 # mount path of the data volume
 data_path: '/buildbot'
@@ -68,7 +68,7 @@ image_dir: '{{ docker_projects_dir }}/{{ hostname }}'
 image_name: '{{ docker_registry_username }}/{{ hostname }}'
 
 # repository URI of the image source
-image_repo: https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git
+image_repo: '{{ buildbot_worker_ptxdist_image_repo | default("https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git") }}'
 
 # host path containing secrets
 secrets_hostdir: '{{ config_hostdir }}'
