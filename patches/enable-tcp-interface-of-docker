@@ -1,5 +1,5 @@
-Bottom: 046c980d12136b01884720fdf78b87972ba6633c
-Top:    cf6c8437fea402758f4410500961826bd18d6737
+Bottom: b9ba551fc00edc66905c607f99fe9739a1e8d9e0
+Top:    b9ba551fc00edc66905c607f99fe9739a1e8d9e0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-11 17:03:10 -0500
 
@@ -7,14 +7,4 @@ Enable TCP interface of docker
 
 
 ---
-diff --git a/roles/docker-common/templates/daemon.json.j2 b/roles/docker-common/templates/daemon.json.j2
-index 57de7390..6f6a7376 100644
---- a/roles/docker-common/templates/daemon.json.j2
-+++ b/roles/docker-common/templates/daemon.json.j2
-@@ -1,4 +1,5 @@
- {
-   "log-driver": "json-file",
--  "log-opts": {"max-size": "10m", "max-file": "3"}
-+  "log-opts": {"max-size": "10m", "max-file": "3"},
-+  "hosts": ["unix:///var/run/docker.sock", "tcp://{{ ansible_default_ipv4["address"] }}:2375"]
- }
+
