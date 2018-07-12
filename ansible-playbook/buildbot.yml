@@ -26,6 +26,19 @@
       new_user_email: buildbot@novatech-llc.com
       new_user_pass: "{{ lookup('password', '/dev/null') }}"
 
+- name: Setup Buildbot worker system
+  hosts: builder
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+  - buildbot
+  - buildbot-worker
+  vars:
+    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+  roles:
+  - role: buildbot-worker-ntel
+
 - name: Gitlab public keys for buildbot containers
   hosts: daedalus
   become: true
@@ -40,3 +53,9 @@
       username: buildbot
       pubkey: "{{ hostvars.buildbot_master.pubkey }}"
       title: "buildbot_master"
+  - name: Add buildbot_worker_ntel pubkey to buildbot user
+    role: gitlab-sshkey
+    vars:
+      username: buildbot
+      pubkey: "{{ hostvars.buildbot_worker_ntel.pubkey }}"
+      title: "buildbot_worker_ntel"
