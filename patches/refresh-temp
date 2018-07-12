@@ -1,0 +1,39 @@
+Bottom: 1291b15009630faabeebe748eff76befbc3a0236
+Top:    bca7c206cdb4aaacc004d6ffe125a43acd4a8e8e
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-12 14:13:06 -0500
+
+Refresh of worker-assets-role
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index e7c3a099..6c2ae8f0 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -35,6 +35,7 @@
+   - buildbot
+   - buildbot-worker
+   vars:
++    asset_host: "{{ hostvars['buildbot-assets'].uri }}"
+     buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+   roles:
+   - role: buildbot-worker-assets
+diff --git a/roles/buildbot-worker-assets/tasks/main.yml b/roles/buildbot-worker-assets/tasks/main.yml
+index 0d698a80..8f602634 100644
+--- a/roles/buildbot-worker-assets/tasks/main.yml
++++ b/roles/buildbot-worker-assets/tasks/main.yml
+@@ -9,8 +9,9 @@
+     - 80
+   register: asset_server
+ 
+-- set_fact:
+-    buildbot_asset_host: "http://\
+-    {{asset_server.ansible_facts.docker_container.NetworkSettings.Gateway}}\
+-    :{{asset_server.ansible_facts.docker_container.NetworkSettings.Ports['80/tcp'][0].HostPort}}\
+-    "
++- add_host:
++    name: buildbot-assets # required. The hostname/ip of the host to add to the inventory, can include a colon and a port number.
++    uri: "http://\
++      {{asset_server.ansible_facts.docker_container.NetworkSettings.Gateway}}\
++      :{{asset_server.ansible_facts.docker_container.NetworkSettings.Ports['80/tcp'][0].HostPort}}\
++      "
