@@ -35,6 +35,7 @@
   - buildbot
   - buildbot-worker
   vars:
+    asset_host: "{{ hostvars['buildbot-assets'].uri }}"
     buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
   roles:
   - role: buildbot-worker-assets
