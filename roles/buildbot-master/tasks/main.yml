@@ -35,6 +35,12 @@
     ports: '{{ buildbot_port_args }}'
     state: started
 
+- name: Grab ssh public key
+  command: >
+    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+  changed_when: false
+  register: output
+
 - name: Add buildbot_master host
   add_host:
     name: buildbot_master
