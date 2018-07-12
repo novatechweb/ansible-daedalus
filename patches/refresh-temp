@@ -1,5 +1,5 @@
-Bottom: 6378e69f94f66aa1736a112d6ac4368fe4bf0a2c
-Top:    39f80103c7ed1e6dd3ba3b39a722d5650e408a13
+Bottom: 1f10aabdf1fb229a626c0726bb852a0c04fe690f
+Top:    c0261de1bd63ed51ac4386bb4cf8cba6bf59a079
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 14:05:23 -0500
 
@@ -7,7 +7,7 @@ Refresh of add-buildbot-role
 
 ---
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 94f32383..3adede49 100644
+index 9ce67a77..c9623933 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -1,9 +1,6 @@
@@ -20,7 +20,7 @@ index 94f32383..3adede49 100644
  # backup host directory
  backup_hostdir: '{{ docker_backup_dir }}/buildbot'
  
-@@ -82,7 +79,7 @@ image_dir: '{{ docker_projects_dir }}/buildbot-master'
+@@ -81,7 +78,7 @@ image_dir: '{{ docker_projects_dir }}/buildbot-master'
  image_name: '{{ docker_registry_username }}/buildbot'
  
  # repository URI of the image source
@@ -30,10 +30,10 @@ index 94f32383..3adede49 100644
  # restoration host directory
  restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index 32ecc922..8d1a8400 100644
+index 8a2ac0be..d7d69e36 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
-@@ -46,7 +46,7 @@
+@@ -36,7 +36,7 @@
  
  - name: Grab ssh public key
    command: >
