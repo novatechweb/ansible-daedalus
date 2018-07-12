@@ -18,7 +18,8 @@ RUN pip --no-cache-dir install \
     'buildbot-console-view' \
     'buildbot-grid-view' \
     'buildbot-waterfall-view' \
-    'buildbot-www'
+    'buildbot-www' \
+    'ldap3'
 
 # Create buildbot user
 ARG BUILDBOT_UID=1000
