@@ -1,6 +1,6 @@
 Version: 1
-Previous: 1caf7d68ca52904e8e732ee3606f344e8737facd
-Head: 45df83b2e1fa3e385cbfc9257b8b380e882eaa44
+Previous: 5f98f7a2eefd2bbbeb4258d0b81fe82dac225c6a
+Head: 38c6b4cc595bdba28c6c7892b8de51dc163cea39
 Applied:
   add-buildbot-role: 32d7f043fb5986bf8ea770cedcac8fe05f3b41a4
   fix-ssh-folder-permission: 5e845b08fd63f37efa159592beb8702c63f201a8
@@ -10,5 +10,6 @@ Applied:
   generate-new-ssh-key-on-first: d9211bb3f2c4e1071c80519c4cee3c60a64dc083
   gitlab-auth: 893edcef973aadf028cfd41a727ed53792e282d1
   known-hosts: 45df83b2e1fa3e385cbfc9257b8b380e882eaa44
+  refresh-temp: 38c6b4cc595bdba28c6c7892b8de51dc163cea39
 Unapplied:
 Hidden:
