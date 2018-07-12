@@ -1,5 +1,5 @@
 Bottom: b9ba551fc00edc66905c607f99fe9739a1e8d9e0
-Top:    b9ba551fc00edc66905c607f99fe9739a1e8d9e0
+Top:    8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-11 17:03:10 -0500
 
@@ -7,4 +7,65 @@ Add debian host support
 
 
 ---
-
+diff --git a/roles/docker-common/tasks/engine-debian.yml b/roles/docker-common/tasks/engine-debian.yml
+new file mode 100644
+index 00000000..e5b93495
+--- /dev/null
++++ b/roles/docker-common/tasks/engine-debian.yml
+@@ -0,0 +1,42 @@
++---
++- name: remove obsolete docker engines
++  apt:
++    state: absent
++    name:
++    - docker
++    - docker-engine
++    - docker.io
++
++- name: install docker-ce prerequisites
++  apt:
++    state: present
++    name:
++    - apt-transport-https 
++    - ca-certificates 
++    - curl 
++    - gnupg2 
++    - software-properties-common
++    - python-pip
++
++- name: install docker-ce gpg key
++  apt_key:
++    state: present
++    id: 0EBFCD88
++    url: https://download.docker.com/linux/debian/gpg
++
++- name: add docker-ce apt repository
++  apt_repository:
++    state: present
++    filename: docker-ce
++    repo: >
++      deb [arch=amd64] 
++      https://download.docker.com/linux/debian
++      {{ansible_facts.distribution_release}}
++      stable
++    update_cache: yes
++
++- name: install docker-ce
++  apt:
++    state: present
++    name:
++    - docker-ce
+diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
+index bc8aac33..a8ab0c3c 100644
+--- a/roles/docker-common/tasks/main.yml
++++ b/roles/docker-common/tasks/main.yml
+@@ -4,6 +4,9 @@
+ - import_tasks: engine-redhat.yml
+   when: ansible_os_family == "RedHat"
+ 
++- import_tasks: engine-debian.yml
++  when: ansible_os_family == "Debian"
++
+ - import_tasks: packages.yml
+ - import_tasks: sshd_settings.yml
+ - import_tasks: mariadb_settings.yml
