@@ -1,5 +1,5 @@
 Version: 1
-Previous: e740e640381edef74af36af2bbd19106412928d4
+Previous: ac923583baa508b43045186665486e2c715a0d55
 Head: 1cc57d66a3be7c8f02cc97d5af9983cfa22386c9
 Applied:
   update-python-docker-client: 466f92e7b161efc9fe40d41bb5fe4a831abc8888
@@ -8,6 +8,5 @@ Applied:
   remove-container-conf: fe2b7ecea80a10955057636b71fa716dbeecf3b6
   configure-docker-daemon: 1cc57d66a3be7c8f02cc97d5af9983cfa22386c9
 Unapplied:
-  enable-tcp-interface-of-docker: 219b817c78fd7b838ff90153bd81b01ac683dba6
   debian-support: bcf79f3d9d62f2d99ea56b521c6b650b12986ed8
 Hidden:
