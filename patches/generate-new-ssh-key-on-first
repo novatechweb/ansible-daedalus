@@ -1,5 +1,5 @@
 Bottom: a637395e836816617969a32060a8018103997eb1
-Top:    1f10aabdf1fb229a626c0726bb852a0c04fe690f
+Top:    5fc402168b3b0d1c45a2fa7499db7f83677f8e13
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -59,7 +59,7 @@ index 71002f8b..85c28248 100755
  ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
  
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index 63fac665..8a2ac0be 100644
+index 63fac665..d7d69e36 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -34,6 +34,12 @@
@@ -68,7 +68,7 @@ index 63fac665..8a2ac0be 100644
  
 +- name: Grab ssh public key
 +  command: >
-+    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
++    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
 +  changed_when: false
 +  register: output
 +
