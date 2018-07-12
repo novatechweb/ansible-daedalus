@@ -1,5 +1,5 @@
-Bottom: bac2a0672a0ef648d23b62d19d5372cd59225c57
-Top:    030710037ff423b76f8ff8badf1ba0d9135e98db
+Bottom: 364a8005322074e8159403928701ded7f3ab1aeb
+Top:    c52933538d6cf22b5bf4ada59eabbf94db09a3bf
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -48,7 +48,7 @@ index 85c28248..44ec2c12 100755
  
  # Run original buildbot entrypoint
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index c9623933..3adede49 100644
+index e5c4c349..c9a90fab 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -33,6 +33,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
@@ -59,7 +59,7 @@ index c9623933..3adede49 100644
    BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
    BUILDBOT_SMTP_USER: 'Dean.cox'
    BUILDBOT_SMTP_PASS: 'no5156'
-@@ -54,7 +55,7 @@ container_networks:
+@@ -60,7 +61,7 @@ container_networks:
  # volumes mounted within the container
  container_volumes:
    - '{{ data_volume }}:{{ data_path }}:z'

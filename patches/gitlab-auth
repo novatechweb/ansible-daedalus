@@ -1,5 +1,5 @@
 Bottom: c0261de1bd63ed51ac4386bb4cf8cba6bf59a079
-Top:    bac2a0672a0ef648d23b62d19d5372cd59225c57
+Top:    364a8005322074e8159403928701ded7f3ab1aeb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -7,6 +7,19 @@ Add Gitlab Authentication
 
 
 ---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index d476bf91..828dde00 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -5,6 +5,8 @@ buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/cre
+ buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
+ buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
+ buildsystem_ssh_root_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/root"                , length=20) }}'
++gitlab_buildbot_auth_id:             '{{ lookup("password", playbook_dir + "/credentials/git/auth/buildbot_client_id") }}'
++gitlab_buildbot_auth_secret:         '{{ lookup("password", playbook_dir + "/credentials/git/auth/buildbot_secret") }}'
+ gitlab_db_password:                  '{{ lookup("password", playbook_dir + "/credentials/git/db/user"                         , length=20) }}'
+ gitlab_email_password:               '{{ lookup("password", playbook_dir + "/credentials/git/email/gitlab@novatech-llc.com"   , length=20) }}'
+ gitlab_root_password:                '{{ lookup("password", playbook_dir + "/credentials/git/users/root"                      , length=20) }}'
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
 index 1baa3f49..a79778ef 100644
 --- a/docker/buildbot-master/Dockerfile
@@ -71,3 +84,20 @@ index 0a3aed76..e5fc5149 100644
              ],
          ),
      }
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index c9623933..e5c4c349 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -43,6 +43,12 @@ container_env:
+   BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
+   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
+   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
++  GITLAB_URI: 'https://{{ gitlab_hostname }}/'
++  GITLAB_CLIENT_ID: '{{ gitlab_buildbot_id }}'
++  GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_secret }}'
++  LDAP_URI: 'ldap://{{ openldap_hostname }}'
++  LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
++  LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
+ 
+ # the name of the container being started
+ container_name: '{{ docker_name_prefix }}buildbot'
