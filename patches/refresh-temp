@@ -1,0 +1,23 @@
+Bottom: e44b1792cc7517520c169f6a30c56f035c3e2e68
+Top:    6bc1fb37be791034eebda2f540d094eba7cbf8b1
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-12 14:52:10 -0500
+
+Refresh of add-buildbot-ptxdist-worker
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index b84e7721..beac6956 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -36,6 +36,11 @@
+   - buildbot-worker
+   vars:
+     buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
++    known_hosts: "{{gitlab_keys.stdout}}"
++  pre_tasks:
++  - name: Scan Gitlab ssh keys
++    command: ssh-keyscan {{gitlab_hostname}}
++    register: gitlab_keys
+   roles:
+   - role: buildbot-worker-ptxdist
