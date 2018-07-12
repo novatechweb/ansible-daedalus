@@ -1,5 +1,5 @@
 Bottom: 8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
-Top:    e87c262ad68d196199970049bc948f612ff5b721
+Top:    d1f894afded2a227c004db702db6fb291f23bbff
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -120,15 +120,12 @@ index 658d5fb1..75985b8a 100644
  # internal web server (usually the html.WebStatus page) is visible. This
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 00000000..c0988cfb
+index 00000000..6a959656
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -0,0 +1,93 @@
+@@ -0,0 +1,90 @@
 +---
 +# defaults file for buildbot
-+
-+# host containing build assets
-+asset_host: 'http://{{ansible_facts.default_ipv4.address}}/'
 +
 +# backup host directory
 +backup_hostdir: '{{ docker_backup_dir }}/buildbot'
@@ -204,7 +201,7 @@ index 00000000..c0988cfb
 +image_name: '{{ docker_registry_username }}/buildbot'
 +
 +# repository URI of the image source
-+image_repo: https://github.com/novatechweb/docker-buildbot-master.git
++image_repo: '{{ buildbot_image_repo | default("https://github.com/novatechweb/docker-buildbot-master.git") }}'
 +
 +# restoration host directory
 +restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'
