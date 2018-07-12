@@ -1,7 +1,7 @@
-Bottom: ad03a8e85b80591b33ba7889abca0a0742b41a85
-Top:    cfd23ba1a77f6c785a76780b15ab65bc85deaaa4
+Bottom: 4504914d6ab0ae7e920f39eeca60e9fc29a806b0
+Top:    f2c31f9cc43e1246eb2f848ac90d7ec484bac5bb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:25:44 -0500
+Date:   2018-07-11 17:03:10 -0500
 
 Update python docker client library
 
