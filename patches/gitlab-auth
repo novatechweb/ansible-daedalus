@@ -1,5 +1,5 @@
 Bottom: 1f10aabdf1fb229a626c0726bb852a0c04fe690f
-Top:    66eb501f247b6acd74bf6f1c969423baa94cab50
+Top:    0b868c94514cecc59ea5293243f3b67e241594a5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -7,6 +7,20 @@ Add Gitlab Authentication
 
 
 ---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index 1baa3f49..a79778ef 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -18,7 +18,8 @@ RUN pip --no-cache-dir install \
+     'buildbot-console-view' \
+     'buildbot-grid-view' \
+     'buildbot-waterfall-view' \
+-    'buildbot-www'
++    'buildbot-www' \
++    'ldap3'
+ 
+ # Create buildbot user
+ ARG BUILDBOT_UID=1000
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
 index 0a3aed76..e5fc5149 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
