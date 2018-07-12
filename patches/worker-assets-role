@@ -1,7 +1,7 @@
-Bottom: 7f1789a6f300f6169804aca937fdcf00243d71a5
-Top:    442a5cc1099fcba2d950abc9c347813279b9241c
+Bottom: f8438aee4a2886198e2eed82862d0711a6c50870
+Top:    88c00ef766fb7210bb1b0978f4e908f33845ee32
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-12 11:12:23 -0500
+Date:   2018-07-11 17:03:11 -0500
 
 Create new role buildbot-worker-assets
 
