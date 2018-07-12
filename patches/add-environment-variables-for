@@ -1,5 +1,5 @@
-Bottom: 00dd0cc6a92ccabcd8dc3427cfdf9069f0413d43
-Top:    a7b45d84721260807d4a69b9291f6bbfa002a11d
+Bottom: aa61572eaaa2cd700a12d406159598862cf71767
+Top:    6e6f1791e5c1e93a8cc2c31eedd813f23976b80e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -114,10 +114,10 @@ index a30fbf6d..5e0eed75 100755
  /usr/bin/buildbot --verbose upgrade-master
  exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index c0988cfb..9ce67a77 100644
+index 6a959656..c9623933 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -36,6 +36,9 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+@@ -33,6 +33,9 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
  # environment passed to the container
  container_env:
    BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'

@@ -1,5 +1,5 @@
-Bottom: 0b868c94514cecc59ea5293243f3b67e241594a5
-Top:    6378e69f94f66aa1736a112d6ac4368fe4bf0a2c
+Bottom: bac2a0672a0ef648d23b62d19d5372cd59225c57
+Top:    39f80103c7ed1e6dd3ba3b39a722d5650e408a13
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -48,10 +48,10 @@ index 85c28248..44ec2c12 100755
  
  # Run original buildbot entrypoint
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 9ce67a77..94f32383 100644
+index c9623933..3adede49 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -36,6 +36,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+@@ -33,6 +33,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
  # environment passed to the container
  container_env:
    BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
@@ -59,7 +59,7 @@ index 9ce67a77..94f32383 100644
    BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
    BUILDBOT_SMTP_USER: 'Dean.cox'
    BUILDBOT_SMTP_PASS: 'no5156'
-@@ -57,7 +58,7 @@ container_networks:
+@@ -54,7 +55,7 @@ container_networks:
  # volumes mounted within the container
  container_volumes:
    - '{{ data_volume }}:{{ data_path }}:z'
@@ -69,7 +69,7 @@ index 9ce67a77..94f32383 100644
  # mount path of the data volume
  data_path: '/buildbot'
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index 8a2ac0be..32ecc922 100644
+index d7d69e36..8d1a8400 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -10,6 +10,16 @@
