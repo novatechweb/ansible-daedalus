@@ -1,5 +1,5 @@
 Bottom: 8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
-Top:    cb2d592c0b0202b413c38ae66102e1bbc56db268
+Top:    e87c262ad68d196199970049bc948f612ff5b721
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -217,34 +217,6 @@ index 00000000..c0988cfb
 +
 +# mount path of the secrets volume
 +secrets_path: '/run/secrets'
-diff --git a/roles/buildbot-master/env.yml b/roles/buildbot-master/env.yml
-new file mode 100644
-index 00000000..7ef0578f
---- /dev/null
-+++ b/roles/buildbot-master/env.yml
-@@ -0,0 +1,22 @@
-+BUILDBOT_VERSION=1.1.1
-+BUILDBOT_UID=1000
-+
-+BUILDBOT_VOL_CACHE=/home/coopera/Developer/buildbot-mounts/cache:/cache
-+BUILDBOT_VOL_MASTER=/home/coopera/Developer/buildbot-mounts/buildbot:/buildbot
-+BUILDBOT_VOL_NTEL=/home/coopera/Developer/buildbot-mounts/worker-ntel:/buildbot
-+BUILDBOT_VOL_PTXDIST=/home/coopera/Developer/buildbot-mounts/worker-ptxdist:/buildbot
-+BUILDBOT_VOL_SECRETS=./secrets:/run/secrets:ro
-+
-+BUILDBOT_DATABASE=sqlite:////cache/state.sqlite
-+BUILDBOT_MASTER=buildbot
-+BUILDBOT_TIMEZONE=America/Chicago
-+BUILDBOT_HOST_PORT=172.16.103.71:80
-+BUILDBOT_WEB_PORT=8010
-+BUILDBOT_WEB_URL=http://buildbot.novatech-llc.com/
-+
-+BUILDBOT_WORKER_NTEL=worker-ntel
-+BUILDBOT_WORKER_PASSWORD=pass
-+BUILDBOT_WORKER_PORT=9989
-+BUILDBOT_WORKER_PTXDIST=worker-ptxdist
-+
-+BUILDBOT_ENVIRONMENT_BLACKLIST=DOCKER_BUILDBOT*,BUILDBOT_ENV_*,BUILDBOT_1*,BUILDBOT_ENVIRONMENT_BLACKLIST,BUILDBOT_WORKER_PASSWORD
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
 index 00000000..63fac665
