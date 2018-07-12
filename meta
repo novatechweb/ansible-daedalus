@@ -1,8 +1,7 @@
 Version: 1
-Previous: edbac0bb71e55fe61d0898e9c96dcb4db48743eb
-Head: eacd543d05f71baac4104f1086922900cad98403
+Previous: a93833a96e26d96fcbc0f4daca0059f404476dd9
+Head: 074cbd307d16a2dbc24a2ec146892ce6f758f658
 Applied:
-  add-new-host-buildbot-worker: 0042c1694941a084a7eebb96f47a477af2a6b98f
-  refresh-temp: eacd543d05f71baac4104f1086922900cad98403
+  add-new-host-buildbot-worker: 074cbd307d16a2dbc24a2ec146892ce6f758f658
 Unapplied:
 Hidden:
