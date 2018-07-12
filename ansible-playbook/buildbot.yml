@@ -9,7 +9,7 @@
   - buildbot
   pre_tasks:
   - name: Scan Gitlab ssh keys
-    command: ssh-keyscan {{git_hostname}}
+    command: ssh-keyscan {{gitlab_hostname}}
     register: gitlab_keys
   roles:
   - name: Build and start the Buildbot master container
