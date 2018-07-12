@@ -1,0 +1,23 @@
+Bottom: 7a1b00e7fbc7caec3c5ef8df37e35bb66b6e91e9
+Top:    0a1a16a8810fefe6c319a0bff988f17d42fb2f1d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-12 14:48:50 -0500
+
+Refresh of add-buildbot-ntel-worker
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 517e128f..464bcca2 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -36,6 +36,11 @@
+   - buildbot-worker
+   vars:
+     buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
++    known_hosts: "{{gitlab_keys.stdout}}"
++  pre_tasks:
++  - name: Scan Gitlab ssh keys
++    command: ssh-keyscan {{gitlab_hostname}}
++    register: gitlab_keys
+   roles:
+   - role: buildbot-worker-ntel
