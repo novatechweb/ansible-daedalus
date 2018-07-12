@@ -1,5 +1,5 @@
 Bottom: 030710037ff423b76f8ff8badf1ba0d9135e98db
-Top:    40fa13fe509827f8d50a0df01f64fc3681f82ac3
+Top:    7c7e4e29d8aff1a4c4f3c57d66573c1eef08ef64
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:23 -0500
 
@@ -366,29 +366,6 @@ index 00000000..d352d818
 +
 +# mount path of the secrets volume
 +secrets_path: '/run/secrets'
-diff --git a/roles/buildbot-worker-ntel/tasks/bootstrap.sh b/roles/buildbot-worker-ntel/tasks/bootstrap.sh
-new file mode 100755
-index 00000000..8353ad9d
---- /dev/null
-+++ b/roles/buildbot-worker-ntel/tasks/bootstrap.sh
-@@ -0,0 +1,17 @@
-+#!/bin/sh
-+
-+DIRS="/cache \
-+      /cache/ccache \
-+      /cache/downloads \
-+      /cache/images \
-+      /cache/ipkg-repository \
-+      /cache/mirrors \
-+      /cache/releases \
-+      /cache/sstate"
-+
-+for d in $DIRS
-+do
-+  mkdir -p $d
-+  chown -c -R buildbot:buildbot $d
-+  chmod -v 777 $d
-+done
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
 new file mode 100644
 index 00000000..a65341db
