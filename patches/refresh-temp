@@ -1,0 +1,51 @@
+Bottom: 7c7e4e29d8aff1a4c4f3c57d66573c1eef08ef64
+Top:    7a1b00e7fbc7caec3c5ef8df37e35bb66b6e91e9
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-12 14:46:36 -0500
+
+Refresh of add-buildbot-ntel-worker
+
+---
+diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
+index d352d818..3c51ad76 100644
+--- a/roles/buildbot-worker-ntel/defaults/main.yml
++++ b/roles/buildbot-worker-ntel/defaults/main.yml
+@@ -40,7 +40,7 @@ container_name: '{{ docker_name_prefix }}{{ hostname }}'
+ container_volumes:
+ - '{{ data_volume }}:{{ data_path }}:z'
+ - '{{ cache_volume }}:{{ cache_path }}:z'
+-- '{{ config_hostdir }}:{{ secrets_path }}'
++- '{{ secrets_hostdir }}:{{ secrets_path }}'
+ 
+ # mount path of the data volume
+ data_path: '/buildbot'
+@@ -68,7 +68,7 @@ image_dir: '{{ docker_projects_dir }}/{{ hostname }}'
+ image_name: '{{ docker_registry_username }}/{{ hostname }}'
+ 
+ # repository URI of the image source
+-image_repo: https://github.com/novatechweb/docker-buildbot-worker-ntel.git
++image_repo: '{{ buildbot_worker_ntel_image_repo | default("https://github.com/novatechweb/docker-buildbot-worker-ntel.git") }}'
+ 
+ # host path containing secrets
+ secrets_hostdir: '{{ config_hostdir }}'
+diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
+index a65341db..56a1af2d 100644
+--- a/roles/buildbot-worker-ntel/tasks/main.yml
++++ b/roles/buildbot-worker-ntel/tasks/main.yml
+@@ -34,6 +34,16 @@
+   docker_volume:
+     name: '{{ data_volume }}'
+ 
++- name: Create secrets volume
++  file:
++    path: '{{ secrets_hostdir }}'
++    state: directory
++
++- name: Populate known_hosts secret
++  copy:
++    content: '{{ known_hosts }}'
++    dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
++
+ - name: Checkout image repo
+   git:
+     repo: '{{ image_repo }}'
