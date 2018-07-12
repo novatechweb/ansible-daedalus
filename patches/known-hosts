@@ -1,5 +1,5 @@
-Bottom: 364a8005322074e8159403928701ded7f3ab1aeb
-Top:    c52933538d6cf22b5bf4ada59eabbf94db09a3bf
+Bottom: 548bf42a3e4cfc813e69f1f97570a4ce8f972360
+Top:    3df01f4f575b57c119c54048f61e5a2a716f7ab3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -48,7 +48,7 @@ index 85c28248..44ec2c12 100755
  
  # Run original buildbot entrypoint
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index e5c4c349..c9a90fab 100644
+index 9bc9ac3c..cc654992 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -33,6 +33,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
