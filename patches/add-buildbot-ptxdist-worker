@@ -1,5 +1,5 @@
 Bottom: 030710037ff423b76f8ff8badf1ba0d9135e98db
-Top:    887271c46209e42f7413273b7d1dd9a145214c2d
+Top:    e44b1792cc7517520c169f6a30c56f035c3e2e68
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:23 -0500
 
@@ -343,7 +343,7 @@ index 00000000..b23ac658
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
 new file mode 100644
-index 00000000..9f917097
+index 00000000..b84c5b8b
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
 @@ -0,0 +1,80 @@
@@ -389,7 +389,7 @@ index 00000000..9f917097
 +container_volumes:
 +- '{{ data_volume }}:{{ data_path }}:z'
 +- '{{ cache_volume }}:{{ cache_path }}:z'
-+- '{{ config_hostdir }}:{{ secrets_path }}'
++- '{{ secrets_hostdir }}:{{ secrets_path }}'
 +
 +# mount path of the data volume
 +data_path: '/buildbot'
@@ -417,7 +417,7 @@ index 00000000..9f917097
 +image_name: '{{ docker_registry_username }}/{{ hostname }}'
 +
 +# repository URI of the image source
-+image_repo: https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git
++image_repo: '{{ buildbot_worker_ptxdist_image_repo | default("https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git") }}'
 +
 +# host path containing secrets
 +secrets_hostdir: '{{ config_hostdir }}'
@@ -427,35 +427,12 @@ index 00000000..9f917097
 +
 +# mount path of the secrets volume
 +secrets_path: '/run/secrets'
-diff --git a/roles/buildbot-worker-ptxdist/tasks/bootstrap.sh b/roles/buildbot-worker-ptxdist/tasks/bootstrap.sh
-new file mode 100755
-index 00000000..8353ad9d
---- /dev/null
-+++ b/roles/buildbot-worker-ptxdist/tasks/bootstrap.sh
-@@ -0,0 +1,17 @@
-+#!/bin/sh
-+
-+DIRS="/cache \
-+      /cache/ccache \
-+      /cache/downloads \
-+      /cache/images \
-+      /cache/ipkg-repository \
-+      /cache/mirrors \
-+      /cache/releases \
-+      /cache/sstate"
-+
-+for d in $DIRS
-+do
-+  mkdir -p $d
-+  chown -c -R buildbot:buildbot $d
-+  chmod -v 777 $d
-+done
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
 new file mode 100644
-index 00000000..179cb373
+index 00000000..f7a280c1
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
-@@ -0,0 +1,69 @@
+@@ -0,0 +1,79 @@
 +---
 +# tasks file for buildbot-worker-ptxdist
 +
@@ -491,6 +468,16 @@ index 00000000..179cb373
 +- name: Create buildbot data volume
 +  docker_volume:
 +    name: '{{ data_volume }}'
++
++- name: Create secrets volume
++  file:
++    path: '{{ secrets_hostdir }}'
++    state: directory
++
++- name: Populate known_hosts secret
++  copy:
++    content: '{{ known_hosts }}'
++    dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
 +
 +- name: Checkout image repo
 +  git:
