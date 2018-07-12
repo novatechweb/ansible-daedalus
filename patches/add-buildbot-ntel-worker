@@ -1,9 +1,10 @@
-Bottom: 2d82d0845655c1325bd2ea797f5be154cd54b037
-Top:    1a20b83196cfd3dc0361797f64a7acb2afe7c43b
+Bottom: 7f1789a6f300f6169804aca937fdcf00243d71a5
+Top:    7ee2550ef361784c94b91f63ccc5ac64aebca929
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-10 14:30:52 -0500
+Date:   2018-07-12 11:12:23 -0500
 
 Add buildbot NTEL worker Docker image
+
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
