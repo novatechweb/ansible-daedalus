@@ -1,13 +1,13 @@
 Version: 1
-Previous: c73c44334ce0d271132235c71f972e636b27dd94
-Head: 14196158ba0ca081daa1f8aa76380c2680336d19
+Previous: 15f66f43d21850853606e564b1764ecea636ae7c
+Head: 1563a0ec003e3282aa3d059d53965a8cfdb1609a
 Applied:
   update-python-docker-client: 466f92e7b161efc9fe40d41bb5fe4a831abc8888
   install-latest-available: f3b6c2e0cc8151cffec55cc85f53bf8b50355cd0
   remove-backup-directory: 49275b7a19ca4597c5502185e4ab72d57199ce8e
   remove-container-conf: fe2b7ecea80a10955057636b71fa716dbeecf3b6
   configure-docker-daemon: 1563a0ec003e3282aa3d059d53965a8cfdb1609a
-  enable-tcp-interface-of-docker: 14196158ba0ca081daa1f8aa76380c2680336d19
 Unapplied:
+  enable-tcp-interface-of-docker: 14196158ba0ca081daa1f8aa76380c2680336d19
   debian-support: bcf79f3d9d62f2d99ea56b521c6b650b12986ed8
 Hidden:
