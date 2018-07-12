@@ -7,12 +7,17 @@
   become_method: sudo
   tags:
   - buildbot
+  pre_tasks:
+  - name: Scan Gitlab ssh keys
+    command: ssh-keyscan {{gitlab_hostname}}
+    register: gitlab_keys
   roles:
   - name: Build and start the Buildbot master container
     role: buildbot-master
     tags:
     - buildbot-master
-
+    vars:
+      known_hosts: "{{gitlab_keys.stdout}}"
   - name: Add buildbot user to Gitlab
     role: gitlab-user
     vars:
