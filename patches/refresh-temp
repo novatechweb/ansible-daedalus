@@ -1,0 +1,31 @@
+Bottom: 40fa13fe509827f8d50a0df01f64fc3681f82ac3
+Top:    7c7e4e29d8aff1a4c4f3c57d66573c1eef08ef64
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-12 14:16:01 -0500
+
+Refresh of add-buildbot-ntel-worker
+
+---
+diff --git a/roles/buildbot-worker-ntel/tasks/bootstrap.sh b/roles/buildbot-worker-ntel/tasks/bootstrap.sh
+deleted file mode 100755
+index 8353ad9d..00000000
+--- a/roles/buildbot-worker-ntel/tasks/bootstrap.sh
++++ /dev/null
+@@ -1,17 +0,0 @@
+-#!/bin/sh
+-
+-DIRS="/cache \
+-      /cache/ccache \
+-      /cache/downloads \
+-      /cache/images \
+-      /cache/ipkg-repository \
+-      /cache/mirrors \
+-      /cache/releases \
+-      /cache/sstate"
+-
+-for d in $DIRS
+-do
+-  mkdir -p $d
+-  chown -c -R buildbot:buildbot $d
+-  chmod -v 777 $d
+-done

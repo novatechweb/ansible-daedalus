@@ -1,8 +1,9 @@
 Version: 1
-Previous: fcd11f660ccaac0052580b20eb1cc96cf9abab6a
-Head: e03b7d2939125edfd37dcf57e7d68fe18e43a366
+Previous: 40b877dc4a941b345f9b32f9be6d507f39e98f1f
+Head: b1818d74fca732d4b13e1c93a53d488ae65ba28a
 Applied:
   add-buildbot-ntel-worker: e03b7d2939125edfd37dcf57e7d68fe18e43a366
+  refresh-temp: b1818d74fca732d4b13e1c93a53d488ae65ba28a
 Unapplied:
   update-ntel-builds-for-new: ad2a2c4fb6d8443dba80c46b5f7c2f0128d33eb8
 Hidden:
