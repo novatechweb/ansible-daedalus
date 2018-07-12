@@ -46,7 +46,7 @@
 
 - name: Grab ssh public key
   command: >
-    docker exec '{{ buildbot_container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
   changed_when: false
   register: output
 
