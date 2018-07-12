@@ -1,3 +1,5 @@
+builder.novatech-llc.com ansible_host=127.0.0.1 ansible_port=20022 ansible_user='vagrant' ansible_ssh_private_key_file='/home/coopera/Developer/testdaedalus/.vagrant/machines/bbworker/virtualbox/private_key'
+
 [bacula]
 testdaedalus.novatech-llc.com
 
@@ -6,6 +8,10 @@ testdaedalus.novatech-llc.com
 
 [docker-hosts]
 testdaedalus.novatech-llc.com
+builder.novatech-llc.com
 
 [buildsystem]
 buildsystem.novatech-llc.com
+
+[builder]
+builder.novatech-llc.com
