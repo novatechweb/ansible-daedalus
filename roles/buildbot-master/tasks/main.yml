@@ -37,6 +37,7 @@
 - name: Start buildbot container
   docker_container:
     name: '{{ container_name }}'
+    hostname: '{{ buildbot_hostname }}'
     image: '{{ image_name }}:{{ docker_image_tag }}'
     networks: '{{ container_networks }}'
     volumes: '{{ container_volumes }}'
