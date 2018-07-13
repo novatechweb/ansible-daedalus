@@ -1,0 +1,15 @@
+Bottom: bfa7ad98c3ffbbd31a4621e14641898803e503b1
+Top:    3d27c62b5c96ca5e258bed7644c9fba410a84005
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-13 09:00:34 -0500
+
+Refresh of add-new-host-buildbot-worker
+
+---
+diff --git a/ansible-playbook/host_vars/builder.novatech-llc.com/buildbot.yml b/ansible-playbook/host_vars/builder.novatech-llc.com/buildbot.yml
+new file mode 100644
+index 00000000..9a8e64a5
+--- /dev/null
++++ b/ansible-playbook/host_vars/builder.novatech-llc.com/buildbot.yml
+@@ -0,0 +1 @@
++buildbot_uid: 1001
