@@ -1,5 +1,5 @@
 Bottom: 030710037ff423b76f8ff8badf1ba0d9135e98db
-Top:    0a1a16a8810fefe6c319a0bff988f17d42fb2f1d
+Top:    7944ae09a2d1e5cd4756a7c276ebd3d7d2eefd9a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:23 -0500
 
@@ -263,7 +263,7 @@ index 00000000..52b89632
 +rm $files_to_archive
 diff --git a/docker/buildbot-worker-ntel/buildbot/start.sh b/docker/buildbot-worker-ntel/buildbot/start.sh
 new file mode 100755
-index 00000000..b23ac658
+index 00000000..f025e661
 --- /dev/null
 +++ b/docker/buildbot-worker-ntel/buildbot/start.sh
 @@ -0,0 +1,18 @@
@@ -280,7 +280,7 @@ index 00000000..b23ac658
 +if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
 +then
 +    mkdir -p "${HOME}/.ssh"
-+    ln -s "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
++    cp -v "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
 +fi
 +
 +ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
@@ -373,10 +373,10 @@ index 00000000..3c51ad76
 +secrets_path: '/run/secrets'
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
 new file mode 100644
-index 00000000..56a1af2d
+index 00000000..4d17c428
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
-@@ -0,0 +1,79 @@
+@@ -0,0 +1,93 @@
 +---
 +# tasks file for buildbot-worker-ntel
 +
@@ -412,6 +412,20 @@ index 00000000..56a1af2d
 +- name: Create buildbot data volume
 +  docker_volume:
 +    name: '{{ data_volume }}'
++
++- name: Populate buildbot data volume
++  loop:
++  - /buildbot
++  docker_container:
++    name: '{{ container_name }}-bootstrap'
++    image: 'alpine:latest'
++    volumes:
++    - '{{ data_volume }}:{{ data_path }}:z'
++    detach: no
++    cleanup: yes
++    command: /bin/ash -c 
++      "mkdir -p {{item}} &&
++      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}}"
 +
 +- name: Create secrets volume
 +  file:
