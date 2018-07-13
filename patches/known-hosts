@@ -1,5 +1,5 @@
 Bottom: 548bf42a3e4cfc813e69f1f97570a4ce8f972360
-Top:    3df01f4f575b57c119c54048f61e5a2a716f7ab3
+Top:    003037aaed9bc101519e6d2fd763fa0409f2efc6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -31,7 +31,7 @@ index e14b93b9..bc6c7663 100644
      role: gitlab-user
      vars:
 diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
-index 85c28248..44ec2c12 100755
+index 85c28248..7b5acf05 100755
 --- a/docker/buildbot-master/buildbot/start.sh
 +++ b/docker/buildbot-master/buildbot/start.sh
 @@ -8,6 +8,12 @@ BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
@@ -41,7 +41,7 @@ index 85c28248..44ec2c12 100755
 +if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
 +then
 +    mkdir -p "${HOME}/.ssh"
-+    ln -s "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
++    cp -v "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
 +fi
 +
  ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
