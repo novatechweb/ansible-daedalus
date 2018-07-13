@@ -1,0 +1,20 @@
+Bottom: aa4d9d5b3418a7a4966cebe449529330a2de6364
+Top:    cec7d49e6034a3d07e978524ac7e662b4b0708ce
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-13 09:05:14 -0500
+
+Refresh of add-buildbot-role
+
+---
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 8d1a8400..3a43e6c2 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -37,6 +37,7 @@
+ - name: Start buildbot container
+   docker_container:
+     name: '{{ container_name }}'
++    hostname: '{{ buildbot_hostname }}'
+     image: '{{ image_name }}:{{ docker_image_tag }}'
+     networks: '{{ container_networks }}'
+     volumes: '{{ container_volumes }}'
