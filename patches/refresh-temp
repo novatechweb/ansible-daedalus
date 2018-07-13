@@ -1,0 +1,20 @@
+Bottom: 003037aaed9bc101519e6d2fd763fa0409f2efc6
+Top:    aa4d9d5b3418a7a4966cebe449529330a2de6364
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-13 09:04:02 -0500
+
+Refresh of gitlab-auth
+
+---
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index cc654992..afe4bb6a 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -47,7 +47,7 @@ container_env:
+   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
+   GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
+   GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
+-  LDAP_URI: 'ldap://{{ openldap_hostname }}'
++  LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
+   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
+   LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
