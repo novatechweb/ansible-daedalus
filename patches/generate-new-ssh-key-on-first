@@ -1,5 +1,5 @@
-Bottom: 0a2d26d605c3c50ca176627e56e468ef64b6a4f2
-Top:    c0261de1bd63ed51ac4386bb4cf8cba6bf59a079
+Bottom: 84e6e2792e9b2b20bacf3e47c61b707f82eef2f3
+Top:    d3ba25d4e4f4464ab6d8aae4f9497634a6b29cbd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -59,10 +59,10 @@ index 71002f8b..85c28248 100755
  ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
  
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index 63fac665..d7d69e36 100644
+index 7cd8f5a2..b1b843ba 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
-@@ -34,6 +34,12 @@
+@@ -35,6 +35,12 @@
      ports: '{{ buildbot_port_args }}'
      state: started
  

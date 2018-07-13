@@ -1,5 +1,5 @@
 Bottom: 8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
-Top:    d1f894afded2a227c004db702db6fb291f23bbff
+Top:    6cda292c46b51b81eaff459d8e6de067133f13c4
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -216,10 +216,10 @@ index 00000000..6a959656
 +secrets_path: '/run/secrets'
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 00000000..63fac665
+index 00000000..7cd8f5a2
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
-@@ -0,0 +1,41 @@
+@@ -0,0 +1,42 @@
 +---
 +# tasks file for buildbot
 +
@@ -249,6 +249,7 @@ index 00000000..63fac665
 +- name: Start buildbot container
 +  docker_container:
 +    name: '{{ container_name }}'
++    hostname: '{{ buildbot_hostname }}'
 +    image: '{{ image_name }}:{{ docker_image_tag }}'
 +    networks: '{{ container_networks }}'
 +    volumes: '{{ container_volumes }}'

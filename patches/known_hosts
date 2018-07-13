@@ -1,5 +1,5 @@
-Bottom: 0206e41f7e1da4889c39c60ec6bf756a64d0406f
-Top:    aa4d9d5b3418a7a4966cebe449529330a2de6364
+Bottom: c9fbd5f94de4cb94e0652d2d607c64ed2b712a22
+Top:    cec7d49e6034a3d07e978524ac7e662b4b0708ce
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -69,7 +69,7 @@ index 2b40e701..afe4bb6a 100644
  # mount path of the data volume
  data_path: '/buildbot'
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index d7d69e36..8d1a8400 100644
+index b1b843ba..3a43e6c2 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -10,6 +10,16 @@
