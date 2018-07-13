@@ -1,0 +1,46 @@
+Bottom: 6bc1fb37be791034eebda2f540d094eba7cbf8b1
+Top:    f3341d6ef0de3939cc75dc097b0412746bda40e4
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-13 09:02:20 -0500
+
+Refresh of add-buildbot-ptxdist-worker
+
+---
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/start.sh b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+index b23ac658..f025e661 100755
+--- a/docker/buildbot-worker-ptxdist/buildbot/start.sh
++++ b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+@@ -11,7 +11,7 @@ ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/nul
+ if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
+ then
+     mkdir -p "${HOME}/.ssh"
+-    ln -s "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
++    cp -v "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
+ fi
+ 
+ ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index f7a280c1..1a45e06a 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -34,6 +34,20 @@
+   docker_volume:
+     name: '{{ data_volume }}'
+ 
++- name: Populate buildbot data volume
++  loop:
++  - /buildbot
++  docker_container:
++    name: '{{ container_name }}-bootstrap'
++    image: 'alpine:latest'
++    volumes:
++    - '{{ data_volume }}:{{ data_path }}:z'
++    detach: no
++    cleanup: yes
++    command: /bin/ash -c 
++      "mkdir -p {{item}} &&
++      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}}"
++
+ - name: Create secrets volume
+   file:
+     path: '{{ secrets_hostdir }}'
