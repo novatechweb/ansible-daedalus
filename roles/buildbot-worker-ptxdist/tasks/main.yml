@@ -34,6 +34,20 @@
   docker_volume:
     name: '{{ data_volume }}'
 
+- name: Populate buildbot data volume
+  loop:
+  - /buildbot
+  docker_container:
+    name: '{{ container_name }}-bootstrap'
+    image: 'alpine:latest'
+    volumes:
+    - '{{ data_volume }}:{{ data_path }}:z'
+    detach: no
+    cleanup: yes
+    command: /bin/ash -c 
+      "mkdir -p {{item}} &&
+      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}}"
+
 - name: Create secrets volume
   file:
     path: '{{ secrets_hostdir }}'
