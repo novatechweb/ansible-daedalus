@@ -1,7 +1,7 @@
-Bottom: 030710037ff423b76f8ff8badf1ba0d9135e98db
-Top:    f3341d6ef0de3939cc75dc097b0412746bda40e4
+Bottom: cec7d49e6034a3d07e978524ac7e662b4b0708ce
+Top:    5f4784ac6df2f02f1fedf6ab464cd271d12e38c3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-12 11:12:23 -0500
+Date:   2018-07-13 09:06:18 -0500
 
 Add buildbot PTXdist worker Docker image
 
@@ -56,7 +56,7 @@ index 86476751..59244182 100644
  buildbot_worker_port: 9989
 +buildbot_worker_ptxdist: worker-ptxdist
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index d476bf91..05753bf8 100644
+index 828dde00..f3725c8f 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -1,6 +1,7 @@
