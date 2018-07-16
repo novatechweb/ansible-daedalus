@@ -36,6 +36,9 @@ container_env:
 # the name of the container being started
 container_name: '{{ docker_name_prefix }}{{ hostname }}'
 
+# port configuration of the container
+container_port_args: []
+
 # volumes mounted within the container
 container_volumes:
 - '{{ data_volume }}:{{ data_path }}:z'
@@ -49,7 +52,7 @@ data_path: '/buildbot'
 data_volume: '{{ docker_name_prefix }}{{ hostname }}-data'
 
 # hostname
-hostname: buildbot-worker-ptxdist
+hostname: '{{ role_name }}'
 
 # address of hsm cryptographic service
 hsm_host: '{{ansible_facts.default_ipv4.address}}'
@@ -58,8 +61,6 @@ hsm_host: '{{ansible_facts.default_ipv4.address}}'
 image_args:
   BUILDBOT_UID: '{{buildbot_uid}}'
   BUILDBOT_VERSION: 'v{{buildbot_version}}'
-  PTK_URI: '{{asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
-  PTK_HSM_HOST: '{{hsm_host}}'
 
 # directory of the image source
 image_dir: '{{ docker_projects_dir }}/{{ hostname }}'
