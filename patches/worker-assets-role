@@ -1,7 +1,7 @@
-Bottom: cec7d49e6034a3d07e978524ac7e662b4b0708ce
-Top:    60cb7ba696111522fbe097933976da153b1fa0ad
+Bottom: 2aad87442f67375a1d96704ceb15db2efd6f265d
+Top:    32ed1618c1127e08240be10deb4d0d448bd5cefc
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-13 09:06:18 -0500
+Date:   2018-07-16 15:13:50 -0500
 
 Create new role buildbot-worker-assets
 
@@ -10,7 +10,7 @@ Starts a web server for distributing assets to buildbot workers.
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index bc6c7663..1a9c4a58 100644
+index f5bf035e..7e8eccf0 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -26,6 +26,20 @@
