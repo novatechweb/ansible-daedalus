@@ -6,20 +6,20 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
-  pre_tasks:
+    - buildbot
+    - buildbot-master
+  tasks:
   - name: Scan Gitlab ssh keys
     command: ssh-keyscan {{gitlab_hostname}}
     register: gitlab_keys
-  roles:
   - name: Build and start the Buildbot master container
-    role: buildbot-master
-    tags:
-    - buildbot-master
+    import_role: 
+      name: buildbot-master
     vars:
       known_hosts: "{{gitlab_keys.stdout}}"
   - name: Add buildbot user to Gitlab
-    role: gitlab-user
+    import_role: 
+      name: gitlab-user
     vars:
       new_user: buildbot
       new_user_name: Build Robot
@@ -32,11 +32,11 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
+    - buildbot
   roles:
   - name: Add buildbot_master pubkey to buildbot user
     role: gitlab-sshkey
     vars:
       username: buildbot
-      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
+      pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
       title: "buildbot_master"

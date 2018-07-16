@@ -37,7 +37,7 @@
 - name: Start buildbot container
   docker_container:
     name: '{{ container_name }}'
-    hostname: '{{ buildbot_hostname }}'
+    hostname: '{{ hostname }}'
     image: '{{ image_name }}:{{ docker_image_tag }}'
     networks: '{{ container_networks }}'
     volumes: '{{ container_volumes }}'
@@ -53,6 +53,6 @@
 
 - name: Add buildbot_master host
   add_host:
-    name: buildbot_master
+    name: "{{ hostname }}"
     pubkey: "{{ output.stdout }}"
     ip_addr: "{{ buildbot_ip_addr }}"

@@ -70,7 +70,7 @@ data_path: '/buildbot'
 data_volume: '{{ docker_name_prefix }}buildbot_DV'
 
 # hostname
-hostname: buildbot-worker-ntel
+hostname: '{{ role_name }}'
 
 # build arguments of the image
 image_args:
