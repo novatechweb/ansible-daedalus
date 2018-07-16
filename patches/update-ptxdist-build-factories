@@ -1,44 +1,16 @@
-Bottom: 5f4784ac6df2f02f1fedf6ab464cd271d12e38c3
-Top:    f5f9fcf5a9579b3d7ad0a99958577102299fb4cc
+Bottom: dd68e213662a326b957718a4bd54e79208bac8af
+Top:    8facd7a2081de3fda3346038960e7530cacfd56f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-13 09:06:18 -0500
+Date:   2018-07-16 15:27:42 -0500
 
 Update ptxdist build factories
 
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index beac6956..d64e77fe 100644
+index e811638f..d64e77fe 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
-@@ -6,20 +6,20 @@
-   become_user: root
-   become_method: sudo
-   tags:
--  - buildbot
--  pre_tasks:
-+    - buildbot
-+    - buildbot-master
-+  tasks:
-   - name: Scan Gitlab ssh keys
-     command: ssh-keyscan {{gitlab_hostname}}
-     register: gitlab_keys
--  roles:
-   - name: Build and start the Buildbot master container
--    role: buildbot-master
--    tags:
--    - buildbot-master
-+    import_role: 
-+      name: buildbot-master
-     vars:
-       known_hosts: "{{gitlab_keys.stdout}}"
-   - name: Add buildbot user to Gitlab
--    role: gitlab-user
-+    import_role: 
-+      name: gitlab-user
-     vars:
-       new_user: buildbot
-       new_user_name: Build Robot
 @@ -32,17 +32,29 @@
    become_user: root
    become_method: sudo
@@ -75,21 +47,7 @@ index beac6956..d64e77fe 100644
  
  - name: Gitlab public keys for buildbot containers
    hosts: daedalus
-@@ -50,17 +62,17 @@
-   become_user: root
-   become_method: sudo
-   tags:
--  - buildbot
-+    - buildbot
-   roles:
-   - name: Add buildbot_master pubkey to buildbot user
-     role: gitlab-sshkey
-     vars:
-       username: buildbot
--      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
-+      pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
-       title: "buildbot_master"
-   - name: Add buildbot_worker_ptxdist pubkey to buildbot user
+@@ -62,5 +74,5 @@
      role: gitlab-sshkey
      vars:
        username: buildbot
