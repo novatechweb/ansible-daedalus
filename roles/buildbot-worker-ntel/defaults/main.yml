@@ -36,6 +36,9 @@ container_env:
 # the name of the container being started
 container_name: '{{ docker_name_prefix }}{{ hostname }}'
 
+# port configuration of the container
+container_port_args: []
+
 # volumes mounted within the container
 container_volumes:
 - '{{ data_volume }}:{{ data_path }}:z'
@@ -49,7 +52,7 @@ data_path: '/buildbot'
 data_volume: '{{ docker_name_prefix }}{{ hostname }}-data'
 
 # hostname
-hostname: buildbot-worker-ntel
+hostname: '{{ role_name }}'
 
 # address of hsm cryptographic service
 hsm_host: '{{ansible_facts.default_ipv4.address}}'
