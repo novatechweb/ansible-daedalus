@@ -1,14 +1,14 @@
-Bottom: cec7d49e6034a3d07e978524ac7e662b4b0708ce
-Top:    e53c761b8570b3842f388a08811d4a520ba0989d
+Bottom: 2aad87442f67375a1d96704ceb15db2efd6f265d
+Top:    b69da92e687e1e283997672e61890eebc688f296
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-13 09:06:18 -0500
+Date:   2018-07-16 15:27:52 -0500
 
 Add buildbot NTEL worker Docker image
 
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index bc6c7663..464bcca2 100644
+index f5bf035e..fd2eedcb 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -26,6 +26,24 @@
@@ -38,7 +38,7 @@ index bc6c7663..464bcca2 100644
    become: true
 @@ -40,3 +58,9 @@
        username: buildbot
-       pubkey: "{{ hostvars.buildbot_master.pubkey }}"
+       pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
        title: "buildbot_master"
 +  - name: Add buildbot_worker_ntel pubkey to buildbot user
 +    role: gitlab-sshkey

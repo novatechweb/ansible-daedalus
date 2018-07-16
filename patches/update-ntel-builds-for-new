@@ -1,7 +1,7 @@
-Bottom: e53c761b8570b3842f388a08811d4a520ba0989d
-Top:    5b2a4e9d58110bd47e92e963d72c714f617b5834
+Bottom: b69da92e687e1e283997672e61890eebc688f296
+Top:    f61e9b58db28b8a60d6c14537bdd9c1399db6006
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-13 09:06:18 -0500
+Date:   2018-07-16 15:27:52 -0500
 
 Update ntel builds for new configuration
 
@@ -15,37 +15,9 @@ Two main updates:
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 464bcca2..9dd91056 100644
+index fd2eedcb..9dd91056 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
-@@ -6,20 +6,20 @@
-   become_user: root
-   become_method: sudo
-   tags:
--  - buildbot
--  pre_tasks:
-+    - buildbot
-+    - buildbot-master
-+  tasks:
-   - name: Scan Gitlab ssh keys
-     command: ssh-keyscan {{gitlab_hostname}}
-     register: gitlab_keys
--  roles:
-   - name: Build and start the Buildbot master container
--    role: buildbot-master
--    tags:
--    - buildbot-master
-+    import_role: 
-+      name: buildbot-master
-     vars:
-       known_hosts: "{{gitlab_keys.stdout}}"
-   - name: Add buildbot user to Gitlab
--    role: gitlab-user
-+    import_role: 
-+      name: gitlab-user
-     vars:
-       new_user: buildbot
-       new_user_name: Build Robot
 @@ -32,17 +32,29 @@
    become_user: root
    become_method: sudo
@@ -82,21 +54,7 @@ index 464bcca2..9dd91056 100644
  
  - name: Gitlab public keys for buildbot containers
    hosts: daedalus
-@@ -50,17 +62,17 @@
-   become_user: root
-   become_method: sudo
-   tags:
--  - buildbot
-+    - buildbot
-   roles:
-   - name: Add buildbot_master pubkey to buildbot user
-     role: gitlab-sshkey
-     vars:
-       username: buildbot
--      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
-+      pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
-       title: "buildbot_master"
-   - name: Add buildbot_worker_ntel pubkey to buildbot user
+@@ -62,5 +74,5 @@
      role: gitlab-sshkey
      vars:
        username: buildbot
