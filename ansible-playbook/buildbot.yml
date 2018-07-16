@@ -6,20 +6,20 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
-  pre_tasks:
+    - buildbot
+    - buildbot-master
+  tasks:
   - name: Scan Gitlab ssh keys
     command: ssh-keyscan {{gitlab_hostname}}
     register: gitlab_keys
-  roles:
   - name: Build and start the Buildbot master container
-    role: buildbot-master
-    tags:
-    - buildbot-master
+    import_role: 
+      name: buildbot-master
     vars:
       known_hosts: "{{gitlab_keys.stdout}}"
   - name: Add buildbot user to Gitlab
-    role: gitlab-user
+    import_role: 
+      name: gitlab-user
     vars:
       new_user: buildbot
       new_user_name: Build Robot
@@ -32,17 +32,29 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
-  - buildbot-worker
+    - buildbot
+    - buildbot-worker
   vars:
-    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+    asset_host: "{{ hostvars['buildbot-worker-assets'].uri }}"
+    pypi_host: "{{ hostvars['buildbot-worker-devpi'].uri }}"
+    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
+    container_networks:
+      - name: "{{ worker_backend_network }}"
+        links:
+          - buildbot-worker-assets:assets
+          - buildbot-worker-devpi:pypi
+          - buildbot-worker-ntel:ntel
     known_hosts: "{{gitlab_keys.stdout}}"
-  pre_tasks:
+  tasks:
   - name: Scan Gitlab ssh keys
     command: ssh-keyscan {{gitlab_hostname}}
     register: gitlab_keys
-  roles:
-  - role: buildbot-worker-ntel
+  - import_role: 
+      name: buildbot-worker-assets
+  - import_role: 
+      name: buildbot-worker-devpi
+  - import_role: 
+      name: buildbot-worker-ntel
 
 - name: Gitlab public keys for buildbot containers
   hosts: daedalus
@@ -50,17 +62,17 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
+    - buildbot
   roles:
   - name: Add buildbot_master pubkey to buildbot user
     role: gitlab-sshkey
     vars:
       username: buildbot
-      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
+      pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
       title: "buildbot_master"
   - name: Add buildbot_worker_ntel pubkey to buildbot user
     role: gitlab-sshkey
     vars:
       username: buildbot
-      pubkey: "{{ hostvars.buildbot_worker_ntel.pubkey }}"
+      pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
       title: "buildbot_worker_ntel"
