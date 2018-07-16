@@ -32,13 +32,18 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
-  - buildbot-worker
+    - buildbot
+    - buildbot-worker
   vars:
-    asset_host: "{{ hostvars['buildbot-assets'].uri }}"
-    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
-  roles:
-  - role: buildbot-worker-assets
+    asset_host: "{{ hostvars['buildbot-worker-assets'].uri }}"
+    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
+    container_networks:
+      - name: "{{ worker_backend_network }}"
+        links:
+          - buildbot-worker-assets:assets
+  tasks:
+  - import_role: 
+      name: buildbot-worker-assets
 
 - name: Gitlab public keys for buildbot containers
   hosts: daedalus
