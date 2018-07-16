@@ -1,8 +1,7 @@
 Version: 1
-Previous: 737715859ab2351f25be7719c5fedeaaf86ee9a5
-Head: d0ec1d62f0390bbd6b9ab94b16dee34d760871cf
+Previous: 523c9a3993bdd11c66d2f14098539422e19bae83
+Head: cc7501b0611f4de355d28b4f5772be6dcc1be08e
 Applied:
-  add-devpi-service: f2ebfaa425881ed527c8afb218dac85bc6d6b181
-  refresh-temp: d0ec1d62f0390bbd6b9ab94b16dee34d760871cf
+  add-devpi-service: cc7501b0611f4de355d28b4f5772be6dcc1be08e
 Unapplied:
 Hidden:
