@@ -1,7 +1,7 @@
-Bottom: 030710037ff423b76f8ff8badf1ba0d9135e98db
-Top:    7944ae09a2d1e5cd4756a7c276ebd3d7d2eefd9a
+Bottom: cec7d49e6034a3d07e978524ac7e662b4b0708ce
+Top:    e53c761b8570b3842f388a08811d4a520ba0989d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-12 11:12:23 -0500
+Date:   2018-07-13 09:06:18 -0500
 
 Add buildbot NTEL worker Docker image
 
@@ -56,7 +56,7 @@ index 86476751..7ad40a83 100644
  buildbot_worker_port: 9989
 +buildbot_worker_ntel: worker-ntel
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index d476bf91..afeff4e3 100644
+index 828dde00..37dfa71d 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -1,6 +1,7 @@
