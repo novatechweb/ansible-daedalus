@@ -1,5 +1,5 @@
 Bottom: 8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
-Top:    73adbc3c2f6c0a5dade41f877ecf8808416e583b
+Top:    f5bbc06b9f55dd3d9006f5102cccd896e1d3b15d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:24 -0500
 
@@ -429,12 +429,14 @@ index 85b103f0..9016eb5e 100644
 +docker exec {{ gitlab_container_name }} /bin/bash -c "rm -rf {{ gitlab_bv_mountpoint}}/*"
  {% endif %}
 diff --git a/roles/docker-gitlab/templates/before_backup.j2 b/roles/docker-gitlab/templates/before_backup.j2
-index d304bcb7..6d882a32 100644
+index d304bcb7..74764935 100644
 --- a/roles/docker-gitlab/templates/before_backup.j2
 +++ b/roles/docker-gitlab/templates/before_backup.j2
-@@ -4,7 +4,8 @@
+@@ -3,8 +3,10 @@
+ # *****************************************************************************
  # Backup gitlab
  docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/GIT"
++docker exec {{ gitlab_container_name }} /bin/bash -c "rm -rf {{ gitlab_bv_mountpoint}}/*"
  mkdir -p -m u=rwx,g=rwx,o= {{ gitlab_docker_backup_dir }}
 -pushd {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}
 -./gitlab.sh backup
