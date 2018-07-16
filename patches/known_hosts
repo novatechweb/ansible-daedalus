@@ -1,5 +1,5 @@
 Bottom: c9fbd5f94de4cb94e0652d2d607c64ed2b712a22
-Top:    cec7d49e6034a3d07e978524ac7e662b4b0708ce
+Top:    2aad87442f67375a1d96704ceb15db2efd6f265d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -8,28 +8,51 @@ Populate buildbot with gitlab public keys
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index e14b93b9..bc6c7663 100644
+index e14b93b9..f5bf035e 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
-@@ -7,12 +7,17 @@
+@@ -6,15 +6,20 @@
+   become_user: root
    become_method: sudo
    tags:
-   - buildbot
-+  pre_tasks:
+-  - buildbot
+-  roles:
+-  - name: Build and start the Buildbot master container
+-    role: buildbot-master
+-    tags:
++    - buildbot
+     - buildbot-master
+-
++  tasks:
 +  - name: Scan Gitlab ssh keys
 +    command: ssh-keyscan {{gitlab_hostname}}
 +    register: gitlab_keys
-   roles:
-   - name: Build and start the Buildbot master container
-     role: buildbot-master
-     tags:
-     - buildbot-master
--
++  - name: Build and start the Buildbot master container
++    import_role: 
++      name: buildbot-master
 +    vars:
 +      known_hosts: "{{gitlab_keys.stdout}}"
    - name: Add buildbot user to Gitlab
-     role: gitlab-user
+-    role: gitlab-user
++    import_role: 
++      name: gitlab-user
      vars:
+       new_user: buildbot
+       new_user_name: Build Robot
+@@ -27,11 +32,11 @@
+   become_user: root
+   become_method: sudo
+   tags:
+-  - buildbot
++    - buildbot
+   roles:
+   - name: Add buildbot_master pubkey to buildbot user
+     role: gitlab-sshkey
+     vars:
+       username: buildbot
+-      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
++      pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
+       title: "buildbot_master"
 diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
 index 85c28248..7b5acf05 100755
 --- a/docker/buildbot-master/buildbot/start.sh
@@ -48,7 +71,7 @@ index 85c28248..7b5acf05 100755
  
  # Run original buildbot entrypoint
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 2b40e701..afe4bb6a 100644
+index 2b40e701..76f8b393 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -33,6 +33,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
@@ -68,8 +91,17 @@ index 2b40e701..afe4bb6a 100644
  
  # mount path of the data volume
  data_path: '/buildbot'
+@@ -69,7 +70,7 @@ data_path: '/buildbot'
+ data_volume: '{{ docker_name_prefix }}buildbot_DV'
+ 
+ # hostname
+-hostname: buildbot-worker-ntel
++hostname: '{{ role_name }}'
+ 
+ # build arguments of the image
+ image_args:
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index b1b843ba..3a43e6c2 100644
+index b1b843ba..4cc67d20 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -10,6 +10,16 @@
@@ -89,3 +121,20 @@ index b1b843ba..3a43e6c2 100644
  - name: Checkout image repo
    git:
      repo: '{{ image_repo }}'
+@@ -27,7 +37,7 @@
+ - name: Start buildbot container
+   docker_container:
+     name: '{{ container_name }}'
+-    hostname: '{{ buildbot_hostname }}'
++    hostname: '{{ hostname }}'
+     image: '{{ image_name }}:{{ docker_image_tag }}'
+     networks: '{{ container_networks }}'
+     volumes: '{{ container_volumes }}'
+@@ -43,6 +53,6 @@
+ 
+ - name: Add buildbot_master host
+   add_host:
+-    name: buildbot_master
++    name: "{{ hostname }}"
+     pubkey: "{{ output.stdout }}"
+     ip_addr: "{{ buildbot_ip_addr }}"
