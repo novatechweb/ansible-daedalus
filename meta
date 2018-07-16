@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 3cc474edcc99ab027facc181f3010d8ce0daff63
+Previous: c388da09d5cef2210e0105b012788aa0446e88d8
+Head: f2ebfaa425881ed527c8afb218dac85bc6d6b181
 Applied:
+  add-devpi-service: f2ebfaa425881ed527c8afb218dac85bc6d6b181
 Unapplied:
 Hidden:

@@ -1,0 +1,10 @@
+Bottom: 2aad87442f67375a1d96704ceb15db2efd6f265d
+Top:    2aad87442f67375a1d96704ceb15db2efd6f265d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-16 15:22:23 -0500
+
+Add devpi service, a PyPi caching proxy
+
+
+---
+
