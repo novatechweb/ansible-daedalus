@@ -26,6 +26,23 @@
       new_user_email: buildbot@novatech-llc.com
       new_user_pass: "{{ lookup('password', '/dev/null') }}"
 
+- name: Setup Buildbot worker system
+  hosts: builder
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+    - buildbot
+    - buildbot-worker
+  vars:
+    pypi_host: "{{ hostvars['buildbot-worker-devpi'].uri }}"
+    container_networks:
+      - name: "{{ worker_backend_network }}"
+        links:
+          - buildbot-worker-devpi:pypi
+  tasks:
+  - import_role: 
+      name: buildbot-worker-devpi
 - name: Gitlab public keys for buildbot containers
   hosts: daedalus
   become: true
