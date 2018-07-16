@@ -1,5 +1,5 @@
 Bottom: e53c761b8570b3842f388a08811d4a520ba0989d
-Top:    acf020565594838622ad380b0476062bd96af101
+Top:    5b2a4e9d58110bd47e92e963d72c714f617b5834
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-13 09:06:18 -0500
 
@@ -14,6 +14,95 @@ Two main updates:
 
 
 ---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 464bcca2..9dd91056 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -6,20 +6,20 @@
+   become_user: root
+   become_method: sudo
+   tags:
+-  - buildbot
+-  pre_tasks:
++    - buildbot
++    - buildbot-master
++  tasks:
+   - name: Scan Gitlab ssh keys
+     command: ssh-keyscan {{gitlab_hostname}}
+     register: gitlab_keys
+-  roles:
+   - name: Build and start the Buildbot master container
+-    role: buildbot-master
+-    tags:
+-    - buildbot-master
++    import_role: 
++      name: buildbot-master
+     vars:
+       known_hosts: "{{gitlab_keys.stdout}}"
+   - name: Add buildbot user to Gitlab
+-    role: gitlab-user
++    import_role: 
++      name: gitlab-user
+     vars:
+       new_user: buildbot
+       new_user_name: Build Robot
+@@ -32,17 +32,29 @@
+   become_user: root
+   become_method: sudo
+   tags:
+-  - buildbot
+-  - buildbot-worker
++    - buildbot
++    - buildbot-worker
+   vars:
+-    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
++    asset_host: "{{ hostvars['buildbot-worker-assets'].uri }}"
++    pypi_host: "{{ hostvars['buildbot-worker-devpi'].uri }}"
++    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
++    container_networks:
++      - name: "{{ worker_backend_network }}"
++        links:
++          - buildbot-worker-assets:assets
++          - buildbot-worker-devpi:pypi
++          - buildbot-worker-ntel:ntel
+     known_hosts: "{{gitlab_keys.stdout}}"
+-  pre_tasks:
++  tasks:
+   - name: Scan Gitlab ssh keys
+     command: ssh-keyscan {{gitlab_hostname}}
+     register: gitlab_keys
+-  roles:
+-  - role: buildbot-worker-ntel
++  - import_role: 
++      name: buildbot-worker-assets
++  - import_role: 
++      name: buildbot-worker-devpi
++  - import_role: 
++      name: buildbot-worker-ntel
+ 
+ - name: Gitlab public keys for buildbot containers
+   hosts: daedalus
+@@ -50,17 +62,17 @@
+   become_user: root
+   become_method: sudo
+   tags:
+-  - buildbot
++    - buildbot
+   roles:
+   - name: Add buildbot_master pubkey to buildbot user
+     role: gitlab-sshkey
+     vars:
+       username: buildbot
+-      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
++      pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
+       title: "buildbot_master"
+   - name: Add buildbot_worker_ntel pubkey to buildbot user
+     role: gitlab-sshkey
+     vars:
+       username: buildbot
+-      pubkey: "{{ hostvars.buildbot_worker_ntel.pubkey }}"
++      pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
+       title: "buildbot_worker_ntel"
 diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
 index 5d2ba3d4..7e3643f2 100755
 --- a/docker/buildbot-master/buildbot/openembedded.py
@@ -215,3 +304,61 @@ index 5d2ba3d4..7e3643f2 100755
          ),
          properties={
              'machine': 'qemux86-64',
+diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
+index 3c51ad76..d436d705 100644
+--- a/roles/buildbot-worker-ntel/defaults/main.yml
++++ b/roles/buildbot-worker-ntel/defaults/main.yml
+@@ -36,6 +36,9 @@ container_env:
+ # the name of the container being started
+ container_name: '{{ docker_name_prefix }}{{ hostname }}'
+ 
++# port configuration of the container
++container_port_args: []
++
+ # volumes mounted within the container
+ container_volumes:
+ - '{{ data_volume }}:{{ data_path }}:z'
+@@ -49,7 +52,7 @@ data_path: '/buildbot'
+ data_volume: '{{ docker_name_prefix }}{{ hostname }}-data'
+ 
+ # hostname
+-hostname: buildbot-worker-ntel
++hostname: '{{ role_name }}'
+ 
+ # address of hsm cryptographic service
+ hsm_host: '{{ansible_facts.default_ipv4.address}}'
+diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
+index 4d17c428..32136e2f 100644
+--- a/roles/buildbot-worker-ntel/tasks/main.yml
++++ b/roles/buildbot-worker-ntel/tasks/main.yml
+@@ -46,7 +46,9 @@
+     cleanup: yes
+     command: /bin/ash -c 
+       "mkdir -p {{item}} &&
+-      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}}"
++      if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
++        chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
++      fi"
+ 
+ - name: Create secrets volume
+   file:
+@@ -76,10 +78,10 @@
+   docker_container:
+     name: '{{ container_name }}'
+     image: '{{ image_name }}:{{ docker_image_tag }}'
+-    # networks: '{{ buildbot_worker_ntel_networks }}'
++    networks: '{{ container_networks }}'
+     volumes: '{{ container_volumes }}'
+     env: '{{ container_env }}'
+-    # ports: '{{ buildbot_worker_ntel_port_args }}'
++    ports: '{{ container_port_args }}'
+ 
+ - name: Grab ssh public key
+   command: >
+@@ -89,5 +91,5 @@
+ 
+ - name: Add buildbot_worker_ntel host
+   add_host:
+-    name: buildbot_worker_ntel
++    name: "{{ hostname }}"
+     pubkey: "{{ output.stdout }}"
