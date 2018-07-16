@@ -1,0 +1,112 @@
+Bottom: 32ed1618c1127e08240be10deb4d0d448bd5cefc
+Top:    1bab915ae611d41561b1d9d179e5a69378e5e88e
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-16 15:18:48 -0500
+
+Refresh of worker-assets-role
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 7e8eccf0..b1e2fdbc 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -32,13 +32,18 @@
+   become_user: root
+   become_method: sudo
+   tags:
+-  - buildbot
+-  - buildbot-worker
++    - buildbot
++    - buildbot-worker
+   vars:
+-    asset_host: "{{ hostvars['buildbot-assets'].uri }}"
+-    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+-  roles:
+-  - role: buildbot-worker-assets
++    asset_host: "{{ hostvars['buildbot-worker-assets'].uri }}"
++    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
++    container_networks:
++      - name: "{{ worker_backend_network }}"
++        links:
++          - buildbot-worker-assets:assets
++  tasks:
++  - import_role: 
++      name: buildbot-worker-assets
+ 
+ - name: Gitlab public keys for buildbot containers
+   hosts: daedalus
+diff --git a/roles/buildbot-worker-assets/defaults/main.yml b/roles/buildbot-worker-assets/defaults/main.yml
+new file mode 100644
+index 00000000..587e104e
+--- /dev/null
++++ b/roles/buildbot-worker-assets/defaults/main.yml
+@@ -0,0 +1,30 @@
++---
++
++# environment passed to the container
++container_env:
++
++# the name of the container being started
++container_name: "{{ docker_name_prefix }}{{ hostname }}"
++
++# networks of the container
++container_networks:
++- name: "{{ container_name }}-network"
++
++# port configuration of the container
++container_port_args: []
++
++# volumes mounted within the container
++container_volumes:
++- "/mnt/assets:/usr/local/apache2/htdocs/:ro"
++
++# service hostname
++hostname: "{{ role_name }}"
++
++# build arguments of the image
++image_args:
++
++# directory of the image source
++image_dir: "{{ docker_projects_dir }}/{{ image_name }}"
++
++# name of the image being built
++image_name: "httpd:alpine"
+diff --git a/roles/buildbot-worker-assets/tasks/main.yml b/roles/buildbot-worker-assets/tasks/main.yml
+index 8f602634..410c1e54 100644
+--- a/roles/buildbot-worker-assets/tasks/main.yml
++++ b/roles/buildbot-worker-assets/tasks/main.yml
+@@ -1,17 +1,22 @@
+ ---
++
++- name: Create internal asset network
++  docker_network:
++    name: '{{ item.name }}'
++    state: present
++  loop: '{{container_networks}}'
++
+ - name: Start asset server
+   docker_container:
+-    name: buildbot-assets
+-    image: "httpd:alpine"
+-    volumes:
+-    - "/mnt/assets:/usr/local/apache2/htdocs/:ro"
+-    ports:
+-    - 80
+-  register: asset_server
++    env: "{{ container_env }}"
++    hostname: "{{ hostname }}"
++    image: "{{ image_name }}"
++    name: "{{ container_name }}"
++    networks: "{{ container_networks }}"
++    ports: "{{ container_port_args }}"
++    state: started
++    volumes: "{{ container_volumes }}"
+ 
+ - add_host:
+-    name: buildbot-assets # required. The hostname/ip of the host to add to the inventory, can include a colon and a port number.
+-    uri: "http://\
+-      {{asset_server.ansible_facts.docker_container.NetworkSettings.Gateway}}\
+-      :{{asset_server.ansible_facts.docker_container.NetworkSettings.Ports['80/tcp'][0].HostPort}}\
+-      "
++    name: "{{ hostname }}"
++    uri: "http://{{ hostname }}"
