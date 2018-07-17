@@ -76,7 +76,7 @@ hostname: '{{ role_name }}'
 image_args:
   BUILDBOT_UID: '{{buildbot_uid}}'
   BUILDBOT_VERSION: 'v{{buildbot_version}}'
-  BUILDBOT_TIMEZONE: '{{ansible_facts.date_time.tz}}'
+  BUILDBOT_TIMEZONE: 'America/Chicago'
 
 # directory of the image source
 image_dir: '{{ docker_projects_dir }}/buildbot-master'
