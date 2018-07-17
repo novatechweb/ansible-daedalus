@@ -1,0 +1,30 @@
+---
+
+# environment passed to the container
+container_env:
+
+# the name of the container being started
+container_name: "{{ docker_name_prefix }}{{ hostname }}"
+
+# networks of the container
+container_networks:
+- name: "{{ container_name }}-network"
+
+# port configuration of the container
+container_port_args: []
+
+# volumes mounted within the container
+container_volumes:
+- "/devpi"
+
+# service hostname
+hostname: "{{ role_name }}"
+
+# build arguments of the image
+image_args:
+
+# directory of the image source
+image_dir: "{{ docker_projects_dir }}/{{ image_name }}"
+
+# name of the image being built
+image_name: "{{ docker_registry_username }}/{{ hostname }}"
