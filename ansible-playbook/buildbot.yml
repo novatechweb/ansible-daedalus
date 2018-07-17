@@ -41,9 +41,13 @@
       - name: "{{ worker_backend_network }}"
         links:
           - buildbot-worker-assets:assets
+          - buildbot-worker-devpi:pypi
+    pypi_host: "{{ hostvars['buildbot-worker-devpi'].uri }}"
   tasks:
   - import_role: 
       name: buildbot-worker-assets
+  - import_role: 
+      name: buildbot-worker-devpi
 
 - name: Gitlab public keys for buildbot containers
   hosts: daedalus
