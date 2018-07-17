@@ -20,32 +20,19 @@ chown -R root:mail /var/mail
 
 case ${1} in
     exim4)
-        if   [[ -f ${CONFIG_PATH}/update-exim4.conf.conf ]] \
-          && [[ -f ${CONFIG_PATH}/exim4.conf.template ]] \
-          && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
-        then
-            # set the hostname
-            [ -e /etc/mailname ] \
-                && rm -rf /etc/mailname
-            echo "${HOSTNAME}" > /etc/mailname
-            # set local IP addr
-            LOCAL_IP_ADDR=$(grep "[ \t]*${HOSTNAME}[ \t]*" /etc/hosts|cut -f 1)
-            sed -i 's|dc_local_interfaces=.*|dc_local_interfaces='"'${LOCAL_IP_ADDR}'"'|' ${CONFIG_PATH}/update-exim4.conf.conf
-            # copy certificate
-            [ -e /etc/ssl/private/exim.crt ] \
-                && rm -f ${CONFIG_PATH}/exim.crt \
-                && cp $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt \
-                && chmod 640 ${CONFIG_PATH}/exim.crt \
-                && chown root:Debian-exim ${CONFIG_PATH}/exim.crt
-            # copy key
-            [ -e /etc/ssl/private/exim.key ] \
-                && rm -f ${CONFIG_PATH}/exim.key \
-                && cp $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key \
-                && chmod 640 ${CONFIG_PATH}/exim.key \
-                && chown root:Debian-exim ${CONFIG_PATH}/exim.key
-            # run the debian utility to update/generate the configuration
-            $(which update-exim4.conf) --verbose
-        fi
+        # set the hostname
+        echo "${HOSTNAME}" > /etc/mailname
+
+        # copy certificate
+        [ -e /etc/ssl/private/exim.crt ] \
+            && install -oroot -gDebian-exim -m640 $(realpath /etc/ssl/private/exim.crt) ${CONFIG_PATH}/exim.crt
+
+        # copy key
+        [ -e /etc/ssl/private/exim.key ] \
+            && install -oroot -gDebian-exim -m640 $(realpath /etc/ssl/private/exim.key) ${CONFIG_PATH}/exim.key
+
+        # run the debian utility to update/generate the configuration
+        $(which update-exim4.conf) --verbose
         
         # Check configuration
         if ! /usr/sbin/exim4 -bV > /dev/null ; then
