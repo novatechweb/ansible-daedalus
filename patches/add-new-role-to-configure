@@ -1,7 +1,7 @@
-Bottom: 03147211e4c277726edc0f1afb8f0cde7fe7b6f2
-Top:    848304ff53a6059183994ccba868e3c1402bd45e
+Bottom: 809aec71c8c051820776057931e66d073bec580e
+Top:    08f4863ddf776f0d73c86c1f341ac779fa52a078
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 09:12:01 -0500
+Date:   2018-07-11 17:03:16 -0500
 
 Add new role to configure daedalus host
 
