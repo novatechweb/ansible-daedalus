@@ -1,7 +1,7 @@
-Bottom: ffa8a0609043783b8bcba2c008ab9aefcc526bb5
-Top:    bc73f6b1710a62a12060c044fdd2e76fd7bcddd4
+Bottom: 291306aaa737ed58b7032b342c9a0a5cfea62168
+Top:    99c9c1e9913c91ea420dd1191ac82f4384363bc0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:46:28 -0500
+Date:   2018-07-12 11:12:25 -0500
 
 Remove libicu52 from Dockerfile
     
