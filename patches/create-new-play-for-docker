@@ -1,7 +1,7 @@
-Bottom: ccbeb828ce84bee404ac20eb3625956bb2bc4d8b
-Top:    a1075f711913c3dabe99d49231310260bab3ca49
+Bottom: 0eb3dd2c8d6595666581622014cc7c6347f0d8d7
+Top:    be835f57ccd99ae01516ec889f94ce094682176a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:24:00 -0500
+Date:   2018-07-11 17:03:09 -0500
 
 Create new play for docker-hosts tasks
 
