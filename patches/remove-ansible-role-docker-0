@@ -1,7 +1,7 @@
-Bottom: 044f4a66adc0d908ef1b9dc5b43f328ebb84798b
-Top:    ccbeb828ce84bee404ac20eb3625956bb2bc4d8b
+Bottom: be0d021c5024a909b347ef1385aab3f99971d9cf
+Top:    0eb3dd2c8d6595666581622014cc7c6347f0d8d7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:24:00 -0500
+Date:   2018-07-11 17:03:09 -0500
 
 Remove ansible role docker-build-base-image
 

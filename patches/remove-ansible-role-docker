@@ -1,7 +1,7 @@
-Bottom: cb644cca4d2c1c6c2039f0149c74472e8ea8671f
-Top:    044f4a66adc0d908ef1b9dc5b43f328ebb84798b
+Bottom: 2de349067edf7128ee3d077f1b123a97c18854e4
+Top:    be0d021c5024a909b347ef1385aab3f99971d9cf
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:24:00 -0500
+Date:   2018-07-11 17:03:09 -0500
 
 Remove ansible role docker-pull-images
 
