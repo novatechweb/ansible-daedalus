@@ -1,8 +1,8 @@
 Version: 1
-Previous: 3048f22adce383ef09a57de336249967d4c9548c
-Head: 7c115486d5002464c8ca696fd169e679320ed63d
+Previous: 9678eb32a7dd2fda1d6fa04139ed9bb2872f3d66
+Head: ac825b250f7edaa50998a4f8a47c1ac4b6ad87dd
 Applied:
-  update-apache2-version-string: 3c28c2142274c13d8fdf0cf88cb410c25e6a7bb8
-  limit-mysql-backup-databases: 7c115486d5002464c8ca696fd169e679320ed63d
+  update-apache2-version-string: d1167edfb9368a328321dd157cc4f0b3480624cd
+  limit-mysql-backup-databases: ac825b250f7edaa50998a4f8a47c1ac4b6ad87dd
 Unapplied:
 Hidden:
