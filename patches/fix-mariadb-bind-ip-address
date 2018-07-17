@@ -1,7 +1,7 @@
-Bottom: aa824cb8da5b3eb40b6110cc109295d727086549
-Top:    3b4722077ece19d86eddb7a4d3e9eb03db4d42fb
+Bottom: eec4fb7a6d90e6dd80544820d3c1930a628d8201
+Top:    3c9ed06ea391248dfbb46165f3b52cb109e1b6b1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:25:46 -0500
+Date:   2018-07-12 11:12:25 -0500
 
 Fix mariadb bind ip address
 

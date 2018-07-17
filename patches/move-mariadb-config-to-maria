@@ -1,17 +1,17 @@
-Bottom: 30ad39569bf936b0dc5c40e13a3edff20e5115fa
-Top:    aa824cb8da5b3eb40b6110cc109295d727086549
+Bottom: 8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
+Top:    eec4fb7a6d90e6dd80544820d3c1930a628d8201
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:25:46 -0500
+Date:   2018-07-12 11:12:25 -0500
 
 Move mariadb config to maria role
 
 
 ---
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index bc8aac33..05894452 100644
+index a8ab0c3c..e2a864ab 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
-@@ -6,7 +6,6 @@
+@@ -9,7 +9,6 @@
  
  - import_tasks: packages.yml
  - import_tasks: sshd_settings.yml
