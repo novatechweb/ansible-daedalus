@@ -9,6 +9,6 @@ ANSIBLE_SSH_ARGS='-o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o Contr
 exec ansible-playbook \
         --connection=ssh \
         --timeout=30 \
-        --inventory-file=ansible-playbook/staging \
+        --inventory-file=ansible-playbook/production \
         -vv \
         ansible-playbook/site.yml "$@"
