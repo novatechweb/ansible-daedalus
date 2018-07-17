@@ -1,0 +1,58 @@
+---
+# tasks file for buildbot
+
+# This will generate passwords for these accounts.
+- assert:
+    that:
+    - buildbot_admin_password is defined
+
+- name: Create buildbot data volume
+  docker_volume:
+    name: '{{ data_volume }}'
+
+- name: Create secrets volume
+  file:
+    path: '{{ secrets_hostdir }}'
+    state: directory
+
+- name: Populate known_hosts secret
+  copy:
+    content: '{{ known_hosts }}'
+    dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
+
+- name: Checkout image repo
+  git:
+    repo: '{{ image_repo }}'
+    version: master
+    dest: '{{ image_dir }}'
+
+- name: Create buildbot master image
+  docker_image:
+    name: '{{ image_name }}'
+    tag: '{{ docker_image_tag }}'
+    path: '{{ image_dir }}'
+    buildargs: '{{ image_args }}'
+    force: true
+
+- name: Start buildbot container
+  docker_container:
+    name: '{{ container_name }}'
+    hostname: '{{ hostname }}'
+    image: '{{ image_name }}:{{ docker_image_tag }}'
+    networks: '{{ container_networks }}'
+    volumes: '{{ container_volumes }}'
+    env: '{{ container_env }}'
+    ports: '{{ buildbot_port_args }}'
+    state: started
+
+- name: Grab ssh public key
+  command: >
+    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
+  changed_when: false
+  register: output
+
+- name: Add buildbot_master host
+  add_host:
+    name: "{{ hostname }}"
+    pubkey: "{{ output.stdout }}"
+    ip_addr: "{{ buildbot_ip_addr }}"
