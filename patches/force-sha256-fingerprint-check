@@ -1,7 +1,7 @@
-Bottom: 8f35caf156dbe1c6415ac40e34fc070a91b337fe
-Top:    63c07623ce4167eabac280d731d5183f3a9b01bb
+Bottom: 3078795232cbae0ec95009935af5b46493bd0e31
+Top:    f8109b550954543312ed6237fae6e52e75d01d19
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:24:02 -0500
+Date:   2018-07-11 17:03:10 -0500
 
 Force sha256 fingerprint check of github.com public key
 

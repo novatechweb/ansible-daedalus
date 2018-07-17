@@ -1,11 +1,11 @@
 Version: 1
-Previous: fd6c2808fcbaf106e037e99664f29bf07d45fc86
-Head: 9110e07218ae2d5b8820510af0d4051eca514e4b
+Previous: b145bc8b312a4172b488b985dd8c02d7a21695d9
+Head: 9a2eddac16aafaadf6423376791159ac2f984cd2
 Applied:
-  fix-bacula-list-jobs-pexpect: fe9270190459e645bd4038050a4340b8b345c610
-  remove-unused-pools: 315d8dbf17558fdd363d239fc1754a13c09d3c83
-  force-sha256-fingerprint-check: 247567166d3d0a61de246617187026b13d7344ab
-  improve-bacula-bootstrap: 123f55754a8366d5c0ee30c7e3b7396122e8732b
-  small-fixes-to-improve: 9110e07218ae2d5b8820510af0d4051eca514e4b
+  fix-bacula-list-jobs-pexpect: d3d89e463ddbb7a269ca32870dc423a52e97ce6a
+  remove-unused-pools: 402d5669488aeb371da60c80fb9f09fdadd431a9
+  force-sha256-fingerprint-check: 67ad63158f1fd335ed13a6b31a078bac41c6a0ef
+  improve-bacula-bootstrap: 2ac9f9290702af94e8c5e85080d195a0495ee05b
+  small-fixes-to-improve: 9a2eddac16aafaadf6423376791159ac2f984cd2
 Unapplied:
 Hidden:
