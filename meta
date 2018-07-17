@@ -1,10 +1,10 @@
 Version: 1
-Previous: 411a11c3861d323f93b1e423223d84c22e1fc039
-Head: a194dff5ec6a4c6d3b6d975ef61841dd990ffe69
+Previous: adb67ec985498fc1cfdf2f05ec715b820940e5a8
+Head: a7366b3b2d4d30efa6b8bd75360816a5888ca5ff
 Applied:
-  downgrade-extension-to-1-23: a1539c87090772486ad2a1de5795491cc71c1f31
-  create-certificate-directories-0: 9513980af312b2896c3596602743c1388bf2505a
-  remove-libicu52-from: c0690d0525ccdca374abd50a7fbf52bcc5892b7a
-  update-docker-entrypoint-to: a194dff5ec6a4c6d3b6d975ef61841dd990ffe69
+  downgrade-extension-to-1-23: 666e15055810ce73ebb73c5e5514d7bf6ce91e5d
+  create-certificate-directories-0: e6de6cbd1e549a62ba9696042e01446baed3d14b
+  remove-libicu52-from: 99636be6d30ac162b718b5be35fa32d25be0d374
+  update-docker-entrypoint-to: a7366b3b2d4d30efa6b8bd75360816a5888ca5ff
 Unapplied:
 Hidden:
