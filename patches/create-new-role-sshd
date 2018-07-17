@@ -1,11 +1,12 @@
-Bottom: 30ad39569bf936b0dc5c40e13a3edff20e5115fa
-Top:    8273f6c0487a99ec12a485c9fc8e2027168a132b
+Bottom: 8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
+Top:    1ed9eb3b46b44985356752e28e196b312d69fd94
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:44:06 -0500
+Date:   2018-07-12 11:12:26 -0500
 
 Create new role sshd for configuring ssh server daemon
 
 Move sshd config to new sshd role
+
 
 ---
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
@@ -24,11 +25,11 @@ index 0727917d..23b1a3d9 100644
      role: docker-common
      tags:
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index bc8aac33..4253655f 100644
+index a8ab0c3c..f4b56601 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
-@@ -5,7 +5,6 @@
-   when: ansible_os_family == "RedHat"
+@@ -8,7 +8,6 @@
+   when: ansible_os_family == "Debian"
  
  - import_tasks: packages.yml
 -- import_tasks: sshd_settings.yml
