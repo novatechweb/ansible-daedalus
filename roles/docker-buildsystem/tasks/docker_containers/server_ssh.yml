@@ -15,7 +15,7 @@
     state: "{{ image_build_state_nondata }}"
 
 - name: Start docker container - Test Station ssh server
-  docker:
+  docker_container:
     detach: True
     image: "{{ name_prefix }}teststation_ssh_image"
     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
@@ -31,4 +31,3 @@
       - "{{ name_prefix }}TestStation_http_data_ncdrelease"
       - "{{ name_prefix }}TestStation_http_data_testclient"
       - "{{ name_prefix }}TestStation_tftp_data"
-
