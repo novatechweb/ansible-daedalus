@@ -1,5 +1,5 @@
 Bottom: 8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
-Top:    6cda292c46b51b81eaff459d8e6de067133f13c4
+Top:    524fa60993fc2a6c8c214f694fa9996f47c01bbc
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -120,7 +120,7 @@ index 658d5fb1..75985b8a 100644
  # internal web server (usually the html.WebStatus page) is visible. This
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 00000000..6a959656
+index 00000000..5dcd1910
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -0,0 +1,90 @@
@@ -192,7 +192,7 @@ index 00000000..6a959656
 +image_args:
 +  BUILDBOT_UID: '{{buildbot_uid}}'
 +  BUILDBOT_VERSION: 'v{{buildbot_version}}'
-+  BUILDBOT_TIMEZONE: '{{ansible_facts.date_time.tz}}'
++  BUILDBOT_TIMEZONE: 'America/Chicago'
 +
 +# directory of the image source
 +image_dir: '{{ docker_projects_dir }}/buildbot-master'

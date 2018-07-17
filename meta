@@ -1,15 +1,14 @@
 Version: 1
-Previous: 084172a4c6de6f1fc5541d001ce0bb2e1d9ad603
-Head: e0c69bb8a977f0f82f262e5b938024b59b35e3a9
+Previous: fc9e215bac115582fd18d5466e4353744f9c71a0
+Head: deec7af8734fd97d9fa06c8b4556afba11d96ad7
 Applied:
-  add-buildbot-role: aeb974bba64856fca2b3e88ac95499d79222a15e
-  fix-ssh-folder-permission: 46b98f31b2d6496ab69a0373d9aef23c6fb59591
-  add-environment-variables-for: db48f1ec14447de227546fd7e250e69baddafc3a
-  use-original-buildbot: e99e30151ba3e7a869837065bdbf25fa04cb62d6
-  install-buildbot-plugin: 685e917952022c430395a18c6f44e7ce0af34c16
-  generate-new-ssh-key-on-first: 45aeb30f101288c622b69f000fa6880516e2dfe1
-  gitlab-auth: 81da66e14e564b561eb85802e0baa53c56cfced5
-  known_hosts: 3cc474edcc99ab027facc181f3010d8ce0daff63
-  refresh-temp: e0c69bb8a977f0f82f262e5b938024b59b35e3a9
+  add-buildbot-role: 5bdb71b58a802192efc1abb5c9e9e10599852356
+  fix-ssh-folder-permission: f5196379431ffa7b05939f93ffec285810dcb89e
+  add-environment-variables-for: 2c6957d7fa9ca164c775bb4638c121bb3b2df6e6
+  use-original-buildbot: 74c2a6877f816f6410eb7c4b154be75748e176a9
+  install-buildbot-plugin: 292f168c48f999e469bfb15c16bd54b5e71dca1d
+  generate-new-ssh-key-on-first: a92d58662f967f62ae4e457e18f54f675e189877
+  gitlab-auth: c547a5dd68ff9709f4f9e1179fe2096a7fd5acb9
+  known_hosts: deec7af8734fd97d9fa06c8b4556afba11d96ad7
 Unapplied:
 Hidden:

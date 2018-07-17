@@ -1,5 +1,5 @@
-Bottom: 5073754b67a577c5b92b4b54cc4503991919bb8a
-Top:    a520e8273457ac97fd5f60141ee5184c73139c2d
+Bottom: b0ec5c8d2e1c4dee200f4dfd819b86e651bdf53e
+Top:    9604554ec9d2efdb28223ca3469a9a1309b72c18
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-12 11:12:22 -0500
 
@@ -114,7 +114,7 @@ index a30fbf6d..5e0eed75 100755
  /usr/bin/buildbot --verbose upgrade-master
  exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 6a959656..c9623933 100644
+index 5dcd1910..3d839ea1 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -33,6 +33,9 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
