@@ -1,0 +1,5 @@
+---
+# defaults file for docker-networking
+
+# Network names
+docker_network_frontend: 'frontend'

@@ -61,26 +61,37 @@
     dest: '{{ docker_projects_dir }}/docker-openssl'
 
 - name: build image
-  docker_build:
-    image_name: '{{ openssl_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    dockerfile_dir: '{{ docker_projects_dir }}/docker-openssl'
+  docker_image:
+    name: '{{ openssl_image_name }}'
+    tag: '{{ docker_image_tag }}'
+    path: '{{ docker_projects_dir }}/docker-openssl'
+    force: "{{ docker_image_force_build }}"
 
 # *****************************************************************************
 # Create the data volumes
 
-- name: data-volume container
-  docker_datavolume:
-    image_name: '{{ openssl_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ openssl_dv_name }}'
+- name: certificates volume
+  docker_volume:
+    name: '{{ openssl_dv_name }}'
 
 # *****************************************************************************
 # Populate the openssl data-volume with default data
 
 - name: initial populate
-  command: 'docker run --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} generate'
+  docker_container:
+    detach: False
+    image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
+    name: openssl_populate
+    volumes:
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+    command: 'generate'
   when: st_openssl_restore.stat.exists == False
+  ignore_errors: True
+
+- name: initial populate
+  docker_container:
+    name: openssl_populate
+    state: absent
 
 # *****************************************************************************
 # restore?

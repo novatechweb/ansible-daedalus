@@ -1,20 +1,17 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-container_addr_map:
-  ldap:
-    ip_addr: '127.0.0.1'
-    hostname: ldap.example.com
-  phpldapadmin:
-    ip_addr: '127.0.0.1'
-    hostname: ldap.example.com
+openldap_ip_addr: '127.0.0.1'
+openldap_hostname: ldap.example.com
+openldap_port_args:
+  - '389'
+  - '636'
 
-# the port mappings used when starting the container
-container_port_map:
-  ldap:
-    port_args: '-P'
-  phpldapadmin:
-    port_args: '-P'
+phpldapadmin_ip_addr: '127.0.0.1'
+phpldapadmin_hostname: ldap.example.com
+phpldapadmin_port_args: 
+  - '80'
+  - '443'
 
 openldap_backup_files:
   - ldif_file: LDAP_database_0000.ldif
@@ -30,6 +27,7 @@ openldap_image_name: '{{ docker_registry_username }}/ldap'
 openldap_container_name: '{{ docker_name_prefix }}ldap'
 
 # the name of the data-volume used by the container
+openldap_cv_name: '{{ docker_name_prefix }}openldap_CV'
 openldap_dv_name: '{{ docker_name_prefix }}openldap_DV'
 
 # restore directories to temporarly store data being restored into docker containers
@@ -44,3 +42,6 @@ phpldapadmin_image_name: '{{ repository_images.phpldapadmin.image }}'
 
 # the name of the container being started
 phpldapadmin_container_name: '{{ docker_name_prefix }}phpldapadmin'
+
+# Network names
+docker_network_frontend: 'frontend'
