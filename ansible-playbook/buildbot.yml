@@ -43,6 +43,7 @@
           - buildbot-worker-assets:assets
           - buildbot-worker-devpi:pypi
           - buildbot-worker-ntel:ntel
+          - buildbot-worker-ptxdist:ptxdist
     known_hosts: "{{gitlab_keys.stdout}}"
     pypi_host: "{{ hostvars['buildbot-worker-devpi'].uri }}"
   tasks:
@@ -55,6 +56,8 @@
       name: buildbot-worker-devpi
   - import_role: 
       name: buildbot-worker-ntel
+  - import_role: 
+      name: buildbot-worker-ptxdist
 
 - name: Gitlab public keys for buildbot containers
   hosts: daedalus
@@ -76,3 +79,9 @@
       username: buildbot
       pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
       title: "buildbot_worker_ntel"
+  - name: Add buildbot_worker_ptxdist pubkey to buildbot user
+    role: gitlab-sshkey
+    vars:
+      username: buildbot
+      pubkey: "{{ hostvars['buildbot-worker-ptxdist'].pubkey }}"
+      title: "buildbot_worker_ptxdist"
