@@ -1,7 +1,7 @@
-Bottom: 1e1302e9f95fa6212892030a756bb5da1070a2a1
-Top:    af8ad89c735637a5f8a0441f3aa0668c460890a6
+Bottom: ef94d2bfbdc9f06ff394dbeb750c7e7be09c04fd
+Top:    1b1ae5f3bb5908e782a37bf27e3a9be8e32db43e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:45:04 -0500
+Date:   2018-07-12 11:12:24 -0500
 
 Fix exim4 logrotate configuration
 

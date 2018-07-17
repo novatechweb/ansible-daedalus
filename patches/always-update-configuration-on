@@ -1,7 +1,7 @@
-Bottom: 57443424e966f87819d9fcaf8b4d3735be50661d
-Top:    4c64dd84e7e54d54741cba5aad805e713a01c31f
+Bottom: 5684dd9c9d3209d52e6e73a52ad180af73ae995c
+Top:    b8b7a3621b72a6cabeb1cb34b08ecb7bf691c266
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-03 08:45:03 -0500
+Date:   2018-07-12 11:12:24 -0500
 
 Always update configuration on startup
 

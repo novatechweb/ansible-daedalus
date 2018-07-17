@@ -1,14 +1,14 @@
 Version: 1
-Previous: d7d684c8b00c5c0cabfc1e9f673aac0988992cad
-Head: 137043bfc720f0d1b83dd77ff4e26de6797af47e
+Previous: 8eb89fce3e0bf84b051f566a9e55214c62c8ac20
+Head: f9cd0c9929fcd968bd37b4643adc59f22fe31cd1
 Applied:
-  add-configuration-overrides: 94a0a6bb8234df4b30aa745b306487dddf2a69ce
-  update-dockerfile: ccfc54099ee68377f74ab908acd8562c05f61e14
-  remove-local-interface: 027d78aa738e89d5816dbd8a7cfd2ca8d457753b
-  no-need-to-delete-etc-mailname: b75cc363f0676b36a070474b5cb4413fb2b63d80
-  always-update-configuration-on: 1f36ce6323509c1b756391212c32b93a5413924b
-  use-install-to-copy-key-and: c62fcd583b6c0085f402b333a758fe8a1b89e6f7
-  exec-account-script-on-exim4: df39564ac5af42b300e31297ffe1b556aab9bb48
-  fix-exim4-logrotate: 137043bfc720f0d1b83dd77ff4e26de6797af47e
+  add-configuration-overrides: e18237699ab890024ee61a66affe5609055f4f52
+  update-dockerfile: b750f9ed4b7b2cb6f3d75c6e304c533b7bdb0f5c
+  remove-local-interface: 3ee493cb30e0e23db883663672b683f79b6a74f4
+  no-need-to-delete-etc-mailname: 483e9edc2f201d42f68d20425de5918e22fd5a68
+  always-update-configuration-on: cdc7ed4a36c2256a2abdba229c2456055f626ad2
+  use-install-to-copy-key-and: a54abae2dd18f2302c3227fd3b1016615324944c
+  exec-account-script-on-exim4: 7f6112a63c304b649ba3af051c5815004a8cf600
+  fix-exim4-logrotate: f9cd0c9929fcd968bd37b4643adc59f22fe31cd1
 Unapplied:
 Hidden:
