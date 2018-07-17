@@ -32,17 +32,29 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
-  - buildbot-worker
+    - buildbot
+    - buildbot-worker
   vars:
-    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
+    asset_host: "{{ hostvars['buildbot-worker-assets'].uri }}"
+    pypi_host: "{{ hostvars['buildbot-worker-devpi'].uri }}"
+    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
+    container_networks:
+      - name: "{{ worker_backend_network }}"
+        links:
+          - buildbot-worker-assets:assets
+          - buildbot-worker-devpi:pypi
+          - buildbot-worker-ptxdist:ptxdist
     known_hosts: "{{gitlab_keys.stdout}}"
-  pre_tasks:
+  tasks:
   - name: Scan Gitlab ssh keys
     command: ssh-keyscan {{gitlab_hostname}}
     register: gitlab_keys
-  roles:
-  - role: buildbot-worker-ptxdist
+  - import_role: 
+      name: buildbot-worker-assets
+  - import_role: 
+      name: buildbot-worker-devpi
+  - import_role: 
+      name: buildbot-worker-ptxdist
 
 - name: Gitlab public keys for buildbot containers
   hosts: daedalus
@@ -62,5 +74,5 @@
     role: gitlab-sshkey
     vars:
       username: buildbot
-      pubkey: "{{ hostvars.buildbot_worker_ptxdist.pubkey }}"
+      pubkey: "{{ hostvars['buildbot-worker-ptxdist'].pubkey }}"
       title: "buildbot_worker_ptxdist"
