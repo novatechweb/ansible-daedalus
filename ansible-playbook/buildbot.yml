@@ -42,12 +42,19 @@
         links:
           - buildbot-worker-assets:assets
           - buildbot-worker-devpi:pypi
+          - buildbot-worker-ntel:ntel
+    known_hosts: "{{gitlab_keys.stdout}}"
     pypi_host: "{{ hostvars['buildbot-worker-devpi'].uri }}"
   tasks:
+  - name: Scan Gitlab ssh keys
+    command: ssh-keyscan {{gitlab_hostname}}
+    register: gitlab_keys
   - import_role: 
       name: buildbot-worker-assets
   - import_role: 
       name: buildbot-worker-devpi
+  - import_role: 
+      name: buildbot-worker-ntel
 
 - name: Gitlab public keys for buildbot containers
   hosts: daedalus
@@ -63,3 +70,9 @@
       username: buildbot
       pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
       title: "buildbot_master"
+  - name: Add buildbot_worker_ntel pubkey to buildbot user
+    role: gitlab-sshkey
+    vars:
+      username: buildbot
+      pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
+      title: "buildbot_worker_ntel"
