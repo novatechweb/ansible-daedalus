@@ -9,7 +9,7 @@
     state: "{{ image_build_state_data }}"
 
 - name: Start docker container - Test Station database data
-  docker: 
+  docker_container: 
     detach: True
     image: "{{ name_prefix }}teststation_database_data_image"
     name: "{{ name_prefix }}TestStation_database_data"

@@ -20,7 +20,7 @@ name_prefix: ""
 image_build_state_data: present
 container_start_state_data: present
 image_build_state_nondata: present
-container_start_state_nondata: reloaded
+container_start_state_nondata: started
 
 build_system_docker_repos:
   TestStation_http_data_buildsystem:

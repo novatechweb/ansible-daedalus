@@ -7,12 +7,14 @@
     regexp: '#ListenAddress 0.0.0.0'
     replace: 'ListenAddress {{ ansible_br0["ipv4"]["address"] }}'
     backup: yes
-  when: ansible_os_family == "RedHat"
-  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+  when: 
+    - ansible_os_family == "RedHat"
+    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
 
 - name: Restart sshd server
   service:
     name: sshd
     state: restarted
-  when: ansible_os_family == "RedHat"
-  when: ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined
+  when: 
+    - ansible_os_family == "RedHat"
+    - ansible_br0 is defined and ansible_br0.ipv4 is defined and ansible_br0.ipv4.address is defined

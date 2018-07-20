@@ -103,7 +103,7 @@
     data_volume_container_name: '{{ gitlab_db_dv_name }}'
 
 - name: stop prev container (postgres)
-  docker:
+  docker_container:
     image: '{{ gitlab_db_image_name }}'
     name: '{{ gitlab_db_container_name }}'
     state: stopped
@@ -148,5 +148,5 @@
 # *****************************************************************************
 # restore?
 
-- include: restore.yml
+- include_tasks: restore.yml
   when: st_gitlab_restore.stat.exists == False
