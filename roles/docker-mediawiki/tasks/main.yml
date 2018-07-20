@@ -107,6 +107,9 @@
       MYSQL_PASSWORD: '{{ wiki_db_password }}'
     image: '{{ wiki_db_image_name }}'
     name: '{{ wiki_db_container_name }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
     state: started
     volumes:
@@ -132,17 +135,20 @@
   docker_container:
     detach: true
     env:
-      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
+      WIKI_HOSTNAME: '{{ wiki_hostname }}'
       WIKI_MAIL_USER: 'wiki'
       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
-    hostname: '{{ container_addr_map.wiki.hostname }}'
+    hostname: '{{ wiki_hostname }}'
     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
-    link:
-      - '{{ openldap_container_name }}:wiki_ldap'
-      - '{{ wiki_db_container_name }}:wiki_db'
-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
     name: '{{ wiki_container_name }}'
-    ports: '{{ container_port_map.wiki.port_args }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+        links:
+          - '{{ openldap_container_name }}:wiki_ldap'
+          - '{{ wiki_db_container_name }}:wiki_db'
+          - '{{ exim4_container_name }}:{{ exim4_hostname }}'
+    ports: '{{ wiki_port_args }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
     state: started
     volumes:

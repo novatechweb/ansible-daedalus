@@ -110,11 +110,14 @@
   docker_container:
     detach: true
     env:
-      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
-    hostname: '{{ container_addr_map.ldap.hostname }}'
+      LDAP_HOSTNAME: '{{ openldap_hostname }}'
+    hostname: '{{ openldap_hostname }}'
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     name: '{{ openldap_container_name }}'
-    ports: '{{ container_port_map.ldap.port_args }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+    ports: '{{ openldap_port_args }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
@@ -127,15 +130,18 @@
     env:
       PHPLDAPADMIN_HTTPS: 'false'
       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
-      LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
-    hostname: '{{ container_addr_map.ldap.hostname }}'
+      LDAP_HOSTNAME: '{{ openldap_hostname }}'
+    hostname: '{{ phpldapadmin_hostname }}'
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
     link: '{{ openldap_container_name }}:ldap'
     name: '{{ phpldapadmin_container_name }}'
-    ports: '{{ container_port_map.phpldapadmin.port_args }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+    ports: '{{ phpldapadmin_port_args }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
-    volumes_from:
-      - '{{ openssl_dv_name }}'
+    volumes:
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
 
 # *****************************************************************************
 # restore?
