@@ -58,12 +58,6 @@
     group: tape
     mode: 'u=rw,g=r,o='
 
-- name: copy env-file
-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
-
-- name: copy script
-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
-
 - name: exists - state file
   stat:
     path: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/restore.date.txt'
@@ -73,6 +67,18 @@
 
 # *****************************************************************************
 # Update or make the image.
+
+- name: Checkout image repo
+  git:
+    repo: '{{ gitlab_image_repo }}'
+    version: master
+    dest: '{{ docker_projects_dir }}/docker-gitlab'
+
+- name: copy env-file
+  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.env.list {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
+
+- name: copy script
+  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-gitlab/gitlab.sh {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
 
 - name: build image
   docker_build:
