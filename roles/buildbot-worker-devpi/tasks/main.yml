@@ -1,0 +1,39 @@
+---
+- name: Create image build directory
+  file:
+    name: "{{ image_dir }}"
+    state: directory
+
+- name: Copy Dockerfile to server
+  copy:
+    src: Dockerfile
+    dest: "{{ image_dir }}"
+
+- name: Build devpi server image
+  docker_image:
+    name: "{{ image_name }}"
+    dockerfile: Dockerfile
+    path: "{{ image_dir }}"
+    force: true
+    state: present
+
+- name: Create internal devpi network
+  docker_network:
+    name: "{{ item.name }}"
+    state: present
+  loop: "{{container_networks}}"
+
+- name: Run devpi server
+  docker_container:
+    env: "{{ container_env }}"
+    hostname: "{{ hostname }}"
+    image: "{{ image_name }}"
+    name: "{{ container_name }}"
+    networks: "{{ container_networks }}"
+    ports: "{{ container_port_args }}"
+    state: started
+    volumes: "{{ container_volumes }}"
+
+- add_host:
+    name: "{{ hostname }}"
+    uri: "http://{{hostname}}/root/pypi/+simple/"
