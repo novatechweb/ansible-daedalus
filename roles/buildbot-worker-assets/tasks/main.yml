@@ -1,0 +1,22 @@
+---
+
+- name: Create internal asset network
+  docker_network:
+    name: '{{ item.name }}'
+    state: present
+  loop: '{{container_networks}}'
+
+- name: Start asset server
+  docker_container:
+    env: "{{ container_env }}"
+    hostname: "{{ hostname }}"
+    image: "{{ image_name }}"
+    name: "{{ container_name }}"
+    networks: "{{ container_networks }}"
+    ports: "{{ container_port_args }}"
+    state: started
+    volumes: "{{ container_volumes }}"
+
+- add_host:
+    name: "{{ hostname }}"
+    uri: "http://{{ hostname }}"
