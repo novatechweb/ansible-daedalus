@@ -1,0 +1,6 @@
+.idea/
+*.iml
+molecule/**/.molecule/
+molecule/**/__pycache__/
+molecule/**/.cache
+molecule/**/.pytest_cache

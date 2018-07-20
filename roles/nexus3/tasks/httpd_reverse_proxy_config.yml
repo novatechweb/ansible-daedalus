@@ -1,0 +1,38 @@
+---
+
+- name: Copy {{ httpd_package_name }} vhost
+  template:
+    src: "nexus-vhost.conf"
+    dest: "{{ httpd_config_dir }}"
+  notify:
+    - httpd-service-reload
+    - wait-for-httpd
+
+- name: Copy SSL certificate file
+  copy:
+    src: "{{ httpd_ssl_certificate_file }}"
+    dest: "{{ certificate_file_dest }}"
+    mode: 0600
+  when: httpd_copy_ssl_files
+  notify:
+    - httpd-service-reload
+    - wait-for-httpd
+
+- name: Copy SSL certificate key file
+  copy:
+    src: "{{ httpd_ssl_certificate_key_file }}"
+    dest: "{{ certificate_key_dest }}"
+    mode: 0600
+  when: httpd_copy_ssl_files
+  notify:
+    - httpd-service-reload
+    - wait-for-httpd
+
+- name: Setsebool httpd_can_network_connect
+  seboolean:
+    name: httpd_can_network_connect
+    persistent: yes
+    state: yes
+  when: ansible_selinux.status is defined and ansible_selinux.status == "enabled"
+
+- meta: flush_handlers

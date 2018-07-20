@@ -1,0 +1,16 @@
+---
+
+sudo: required
+language: python
+cache:
+  pip: true
+  directories:
+    - molecule/.nexus-downloads/
+services:
+  - docker
+install:
+  - pip install -r requirements.txt
+script:
+  - ./tests/test_molecule.sh
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
