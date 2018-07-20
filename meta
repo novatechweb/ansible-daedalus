@@ -1,8 +1,8 @@
 Version: 1
-Previous: 14d06d8113ce70c0b1c23dd2d859df3b3d91994d
-Head: d2065d1aac8dec9693ad02cd53fdcb9b5e77fe87
+Previous: d8b27a9ce725495cd1bc47aa079cbb0d82832254
+Head: 95f45e6d819ea48b9383ad47d682251998535cdd
 Applied:
-  ansible-cfg: c0968d46ad9011ac366f1c64d59c1f89546d7eaa
-  provision-script: d2065d1aac8dec9693ad02cd53fdcb9b5e77fe87
+  ansible-cfg: 31e5784980a14ea7e4483e195ff058bb64af7093
+  provision-script: 95f45e6d819ea48b9383ad47d682251998535cdd
 Unapplied:
 Hidden:

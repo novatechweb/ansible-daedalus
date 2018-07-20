@@ -1,7 +1,7 @@
-Bottom: 03147211e4c277726edc0f1afb8f0cde7fe7b6f2
-Top:    1b08efc20151978a5f24c054e8ab41df83a56e3d
+Bottom: 39dcfdffd3b3da9021ef47a8ed4aeffed9a77d0a
+Top:    206bdcf50a445429ccd0d18f7c81a195ff63f2b5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-11 16:58:29 -0500
+Date:   2018-07-20 10:41:17 -0500
 
 Add ansible configuration
 
