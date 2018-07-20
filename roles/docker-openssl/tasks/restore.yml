@@ -6,7 +6,7 @@
 
 - name: exists - openssl archive
   stat:
-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_openssl_backup_file
@@ -22,7 +22,7 @@
 
 - name: Set permissions for data-volume data
   file:
-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
     state: touch
     owner: root
     group: root
@@ -30,7 +30,7 @@
 
 - name: exists - openssl archive
   stat:
-    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    path: '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}'
     get_checksum: False
     get_md5: False
   register: st_openssl_backup_file
@@ -39,7 +39,7 @@
 # restore the archive
 
 - name: extract archive
-  shell: "cat {{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }} | docker run -i --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} extract"
+  shell: "cat {{ openssl_docker_restore_dir }}{{ openssl_backup_file }} | docker run -i --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} extract"
   when: st_openssl_backup_file.stat.exists == True
 
 # *****************************************************************************
@@ -47,7 +47,7 @@
 
 - name: remove - openssl archive
   file:
-    path: '{{ host_openssl_docker_restore_dir }}'
+    path: '{{ openssl_docker_restore_dir }}'
     state: absent
 
 - name: State file
