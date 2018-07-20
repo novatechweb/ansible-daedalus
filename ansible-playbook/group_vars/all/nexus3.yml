@@ -31,11 +31,16 @@ ldap_connections:
     ldap_user_id_attribute: 'uid'
     ldap_user_real_name_attribute: 'cn'
     ldap_user_email_attribute: 'mail'
+    ldap_map_groups_as_roles: yes
+    ldap_map_groups_as_roles_type: "static"
+    ldap_user_memberof_attribute: ""
     ldap_group_base_dn: 'ou=group'
     ldap_group_object_class: 'posixGroup'
-    ldap_group_id_attribute: 'gidNumber'
+    ldap_group_id_attribute: 'cn'
     ldap_group_member_attribute: 'memberUid'
     ldap_group_member_format: '${username}'
+    ldap_user_subtree: false
+    ldap_group_subtree: true
 
 nexus_privileges:
   - name: all-repos-read  # used as key to update a privilege
