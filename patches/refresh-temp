@@ -1,0 +1,437 @@
+Bottom: 22856455ad87621ce1509897ce70399b4c30b7dd
+Top:    6a6363f7d4fe452c671e5b074b641ee01721871d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-20 10:22:20 -0500
+
+Refresh of create-role
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 1aa2a72d..d94cdcc7 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -15,7 +15,9 @@ gitlab_root_password:                '{{ lookup("password", playbook_dir + "/cre
+ gitlab_secrets_db_key_base:          '{{ lookup("password", playbook_dir + "/credentials/git/key/GITLAB_SECRETS_DB_KEY_BASE"  , length=40) }}'
+ mantisbt_db_password:                '{{ lookup("password", playbook_dir + "/credentials/mantis/db/user"                      , length=20) }}'
+ mantisbt_db_root_password:           '{{ lookup("password", playbook_dir + "/credentials/mantis/db/root"                      , length=20) }}'
+-mantisbt_email_password:             '{{ lookup("password", playbook_dir + "/credentials/mantis/email/mantis@novatech-llc.com", length=20) }}'
++nexus_admin_password:                '{{ lookup("password", playbook_dir + "/credentials/nexus/users/admin"                   , length=20) }}'
++nexus_buildbot_password:             '{{ lookup("password", playbook_dir + "/credentials/nexus/users/buildbot"                , length=20) }}'
++nexus_email_password:                '{{ lookup("password", playbook_dir + "/credentials/exim4/nexus@novatech-llc.com"        , length=20) }}'
+ openldap_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/openldap/cn=admin,dc=novatech"       , length=20) }}'
+ openldap_proxyagent_password:        '{{ lookup("password", playbook_dir + "/credentials/openldap/cn=proxyagent,dc=novatech"  , length=20) }}'
+ svn_password:                        '{{ lookup("password", playbook_dir + "/credentials/svn/ansible"                         , length=20) }}'
+diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
+index 42db8fdb..f652891a 100644
+--- a/ansible-playbook/group_vars/docker-hosts/networking.yml
++++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
+@@ -53,3 +53,8 @@ buildbot_port_args:
+ - "{{ buildbot_ip_addr }}:80:8080"
+ - "{{ buildbot_ip_addr }}:443:8443"
+ - "{{ buildbot_ip_addr }}:9989:9989"
++
++nexus_hostname: nexus.novatech-llc.com
++nexus_port_args:
++- "{{ nexus_ip_addr }}:80:8081"
++- "{{ nexus_ip_addr }}:443:8443"
+diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+index 5e2d2774..dea3a8af 100644
+--- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
+@@ -16,3 +16,4 @@ openldap_ip_addr:     172.16.0.108
+ phpldapadmin_ip_addr: 172.16.0.108
+ phpmyadmin_ip_addr:   172.16.0.109
+ buildbot_ip_addr:     172.16.0.110
++nexus_ip_addr:        172.16.0.111
+diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+index aa95e93b..a73043e5 100644
+--- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
++++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
+@@ -16,3 +16,4 @@ openldap_ip_addr:     172.16.103.108
+ phpldapadmin_ip_addr: 172.16.103.108
+ phpmyadmin_ip_addr:   172.16.103.109
+ buildbot_ip_addr:     172.16.103.110
++nexus_ip_addr:        172.16.103.111
+diff --git a/roles/nexus/defaults/main.yml b/roles/nexus/defaults/main.yml
+index d7e28db8..2bab4e2c 100644
+--- a/roles/nexus/defaults/main.yml
++++ b/roles/nexus/defaults/main.yml
+@@ -1,26 +1,88 @@
+ ---
++# defaults file for nexus
+ 
+-nexus_version: "3.12.1"
++# backup host directory
++backup_hostdir: '{{ docker_backup_dir }}/nexus'
+ 
+-# The hostname passed as an envirnment variable into the container
+-nexus_ip_addr: '127.0.0.1'
+-nexus_hostname: nexus.example.com
+-nexus_port_args:
+-  - '8081'
++# numeric version of nexus service
++nexus_version: '3.13.0'
+ 
+-nexus_image_name: "sonatype/nexus3"
+-nexus_image_tag: "{{nexus_version}}"
++# port number for unencrypted web access
++nexus_http_port: 8080
++
++# port number for encrypted web access
++nexus_https_port: 8443
++
++# default container hostname
++default_hostname: nexus.example.com
++
++# default port map
++default_port_args:
++  - '{{nexus_http_port}}'
++  - '{{nexus_https_port}}'
++
++# default image source repository
++default_repo: "https://github.com/sonatype/docker-nexus3"
++
++# host path containing configuration files
++config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
++
++# environment passed to the container
++container_env:
++
++# hostname
++container_hostname: '{{ nexus_hostname | default(default_hostname) }}'
+ 
+ # the name of the container being started
+-nexus_container_name: "{{ docker_name_prefix }}nexus"
++container_name: '{{ docker_name_prefix }}nexus'
++
++# networks of the container
++container_networks:
++  - name: '{{ docker_network_frontend }}'
++
++# port map of the container
++container_port_args: '{{ nexus_port_args | default(default_port_args) }}'
++
++# volumes mounted within the container
++container_volumes:
++  - '{{ data_volume }}:{{ data_path }}:z'
++  - '{{ openssl_dv_name }}:/etc/ssl/private:z'
++
++# mount path of the data volume
++data_path: '/nexus-data'
++
++# name of the data volume
++data_volume: '{{ docker_name_prefix }}nexus_DV'
++
++# build arguments of the image
++image_args: {}
++  # NEXUS_VERSION: '{{ nexus_version }}'
++  # NEXUS_DOWNLOAD_URL: 'https://download.sonatype.com/nexus/3/nexus-{{ nexus_version }}-unix.tar.gz'
++  # NEXUS_DOWNLOAD_SHA256_HASH: '6eb09810767ed1bfe33c995a2fa550b667189aa0ed99f002ce826436f60765ef'
++
++# directory of the image source
++image_dir: '{{ docker_projects_dir }}/nexus-master'
++
++# name of the image being built
++image_name: '{{ docker_registry_username }}/nexus3'
++
++# repository URI of the image source
++image_repo: '{{ nexus_image_repo | default(default_repo) }}'
++
++# tag(version) of the image
++image_tag: '{{ docker_image_tag }}'
++
++# restoration host directory
++restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'
++
++# host path containing secrets
++secrets_hostdir: '{{ config_hostdir }}'
+ 
+-# the name of the data-volume used by the container
+-nexus_dv_name: "{{ docker_name_prefix }}nexus_DV"
+-nexus_dv_path: "/nexus-data"
++# name of the https certificate
++secrets_certificates: 'STAR_novatech-llc_com.crt'
+ 
+-# restore directories to temporarly store data being restored into docker containers
+-nexus_docker_backup_dir: '{{ docker_backup_dir }}/nexus'
+-nexus_docker_restore_dir: '{{ bacula_dest }}{{ nexus_docker_backup_dir }}'
++# mount path of the secrets volume
++secrets_path: '/run/secrets'
+ 
+-# Network names
+-nexus_network: "{{docker_network_frontend}}"
++# name of the https private key
++secrets_private_key: 'STAR_novatech-llc_com.key'
+diff --git a/roles/nexus/tasks/main.yml b/roles/nexus/tasks/main.yml
+index 92e60926..c608d81d 100644
+--- a/roles/nexus/tasks/main.yml
++++ b/roles/nexus/tasks/main.yml
+@@ -1,92 +1,180 @@
+ ---
+-# file: roles/docker-nexus/tasks/main.yaml
++# tasks file for nexus
+ 
++# This will generate passwords for these accounts.
+ - assert:
+     that:
+-    - nexus_db_root_password is defined
+-    - nexus_db_password is defined
++    - nexus_admin_password is defined
++    - nexus_email_password is defined
+ 
+-# *****************************************************************************
+-# Setup the directory where the backup and restore is to take place
+-
+-- name: restore dir
+-  file:
+-    state: directory
+-    path: '{{ nexus_docker_restore_dir }}'
+-    owner: root
+-    group: tape
+-    mode: 'u=rwx,g=rwx,o=rx'
+-    recurse: no
+-    setype: svirt_sandbox_file_t
+-
+-- name: docker_container.conf dir
+-  file:
+-    state: directory
+-    path: '{{ docker_restore_config_base_dir }}/{{ nexus_dv_name }}'
+-    owner: root
+-    group: root
+-    mode: 'u=rwx,g=rx,o=rx'
+-    recurse: no
+-
+-# *****************************************************************************
+-# backup script part
++- name: Create nexus data volume
++  docker_volume:
++    name: '{{ data_volume }}'
+ 
+-- name: Assemble dir for backup scripts
++- name: Create secrets volume hostdir
+   file:
+-    path: /usr/libexec/bacula/backup-scripts
++    path: '{{ secrets_hostdir }}'
+     state: directory
+ 
+-- name: before_backup script part
+-  template:
+-    src: before_backup.j2
+-    dest: /usr/libexec/bacula/backup-scripts/55.before_backup.nexus
+-
+-- name: after_backup script part
+-  template:
+-    src: after_backup.j2
+-    dest: /usr/libexec/bacula/backup-scripts/55.after_backup.nexus
+-
+-# *****************************************************************************
+-# update the Docker restore config
+-
+-- name: exists - state file
+-  stat:
+-    path: '{{ docker_restore_config_base_dir }}/{{ nexus_dv_name }}/restore.date.txt'
+-    get_checksum: False
+-    get_md5: False
+-  register: st_nexus_restore
+-
+-# *****************************************************************************
+-# Create the data volumes
+-
+-- name: data-volume container (nexus)
+-  docker_volume:
+-    name: '{{ nexus_dv_name }}'
+-
+-# *****************************************************************************
+-# Start the data container running
+-
+-- name: start container (nexus)
++- name: Checkout image repo
++  git:
++    repo: '{{ image_repo }}'
++    version: '{{ nexus_version }}'
++    dest: '{{ image_dir }}'
++
++- name: Create nexus master image
++  docker_image:
++    name: '{{ image_name }}'
++    tag: '{{ image_tag }}'
++    path: '{{ image_dir }}'
++    buildargs: '{{ image_args }}'
++    force: true
++
++- name: Start nexus container
+   docker_container:
+-    name: '{{ nexus_container_name }}'
+-    detach: true
+-    restart_policy: '{{ docker_restart_policy }}'
+-    hostname: '{{ nexus_hostname }}'
+-    ports: '{{ nexus_port_args }}'
+-    networks:
+-      - name: '{{ nexus_network }}'
+-    volumes:
+-      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+-      - '{{ nexus_dv_name }}:{{ nexus_dv_path }}:z'
+-    env:
+-      nexus_HOSTNAME: '{{ nexus_hostname }}'
+-      nexus_MAIL_USER: 'nexus'
+-      nexus_MAIL_PASSWORD: '{{ nexus_email_password | quote }}'
+-    image: '{{ nexus_image_name }}:{{ nexus_image_tag }}'
++    name: '{{ container_name }}'
++    hostname: '{{ container_hostname }}'
++    image: '{{ image_name }}:{{ image_tag }}'
++    networks: '{{ container_networks }}'
++    volumes: '{{ container_volumes }}'
++    env: '{{ container_env }}'
++    ports: '{{ container_port_args }}'
+     state: started
+ 
+-# *****************************************************************************
+-# restore?
+-
+-- include_tasks: restore.yml
+-  when: st_nexus_restore.stat.exists == False
++- name: Run Nexus role
++  include_role:
++    name: nexus3-oss
++  vars:
++    nexus_default_port: 80
++    nexus_data_dir: '/nexus-data'
++    nexus_data_dir_contents:
++      stdout: ""
++    public_hostname: '{{ container_hostname }}'
++    current_nexus_admin_password: '{{ nexus_admin_password }}'
++    nexus_rest_api_endpoint: "service/rest/v1/script"
++    nexus_email_server_enabled: true
++    nexus_email_server_host: "mail.novatech-llc.com"
++    nexus_email_server_port: 587
++    nexus_email_server_username: "wiki"
++    nexus_email_server_password: "{{ nexus_email_password }}"
++    nexus_email_from_address: "nexus@novatech-llc.com"
++    nexus_email_subject_prefix: "[NEXUS]"
++    nexus_email_tls_enabled: true
++    nexus_email_tls_required: true
++
++    nexus_ldap_realm: true
++    ldap_connections:
++      - ldap_name: 'NovaTech LDAP' # used as a key to update the ldap config
++        ldap_protocol: 'ldap' # ldap or ldaps
++        ldap_hostname: 'ldap.novatech-llc.com'
++        ldap_port: 389
++        ldap_auth: 'simple'
++        ldap_auth_username: 'cn=proxyagent,dc=novatech'
++        ldap_auth_password: '{{ openldap_proxyagent_password }}'
++        ldap_search_base: 'dc=novatech'
++        ldap_user_base_dn: 'ou=user'
++        #ldap_user_filter: '(cn=*)' # (optional)
++        ldap_user_object_class: 'inetOrgPerson'
++        ldap_user_id_attribute: 'uid'
++        ldap_user_real_name_attribute: 'cn'
++        ldap_user_email_attribute: 'mail'
++        ldap_group_base_dn: 'ou=group'
++        ldap_group_object_class: 'posixGroup'
++        ldap_group_id_attribute: 'gidNumber'
++        ldap_group_member_attribute: 'memberUid'
++        ldap_group_member_format: '${username}'
++
++    nexus_privileges:
++      - name: all-repos-read  # used as key to update a privilege
++        description: 'Read & Browse access to all repos'
++        repository: '*'
++        actions:
++          - read
++          - browse
++
++    nexus_roles:
++      - id: Developers  # can map to a LDAP group id, also used as a key to update a role
++        name: developers
++        description: All developers
++        privileges:
++          - nx-search-read
++          - all-repos-read
++        roles: []
++
++    nexus_local_users:
++      - username: buildbot # used as key to update
++        first_name: NovaTech
++        last_name: CI
++        email: buildbot@novatech-llc.com
++        password: "{{ nexus_buildbot_password }}"
++        roles:
++          - Developers # role ID here
++
++    nexus_delete_default_blobstore: false
++    nexus_blob_split: false     # True - blobstores per format
++
++    nexus_delete_default_repos: false
++
++    nexus_config_maven: false
++
++    nexus_config_pypi: true
++    nexus_repos_pypi_hosted:
++      - name: pypi-hosted
++        write_policy: allow  # one of "allow", "allow_once" or "deny"
++    nexus_repos_pypi_proxy:
++      - name: pypi-proxy
++        remote_url: 'https://pypi.python.org/'
++    nexus_repos_pypi_group:
++      - name: pypi
++        member_repos:
++          - pypi-hosted
++          - pypi-proxy
++
++    nexus_config_docker: true
++    nexus_repos_docker_hosted:
++      - name: docker-hosted
++        http_port: "{{ nexus_docker_hosted_port }}"
++        v1_enabled: True
++    nexus_repos_docker_proxy:
++      - name: docker-proxy
++        http_port: "{{ nexus_docker_proxy_port }}"
++        v1_enabled: True
++        index_type: "HUB"
++        proxy_url: "https://registry-1.docker.io"
++        use_nexus_certificates_to_access_index: false
++    nexus_repos_docker_group:
++      - name: docker
++        http_port: "{{ nexus_docker_group_port }}"
++        v1_enabled: True
++        member_repos:
++          - docker-hosted
++          - docker-proxy
++
++    nexus_config_raw: true
++    nexus_repos_raw_hosted:
++      - name: download
++        strict_content_validation: false
++        write_policy: allow  # one of "allow", "allow_once" or "deny"
++      - name: ntel-ipkg
++        strict_content_validation: false
++        write_policy: allow  # one of "allow", "allow_once" or "deny"
++      - name: ntel-sstate
++        strict_content_validation: false
++        write_policy: allow  # one of "allow", "allow_once" or "deny"
++      - name: ptxdist-ipkg
++        strict_content_validation: false
++        write_policy: allow  # one of "allow", "allow_once" or "deny"
++
++    nexus_repos_raw_proxy:
++      - name: ubuntu-archive
++        remote_url: 'http://archive.ubuntu.com/ubuntu/'
++        strict_content_validation: false
++
++    nexus_repos_raw_group: []
++
++    nexus_config_rubygems: false
++    nexus_config_bower: false
++    nexus_config_npm: false
++    nexus_config_nuget: false
++    nexus_config_gitlfs: false
++    nexus_config_yum: false
+diff --git a/roles/nexus/vars/main.yml b/roles/nexus/vars/main.yml
+new file mode 100644
+index 00000000..c61e6f50
+--- /dev/null
++++ b/roles/nexus/vars/main.yml
+@@ -0,0 +1,2 @@
++---
++# vars file for nexus
