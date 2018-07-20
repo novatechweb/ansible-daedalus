@@ -9,7 +9,10 @@ container_addr_map:
 # the port mappings used when starting the container
 container_port_map:
   git:
-    port_args: '-P'
+    port_args: 
+      - '{{ container_addr_map.git.ip_addr }}:80:80'
+      - '{{ container_addr_map.git.ip_addr }}:443:443'
+      - '{{ container_addr_map.git.ip_addr }}:22:22'
 
 # database usernames and passwords
 gitlab_db_user: novatech
