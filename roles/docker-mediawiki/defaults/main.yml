@@ -38,7 +38,7 @@ wiki_db_dv_name: '{{ docker_name_prefix }}wiki_db_DV'
 
 # restore directories to temporarly store data being restored into docker containers
 wiki_docker_backup_dir: '{{ docker_backup_dir }}/WIKI'
-host_wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
+wiki_docker_restore_dir: '{{ bacula_dest }}{{ wiki_docker_backup_dir }}'
 
 # files restored from tape
 wiki_static_backup_file: '/mediawiki.tar'
