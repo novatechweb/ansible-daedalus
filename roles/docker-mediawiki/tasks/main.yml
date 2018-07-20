@@ -87,44 +87,46 @@
 # Create the data volumes
 
 - name: data-volume container (mediwiki)
-  docker_datavolume:
-    image_name: '{{ wiki_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ wiki_dv_name }}'
+  docker_volume:
+    name: '{{ wiki_dv_name }}'
 
 - name: data-volume container (mysql)
-  docker_datavolume:
-    image_name: '{{ wiki_db_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ wiki_db_dv_name }}'
-
-- name: stop prev container (mysql)
-  docker_container:
-    image: '{{ wiki_db_image_name }}'
-    name: '{{ wiki_db_container_name }}'
-    state: stopped
-
-- name: initial populate (mysql)
-  docker_db_init:
-    image_name: '{{ wiki_db_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    container_name: '{{ wiki_db_dv_name }}_init_db'
-    data_volume_container_name: '{{ wiki_db_dv_name }}'
-    database_name: wikidb
-    database_user: '{{ wiki_db_user }}'
-    database_password: '{{ wiki_db_password | quote }}'
-    database_root_password: '{{ wiki_db_root_password | quote }}'
+  docker_volume:
+    name: '{{ wiki_db_dv_name }}'
 
 # *****************************************************************************
-# Start the data container running
+# Start the database
 
 - name: start container (mysql)
   docker_container:
     detach: true
-    image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
+    env:
+      MYSQL_DATABASE: '{{ wiki_database_name }}'
+      MYSQL_ROOT_PASSWORD: '{{ wiki_db_root_password }}'
+      MYSQL_USER: '{{ wiki_db_user }}'
+      MYSQL_PASSWORD: '{{ wiki_db_password }}'
+    image: '{{ wiki_db_image_name }}'
     name: '{{ wiki_db_container_name }}'
     restart_policy: '{{ docker_restart_policy }}'
-    volumes_from: '{{ wiki_db_dv_name }}'
+    state: started
+    volumes:
+      - '{{ wiki_db_dv_name }}:/var/lib/mysql:z'
+
+- name: wait for mysql initialization to complete
+  shell: >
+      printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
+      '{{ wiki_db_container_name }}'
+      mysql --host=localhost
+      --user={{ wiki_db_user | quote }}
+      --password={{ wiki_db_password | quote }}
+      '{{ wiki_database_name }}'
+  register: db_status
+  retries: 20
+  delay: 3
+  until: "db_status.rc == 0"
+
+# *****************************************************************************
+# Start the data container running
 
 - name: start container (mediwiki)
   docker_container:
@@ -143,9 +145,9 @@
     ports: '{{ container_port_map.wiki.port_args }}'
     restart_policy: '{{ docker_restart_policy }}'
     state: started
-    volumes_from:
-      - '{{ openssl_dv_name }}'
-      - '{{ wiki_dv_name }}'
+    volumes:
+      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+      - '{{ wiki_dv_name }}/var/www/html:z'
 
 # *****************************************************************************
 # restore?
