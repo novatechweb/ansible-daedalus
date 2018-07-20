@@ -1,92 +1,180 @@
 ---
-# file: roles/docker-nexus/tasks/main.yaml
+# tasks file for nexus
 
+# This will generate passwords for these accounts.
 - assert:
     that:
-    - nexus_db_root_password is defined
-    - nexus_db_password is defined
+    - nexus_admin_password is defined
+    - nexus_email_password is defined
 
-# *****************************************************************************
-# Setup the directory where the backup and restore is to take place
-
-- name: restore dir
-  file:
-    state: directory
-    path: '{{ nexus_docker_restore_dir }}'
-    owner: root
-    group: tape
-    mode: 'u=rwx,g=rwx,o=rx'
-    recurse: no
-    setype: svirt_sandbox_file_t
-
-- name: docker_container.conf dir
-  file:
-    state: directory
-    path: '{{ docker_restore_config_base_dir }}/{{ nexus_dv_name }}'
-    owner: root
-    group: root
-    mode: 'u=rwx,g=rx,o=rx'
-    recurse: no
-
-# *****************************************************************************
-# backup script part
-
-- name: Assemble dir for backup scripts
-  file:
-    path: /usr/libexec/bacula/backup-scripts
-    state: directory
-
-- name: before_backup script part
-  template:
-    src: before_backup.j2
-    dest: /usr/libexec/bacula/backup-scripts/55.before_backup.nexus
-
-- name: after_backup script part
-  template:
-    src: after_backup.j2
-    dest: /usr/libexec/bacula/backup-scripts/55.after_backup.nexus
-
-# *****************************************************************************
-# update the Docker restore config
-
-- name: exists - state file
-  stat:
-    path: '{{ docker_restore_config_base_dir }}/{{ nexus_dv_name }}/restore.date.txt'
-    get_checksum: False
-    get_md5: False
-  register: st_nexus_restore
-
-# *****************************************************************************
-# Create the data volumes
-
-- name: data-volume container (nexus)
+- name: Create nexus data volume
   docker_volume:
-    name: '{{ nexus_dv_name }}'
+    name: '{{ data_volume }}'
 
-# *****************************************************************************
-# Start the data container running
+- name: Create secrets volume hostdir
+  file:
+    path: '{{ secrets_hostdir }}'
+    state: directory
 
-- name: start container (nexus)
+- name: Checkout image repo
+  git:
+    repo: '{{ image_repo }}'
+    version: '{{ nexus_version }}'
+    dest: '{{ image_dir }}'
+
+- name: Create nexus master image
+  docker_image:
+    name: '{{ image_name }}'
+    tag: '{{ image_tag }}'
+    path: '{{ image_dir }}'
+    buildargs: '{{ image_args }}'
+    force: true
+
+- name: Start nexus container
   docker_container:
-    name: '{{ nexus_container_name }}'
-    detach: true
-    restart_policy: '{{ docker_restart_policy }}'
-    hostname: '{{ nexus_hostname }}'
-    ports: '{{ nexus_port_args }}'
-    networks:
-      - name: '{{ nexus_network }}'
-    volumes:
-      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
-      - '{{ nexus_dv_name }}:{{ nexus_dv_path }}:z'
-    env:
-      nexus_HOSTNAME: '{{ nexus_hostname }}'
-      nexus_MAIL_USER: 'nexus'
-      nexus_MAIL_PASSWORD: '{{ nexus_email_password | quote }}'
-    image: '{{ nexus_image_name }}:{{ nexus_image_tag }}'
+    name: '{{ container_name }}'
+    hostname: '{{ container_hostname }}'
+    image: '{{ image_name }}:{{ image_tag }}'
+    networks: '{{ container_networks }}'
+    volumes: '{{ container_volumes }}'
+    env: '{{ container_env }}'
+    ports: '{{ container_port_args }}'
     state: started
 
-# *****************************************************************************
-# restore?
+- name: Run Nexus role
+  include_role:
+    name: nexus3-oss
+  vars:
+    nexus_default_port: 80
+    nexus_data_dir: '/nexus-data'
+    nexus_data_dir_contents:
+      stdout: ""
+    public_hostname: '{{ container_hostname }}'
+    current_nexus_admin_password: '{{ nexus_admin_password }}'
+    nexus_rest_api_endpoint: "service/rest/v1/script"
+    nexus_email_server_enabled: true
+    nexus_email_server_host: "mail.novatech-llc.com"
+    nexus_email_server_port: 587
+    nexus_email_server_username: "wiki"
+    nexus_email_server_password: "{{ nexus_email_password }}"
+    nexus_email_from_address: "nexus@novatech-llc.com"
+    nexus_email_subject_prefix: "[NEXUS]"
+    nexus_email_tls_enabled: true
+    nexus_email_tls_required: true
 
-- include_tasks: restore.yml
-  when: st_nexus_restore.stat.exists == False
+    nexus_ldap_realm: true
+    ldap_connections:
+      - ldap_name: 'NovaTech LDAP' # used as a key to update the ldap config
+        ldap_protocol: 'ldap' # ldap or ldaps
+        ldap_hostname: 'ldap.novatech-llc.com'
+        ldap_port: 389
+        ldap_auth: 'simple'
+        ldap_auth_username: 'cn=proxyagent,dc=novatech'
+        ldap_auth_password: '{{ openldap_proxyagent_password }}'
+        ldap_search_base: 'dc=novatech'
+        ldap_user_base_dn: 'ou=user'
+        #ldap_user_filter: '(cn=*)' # (optional)
+        ldap_user_object_class: 'inetOrgPerson'
+        ldap_user_id_attribute: 'uid'
+        ldap_user_real_name_attribute: 'cn'
+        ldap_user_email_attribute: 'mail'
+        ldap_group_base_dn: 'ou=group'
+        ldap_group_object_class: 'posixGroup'
+        ldap_group_id_attribute: 'gidNumber'
+        ldap_group_member_attribute: 'memberUid'
+        ldap_group_member_format: '${username}'
+
+    nexus_privileges:
+      - name: all-repos-read  # used as key to update a privilege
+        description: 'Read & Browse access to all repos'
+        repository: '*'
+        actions:
+          - read
+          - browse
+
+    nexus_roles:
+      - id: Developers  # can map to a LDAP group id, also used as a key to update a role
+        name: developers
+        description: All developers
+        privileges:
+          - nx-search-read
+          - all-repos-read
+        roles: []
+
+    nexus_local_users:
+      - username: buildbot # used as key to update
+        first_name: NovaTech
+        last_name: CI
+        email: buildbot@novatech-llc.com
+        password: "{{ nexus_buildbot_password }}"
+        roles:
+          - Developers # role ID here
+
+    nexus_delete_default_blobstore: false
+    nexus_blob_split: false     # True - blobstores per format
+
+    nexus_delete_default_repos: false
+
+    nexus_config_maven: false
+
+    nexus_config_pypi: true
+    nexus_repos_pypi_hosted:
+      - name: pypi-hosted
+        write_policy: allow  # one of "allow", "allow_once" or "deny"
+    nexus_repos_pypi_proxy:
+      - name: pypi-proxy
+        remote_url: 'https://pypi.python.org/'
+    nexus_repos_pypi_group:
+      - name: pypi
+        member_repos:
+          - pypi-hosted
+          - pypi-proxy
+
+    nexus_config_docker: true
+    nexus_repos_docker_hosted:
+      - name: docker-hosted
+        http_port: "{{ nexus_docker_hosted_port }}"
+        v1_enabled: True
+    nexus_repos_docker_proxy:
+      - name: docker-proxy
+        http_port: "{{ nexus_docker_proxy_port }}"
+        v1_enabled: True
+        index_type: "HUB"
+        proxy_url: "https://registry-1.docker.io"
+        use_nexus_certificates_to_access_index: false
+    nexus_repos_docker_group:
+      - name: docker
+        http_port: "{{ nexus_docker_group_port }}"
+        v1_enabled: True
+        member_repos:
+          - docker-hosted
+          - docker-proxy
+
+    nexus_config_raw: true
+    nexus_repos_raw_hosted:
+      - name: download
+        strict_content_validation: false
+        write_policy: allow  # one of "allow", "allow_once" or "deny"
+      - name: ntel-ipkg
+        strict_content_validation: false
+        write_policy: allow  # one of "allow", "allow_once" or "deny"
+      - name: ntel-sstate
+        strict_content_validation: false
+        write_policy: allow  # one of "allow", "allow_once" or "deny"
+      - name: ptxdist-ipkg
+        strict_content_validation: false
+        write_policy: allow  # one of "allow", "allow_once" or "deny"
+
+    nexus_repos_raw_proxy:
+      - name: ubuntu-archive
+        remote_url: 'http://archive.ubuntu.com/ubuntu/'
+        strict_content_validation: false
+
+    nexus_repos_raw_group: []
+
+    nexus_config_rubygems: false
+    nexus_config_bower: false
+    nexus_config_npm: false
+    nexus_config_nuget: false
+    nexus_config_gitlfs: false
+    nexus_config_yum: false

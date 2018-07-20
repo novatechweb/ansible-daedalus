@@ -1,26 +1,88 @@
 ---
+# defaults file for nexus
 
-nexus_version: "3.12.1"
+# backup host directory
+backup_hostdir: '{{ docker_backup_dir }}/nexus'
 
-# The hostname passed as an envirnment variable into the container
-nexus_ip_addr: '127.0.0.1'
-nexus_hostname: nexus.example.com
-nexus_port_args:
-  - '8081'
+# numeric version of nexus service
+nexus_version: '3.13.0'
 
-nexus_image_name: "sonatype/nexus3"
-nexus_image_tag: "{{nexus_version}}"
+# port number for unencrypted web access
+nexus_http_port: 8080
+
+# port number for encrypted web access
+nexus_https_port: 8443
+
+# default container hostname
+default_hostname: nexus.example.com
+
+# default port map
+default_port_args:
+  - '{{nexus_http_port}}'
+  - '{{nexus_https_port}}'
+
+# default image source repository
+default_repo: "https://github.com/sonatype/docker-nexus3"
+
+# host path containing configuration files
+config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+
+# environment passed to the container
+container_env:
+
+# hostname
+container_hostname: '{{ nexus_hostname | default(default_hostname) }}'
 
 # the name of the container being started
-nexus_container_name: "{{ docker_name_prefix }}nexus"
+container_name: '{{ docker_name_prefix }}nexus'
 
-# the name of the data-volume used by the container
-nexus_dv_name: "{{ docker_name_prefix }}nexus_DV"
-nexus_dv_path: "/nexus-data"
+# networks of the container
+container_networks:
+  - name: '{{ docker_network_frontend }}'
 
-# restore directories to temporarly store data being restored into docker containers
-nexus_docker_backup_dir: '{{ docker_backup_dir }}/nexus'
-nexus_docker_restore_dir: '{{ bacula_dest }}{{ nexus_docker_backup_dir }}'
+# port map of the container
+container_port_args: '{{ nexus_port_args | default(default_port_args) }}'
 
-# Network names
-nexus_network: "{{docker_network_frontend}}"
+# volumes mounted within the container
+container_volumes:
+  - '{{ data_volume }}:{{ data_path }}:z'
+  - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+
+# mount path of the data volume
+data_path: '/nexus-data'
+
+# name of the data volume
+data_volume: '{{ docker_name_prefix }}nexus_DV'
+
+# build arguments of the image
+image_args: {}
+  # NEXUS_VERSION: '{{ nexus_version }}'
+  # NEXUS_DOWNLOAD_URL: 'https://download.sonatype.com/nexus/3/nexus-{{ nexus_version }}-unix.tar.gz'
+  # NEXUS_DOWNLOAD_SHA256_HASH: '6eb09810767ed1bfe33c995a2fa550b667189aa0ed99f002ce826436f60765ef'
+
+# directory of the image source
+image_dir: '{{ docker_projects_dir }}/nexus-master'
+
+# name of the image being built
+image_name: '{{ docker_registry_username }}/nexus3'
+
+# repository URI of the image source
+image_repo: '{{ nexus_image_repo | default(default_repo) }}'
+
+# tag(version) of the image
+image_tag: '{{ docker_image_tag }}'
+
+# restoration host directory
+restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'
+
+# host path containing secrets
+secrets_hostdir: '{{ config_hostdir }}'
+
+# name of the https certificate
+secrets_certificates: 'STAR_novatech-llc_com.crt'
+
+# mount path of the secrets volume
+secrets_path: '/run/secrets'
+
+# name of the https private key
+secrets_private_key: 'STAR_novatech-llc_com.key'

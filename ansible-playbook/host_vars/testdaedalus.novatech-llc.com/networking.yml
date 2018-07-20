@@ -16,3 +16,4 @@ openldap_ip_addr:     172.16.103.108
 phpldapadmin_ip_addr: 172.16.103.108
 phpmyadmin_ip_addr:   172.16.103.109
 buildbot_ip_addr:     172.16.103.110
+nexus_ip_addr:        172.16.103.111
