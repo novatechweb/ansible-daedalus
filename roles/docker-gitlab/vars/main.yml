@@ -1,6 +1,7 @@
 ---
 
 # the name of the image being duilt and used for the container
+gitlab_image_repo: 'https://github.com/novatechweb/docker-gitlab.git'
 gitlab_image_name: '{{ docker_registry_username }}/gitlab'
 gitlab_dv_image_name: '{{ docker_registry_username }}/gitlab'
 gitlab_db_image_name: '{{ repository_images.postgres.image }}'
