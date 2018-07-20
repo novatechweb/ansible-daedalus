@@ -15,6 +15,17 @@
     state: stopped
   when: nexus_systemd_service_file.stat.exists
 
+- name: nexus-container-restart
+  docker_container:
+    name: '{{ nexus_container_name }}'
+    restart: yes
+    state: started
+
+- name: nexus-container-stop
+  docker_container:
+    name: '{{ nexus_container_name }}'
+    state: stopped
+
 - name: wait-for-nexus
   wait_for:
     path: "{{ nexus_data_dir }}/log/nexus.log"
