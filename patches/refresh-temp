@@ -1,0 +1,35 @@
+Bottom: 97526e88d83bffe732c5e4d39f88fd67300719b6
+Top:    ce892ed9899555fb59e9db7ed56154782a9b6f6c
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-23 15:17:10 -0500
+
+Refresh of maven-config-option
+
+---
+diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
+index 64d8c88d..1cfa7111 100644
+--- a/roles/nexus3/tasks/main.yml
++++ b/roles/nexus3/tasks/main.yml
+@@ -74,14 +74,16 @@
+   include: nexus-restore.yml
+   when: nexus_restore_point is defined
+ 
+-- include: create_repo_maven_proxy_each.yml
+-  with_items: "{{ nexus_repos_maven_proxy }}"
++- block:
++    - include: create_repo_maven_proxy_each.yml
++      with_items: "{{ nexus_repos_maven_proxy }}"
+ 
+-- include: create_repo_maven_hosted_each.yml
+-  with_items: "{{ nexus_repos_maven_hosted }}"
++    - include: create_repo_maven_hosted_each.yml
++      with_items: "{{ nexus_repos_maven_hosted }}"
+ 
+-- include: create_repo_maven_group_each.yml
+-  with_items: "{{ nexus_repos_maven_group }}"
++    - include: create_repo_maven_group_each.yml
++      with_items: "{{ nexus_repos_maven_group }}"
++  when: nexus_config_maven
+ 
+ - block:
+     - include: create_repo_docker_hosted_each.yml
