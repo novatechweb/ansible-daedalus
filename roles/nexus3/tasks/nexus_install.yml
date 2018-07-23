@@ -210,6 +210,9 @@
   check_mode: no
   changed_when: false
 
+- set_fact:
+    nexus_first_install: "{{ nexus_data_dir_contents.stdout == '' }}"
+
 - name: Clean cache for upgrade process
   file:
     path: "{{ nexus_data_dir }}/clean_cache"
