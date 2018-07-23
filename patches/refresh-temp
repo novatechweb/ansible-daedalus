@@ -1,0 +1,106 @@
+Bottom: 97526e88d83bffe732c5e4d39f88fd67300719b6
+Top:    361f72780972dda7bb9ddcc20ff4f618a343d000
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-23 15:12:01 -0500
+
+Refresh of add-docker-option
+
+---
+diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
+index 992be594..ddc4d701 100644
+--- a/roles/nexus3/defaults/main.yml
++++ b/roles/nexus3/defaults/main.yml
+@@ -12,6 +12,19 @@ nexus_timezone: 'UTC'  # java timezone
+ nexus_tmp_dir: '/tmp/nexus'
+ nexus_script_dir: '{{ nexus_installation_dir }}/nexus-{{ nexus_version }}/etc/scripts'
+ 
++nexus_repository_url: 'https://github.com/sonatype/docker-nexus3'
++nexus_container_name: 'nexus3'
++nexus_image_tag: 'nexus:{{ nexus_version}}'
++nexus_backup_volume: nexus-backup
++nexus_data_volume: nexus-data
++nexus_networks: 
++  - name: nexus3
++nexus_port_args:
++  - "8081"
++  - "8443"
++nexus_volumes:
++  - '{{ nexus_data_volume }}:{{ nexus_data_dir }}:z'
++  - '{{ nexus_backup_volume }}:{{ nexus_backup_dir }}:z'
+ 
+ # Nexus Backup
+ nexus_backup_dir: '/var/nexus-backup'
+@@ -31,6 +44,8 @@ nexus_backup_keep_rotations: 4  # Keep 4 backup rotation by default (current + l
+ 
+ # Nexus purge procedure:
+ # run ansible-playbook example.yml -e "purge=true"
++purge: false
++docker: false
+ 
+ # Nexus default properties
+ nexus_default_port: 8081
+@@ -120,6 +135,7 @@ nexus_proxy_exclude_hosts:
+   - "127.*"
+   - "[::1]"
+ 
++nexus_config_maven: false
+ nexus_config_pypi: false
+ nexus_config_docker: false
+ nexus_config_raw: false
+diff --git a/roles/nexus3/handlers/main.yml b/roles/nexus3/handlers/main.yml
+index 3ee7078e..ad054674 100644
+--- a/roles/nexus3/handlers/main.yml
++++ b/roles/nexus3/handlers/main.yml
+@@ -15,6 +15,17 @@
+     state: stopped
+   when: nexus_systemd_service_file.stat.exists
+ 
++- name: nexus-container-restart
++  docker_container:
++    name: '{{ nexus_container_name }}'
++    restart: yes
++    state: started
++
++- name: nexus-container-stop
++  docker_container:
++    name: '{{ nexus_container_name }}'
++    state: stopped
++
+ - name: wait-for-nexus
+   wait_for:
+     path: "{{ nexus_data_dir }}/log/nexus.log"
+diff --git a/roles/nexus3/tasks/call_script.yml b/roles/nexus3/tasks/call_script.yml
+index 1edcb9ca..657fd502 100644
+--- a/roles/nexus3/tasks/call_script.yml
++++ b/roles/nexus3/tasks/call_script.yml
+@@ -1,7 +1,7 @@
+ ---
+ - name: Calling Groovy script {{ script_name }}
+   uri:
+-    url: "http://localhost:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}/{{ script_name }}/run"
++    url: "http://{{ public_hostname }}:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}/{{ script_name }}/run"
+     user: 'admin'
+     password: "{{ current_nexus_admin_password }}"
+     headers:
+diff --git a/roles/nexus3/tasks/declare_script_each.yml b/roles/nexus3/tasks/declare_script_each.yml
+index 16b231a7..5bb77c1c 100644
+--- a/roles/nexus3/tasks/declare_script_each.yml
++++ b/roles/nexus3/tasks/declare_script_each.yml
+@@ -1,7 +1,7 @@
+ ---
+ - name: Removing (potential) previously declared Groovy script {{ item }}
+   uri:
+-    url: "http://localhost:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}/{{ item }}"
++    url: "http://{{ public_hostname }}:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}/{{ item }}"
+     user: 'admin'
+     password: "{{ current_nexus_admin_password }}"
+     method: DELETE
+@@ -10,7 +10,7 @@
+ 
+ - name: Declaring Groovy script {{ item }}
+   uri:
+-    url: "http://localhost:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}"
++    url: "http://{{ public_hostname }}:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}"
+     user: 'admin'
+     password: "{{ current_nexus_admin_password }}"
+     body_format: json
