@@ -1,8 +1,8 @@
 Version: 1
-Previous: f02ff9e06fcf73f77b34eaccb71e74d5b53d2a8c
+Previous: fa16e021cf8ea7f3220359e5a7b6e4667f088fbf
 Head: 61317a72646c5826ee9bc66aaa8f2b79042cf5cc
 Applied:
   create-role: d858db9b656dc2fce58e92238e527bab13cdae99
-  remove-install: 61317a72646c5826ee9bc66aaa8f2b79042cf5cc
+  add-docker-option: 61317a72646c5826ee9bc66aaa8f2b79042cf5cc
 Unapplied:
 Hidden:
