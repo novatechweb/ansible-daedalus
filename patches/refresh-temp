@@ -1,0 +1,22 @@
+Bottom: d61b47cd1fdfb4ea3f2f5672ed1f52dcac23b832
+Top:    34b9933cf18a91e480cb9f9a2264e6b218c9dfb4
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-07-23 15:18:29 -0500
+
+Refresh of check-first-install
+
+---
+diff --git a/roles/nexus3/tasks/nexus_install.yml b/roles/nexus3/tasks/nexus_install.yml
+index b3bf57b5..22c68332 100644
+--- a/roles/nexus3/tasks/nexus_install.yml
++++ b/roles/nexus3/tasks/nexus_install.yml
+@@ -210,6 +210,9 @@
+   check_mode: no
+   changed_when: false
+ 
++- set_fact:
++    nexus_first_install: "{{ nexus_data_dir_contents.stdout == '' }}"
++
+ - name: Clean cache for upgrade process
+   file:
+     path: "{{ nexus_data_dir }}/clean_cache"
