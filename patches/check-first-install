@@ -1,5 +1,5 @@
-Bottom: 97526e88d83bffe732c5e4d39f88fd67300719b6
-Top:    398ff5699666cf44b9f7be07648b65b4916d148e
+Bottom: ce892ed9899555fb59e9db7ed56154782a9b6f6c
+Top:    d61b47cd1fdfb4ea3f2f5672ed1f52dcac23b832
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-23 15:13:13 -0500
 
@@ -12,7 +12,7 @@ of a command in several places.
 
 ---
 diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
-index 64d8c88d..5aafc646 100644
+index 1cfa7111..0e570bf4 100644
 --- a/roles/nexus3/tasks/main.yml
 +++ b/roles/nexus3/tasks/main.yml
 @@ -32,7 +32,7 @@
