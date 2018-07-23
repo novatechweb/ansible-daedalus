@@ -12,6 +12,19 @@ nexus_timezone: 'UTC'  # java timezone
 nexus_tmp_dir: '/tmp/nexus'
 nexus_script_dir: '{{ nexus_installation_dir }}/nexus-{{ nexus_version }}/etc/scripts'
 
+nexus_repository_url: 'https://github.com/sonatype/docker-nexus3'
+nexus_container_name: 'nexus3'
+nexus_image_tag: 'nexus:{{ nexus_version}}'
+nexus_backup_volume: nexus-backup
+nexus_data_volume: nexus-data
+nexus_networks: 
+  - name: nexus3
+nexus_port_args:
+  - "8081"
+  - "8443"
+nexus_volumes:
+  - '{{ nexus_data_volume }}:{{ nexus_data_dir }}:z'
+  - '{{ nexus_backup_volume }}:{{ nexus_backup_dir }}:z'
 
 # Nexus Backup
 nexus_backup_dir: '/var/nexus-backup'
@@ -31,6 +44,8 @@ nexus_backup_keep_rotations: 4  # Keep 4 backup rotation by default (current + l
 
 # Nexus purge procedure:
 # run ansible-playbook example.yml -e "purge=true"
+purge: false
+docker: false
 
 # Nexus default properties
 nexus_default_port: 8081
@@ -120,6 +135,7 @@ nexus_proxy_exclude_hosts:
   - "127.*"
   - "[::1]"
 
+nexus_config_maven: false
 nexus_config_pypi: false
 nexus_config_docker: false
 nexus_config_raw: false
