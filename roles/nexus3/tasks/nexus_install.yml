@@ -210,11 +210,14 @@
   check_mode: no
   changed_when: false
 
+- set_fact:
+    nexus_first_install: "{{ nexus_data_dir_contents.stdout == '' }}"
+
 - name: Clean cache for upgrade process
   file:
     path: "{{ nexus_data_dir }}/clean_cache"
     state: touch
-  when: nexus_latest_version.changed and nexus_data_dir_contents.stdout != ""
+  when: nexus_latest_version.changed and not nexus_first_install
   tags:
     # hard to run as a handler for time being
     - skip_ansible_lint
@@ -257,12 +260,12 @@
 - name: First-time install admin password
   set_fact:
     current_nexus_admin_password: 'admin123'
-  when: nexus_data_dir_contents.stdout == ""
+  when: nexus_first_install
 
 - name: Subsequent re-provision admin password
   set_fact:
     current_nexus_admin_password: "{{ nexus_admin_password }}"
-  when: nexus_data_dir_contents.stdout != ""
+  when: not nexus_first_install
   no_log: true
 
 - name: Create directory to hold current groovy scripts for reference
