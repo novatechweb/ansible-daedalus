@@ -1,9 +1,9 @@
 Version: 1
-Previous: cce9a26cb12d7dec37afce443d4b0a76ee1d6dee
-Head: 2b96ef6d930bc543067164db7df677ef436ec40a
+Previous: 7c8bcddff1f4465f4dbcbc669ae0ef48fbc78ea0
+Head: ec58045075474683490e9d898e7ddb27a6792b73
 Applied:
   create-role: d858db9b656dc2fce58e92238e527bab13cdae99
   check-first-install: 2b96ef6d930bc543067164db7df677ef436ec40a
+  add-docker-option: ec58045075474683490e9d898e7ddb27a6792b73
 Unapplied:
-  add-docker-option: 410c46c494c3aed43a8e977af585644e5be188ee
 Hidden:
