@@ -74,14 +74,16 @@
   include: nexus-restore.yml
   when: nexus_restore_point is defined
 
-- include: create_repo_maven_proxy_each.yml
-  with_items: "{{ nexus_repos_maven_proxy }}"
+- block:
+    - include: create_repo_maven_proxy_each.yml
+      with_items: "{{ nexus_repos_maven_proxy }}"
 
-- include: create_repo_maven_hosted_each.yml
-  with_items: "{{ nexus_repos_maven_hosted }}"
+    - include: create_repo_maven_hosted_each.yml
+      with_items: "{{ nexus_repos_maven_hosted }}"
 
-- include: create_repo_maven_group_each.yml
-  with_items: "{{ nexus_repos_maven_group }}"
+    - include: create_repo_maven_group_each.yml
+      with_items: "{{ nexus_repos_maven_group }}"
+  when: nexus_config_maven
 
 - block:
     - include: create_repo_docker_hosted_each.yml
