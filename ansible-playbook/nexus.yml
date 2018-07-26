@@ -1,0 +1,13 @@
+---
+    
+- name: Install Sonatype Nexus Repository Manager 3
+  hosts: daedalus
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+  - set_fact:
+      openssl_dv_name: "openssl_DV"
+  - name: Run Nexus role
+    include_role:
+      name: nexus3
