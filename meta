@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 82c302641f3f567135d471099bb7c00516549d9e
+Previous: ad9f18ff38de4de0cbde540e7e2263cf508790ca
+Head: 7741107135f70ed69719c2348e5a927827c2b9c8
 Applied:
+  add-haproxy-role: 7741107135f70ed69719c2348e5a927827c2b9c8
 Unapplied:
 Hidden:
