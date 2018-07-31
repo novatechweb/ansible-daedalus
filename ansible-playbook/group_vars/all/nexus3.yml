@@ -113,19 +113,37 @@ nexus_repos_raw_hosted:
   - name: download
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ntel-ipkg
+  - name: ntel
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ntel-sstate
+  - name: bitbake-sstate
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ptxdist-ipkg
+  - name: orphans
+    strict_content_validation: false
+    write_policy: allow  # one of "allow", "allow_once" or "deny"
+  - name: ptxdist
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
 
 nexus_repos_raw_proxy:
+  - name: debian
+    remote_url: 'http://ftp.us.debian.org/debian/'
+    strict_content_validation: false
+  - name: gnu
+    remote_url: 'http://mirror.team-cymru.com/gnu/'
+    strict_content_validation: false
+  - name: kernel
+    remote_url: 'https://mirrors.edge.kernel.org/pub/'
+    strict_content_validation: false
+  - name: sourceforge
+    remote_url: 'http://downloads.sourceforge.net/project'
+    strict_content_validation: false
   - name: ubuntu-archive
     remote_url: 'http://archive.ubuntu.com/ubuntu/'
+    strict_content_validation: false
+  - name: xorg
+    remote_url: 'http://xorg.mirrors.pair.com/'
     strict_content_validation: false
 
 nexus_repos_raw_group: []
