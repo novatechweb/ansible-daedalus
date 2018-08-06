@@ -1,0 +1,19 @@
+Bottom: cbebfa2b63cb7d5c56a0a3c79e43af01e9711edd
+Top:    e4693646187b8c8f5a4835566e07a535631eb3ed
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-06 16:01:20 -0500
+
+Refresh of setup-reverse-proxy-service
+
+---
+diff --git a/roles/nginx-proxy/defaults/main.yml b/roles/nginx-proxy/defaults/main.yml
+new file mode 100644
+index 00000000..28bf10ec
+--- /dev/null
++++ b/roles/nginx-proxy/defaults/main.yml
+@@ -0,0 +1,2 @@
++---
++- 
+diff --git a/roles/nginx-proxy/tasks/main.yml b/roles/nginx-proxy/tasks/main.yml
+new file mode 100644
+index 00000000..e69de29b
