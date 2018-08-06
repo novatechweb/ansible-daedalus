@@ -1,0 +1,42 @@
+- name: set LDAP TLS Certificate Path
+  ldap_attr:
+      dn: cn=config
+      name: olcTLSCertificateFile
+      values: /etc/ssl/private/exim.crt
+      server_uri: "ldap://{{ openldap_hostname }}:389"
+      bind_dn: cn=admin,dc=novatech
+      state: present
+      bind_pw: "{{ openldap_admin_password }}"
+
+- name: set LDAP TLS Certificate Key
+  ldap_attr:
+      dn: cn=config
+      name: olcTLSCertificateKeyFile
+      values: /etc/ssl/private/exim.key
+      server_uri: "ldap://{{ openldap_hostname }}:389"
+      bind_dn: cn=admin,dc=novatech
+      state: present
+      bind_pw: "{{ openldap_admin_password }}"
+
+
+- name: set LDAP TLS Diffie-Hellman parameters
+  ldap_attr:
+      dn: cn=config 
+      name: olcTLSDHParamFile 
+      values: /etc/ssl/private/dhparam.pem
+      server_uri: "ldap://{{ openldap_hostname }}:389"
+      bind_dn: cn=admin,dc=novatech
+      state: present
+      bind_pw: "{{ openldap_admin_password }}"
+
+
+# Monitoring
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: back_monitor
+
+dn: olcDatabase=monitor,cn=config
+objectclass: olcDatabaseConfig
+olcAccess: to * by * read
+olcDatabase: monitor
