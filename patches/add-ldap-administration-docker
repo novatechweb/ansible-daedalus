@@ -1,7 +1,7 @@
-Bottom: 8aa0b46a53b12878f7bb4b3e1bcf9eee6f38e208
-Top:    3133d4745dbff6ecb2d751fb87d2664770bd6e38
+Bottom: f94d043d236a493fc86bdf7cd4b25cfa3d060d8b
+Top:    570a5f8843170d4961a2877adf3908223729b001
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-12 11:12:26 -0500
+Date:   2018-07-20 11:05:58 -0500
 
 Add ldap administration Docker image
 
