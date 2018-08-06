@@ -1,8 +1,9 @@
 Version: 1
-Previous: 11a782d68b9ef47486c880eb9e47d7d112d06d7d
-Head: 4ca73b73723ed8ba4ba4b04bf0039ad389f18b95
+Previous: 64f5d4eb33002e46a5f97877620910d5f3c57e6c
+Head: fd28fa65f718a298ca3ba695299ffdffa59e286c
 Applied:
   add-ldap-administration-docker: 6202790dda481a88cc0d9057255d20bba357a20b
   tls-support: 4ca73b73723ed8ba4ba4b04bf0039ad389f18b95
+  refresh-temp: fd28fa65f718a298ca3ba695299ffdffa59e286c
 Unapplied:
 Hidden:
