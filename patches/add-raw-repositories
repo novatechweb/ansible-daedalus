@@ -1,5 +1,5 @@
-Bottom: 8bd53ef973ba69bb5e71de4d5884f7cad7a85bb6
-Top:    e3cf5199921f9f018feeedd83efb78cbf9b7b77d
+Bottom: f5ece016eb7abecde7b364d7344a1cfa17dd7776
+Top:    f5ece016eb7abecde7b364d7344a1cfa17dd7776
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-31 15:58:42 -0500
 
@@ -8,39 +8,4 @@ Create raw repositories for ptxdist builds
 
 
 ---
-diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index a8251373..3aa15c2b 100644
---- a/ansible-playbook/group_vars/all/nexus3.yml
-+++ b/ansible-playbook/group_vars/all/nexus3.yml
-@@ -119,14 +119,32 @@
-         - name: ntel-sstate
-           strict_content_validation: false
-           write_policy: allow  # one of "allow", "allow_once" or "deny"
-+        - name: orphans
-+          strict_content_validation: false
-+          write_policy: allow  # one of "allow", "allow_once" or "deny"
-         - name: ptxdist-ipkg
-           strict_content_validation: false
-           write_policy: allow  # one of "allow", "allow_once" or "deny"
- 
-       nexus_repos_raw_proxy:
-+        - name: debian
-+          remote_url: 'http://ftp.us.debian.org/debian/'
-+          strict_content_validation: false
-+        - name: gnu
-+          remote_url: 'http://mirror.team-cymru.com/gnu/'
-+          strict_content_validation: false
-+        - name: kernel
-+          remote_url: 'https://mirrors.edge.kernel.org/pub/'
-+          strict_content_validation: false
-+        - name: sourceforge
-+          remote_url: 'http://downloads.sourceforge.net/project'
-+          strict_content_validation: false
-         - name: ubuntu-archive
-           remote_url: 'http://archive.ubuntu.com/ubuntu/'
-           strict_content_validation: false
-+        - name: xorg
-+          remote_url: 'http://xorg.mirrors.pair.com/'
-+          strict_content_validation: false
- 
-       nexus_repos_raw_group: []
+
