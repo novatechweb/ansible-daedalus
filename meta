@@ -1,6 +1,7 @@
 Version: 1
-Previous: None
-Head: 95f45e6d819ea48b9383ad47d682251998535cdd
+Previous: 56dd9e4a9c5d56c81e10f484a57d2b97cbc68988
+Head: 711a74b0de764ae8fe7d606f2a9534da647003a0
 Applied:
+  create-swarm: 711a74b0de764ae8fe7d606f2a9534da647003a0
 Unapplied:
 Hidden:
