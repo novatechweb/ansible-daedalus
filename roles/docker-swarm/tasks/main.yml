@@ -1,0 +1,6 @@
+---
+- name: Initialize Swarm
+
+- name: Initialize Manager Node
+
+- name: Initialize Worker Node
