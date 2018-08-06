@@ -147,9 +147,12 @@
     hostname: '{{ phpldapadmin_hostname }}'
     ports: '{{ phpldapadmin_port_args }}'
     volumes:
-      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+      - '{{ openssl_dv_name }}:/container/service/phpldapadmin/assets/apache2/certs:z'
     env:
-      PHPLDAPADMIN_HTTPS: 'false'
+      PHPLDAPADMIN_HTTPS: 'true'
+      PHPLDAPADMIN_HTTPS_CRT_FILENAME: "apache2.crt"
+      PHPLDAPADMIN_HTTPS_KEY_FILENAME: "apache2.key"
+      PHPLDAPADMIN_HTTPS_CA_CRT_FILENAME: "apache2_bundle.crt"
       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
       LDAP_HOSTNAME: '{{ openldap_hostname }}'
     networks:
@@ -177,3 +180,36 @@
 
 - name: set LDAP proxyagent password
   command: 'docker exec -i {{ openldap_container_name }} /docker-entrypoint.sh set_proxyagent_pass {{ openldap_admin_password | quote }} {{ openldap_proxyagent_password | quote }}'
+
+- name: Configure LDAP TLS 
+  ldap_attr:
+      dn: "cn=config"
+      name: "{{ item.key }}"
+      values: "{{ item.value }}"
+      server_uri: "ldap://{{ openldap_hostname }}:389"
+      bind_dn: cn=admin,dc=novatech
+      bind_pw: "{{ openldap_admin_password }}"
+      state: exact
+  with_dict:
+    olcTLSCACertificateFile: /etc/ssl/private/apache2_bundle.crt
+    olcTLSDHParamFile: /etc/ssl/private/dhparam.pem
+
+- name: set LDAP TLS Certificate Path
+  ldap_attr:
+      dn: "cn=config"
+      name: olcTLSCertificateFile
+      values: /etc/ssl/private/apache2.crt
+      server_uri: "ldap://{{ openldap_hostname }}:389"
+      bind_dn: cn=admin,dc=novatech
+      bind_pw: "{{ openldap_admin_password }}"
+      state: exact
+
+- name: set LDAP TLS Certificate Key
+  ldap_attr:
+      dn: "cn=config"
+      name: olcTLSCertificateKeyFile
+      values: /etc/ssl/private/apache2.key
+      server_uri: "ldap://{{ openldap_hostname }}:389"
+      bind_dn: cn=admin,dc=novatech
+      bind_pw: "{{ openldap_admin_password }}"
+      state: exact

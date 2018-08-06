@@ -13,6 +13,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
         ldap-utils=${OPENLDAP_VERSION}* \
         slapd=${OPENLDAP_VERSION}* \
+        ca-certificates  \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
