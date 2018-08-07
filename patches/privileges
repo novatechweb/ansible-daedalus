@@ -1,0 +1,13 @@
+Bottom: f514cbf4d328debada7189fa4709bc804bdb8d97
+Top:    f514cbf4d328debada7189fa4709bc804bdb8d97
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-07 09:36:57 -0500
+
+Update roles and privileges
+
+Developers access to upload artifacts
+Anonymous access to read artifacts
+
+
+---
+
