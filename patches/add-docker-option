@@ -1,5 +1,5 @@
 Bottom: 1d16e9880fed441bc0b07f6e03bb7472cc031358
-Top:    f5ece016eb7abecde7b364d7344a1cfa17dd7776
+Top:    fecd51ab335d6bb401460c881caa4054507c16dd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 16:05:06 -0500
 
@@ -48,6 +48,20 @@ index 00000000..5030618a
 +  - name: Run Nexus role
 +    include_role:
 +      name: nexus3
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index 0727917d..79bbd612 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -58,6 +58,9 @@
+     role: docker-openssl
+     tags:
+     - openssl_container
++  - name: Build and start Nexus Artifact Repository container
++    role: nexus3
++    tags: [nexus, container]
+   - name: Build and start the SVN Docker container
+     role: docker-svn
+     svn_repos: 'ddio NCD_Release'
 diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
 index 992be594..ddc4d701 100644
 --- a/roles/nexus3/defaults/main.yml
