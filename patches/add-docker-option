@@ -1,5 +1,5 @@
 Bottom: 1d16e9880fed441bc0b07f6e03bb7472cc031358
-Top:    fecd51ab335d6bb401460c881caa4054507c16dd
+Top:    249d79495f8c1ffe6123ca6641181f169707e314
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 16:05:06 -0500
 
@@ -29,25 +29,6 @@ index b82a2277..064c2bbb 100644
  
  nexus_privileges:
    - name: all-repos-read  # used as key to update a privilege
-diff --git a/ansible-playbook/nexus.yml b/ansible-playbook/nexus.yml
-new file mode 100644
-index 00000000..5030618a
---- /dev/null
-+++ b/ansible-playbook/nexus.yml
-@@ -0,0 +1,13 @@
-+---
-+    
-+- name: Install Sonatype Nexus Repository Manager 3
-+  hosts: daedalus
-+  become: true
-+  become_user: root
-+  become_method: sudo
-+  tasks:
-+  - set_fact:
-+      openssl_dv_name: "openssl_DV"
-+  - name: Run Nexus role
-+    include_role:
-+      name: nexus3
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index 0727917d..79bbd612 100644
 --- a/ansible-playbook/site.yml
