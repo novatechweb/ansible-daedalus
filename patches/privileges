@@ -1,5 +1,5 @@
 Bottom: f514cbf4d328debada7189fa4709bc804bdb8d97
-Top:    f514cbf4d328debada7189fa4709bc804bdb8d97
+Top:    7a3d1a9dd90ee9a1812cc1193760379422358407
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-07 09:36:57 -0500
 
@@ -10,4 +10,27 @@ Anonymous access to read artifacts
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
+index 06de47bd..78ecf1a9 100644
+--- a/ansible-playbook/group_vars/all/nexus3.yml
++++ b/ansible-playbook/group_vars/all/nexus3.yml
+@@ -42,6 +42,8 @@ ldap_connections:
+     ldap_user_subtree: false
+     ldap_group_subtree: true
+ 
++nexus_anonymous_access: true
++
+ nexus_privileges:
+   - name: all-repos-read  # used as key to update a privilege
+     description: 'Read & Browse access to all repos'
+@@ -55,8 +57,9 @@ nexus_roles:
+     name: developers
+     description: All developers
+     privileges:
+-      - nx-search-read
+       - all-repos-read
++      - nx-repository-view-*-*-*
++      - nx-search-read
+     roles: []
+ 
+ nexus_local_users:
