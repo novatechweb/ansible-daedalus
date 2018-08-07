@@ -84,6 +84,7 @@
     ports: '{{ svn_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ svn_dv_name }}:/var/lib/svn:z'

@@ -122,6 +122,7 @@
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
 
 - name: start container (phpldapadmin)
   docker_container:
@@ -138,6 +139,7 @@
       LDAP_HOSTNAME: '{{ openldap_hostname }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
 
 # *****************************************************************************

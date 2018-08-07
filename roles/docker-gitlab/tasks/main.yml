@@ -132,6 +132,7 @@
     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
 
 - name: start container (postgres)
   docker_container:
@@ -142,6 +143,7 @@
     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
 
 - name: start container (gitlab)
   docker_container:
@@ -152,6 +154,7 @@
     ports: '{{ gitlab_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
     volumes-from:
       - '{{ openssl_dv_name }}'
       - '{{ gitlab_dv_name }}'

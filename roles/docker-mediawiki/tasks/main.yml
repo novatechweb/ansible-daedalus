@@ -113,6 +113,7 @@
     networks:
       - name: '{{ docker_network_frontend }}'
     state: started
+    purge_networks: true
 
 - name: wait for mysql initialization to complete
   shell: >
@@ -139,6 +140,7 @@
     ports: '{{ wiki_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
       - '{{ wiki_dv_name }}/var/www/html:z'

@@ -142,6 +142,7 @@
       MYSQL_PASSWORD: '{{ mantisbt_db_password }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
 
 - name: wait for initialization to complete
   shell: >
@@ -168,6 +169,7 @@
     ports: '{{ mantisbt_port_args }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+    purge_networks: true
     env:
       MANTISBT_HOSTNAME: '{{ mantisbt_hostname }}'
       MANTISBT_MAIL_USER: 'mantis'
