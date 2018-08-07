@@ -1,8 +1,8 @@
 Version: 1
-Previous: c48b52c6863845aa95ee47ad9710537dab4c22d9
+Previous: c6e653715a91e5b327dff84623b056767fadb1a0
 Head: 561c0231e48ff0748a3fde55d9c8773b1f93f731
 Applied:
   add-a-version-argument-to-the: 561c0231e48ff0748a3fde55d9c8773b1f93f731
-  update-gitlab-to-10-1: 0d16071da696f09d33c020f21dc006d6bf0bd197
 Unapplied:
+  update-gitlab-to-10-1: 0d16071da696f09d33c020f21dc006d6bf0bd197
 Hidden:
