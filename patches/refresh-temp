@@ -1,0 +1,31 @@
+Bottom: 95e9651a367c6e9887338d7ef1f2482a4b670f78
+Top:    f514cbf4d328debada7189fa4709bc804bdb8d97
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-07 09:35:38 -0500
+
+Refresh of add-raw-repositories
+
+---
+diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
+index ee94374b..06de47bd 100644
+--- a/ansible-playbook/group_vars/all/nexus3.yml
++++ b/ansible-playbook/group_vars/all/nexus3.yml
+@@ -113,16 +113,16 @@ nexus_repos_raw_hosted:
+   - name: download
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+-  - name: ntel-ipkg
++  - name: ntel
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+-  - name: ntel-sstate
++  - name: bitbake-sstate
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+   - name: orphans
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+-  - name: ptxdist-ipkg
++  - name: ptxdist
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
