@@ -33,6 +33,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
 # environment passed to the container
 container_env:
   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+  BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
   BUILDBOT_SMTP_USER: 'Dean.cox'
   BUILDBOT_SMTP_PASS: 'no5156'
@@ -60,7 +61,7 @@ container_networks:
 # volumes mounted within the container
 container_volumes:
   - '{{ data_volume }}:{{ data_path }}:z'
-  - '{{ config_hostdir }}:{{ secrets_path }}'
+  - '{{ secrets_hostdir }}/{{secrets_known_hosts}}:{{ secrets_path }}/{{secrets_known_hosts}}'
 
 # mount path of the data volume
 data_path: '/buildbot'
@@ -69,7 +70,7 @@ data_path: '/buildbot'
 data_volume: '{{ docker_name_prefix }}buildbot_DV'
 
 # hostname
-hostname: buildbot-worker-ntel
+hostname: '{{ role_name }}'
 
 # build arguments of the image
 image_args:
