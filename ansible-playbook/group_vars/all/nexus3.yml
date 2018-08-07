@@ -42,6 +42,8 @@ ldap_connections:
     ldap_user_subtree: false
     ldap_group_subtree: true
 
+nexus_anonymous_access: true
+
 nexus_privileges:
   - name: all-repos-read  # used as key to update a privilege
     description: 'Read & Browse access to all repos'
@@ -55,8 +57,9 @@ nexus_roles:
     name: developers
     description: All developers
     privileges:
-      - nx-search-read
       - all-repos-read
+      - nx-repository-view-*-*-*
+      - nx-search-read
     roles: []
 
 nexus_local_users:
