@@ -58,6 +58,9 @@
     role: docker-openssl
     tags:
     - openssl_container
+  - name: Build and start Nexus Artifact Repository container
+    role: nexus3
+    tags: [nexus, container]
   - name: Build and start the SVN Docker container
     role: docker-svn
     svn_repos: 'ddio NCD_Release'
