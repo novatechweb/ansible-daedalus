@@ -1,5 +1,14 @@
 import os
+import string
 from buildbot.plugins import *
+from datetime import datetime
+from buildbot.config import BuilderConfig
+
+collections = {
+    "armeb-xscale": "armeb-base",
+    "i686": "i686-base",
+    "am335x": "am335x-base",
+}
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
@@ -12,8 +21,8 @@ workers = [
     worker.Worker("orion-am335x-slave", "pass"),
 ]
 
-worker_ptxdist_repourl = 'git@git.novatech-llc.com:andrew.cooper/workspace-ptxdist2.git'
-worker_ptxdist_branch = 'docker-build'
+worker_ptxdist_repourl = 'git@git.novatech-llc.com:Orion-ptxdist/workspace-ptxdist2'
+worker_ptxdist_branch = 'master'
 acceptance_test_repourl = 'git@git.novatech-llc.com:NovaTech-Testing/AcceptanceTests.git'
 
 # CHANGESOURCES
@@ -45,29 +54,56 @@ schedulers = [
     #                            treeStableTimer=9*60,
     #                            builderNames=["linux-3.8_am335x"]))
     schedulers.ForceScheduler(
-        name="force-ptxdist",
+        name="Force_PTXdist",
+        label="Force PTXdist Build",
         builderNames=[
-            "current_armeb_xscale",
-            "current_i686",
-            "current_am335x",
+            "force_armeb_xscale",
+            "force_i686",
+            "force_am335x",
+        ],
+        codebases=[
+            util.CodebaseParameter(
+                codebase="orion-ptxdist-workspace",
+                label="Main repository",
+                # will generate a combo box
+                branch=util.StringParameter(
+                    name="branch",
+                    default=worker_ptxdist_branch),
+                repository=util.StringParameter(
+                    name="repository",
+                    default=worker_ptxdist_repourl),
+
+                # will generate nothing in the form, but revision, repository,
+                # and project are needed by buildbot scheduling system so we
+                # need to pass a value ("")
+                revision=util.FixedParameter(name="revision", default=""),
+                project=util.FixedParameter(name="project", default="orion-ptxdist"),
+            )
         ],
         properties=[
+            util.StringParameter(
+                name="version",
+                label="distribution version",
+                default='',
+                required=True
+            ),
+            util.BooleanParameter(
+                name='release',
+                label="Make a release build",
+                default=False
+            ),
+            util.StringParameter(
+                name="packages",
+                label="space-delimited list of packages to build",
+                default='',
+                required=False,
+            ),
             util.BooleanParameter(
                 name="clobber",
                 label="Clobber build directory",
-                default=False),
+                default=False
+            ),
         ],
-    ),
-
-    schedulers.Nightly(
-        name="ptxdist-nightly",
-        branch=None,
-        builderNames=[
-            "current_armeb_xscale",
-            "current_i686",
-            "current_am335x",
-        ],
-        hour=22
     ),
 
     schedulers.Triggerable(
@@ -123,20 +159,74 @@ class PTXDistBuildCounter(util.LogLineObserver):
                 self.step.setProgress('packages', self.numPackages)
 
 
-class PTXDistBuild(steps.ShellCommand):
+class PTXDistBuild(steps.ShellSequence):
 
     def __init__(self, **kwargs):
         kwargs.setdefault('haltOnFailure', True)
         kwargs.setdefault('flunkOnFailure', True)
 
-        steps.ShellCommand.__init__(self, **kwargs)   # always upcall!
+        steps.ShellSequence.__init__(self, **kwargs)
+
         counter = PTXDistBuildCounter()
         self.addLogObserver('stdio', counter)
         self.progressMetrics += ('targets', 'packages')
 
-git_lock = util.MasterLock("git")
+        self.name = "PTXDist Build"
+        self.description = "building"
+        self.descriptionDone = "built"
+        self.commands = [
+            # set ptxdist build platform
+            util.ShellArg(
+                command=[
+                    "ptxdist",
+                    "platform",
+                    util.Property("platform")
+                ]),
 
-from datetime import datetime
+            # set ptxdist target
+            util.ShellArg(
+                command=[
+                    "ptxdist",
+                    "select",
+                    util.Property('project')
+                ]),
+
+            # run ptxdist build with build.py
+            util.ShellArg(
+                logfile="ptxdist build",
+                command=util.FlattenList([
+                    "python",
+                    "scripts/build.py",
+                    "--noclean",
+                    "--noconfirm",
+                    util.Property("version"),
+                    util.Interpolate("%(prop:release:#?|release|beta)s"),
+                    util.Transform(
+                        string.split,
+                        util.Property(
+                            "packages",
+                            default='')
+                    )
+                ])
+            ),
+
+            # set ptxdist collection
+            util.ShellArg(
+                command=[
+                    "ptxdist",
+                    "collection",
+                    util.Property("collection")
+                ]),
+
+            # If building a release, create and copy images
+            util.ShellArg(
+                command=["ptxdist", "images"]
+            ),
+
+        ]
+
+
+git_lock = util.MasterLock("git")
 
 
 @util.renderer
@@ -148,43 +238,70 @@ def CurrentTime(props):
     return dts
 
 
-class PTXDistFactory(util.BuildFactory):
+@util.renderer
+def ComputeBuildProperties(props):
+    newprops = {}
 
-    def __init__(self, repourl, branch, platform):
-        util.BuildFactory.__init__(self)
-        self.addStep(steps.SetProperty('platform', platform))
-        self.addStep(steps.SetProperty(
-            'select', util.Interpolate("OrionLX-%(prop:platform)s-glibc")))
-        self.addStep(steps.SetProperty('timestamp', CurrentTime))
-        self.addStep(steps.SetProperty('dest', util.Interpolate(
-            "/cache/images/%(prop:buildername)s/%(prop:timestamp)s")))
-        self.addStep(steps.Git(repourl=repourl, branch=branch, mode="full",
-                               method="clobber", locks=[git_lock.access('exclusive')], retry=(360, 5)))
-        self.addStep(steps.ShellCommand(
-            command=["mkdir", "-p", util.Property('dest')]))
-        self.addStep(PTXDistBuild(
-            command=["ptxdist", "platform", util.Property("platform")]))
-        self.addStep(PTXDistBuild(
-            command=["ptxdist", "select", util.Property("select")]))
-        self.addStep(PTXDistBuild(command=["ptxdist", "go"]))
-        self.addStep(PTXDistBuild(command=["ptxdist", "make", "ipkg-push"]))
-        self.addStep(PTXDistBuild(command=["./scripts/ipkg-header"]))
+    newprops['timestamp'] = ts = CurrentTime
 
-### current_armeb_xscale ###
-current_armeb_xscale_factory = PTXDistFactory(
-    worker_ptxdist_repourl, worker_ptxdist_branch, 'armeb-xscale')
-# check out the source
-current_armeb_xscale_factory.addStep(PTXDistBuild(
-    command=["ptxdist", "collection", "armeb-base"]))
-current_armeb_xscale_factory.addStep(
-    PTXDistBuild(command=["ptxdist", "images"]))
-current_armeb_xscale_factory.addStep(steps.ShellCommand(
-    command=["cp", "platform-armeb-xscale/images/root.jffs2_64", util.Property('dest')]))
-current_armeb_xscale_factory.addStep(steps.ShellCommand(
-    command=["cp", "platform-armeb-xscale/images/root.jffs2_128", util.Property('dest')]))
-# current_armeb_xscale_factory.addStep(steps.ShellCommand(command=["./scripts/build-upgrade-test.sh"]))
-# current_armeb_xscale_factory.addStep(steps.ShellCommand(command=["curl", "--progress-bar", "-o", "/dev/null", "http://george:1234@172.16.190.70/outlet?1=CCL"]))
-# current_armeb_xscale_factory.addStep(steps.ShellCommand(command=[
+    newprops['project'] = proj = util.Interpolate(
+        "OrionLX-%(prop:platform)s-glibc"
+    )
+
+    newprops['dest'] = dest = util.Interpolate(
+        "/cache/images/%(kw:p)s", p=proj
+    )
+
+    newprops['archive'] = archive = util.Interpolate(
+        "%(kw:d)s/%(prop:machine)s.%(kw:t)s.tar.gz", d=dest, t=ts
+    )
+
+    newprops['ipkg'] = ipkg = util.Interpolate(
+        "/cache/ipkg-repository/%(kw:p)s", p=proj
+    )
+
+    newprops['collection'] = clct = collections.get(props.getProperty('platform'))
+
+    return newprops
+
+
+def isReleaseBuild(step):
+    if step.getProperty("release") is True:
+        return True
+    return False
+
+# Create build factory for ptxdist
+ptxdist_factory = util.BuildFactory()
+ptxdist_factory.addSteps([
+
+    steps.SetProperties(ComputeBuildProperties),
+
+    steps.MakeDirectory(dir=util.Property('dest')),
+
+    steps.MakeDirectory(dir=util.Property('ipkg')),
+
+    # check out the source
+    steps.Git(
+        codebase=util.Property('codebase'),
+        repourl=util.Property('repository'),
+        branch=util.Property('branch'),
+        mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
+        method="clobber",
+        locks=[git_lock.access('exclusive')],
+        retry=(360, 5)
+    ),
+
+    PTXDistBuild(),
+
+    steps.CopyDirectory(
+        src=util.Interpolate("platform-%(prop:platform)s/images"),
+        dest=util.Property('dest'),
+        doStepIf=isReleaseBuild
+    ),
+])
+# ptxdist_factory.addStep(steps.ShellCommand(command=["./scripts/build-upgrade-test.sh"]))
+# ptxdist_factory.addStep(steps.ShellCommand(command=["curl", "--progress-bar", "-o", "/dev/null", "http://george:1234@172.16.190.70/outlet?1=CCL"]))
+# ptxdist_factory.addStep(steps.ShellCommand(command=[
 # 	"./scripts/upgradetest.py",
 # 	"load_7_upgrade_to_8",
 # 	"/srv/tftp/root.jffs2_64",
@@ -196,10 +313,10 @@ current_armeb_xscale_factory.addStep(steps.ShellCommand(
 # 	"orionpythontests",
 # 	"orionprotocoltests",
 # 	"--orion-config", "./local-pkg/buildslave_config_armeb-xscale.tar.gz"]))
-# current_armeb_xscale_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_armeb_xscale']))
-# current_armeb_xscale_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_armeb_xscale']))
+# ptxdist_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_armeb_xscale']))
+# ptxdist_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_armeb_xscale']))
 
-### local_tests_armeb_xscale ###
+# local_tests_armeb_xscale #
 local_tests_armeb_xscale_factory = util.BuildFactory()
 local_tests_armeb_xscale_factory.addStep(
     steps.ShellCommand(command=["uptime"]))
@@ -208,7 +325,7 @@ local_tests_armeb_xscale_factory.addStep(
 local_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
 
-### remote_tests_armeb_xscale ###
+# remote_tests_armeb_xscale #
 remote_tests_armeb_xscale_factory = util.BuildFactory()
 # check out the source
 remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
@@ -216,35 +333,35 @@ remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repo
 remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
     command=["py.test", "-s", "--orion=172.16.64.150", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
 
-### current_i686 ###
-current_i686_factory = PTXDistFactory(
-    worker_ptxdist_repourl, worker_ptxdist_branch, 'i686')
-# check out the source
-current_i686_factory.addStep(PTXDistBuild(
-    command=["ptxdist", "collection", "i686-base"]))
-current_i686_factory.addStep(PTXDistBuild(command=["ptxdist", "images"]))
-current_i686_factory.addStep(steps.ShellCommand(
-    command=["gzip", "-f", "platform-i686/images/hd.img"]))
-current_i686_factory.addStep(steps.ShellCommand(
-    command=["cp", "platform-i686/images/hd.img.gz", util.Property('dest')]))
+# current_i686 #
+# current_i686_factory = PTXDistFactory(
+#     worker_ptxdist_repourl, worker_ptxdist_branch, 'i686')
+# # check out the source
+# current_i686_factory.addStep(PTXDistBuild(
+#     command=["ptxdist", "collection", "i686-base"]))
+# current_i686_factory.addStep(PTXDistBuild(command=["ptxdist", "images"]))
+# current_i686_factory.addStep(steps.ShellCommand(
+#     command=["gzip", "-f", "platform-i686/images/hd.img"]))
+# current_i686_factory.addStep(steps.ShellCommand(
+#     command=["cp", "platform-i686/images/hd.img.gz", util.Property('dest')]))
 # current_i686_factory.addStep(trigger.Trigger(schedulerNames=['upgrade_i686']))
 # current_i686_factory.addStep(steps.ShellCommand(command=["sleep", "120"]))
 # current_i686_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_i686']))
 # current_i686_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_i686']))
 
-### current_am335x ###
-current_am335x_factory = PTXDistFactory(
-    worker_ptxdist_repourl, worker_ptxdist_branch, 'am335x')
-# check out the source
-current_am335x_factory.addStep(PTXDistBuild(
-    command=["ptxdist", "collection", "am335x-base"]))
-current_am335x_factory.addStep(PTXDistBuild(command=["ptxdist", "images"]))
+# current_am335x #
+# current_am335x_factory = PTXDistFactory(
+#     worker_ptxdist_repourl, worker_ptxdist_branch, 'am335x')
+# # check out the source
+# current_am335x_factory.addStep(PTXDistBuild(
+#     command=["ptxdist", "collection", "am335x-base"]))
+# current_am335x_factory.addStep(PTXDistBuild(command=["ptxdist", "images"]))
 # current_am335x_factory.addStep(trigger.Trigger(schedulerNames=['upgrade_am335x']))
 # current_am335x_factory.addStep(steps.ShellCommand(command=["sleep", "120"]))
 # current_am335x_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_am335x']))
 # current_am335x_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_am335x']))
 
-### upgrade_i686 ###
+# upgrade_i686 #
 upgrade_i686_factory = util.BuildFactory()
 upgrade_i686_factory.addStep(steps.ShellCommand(command=[
                              "upgrade", "list", "172.16.64.3/~georgem/ipkg-repository/OrionLX-i686-glibc/dists"]))
@@ -253,21 +370,21 @@ upgrade_i686_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
 upgrade_i686_factory.addStep(steps.ShellCommand(
     command=["systemctl", "start", "delayed-reboot.timer"]))
 
-### local_tests_i686 ###
+# local_tests_i686 #
 local_tests_i686_factory = util.BuildFactory()
 local_tests_i686_factory.addStep(steps.ShellCommand(command=["uptime"]))
 local_tests_i686_factory.addStep(steps.ShellCommand(command=["uname", "-a"]))
 local_tests_i686_factory.addStep(steps.ShellCommand(
     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
 
-### remote_tests_i686 ###
+# remote_tests_i686 #
 remote_tests_i686_factory = util.BuildFactory()
 remote_tests_i686_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
                                             mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
 remote_tests_i686_factory.addStep(steps.ShellCommand(command=[
                                   "py.test", "-s", "--orion=172.16.65.100", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
 
-### upgrade_am335x ###
+# upgrade_am335x #
 upgrade_am335x_factory = util.BuildFactory()
 upgrade_am335x_factory.addStep(steps.ShellCommand(command=[
                                "upgrade", "list", "172.16.64.3/~georgem/ipkg-repository/OrionLX-am335x-glibc/dists"]))
@@ -276,64 +393,74 @@ upgrade_am335x_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
 upgrade_am335x_factory.addStep(steps.ShellCommand(
     command=["systemctl", "start", "delayed-reboot.timer"]))
 
-### local_tests_am335x ###
+# local_tests_am335x #
 local_tests_am335x_factory = util.BuildFactory()
 local_tests_am335x_factory.addStep(steps.ShellCommand(command=["uptime"]))
 local_tests_am335x_factory.addStep(steps.ShellCommand(command=["uname", "-a"]))
 local_tests_am335x_factory.addStep(steps.ShellCommand(
     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
 
-### remote_tests_am335x ###
+# remote_tests_am335x #
 remote_tests_am335x_factory = util.BuildFactory()
 remote_tests_am335x_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
                                               mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
 remote_tests_am335x_factory.addStep(steps.ShellCommand(command=[
                                     "py.test", "-s", "--orion=172.16.190.72", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
 
-from buildbot.config import BuilderConfig
-
 builders = []
 builders.append(
-    BuilderConfig(name="current_armeb_xscale",
+    BuilderConfig(name="force_armeb_xscale",
                   workernames=["worker-ptxdist"],
-                  factory=current_armeb_xscale_factory))
+                  factory=ptxdist_factory,
+                  properties={
+                      'platform': 'armeb-xscale',
+                  }))
+builders.append(
+    BuilderConfig(name="force_i686",
+                  workernames=["worker-ptxdist"],
+                  factory=ptxdist_factory,
+                  properties={
+                      'platform': 'i686',
+                  }))
+builders.append(
+    BuilderConfig(name="force_am335x",
+                  workernames=["worker-ptxdist"],
+                  factory=ptxdist_factory,
+                  properties={
+                      'platform': 'am335x',
+                  }))
+
 builders.append(
     BuilderConfig(name="local_tests_armeb_xscale",
                   workernames=["orion-armeb-xscale-slave"],
                   factory=local_tests_armeb_xscale_factory))
 builders.append(
-    BuilderConfig(name="remote_tests_armeb_xscale",
-                  workernames=["worker-ptxdist"],
-                  factory=remote_tests_armeb_xscale_factory))
-builders.append(
-    BuilderConfig(name="current_i686",
-                  workernames=["worker-ptxdist"],
-                  factory=current_i686_factory))
-builders.append(
-    BuilderConfig(name="current_am335x",
-                  workernames=["worker-ptxdist"],
-                  factory=current_am335x_factory))
-builders.append(
-    BuilderConfig(name="upgrade_i686",
-                  workernames=["orion-i686-slave"],
-                  factory=upgrade_i686_factory))
-builders.append(
     BuilderConfig(name="local_tests_i686",
                   workernames=["orion-i686-slave"],
                   factory=local_tests_i686_factory))
+builders.append(
+    BuilderConfig(name="local_tests_am335x",
+                  workernames=["orion-am335x-slave"],
+                  factory=local_tests_am335x_factory))
+
+builders.append(
+    BuilderConfig(name="remote_tests_armeb_xscale",
+                  workernames=["worker-ptxdist"],
+                  factory=remote_tests_armeb_xscale_factory))
 builders.append(
     BuilderConfig(name="remote_tests_i686",
                   workernames=["worker-ptxdist"],
                   factory=remote_tests_i686_factory))
 builders.append(
-    BuilderConfig(name="upgrade_am335x",
-                  workernames=["orion-am335x-slave"],
-                  factory=upgrade_am335x_factory))
-builders.append(
-    BuilderConfig(name="local_tests_am335x",
-                  workernames=["orion-am335x-slave"],
-                  factory=local_tests_am335x_factory))
-builders.append(
     BuilderConfig(name="remote_tests_am335x",
                   workernames=["worker-ptxdist"],
                   factory=remote_tests_am335x_factory))
+
+builders.append(
+    BuilderConfig(name="upgrade_i686",
+                  workernames=["orion-i686-slave"],
+                  factory=upgrade_i686_factory))
+builders.append(
+    BuilderConfig(name="upgrade_am335x",
+                  workernames=["orion-am335x-slave"],
+                  factory=upgrade_am335x_factory))
