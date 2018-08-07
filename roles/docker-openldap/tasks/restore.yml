@@ -39,13 +39,13 @@
   docker_container:
     name: '{{ openldap_container_name }}-restore-{{ item.dbnum }}'
     cleanup: true
+    command: ['apply_ldif', '-n', '{{ item.dbnum }}', '-l', '{{ item.ldif_file }}']
     detach: false
-    volumes_from:
-    - '{{ openssl_dv_name }}'
+    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     volumes:
     - '{{ openldap_docker_restore_dir }}:/tmp/import_export:z'
-    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
-    command: ['apply_ldif', '-n', '{{ item.dbnum }}', '-l', '{{ item.ldif_file }}']
+    volumes_from:
+    - '{{ openssl_dv_name }}'
   with_items: '{{ openldap_backup_files }}'
 
 - name: restart container (ldap)

@@ -80,12 +80,12 @@
 
 - name: initial populate
   docker_container:
+    command: 'generate'
     detach: False
     image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
     name: openssl_populate
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
-    command: 'generate'
   when: st_openssl_restore.stat.exists == False
   ignore_errors: True
 

@@ -37,14 +37,14 @@
 
 - name: restore svn repositories
   docker_container:
+    command: ['import', '{{ svn_repos }}']
     detach: False
+    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
+    name: 'svn_restore'
     volumes_from:
       - '{{ svn_dv_name }}'
     volumes:
       - '{{ svn_docker_restore_dir }}:/tmp/import_export:z'
-    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
-    command: ['import', '{{ svn_repos }}']
-    name: 'svn_restore'
   when: not((svn_repos is undefined) or (svn_repos is none) or (svn_repos|trim == '')) or svn_repo_backup.file_list != []
 
 - name: remove svn-restore container

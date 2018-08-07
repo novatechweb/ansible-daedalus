@@ -87,10 +87,10 @@
 
 - name: initial populate
   docker_container:
-    detach: false
-    name: openldap_populate
-    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     command: ['init_data_volumes']
+    detach: false
+    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+    name: openldap_populate
     volumes:
       - '{{ openldap_dv_name }}'
   when: st_openldap_restore.stat.exists == False
@@ -105,33 +105,33 @@
 
 - name: start container (ldap)
   docker_container:
-    name: '{{ openldap_container_name }}'
     detach: true
-    restart_policy: '{{ docker_restart_policy }}'
+    env:
+      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
     hostname: '{{ container_addr_map.ldap.hostname }}'
+    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+    name: '{{ openldap_container_name }}'
     ports: '{{ container_port_map.ldap.port_args }}'
+    restart_policy: '{{ docker_restart_policy }}'
     volumes_from:
       - '{{ openssl_dv_name }}'
       - '{{ openldap_dv_name }}'
-    env:
-      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
-    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
 
 - name: start container (phpldapadmin)
   docker_container:
-    name: '{{ phpldapadmin_container_name }}'
     detach: true
-    restart_policy: '{{ docker_restart_policy }}'
-    hostname: '{{ container_addr_map.ldap.hostname }}'
-    ports: '{{ container_port_map.phpldapadmin.port_args }}'
-    volumes_from:
-      - '{{ openssl_dv_name }}'
     env:
       PHPLDAPADMIN_HTTPS: 'false'
       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
       LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
-    link: '{{ openldap_container_name }}:ldap'
+    hostname: '{{ container_addr_map.ldap.hostname }}'
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
+    link: '{{ openldap_container_name }}:ldap'
+    name: '{{ phpldapadmin_container_name }}'
+    ports: '{{ container_port_map.phpldapadmin.port_args }}'
+    restart_policy: '{{ docker_restart_policy }}'
+    volumes_from:
+      - '{{ openssl_dv_name }}'
 
 # *****************************************************************************
 # restore?
