@@ -1,0 +1,361 @@
+Bottom: a7b25047dbc22f6ee8214f82a06e6a7a4e4ffca4
+Top:    1b3bbf27baf79b518aa2f5e60ade2a65176f2fec
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-07 14:19:32 -0500
+
+Refresh of use-ansible-docker_container
+
+---
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index d670d37d..b8d72960 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -102,10 +102,10 @@
+ 
+ - name: start container
+   docker_container:
+-    name: '{{ exim4_container_name }}'
+     hostname: '{{ container_addr_map.exim4.hostname }}'
+-    ports: '{{ container_port_map.exim4.port_args }}'
+     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
++    name: '{{ exim4_container_name }}'
++    ports: '{{ container_port_map.exim4.port_args }}'
+     restart_policy: '{{ docker_restart_policy }}'
+     state: started
+     volumes:
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 3957c3a2..25e84a62 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -130,34 +130,22 @@
+ 
+ - name: start container (redis)
+   docker_container:
+-    name: '{{ gitlab_redis_container_name }}'
+     detach: true
+-    restart_policy: '{{ docker_restart_policy }}'
+     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
++    name: '{{ gitlab_redis_container_name }}'
++    restart_policy: '{{ docker_restart_policy }}'
+ 
+ - name: start container (postgres)
+   docker_container:
+-    name: '{{ gitlab_db_container_name }}'
+     detach: true
++    image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
++    name: '{{ gitlab_db_container_name }}'
+     restart_policy: '{{ docker_restart_policy }}'
+     volumes_from: '{{ gitlab_db_dv_name }}'
+-    image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (gitlab)
+   docker_container:
+-    name: '{{ gitlab_container_name }}'
+     detach: true
+-    restart_policy: '{{ docker_restart_policy }}'
+-    hostname: '{{ container_addr_map.git.hostname }}'
+-    ports: '{{ container_port_map.git.port_args }}'
+-    link:
+-      - '{{ openldap_container_name }}:gitlab-ldap'
+-      - '{{ gitlab_redis_container_name }}:gitlab-redis'
+-      - '{{ gitlab_db_container_name }}:gitlab-db'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+-    volumes_from:
+-      - '{{ openssl_dv_name }}'
+-      - '{{ gitlab_dv_name }}'
+     env:
+       - GITLAB_HOST={{ container_addr_map.git.hostname }}
+       - GITLAB_SSH_HOST={{ container_addr_map.git.hostname }}
+@@ -169,7 +157,19 @@
+       - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
+       - GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }}
+     env-file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
++    hostname: '{{ container_addr_map.git.hostname }}'
+     image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
++    link:
++      - '{{ openldap_container_name }}:gitlab-ldap'
++      - '{{ gitlab_redis_container_name }}:gitlab-redis'
++      - '{{ gitlab_db_container_name }}:gitlab-db'
++      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    name: '{{ gitlab_container_name }}'
++    ports: '{{ container_port_map.git.port_args }}'
++    restart_policy: '{{ docker_restart_policy }}'
++    volumes_from:
++      - '{{ openssl_dv_name }}'
++      - '{{ gitlab_dv_name }}'
+ 
+ - name: Wait for gitlab to be fully running
+   wait_for:
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index f6125912..8b7ad07f 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -149,33 +149,33 @@
+ 
+ - name: start container (mysql)
+   docker_container:
+-    name: '{{ mantisbt_db_container_name }}'
+     detach: true
++    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
++    name: '{{ mantisbt_db_container_name }}'
+     restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - '{{ mantisbt_db_dv_name }}'
+-    image: '{{ mantisbt_db_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (mantisbt)
+   docker_container:
+-    name: '{{ mantisbt_container_name }}'
+     detach: true
+-    restart_policy: '{{ docker_restart_policy }}'
++    env:
++      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
++      MANTISBT_MAIL_USER: 'mantis'
++      MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
++      MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
+     hostname: '{{ container_addr_map.mantisbt.hostname }}'
+-    ports: '{{ container_port_map.mantisbt.port_args }}'
++    image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
+     link:
+       - '{{ openldap_container_name }}:mantisbt_ldap'
+       - '{{ mantisbt_db_container_name }}:mantisbt_db'
+       - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    name: '{{ mantisbt_container_name }}'
++    ports: '{{ container_port_map.mantisbt.port_args }}'
++    restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - '{{ openssl_dv_name }}'
+       - '{{ mantisbt_dv_name }}'
+-    env:
+-      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
+-      MANTISBT_MAIL_USER: 'mantis'
+-      MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
+-      MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
+-    image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+ # remove the MySQL config in the restore directory
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index 77f07d20..f54c515c 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -120,32 +120,32 @@
+ 
+ - name: start container (mysql)
+   docker_container:
+-    name: '{{ wiki_db_container_name }}'
+     detach: true
++    image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
++    name: '{{ wiki_db_container_name }}'
+     restart_policy: '{{ docker_restart_policy }}'
+     volumes_from: '{{ wiki_db_dv_name }}'
+-    image: '{{ wiki_db_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (mediwiki)
+   docker_container:
+-    name: '{{ wiki_container_name }}'
+     detach: true
+-    restart_policy: '{{ docker_restart_policy }}'
++    env:
++      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
++      WIKI_MAIL_USER: 'wiki'
++      WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
+     hostname: '{{ container_addr_map.wiki.hostname }}'
+-    ports: '{{ container_port_map.wiki.port_args }}'
++    image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+     link:
+       - '{{ openldap_container_name }}:wiki_ldap'
+       - '{{ wiki_db_container_name }}:wiki_db'
+       - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++    name: '{{ wiki_container_name }}'
++    ports: '{{ container_port_map.wiki.port_args }}'
++    restart_policy: '{{ docker_restart_policy }}'
++    state: started
+     volumes_from:
+       - '{{ openssl_dv_name }}'
+       - '{{ wiki_dv_name }}'
+-    env:
+-      WIKI_HOSTNAME: '{{ container_addr_map.wiki.hostname }}'
+-      WIKI_MAIL_USER: 'wiki'
+-      WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
+-    image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+-    state: started
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index c2c9f731..590fc18e 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -87,10 +87,10 @@
+ 
+ - name: initial populate
+   docker_container:
++    command: ['init_data_volumes']
+     detach: false
+-    name: openldap_populate
+     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+-    command: ['init_data_volumes']
++    name: openldap_populate
+     volumes:
+       - '{{ openldap_dv_name }}'
+   when: st_openldap_restore.stat.exists == False
+@@ -105,33 +105,33 @@
+ 
+ - name: start container (ldap)
+   docker_container:
+-    name: '{{ openldap_container_name }}'
+     detach: true
+-    restart_policy: '{{ docker_restart_policy }}'
++    env:
++      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
+     hostname: '{{ container_addr_map.ldap.hostname }}'
++    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
++    name: '{{ openldap_container_name }}'
+     ports: '{{ container_port_map.ldap.port_args }}'
++    restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - '{{ openssl_dv_name }}'
+       - '{{ openldap_dv_name }}'
+-    env:
+-      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
+-    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+ 
+ - name: start container (phpldapadmin)
+   docker_container:
+-    name: '{{ phpldapadmin_container_name }}'
+     detach: true
+-    restart_policy: '{{ docker_restart_policy }}'
+-    hostname: '{{ container_addr_map.ldap.hostname }}'
+-    ports: '{{ container_port_map.phpldapadmin.port_args }}'
+-    volumes_from:
+-      - '{{ openssl_dv_name }}'
+     env:
+       PHPLDAPADMIN_HTTPS: 'false'
+       PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
+       LDAP_HOSTNAME: '{{ container_addr_map.phpldapadmin.hostname }}'
+-    link: '{{ openldap_container_name }}:ldap'
++    hostname: '{{ container_addr_map.ldap.hostname }}'
+     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
++    link: '{{ openldap_container_name }}:ldap'
++    name: '{{ phpldapadmin_container_name }}'
++    ports: '{{ container_port_map.phpldapadmin.port_args }}'
++    restart_policy: '{{ docker_restart_policy }}'
++    volumes_from:
++      - '{{ openssl_dv_name }}'
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-openldap/tasks/restore.yml b/roles/docker-openldap/tasks/restore.yml
+index 6c38445f..e95d2a03 100644
+--- a/roles/docker-openldap/tasks/restore.yml
++++ b/roles/docker-openldap/tasks/restore.yml
+@@ -39,13 +39,13 @@
+   docker_container:
+     name: '{{ openldap_container_name }}-restore-{{ item.dbnum }}'
+     cleanup: true
++    command: ['apply_ldif', '-n', '{{ item.dbnum }}', '-l', '{{ item.ldif_file }}']
+     detach: false
+-    volumes_from:
+-    - '{{ openssl_dv_name }}'
++    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+     volumes:
+     - '{{ openldap_docker_restore_dir }}:/tmp/import_export:z'
+-    image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+-    command: ['apply_ldif', '-n', '{{ item.dbnum }}', '-l', '{{ item.ldif_file }}']
++    volumes_from:
++    - '{{ openssl_dv_name }}'
+   with_items: '{{ openldap_backup_files }}'
+ 
+ - name: restart container (ldap)
+diff --git a/roles/docker-openssl/tasks/main.yml b/roles/docker-openssl/tasks/main.yml
+index 5522f437..ee28f99e 100644
+--- a/roles/docker-openssl/tasks/main.yml
++++ b/roles/docker-openssl/tasks/main.yml
+@@ -80,12 +80,12 @@
+ 
+ - name: initial populate
+   docker_container:
++    command: 'generate'
+     detach: False
+     image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
+     name: openssl_populate
+     volumes:
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+-    command: 'generate'
+   when: st_openssl_restore.stat.exists == False
+   ignore_errors: True
+ 
+diff --git a/roles/docker-openssl/tasks/restore.yml b/roles/docker-openssl/tasks/restore.yml
+index 007707e5..7c187374 100644
+--- a/roles/docker-openssl/tasks/restore.yml
++++ b/roles/docker-openssl/tasks/restore.yml
+@@ -40,13 +40,13 @@
+ 
+ - name: extract archive
+   docker_container:
++    command: ['extract', '{{ openssl_docker_restore_dir }}/{{ openssl_backup_file }}']
+     detach: False
+     image: '{{ openssl_image_name }}:{{ docker_image_tag }}'
+     name: openssl_restore
+     volumes:
+       - '{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}:{{ openssl_docker_restore_dir }}{{ openssl_backup_file }}:z'
+       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+-    command: ['extract', '{{ openssl_docker_restore_dir }}/{{ openssl_backup_file }}']
+ 
+ - name: extract archive
+   docker_container:
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index 5110de79..1ee9bb27 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -79,20 +79,20 @@
+ 
+ - name: start container
+   docker_container:
+-    name: '{{ svn_container_name }}'
+     detach: true
+-    restart_policy: '{{ docker_restart_policy }}'
++    env:
++      SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
++      SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
+     hostname: '{{ container_addr_map.svn.hostname }}'
+-    ports: '{{ container_port_map.svn.port_args }}'
++    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
+     link:
+       - '{{ openldap_container_name }}:ldap'
++    name: '{{ svn_container_name }}'
++    ports: '{{ container_port_map.svn.port_args }}'
++    restart_policy: '{{ docker_restart_policy }}'
+     volumes_from:
+       - '{{ openssl_dv_name }}'
+       - '{{ svn_dv_name }}'
+-    env:
+-      SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
+-      SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
+-    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
+ 
+ # *****************************************************************************
+ # restore?
+diff --git a/roles/docker-svn/tasks/restore.yml b/roles/docker-svn/tasks/restore.yml
+index f17b49bc..2f173895 100644
+--- a/roles/docker-svn/tasks/restore.yml
++++ b/roles/docker-svn/tasks/restore.yml
+@@ -37,14 +37,14 @@
+ 
+ - name: restore svn repositories
+   docker_container:
++    command: ['import', '{{ svn_repos }}']
+     detach: False
++    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
++    name: 'svn_restore'
+     volumes_from:
+       - '{{ svn_dv_name }}'
+     volumes:
+       - '{{ svn_docker_restore_dir }}:/tmp/import_export:z'
+-    image: '{{ svn_image_name }}:{{ docker_image_tag }}'
+-    command: ['import', '{{ svn_repos }}']
+-    name: 'svn_restore'
+   when: not((svn_repos is undefined) or (svn_repos is none) or (svn_repos|trim == '')) or svn_repo_backup.file_list != []
+ 
+ - name: remove svn-restore container
