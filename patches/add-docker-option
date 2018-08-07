@@ -1,5 +1,5 @@
 Bottom: 1d16e9880fed441bc0b07f6e03bb7472cc031358
-Top:    249d79495f8c1ffe6123ca6641181f169707e314
+Top:    92af772d7ce23942d2bfa218cb6156f0a0b6b7f6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 16:05:06 -0500
 
@@ -30,10 +30,17 @@ index b82a2277..064c2bbb 100644
  nexus_privileges:
    - name: all-repos-read  # used as key to update a privilege
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 0727917d..79bbd612 100644
+index 0727917d..74c6785b 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -58,6 +58,9 @@
+@@ -52,12 +52,16 @@
+     - build
+     - testssh
+     - buildbot
++    - nexus
+     tags:
+     - docker_networking
+   - name: Build the openssl Docker volume
      role: docker-openssl
      tags:
      - openssl_container
