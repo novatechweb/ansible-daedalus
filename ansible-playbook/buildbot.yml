@@ -30,3 +30,5 @@
     register: gitlab_keys
   - import_role: 
       name: buildbot-worker-ntel
+  - import_role: 
+      name: buildbot-worker-ptxdist
