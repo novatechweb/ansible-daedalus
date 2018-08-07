@@ -78,5 +78,5 @@
     role: gitlab-sshkey
     vars:
       username: buildbot
-      pubkey: "{{ hostvars.buildbot_worker_ptxdist.pubkey }}"
+      pubkey: "{{ hostvars['buildbot-worker-ptxdist'].pubkey }}"
       title: "buildbot_worker_ptxdist"

@@ -63,6 +63,15 @@
     repo: '{{ image_repo }}'
     version: master
     dest: '{{ image_dir }}'
+    force: yes
+
+- template:
+    src: pip.conf.j2
+    dest: '{{ image_dir }}/buildbot/.pip/pip.conf'
+
+- template:
+    src: pydistutils.cfg.j2
+    dest: '{{ image_dir }}/buildbot/.pydistutils.cfg'
 
 - name: Create buildbot worker image
   docker_image:
@@ -76,10 +85,10 @@
   docker_container:
     name: '{{ container_name }}'
     image: '{{ image_name }}:{{ docker_image_tag }}'
-    # networks: '{{ buildbot_worker_ptxdist_networks }}'
+    networks: '{{ container_networks }}'
     volumes: '{{ container_volumes }}'
     env: '{{ container_env }}'
-    # ports: '{{ buildbot_worker_ptxdist_port_args }}'
+    ports: '{{ container_port_args }}'
 
 - name: Grab ssh public key
   command: >
@@ -89,5 +98,5 @@
 
 - name: Add buildbot_worker_ptxdist host
   add_host:
-    name: buildbot_worker_ptxdist
+    name: "{{ hostname }}"
     pubkey: "{{ output.stdout }}"
