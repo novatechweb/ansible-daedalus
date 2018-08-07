@@ -1,5 +1,5 @@
 Bottom: 2941b7846e660f1b0689b5db4826f322cd313f28
-Top:    de5d8312acdef47fb1376540aeceb8b1c94ef25c
+Top:    e2aa888f6686bc6a5877ebed7eada17e85b8ea16
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 10:41:18 -0500
 
@@ -618,10 +618,10 @@ index 087ad336..dd4c2eca 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index 3cebb60d..a745a5ef 100644
+index 3cebb60d..aa571feb 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
-@@ -105,8 +105,10 @@
+@@ -105,9 +105,12 @@
  - name: start container
    docker_container:
      name: '{{ exim4_container_name }}'
@@ -632,8 +632,10 @@ index 3cebb60d..a745a5ef 100644
 +      - name: '{{ docker_network_frontend }}'
 +    ports: '{{ exim4_port_args }}'
      image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
++    purge_networks: true
      restart_policy: '{{ docker_restart_policy }}'
      state: started
+     volumes:
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
 index d28280d7..562a856c 100644
 --- a/roles/docker-gitlab/defaults/main.yml
@@ -671,24 +673,26 @@ index d28280d7..562a856c 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 387e7adf..06f0a979 100644
+index 387e7adf..16b79804 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
-@@ -130,6 +130,8 @@
+@@ -130,6 +130,9 @@
      detach: true
      restart_policy: '{{ docker_restart_policy }}'
      image: '{{ redis_image_name }}:{{ docker_image_tag }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
  
  - name: start container (postgres)
    docker_container:
-@@ -138,28 +140,27 @@
+@@ -138,28 +141,29 @@
      restart_policy: '{{ docker_restart_policy }}'
      volumes_from: '{{ gitlab_db_dv_name }}'
      image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
  
  - name: start container (gitlab)
    docker_container:
@@ -707,6 +711,7 @@ index 387e7adf..06f0a979 100644
 +    ports: '{{ gitlab_port_args }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
 +    volumes-from:
        - '{{ openssl_dv_name }}'
        - '{{ gitlab_dv_name }}'
@@ -722,7 +727,7 @@ index 387e7adf..06f0a979 100644
        - SMTP_PASS={{ gitlab_email_password | quote }}
        - LDAP_PASS={{ ldap_proxyagent_password | quote }}
        - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
-@@ -170,7 +171,7 @@
+@@ -170,7 +174,7 @@
  - name: Wait for gitlab to be fully running
    wait_for:
      delay: 10
@@ -790,19 +795,20 @@ index 7e8179c4..29727bd9 100644
 +# the name of the sql database used by mantisbt
 +mantisbt_database_name: 'bugtracker'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 22479acc..8f9bbbc2 100644
+index 22479acc..1a36c616 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -140,6 +140,8 @@
+@@ -140,6 +140,9 @@
        MYSQL_ROOT_PASSWORD: '{{ mantisbt_db_root_password }}'
        MYSQL_USER: '{{ mantisbt_db_user }}'
        MYSQL_PASSWORD: '{{ mantisbt_db_password }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
  
  - name: wait for initialization to complete
    shell: >
-@@ -162,14 +164,12 @@
+@@ -162,14 +165,13 @@
      name: '{{ mantisbt_container_name }}'
      detach: true
      restart_policy: '{{ docker_restart_policy }}'
@@ -816,6 +822,7 @@ index 22479acc..8f9bbbc2 100644
 +    ports: '{{ mantisbt_port_args }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
      env:
 -      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
 +      MANTISBT_HOSTNAME: '{{ mantisbt_hostname }}'
@@ -870,19 +877,21 @@ index 2a86d85e..36f6bd3e 100644
  # the name of the sql database used by mediawiki
  wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index a65d1270..14ba4153 100644
+index a65d1270..0b7d5895 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -110,6 +110,8 @@
+@@ -110,7 +110,10 @@
        MYSQL_ROOT_PASSWORD: '{{ wiki_db_root_password }}'
        MYSQL_USER: '{{ wiki_db_user }}'
        MYSQL_PASSWORD: '{{ wiki_db_password }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
      state: started
++    purge_networks: true
  
  - name: wait for mysql initialization to complete
-@@ -133,17 +135,15 @@
+   shell: >
+@@ -133,17 +136,16 @@
      name: '{{ wiki_container_name }}'
      detach: true
      restart_policy: '{{ docker_restart_policy }}'
@@ -896,6 +905,7 @@ index a65d1270..14ba4153 100644
 +    ports: '{{ wiki_port_args }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
      volumes:
        - '{{ openssl_dv_name }}:/etc/ssl/private:z'
        - '{{ wiki_dv_name }}/var/www/html:z'
@@ -1059,10 +1069,10 @@ index 1a00928d..99990b2c 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index c44dfdab..edb5e80a 100644
+index c44dfdab..fb60a09a 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
-@@ -111,30 +111,33 @@
+@@ -111,30 +111,35 @@
      name: '{{ openldap_container_name }}'
      detach: true
      restart_policy: '{{ docker_restart_policy }}'
@@ -1080,6 +1090,7 @@ index c44dfdab..edb5e80a 100644
      image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
  
  - name: start container (phpldapadmin)
    docker_container:
@@ -1100,6 +1111,7 @@ index c44dfdab..edb5e80a 100644
 +      LDAP_HOSTNAME: '{{ openldap_hostname }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
      image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
  
  # *****************************************************************************
@@ -1138,10 +1150,10 @@ index 17e66a42..93ba7053 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index efa9b7e9..d45e1dc9 100644
+index efa9b7e9..324b0baa 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
-@@ -80,15 +80,15 @@
+@@ -80,15 +80,16 @@
      name: '{{ svn_container_name }}'
      detach: true
      restart_policy: '{{ docker_restart_policy }}'
@@ -1153,6 +1165,7 @@ index efa9b7e9..d45e1dc9 100644
 +    ports: '{{ svn_port_args }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++    purge_networks: true
      volumes:
        - '{{ openssl_dv_name }}:/etc/ssl/private:z'
        - '{{ svn_dv_name }}:/var/lib/svn:z'
