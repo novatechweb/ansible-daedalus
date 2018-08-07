@@ -113,16 +113,16 @@ nexus_repos_raw_hosted:
   - name: download
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ntel-ipkg
+  - name: ntel
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ntel-sstate
+  - name: bitbake-sstate
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
   - name: orphans
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ptxdist-ipkg
+  - name: ptxdist
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
 
