@@ -1,5 +1,5 @@
 Bottom: 9d855373d952eb40aa7071484c9c93fce51799b0
-Top:    54b58c769ed3881babaf20863e5b2ceaf3ae3432
+Top:    4d00360b7a912e4a06b97e6a747e8fd1bbb85958
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-07 15:20:03 -0500
 
@@ -536,18 +536,14 @@ index c3e0956c..3dc6fe6c 100644
  # directory of the image source
  image_dir: '{{ docker_projects_dir }}/{{ hostname }}'
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index 1a45e06a..91dec6ce 100644
+index 1a45e06a..b8ed812c 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
-@@ -63,6 +63,15 @@
+@@ -63,6 +63,11 @@
      repo: '{{ image_repo }}'
      version: master
      dest: '{{ image_dir }}'
 +    force: yes
-+
-+- template:
-+    src: pip.conf.j2
-+    dest: '{{ image_dir }}/buildbot/.pip/pip.conf'
 +
 +- template:
 +    src: pydistutils.cfg.j2
@@ -555,7 +551,7 @@ index 1a45e06a..91dec6ce 100644
  
  - name: Create buildbot worker image
    docker_image:
-@@ -76,10 +85,10 @@
+@@ -76,10 +81,10 @@
    docker_container:
      name: '{{ container_name }}'
      image: '{{ image_name }}:{{ docker_image_tag }}'
@@ -568,7 +564,7 @@ index 1a45e06a..91dec6ce 100644
  
  - name: Grab ssh public key
    command: >
-@@ -89,5 +98,5 @@
+@@ -89,5 +94,5 @@
  
  - name: Add buildbot_worker_ptxdist host
    add_host:
