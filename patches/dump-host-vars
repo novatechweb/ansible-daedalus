@@ -1,7 +1,7 @@
-Bottom: 03147211e4c277726edc0f1afb8f0cde7fe7b6f2
-Top:    9bc44c47697a0cecbe7f4d8745fdfa5ba5271e3a
+Bottom: cbebfa2b63cb7d5c56a0a3c79e43af01e9711edd
+Top:    cecf877414f949e1f63ac3d8ff08d60052cd17d3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-10 16:33:22 -0500
+Date:   2018-07-20 11:05:59 -0500
 
 Dump all host vars at start of playbook
 
