@@ -1,3 +1,3 @@
 [global]
-trusted-host = {{hostvars['buildbot-worker-devpi'].uri | urlsplit('hostname')}}
-index-url = {{hostvars['buildbot-worker-devpi'].uri}}
+trusted-host = {{hostvars['nexus'].uri | urlsplit('hostname')}}
+index-url = {{hostvars['nexus'].uri}}/pypi/simple
