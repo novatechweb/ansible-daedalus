@@ -1,5 +1,5 @@
 Version: 1
-Previous: d440f58539ef261b9e4d307f00b2ebdfed2fa9b6
+Previous: aea733f5d6990203b0af86739fb3ceaf48b9f73c
 Head: 6df6638f729751ac43c731bd01353d554f66e47a
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
@@ -10,7 +10,6 @@ Applied:
   update-ptxdist-build-factories: 2720ba7a99f94c17d92f2a791d9960adc0863d70
   ptxdist-bc-depend: 6df6638f729751ac43c731bd01353d554f66e47a
 Unapplied:
-  asset-host: 9eb0b6f3fdd1fa85ba3ce189d9e6eed8676b8002
   fix-ssh-folder-permission: 60e817affe576f30fb942decc4b4407333087811
   add-environment-variables-for: 014db666df24f9cf2652454aa2a7d9ae768dfbb4
   use-original-buildbot: a4ec209031880a00b8cd702b1102ebe6fb0f3879
