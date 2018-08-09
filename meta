@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2de48514750d7046d8b8769e24f9d3ed9913222d
-Head: 9256338597a5c1b4d7de9cc656f8d4716acd4680
+Previous: 0b33358b447e74ac4f862c03cbff196f8c4975e5
+Head: 6b0d71c5a45921ebffe357988444115de831dd29
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -9,6 +9,6 @@ Applied:
   add-environment-variables-for: 9800084e13dab551280da406e99b780d198b4303
   use-original-buildbot: c89fff7debae45b274abbe5aad94c09216796f6d
   install-buildbot-plugin: 9256338597a5c1b4d7de9cc656f8d4716acd4680
+  generate-new-ssh-key-on-first: 6b0d71c5a45921ebffe357988444115de831dd29
 Unapplied:
-  generate-new-ssh-key-on-first: c475cee2163fa657e4eea0fd9a9849dad3aa88d3
 Hidden:
