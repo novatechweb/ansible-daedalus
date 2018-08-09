@@ -9,6 +9,11 @@
     - buildbot
     - buildbot-master
   tasks:
+  - add_host:
+      name: nexus # required. The hostname/ip of the host to add to the inventory, can include a colon and a port number.
+      groups: services # not required. The groups to add the hostname to, comma separated.
+      ip_addr: "{{ nexus_ip_addr }}"
+      uri: "http://{{nexus_hostname}}/repository"
   - name: Scan Gitlab ssh keys
     command: ssh-keyscan {{gitlab_hostname}}
     register: gitlab_keys
