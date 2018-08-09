@@ -66,10 +66,6 @@
     force: yes
 
 - template:
-    src: pip.conf.j2
-    dest: '{{ image_dir }}/buildbot/.pip/pip.conf'
-
-- template:
     src: pydistutils.cfg.j2
     dest: '{{ image_dir }}/buildbot/.pydistutils.cfg'
 
