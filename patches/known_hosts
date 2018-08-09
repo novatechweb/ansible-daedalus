@@ -1,5 +1,5 @@
 Bottom: 219e3a67359cc60140cbc4baa75413c572f3626d
-Top:    917a007e716ab5d2993d3d94b2979d15567f7ae9
+Top:    97a8047552a2494c6b24e2dc01bb0fdb894b5f2f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-09 15:28:23 -0500
 
@@ -149,7 +149,7 @@ index 9e22c2e6..1e92d562 100644
  # build arguments of the image
  image_args:
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index b1b843ba..4cc67d20 100644
+index b1b843ba..b6d7f58e 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -10,6 +10,16 @@
@@ -163,7 +163,7 @@ index b1b843ba..4cc67d20 100644
 +
 +- name: Populate known_hosts secret
 +  copy:
-+    content: '{{ known_hosts }}'
++    content: "{{ known_hosts }}\n"
 +    dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
 +
  - name: Checkout image repo
@@ -186,3 +186,42 @@ index b1b843ba..4cc67d20 100644
 +    name: "{{ hostname }}"
      pubkey: "{{ output.stdout }}"
      ip_addr: "{{ buildbot_ip_addr }}"
+diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
+index 32136e2f..f60ef127 100644
+--- a/roles/buildbot-worker-ntel/tasks/main.yml
++++ b/roles/buildbot-worker-ntel/tasks/main.yml
+@@ -57,7 +57,7 @@
+ 
+ - name: Populate known_hosts secret
+   copy:
+-    content: '{{ known_hosts }}'
++    content: "{{ known_hosts }}\n"
+     dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
+ 
+ - name: Checkout image repo
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index 91dec6ce..4d2c9ef0 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -55,7 +55,7 @@
+ 
+ - name: Populate known_hosts secret
+   copy:
+-    content: '{{ known_hosts }}'
++    content: "{{ known_hosts }}\n"
+     dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
+ 
+ - name: Checkout image repo
+@@ -65,9 +65,9 @@
+     dest: '{{ image_dir }}'
+     force: yes
+ 
+-- template:
+-    src: pip.conf.j2
+-    dest: '{{ image_dir }}/buildbot/.pip/pip.conf'
++# - template:
++#     src: pip.conf.j2
++#     dest: '{{ image_dir }}/buildbot/.pip/pip.conf'
+ 
+ - template:
+     src: pydistutils.cfg.j2
