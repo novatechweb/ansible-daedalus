@@ -1,14 +1,14 @@
 Version: 1
-Previous: 1f44170fa17a3098b34b824acacef37939ea2ec2
-Head: ffacc1afdd942c6781c62884019f1993ef0f5014
+Previous: 9f0c42307ab16891b3ea2e8188325da871463ed0
+Head: 60e817affe576f30fb942decc4b4407333087811
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
   update-ntel-builds-for-new: 20543bbc36e9bec7d74cee31525d918e5914eba8
   add-buildbot-ptxdist-worker: 543da9387dc287e8275cb8945f3af087a365380b
   update-ptxdist-build-factories: ffacc1afdd942c6781c62884019f1993ef0f5014
+  fix-ssh-folder-permission: 60e817affe576f30fb942decc4b4407333087811
 Unapplied:
-  fix-ssh-folder-permission: 75a2244e18ed9be4b515ed33c606e3abb98c8a3e
   add-environment-variables-for: 9800084e13dab551280da406e99b780d198b4303
   use-original-buildbot: c89fff7debae45b274abbe5aad94c09216796f6d
   install-buildbot-plugin: 9256338597a5c1b4d7de9cc656f8d4716acd4680
