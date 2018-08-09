@@ -1,8 +1,9 @@
 Version: 1
-Previous: f8da2f6692dbb663eb5db2787fa6a376ae2bc0fa
+Previous: 48d22163a363b960fe861004d96cf0bf0a412d33
 Head: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
 Unapplied:
+  add-buildbot-ptxdist-worker: 7cac097cb874d4bf8826015fbf8013e32f0cddea
 Hidden:
