@@ -19,9 +19,14 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
-  - buildbot-worker
+    - buildbot
+    - buildbot-worker
   vars:
-    buildbot_master: "{{ hostvars.buildbot_master.ip_addr }}"
-  roles:
-  - role: buildbot-worker-ntel
+    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
+    known_hosts: "{{gitlab_keys.stdout}}"
+  tasks:
+  - name: Scan Gitlab ssh keys
+    command: ssh-keyscan {{gitlab_hostname}}
+    register: gitlab_keys
+  - import_role: 
+      name: buildbot-worker-ntel
