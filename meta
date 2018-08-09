@@ -1,5 +1,5 @@
 Version: 1
-Previous: 738d8ea6ee348a9c43dad529fb1bdef0e6997565
+Previous: 2de48514750d7046d8b8769e24f9d3ed9913222d
 Head: 9256338597a5c1b4d7de9cc656f8d4716acd4680
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
@@ -10,4 +10,5 @@ Applied:
   use-original-buildbot: c89fff7debae45b274abbe5aad94c09216796f6d
   install-buildbot-plugin: 9256338597a5c1b4d7de9cc656f8d4716acd4680
 Unapplied:
+  generate-new-ssh-key-on-first: c475cee2163fa657e4eea0fd9a9849dad3aa88d3
 Hidden:
