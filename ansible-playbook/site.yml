@@ -5,6 +5,7 @@
   hosts: all
   tags:
     - debugging
+    - always
   tasks:
   - template:
       src: templates/dump_variables
