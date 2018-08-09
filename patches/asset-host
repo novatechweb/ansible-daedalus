@@ -1,5 +1,5 @@
 Bottom: 77a17975f7b8d58a273f7dfe815fcf773c1c80a3
-Top:    a48f507dcf8b1ff9e2531748094eb34ab9379655
+Top:    a22ffa5fb44556409e26b21fe15eeed1ceefa880
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-09 15:47:30 -0500
 
@@ -8,7 +8,7 @@ Support asset host
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index cfb91cca..a8da05f3 100644
+index cfb91cca..2dfee89d 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -9,6 +9,11 @@
@@ -23,3 +23,55 @@ index cfb91cca..a8da05f3 100644
    - name: Scan Gitlab ssh keys
      command: ssh-keyscan {{gitlab_hostname}}
      register: gitlab_keys
+@@ -35,7 +40,10 @@
+     - buildbot
+     - buildbot-worker
+   vars:
++    asset_host: "{{hostvars['nexus']['uri']}}/download"
+     buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
++    container_etc_hosts:
++      nexus-novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
+     known_hosts: "{{gitlab_keys.stdout}}"
+   tasks:
+   - name: Scan Gitlab ssh keys
+diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
+index 729332d4..5d040ea8 100644
+--- a/docker/buildbot-worker-ntel/Dockerfile
++++ b/docker/buildbot-worker-ntel/Dockerfile
+@@ -68,8 +68,9 @@ RUN wget https://bootstrap.pypa.io/get-pip.py \
+ 
+ # Install software for image signing
+ ARG PTK_HSM_HOST="127.0.0.1"
++ARG PTK_URI="http://127.0.0.1/610-009981-015_SW_PTK_5.3_Client_RevA.tar"
+ 
+-RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
++RUN curl ${PTK_URI} \
+ |   tar -v -x -C /tmp \
+ &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
+ &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
+diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
+index afd6f6b3..4f51008e 100644
+--- a/roles/buildbot-worker-ntel/defaults/main.yml
++++ b/roles/buildbot-worker-ntel/defaults/main.yml
+@@ -33,6 +33,9 @@ container_env:
+   BUILDBOT_WORKER_NAME: 'worker-ntel'
+   BUILDBOT_WORKER_PASS: 'pass'
+ 
++# extra hosts to add to container's /etc/hosts file
++container_etc_hosts: []
++
+ # the name of the container being started
+ container_name: '{{ docker_name_prefix }}{{ hostname }}'
+ 
+diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
+index 32136e2f..469a03fa 100644
+--- a/roles/buildbot-worker-ntel/tasks/main.yml
++++ b/roles/buildbot-worker-ntel/tasks/main.yml
+@@ -76,6 +76,7 @@
+ 
+ - name: Start buildbot container
+   docker_container:
++    etc_hosts: '{{ container_etc_hosts }}'
+     name: '{{ container_name }}'
+     image: '{{ image_name }}:{{ docker_image_tag }}'
+     networks: '{{ container_networks }}'
