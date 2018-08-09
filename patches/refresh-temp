@@ -1,0 +1,60 @@
+Bottom: 0face4e52ac8fb11d9c972aa69da7a6d64b72d96
+Top:    6002d40ba2e3d62113d8e4486cf3a0400a6c5ccf
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-09 15:28:11 -0500
+
+Refresh of known_hosts
+
+
+---
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index 7b5acf05..33b89085 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -10,8 +10,10 @@ ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/nul
+ 
+ if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
+ then
+-    mkdir -p "${HOME}/.ssh"
+-    cp -v "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
++    install -v -D \
++        -o `id -u` -g `id -g` -m 0600 \
++        "$BUILDBOT_KNOWN_HOSTS_FILE" \
++        "${HOME}/.ssh/known_hosts"
+ fi
+ 
+ ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
+diff --git a/docker/buildbot-worker-ntel/buildbot/start.sh b/docker/buildbot-worker-ntel/buildbot/start.sh
+index f025e661..e7d817e3 100755
+--- a/docker/buildbot-worker-ntel/buildbot/start.sh
++++ b/docker/buildbot-worker-ntel/buildbot/start.sh
+@@ -10,8 +10,10 @@ ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/nul
+ 
+ if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
+ then
+-    mkdir -p "${HOME}/.ssh"
+-    cp -v "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
++    install -v -D \
++        -o `id -u` -g `id -g` -m 0600 \
++        "$BUILDBOT_KNOWN_HOSTS_FILE" \
++        "${HOME}/.ssh/known_hosts"
+ fi
+ 
+ ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
+diff --git a/docker/buildbot-worker-ptxdist/buildbot/start.sh b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+index f025e661..e7d817e3 100755
+--- a/docker/buildbot-worker-ptxdist/buildbot/start.sh
++++ b/docker/buildbot-worker-ptxdist/buildbot/start.sh
+@@ -10,8 +10,10 @@ ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/nul
+ 
+ if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
+ then
+-    mkdir -p "${HOME}/.ssh"
+-    cp -v "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
++    install -v -D \
++        -o `id -u` -g `id -g` -m 0600 \
++        "$BUILDBOT_KNOWN_HOSTS_FILE" \
++        "${HOME}/.ssh/known_hosts"
+ fi
+ 
+ ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
