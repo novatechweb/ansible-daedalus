@@ -1,0 +1,25 @@
+Bottom: cb2cfba0d233833733d4c18a68cf346466139774
+Top:    5f760d9e2f4cecff0f98a76a9c260286303a64d7
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-09 09:03:46 -0500
+
+Support asset host
+
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index f5bf035e..6f5a2767 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -9,6 +9,11 @@
+     - buildbot
+     - buildbot-master
+   tasks:
++  - add_host:
++      name: nexus # required. The hostname/ip of the host to add to the inventory, can include a colon and a port number.
++      groups: services # not required. The groups to add the hostname to, comma separated.
++      ip_addr: "{{ nexus_ip_addr }}"
++      uri: "http://{{nexus_hostname}}/repository"
+   - name: Scan Gitlab ssh keys
+     command: ssh-keyscan {{gitlab_hostname}}
+     register: gitlab_keys
