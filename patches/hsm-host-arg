@@ -1,5 +1,5 @@
 Bottom: 12eaf7e62666596fb810f1df24e081fff9a10d41
-Top:    12eaf7e62666596fb810f1df24e081fff9a10d41
+Top:    02e0fd1ebf0cc4eca6ebc258f2fcc50d09656c1f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-09 09:26:25 -0500
 
@@ -7,4 +7,23 @@ Add build variable for HSM host
 
 
 ---
-
+diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
+index 11a726fb..729332d4 100644
+--- a/docker/buildbot-worker-ntel/Dockerfile
++++ b/docker/buildbot-worker-ntel/Dockerfile
+@@ -67,12 +67,14 @@ RUN wget https://bootstrap.pypa.io/get-pip.py \
+     buildbot-worker==${BUILDBOT_VERSION}
+ 
+ # Install software for image signing
++ARG PTK_HSM_HOST="127.0.0.1"
++
+ RUN curl http://172.16.64.2/~georgem/610-009981-015_SW_PTK_5.3_Client_RevA.tar \
+ |   tar -v -x -C /tmp \
+ &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
+ &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
+ &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/network_hsm_access_provider/PTKnethsm-5.3.0-15.x86_64.rpm \
+-&&  echo "ET_HSM_NETCLIENT_SERVERLIST=172.16.64.38" > /etc/default/et_hsm \
++&&  echo "ET_HSM_NETCLIENT_SERVERLIST=${PTK_HSM_HOST}" > /etc/default/et_hsm \
+ &&  echo "/opt/safenet/protecttoolkit5/ptk/lib" > /etc/ld.so.conf.d/safenet_ptk.conf \
+ &&  ldconfig -v \
+ &&  rm -rf /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/
