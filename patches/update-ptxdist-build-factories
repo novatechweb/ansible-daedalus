@@ -1,5 +1,5 @@
 Bottom: 9d855373d952eb40aa7071484c9c93fce51799b0
-Top:    327b4033a16c2fef165bad34b48ee66cd4e0f270
+Top:    54b58c769ed3881babaf20863e5b2ceaf3ae3432
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-07 15:20:03 -0500
 
@@ -575,15 +575,6 @@ index 1a45e06a..91dec6ce 100644
 -    name: buildbot_worker_ptxdist
 +    name: "{{ hostname }}"
      pubkey: "{{ output.stdout }}"
-diff --git a/roles/buildbot-worker-ptxdist/templates/pip.conf.j2 b/roles/buildbot-worker-ptxdist/templates/pip.conf.j2
-new file mode 100644
-index 00000000..a54ae09a
---- /dev/null
-+++ b/roles/buildbot-worker-ptxdist/templates/pip.conf.j2
-@@ -0,0 +1,3 @@
-+[global]
-+trusted-host = {{hostvars['buildbot-worker-devpi'].uri | urlsplit('hostname')}}
-+index-url = {{hostvars['buildbot-worker-devpi'].uri}}
 diff --git a/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2 b/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
 new file mode 100644
 index 00000000..f9fd2372
