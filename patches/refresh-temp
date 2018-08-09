@@ -1,0 +1,82 @@
+Bottom: 4e5d2348151af87d858eaeba3604ca684743662f
+Top:    454020fc6dd5dfbaf48de39e4a1f3ada921455b5
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-09 15:23:11 -0500
+
+Refresh of generate-new-ssh-key-on-first
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 60aeab14..cd33b309 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -12,6 +12,13 @@
+     role: buildbot-master
+     tags:
+     - buildbot-master
++  - name: Add buildbot user to Gitlab
++    role: gitlab-user
++    vars:
++      new_user: buildbot
++      new_user_name: Build Robot
++      new_user_email: buildbot@novatech-llc.com
++      new_user_pass: "{{ lookup('password', '/dev/null') }}"
+ 
+ - name: Setup Buildbot worker system
+   hosts: builder
+@@ -26,3 +33,18 @@
+   roles:
+   - role: buildbot-worker-ntel
+   - role: buildbot-worker-ptxdist
++
++- name: Gitlab public keys for buildbot containers
++  hosts: daedalus
++  become: true
++  become_user: root
++  become_method: sudo
++  tags:
++  - buildbot
++  roles:
++  - name: Add buildbot_master pubkey to buildbot user
++    role: gitlab-sshkey
++    vars:
++      username: buildbot
++      pubkey: "{{ hostvars.buildbot_master.pubkey }}"
++      title: "buildbot_master"
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index 71002f8b..85c28248 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -1,10 +1,12 @@
+ #!/bin/sh
+ 
++SSH_BITS=${SSH_BITS-"2048"}
++SSH_TYPE=${SSH_TYPE-"rsa"}
++SSH_FILE=${SSH_FILE-"$HOME/.ssh/id_rsa"}
++
+ BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
+ 
+-mkdir -p ${HOME}/.ssh
+-cp -R /run/secrets/ssh/* ${HOME}/.ssh
+-chmod -R 600 ${HOME}/.ssh/*
++ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/null 2>/dev/null
+ 
+ ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
+ 
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 7cd8f5a2..b1b843ba 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -35,6 +35,12 @@
+     ports: '{{ buildbot_port_args }}'
+     state: started
+ 
++- name: Grab ssh public key
++  command: >
++    docker exec '{{ container_name }}' cat /home/buildbot/.ssh/id_rsa.pub
++  changed_when: false
++  register: output
++
+ - name: Add buildbot_master host
+   add_host:
+     name: buildbot_master
