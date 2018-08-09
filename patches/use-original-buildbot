@@ -1,0 +1,53 @@
+Bottom: e4338df53855c59a757bb94042d03d83365ee349
+Top:    6d94dfa78e0f3f024655896c76820f809e39eb49
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-09 15:17:35 -0500
+
+Use original buildbot entrypoint and init daemon
+
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index 4cbbd098..0947a60c 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -8,7 +8,6 @@ ARG BUILDBOT_TIMEZONE="Etc/UTC"
+ 
+ RUN apk --no-cache add \
+         openssh \
+-        tini \
+ &&  rm /etc/localtime \
+ &&  ln -sf /usr/share/zoneinfo/${BUILDBOT_TIMEZONE} /etc/localtime \
+ &&  echo "${BUILDBOT_TIMEZONE}" > /etc/timezone
+@@ -26,5 +25,5 @@ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
+ &&  chown -v -R buildbot:buildbot "/home/buildbot"
+ 
+ USER buildbot
+-ENTRYPOINT ["/sbin/tini", "--"]
++ENTRYPOINT ["/usr/bin/dumb-init"]
+ CMD ["/home/buildbot/start.sh"]
+diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/docker/buildbot-master/buildbot/buildbot.tac
+index 4fbddaa2..796384d0 100644
+--- a/docker/buildbot-master/buildbot/buildbot.tac
++++ b/docker/buildbot-master/buildbot/buildbot.tac
+@@ -13,7 +13,7 @@ configfile = 'master.cfg'
+ # note: this line is matched against to check that this is a buildmaster
+ # directory; do not edit it.
+ application = service.Application('buildmaster')
+-# application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
++application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
+ 
+ m = BuildMaster(basedir, configfile, umask=None)
+ m.setServiceParent(application)
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index 5e0eed75..71002f8b 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -8,5 +8,5 @@ chmod -R 600 ${HOME}/.ssh/*
+ 
+ ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
+ 
+-/usr/bin/buildbot --verbose upgrade-master
+-exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
++# Run original buildbot entrypoint
++exec "/usr/src/buildbot/docker/start_buildbot.sh"
