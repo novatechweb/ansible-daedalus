@@ -1,7 +1,8 @@
 Version: 1
-Previous: 6f3ebecf284f42a37ef8d3154001e8217bc0c640
-Head: 1790b41815670c1cd67d6b054d2012ac573c2f4d
+Previous: 993b40cfe85f2c06023d109dce439c21c978e69f
+Head: bb0e459435d4d212431730f2b5742f77db1098f2
 Applied:
   dump-host-vars: 1790b41815670c1cd67d6b054d2012ac573c2f4d
+  refresh-temp: bb0e459435d4d212431730f2b5742f77db1098f2
 Unapplied:
 Hidden:
