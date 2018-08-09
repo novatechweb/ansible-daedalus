@@ -40,7 +40,10 @@
     - buildbot
     - buildbot-worker
   vars:
+    asset_host: "{{hostvars['nexus']['uri']}}/download"
     buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
+    container_etc_hosts:
+      nexus-novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
     known_hosts: "{{gitlab_keys.stdout}}"
   tasks:
   - name: Scan Gitlab ssh keys

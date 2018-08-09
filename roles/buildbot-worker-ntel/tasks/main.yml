@@ -76,6 +76,7 @@
 
 - name: Start buildbot container
   docker_container:
+    etc_hosts: '{{ container_etc_hosts }}'
     name: '{{ container_name }}'
     image: '{{ image_name }}:{{ docker_image_tag }}'
     networks: '{{ container_networks }}'
