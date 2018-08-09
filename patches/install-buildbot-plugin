@@ -1,0 +1,26 @@
+Bottom: 6d94dfa78e0f3f024655896c76820f809e39eb49
+Top:    4e5d2348151af87d858eaeba3604ca684743662f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-09 15:17:56 -0500
+
+Install buildbot plugin dependencies
+
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index 0947a60c..1baa3f49 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -14,7 +14,11 @@ RUN apk --no-cache add \
+ 
+ # install pip dependencies
+ RUN pip --no-cache-dir install \
+-    'attrs'
++    'attrs' \
++    'buildbot-console-view' \
++    'buildbot-grid-view' \
++    'buildbot-waterfall-view' \
++    'buildbot-www'
+ 
+ # Create buildbot user
+ ARG BUILDBOT_UID=1000
