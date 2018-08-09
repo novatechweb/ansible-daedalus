@@ -1,6 +1,6 @@
 Version: 1
-Previous: 5d73b2398dfb1fa2db6c77611f261a7c3f54e815
-Head: 8cf51c1743a5860d55936ccf7092e913ca3f971a
+Previous: 3d697c9448d0e7b1e6c58f4e9090668dfcb3d4c7
+Head: 555a643dc96514dfc1d12f42a235f1dff2c9d7ab
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -17,8 +17,8 @@ Applied:
   gitlab-auth: 0c1ac7c089a652c1cfada7398724a903b7718943
   known_hosts: b79055b839ef2b266f93ce7ee2b8207601fc84f2
   asset-host: 8cf51c1743a5860d55936ccf7092e913ca3f971a
-Unapplied:
   update-ptxdistrc: 555a643dc96514dfc1d12f42a235f1dff2c9d7ab
+Unapplied:
   enable-secrets: 467c6bd052ea2062620e817f34c58018bb80e2dd
   change-hooks: 69efc3c1a2d0e0dc105677b65a7bf7a1fb6abf39
 Hidden:
