@@ -1,7 +1,8 @@
 Version: 1
-Previous: 5842d9c7dc314a6edd2d34fc3b6a0aa23c42a0bc
+Previous: 18ba41934a4e9a291c21730ff7eb5d9fca34404d
 Head: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
 Unapplied:
+  add-buildbot-ntel-worker: b9d3f7dd516aff0544f815cdbb99806427e2c832
 Hidden:
