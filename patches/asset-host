@@ -1,14 +1,14 @@
-Bottom: cb2cfba0d233833733d4c18a68cf346466139774
-Top:    5f760d9e2f4cecff0f98a76a9c260286303a64d7
+Bottom: 77a17975f7b8d58a273f7dfe815fcf773c1c80a3
+Top:    a48f507dcf8b1ff9e2531748094eb34ab9379655
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-09 09:03:46 -0500
+Date:   2018-08-09 15:47:30 -0500
 
 Support asset host
 
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index f5bf035e..6f5a2767 100644
+index cfb91cca..a8da05f3 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -9,6 +9,11 @@
