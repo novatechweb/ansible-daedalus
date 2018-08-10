@@ -1,0 +1,32 @@
+Bottom: f663a7ec71ce630403ba5fe3dc875d7572889a58
+Top:    7f2ba7d9327fc394f010914430a502aa9c1221d6
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-10 14:24:15 -0500
+
+Refresh of change-hooks
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 1aa2a72d..da5b9b71 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -3,6 +3,7 @@
+ buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin"                      , length=20) }}'
+ buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel"                , length=20) }}'
+ buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist"             , length=20) }}'
++buildbot_webhook_secret:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/webhook"                    , length=20) }}'
+ buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
+ buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
+ buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 1e92d562..51f9fd41 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -47,6 +47,7 @@ container_env:
+   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
+   GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
+   GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
++  GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
+   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
+   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
+   LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
