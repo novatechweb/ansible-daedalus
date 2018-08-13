@@ -1,0 +1,12 @@
+Bottom: 7f2ba7d9327fc394f010914430a502aa9c1221d6
+Top:    7f2ba7d9327fc394f010914430a502aa9c1221d6
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-13 10:57:44 -0500
+
+Use internal email server
+
+Use our internal email server instead of an external relay
+
+
+---
+
