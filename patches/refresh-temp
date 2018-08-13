@@ -1,0 +1,71 @@
+Bottom: a13237f65bb563f8ccc38e9bb3064518d9592ca5
+Top:    e7c23efd2125c17524d0413e834aed86c7596298
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-13 11:13:08 -0500
+
+Refresh of single-branch-builders
+
+---
+diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
+index 7e3643f2..ac62a80c 100755
+--- a/docker/buildbot-master/buildbot/openembedded.py
++++ b/docker/buildbot-master/buildbot/openembedded.py
+@@ -28,6 +28,50 @@ change_source = [
+ 
+ # SCHEDULERS
+ schedulers = [
++    schedulers.SingleBranchScheduler(
++        name="push",
++        builderNames=["ntel_orionlxm"],
++        change_filter=util.ChangeFilter(
++            project='setup-scripts',
++            category='push',
++        ),
++        codebases={
++            "andrew.cooper/setup-scripts": {
++                "repository": "git@git.novatech-llc.com:andrew.cooper/setup-scripts.git",
++                "branch": None,
++                "revision": None
++            }
++        },
++        properties={
++            'clobber': False,
++            'cache': True,
++            'release_pin': None,
++            'bbflags': DEFAULT_BBFLAGS,
++        },
++        treeStableTimer=5,
++    ),
++    schedulers.SingleBranchScheduler(
++        name="merge-request",
++        builderNames=["ntel_orionlxm"],
++        change_filter=util.ChangeFilter(
++            project='setup-scripts',
++            category='merge_request',
++        ),
++        codebases={
++            "andrew.cooper/setup-scripts": {
++                "repository": "https://git.novatech-llc.com/andrew.cooper/setup-scripts.git",
++                "branch": None,
++                "revision": None
++            }
++        },
++        properties={
++            'clobber': False,
++            'cache': True,
++            'release_pin': None,
++            'bbflags': DEFAULT_BBFLAGS,
++        },
++        treeStableTimer=30,
++    ),
+     schedulers.ForceScheduler(
+         name="Force",
+         label="Force NTEL OpenEmbedded Build",
+@@ -250,6 +294,7 @@ class BitBakeFactory(util.BuildFactory):
+         self.addStep(steps.Git(
+             repourl=util.Property('repository'),
+             branch=util.Property('branch'),
++            codebase=util.Property('codebase'),
+             mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
+             method="clobber",
+             locks=[git_lock.access('exclusive')],
