@@ -1,0 +1,12 @@
+Bottom: bfe38f63aa11c17a65b7d2fde6a8a204be8b3ab0
+Top:    bfe38f63aa11c17a65b7d2fde6a8a204be8b3ab0
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-13 10:53:14 -0500
+
+Extract email accounts to group vars
+
+Email accounts belonging to eother services were present in exim4's defaults.
+
+
+---
+
