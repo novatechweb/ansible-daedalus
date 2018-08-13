@@ -1,6 +1,6 @@
 Version: 1
-Previous: ef84f77cb64f0492e854e12c6c1dab7bcea84218
-Head: 2180befd58fbf199d9391da1dc7e89fa41c4d229
+Previous: 6968e9b43a075fcfacd5b00197920d3bee97c82e
+Head: 91284bdb9f42420729b6ff5a38c549d94754d8ca
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -21,5 +21,6 @@ Applied:
   enable-secrets: 1ea5fd002f151e518aa10cb15762532a8b8ebf55
   change-hooks: 480eb9a36d1ae95aa34691d8556853ea93cd5aee
   email-account: 2180befd58fbf199d9391da1dc7e89fa41c4d229
+  codebase-generator: 91284bdb9f42420729b6ff5a38c549d94754d8ca
 Unapplied:
 Hidden:

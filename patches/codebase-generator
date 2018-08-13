@@ -1,0 +1,15 @@
+Bottom: 9c8c886a489050f572182efc391e495116753f62
+Top:    9c8c886a489050f572182efc391e495116753f62
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-13 11:04:04 -0500
+
+Add codebase generator function
+
+The codebase generator takes information about a change, like repository,
+branch, and revision, and creates a predictable string describing the code.
+This is used to decide upon the builder for a change and also to tie a fork
+repository back to its parent for merge requests.
+
+
+---
+
