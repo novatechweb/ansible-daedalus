@@ -1,7 +1,7 @@
-Bottom: f7932e03819bc735db74705b03f601f749712ece
-Top:    0401060dcf6700744b02d7756f3cfdad6e9894d1
+Bottom: b89740b4f4586e57480cf02efb852da8544aa0bb
+Top:    b7698b5e26c88bf735a9ce997fae5fe068fe6b62
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-12 11:12:24 -0500
+Date:   2018-08-07 15:20:04 -0500
 
 Remove local interface configuration
 

@@ -1,7 +1,7 @@
-Bottom: 1f71792dc5a28e7531d8c8b48c37d71566974d17
-Top:    ef94d2bfbdc9f06ff394dbeb750c7e7be09c04fd
+Bottom: 6e4c06bd78873300e7d7173ed3d6db4f0e3ef3f9
+Top:    411974492ecf94eea75d8275ddc5d031569bec95
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-12 11:12:24 -0500
+Date:   2018-08-07 15:20:04 -0500
 
 Exec account script on exim4 container
 
@@ -11,10 +11,10 @@ execute script within existing container.
 
 ---
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index fa74e754..3db11193 100644
+index 53b743e3..83703639 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
-@@ -128,5 +128,5 @@
+@@ -129,5 +129,5 @@
  # Email accounts
  
  - name: populate email passwords
