@@ -1,0 +1,13 @@
+Bottom: a13237f65bb563f8ccc38e9bb3064518d9592ca5
+Top:    a13237f65bb563f8ccc38e9bb3064518d9592ca5
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-13 11:12:58 -0500
+
+Add SingleBranchBuilders
+
+These builders watch for changes to certain codebases and schedule builds
+for them.
+
+
+---
+
