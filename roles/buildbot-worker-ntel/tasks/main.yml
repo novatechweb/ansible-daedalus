@@ -46,7 +46,9 @@
     cleanup: yes
     command: /bin/ash -c 
       "mkdir -p {{item}} &&
-      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}}"
+      if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
+        chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+      fi"
 
 - name: Create secrets volume
   file:
@@ -76,10 +78,10 @@
   docker_container:
     name: '{{ container_name }}'
     image: '{{ image_name }}:{{ docker_image_tag }}'
-    # networks: '{{ buildbot_worker_ntel_networks }}'
+    networks: '{{ container_networks }}'
     volumes: '{{ container_volumes }}'
     env: '{{ container_env }}'
-    # ports: '{{ buildbot_worker_ntel_port_args }}'
+    ports: '{{ container_port_args }}'
 
 - name: Grab ssh public key
   command: >
@@ -89,5 +91,5 @@
 
 - name: Add buildbot_worker_ntel host
   add_host:
-    name: buildbot_worker_ntel
+    name: "{{ hostname }}"
     pubkey: "{{ output.stdout }}"
