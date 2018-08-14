@@ -1,0 +1,5 @@
+[Service]
+Environment="HOST_OPTIONS=\
+--host=unix:///var/run/docker.sock \
+--host=tcp://{{ ansible_default_ipv4['address'] }}:2375 \
+"
