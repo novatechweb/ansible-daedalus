@@ -1,5 +1,5 @@
-Bottom: 687d11ec4f1686f9118ca372f32ae53923a727ac
-Top:    cd395cf7b0ea5a0e229299a2367784912f74034a
+Bottom: aea8e495014b3fc7a5146b2242c18da2bbc4862e
+Top:    5834a8fd4aa7f8100a8091ac2c0b0fdf66c75aee
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-13 10:57:44 -0500
 
@@ -10,7 +10,7 @@ Use our internal email server instead of an external relay
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index da5b9b71..78b584d2 100644
+index 888b3ffb..3ad01d12 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -1,6 +1,7 @@

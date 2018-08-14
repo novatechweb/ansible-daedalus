@@ -1,5 +1,5 @@
-Bottom: 0e4b615a4e0ebf1797763288916a9005e3b01410
-Top:    963f5749c2ae749adcdd4df8b06c158dcb8d1308
+Bottom: 21736afe2973599d4274c22b2b11cc8389b0955c
+Top:    bc4fca3d4507eb5dd175fb7c45e0ac6aaad5cd28
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:30:30 -0500
 
@@ -8,7 +8,7 @@ Configure freenode as IRC reporter
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 78b584d2..3def5922 100644
+index 3ad01d12..518403d2 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -2,6 +2,7 @@
