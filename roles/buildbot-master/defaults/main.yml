@@ -19,7 +19,7 @@ buildbot_http_port: 8080
 # port number for encrypted web access
 buildbot_https_port: 8443
 
-# The hostname passed as an envirnment variable into the container
+# The hostname passed as an environment variable into the container
 buildbot_ip_addr: '127.0.0.1'
 buildbot_hostname: buildbot.example.com
 buildbot_port_args:
@@ -34,10 +34,15 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
 container_env:
   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
-  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
-  BUILDBOT_SMTP_USER: 'Dean.cox'
-  BUILDBOT_SMTP_PASS: 'no5156'
-  BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
+  BUILDBOT_IRC_CHANNELS: "{{ ['#novatech'] | to_json }}"
+  BUILDBOT_IRC_HOST: 'chat.freenode.net'
+  BUILDBOT_IRC_NICK: 'NovaTechCI'
+  BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
+  BUILDBOT_SMTP_HOST: '{{ exim4_hostname }}'
+  BUILDBOT_SMTP_PORT: '587'
+  BUILDBOT_SMTP_USER: 'buildbot'
+  BUILDBOT_SMTP_PASS: '{{ buildbot_email_password }}'
+  BUILDBOT_WEB_PORT: '{{ buildbot_http_port }}'
   BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
   BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
   BUILDBOT_WORKER_NTEL: 'worker-ntel'
@@ -45,8 +50,9 @@ container_env:
   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
-  GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
-  GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
+  GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
+  GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
+  GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
   GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
