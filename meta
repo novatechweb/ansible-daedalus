@@ -1,6 +1,6 @@
 Version: 1
-Previous: fcc0b8d5188015a1c1f823b2973b56feee2377d9
-Head: d16341e847fe4f95c16e4253889b482ee723cbe8
+Previous: 3b477fb5e7cf7f4e186ad36278f86182c7c2f774
+Head: e6e65c78e6c3c3b075ffc67daace51bd8c2e8328
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -15,6 +15,7 @@ Applied:
   install-buildbot-plugin: 48d4ab82518be09e778244e753e1aa238da14015
   generate-new-ssh-key-on-first: 14ae2e656db9a104be855fd3354c9e20069ea5ae
   gitlab-auth: e6e65c78e6c3c3b075ffc67daace51bd8c2e8328
+Unapplied:
   known_hosts: 8971c42322ee0c2e3cf9f7bce10c54f2d9d8aa81
   asset-host: 4b565a1b3f954890b587d0d94cd40304c6002f78
   update-ptxdistrc: de0cec648f1c154405968ccee66ed298465d71d5
@@ -25,6 +26,5 @@ Applied:
   single-branch-builders: bca6bf890e2c8394fd0feb7fa52fd0dc93eeffc7
   irc-reporter: b2a1e25cd5a5284d90f70bfa51bbe1dba6dfd967
   gitlab-status-reporter: d16341e847fe4f95c16e4253889b482ee723cbe8
-Unapplied:
   mail-reporter: 545ace5c2d208fb638f67a5176ba58f6e2171f2b
 Hidden:
