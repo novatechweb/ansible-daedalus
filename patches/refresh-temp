@@ -1,19 +1,9 @@
-Bottom: 928ad261a36da6cbbaf464de6952e8ea4fef5c9a
-Top:    ccec5241a19397adebc22bab005ae14622090371
+Bottom: d1de6ae944a226abd552b90aa2727283237cabc4
+Top:    d1de6ae944a226abd552b90aa2727283237cabc4
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:35:43 -0500
 
 Refresh of codebase-generator
 
 ---
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 6be5492f..4c087416 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -6,6 +6,7 @@
- 
- import os
- import json
-+from urlparse import urlparse
- 
- os.environ['LONG_RUN_TIMEOUT']='14400'
+
