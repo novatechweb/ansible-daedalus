@@ -1,5 +1,5 @@
 Bottom: 8238ac72e9ca869bd9ec953881147b0dab7b4ad0
-Top:    8fd761d3d5f23f1701d22c29a558fc5d1f61d9e5
+Top:    c5e2f20572c7a6b9d6005f2a8dfa458b09b156fd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-09 15:23:58 -0500
 
@@ -35,7 +35,7 @@ index 1baa3f49..a79778ef 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 0a3aed76..e5fc5149 100644
+index 0a3aed76..dfbf6dec 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -49,6 +49,20 @@ mn = reporters.MailNotifier(
@@ -64,11 +64,12 @@ index 0a3aed76..e5fc5149 100644
          'grid_view': True,
          },
 -    'auth':util.UserPasswordAuth([("georgem","tgbyhn")]),
+-    'authz':util.Authz(
 +    'auth': util.GitLabAuth(os.getenv('GITLAB_URI'),
-+                            os.getenv('GITLAB_CLIENT_ID'),
-+                            os.getenv('GITLAB_CLIENT_SECRET'),
++                            os.getenv('GITLAB_OAUTH_ID'),
++                            os.getenv('GITLAB_OAUTH_SECRET'),
 +                            userInfoProvider=userInfoProvider),
-     'authz':util.Authz(
++    'authz': util.Authz(
          allowRules=[
              util.AnyControlEndpointMatcher(role="admins"),
              ],

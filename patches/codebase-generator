@@ -1,5 +1,5 @@
-Bottom: 9c8c886a489050f572182efc391e495116753f62
-Top:    507b5d31b7a10383a748e34cb859ed5d398ca84e
+Bottom: cffc33133d6f22e7f695ea88b5e4fdfeb2175cb7
+Top:    d1de6ae944a226abd552b90aa2727283237cabc4
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-13 11:04:04 -0500
 
@@ -13,7 +13,7 @@ repository back to its parent for merge requests.
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 02056a49..2b93069b 100644
+index 4eb34ff2..a0d5c9f6 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -139,3 +139,28 @@ c['workers'].extend(ptxdist.workers)
