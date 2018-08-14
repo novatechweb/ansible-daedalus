@@ -1,5 +1,5 @@
-Bottom: 33d21b1996c0adea6736985d3229ef7db7ba11df
-Top:    4b06b5119c71414c33036e9a7667fb632058d8e1
+Bottom: 7d81e7bd5b0cb84b248d3c3c561988f9875be8de
+Top:    64e86e3d94260c6b9aadc5e9437375487ab710b4
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 10:41:18 -0500
 
@@ -304,7 +304,7 @@ index eb37e6a6..53b743e3 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 76a8a4ba..e8f7ee88 100644
+index 704b51d4..9e50bcdf 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -81,17 +81,19 @@
@@ -333,7 +333,7 @@ index 76a8a4ba..e8f7ee88 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 5cdc784f..58701ae3 100644
+index 12c707aa..861a0075 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -80,10 +80,11 @@
@@ -353,7 +353,7 @@ index 5cdc784f..58701ae3 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 07c24383..137ad7df 100644
+index fe575575..666d93ea 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -78,10 +78,11 @@
@@ -373,7 +373,7 @@ index 07c24383..137ad7df 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 7a7dd834..da33c487 100644
+index 5422d3e5..5e89b79a 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -68,10 +68,11 @@
