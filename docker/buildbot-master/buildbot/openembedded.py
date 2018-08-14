@@ -38,6 +38,7 @@ c['workers'] = [
 
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 
+
 # CHANGESOURCES
 c['change_source'] = [
     changes.GitPoller(
