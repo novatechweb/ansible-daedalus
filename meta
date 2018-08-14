@@ -1,6 +1,6 @@
 Version: 1
-Previous: 6245cd880c5744932dac44206cbcb70eba697478
-Head: adc69b1727e9376b6ad3e319e0cf5cf2732c7eaa
+Previous: 8c61360a2fd3dd01c2d0333fb5995a5308d710e5
+Head: a84c2ab03a703c23e5af120fb4b05998df33b4cd
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -19,8 +19,7 @@ Applied:
   asset-host: c493be1922e86ff06e5769c0886079a4b9c48dd1
   update-ptxdistrc: ac3b1d044be83f168fcd3c0bb3319b56abf1b1e9
   enable-secrets: 4f269987fcbcb40900da1105e2ebef4196d13b0e
-  change-hooks: 2c37156ca1edccb73efd763baf91638ed506c7c7
-  refresh-temp: adc69b1727e9376b6ad3e319e0cf5cf2732c7eaa
+  change-hooks: a84c2ab03a703c23e5af120fb4b05998df33b4cd
 Unapplied:
   email-account: 0fef088aa39397b3f0e96f205cc9d6952cf07d21
   codebase-generator: 09a8dffd2e1027d9d7de44bb3e7f282dc25c3bde
