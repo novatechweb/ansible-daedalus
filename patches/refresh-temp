@@ -1,0 +1,21 @@
+Bottom: d35677997e5016ae8a2962f660959bc6ee3edb02
+Top:    08f10b282a74b053a93f5b3b3a811689f9a71a90
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-14 15:46:39 -0500
+
+Refresh of irc-reporter
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index cbf1a5b3..55e678f8 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -6,7 +6,7 @@
+ 
+ import os
+ import json
+-from buildbot.plugins import secrets,steps,util
++from buildbot.plugins import reporters, secrets, steps, util
+ from urlparse import urlparse
+ 
+ os.environ['LONG_RUN_TIMEOUT']='14400'
