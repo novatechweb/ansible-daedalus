@@ -1,5 +1,5 @@
 Bottom: 4b48d0ce43be23955352db3c5c731937dc81fc15
-Top:    f1c87b5af3b359df9d416faf5321421566bddadc
+Top:    ef9208fbb535507d11d5f9f2cadfbf5adf4e3276
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:33:30 -0500
 
@@ -41,3 +41,15 @@ index 1ac46a1a..32b0b5c0 100644
  ####### WEB SERVER
  userInfoProvider = util.LdapUserInfo(
          uri=os.getenv('LDAP_URI'),
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index ef79a5b9..b5134a96 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -51,6 +51,7 @@ container_env:
+   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
+   GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
+   GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
++  GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
+   GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
+   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
+   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
