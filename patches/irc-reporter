@@ -1,5 +1,5 @@
 Bottom: 48f089565cad00e64756047fe33785ade82e83e9
-Top:    48f089565cad00e64756047fe33785ade82e83e9
+Top:    b70d25dff7de68e0598602dcde05537c060abf98
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:30:30 -0500
 
@@ -7,4 +7,38 @@ Configure freenode as IRC reporter
 
 
 ---
-
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index e64f7121..aac3c05d 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -5,7 +5,7 @@
+ # 'master.cfg' in your buildmaster's base directory.
+ 
+ import os
+-from buildbot.plugins import secrets,steps,util
++import json
+ 
+ os.environ['LONG_RUN_TIMEOUT']='14400'
+ 
+@@ -33,10 +33,17 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="/run/secrets")]
+ 
+ c['services'] = []
+ 
+-from buildbot.plugins import reporters
+-irc = reporters.IRC(host="172.16.64.3",
+-                    nick="orionbb",
+-                    channels=["#orion"])
++irc = reporters.IRC(
++    allowForce=False,
++    allowShutdown=False,
++    channels=json.loads(os.getenv("BUILDBOT_IRC_CHANNELS")),
++    host=os.getenv("BUILDBOT_IRC_HOST"),
++    nick=os.getenv("BUILDBOT_IRC_NICK"),
++    notify_events=[],
++    password=os.getenv("BUILDBOT_IRC_PASS"),
++    useColors=True,
++    useSSL=True
++)
+ c['services'].append(irc)
+ 
+ mn = reporters.MailNotifier(
