@@ -110,7 +110,7 @@
   docker_container:
     detach: true
     env:
-      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
+      LDAP_HOSTNAME: '{{ openldap_hostname }}'
     hostname: '{{ openldap_hostname }}'
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     name: '{{ openldap_container_name }}'
