@@ -1,6 +1,6 @@
 Version: 1
-Previous: 9b792f43a0651fb2f2b8b932fc5410de62c670d8
-Head: 5da3ab3cba2b6eba48efa61e2d695dc627a83b05
+Previous: 510dd2029bb201f33c3b5ff9d32a636672f4ab1a
+Head: 526cc0a144a2f536ecc4cc0b6e5682005905322e
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -22,8 +22,7 @@ Applied:
   change-hooks: fbff1423bda10fdc7bd690f6c435796273ab9180
   email-account: 0fef088aa39397b3f0e96f205cc9d6952cf07d21
   codebase-generator: 2e69f9593a418bce5ef808b7febb9177b50bdb1f
-  refresh-temp: a51765f90e79032f595dc3bb90089b00d2caec64
-  refresh-temp-0: 5da3ab3cba2b6eba48efa61e2d695dc627a83b05
+  refresh-temp: 526cc0a144a2f536ecc4cc0b6e5682005905322e
 Unapplied:
   single-branch-builders: 396a2817626ce5292ce8b6315e145c28e9f23142
   irc-reporter: db390a3ff1c0f4944ed039b9c15a2ca063bcb820
