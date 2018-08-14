@@ -1,6 +1,6 @@
 Version: 1
-Previous: b6f8e9532bc771432d422b70bef094f2fe598214
-Head: 2c37156ca1edccb73efd763baf91638ed506c7c7
+Previous: 6245cd880c5744932dac44206cbcb70eba697478
+Head: adc69b1727e9376b6ad3e319e0cf5cf2732c7eaa
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -20,6 +20,7 @@ Applied:
   update-ptxdistrc: ac3b1d044be83f168fcd3c0bb3319b56abf1b1e9
   enable-secrets: 4f269987fcbcb40900da1105e2ebef4196d13b0e
   change-hooks: 2c37156ca1edccb73efd763baf91638ed506c7c7
+  refresh-temp: adc69b1727e9376b6ad3e319e0cf5cf2732c7eaa
 Unapplied:
   email-account: 0fef088aa39397b3f0e96f205cc9d6952cf07d21
   codebase-generator: 09a8dffd2e1027d9d7de44bb3e7f282dc25c3bde
