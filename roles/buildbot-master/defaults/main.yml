@@ -51,6 +51,7 @@ container_env:
   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
   GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
   GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
+  GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
   GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
