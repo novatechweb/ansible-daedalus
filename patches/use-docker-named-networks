@@ -1,5 +1,5 @@
 Bottom: e3d18cc9f5cfa448defb56898a909076fcad960e
-Top:    ad996136b34f064552931b388ab3e6372d13e35f
+Top:    7d81e7bd5b0cb84b248d3c3c561988f9875be8de
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 10:41:18 -0500
 
@@ -675,7 +675,7 @@ index d28280d7..562a856c 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 70bf4e2d..76a8a4ba 100644
+index 70bf4e2d..704b51d4 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -129,6 +129,9 @@
@@ -698,7 +698,7 @@ index 70bf4e2d..76a8a4ba 100644
      restart_policy: '{{ docker_restart_policy }}'
      volumes_from: '{{ gitlab_db_dv_name }}'
  
-@@ -143,17 +149,17 @@
+@@ -143,25 +149,28 @@
    docker_container:
      detach: true
      env:
@@ -720,9 +720,10 @@ index 70bf4e2d..76a8a4ba 100644
      image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
      link:
        - '{{ openldap_container_name }}:gitlab-ldap'
-@@ -161,7 +167,10 @@
+       - '{{ gitlab_redis_container_name }}:gitlab-redis'
        - '{{ gitlab_db_container_name }}:gitlab-db'
-       - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
++      - '{{ exim4_container_name }}:{{ exim4_hostname }}'
      name: '{{ gitlab_container_name }}'
 -    ports: '{{ container_port_map.git.port_args }}'
 +    networks:
@@ -890,7 +891,7 @@ index 2a86d85e..36f6bd3e 100644
  # the name of the sql database used by mediawiki
  wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 0789dfcf..07c24383 100644
+index 0789dfcf..fe575575 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -107,6 +107,9 @@
@@ -914,14 +915,18 @@ index 0789dfcf..07c24383 100644
 -    hostname: '{{ container_addr_map.wiki.hostname }}'
 +    hostname: '{{ wiki_hostname }}'
      image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
-     link:
-       - '{{ openldap_container_name }}:wiki_ldap'
-       - '{{ wiki_db_container_name }}:wiki_db'
-       - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+-    link:
+-      - '{{ openldap_container_name }}:wiki_ldap'
+-      - '{{ wiki_db_container_name }}:wiki_db'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
      name: '{{ wiki_container_name }}'
 -    ports: '{{ container_port_map.wiki.port_args }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++        links:
++          - '{{ openldap_container_name }}:wiki_ldap'
++          - '{{ wiki_db_container_name }}:wiki_db'
++          - '{{ exim4_container_name }}:{{ exim4_hostname }}'
 +    ports: '{{ wiki_port_args }}'
 +    purge_networks: true
      restart_policy: '{{ docker_restart_policy }}'
@@ -1081,14 +1086,16 @@ index 1a00928d..99990b2c 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 836e2b7e..7a7dd834 100644
+index 836e2b7e..5422d3e5 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
-@@ -111,10 +111,13 @@
+@@ -110,11 +110,14 @@
+   docker_container:
      detach: true
      env:
-       LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
+-      LDAP_HOSTNAME: '{{ container_addr_map.ldap.hostname }}'
 -    hostname: '{{ container_addr_map.ldap.hostname }}'
++      LDAP_HOSTNAME: '{{ openldap_hostname }}'
 +    hostname: '{{ openldap_hostname }}'
      image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
      name: '{{ openldap_container_name }}'
