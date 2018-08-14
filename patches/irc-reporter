@@ -1,5 +1,5 @@
 Bottom: 208f7ed73cbd38b0a5da0a22cf473eddfbd04558
-Top:    3b95bd024d25f22c5b1594e23e80e115e576dc05
+Top:    4b48d0ce43be23955352db3c5c731937dc81fc15
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:30:30 -0500
 
@@ -69,3 +69,18 @@ index 5f1c821e..1ac46a1a 100644
  c['services'].append(irc)
  
  mn = reporters.MailNotifier(
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 51f9fd41..ef79a5b9 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -34,6 +34,10 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ container_env:
+   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
++  BUILDBOT_IRC_CHANNELS: "{{ ['#novatech'] | to_json }}"
++  BUILDBOT_IRC_HOST: 'chat.freenode.net'
++  BUILDBOT_IRC_NICK: 'NovaTechCI'
++  BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
+   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
+   BUILDBOT_SMTP_USER: 'Dean.cox'
+   BUILDBOT_SMTP_PASS: 'no5156'
