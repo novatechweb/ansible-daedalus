@@ -1,0 +1,19 @@
+Bottom: d1de6ae944a226abd552b90aa2727283237cabc4
+Top:    a6190002b5b6ffccb846868cacecfd9d6175537a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-14 15:38:52 -0500
+
+Refresh of refresh-temp
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index a0d5c9f6..5f1c821e 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -6,6 +6,7 @@
+ 
+ import os
+ from buildbot.plugins import secrets,steps,util
++from urlparse import urlparse
+ 
+ os.environ['LONG_RUN_TIMEOUT']='14400'
