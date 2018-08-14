@@ -1,5 +1,5 @@
 Bottom: 30bb7a74e6e2efd1e8fc51f21d3e686b1ce95173
-Top:    30bb7a74e6e2efd1e8fc51f21d3e686b1ce95173
+Top:    928ad261a36da6cbbaf464de6952e8ea4fef5c9a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:34:33 -0500
 
@@ -7,4 +7,34 @@ Use internal mail server
 
 
 ---
-
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index ab6eaae5..6be5492f 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -51,14 +51,21 @@ mn = reporters.MailNotifier(
+     sendToInterestedUsers=True,
+     extraRecipients=["andrew.cooper@novatechweb.com"],
+     useTls=True,
+-    relayhost=os.getenv('BUILDBOT_SMTP_HOST',"relay.dnsexit.com"),
+-    smtpPort=26,
+-    smtpUser=os.getenv('BUILDBOT_SMTP_USER', "Dean.cox"),
+-    smtpPassword=os.getenv('BUILDBOT_SMTP_PASS',"no5156")
++    relayhost=os.getenv('BUILDBOT_SMTP_HOST'),
++    smtpPort=os.getenv('BUILDBOT_SMTP_PORT'),
++    smtpUser=os.getenv('BUILDBOT_SMTP_USER'),
++    smtpPassword=os.getenv('BUILDBOT_SMTP_PASS')
+     )
+ c['services'].append(mn)
+ 
+-####### WEB SERVER
++gl = reporters.GitLabStatusPush(
++    os.getenv('GITLAB_TOKEN'),
++    context="Buildbot CI",
++    baseURL=os.getenv("GITLAB_URI"),
++    verbose=True,
++    debug=True
++)
++c['services'].append(gl)
+ userInfoProvider = util.LdapUserInfo(
+         uri=os.getenv('LDAP_URI'),
+         bindUser=os.getenv('LDAP_BIND_USER'),
