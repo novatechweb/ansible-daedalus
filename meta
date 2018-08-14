@@ -1,6 +1,6 @@
 Version: 1
-Previous: 650d39f80e61cbf1d48504180745b00a2bee499c
-Head: 7f24c8ecd32e3c59d7d6a7b64dcce9320b19a491
+Previous: 2d4094d81b7cb4fd4b76ba2975272903f864a4a5
+Head: b4d14f62cc871c11e97dcf969e5d9df32ca935c7
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -23,9 +23,8 @@ Applied:
   email-account: 0fef088aa39397b3f0e96f205cc9d6952cf07d21
   codebase-generator: 09a8dffd2e1027d9d7de44bb3e7f282dc25c3bde
   single-branch-builders: bca6bf890e2c8394fd0feb7fa52fd0dc93eeffc7
-  irc-reporter: 9677cbca79df5d6a61e870212a1c3c8b54c657dd
-  gitlab-status-reporter: c30a7e88fff5efc7b5b2abf844c1f20c8ad6c5ca
-  mail-reporter: a13a9481f2a9546692706b816c8419aa3e59c796
-  refresh-temp: 7f24c8ecd32e3c59d7d6a7b64dcce9320b19a491
+  irc-reporter: f33606f5a2754355922d17dd16772e823a387fb4
+  gitlab-status-reporter: f467e762173b977bc1817c8a2eb2c402146b5d7c
+  mail-reporter: b4d14f62cc871c11e97dcf969e5d9df32ca935c7
 Unapplied:
 Hidden:

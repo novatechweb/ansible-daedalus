@@ -1,5 +1,5 @@
-Bottom: a5c109a29decdd53cc4a43722c10d7b5393cd0e4
-Top:    d35677997e5016ae8a2962f660959bc6ee3edb02
+Bottom: bdaf5dbe27f31490ee0eaac9e8f10acc3e761134
+Top:    08f10b282a74b053a93f5b3b3a811689f9a71a90
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:34:33 -0500
 
@@ -8,7 +8,7 @@ Use internal mail server
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 3aa05fef..cbf1a5b3 100644
+index 1ac46a1a..55e678f8 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -53,14 +53,21 @@ mn = reporters.MailNotifier(

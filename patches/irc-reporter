@@ -1,5 +1,5 @@
 Bottom: 208f7ed73cbd38b0a5da0a22cf473eddfbd04558
-Top:    a5c109a29decdd53cc4a43722c10d7b5393cd0e4
+Top:    bdaf5dbe27f31490ee0eaac9e8f10acc3e761134
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:30:30 -0500
 
@@ -8,17 +8,19 @@ Configure freenode as IRC reporter
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 5f1c821e..3aa05fef 100644
+index 5f1c821e..1ac46a1a 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -5,6 +5,7 @@
+@@ -5,7 +5,8 @@
  # 'master.cfg' in your buildmaster's base directory.
  
  import os
+-from buildbot.plugins import secrets,steps,util
 +import json
- from buildbot.plugins import secrets,steps,util
++from buildbot.plugins import reporters, secrets, steps, util
  from urlparse import urlparse
  
+ os.environ['LONG_RUN_TIMEOUT']='14400'
 @@ -34,10 +35,17 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="/run/secrets")]
  
  c['services'] = []
