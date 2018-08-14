@@ -1,5 +1,5 @@
-Bottom: 48f089565cad00e64756047fe33785ade82e83e9
-Top:    b70d25dff7de68e0598602dcde05537c060abf98
+Bottom: 7e36861afe4fde0dcceb343c65ef9795d72f8706
+Top:    b01bfdb2e353a51e67217a448961045f6afc5c30
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:30:30 -0500
 
@@ -8,7 +8,7 @@ Configure freenode as IRC reporter
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index e64f7121..aac3c05d 100644
+index 2b93069b..06dac1f7 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -5,7 +5,7 @@
