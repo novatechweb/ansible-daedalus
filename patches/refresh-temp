@@ -1,0 +1,30 @@
+Bottom: 33d21b1996c0adea6736985d3229ef7db7ba11df
+Top:    ad996136b34f064552931b388ab3e6372d13e35f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-14 16:18:14 -0500
+
+Refresh of use-docker-named-networks
+
+---
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index 5cdc784f..12c707aa 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -170,13 +170,13 @@
+       MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
+     hostname: '{{ mantisbt_hostname }}'
+     image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
+-    link:
+-      - '{{ openldap_container_name }}:mantisbt_ldap'
+-      - '{{ mantisbt_db_container_name }}:mantisbt_db'
+-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
+     name: '{{ mantisbt_container_name }}'
+     networks:
+       - name: '{{ docker_network_frontend }}'
++        links:
++          - '{{ openldap_container_name }}:mantisbt_ldap'
++          - '{{ mantisbt_db_container_name }}:mantisbt_db'
++          - '{{ exim4_container_name }}:{{ exim4_hostname }}'
+     ports: '{{ mantisbt_port_args }}'
+     purge_networks: true
+     restart_policy: '{{ docker_restart_policy }}'
