@@ -1,7 +1,7 @@
-Bottom: ca437f736b9776f6d762b17b951ef5d1e49b9d6d
-Top:    7dd76fb92bf5d5f4d8fc0fc7b046dd10b87373ef
+Bottom: 7bb35e10969b7b800edee441e8cec344902e805c
+Top:    c055afb9fb18a1920b3446a0840d63e9ec8e72cf
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-07 15:20:02 -0500
+Date:   2018-08-14 16:32:01 -0500
 
 New role gitlab-user
 
