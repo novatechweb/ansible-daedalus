@@ -1,5 +1,5 @@
 Bottom: 4b48d0ce43be23955352db3c5c731937dc81fc15
-Top:    2c4d6f97cba6bcf49ff25b8d1f889164d8fd5c81
+Top:    fbd93bfeae0b2f2ffcaf766872f3fb4744a83367
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:33:30 -0500
 
@@ -54,17 +54,13 @@ index 1ac46a1a..32b0b5c0 100644
  userInfoProvider = util.LdapUserInfo(
          uri=os.getenv('LDAP_URI'),
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index ef79a5b9..d1aa07d5 100644
+index ef79a5b9..b5134a96 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -49,8 +49,9 @@ container_env:
-   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
-   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
+@@ -51,6 +51,7 @@ container_env:
    GITLAB_URI: 'https://{{ gitlab_hostname }}/'
--  GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
--  GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
-+  GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
-+  GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
+   GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
+   GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
 +  GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
    GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
    LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
