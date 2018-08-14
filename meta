@@ -1,6 +1,6 @@
 Version: 1
-Previous: a7346aeb00174887ebeec0ad240396e6ab1117a7
-Head: 124a769454d56a62a0539b93dcebaf1c093d3527
+Previous: 44327df891bec2ae591141983f9b5429954cb11a
+Head: 545ace5c2d208fb638f67a5176ba58f6e2171f2b
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -24,8 +24,7 @@ Applied:
   codebase-generator: 09a8dffd2e1027d9d7de44bb3e7f282dc25c3bde
   single-branch-builders: bca6bf890e2c8394fd0feb7fa52fd0dc93eeffc7
   irc-reporter: b2a1e25cd5a5284d90f70bfa51bbe1dba6dfd967
-  gitlab-status-reporter: 33d8e06d12272ece9df80f6c0bdb6d97e866d795
-  mail-reporter: e605ee398f999b5c83272806babd13425e93df34
-  refresh-temp: 124a769454d56a62a0539b93dcebaf1c093d3527
+  gitlab-status-reporter: 750b4a7348a6968405b4613a53938978eca26637
+  mail-reporter: 545ace5c2d208fb638f67a5176ba58f6e2171f2b
 Unapplied:
 Hidden:
