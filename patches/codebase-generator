@@ -1,7 +1,7 @@
 Bottom: cffc33133d6f22e7f695ea88b5e4fdfeb2175cb7
-Top:    d1de6ae944a226abd552b90aa2727283237cabc4
+Top:    a6190002b5b6ffccb846868cacecfd9d6175537a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-13 11:04:04 -0500
+Date:   2018-08-14 15:38:56 -0500
 
 Add codebase generator function
 
@@ -10,13 +10,20 @@ branch, and revision, and creates a predictable string describing the code.
 This is used to decide upon the builder for a change and also to tie a fork
 repository back to its parent for merge requests.
 
-
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 4eb34ff2..a0d5c9f6 100644
+index 4eb34ff2..5f1c821e 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -139,3 +139,28 @@ c['workers'].extend(ptxdist.workers)
+@@ -6,6 +6,7 @@
+ 
+ import os
+ from buildbot.plugins import secrets,steps,util
++from urlparse import urlparse
+ 
+ os.environ['LONG_RUN_TIMEOUT']='14400'
+ 
+@@ -139,3 +140,28 @@ c['workers'].extend(ptxdist.workers)
  c['schedulers'].extend(ptxdist.schedulers)
  c['builders'].extend(ptxdist.builders)
  c['change_source'].extend(ptxdist.change_source)
