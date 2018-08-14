@@ -1,0 +1,22 @@
+Bottom: bdaf5dbe27f31490ee0eaac9e8f10acc3e761134
+Top:    14e00c097f48c6d8fd95980649795b008ad6e6ae
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-14 15:49:32 -0500
+
+Refresh of irc-reporter
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index a79778ef..d9b8f54b 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -19,7 +19,8 @@ RUN pip --no-cache-dir install \
+     'buildbot-grid-view' \
+     'buildbot-waterfall-view' \
+     'buildbot-www' \
+-    'ldap3'
++    'ldap3' \
++    'pyOpenSSL'
+ 
+ # Create buildbot user
+ ARG BUILDBOT_UID=1000
