@@ -1,5 +1,5 @@
 Bottom: ab4dec8b78ca8897689d987132f7a64cd6e82737
-Top:    ab4dec8b78ca8897689d987132f7a64cd6e82737
+Top:    951aed5f7c9bcab5e75a3be28dbb5691c2437a1d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 16:07:50 -0500
 
@@ -7,4 +7,42 @@ update worker configure like master
 
 
 ---
-
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 6232036e..c18ebba4 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -146,10 +146,10 @@ c['buildbotNetUsageData'] = 'basic'
+ 
+ import openembedded
+ reload(openembedded)
+-c['workers'].extend(openembedded.workers)
+-c['schedulers'].extend(openembedded.schedulers)
+-c['builders'].extend(openembedded.builders)
+-c['change_source'].extend(openembedded.change_source)
++c['workers'].extend(openembedded.WorkerConfig['workers'])
++c['schedulers'].extend(openembedded.WorkerConfig['schedulers'])
++c['builders'].extend(openembedded.WorkerConfig['builders'])
++c['change_source'].extend(openembedded.WorkerConfig['change_source'])
+ 
+ import ptxdist
+ reload(ptxdist)
+diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
+index ca79dca1..4a67093b 100755
+--- a/docker/buildbot-master/buildbot/openembedded.py
++++ b/docker/buildbot-master/buildbot/openembedded.py
+@@ -38,6 +38,15 @@ c['workers'] = [
+ 
+ DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
+ 
++c = WorkerConfig = {}
++
++
++# BUILDERS
++# The 'builders' list defines the Builders, which tell Buildbot how to perform
++# a build: what steps, and which workers can execute them.  Note that any
++# particular build will only take place on one worker.
++c['builders'] = []
++
+ # CHANGESOURCES
+ c['change_source'] = [
+     changes.GitPoller(
