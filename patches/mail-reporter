@@ -1,5 +1,5 @@
 Bottom: 13f0a179b20177787aadef632d0c2a47c511b862
-Top:    13f0a179b20177787aadef632d0c2a47c511b862
+Top:    295b51caaa2784c78a0815b6e5221b0519b9d338
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:34:33 -0500
 
@@ -7,4 +7,21 @@ Use internal mail server
 
 
 ---
-
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 32b0b5c0..6232036e 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -53,10 +53,10 @@ mn = reporters.MailNotifier(
+     sendToInterestedUsers=True,
+     extraRecipients=["andrew.cooper@novatechweb.com"],
+     useTls=True,
+-    relayhost=os.getenv('BUILDBOT_SMTP_HOST',"relay.dnsexit.com"),
+-    smtpPort=26,
+-    smtpUser=os.getenv('BUILDBOT_SMTP_USER', "Dean.cox"),
+-    smtpPassword=os.getenv('BUILDBOT_SMTP_PASS',"no5156")
++    relayhost=os.getenv('BUILDBOT_SMTP_HOST'),
++    smtpPort=os.getenv('BUILDBOT_SMTP_PORT'),
++    smtpUser=os.getenv('BUILDBOT_SMTP_USER'),
++    smtpPassword=os.getenv('BUILDBOT_SMTP_PASS')
+     )
+ c['services'].append(mn)
