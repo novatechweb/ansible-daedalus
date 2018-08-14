@@ -57,7 +57,7 @@
 
 - name: Populate known_hosts secret
   copy:
-    content: '{{ known_hosts }}'
+    content: "{{ known_hosts }}\n"
     dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
 
 - name: Checkout image repo
