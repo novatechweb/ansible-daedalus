@@ -1,0 +1,21 @@
+Bottom: b70d25dff7de68e0598602dcde05537c060abf98
+Top:    b01bfdb2e353a51e67217a448961045f6afc5c30
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-14 15:31:29 -0500
+
+Refresh of codebase-generator
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index aac3c05d..06dac1f7 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -147,8 +147,7 @@ c['schedulers'].extend(ptxdist.schedulers)
+ c['builders'].extend(ptxdist.builders)
+ c['change_source'].extend(ptxdist.change_source)
+ 
+-from pprint import pprint
+-from urlparse import urlparse
++
+ def codebaseGenerator(chdict):
+     """ Generate a codebase description.

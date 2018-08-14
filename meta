@@ -1,6 +1,6 @@
 Version: 1
-Previous: caf91a5577a0cd1087baf854af26ab2d35c9df1b
-Head: 6c4632230b6cf749c88cdc5ee3fc771c18056b96
+Previous: 41cb0718d089bae95589ed8424df6e4607562a5d
+Head: 35a2072e88ad3cce02ae9f137cc198790947b8ce
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -24,5 +24,6 @@ Applied:
   codebase-generator: 37810f4c3395c79693668e6c96ceec21f4c70341
   single-branch-builders: e50798b2148d0106abb20e7339f9e303d4cd1921
   irc-reporter: 6c4632230b6cf749c88cdc5ee3fc771c18056b96
+  refresh-temp: 35a2072e88ad3cce02ae9f137cc198790947b8ce
 Unapplied:
 Hidden:
