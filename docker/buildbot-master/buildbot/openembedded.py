@@ -17,6 +17,7 @@ workers = [
 
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 
+
 # CHANGESOURCES
 change_source = [
     changes.GitPoller(
