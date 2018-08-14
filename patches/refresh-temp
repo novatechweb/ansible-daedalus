@@ -1,0 +1,42 @@
+Bottom: 14e00c097f48c6d8fd95980649795b008ad6e6ae
+Top:    13f0a179b20177787aadef632d0c2a47c511b862
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-14 15:49:56 -0500
+
+Refresh of gitlab-status-reporter
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index d9b8f54b..72733708 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -20,7 +20,8 @@ RUN pip --no-cache-dir install \
+     'buildbot-waterfall-view' \
+     'buildbot-www' \
+     'ldap3' \
+-    'pyOpenSSL'
++    'pyOpenSSL' \
++    'txrequests'
+ 
+ # Create buildbot user
+ ARG BUILDBOT_UID=1000
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 1ac46a1a..32b0b5c0 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -60,6 +60,15 @@ mn = reporters.MailNotifier(
+     )
+ c['services'].append(mn)
+ 
++gl = reporters.GitLabStatusPush(
++    os.getenv('GITLAB_TOKEN'),
++    context="Buildbot CI",
++    baseURL=os.getenv("GITLAB_URI"),
++    verbose=True,
++    debug=True
++)
++c['services'].append(gl)
++
+ ####### WEB SERVER
+ userInfoProvider = util.LdapUserInfo(
+         uri=os.getenv('LDAP_URI'),
