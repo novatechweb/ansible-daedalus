@@ -1,6 +1,6 @@
 Version: 1
-Previous: 0fbde4b483de734d709f6a50ed81d1411009db48
-Head: f5e4e95069ded39adb30e8f178eb05705ef92948
+Previous: 9a4e2803a4e9dc8d3317bd508caa2168357d881e
+Head: 24e1c243da36e9be23845dc7bf5aa854b9f2227a
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -23,5 +23,6 @@ Applied:
   email-account: 2180befd58fbf199d9391da1dc7e89fa41c4d229
   codebase-generator: 37810f4c3395c79693668e6c96ceec21f4c70341
   single-branch-builders: f5e4e95069ded39adb30e8f178eb05705ef92948
+  refresh-temp: 24e1c243da36e9be23845dc7bf5aa854b9f2227a
 Unapplied:
 Hidden:
