@@ -1,5 +1,5 @@
-Bottom: fd395adab4dcf76878755afade683280987c209d
-Top:    edf4bf556ed5fc90dceadfe475f0a8d2257673bc
+Bottom: 16111ecac25094c9c6d6aa481d78a9967b9e18d9
+Top:    16111ecac25094c9c6d6aa481d78a9967b9e18d9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-09 15:55:33 -0500
 
@@ -7,44 +7,4 @@ Enable change hooks from Gitlab
 
 
 ---
-diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 1aa2a72d..da5b9b71 100644
---- a/ansible-playbook/group_vars/all/credentials.yml
-+++ b/ansible-playbook/group_vars/all/credentials.yml
-@@ -3,6 +3,7 @@
- buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin"                      , length=20) }}'
- buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel"                , length=20) }}'
- buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist"             , length=20) }}'
-+buildbot_webhook_secret:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/webhook"                    , length=20) }}'
- buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
- buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
- buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 707c1802..4eb34ff2 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -91,7 +91,12 @@ c['www'] = {
-                 ]),
-             ],
-         ),
-+    'change_hook_dialects': {
-+        'gitlab': {
-+            'secret': os.getenv('GITLAB_WEBHOOK_SECRET')
-+        }
-     }
-+}
- 
- ####### PROJECT IDENTITY
- 
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 1e92d562..51f9fd41 100644
---- a/roles/buildbot-master/defaults/main.yml
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -47,6 +47,7 @@ container_env:
-   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
-   GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
-   GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
-+  GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
-   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
-   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
-   LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
+
