@@ -1,22 +1,21 @@
 Bottom: 8238ac72e9ca869bd9ec953881147b0dab7b4ad0
-Top:    9e9da779f337dc3d381d204c0c83ddbbd6bce592
+Top:    d835b9f435c34a306b1498dbe128169b706cc2f7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-09 15:23:58 -0500
+Date:   2018-08-14 16:01:17 -0500
 
 Add Gitlab Authentication
 
-
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index f3aec6f1..1aa2a72d 100644
+index f3aec6f1..69052558 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -7,6 +7,8 @@ buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/cre
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
  buildsystem_ssh_root_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/root"                , length=20) }}'
-+gitlab_buildbot_auth_id:             '{{ lookup("password", playbook_dir + "/credentials/git/auth/buildbot_client_id") }}'
-+gitlab_buildbot_auth_secret:         '{{ lookup("password", playbook_dir + "/credentials/git/auth/buildbot_secret") }}'
++gitlab_buildbot_auth_id:             '{{ lookup("password", playbook_dir + "/credentials/git/auth/oauth_client_id") }}'
++gitlab_buildbot_auth_secret:         '{{ lookup("password", playbook_dir + "/credentials/git/auth/oauth_secret") }}'
  gitlab_db_password:                  '{{ lookup("password", playbook_dir + "/credentials/git/db/user"                         , length=20) }}'
  gitlab_email_password:               '{{ lookup("password", playbook_dir + "/credentials/git/email/gitlab@novatech-llc.com"   , length=20) }}'
  gitlab_root_password:                '{{ lookup("password", playbook_dir + "/credentials/git/users/root"                      , length=20) }}'
