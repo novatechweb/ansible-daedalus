@@ -1,0 +1,20 @@
+Bottom: 295b51caaa2784c78a0815b6e5221b0519b9d338
+Top:    9f6ca982f5a88600eb5960a171ad1a14e2ea4bdd
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-14 15:51:16 -0500
+
+Refresh of irc-reporter
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 78b584d2..3def5922 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -2,6 +2,7 @@
+ # passwords
+ buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin"                      , length=20) }}'
+ buildbot_email_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/buildbot@novatech-llc.com"  , length=20) }}'
++buildbot_irc_password:               '{{ lookup("password", playbook_dir + "/credentials/buildbot/irc-NovaTechCI"             , length=20) }}'
+ buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel"                , length=20) }}'
+ buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist"             , length=20) }}'
+ buildbot_webhook_secret:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/webhook"                    , length=20) }}'
