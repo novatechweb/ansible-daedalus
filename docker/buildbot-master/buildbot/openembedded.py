@@ -5,20 +5,41 @@
 import os
 from buildbot.plugins import *
 
+c = WorkerConfig = {}
+
 DEFAULT_BBFLAGS = '-k'
+DEFAULT_CODEBASE = "ntel/setup-scripts"
+
+MACHINES = [
+    "orionlxm",
+    "orionlx-cpx",
+    "orionlx-plus",
+    "orion-io",
+    "qemux86-64",
+    "all",
+]
+
+
+def getBuilderName(machine):
+    return "ntel-%s" % (machine)
+
+
+def getSchedulerName(flavor):
+    return "ntel-%s" % (flavor)
+
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
 # a Worker object, specifying a unique worker name and password.  The same
 # worker name and password must be configured on the worker.
-workers = [
+c['workers'] = [
     worker.Worker("worker-ntel", "pass", max_builds=1),
 ]
 
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 
 # CHANGESOURCES
-change_source = [
+c['change_source'] = [
     changes.GitPoller(
         repourl=DEFAULT_REPO,
         branches=['master', 'morty'],
@@ -27,21 +48,17 @@ change_source = [
 ]
 
 # SCHEDULERS
-schedulers = [
+c['schedulers'] = [
     schedulers.SingleBranchScheduler(
-        name="push",
-        builderNames=["ntel_orionlxm"],
+        name=getSchedulerName("push"),
+        builderNames=[getBuilderName(m) for m in MACHINES],
         change_filter=util.ChangeFilter(
-            project='setup-scripts',
+            codebase=DEFAULT_CODEBASE,
             category='push',
         ),
-        codebases={
-            "andrew.cooper/setup-scripts": {
-                "repository": "git@git.novatech-llc.com:andrew.cooper/setup-scripts.git",
-                "branch": None,
-                "revision": None
-            }
-        },
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
         properties={
             'clobber': False,
             'cache': True,
@@ -50,117 +67,98 @@ schedulers = [
         },
         treeStableTimer=5,
     ),
+
     schedulers.SingleBranchScheduler(
-        name="merge-request",
-        builderNames=["ntel_orionlxm"],
+        name=getSchedulerName("merge-request"),
+        builderNames=[getBuilderName(m) for m in MACHINES],
         change_filter=util.ChangeFilter(
-            project='setup-scripts',
+            codebase=DEFAULT_CODEBASE,
             category='merge_request',
         ),
-        codebases={
-            "andrew.cooper/setup-scripts": {
-                "repository": "https://git.novatech-llc.com/andrew.cooper/setup-scripts.git",
-                "branch": None,
-                "revision": None
-            }
-        },
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
         properties={
             'clobber': False,
             'cache': True,
             'release_pin': None,
             'bbflags': DEFAULT_BBFLAGS,
         },
-        treeStableTimer=30,
+        treeStableTimer=5,
     ),
+
     schedulers.ForceScheduler(
-        name="Force",
+        name=getSchedulerName("force"),
         label="Force NTEL OpenEmbedded Build",
-        builderNames=[
-            "ntel_orionlxm",
-            "ntel_orionlx_cpx",
-            "ntel_orionlx_plus",
-            "ntel_orion_io",
-            "ntel_qemux86_64",
-            "ntel_all"
-        ],
+        builderNames=[getBuilderName(m) for m in MACHINES],
         codebases=[
             util.CodebaseParameter(
-                "",
-                label="Main repository",
-                # will generate a combo box
-                branch=util.StringParameter(
-                    name="branch",
-                    default="morty"),
+                "codebase",
+                label="Build Source",
                 repository=util.StringParameter(
                     name="repository",
                     default=DEFAULT_REPO),
-
-                # will generate nothing in the form, but revision, repository,
-                # and project are needed by buildbot scheduling system so we
-                # need to pass a value ("")
-                revision=util.FixedParameter(name="revision", default=""),
-                project=util.FixedParameter(
-                    name="project", default="ntel-oe"),
+                branch=util.StringParameter(
+                    name="branch",
+                    default="morty"),
+                revision=util.StringParameter(
+                    name="revision",
+                    default="")
             )
         ],
         properties=[
-            util.BooleanParameter(
-                name="clobber",
-                label="Clobber build directory",
-                default=False
-            ),
-            util.BooleanParameter(
-                name='cache',
-                label="Use cached state",
-                default=True
-            ),
-            util.StringParameter(
-                name="release_pin",
-                label="PIN for release signing",
-                default='',
-                required=False,
-            ),
-            util.StringParameter(
-                name='bbflags',
-                label="BitBake Options",
-                default=DEFAULT_BBFLAGS
-            ),
-        ],
+            util.NestedParameter(
+                name="options",
+                label="Build Options",
+                layout="vertical",
+                fields=[
+                    util.BooleanParameter(
+                        name="clobber",
+                        label="Clobber build directory",
+                        default=False),
+                    util.BooleanParameter(
+                        name='cache',
+                        label="Use cached state",
+                        default=True),
+                    util.StringParameter(
+                        name="release_pin",
+                        label="PIN for release signing",
+                        default='',
+                        required=False),
+                    util.StringParameter(
+                        name='bbflags',
+                        label="BitBake Options",
+                        default=DEFAULT_BBFLAGS),
+                ]
+            )
+        ]
     ),
 
     schedulers.Nightly(
-        name="ntel-nightly",
-        branch=None,
-        builderNames=[
-            "ntel_orionlxm",
-            "ntel_orionlx_cpx",
-            "ntel_orionlx_plus",
-            "ntel_orion_io",
-            "ntel_qemux86_64",
-            "ntel_all"
+        name=getSchedulerName("nightly"),
+        builderNames=[getBuilderName(m) for m in MACHINES],
+        change_filter=util.ChangeFilter(
+            codebase=DEFAULT_CODEBASE,
+        ),
+        codebases=[
+            DEFAULT_CODEBASE
         ],
-        codebases={
-            '': {
-                'repository': DEFAULT_REPO,
-                'branch': 'morty',
-                'revision': '',
-            }
-        },
+        onlyIfChanged=True,
         properties={
             'clobber': True,
             'cache': True,
-            'bbflags': DEFAULT_BBFLAGS
+            'bbflags': DEFAULT_BBFLAGS,
         },
-        hour=22
-    ),
-
+        hour=22,
+    )
 ]
+
 
 # BUILDERS
 # The 'builders' list defines the Builders, which tell Buildbot how to perform
 # a build: what steps, and which workers can execute them.  Note that any
 # particular build will only take place on one worker.
-builders = []
+c['builders'] = []
 
 git_lock = util.MasterLock("git")
 
@@ -291,7 +289,7 @@ class BitBakeFactory(util.BuildFactory):
     def __init__(self, *build_steps):
         util.BuildFactory.__init__(self)
         self.addStep(steps.SetProperties(ComputeBuildProperties))
-        self.addStep(steps.Git(
+        self.addStep(steps.GitLab(
             repourl=util.Property('repository'),
             branch=util.Property('branch'),
             codebase=util.Property('codebase'),
@@ -300,7 +298,7 @@ class BitBakeFactory(util.BuildFactory):
             locks=[git_lock.access('exclusive')],
             retry=(360, 5)))
         self.addStep(steps.ShellCommand(
-            command=["./oebb.sh", "config", util.Property('machine')]
+                command=["./oebb.sh", "config", util.Property('machine')]
             ))
         self.addStep(BitBakeConf(auto_conf, conf_file='auto.conf'))
 
@@ -309,10 +307,10 @@ class BitBakeFactory(util.BuildFactory):
         self.addStep(BitBakeArchive())
 
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLXm",
-        name="ntel_orionlxm",
+        name=getBuilderName("orionlxm"),
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
             BitBake("orionlxm-swu-image"),
@@ -325,10 +323,10 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion I/O",
-        name="ntel_orion_io",
+        name=getBuilderName("orion-io"),
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
             BitBake("-c cleanall u-boot-orion-io"),
@@ -341,10 +339,10 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLX (CPX)",
-        name="ntel_orionlx_cpx",
+        name=getBuilderName("orionlx-cpx"),
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
             BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
@@ -358,10 +356,10 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLX (Plus)",
-        name="ntel_orionlx_plus",
+        name=getBuilderName("orionlx-plus"),
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
             BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
@@ -374,10 +372,10 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion (qemu)",
-        name="ntel_qemux86_64",
+        name=getBuilderName("qemux86-64"),
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
             BitBake("gdk-pixbuf-native:do_cleanall"),
@@ -391,10 +389,10 @@ builders.append(
     ))
 
 multiconfig = ['orionlx-cpx', 'orionlx-plus', 'orionlxm', 'orion-io']
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion (all)",
-        name="ntel_all",
+        name=getBuilderName("all"),
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
             BitBake(" gdk-pixbuf-native:do_cleanall"
