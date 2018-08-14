@@ -1,5 +1,5 @@
-Bottom: 208f7ed73cbd38b0a5da0a22cf473eddfbd04558
-Top:    4b48d0ce43be23955352db3c5c731937dc81fc15
+Bottom: 0e4b615a4e0ebf1797763288916a9005e3b01410
+Top:    963f5749c2ae749adcdd4df8b06c158dcb8d1308
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 15:30:30 -0500
 
@@ -70,7 +70,7 @@ index 5f1c821e..1ac46a1a 100644
  
  mn = reporters.MailNotifier(
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 51f9fd41..ef79a5b9 100644
+index bda887be..b11a1f45 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -34,6 +34,10 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'

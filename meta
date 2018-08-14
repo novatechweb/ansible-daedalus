@@ -1,6 +1,6 @@
 Version: 1
-Previous: 8c61360a2fd3dd01c2d0333fb5995a5308d710e5
-Head: a84c2ab03a703c23e5af120fb4b05998df33b4cd
+Previous: 09a2cf2dda196e4ec628d22d67ae998bafd99107
+Head: 49d0ba2bf4c1f49991e1e75d2680394050f7c0d5
 Applied:
   add-buildbot-role: 38b29fb3aaab7b086eebc6b1575ef3829b6b4667
   add-buildbot-ntel-worker: ebcf934af24c35e33b7fb3cb6e272508bdb672dd
@@ -20,11 +20,11 @@ Applied:
   update-ptxdistrc: ac3b1d044be83f168fcd3c0bb3319b56abf1b1e9
   enable-secrets: 4f269987fcbcb40900da1105e2ebef4196d13b0e
   change-hooks: a84c2ab03a703c23e5af120fb4b05998df33b4cd
+  email-account: 45ec478a368a89e66e0cafeca2ef8c9fc1cb2a56
+  codebase-generator: 8d38af9bd090b4d644eba57cdb1cd58a81aebb2f
+  single-branch-builders: b6080b22759ee1ba2de7de683592c28bb0bcbd61
+  irc-reporter: 0eb9707236b14206523dc88d6ec93257888ec79b
+  gitlab-status-reporter: 49d0ba2bf4c1f49991e1e75d2680394050f7c0d5
 Unapplied:
-  email-account: 0fef088aa39397b3f0e96f205cc9d6952cf07d21
-  codebase-generator: 09a8dffd2e1027d9d7de44bb3e7f282dc25c3bde
-  single-branch-builders: bca6bf890e2c8394fd0feb7fa52fd0dc93eeffc7
-  irc-reporter: b2a1e25cd5a5284d90f70bfa51bbe1dba6dfd967
-  gitlab-status-reporter: d16341e847fe4f95c16e4253889b482ee723cbe8
   mail-reporter: 545ace5c2d208fb638f67a5176ba58f6e2171f2b
 Hidden:
