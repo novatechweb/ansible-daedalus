@@ -1,0 +1,35 @@
+Bottom: 160ce6f0e2dd830464124b6b1689fec01b2b0c41
+Top:    7511ef4e0c4dde58e8f28d6fb4f8ad1e293e4105
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-14 15:54:17 -0500
+
+Refresh of gitlab-status-reporter
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 3def5922..bd8670cd 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -12,6 +12,7 @@ buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/cre
+ buildsystem_ssh_root_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/root"                , length=20) }}'
+ gitlab_buildbot_auth_id:             '{{ lookup("password", playbook_dir + "/credentials/git/auth/buildbot_client_id") }}'
+ gitlab_buildbot_auth_secret:         '{{ lookup("password", playbook_dir + "/credentials/git/auth/buildbot_secret") }}'
++gitlab_buildbot_token:               '{{ lookup("password", playbook_dir + "/credentials/git/auth/buildbot_token") }}'
+ gitlab_db_password:                  '{{ lookup("password", playbook_dir + "/credentials/git/db/user"                         , length=20) }}'
+ gitlab_email_password:               '{{ lookup("password", playbook_dir + "/credentials/git/email/gitlab@novatech-llc.com"   , length=20) }}'
+ gitlab_root_password:                '{{ lookup("password", playbook_dir + "/credentials/git/users/root"                      , length=20) }}'
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 1d123e36..8aa9bb73 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -50,8 +50,8 @@ container_env:
+   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
+   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
+   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
+-  GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
+-  GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
++  GITLAB_CLIENT_ID: '{{ gitlab_buildbot_auth_id }}'
++  GITLAB_CLIENT_SECRET: '{{ gitlab_buildbot_auth_secret }}'
+   GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
+   GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
+   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
