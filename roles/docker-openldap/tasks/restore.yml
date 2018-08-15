@@ -43,9 +43,10 @@
     detach: false
     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
     volumes:
+    - '{{ openssl_dv_name }}:/etc/ssl/private:z'
+    - '{{ openldap_cv_name }}:/etc/ldap:z'
+    - '{{ openldap_dv_name }}:/var/lib/ldap:z'
     - '{{ openldap_docker_restore_dir }}:/tmp/import_export:z'
-    volumes_from:
-    - '{{ openssl_dv_name }}'
   with_items: '{{ openldap_backup_files }}'
 
 - name: restart container (ldap)

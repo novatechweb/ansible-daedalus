@@ -69,11 +69,9 @@
 # *****************************************************************************
 # Create the data volumes
 
-- name: data-volume container
-  docker_datavolume:
-    image_name: '{{ openssl_image_name }}'
-    image_tag: '{{ docker_image_tag }}'
-    data_volume_container_name: '{{ openssl_dv_name }}'
+- name: certificates volume
+  docker_volume:
+    name: '{{ openssl_dv_name }}'
 
 # *****************************************************************************
 # Populate the openssl data-volume with default data
