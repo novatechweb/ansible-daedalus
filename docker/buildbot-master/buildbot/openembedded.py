@@ -5,20 +5,23 @@
 import os
 from buildbot.plugins import *
 
+c = WorkerConfig = {}
+
+
 DEFAULT_BBFLAGS = '-k'
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
 # a Worker object, specifying a unique worker name and password.  The same
 # worker name and password must be configured on the worker.
-workers = [
+c['workers'] = [
     worker.Worker("worker-ntel", "pass", max_builds=1),
 ]
 
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 
 # CHANGESOURCES
-change_source = [
+c['change_source'] = [
     changes.GitPoller(
         repourl=DEFAULT_REPO,
         branches=['master', 'morty'],
@@ -27,7 +30,7 @@ change_source = [
 ]
 
 # SCHEDULERS
-schedulers = [
+c['schedulers'] = [
     schedulers.ForceScheduler(
         name="Force",
         label="Force NTEL OpenEmbedded Build",
@@ -116,7 +119,7 @@ schedulers = [
 # The 'builders' list defines the Builders, which tell Buildbot how to perform
 # a build: what steps, and which workers can execute them.  Note that any
 # particular build will only take place on one worker.
-builders = []
+c['builders'] = []
 
 git_lock = util.MasterLock("git")
 
@@ -319,7 +322,7 @@ class BitBakeFactory(util.BuildFactory):
         self.addStep(BitBakeArchive())
 
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLXm",
         name="ntel_orionlxm",
@@ -334,7 +337,7 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion I/O",
         name="ntel_orion_io",
@@ -350,7 +353,7 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLX (CPX)",
         name="ntel_orionlx_cpx",
@@ -367,7 +370,7 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLX (Plus)",
         name="ntel_orionlx_plus",
@@ -383,7 +386,7 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion (qemu)",
         name="ntel_qemux86_64",
@@ -400,7 +403,6 @@ builders.append(
     ))
 
 multiconfig = ['orionlx-cpx', 'orionlx-plus', 'orionlxm', 'orion-io']
-mc_steps = []
 for machine in multiconfig:
     mc_steps.append(
         BitBakeConf(
@@ -421,7 +423,7 @@ mc_steps.extend((
             " multiconfig:orion-io:orion-io-swu-image"
             ),
 ))
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion (all)",
         name="ntel_all",
