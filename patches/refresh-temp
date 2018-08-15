@@ -1,0 +1,20 @@
+Bottom: ece73d56df331fd0c13dd1c61da4ae950001ac75
+Top:    45be9a328a8137afd11b25069407cf28a152c4bd
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-15 17:07:10 -0500
+
+Refresh of codebase-generator
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 9683a4fc..8cf12ec8 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -168,7 +168,6 @@ def codebaseGenerator(chdict):
+     This is used to decide upon the builder for a change and also to tie a fork
+     repository back to its parent for merge requests.
+     """
+-    pprint(chdict, indent=2)
+     path = urlparse(chdict['revlink']).path.lstrip('/')
+ 
+     components = []
