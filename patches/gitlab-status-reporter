@@ -1,5 +1,5 @@
-Bottom: 1fe4c728ccf5ec91661f5970b2479f9204ae447f
-Top:    389d0f7be08edc231b417fd1e7a696271bc9ea95
+Bottom: a10d4138ba6ba98d1218678fd1f21a8f6a45f7eb
+Top:    07ccf4ee25d2f6927c1bde0ad8beb85ca59f99a2
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:42 -0500
 
@@ -34,10 +34,10 @@ index d9b8f54b..72733708 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index c63bb99a..511db27e 100644
+index a50ccfb9..7f2ff830 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -60,6 +60,15 @@ mn = reporters.MailNotifier(
+@@ -61,6 +61,15 @@ mn = reporters.MailNotifier(
      )
  c['services'].append(mn)
  
@@ -54,7 +54,7 @@ index c63bb99a..511db27e 100644
  userInfoProvider = util.LdapUserInfo(
          uri=os.getenv('LDAP_URI'),
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index b11a1f45..d1aa07d5 100644
+index 334a12ce..d261448d 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -51,6 +51,7 @@ container_env:

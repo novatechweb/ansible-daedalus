@@ -1,5 +1,5 @@
 Bottom: 6e453720e15d9116c66e8571e3e9592ab446249f
-Top:    1fe4c728ccf5ec91661f5970b2479f9204ae447f
+Top:    a10d4138ba6ba98d1218678fd1f21a8f6a45f7eb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:42 -0500
 
@@ -34,7 +34,7 @@ index a79778ef..d9b8f54b 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index dafcfe81..c63bb99a 100644
+index dafcfe81..a50ccfb9 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -5,7 +5,8 @@
@@ -47,7 +47,7 @@ index dafcfe81..c63bb99a 100644
  from urlparse import urlparse
  
  os.environ['LONG_RUN_TIMEOUT']='14400'
-@@ -34,10 +35,17 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="/run/secrets")]
+@@ -34,10 +35,18 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="/run/secrets")]
  
  c['services'] = []
  
@@ -63,6 +63,7 @@ index dafcfe81..c63bb99a 100644
 +    nick=os.getenv("BUILDBOT_IRC_NICK"),
 +    notify_events=[],
 +    password=os.getenv("BUILDBOT_IRC_PASS"),
++    port=6697,
 +    useColors=True,
 +    useSSL=True
 +)
@@ -70,14 +71,14 @@ index dafcfe81..c63bb99a 100644
  
  mn = reporters.MailNotifier(
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index bda887be..b11a1f45 100644
+index bda887be..334a12ce 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -34,6 +34,10 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
  container_env:
    BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
    BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
-+  BUILDBOT_IRC_CHANNELS: "{{ ['#novatech'] | to_json }}"
++  BUILDBOT_IRC_CHANNELS: "['#novatech-ci']"
 +  BUILDBOT_IRC_HOST: 'chat.freenode.net'
 +  BUILDBOT_IRC_NICK: 'NovaTechCI'
 +  BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
