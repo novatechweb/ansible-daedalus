@@ -1,7 +1,7 @@
-Bottom: badf33ec6e77ba2515f54a167193faeddafb35b3
-Top:    90794b1c177672243ee3b37b0ec18cc023e2bfb7
+Bottom: cadbdc6531941c5dca9d30da85b286974de247cf
+Top:    e23cf41e922908e5ab246c2f81b304ece0562a8e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-15 09:59:18 -0500
+Date:   2018-08-15 10:31:41 -0500
 
 Add buildbot NTEL worker Docker image
 
@@ -11,6 +11,7 @@ build system must be updated to match.
 Two main updates:
 - do not generate multiconfig configs
 - do not generate signing configs
+
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml

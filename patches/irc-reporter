@@ -1,7 +1,7 @@
-Bottom: c3e72fa2089c1919be6e58c7982de9a2c98833e6
-Top:    0c6e23960a9cb60bffa7a88e3d2cb4db81055be6
+Bottom: 6e453720e15d9116c66e8571e3e9592ab446249f
+Top:    1fe4c728ccf5ec91661f5970b2479f9204ae447f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-14 16:24:53 -0500
+Date:   2018-08-15 10:31:42 -0500
 
 Configure freenode as IRC reporter
 
