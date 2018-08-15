@@ -1,5 +1,5 @@
-Bottom: c6d3371aa54fcf7d526cc4ab9cb007e5dbded790
-Top:    fcb939492941fdc54d1ffa413b4a39b976d4aebb
+Bottom: 81a62e35739b7d69fdd79afe1bdc155cecb020e9
+Top:    55b60791f5749981a1f83503b197e128b35380ac
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 16:24:53 -0500
 
@@ -8,10 +8,10 @@ update worker configure like master
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 6232036e..c18ebba4 100644
+index 75985b8a..4c29eb74 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -146,10 +146,10 @@ c['buildbotNetUsageData'] = 'basic'
+@@ -92,10 +92,10 @@ c['buildbotNetUsageData'] = 'basic'
  
  import openembedded
  reload(openembedded)
@@ -27,14 +27,14 @@ index 6232036e..c18ebba4 100644
  import ptxdist
  reload(ptxdist)
 diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
-index ca79dca1..c946d579 100755
+index 7e3643f2..8837daef 100755
 --- a/docker/buildbot-master/buildbot/openembedded.py
 +++ b/docker/buildbot-master/buildbot/openembedded.py
-@@ -38,6 +38,7 @@ c['workers'] = [
+@@ -17,6 +17,7 @@ workers = [
  
  DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
  
 +
  # CHANGESOURCES
- c['change_source'] = [
+ change_source = [
      changes.GitPoller(
