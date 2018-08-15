@@ -64,6 +64,8 @@ container_name: '{{ docker_name_prefix }}buildbot'
 # networks of the container
 container_networks:
   - name: '{{ docker_network_frontend }}'
+    aliases:
+      - '{{ buildbot_hostname }}'
 
 # volumes mounted within the container
 container_volumes:
