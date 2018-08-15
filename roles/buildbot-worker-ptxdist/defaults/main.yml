@@ -36,6 +36,9 @@ container_env:
 # the name of the container being started
 container_name: '{{ docker_name_prefix }}{{ hostname }}'
 
+# network configuration for the confainer
+container_networks: []
+
 # port configuration of the container
 container_port_args: []
 
