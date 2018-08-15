@@ -2,5 +2,5 @@
 
 # *****************************************************************************
 # Clean up svn
-docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z {{ repository_images.debian.image }}:{{ repository_images.debian.tag }} bash -c "rm -rf /tmp/import_export/SVN"
+docker run --rm -v {{ docker_backup_dir }}:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/SVN"
 {% endif %}
