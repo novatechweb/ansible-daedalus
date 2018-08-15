@@ -41,9 +41,8 @@
     detach: False
     image: '{{ svn_image_name }}:{{ docker_image_tag }}'
     name: 'svn_restore'
-    volumes_from:
-      - '{{ svn_dv_name }}'
     volumes:
+      - '{{ svn_dv_name }}:/var/lib/svn:z'
       - '{{ svn_docker_restore_dir }}:/tmp/import_export:z'
   when: not((svn_repos is undefined) or (svn_repos is none) or (svn_repos|trim == '')) or svn_repo_backup.file_list != []
 
