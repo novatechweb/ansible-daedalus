@@ -1,0 +1,104 @@
+Bottom: 4f1c5c8d6f71ac52f034436ac0be510cbc56050e
+Top:    90794b1c177672243ee3b37b0ec18cc023e2bfb7
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-15 10:28:32 -0500
+
+Refresh of add-buildbot-ntel-worker
+
+---
+diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
+index 9c16059b..6ba5e23b 100755
+--- a/docker/buildbot-master/buildbot/openembedded.py
++++ b/docker/buildbot-master/buildbot/openembedded.py
+@@ -35,12 +35,12 @@ c['schedulers'] = [
+         name="Force",
+         label="Force NTEL OpenEmbedded Build",
+         builderNames=[
+-            "ntel_orionlxm",
+-            "ntel_orionlx_cpx",
+-            "ntel_orionlx_plus",
+-            "ntel_orion_io",
+-            "ntel_qemux86_64",
+-            "ntel_all"
++            "ntel-orionlxm",
++            "ntel-orionlx-cpx",
++            "ntel-orionlx-plus",
++            "ntel-orion-io",
++            "ntel-qemux86-64",
++            "ntel-all"
+         ],
+         codebases=[
+             util.CodebaseParameter(
+@@ -91,12 +91,12 @@ c['schedulers'] = [
+         name="ntel-nightly",
+         branch=None,
+         builderNames=[
+-            "ntel_orionlxm",
+-            "ntel_orionlx_cpx",
+-            "ntel_orionlx_plus",
+-            "ntel_orion_io",
+-            "ntel_qemux86_64",
+-            "ntel_all"
++            "ntel-orionlxm",
++            "ntel-orionlx-cpx",
++            "ntel-orionlx-plus",
++            "ntel-orion-io",
++            "ntel-qemux86-64",
++            "ntel-all"
+         ],
+         codebases={
+             '': {
+@@ -270,7 +270,7 @@ class BitBakeFactory(util.BuildFactory):
+ c['builders'].append(
+     util.BuilderConfig(
+         description="OrionLXm",
+-        name="ntel_orionlxm",
++        name="ntel-orionlxm",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+             BitBake("orionlxm-swu-image"),
+@@ -286,7 +286,7 @@ c['builders'].append(
+ c['builders'].append(
+     util.BuilderConfig(
+         description="Orion I/O",
+-        name="ntel_orion_io",
++        name="ntel-orion-io",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+             BitBake("-c cleanall u-boot-orion-io"),
+@@ -302,7 +302,7 @@ c['builders'].append(
+ c['builders'].append(
+     util.BuilderConfig(
+         description="OrionLX (CPX)",
+-        name="ntel_orionlx_cpx",
++        name="ntel-orionlx-cpx",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+             BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
+@@ -319,7 +319,7 @@ c['builders'].append(
+ c['builders'].append(
+     util.BuilderConfig(
+         description="OrionLX (Plus)",
+-        name="ntel_orionlx_plus",
++        name="ntel-orionlx-plus",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+             BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
+@@ -335,7 +335,7 @@ c['builders'].append(
+ c['builders'].append(
+     util.BuilderConfig(
+         description="Orion (qemu)",
+-        name="ntel_qemux86_64",
++        name="ntel-qemux86-64",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+             BitBake("gdk-pixbuf-native:do_cleanall"),
+@@ -352,7 +352,7 @@ multiconfig = ['orionlx-cpx', 'orionlx-plus', 'orionlxm', 'orion-io']
+ c['builders'].append(
+     util.BuilderConfig(
+         description="Orion (all)",
+-        name="ntel_all",
++        name="ntel-all",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+             BitBake(" gdk-pixbuf-native:do_cleanall"
