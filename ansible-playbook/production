@@ -1,3 +1,5 @@
+builder.novatech-llc.com ansible_host=172.16.64.4 ansible_user=ansibleremote
+
 [bacula]
 daedalus.novatech-llc.com
 
@@ -6,6 +8,10 @@ daedalus.novatech-llc.com
 
 [docker-hosts]
 daedalus.novatech-llc.com
+builder.novatech-llc.com
 
 [buildsystem]
 buildsystem.novatech-llc.com
+
+[builder]
+builder.novatech-llc.com
