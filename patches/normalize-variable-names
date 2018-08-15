@@ -1,5 +1,5 @@
-Bottom: 1dfbf85c8bd7d45aa31a8d5ee22307fa5627672f
-Top:    0cfba95cec25729d73b43610b211dae11886ee71
+Bottom: cfb17fd18d62ac58d76f5b135f7efc5bd33e712e
+Top:    38889f0ed3b670dcd424f7a3569d557d783fa6b8
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 10:41:17 -0500
 
@@ -187,7 +187,7 @@ index f28e1bdc..bbe1b72f 100644
  # files restored from tape
  mantisbt_static_backup_file: '/mantisbt.tar'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 6d374c60..f0119408 100644
+index e2f4b5e7..1d4b1719 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -12,7 +12,7 @@
@@ -199,7 +199,7 @@ index 6d374c60..f0119408 100644
      owner: root
      group: tape
      mode: 'u=rwx,g=rwx,o=rx'
-@@ -162,7 +162,7 @@
+@@ -163,7 +163,7 @@
  
  - name: cleanup - import mysql config
    file:
@@ -325,7 +325,7 @@ index 57880398..216ec39c 100644
  # files restored from tape
  wiki_static_backup_file: '/mediawiki.tar'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 0ca009b7..ac687e81 100644
+index 1d8c4f71..b8caea59 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -12,7 +12,7 @@
