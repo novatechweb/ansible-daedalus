@@ -1,5 +1,5 @@
-Bottom: 8e6bdb048121d026f155db1a4472c66cea8781c2
-Top:    7f86412ae286dfc2d672ffd0a8d6c34624fb2c17
+Bottom: 55b56feed9115d8077afa97d17340075aab790cc
+Top:    9280e25addf4f9af80485aa00f76c844d264a20b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-14 16:24:52 -0500
 
@@ -35,7 +35,7 @@ index 1baa3f49..a79778ef 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 0a3aed76..dfbf6dec 100644
+index 380d39cd..f9845106 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -49,6 +49,20 @@ mn = reporters.MailNotifier(
