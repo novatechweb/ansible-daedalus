@@ -1,7 +1,7 @@
-Bottom: 1d16e9880fed441bc0b07f6e03bb7472cc031358
-Top:    92af772d7ce23942d2bfa218cb6156f0a0b6b7f6
+Bottom: dc6b6c9b6325d17a12aa109f8802604a27010f70
+Top:    078798968c6bc0c75cb9edb46b332e9ac46f843d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-20 16:05:06 -0500
+Date:   2018-08-15 10:31:45 -0500
 
 Add option to run Nexus in a container
 
