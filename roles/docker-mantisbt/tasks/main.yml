@@ -78,6 +78,7 @@
     remote_src: true
     src: '{{ docker_projects_dir }}/docker-mantisbt/mantisbt.sh'
     dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
+    mode: 'u=rwx,g=rx,o=rx'
 
 - name: build image
   docker_build:

@@ -75,7 +75,11 @@
     dest: '{{ docker_projects_dir }}/docker-mediawiki'
 
 - name: copy script
-  command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
+  copy:
+    remote_src: true
+    src: '{{ docker_projects_dir }}/docker-mantisbt/mantisbt.sh'
+    dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
+    mode: 'u=rwx,g=rx,o=rx'
 
 - name: build image
   docker_build:
