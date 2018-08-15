@@ -1,7 +1,7 @@
-Bottom: e0f1edda46410826330c17460c6bdefc2edd1261
-Top:    e18cefd843fbccb488c6f98a9860bb5d77e66e52
+Bottom: 1dfbf85c8bd7d45aa31a8d5ee22307fa5627672f
+Top:    0cfba95cec25729d73b43610b211dae11886ee71
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-11 17:03:08 -0500
+Date:   2018-07-20 10:41:17 -0500
 
 Normalize variable names
 

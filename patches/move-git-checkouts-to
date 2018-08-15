@@ -1,7 +1,7 @@
-Bottom: e6246394c433628a024c50476b209a834eb3f708
-Top:    8add18017536106cd5b4f64656171d801e92d499
+Bottom: 5246727ded770c8db1ead96962670bc8fd71d0fa
+Top:    68584f33f54cbbb397008bef050ab1b5a696ebe6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-11 17:03:08 -0500
+Date:   2018-07-20 10:41:17 -0500
 
 Move git checkouts to respective roles
 

@@ -1,7 +1,7 @@
-Bottom: 8add18017536106cd5b4f64656171d801e92d499
-Top:    e0f1edda46410826330c17460c6bdefc2edd1261
+Bottom: 68584f33f54cbbb397008bef050ab1b5a696ebe6
+Top:    1dfbf85c8bd7d45aa31a8d5ee22307fa5627672f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-11 17:03:08 -0500
+Date:   2018-07-20 10:41:17 -0500
 
 Move ansible role vars to role defaults
 
