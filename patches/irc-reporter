@@ -1,5 +1,5 @@
-Bottom: 6e453720e15d9116c66e8571e3e9592ab446249f
-Top:    a10d4138ba6ba98d1218678fd1f21a8f6a45f7eb
+Bottom: 764245fe4268cebaeb886019aac9e53c9bf624e0
+Top:    662a03a8ec82e2428a891436d73eda6024c26b2b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:42 -0500
 
@@ -34,7 +34,7 @@ index a79778ef..d9b8f54b 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index dafcfe81..a50ccfb9 100644
+index ec24a14d..87cf20a5 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -5,7 +5,8 @@

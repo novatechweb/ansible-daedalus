@@ -1,5 +1,5 @@
 Bottom: 136ef1c7fa81d2dcbfd6f83211c9291e868a52ab
-Top:    b34397e6aca964556a2f05bbafd5a6a620c0c3f7
+Top:    797e8028410dee56f8c2137b1c745281fea033bc
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:42 -0500
 
@@ -13,7 +13,7 @@ repository back to its parent for merge requests.
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 420b93de..dafcfe81 100644
+index 420b93de..ec24a14d 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -6,6 +6,7 @@
@@ -24,7 +24,7 @@ index 420b93de..dafcfe81 100644
  
  os.environ['LONG_RUN_TIMEOUT']='14400'
  
-@@ -139,3 +140,28 @@ c['workers'].extend(ptxdist.workers)
+@@ -139,3 +140,27 @@ c['workers'].extend(ptxdist.workers)
  c['schedulers'].extend(ptxdist.schedulers)
  c['builders'].extend(ptxdist.builders)
  c['change_source'].extend(ptxdist.change_source)
@@ -38,7 +38,6 @@ index 420b93de..dafcfe81 100644
 +    This is used to decide upon the builder for a change and also to tie a fork
 +    repository back to its parent for merge requests.
 +    """
-+    pprint(chdict, indent=2)
 +    path = urlparse(chdict['revlink']).path.lstrip('/')
 +
 +    components = []
