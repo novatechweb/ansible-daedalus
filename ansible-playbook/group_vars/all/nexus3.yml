@@ -1,6 +1,8 @@
 nexus_version: 3.13.0
 nexus_networks:
   - name: '{{ docker_network_frontend }}'
+    aliases:
+      - '{{ nexus_hostname }}'
 docker: true
 nexus_default_port: 80
 public_hostname: '{{ nexus_hostname }}'
