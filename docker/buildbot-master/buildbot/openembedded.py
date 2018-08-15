@@ -38,14 +38,6 @@ c['workers'] = [
 
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 
-c = WorkerConfig = {}
-
-
-# BUILDERS
-# The 'builders' list defines the Builders, which tell Buildbot how to perform
-# a build: what steps, and which workers can execute them.  Note that any
-# particular build will only take place on one worker.
-c['builders'] = []
 
 # CHANGESOURCES
 c['change_source'] = [
