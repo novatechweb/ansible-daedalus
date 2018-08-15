@@ -1,0 +1,33 @@
+Bottom: 2bd2243af335e23d165cf7b62d34fb45243ca28d
+Top:    ece73d56df331fd0c13dd1c61da4ae950001ac75
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-15 12:31:02 -0500
+
+Refresh of irc-reporter
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index c18ebba4..9683a4fc 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -43,6 +43,7 @@ irc = reporters.IRC(
+     nick=os.getenv("BUILDBOT_IRC_NICK"),
+     notify_events=[],
+     password=os.getenv("BUILDBOT_IRC_PASS"),
++    port=6697,
+     useColors=True,
+     useSSL=True
+ )
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 1d123e36..43907def 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -34,7 +34,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ container_env:
+   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
+-  BUILDBOT_IRC_CHANNELS: "{{ ['#novatech'] | to_json }}"
++  BUILDBOT_IRC_CHANNELS: "['#novatech-ci']"
+   BUILDBOT_IRC_HOST: 'chat.freenode.net'
+   BUILDBOT_IRC_NICK: 'NovaTechCI'
+   BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
