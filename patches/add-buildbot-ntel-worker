@@ -1,5 +1,5 @@
 Bottom: badf33ec6e77ba2515f54a167193faeddafb35b3
-Top:    4f1c5c8d6f71ac52f034436ac0be510cbc56050e
+Top:    90794b1c177672243ee3b37b0ec18cc023e2bfb7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 09:59:18 -0500
 
@@ -80,7 +80,7 @@ index 75985b8a..4c29eb74 100644
  import ptxdist
  reload(ptxdist)
 diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
-index 5d2ba3d4..9c16059b 100755
+index 5d2ba3d4..6ba5e23b 100755
 --- a/docker/buildbot-master/buildbot/openembedded.py
 +++ b/docker/buildbot-master/buildbot/openembedded.py
 @@ -5,20 +5,23 @@
@@ -109,7 +109,7 @@ index 5d2ba3d4..9c16059b 100755
      changes.GitPoller(
          repourl=DEFAULT_REPO,
          branches=['master', 'morty'],
-@@ -27,7 +30,7 @@ change_source = [
+@@ -27,17 +30,17 @@ change_source = [
  ]
  
  # SCHEDULERS
@@ -118,6 +118,41 @@ index 5d2ba3d4..9c16059b 100755
      schedulers.ForceScheduler(
          name="Force",
          label="Force NTEL OpenEmbedded Build",
+         builderNames=[
+-            "ntel_orionlxm",
+-            "ntel_orionlx_cpx",
+-            "ntel_orionlx_plus",
+-            "ntel_orion_io",
+-            "ntel_qemux86_64",
+-            "ntel_all"
++            "ntel-orionlxm",
++            "ntel-orionlx-cpx",
++            "ntel-orionlx-plus",
++            "ntel-orion-io",
++            "ntel-qemux86-64",
++            "ntel-all"
+         ],
+         codebases=[
+             util.CodebaseParameter(
+@@ -88,12 +91,12 @@ schedulers = [
+         name="ntel-nightly",
+         branch=None,
+         builderNames=[
+-            "ntel_orionlxm",
+-            "ntel_orionlx_cpx",
+-            "ntel_orionlx_plus",
+-            "ntel_orion_io",
+-            "ntel_qemux86_64",
+-            "ntel_all"
++            "ntel-orionlxm",
++            "ntel-orionlx-cpx",
++            "ntel-orionlx-plus",
++            "ntel-orion-io",
++            "ntel-qemux86-64",
++            "ntel-all"
+         ],
+         codebases={
+             '': {
 @@ -116,7 +119,7 @@ schedulers = [
  # The 'builders' list defines the Builders, which tell Buildbot how to perform
  # a build: what steps, and which workers can execute them.  Note that any
@@ -245,7 +280,8 @@ index 5d2ba3d4..9c16059b 100755
 +c['builders'].append(
      util.BuilderConfig(
          description="OrionLXm",
-         name="ntel_orionlxm",
+-        name="ntel_orionlxm",
++        name="ntel-orionlxm",
          workernames=["worker-ntel"],
          factory=BitBakeFactory(
              BitBake("orionlxm-swu-image"),
@@ -255,7 +291,7 @@ index 5d2ba3d4..9c16059b 100755
          ),
          properties={
              'machine': 'orionlxm',
-@@ -334,7 +283,7 @@ builders.append(
+@@ -334,15 +283,15 @@ builders.append(
          }
      ))
  
@@ -263,8 +299,9 @@ index 5d2ba3d4..9c16059b 100755
 +c['builders'].append(
      util.BuilderConfig(
          description="Orion I/O",
-         name="ntel_orion_io",
-@@ -342,7 +291,7 @@ builders.append(
+-        name="ntel_orion_io",
++        name="ntel-orion-io",
+         workernames=["worker-ntel"],
          factory=BitBakeFactory(
              BitBake("-c cleanall u-boot-orion-io"),
              BitBake("orion-io-swu-image"),
@@ -281,7 +318,8 @@ index 5d2ba3d4..9c16059b 100755
 +c['builders'].append(
      util.BuilderConfig(
          description="OrionLX (CPX)",
-         name="ntel_orionlx_cpx",
+-        name="ntel_orionlx_cpx",
++        name="ntel-orionlx-cpx",
          workernames=["worker-ntel"],
          factory=BitBakeFactory(
              BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
@@ -300,7 +338,8 @@ index 5d2ba3d4..9c16059b 100755
 +c['builders'].append(
      util.BuilderConfig(
          description="OrionLX (Plus)",
-         name="ntel_orionlx_plus",
+-        name="ntel_orionlx_plus",
++        name="ntel-orionlx-plus",
          workernames=["worker-ntel"],
          factory=BitBakeFactory(
              BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
@@ -310,7 +349,7 @@ index 5d2ba3d4..9c16059b 100755
          ),
          properties={
              'machine': 'orionlx-plus',
-@@ -383,7 +332,7 @@ builders.append(
+@@ -383,10 +332,10 @@ builders.append(
          }
      ))
  
@@ -318,7 +357,11 @@ index 5d2ba3d4..9c16059b 100755
 +c['builders'].append(
      util.BuilderConfig(
          description="Orion (qemu)",
-         name="ntel_qemux86_64",
+-        name="ntel_qemux86_64",
++        name="ntel-qemux86-64",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+             BitBake("gdk-pixbuf-native:do_cleanall"),
 @@ -400,34 +349,23 @@ builders.append(
      ))
  
@@ -348,7 +391,8 @@ index 5d2ba3d4..9c16059b 100755
 +c['builders'].append(
      util.BuilderConfig(
          description="Orion (all)",
-         name="ntel_all",
+-        name="ntel_all",
++        name="ntel-all",
          workernames=["worker-ntel"],
          factory=BitBakeFactory(
 -            *mc_steps
