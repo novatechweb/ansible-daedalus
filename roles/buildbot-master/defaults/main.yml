@@ -34,7 +34,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
 container_env:
   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
-  BUILDBOT_IRC_CHANNELS: "{{ ['#novatech'] | to_json }}"
+  BUILDBOT_IRC_CHANNELS: "['#novatech-ci']"
   BUILDBOT_IRC_HOST: 'chat.freenode.net'
   BUILDBOT_IRC_NICK: 'NovaTechCI'
   BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
