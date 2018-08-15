@@ -24,3 +24,5 @@ docker_network_frontend: 'frontend'
 
 # docker force build images
 docker_image_force_build: true
+
+docker_storage_driver: overlay2
