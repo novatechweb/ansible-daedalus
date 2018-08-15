@@ -1,10 +1,9 @@
 Bottom: badf33ec6e77ba2515f54a167193faeddafb35b3
-Top:    bc71d4db0899a9038f819987dbfa353f293a9505
+Top:    341352269163f1538073a5cec1241cc87fff91f1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-14 16:24:52 -0500
+Date:   2018-08-15 09:55:47 -0500
 
 Add buildbot NTEL worker Docker image
-
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
@@ -49,6 +48,135 @@ index d476bf91..afeff4e3 100644
  buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 75985b8a..4c29eb74 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -92,10 +92,10 @@ c['buildbotNetUsageData'] = 'basic'
+ 
+ import openembedded
+ reload(openembedded)
+-c['workers'].extend(openembedded.workers)
+-c['schedulers'].extend(openembedded.schedulers)
+-c['builders'].extend(openembedded.builders)
+-c['change_source'].extend(openembedded.change_source)
++c['workers'].extend(openembedded.WorkerConfig['workers'])
++c['schedulers'].extend(openembedded.WorkerConfig['schedulers'])
++c['builders'].extend(openembedded.WorkerConfig['builders'])
++c['change_source'].extend(openembedded.WorkerConfig['change_source'])
+ 
+ import ptxdist
+ reload(ptxdist)
+diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
+index 5d2ba3d4..4a71be5f 100755
+--- a/docker/buildbot-master/buildbot/openembedded.py
++++ b/docker/buildbot-master/buildbot/openembedded.py
+@@ -5,20 +5,23 @@
+ import os
+ from buildbot.plugins import *
+ 
++c = WorkerConfig = {}
++
++
+ DEFAULT_BBFLAGS = '-k'
+ 
+ # Workers
+ # The 'workers' list defines the set of recognized buildworkers. Each element is
+ # a Worker object, specifying a unique worker name and password.  The same
+ # worker name and password must be configured on the worker.
+-workers = [
++c['workers'] = [
+     worker.Worker("worker-ntel", "pass", max_builds=1),
+ ]
+ 
+ DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
+ 
+ # CHANGESOURCES
+-change_source = [
++c['change_source'] = [
+     changes.GitPoller(
+         repourl=DEFAULT_REPO,
+         branches=['master', 'morty'],
+@@ -27,7 +30,7 @@ change_source = [
+ ]
+ 
+ # SCHEDULERS
+-schedulers = [
++c['schedulers'] = [
+     schedulers.ForceScheduler(
+         name="Force",
+         label="Force NTEL OpenEmbedded Build",
+@@ -116,7 +119,7 @@ schedulers = [
+ # The 'builders' list defines the Builders, which tell Buildbot how to perform
+ # a build: what steps, and which workers can execute them.  Note that any
+ # particular build will only take place on one worker.
+-builders = []
++c['builders'] = []
+ 
+ git_lock = util.MasterLock("git")
+ 
+@@ -319,7 +322,7 @@ class BitBakeFactory(util.BuildFactory):
+         self.addStep(BitBakeArchive())
+ 
+ 
+-builders.append(
++c['builders'].append(
+     util.BuilderConfig(
+         description="OrionLXm",
+         name="ntel_orionlxm",
+@@ -334,7 +337,7 @@ builders.append(
+         }
+     ))
+ 
+-builders.append(
++c['builders'].append(
+     util.BuilderConfig(
+         description="Orion I/O",
+         name="ntel_orion_io",
+@@ -350,7 +353,7 @@ builders.append(
+         }
+     ))
+ 
+-builders.append(
++c['builders'].append(
+     util.BuilderConfig(
+         description="OrionLX (CPX)",
+         name="ntel_orionlx_cpx",
+@@ -367,7 +370,7 @@ builders.append(
+         }
+     ))
+ 
+-builders.append(
++c['builders'].append(
+     util.BuilderConfig(
+         description="OrionLX (Plus)",
+         name="ntel_orionlx_plus",
+@@ -383,7 +386,7 @@ builders.append(
+         }
+     ))
+ 
+-builders.append(
++c['builders'].append(
+     util.BuilderConfig(
+         description="Orion (qemu)",
+         name="ntel_qemux86_64",
+@@ -400,7 +403,6 @@ builders.append(
+     ))
+ 
+ multiconfig = ['orionlx-cpx', 'orionlx-plus', 'orionlxm', 'orion-io']
+-mc_steps = []
+ for machine in multiconfig:
+     mc_steps.append(
+         BitBakeConf(
+@@ -421,7 +423,7 @@ mc_steps.extend((
+             " multiconfig:orion-io:orion-io-swu-image"
+             ),
+ ))
+-builders.append(
++c['builders'].append(
+     util.BuilderConfig(
+         description="Orion (all)",
+         name="ntel_all",
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
 new file mode 100644
 index 00000000..11a726fb
