@@ -1,5 +1,5 @@
-Bottom: 51ba7f2ca1e564224b1b78dd019251c80bffdb36
-Top:    904b40d2cb9910b261878c15181d4630fe476291
+Bottom: 112c899d81438a8a1ba285d43180231d76b71f7d
+Top:    e038d032efcdae61996cc682614cb37225969576
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:45 -0500
 
@@ -11,10 +11,10 @@ Anonymous access to read artifacts
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index 06de47bd..78ecf1a9 100644
+index 4445958a..6e49eef7 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
-@@ -42,6 +42,8 @@ ldap_connections:
+@@ -44,6 +44,8 @@ ldap_connections:
      ldap_user_subtree: false
      ldap_group_subtree: true
  
@@ -23,7 +23,7 @@ index 06de47bd..78ecf1a9 100644
  nexus_privileges:
    - name: all-repos-read  # used as key to update a privilege
      description: 'Read & Browse access to all repos'
-@@ -55,8 +57,9 @@ nexus_roles:
+@@ -57,8 +59,9 @@ nexus_roles:
      name: developers
      description: All developers
      privileges:

@@ -1,5 +1,5 @@
-Bottom: dc6b6c9b6325d17a12aa109f8802604a27010f70
-Top:    078798968c6bc0c75cb9edb46b332e9ac46f843d
+Bottom: 1d298cb3ae168e88a6fbf4da7fdd0f986b3d8f92
+Top:    293576550a955599bbae0fd6e1f5c1e0f716b9e9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:45 -0500
 
@@ -8,10 +8,10 @@ Add option to run Nexus in a container
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index b82a2277..064c2bbb 100644
+index 4dc23cfb..27ea7e22 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
-@@ -31,11 +31,16 @@ ldap_connections:
+@@ -33,11 +33,16 @@ ldap_connections:
      ldap_user_id_attribute: 'uid'
      ldap_user_real_name_attribute: 'cn'
      ldap_user_email_attribute: 'mail'

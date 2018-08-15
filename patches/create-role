@@ -1,5 +1,5 @@
 Bottom: 24bd9fdeb8239d22f0236eb559f79b5a8779f601
-Top:    05b17c6ddadaa34f914d55ec17f613336f1cb802
+Top:    18a314b1e085612d6373bd4a91220eb7ff02264a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:45 -0500
 
@@ -23,13 +23,15 @@ index c306cadf..88c2fbdc 100644
  svn_password:                        '{{ lookup("password", playbook_dir + "/credentials/svn/ansible"                         , length=20) }}'
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
 new file mode 100644
-index 00000000..b82a2277
+index 00000000..4dc23cfb
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
-@@ -0,0 +1,133 @@
+@@ -0,0 +1,135 @@
 +nexus_version: 3.13.0
 +nexus_networks:
 +  - name: '{{ docker_network_frontend }}'
++    aliases:
++      - '{{ nexus_hostname }}'
 +docker: true
 +nexus_default_port: 80
 +public_hostname: '{{ nexus_hostname }}'
