@@ -1,5 +1,5 @@
-Bottom: 1bfd14fb54a5744df3c782fea434d5e808bbfbe8
-Top:    45be9a328a8137afd11b25069407cf28a152c4bd
+Bottom: 91cb90fb8366466ddf54af39b01ef7a0c360c1cf
+Top:    610b7f0cfe3fc0dfb6ef5829a4f1b2fe30b7c722
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:42 -0500
 
@@ -27,7 +27,7 @@ index e5b5a7a0..8cf12ec8 100644
  c['services'].append(mn)
  
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index d261448d..43907def 100644
+index e9af6fdb..8806961b 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -38,9 +38,10 @@ container_env:

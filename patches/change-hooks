@@ -1,5 +1,5 @@
-Bottom: 3f58b78abdc2320903fd9c97f3e8c8f9f6e9f03a
-Top:    6dfe456a11d1aa883e698b2a0926d65f524e2ff7
+Bottom: 6bcd4aaee0bcadf083ace213f38b7ed01bf00b28
+Top:    450ea4113e8f5c40cd0a524862b43d5c93bce02b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:42 -0500
 
@@ -37,7 +37,7 @@ index 8f045992..420b93de 100644
  ####### PROJECT IDENTITY
  
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index f84fe0c1..bda887be 100644
+index 89439ecd..ebdabcb4 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -47,6 +47,7 @@ container_env:

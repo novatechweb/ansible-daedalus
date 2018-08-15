@@ -1,5 +1,5 @@
-Bottom: a20ef2b194229afe5c65e6310f8c9285b786740f
-Top:    bcd6ebc311c07adb4eb1cde89d50b7320cd70cb4
+Bottom: 535d8ecf81db805bf4759241f94a7b959c1292dd
+Top:    9225c791ed10b787446601f1cf6981e0c53eb2b7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:41 -0500
 
@@ -86,7 +86,7 @@ index 380d39cd..f9845106 100644
          ),
      }
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index b5356f6b..52d4e40a 100644
+index f7a65ff7..777499b2 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -43,6 +43,12 @@ container_env:

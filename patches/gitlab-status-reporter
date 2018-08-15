@@ -1,5 +1,5 @@
-Bottom: 662a03a8ec82e2428a891436d73eda6024c26b2b
-Top:    1bfd14fb54a5744df3c782fea434d5e808bbfbe8
+Bottom: 2e4bfc171d99e732ef7585e9caa8897cf06a0bf6
+Top:    91cb90fb8366466ddf54af39b01ef7a0c360c1cf
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:42 -0500
 
@@ -54,7 +54,7 @@ index 87cf20a5..e5b5a7a0 100644
  userInfoProvider = util.LdapUserInfo(
          uri=os.getenv('LDAP_URI'),
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 334a12ce..d261448d 100644
+index 1e5ecdb8..e9af6fdb 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -51,6 +51,7 @@ container_env:

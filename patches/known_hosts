@@ -1,5 +1,5 @@
-Bottom: bcd6ebc311c07adb4eb1cde89d50b7320cd70cb4
-Top:    4e8deca286535aeafafc963cd9511e816a350781
+Bottom: 9225c791ed10b787446601f1cf6981e0c53eb2b7
+Top:    1c3f5fac0ac39469af706832077d6a44d32e4ba2
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:41 -0500
 
@@ -120,7 +120,7 @@ index f025e661..e7d817e3 100755
  
  ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 52d4e40a..f84fe0c1 100644
+index 777499b2..89439ecd 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -33,6 +33,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
@@ -131,7 +131,7 @@ index 52d4e40a..f84fe0c1 100644
    BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
    BUILDBOT_SMTP_USER: 'Dean.cox'
    BUILDBOT_SMTP_PASS: 'no5156'
-@@ -60,7 +61,7 @@ container_networks:
+@@ -62,7 +63,7 @@ container_networks:
  # volumes mounted within the container
  container_volumes:
    - '{{ data_volume }}:{{ data_path }}:z'
@@ -140,7 +140,7 @@ index 52d4e40a..f84fe0c1 100644
  
  # mount path of the data volume
  data_path: '/buildbot'
-@@ -69,7 +70,7 @@ data_path: '/buildbot'
+@@ -71,7 +72,7 @@ data_path: '/buildbot'
  data_volume: '{{ docker_name_prefix }}buildbot_DV'
  
  # hostname

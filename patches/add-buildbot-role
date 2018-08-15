@@ -1,5 +1,5 @@
 Bottom: 8c7d0d36b1544e38134c56a0bf0f72a57d3b0d43
-Top:    cadbdc6531941c5dca9d30da85b286974de247cf
+Top:    abe9d300ae2eebee2e740d2eb455f0b8c9955fcb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:41 -0500
 
@@ -120,10 +120,10 @@ index 658d5fb1..75985b8a 100644
  # internal web server (usually the html.WebStatus page) is visible. This
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 00000000..bffa785e
+index 00000000..c40f52f0
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -0,0 +1,90 @@
+@@ -0,0 +1,92 @@
 +---
 +# defaults file for buildbot
 +
@@ -173,6 +173,8 @@ index 00000000..bffa785e
 +# networks of the container
 +container_networks:
 +  - name: '{{ docker_network_frontend }}'
++    aliases:
++      - '{{ buildbot_hostname }}'
 +
 +# volumes mounted within the container
 +container_volumes:
