@@ -1,7 +1,7 @@
-Bottom: 7d81e7bd5b0cb84b248d3c3c561988f9875be8de
-Top:    64e86e3d94260c6b9aadc5e9437375487ab710b4
+Bottom: 1abf3ed14079a13eb818af5190a106dee248db45
+Top:    44dde71d4000e78b4eba3b7d8788ab7c237319ca
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-20 10:41:18 -0500
+Date:   2018-08-15 10:31:39 -0500
 
 Use ansible docker_image module
 
@@ -333,11 +333,11 @@ index 704b51d4..9e50bcdf 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 12c707aa..861a0075 100644
+index 5752ba3b..0383c295 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -80,10 +80,11 @@
-     dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
+@@ -81,10 +81,11 @@
+     mode: 'u=rwx,g=rx,o=rx'
  
  - name: build image
 -  docker_build:
@@ -353,11 +353,11 @@ index 12c707aa..861a0075 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index fe575575..666d93ea 100644
+index 3a5542c5..4d2f21b6 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -78,10 +78,11 @@
-   command: 'cp --verbose --update --backup=numbered {{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh {{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}'
+@@ -82,10 +82,11 @@
+     mode: 'u=rwx,g=rx,o=rx'
  
  - name: build image
 -  docker_build:

@@ -1,7 +1,7 @@
-Bottom: e3d18cc9f5cfa448defb56898a909076fcad960e
-Top:    7d81e7bd5b0cb84b248d3c3c561988f9875be8de
+Bottom: 8e2dd785b6a35f3ab78f71f27382fb6523ae8732
+Top:    1abf3ed14079a13eb818af5190a106dee248db45
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-20 10:41:18 -0500
+Date:   2018-08-15 10:31:38 -0500
 
 Use docker named networks
 
@@ -801,10 +801,10 @@ index 7e8179c4..29727bd9 100644
 +# the name of the sql database used by mantisbt
 +mantisbt_database_name: 'bugtracker'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 7c808bbf..12c707aa 100644
+index 450e58d7..5752ba3b 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -140,6 +140,9 @@
+@@ -141,6 +141,9 @@
        MYSQL_ROOT_PASSWORD: '{{ mantisbt_db_root_password }}'
        MYSQL_USER: '{{ mantisbt_db_user }}'
        MYSQL_PASSWORD: '{{ mantisbt_db_password }}'
@@ -814,7 +814,7 @@ index 7c808bbf..12c707aa 100644
  
  - name: wait for initialization to complete
    shell: >
-@@ -161,18 +164,21 @@
+@@ -162,18 +165,21 @@
    docker_container:
      detach: true
      env:
@@ -891,10 +891,10 @@ index 2a86d85e..36f6bd3e 100644
  # the name of the sql database used by mediawiki
  wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 0789dfcf..fe575575 100644
+index 4e7b5c22..3a5542c5 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -107,6 +107,9 @@
+@@ -111,6 +111,9 @@
        MYSQL_PASSWORD: '{{ wiki_db_password }}'
      image: '{{ wiki_db_image_name }}'
      name: '{{ wiki_db_container_name }}'
@@ -904,7 +904,7 @@ index 0789dfcf..fe575575 100644
      restart_policy: '{{ docker_restart_policy }}'
      state: started
      volumes:
-@@ -132,17 +135,20 @@
+@@ -136,17 +139,20 @@
    docker_container:
      detach: true
      env:

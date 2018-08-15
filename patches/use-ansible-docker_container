@@ -1,7 +1,7 @@
-Bottom: 0cfba95cec25729d73b43610b211dae11886ee71
-Top:    1b3bbf27baf79b518aa2f5e60ade2a65176f2fec
+Bottom: 38889f0ed3b670dcd424f7a3569d557d783fa6b8
+Top:    2d917a1a96b2fe5762ee0ae706b9a847653e4c8d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-20 10:41:18 -0500
+Date:   2018-08-15 10:31:38 -0500
 
 Use ansible docker_container module
 
@@ -457,10 +457,10 @@ index bbe1b72f..7e8179c4 100644
  # database usernames and passwords
  mantisbt_db_user: novatech
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index f0119408..8b7ad07f 100644
+index 1d4b1719..5cb96a59 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -148,14 +148,34 @@
+@@ -149,14 +149,34 @@
  # Start the data container running
  
  - name: start container (mysql)
@@ -517,10 +517,10 @@ index 216ec39c..a95335ca 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index ac687e81..f54c515c 100644
+index b8caea59..d526ee43 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -119,14 +119,33 @@
+@@ -123,14 +123,33 @@
  # Start the data container running
  
  - name: start container (mysql)

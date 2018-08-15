@@ -1,7 +1,7 @@
-Bottom: 1b3bbf27baf79b518aa2f5e60ade2a65176f2fec
-Top:    e3d18cc9f5cfa448defb56898a909076fcad960e
+Bottom: 2d917a1a96b2fe5762ee0ae706b9a847653e4c8d
+Top:    8e2dd785b6a35f3ab78f71f27382fb6523ae8732
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-20 10:41:18 -0500
+Date:   2018-08-15 10:31:38 -0500
 
 Use docker named volumes
 
@@ -168,10 +168,10 @@ index 25e84a62..70bf4e2d 100644
  - name: stop prev container (postgres)
    docker_container:
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 8b7ad07f..7c808bbf 100644
+index 5cb96a59..450e58d7 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
-@@ -85,76 +85,77 @@
+@@ -86,76 +86,77 @@
      image_tag: '{{ docker_image_tag }}'
      dockerfile_dir: '{{ docker_projects_dir }}/docker-mantisbt'
  
@@ -301,7 +301,7 @@ index 8b7ad07f..7c808bbf 100644
  
  - name: start container (mantisbt)
    docker_container:
-@@ -173,9 +174,9 @@
+@@ -174,9 +175,9 @@
      name: '{{ mantisbt_container_name }}'
      ports: '{{ container_port_map.mantisbt.port_args }}'
      restart_policy: '{{ docker_restart_policy }}'
@@ -336,10 +336,10 @@ index a95335ca..2a86d85e 100644
 +# the name of the sql database used by mediawiki
 +wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index f54c515c..0789dfcf 100644
+index d526ee43..4e7b5c22 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
-@@ -87,44 +87,46 @@
+@@ -91,44 +91,46 @@
  # Create the data volumes
  
  - name: data-volume container (mediwiki)
@@ -414,7 +414,7 @@ index f54c515c..0789dfcf 100644
  
  - name: start container (mediwiki)
    docker_container:
-@@ -143,9 +145,9 @@
+@@ -147,9 +149,9 @@
      ports: '{{ container_port_map.wiki.port_args }}'
      restart_policy: '{{ docker_restart_policy }}'
      state: started
