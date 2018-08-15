@@ -27,6 +27,6 @@
     name: "{{ name_prefix }}TestStation_database_server"
     ports: "{{ container_addr_map.build.ip_addr }}:3306:3306"
     state: "{{ container_start_state_nondata }}"
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     volumes_from:
       - "{{ name_prefix }}TestStation_database_data"

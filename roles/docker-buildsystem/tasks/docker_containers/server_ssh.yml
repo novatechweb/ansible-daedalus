@@ -21,7 +21,7 @@
     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
     name: "{{ name_prefix }}TestStation_ssh_server"
     ports: "{{ container_addr_map.build.ip_addr }}:22:22"
-    restart_policy: always
+    restart_policy: '{{ docker_restart_policy }}'
     state: "{{ container_start_state_nondata }}"
     volumes_from:
       - "{{ name_prefix }}TestStation_database_data"
