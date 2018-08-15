@@ -1,9 +1,10 @@
-Bottom: 8238ac72e9ca869bd9ec953881147b0dab7b4ad0
-Top:    d835b9f435c34a306b1498dbe128169b706cc2f7
+Bottom: 8e6bdb048121d026f155db1a4472c66cea8781c2
+Top:    7f86412ae286dfc2d672ffd0a8d6c34624fb2c17
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-14 16:01:17 -0500
+Date:   2018-08-14 16:24:52 -0500
 
 Add Gitlab Authentication
+
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml

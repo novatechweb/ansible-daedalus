@@ -1,7 +1,7 @@
-Bottom: 17401ea33fbfbd10ac0984b0ed96956c0a4440bd
-Top:    12eaf7e62666596fb810f1df24e081fff9a10d41
+Bottom: bc71d4db0899a9038f819987dbfa353f293a9505
+Top:    81a62e35739b7d69fdd79afe1bdc155cecb020e9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-09 09:26:25 -0500
+Date:   2018-08-14 16:24:52 -0500
 
 Update ntel builds for new configuration
 

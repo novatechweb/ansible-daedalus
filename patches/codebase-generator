@@ -1,7 +1,7 @@
-Bottom: 5834a8fd4aa7f8100a8091ac2c0b0fdf66c75aee
-Top:    6960ac5323830409fc42b5512fc38415cf7983e3
+Bottom: 1fd526aaea9a5dd8c27a8cbdec488fa2222e25aa
+Top:    dfe874691df4825c97faa1d305baeaa89ce3b926
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-14 15:38:56 -0500
+Date:   2018-08-14 16:24:53 -0500
 
 Add codebase generator function
 
@@ -9,6 +9,7 @@ The codebase generator takes information about a change, like repository,
 branch, and revision, and creates a predictable string describing the code.
 This is used to decide upon the builder for a change and also to tie a fork
 repository back to its parent for merge requests.
+
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg

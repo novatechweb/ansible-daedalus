@@ -1,7 +1,7 @@
-Bottom: ab4dec8b78ca8897689d987132f7a64cd6e82737
-Top:    951aed5f7c9bcab5e75a3be28dbb5691c2437a1d
+Bottom: c6d3371aa54fcf7d526cc4ab9cb007e5dbded790
+Top:    e16b6dec36e43ba2217ba4904527865e38e71926
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-14 16:07:50 -0500
+Date:   2018-08-14 16:24:53 -0500
 
 update worker configure like master
 
