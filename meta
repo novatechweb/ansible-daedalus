@@ -1,9 +1,10 @@
 Version: 1
-Previous: 6c58e2a533b1d5ee2e19f5ec520356aaf7432c8f
-Head: 13da408815f623b6069dd04b185337451bb1e867
+Previous: 6b02beab0ad9d0d9bd626309fe0eea515deb1e00
+Head: 4aed232d829db64cf05e217f7bb34523e972f73f
 Applied:
   add-buildbot-role: d78692416e31e972e75a13f9c6870f0ca4b7a620
   add-buildbot-ntel-worker: 4aed232d829db64cf05e217f7bb34523e972f73f
+Unapplied:
   hsm-host-arg: 9d3ff213af337d498abb2a63787b8f8e7cdcd2ee
   add-buildbot-ptxdist-worker: 4597a93037eece96d7ab0fb71f6f2320bc3ecf5b
   update-ptxdist-build-factories: 4f118a440e80a69a48b2ab190e1bbc3d51772421
@@ -22,7 +23,6 @@ Applied:
   email-account: a92a12c5b1ee54865effccaca5252bca3c95fe72
   codebase-generator: 5a2f317dd5c3aa10aabb620d75e81a5e978f4ef5
   single-branch-builders: 13da408815f623b6069dd04b185337451bb1e867
-Unapplied:
   irc-reporter: f3527381992d207b90054684d03a2612ac07820c
   gitlab-status-reporter: be38c0074b3c19978b8dbf1a41e8dbb169517cc8
   mail-reporter: 48f68427752ef9b6c6df6d221a092155432e9b55
