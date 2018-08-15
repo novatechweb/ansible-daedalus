@@ -31,6 +31,6 @@
     detach: True
     image: "{{ name_prefix }}teststation_ssh_server_manualtest_image"
     name: "{{ name_prefix }}TestStation_ssh_server_manualtest"
-    ports: "{{ container_addr_map.testssh.ip_addr }}:22:22"
+    ports: "{{ testssh_ip_addr }}:22:22"
     state: "{{ container_start_state_nondata }}"
     restart_policy: '{{ docker_restart_policy }}'

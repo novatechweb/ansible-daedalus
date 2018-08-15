@@ -14,7 +14,7 @@
     image: "{{ name_prefix }}teststation_http_image"
     links: "{{ name_prefix }}TestStation_database_server:test_station_mysql_server"
     name: "{{ name_prefix }}TestStation_http_server"
-    ports: "{{ container_addr_map.build.ip_addr }}:80:80"
+    ports: "{{ build_ip_addr }}:80:80"
     state: "{{ container_start_state_nondata }}"
     restart_policy: '{{ docker_restart_policy }}'
     volumes_from:
