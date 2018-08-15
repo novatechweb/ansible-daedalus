@@ -79,14 +79,17 @@
   docker_container:
     detach: true
     env:
-      SVN_HOSTNAME: '{{ container_addr_map.svn.hostname }}'
+      SVN_HOSTNAME: '{{ svn_hostname }}'
       SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
-    hostname: '{{ container_addr_map.svn.hostname }}'
+    hostname: '{{ svn_hostname }}'
     image: '{{ svn_image_name }}:{{ docker_image_tag }}'
     link:
       - '{{ openldap_container_name }}:ldap'
     name: '{{ svn_container_name }}'
-    ports: '{{ container_port_map.svn.port_args }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+    ports: '{{ svn_port_args }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'

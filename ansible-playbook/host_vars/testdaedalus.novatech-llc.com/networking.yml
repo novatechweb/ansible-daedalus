@@ -1,0 +1,18 @@
+---
+
+ansible_user: ansibleremote
+
+daedalus_subnet: 172.16.0.0/16
+daedalus_net_connection: "enp5s0f0"
+
+svn_ip_addr:          172.16.103.101
+gitlab_ip_addr:       172.16.103.102
+wiki_ip_addr:         172.16.103.103
+mantisbt_ip_addr:     172.16.103.104
+build_ip_addr:        172.16.103.105
+testssh_ip_addr:      172.16.103.106
+exim4_ip_addr:        172.16.103.107
+openldap_ip_addr:     172.16.103.108
+phpldapadmin_ip_addr: 172.16.103.108
+phpmyadmin_ip_addr:   172.16.103.109
+freeipa_ip_addr:      172.16.103.110
