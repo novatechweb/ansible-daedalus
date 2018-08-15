@@ -1,5 +1,5 @@
-Bottom: 1abf3ed14079a13eb818af5190a106dee248db45
-Top:    44dde71d4000e78b4eba3b7d8788ab7c237319ca
+Bottom: f164593920b4a57f062c4d4e8cc1a4ff88eaaf9c
+Top:    45d439c54c081a4b278169f78a82561ab1eda381
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:39 -0500
 
@@ -284,7 +284,7 @@ index f52909d5..8b0712fc 100644
  - name: Start docker container - Test Station cron service
    docker_container:
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index eb37e6a6..53b743e3 100644
+index e71c619f..23d13227 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -83,10 +83,11 @@
@@ -333,7 +333,7 @@ index 704b51d4..9e50bcdf 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 5752ba3b..0383c295 100644
+index a9404bc6..ede4dc8d 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -81,10 +81,11 @@
@@ -353,7 +353,7 @@ index 5752ba3b..0383c295 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 3a5542c5..4d2f21b6 100644
+index 6fa64e9d..00b0b0c2 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -82,10 +82,11 @@
@@ -373,7 +373,7 @@ index 3a5542c5..4d2f21b6 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 5422d3e5..5e89b79a 100644
+index ba3177ff..e3539960 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -68,10 +68,11 @@
@@ -413,7 +413,7 @@ index e69424dc..31278f1c 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index 49952df6..2e6ab037 100644
+index a76dfae6..7670085f 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -60,10 +60,11 @@
