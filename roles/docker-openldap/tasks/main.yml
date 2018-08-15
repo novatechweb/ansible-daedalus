@@ -116,6 +116,8 @@
     name: '{{ openldap_container_name }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+        aliases:
+          - '{{ openldap_hostname }}'
     ports: '{{ openldap_port_args }}'
     purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'

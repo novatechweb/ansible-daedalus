@@ -147,10 +147,11 @@
     name: '{{ wiki_container_name }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+        aliases:
+          - '{{ wiki_hostname }}'
         links:
           - '{{ openldap_container_name }}:wiki_ldap'
           - '{{ wiki_db_container_name }}:wiki_db'
-          - '{{ exim4_container_name }}:{{ exim4_hostname }}'
     ports: '{{ wiki_port_args }}'
     purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'

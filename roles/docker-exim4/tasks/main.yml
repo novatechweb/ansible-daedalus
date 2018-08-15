@@ -109,6 +109,8 @@
     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+        aliases:
+          - '{{ exim4_hostname }}'
     ports: '{{ exim4_port_args }}'
     purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
