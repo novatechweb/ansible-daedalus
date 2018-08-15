@@ -1,10 +1,9 @@
 Version: 1
-Previous: ed8ce4d42166dabb6150f7d7fe34796258426e2a
-Head: fa29f496001193addd9552b7ab922857e4d12291
+Previous: 0c606092f9d336ed1f6fae9cd8dd21864a0a8dc9
+Head: 4aed232d829db64cf05e217f7bb34523e972f73f
 Applied:
   add-buildbot-role: d78692416e31e972e75a13f9c6870f0ca4b7a620
-  add-buildbot-ntel-worker: 1f06bdd9b028f8e4eb4558d3331e8683cfde985f
-  update-ntel-builds-for-new: fa29f496001193addd9552b7ab922857e4d12291
+  add-buildbot-ntel-worker: 4aed232d829db64cf05e217f7bb34523e972f73f
 Unapplied:
   hsm-host-arg: e1848ac3f2fe33c95ec02487cb8c3fc3aaa8d9af
   add-buildbot-ptxdist-worker: 6e0173ad329a3d66be3703dd215674bc157edfc0
