@@ -10,8 +10,10 @@ ssh-keygen -q -b ${SSH_BITS} -t ${SSH_TYPE} -N '' -f ${SSH_FILE} 0>&- 1>/dev/nul
 
 if [ -n "$BUILDBOT_KNOWN_HOSTS_FILE" ] && [ -f "$BUILDBOT_KNOWN_HOSTS_FILE" ]
 then
-    mkdir -p "${HOME}/.ssh"
-    cp -v "$BUILDBOT_KNOWN_HOSTS_FILE" "${HOME}/.ssh/known_hosts"
+    install -v -D \
+        -o `id -u` -g `id -g` -m 0600 \
+        "$BUILDBOT_KNOWN_HOSTS_FILE" \
+        "${HOME}/.ssh/known_hosts"
 fi
 
 ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
