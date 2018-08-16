@@ -1,0 +1,21 @@
+Bottom: 2b740a086d80d30239bd8c2849c42f85fb53d509
+Top:    26f827cd0bfa90f5118732fc06b61626afac6bf7
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 10:51:20 -0500
+
+Refresh of irc-reporter
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index c923aaca..241e5ba5 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -5,7 +5,7 @@
+ # 'master.cfg' in your buildmaster's base directory.
+ 
+ import os
+-from buildbot.plugins import secrets, steps, util
++from buildbot.plugins import reporters, secrets, steps, util
+ from buildbot.util import giturlparse
+ 
+ os.environ['LONG_RUN_TIMEOUT'] = '14400'
