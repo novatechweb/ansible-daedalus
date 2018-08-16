@@ -1,5 +1,5 @@
-Bottom: e0bcd72e4149adfbe2a3f0c062107a52a48a81e1
-Top:    776fdb63cdaaa21ed458945acf20512fe5f82dc5
+Bottom: 50c5563a1bd4229ed28434716cf5e0bbccf14d0f
+Top:    2bfe92d612bf098a0711f8abc8cacbdf4879b083
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -86,11 +86,11 @@ index 71002f8b..85c28248 100755
  ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
  
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index 3e49a65c..14bfdd5b 100644
+index 7164f3d0..ebde8486 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -44,6 +44,12 @@
-     ports: '{{ buildbot_port_args }}'
+     ports: '{{ container_port_args }}'
      state: started
  
 +- name: Grab ssh public key

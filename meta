@@ -1,21 +1,21 @@
 Version: 1
-Previous: a11dd56592d76e28953dddb6ae53bc3ee017138a
-Head: de6fa42aa4b27e9006eb9f4ae38d82fabe47437e
+Previous: ce813deb61375e9e3e915f579137b44115b7711b
+Head: 7588b2b7f422c5f4c24884ccb5b4e67668fd4ffa
 Applied:
   add-buildbot-role: de6fa42aa4b27e9006eb9f4ae38d82fabe47437e
+  add-buildbot-ntel-worker: ad2c9157c506ea264a1e762d23f0b65ed0e48610
+  hsm-host-arg: 89ae56bb41db31bd24ace600fa0a9acc3f1995e5
+  add-buildbot-ptxdist-worker: 92b486f53b80e3d1330bc6caa14db792aedae471
+  update-ptxdist-build-factories: bb95d3074c929690da01b8417417ea2487bd07e3
+  ptxdist-bc-depend: 0b330b530bb7c3cfa8685bce93be4f2c0776c927
+  fix-ssh-folder-permission: 28e15a46e62ed1f750b95a82a877a68f49054e4c
+  add-environment-variables-for: 7f779db5f18788dbec4e013e7e4e825be305ae13
+  use-original-buildbot: 8ddc2cc25923328b59da090808c8520f89fc5630
+  install-buildbot-plugin: a97a146312dbe7ae6c396a06631a1144a3a0d371
+  generate-new-ssh-key-on-first: 129740ec306db5c97f29eec8daec94ee05f0a13d
+  gitlab-auth: 592960f5c7c79286fe15f18268f6299f476f5a9d
+  known_hosts: 7588b2b7f422c5f4c24884ccb5b4e67668fd4ffa
 Unapplied:
-  add-buildbot-ntel-worker: f1fd5c265a7c898d42c874b4ff9424da50eae45b
-  hsm-host-arg: 11121fb9155da9d94a3f6ae9bb15ae86df4b28f0
-  add-buildbot-ptxdist-worker: d64a3061733e7b9584d7e0d71cf43845bb2cc581
-  update-ptxdist-build-factories: b0ae63cc07fb7ec56c21f4280a074b58d6dd912a
-  ptxdist-bc-depend: cd91692aff182cb2228ed1c8b4b05e0ae0ae5237
-  fix-ssh-folder-permission: 3641ea4f97e0c9555dd6c5bc82d4975f9c3a071b
-  add-environment-variables-for: 3a533094bd3a9afadf8cce52210b960d94baa27c
-  use-original-buildbot: a3566d85b29747e6879a7b47f2aca3d89c4b344b
-  install-buildbot-plugin: d1a2334bc06ebf5105eb2c2382b37f60443a6c99
-  generate-new-ssh-key-on-first: 34af734859bad0778ad767c650dbcb92eac50c67
-  gitlab-auth: 8e53500d76883a112302b64a2da6755ea7a99383
-  known_hosts: a0895162ac77816d8d49f41c68cd223d59a4f18a
   asset-host: ca44f300298b8a7f225242d3f066e024c7181c1d
   update-ptxdistrc: 2bfdd257f76a2398a48a6ee2cf88d94097746327
   enable-secrets: dab611785c6434366dc745194083fedad09ff32b

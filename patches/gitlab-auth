@@ -1,5 +1,5 @@
-Bottom: 776fdb63cdaaa21ed458945acf20512fe5f82dc5
-Top:    410f76364efa55452fd0102ffce0568eae290be0
+Bottom: 2bfe92d612bf098a0711f8abc8cacbdf4879b083
+Top:    c24cb077933f81a641a8ab7010d8cdfa707f3212
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -35,7 +35,7 @@ index d930fcbf..7690ad05 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index f7a65ff7..777499b2 100644
+index 19b00b78..d1a71c28 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -43,6 +43,12 @@ container_env:
@@ -49,8 +49,8 @@ index f7a65ff7..777499b2 100644
 +  LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
 +  LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
  
- # the name of the container being started
- container_name: '{{ docker_name_prefix }}buildbot'
+ # hostname
+ container_hostname: '{{ buildbot_hostname }}'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
 index 961819c3..fb54cb31 100644
 --- a/roles/buildbot-master/files/master.cfg
