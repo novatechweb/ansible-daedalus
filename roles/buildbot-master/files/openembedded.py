@@ -9,6 +9,7 @@ c = WorkerConfig = {}
 
 
 DEFAULT_BBFLAGS = '-k'
+DEFAULT_CODEBASE = "ntel/setup-scripts"
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
@@ -31,8 +32,60 @@ c['change_source'] = [
 
 # SCHEDULERS
 c['schedulers'] = [
+    schedulers.SingleBranchScheduler(
+        name="ntel-push",
+        builderNames=[
+            "ntel-orionlxm",
+            "ntel-orionlx-cpx",
+            "ntel-orionlx-plus",
+            "ntel-orion-io",
+            "ntel-qemux86-64",
+            "ntel-all",
+        ],
+        change_filter=util.ChangeFilter(
+            codebase=DEFAULT_CODEBASE,
+            category='push',
+        ),
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
+        properties={
+            'clobber': False,
+            'cache': True,
+            'release_pin': None,
+            'bbflags': DEFAULT_BBFLAGS,
+        },
+        treeStableTimer=5,
+    ),
+
+    schedulers.SingleBranchScheduler(
+        name="ntel-merge-request",
+        builderNames=[
+            "ntel-orionlxm",
+            "ntel-orionlx-cpx",
+            "ntel-orionlx-plus",
+            "ntel-orion-io",
+            "ntel-qemux86-64",
+            "ntel-all",
+        ],
+        change_filter=util.ChangeFilter(
+            codebase=DEFAULT_CODEBASE,
+            category='merge_request',
+        ),
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
+        properties={
+            'clobber': False,
+            'cache': True,
+            'release_pin': None,
+            'bbflags': DEFAULT_BBFLAGS,
+        },
+        treeStableTimer=5,
+    ),
+
     schedulers.ForceScheduler(
-        name="Force",
+        name="ntel-force",
         label="Force NTEL OpenEmbedded Build",
         builderNames=[
             "ntel-orionlxm",
@@ -40,80 +93,77 @@ c['schedulers'] = [
             "ntel-orionlx-plus",
             "ntel-orion-io",
             "ntel-qemux86-64",
-            "ntel-all"
+            "ntel-all",
         ],
         codebases=[
             util.CodebaseParameter(
-                "",
-                label="Main repository",
-                # will generate a combo box
-                branch=util.StringParameter(
-                    name="branch",
-                    default="morty"),
+                "codebase",
+                label="Build Source",
                 repository=util.StringParameter(
                     name="repository",
                     default=DEFAULT_REPO),
-
-                # will generate nothing in the form, but revision, repository,
-                # and project are needed by buildbot scheduling system so we
-                # need to pass a value ("")
-                revision=util.FixedParameter(name="revision", default=""),
-                project=util.FixedParameter(
-                    name="project", default="ntel-oe"),
+                branch=util.StringParameter(
+                    name="branch",
+                    default="morty"),
+                revision=util.StringParameter(
+                    name="revision",
+                    default="")
             )
         ],
         properties=[
-            util.BooleanParameter(
-                name="clobber",
-                label="Clobber build directory",
-                default=False
-            ),
-            util.BooleanParameter(
-                name='cache',
-                label="Use cached state",
-                default=True
-            ),
-            util.StringParameter(
-                name="release_pin",
-                label="PIN for release signing",
-                default='',
-                required=False,
-            ),
-            util.StringParameter(
-                name='bbflags',
-                label="BitBake Options",
-                default=DEFAULT_BBFLAGS
-            ),
-        ],
+            util.NestedParameter(
+                name="options",
+                label="Build Options",
+                layout="vertical",
+                fields=[
+                    util.BooleanParameter(
+                        name="clobber",
+                        label="Clobber build directory",
+                        default=False),
+                    util.BooleanParameter(
+                        name='cache',
+                        label="Use cached state",
+                        default=True),
+                    util.StringParameter(
+                        name="release_pin",
+                        label="PIN for release signing",
+                        default='',
+                        required=False),
+                    util.StringParameter(
+                        name='bbflags',
+                        label="BitBake Options",
+                        default=DEFAULT_BBFLAGS),
+                ]
+            )
+        ]
     ),
 
     schedulers.Nightly(
         name="ntel-nightly",
-        branch=None,
         builderNames=[
             "ntel-orionlxm",
             "ntel-orionlx-cpx",
             "ntel-orionlx-plus",
             "ntel-orion-io",
             "ntel-qemux86-64",
-            "ntel-all"
+            "ntel-all",
         ],
-        codebases={
-            '': {
-                'repository': DEFAULT_REPO,
-                'branch': 'morty',
-                'revision': '',
-            }
-        },
+        change_filter=util.ChangeFilter(
+            codebase=DEFAULT_CODEBASE,
+        ),
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
+        onlyIfChanged=True,
         properties={
             'clobber': True,
             'cache': True,
-            'bbflags': DEFAULT_BBFLAGS
+            'bbflags': DEFAULT_BBFLAGS,
         },
-        hour=22
-    ),
-
+        hour=22,
+    )
 ]
+
 
 # BUILDERS
 # The 'builders' list defines the Builders, which tell Buildbot how to perform
@@ -250,9 +300,10 @@ class BitBakeFactory(util.BuildFactory):
     def __init__(self, *build_steps):
         util.BuildFactory.__init__(self)
         self.addStep(steps.SetProperties(ComputeBuildProperties))
-        self.addStep(steps.Git(
+        self.addStep(steps.GitLab(
             repourl=util.Property('repository'),
             branch=util.Property('branch'),
+            codebase=util.Property('codebase'),
             mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
             method="clobber",
             locks=[git_lock.access('exclusive')],
