@@ -1,0 +1,40 @@
+Bottom: 02c0e8376fd4d135bcf3e95586bdf73cc54100b1
+Top:    3748ef0b0bc92040c015f3d3be6cfb8543c3b18f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 12:53:38 -0500
+
+Refresh of add-buildbot-role
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/roles/buildbot-master/files/master.cfg
+similarity index 100%
+rename from docker/buildbot-master/buildbot/master.cfg
+rename to roles/buildbot-master/files/master.cfg
+diff --git a/docker/buildbot-master/buildbot/openembedded.py b/roles/buildbot-master/files/openembedded.py
+similarity index 100%
+rename from docker/buildbot-master/buildbot/openembedded.py
+rename to roles/buildbot-master/files/openembedded.py
+diff --git a/docker/buildbot-master/buildbot/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
+similarity index 100%
+rename from docker/buildbot-master/buildbot/ptxdist.py
+rename to roles/buildbot-master/files/ptxdist.py
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 7cd8f5a2..3e49a65c 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -10,6 +10,15 @@
+   docker_volume:
+     name: '{{ data_volume }}'
+ 
++- name: Populate config files
++  copy:
++    src: "{{ item }}"
++    dest: "{{ config_hostdir }}/{{ item }}"
++  loop:
++    - master.cfg
++    - openembedded.py
++    - ptxdist.py
++
+ - name: Checkout image repo
+   git:
+     repo: '{{ image_repo }}'
