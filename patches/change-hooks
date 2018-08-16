@@ -1,5 +1,5 @@
-Bottom: 2142b4518c0c44d79db74deaf3ae6191c84844ac
-Top:    e1fa70ffef5b082210255b60c0190ddc303eb2d6
+Bottom: c62dbab00c28666d55a989cbae969b236f8fedc0
+Top:    5087ba5fa3ba12b951951155232dff096ab58dd3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -19,22 +19,6 @@ index 69052558..888b3ffb 100644
  buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/readuser") }}'
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 52c07e46..aa317118 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -92,6 +92,11 @@ c['www'] = {
-                 ]),
-         ],
-     ),
-+    'change_hook_dialects': {
-+        'gitlab': {
-+            'secret': os.getenv('GITLAB_WEBHOOK_SECRET')
-+        }
-+    }
- }
- 
- # PROJECT IDENTITY
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 index 89439ecd..ebdabcb4 100644
 --- a/roles/buildbot-master/defaults/main.yml
@@ -47,3 +31,19 @@ index 89439ecd..ebdabcb4 100644
    LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
    LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
    LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
+index 52c07e46..aa317118 100644
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
+@@ -92,6 +92,11 @@ c['www'] = {
+                 ]),
+         ],
+     ),
++    'change_hook_dialects': {
++        'gitlab': {
++            'secret': os.getenv('GITLAB_WEBHOOK_SECRET')
++        }
++    }
+ }
+ 
+ # PROJECT IDENTITY

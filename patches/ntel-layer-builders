@@ -1,5 +1,5 @@
-Bottom: 4484493da4b8cbb0e266234dff4725ad2b940370
-Top:    be51f9e4c032ca9955609f691a13beb963141d0e
+Bottom: be49d5cf7fa18c9af656abe3f97375ae74c3b696
+Top:    9e8de35458a6f21dfadded2528778e247428ce0d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 10:19:05 -0500
 
@@ -15,10 +15,10 @@ repository under /ntel/.
 
 
 ---
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 9eec296f..ec0dcfa0 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
+index 1245dc16..e1608831 100644
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
 @@ -170,7 +170,7 @@ def codebaseGenerator(chdict):
      """
  
@@ -28,10 +28,10 @@ index 9eec296f..ec0dcfa0 100644
  
      # path = urlparse(chdict['revlink']).path.lstrip('/')
  
-diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
+diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
 index 5cbd252a..9166ece0 100755
---- a/docker/buildbot-master/buildbot/openembedded.py
-+++ b/docker/buildbot-master/buildbot/openembedded.py
+--- a/roles/buildbot-master/files/openembedded.py
++++ b/roles/buildbot-master/files/openembedded.py
 @@ -9,7 +9,7 @@ c = WorkerConfig = {}
  
  

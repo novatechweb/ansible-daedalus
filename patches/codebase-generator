@@ -1,5 +1,5 @@
-Bottom: 3af064a22089ea8866f0f9d1873ff0e5c426c7dc
-Top:    c255842fa4438a1353bbe7970d7ee860afa172f2
+Bottom: a74231e1704565ccb0523add022623d5d7f75181
+Top:    77c12b69480e7ab9662c7accfa64600dde7f38ce
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -12,10 +12,10 @@ repository back to its parent for merge requests.
 
 
 ---
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
 index aa317118..a4a6fefc 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
 @@ -6,6 +6,7 @@
  
  import os

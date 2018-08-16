@@ -1,5 +1,5 @@
-Bottom: 2b740a086d80d30239bd8c2849c42f85fb53d509
-Top:    66abfefa9f96da1ba14315a8dff5788bd4788161
+Bottom: d17635465c52c965032e944600f5ec40b1074e17
+Top:    bf4f155c6dcfb5779969e7914035323cee6cf3db
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -33,10 +33,22 @@ index 4e579094..9f020276 100644
  
  # Create buildbot user
  ARG BUILDBOT_UID=1000
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index c923aaca..9eec296f 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 3e987a85..73514ff5 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -54,6 +54,7 @@ container_env:
+   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
+   GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
+   GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
++  GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
+   GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
+   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
+   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
+index 241e5ba5..1245dc16 100644
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
 @@ -60,7 +60,15 @@ mn = reporters.MailNotifier(
  )
  c['services'].append(mn)
@@ -62,15 +74,3 @@ index c923aaca..9eec296f 100644
  c['www'] = {
      'port': int(os.getenv('BUILDBOT_WEB_PORT', 8010)),
      'plugins': {
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 3e987a85..73514ff5 100644
---- a/roles/buildbot-master/defaults/main.yml
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -54,6 +54,7 @@ container_env:
-   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
-   GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
-   GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
-+  GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
-   GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
-   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
-   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'

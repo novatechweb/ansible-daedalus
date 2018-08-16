@@ -1,5 +1,5 @@
-Bottom: 38db7306184a2dd2f0c20467a2d828daa247de88
-Top:    26f827cd0bfa90f5118732fc06b61626afac6bf7
+Bottom: ae53f8d5a411b2dfc3debf4eedac65b30c6a9fc8
+Top:    d17635465c52c965032e944600f5ec40b1074e17
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -33,10 +33,35 @@ index 7690ad05..4e579094 100644
  
  # Create buildbot user
  ARG BUILDBOT_UID=1000
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index ebdabcb4..3e987a85 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -27,6 +27,9 @@ buildbot_port_args:
+   - '{{buildbot_https_port}}'
+   - '{{buildbot_worker_port}}'
+ 
++buildbot_irc_channels:
++  - '#novatech-ci'
++
+ # host path containing configuration files
+ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ 
+@@ -34,6 +37,10 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ container_env:
+   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
++  BUILDBOT_IRC_CHANNELS: "{{ buildbot_irc_channels | join(',') }}"
++  BUILDBOT_IRC_HOST: 'chat.freenode.net'
++  BUILDBOT_IRC_NICK: 'NovaTechCI'
++  BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
+   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
+   BUILDBOT_SMTP_USER: 'Dean.cox'
+   BUILDBOT_SMTP_PASS: 'no5156'
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
 index a4a6fefc..241e5ba5 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
 @@ -5,7 +5,7 @@
  # 'master.cfg' in your buildmaster's base directory.
  
@@ -69,28 +94,3 @@ index a4a6fefc..241e5ba5 100644
  c['services'].append(irc)
  
  mn = reporters.MailNotifier(
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index ebdabcb4..3e987a85 100644
---- a/roles/buildbot-master/defaults/main.yml
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -27,6 +27,9 @@ buildbot_port_args:
-   - '{{buildbot_https_port}}'
-   - '{{buildbot_worker_port}}'
- 
-+buildbot_irc_channels:
-+  - '#novatech-ci'
-+
- # host path containing configuration files
- config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
- 
-@@ -34,6 +37,10 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
- container_env:
-   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
-   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
-+  BUILDBOT_IRC_CHANNELS: "{{ buildbot_irc_channels | join(',') }}"
-+  BUILDBOT_IRC_HOST: 'chat.freenode.net'
-+  BUILDBOT_IRC_NICK: 'NovaTechCI'
-+  BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
-   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
-   BUILDBOT_SMTP_USER: 'Dean.cox'
-   BUILDBOT_SMTP_PASS: 'no5156'
