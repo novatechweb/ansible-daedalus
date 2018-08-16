@@ -1,0 +1,86 @@
+Bottom: 1288550b8a57b26afb24a4bffdbec21dbb30b6f9
+Top:    c0fe56cef09d5ae171a8fb76f52f80529bf35587
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 09:41:18 -0500
+
+Refresh of irc-reporter
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 3ad01d12..518403d2 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -2,6 +2,7 @@
+ # passwords
+ buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin"                      , length=20) }}'
+ buildbot_email_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/buildbot@novatech-llc.com"  , length=20) }}'
++buildbot_irc_password:               '{{ lookup("password", playbook_dir + "/credentials/buildbot/irc-NovaTechCI"             , length=20) }}'
+ buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel"                , length=20) }}'
+ buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist"             , length=20) }}'
+ buildbot_webhook_secret:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/webhook"                    , length=20) }}'
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index 7690ad05..4e579094 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -19,7 +19,8 @@ RUN pip --no-cache-dir install \
+     'buildbot-grid-view' \
+     'buildbot-waterfall-view' \
+     'buildbot-www' \
+-    'ldap3'
++    'ldap3' \
++    'pyOpenSSL'
+ 
+ # Create buildbot user
+ ARG BUILDBOT_UID=1000
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index a94db3e8..10a0e329 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -34,10 +34,18 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="/run/secrets")]
+ 
+ c['services'] = []
+ 
+-from buildbot.plugins import reporters
+-irc = reporters.IRC(host="172.16.64.3",
+-                    nick="orionbb",
+-                    channels=["#orion"])
++irc = reporters.IRC(
++    allowForce=False,
++    allowShutdown=False,
++    channels=os.getenv("BUILDBOT_IRC_CHANNELS").split(','),
++    host=os.getenv("BUILDBOT_IRC_HOST"),
++    nick=os.getenv("BUILDBOT_IRC_NICK"),
++    notify_events=[],
++    password=os.getenv("BUILDBOT_IRC_PASS"),
++    port=6697,
++    useColors=True,
++    useSSL=True
++)
+ c['services'].append(irc)
+ 
+ mn = reporters.MailNotifier(
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index ebdabcb4..3e987a85 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -27,6 +27,9 @@ buildbot_port_args:
+   - '{{buildbot_https_port}}'
+   - '{{buildbot_worker_port}}'
+ 
++buildbot_irc_channels:
++  - '#novatech-ci'
++
+ # host path containing configuration files
+ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ 
+@@ -34,6 +37,10 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ container_env:
+   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
++  BUILDBOT_IRC_CHANNELS: "{{ buildbot_irc_channels | join(',') }}"
++  BUILDBOT_IRC_HOST: 'chat.freenode.net'
++  BUILDBOT_IRC_NICK: 'NovaTechCI'
++  BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
+   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
+   BUILDBOT_SMTP_USER: 'Dean.cox'
+   BUILDBOT_SMTP_PASS: 'no5156'
