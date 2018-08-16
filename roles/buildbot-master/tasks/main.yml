@@ -46,6 +46,6 @@
 
 - name: Add buildbot_master host
   add_host:
-    name: buildbot_master
+    name: '{{ container_hostname }}'
     pubkey: "{{ output.stdout }}"
     ip_addr: "{{ buildbot_ip_addr }}"
