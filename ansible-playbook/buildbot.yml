@@ -28,3 +28,6 @@
     - name: Build and start the Buildbot worker container
       import_role:
         name: buildbot-worker-ntel
+    - name: Build and start the Buildbot worker container
+      import_role: 
+      name: buildbot-worker-ptxdist
