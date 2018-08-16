@@ -1,7 +1,7 @@
-Bottom: 535d8ecf81db805bf4759241f94a7b959c1292dd
-Top:    9225c791ed10b787446601f1cf6981e0c53eb2b7
+Bottom: 8b078626420535888cbbeababb87ce2ae97a1a04
+Top:    bc767f7991621187096bae81743465b846ea7ff2
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-15 10:31:41 -0500
+Date:   2018-08-16 09:17:44 -0500
 
 Add Gitlab Authentication
 
