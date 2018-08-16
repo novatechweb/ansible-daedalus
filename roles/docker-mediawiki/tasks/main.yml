@@ -151,7 +151,7 @@
     state: started
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'
-      - '{{ wiki_dv_name }}/var/www/html:z'
+      - '{{ wiki_dv_name }}:/var/www/html:z'
 
 # *****************************************************************************
 # restore?
