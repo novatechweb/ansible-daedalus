@@ -12,6 +12,14 @@
     - name: Build and start the Buildbot master container
       import_role:
         name: buildbot-master
+    - name: Add buildbot user to Gitlab
+      import_role:
+        name: gitlab-user
+      vars:
+        new_user: buildbot
+        new_user_name: Build Robot
+        new_user_email: buildbot@novatech-llc.com
+        new_user_pass: "{{ lookup('password', '/dev/null') }}"
 
 - name: Setup Buildbot worker system
   hosts: builder
@@ -32,3 +40,36 @@
     - name: Build and start the Buildbot worker container
       import_role:
         name: buildbot-worker-ptxdist
+
+- name: Gitlab public keys for buildbot containers
+  hosts: daedalus
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+    - buildbot
+  roles:
+    - name: Add buildbot-master pubkey to buildbot user
+      role: gitlab-sshkey
+      vars:
+        username: buildbot
+        pubkey: "{{ hostvars[buildbot_hostname].pubkey }}"
+        title: "buildbot-master"
+      tags:
+        - buildbot-master
+    - name: Add buildbot-worker-ntel pubkey to buildbot user
+      role: gitlab-sshkey
+      vars:
+        username: buildbot
+        pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
+        title: "buildbot-worker-ntel"
+      tags:
+        - buildbot-worker-ntel
+    - name: Add buildbot-worker-ptxdist pubkey to buildbot user
+      role: gitlab-sshkey
+      vars:
+        username: buildbot
+        pubkey: "{{ hostvars['buildbot-worker-ptxdist'].pubkey }}"
+        title: "buildbot-worker-ptxdist"
+      tags:
+        - buildbot-worker-ptxdist
