@@ -1,5 +1,5 @@
-Bottom: bf4f155c6dcfb5779969e7914035323cee6cf3db
-Top:    be49d5cf7fa18c9af656abe3f97375ae74c3b696
+Bottom: 7deea1c0fe70ea39c02a0b71b3223ada76bf384c
+Top:    8bbd7ece6bdd78d21057bac070be0faafccfc5d5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -8,7 +8,7 @@ Use internal mail server
 
 ---
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 73514ff5..91cc20ad 100644
+index eff5bcb9..272f0e98 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -41,9 +41,10 @@ container_env:

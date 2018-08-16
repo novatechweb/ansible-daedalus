@@ -1,5 +1,5 @@
-Bottom: d17635465c52c965032e944600f5ec40b1074e17
-Top:    bf4f155c6dcfb5779969e7914035323cee6cf3db
+Bottom: eeaf459024e0aae86e59bc77a6ff39f3ab023414
+Top:    7deea1c0fe70ea39c02a0b71b3223ada76bf384c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -34,7 +34,7 @@ index 4e579094..9f020276 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 3e987a85..73514ff5 100644
+index cc429e05..eff5bcb9 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -54,6 +54,7 @@ container_env:
