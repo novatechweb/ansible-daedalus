@@ -1,5 +1,5 @@
-Bottom: 7e32ac68c5ba7081848462cd797b637298466a09
-Top:    53f65eb59c793128c2f8b141648cf1fddf87cc6a
+Bottom: 02c0e8376fd4d135bcf3e95586bdf73cc54100b1
+Top:    4a802c6865368fc9fbf4256ba480f5c27be080cb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -62,10 +62,10 @@ index d476bf91..afeff4e3 100644
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 75985b8a..4c29eb74 100644
+index 9784ff82..e17bce26 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -92,10 +92,10 @@ c['buildbotNetUsageData'] = 'basic'
+@@ -93,10 +93,10 @@ c['buildbotNetUsageData'] = 'basic'
  
  import openembedded
  reload(openembedded)
@@ -81,7 +81,7 @@ index 75985b8a..4c29eb74 100644
  import ptxdist
  reload(ptxdist)
 diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
-index 5d2ba3d4..6ba5e23b 100755
+index 208948b2..be348509 100755
 --- a/docker/buildbot-master/buildbot/openembedded.py
 +++ b/docker/buildbot-master/buildbot/openembedded.py
 @@ -5,20 +5,23 @@
@@ -267,7 +267,7 @@ index 5d2ba3d4..6ba5e23b 100755
  
 @@ -311,22 +261,21 @@ class BitBakeFactory(util.BuildFactory):
              command=["./oebb.sh", "config", util.Property('machine')]
-             ))
+         ))
          self.addStep(BitBakeConf(auto_conf, conf_file='auto.conf'))
 -        self.addStep(BitBakeConf(test_conf, conf_file='test.conf'))
 -        self.addStep(BitBakeConf(release_conf, conf_file='release.conf'))
