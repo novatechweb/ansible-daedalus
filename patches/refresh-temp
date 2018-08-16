@@ -1,0 +1,131 @@
+Bottom: cd0729f59c534cb3c9c60d40ef815f4730ce37f5
+Top:    4a335549d8d6effaeaee2eed132e24589e15c369
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 14:16:13 -0500
+
+Refresh of use-original-buildbot
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index fff22446..923e9542 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -1,14 +1,10 @@
+-FROM        buildbot/buildbot-master:v1.2.0
++FROM  buildbot/buildbot-master:v1.2.0
+ LABEL maintainer="Andrew Cooper <andrew.cooper@novatechweb.com>"
+ 
+-WORKDIR /buildbot
+-
+-ARG BUILDBOT_UID=1000
+ ARG BUILDBOT_TIMEZONE="Etc/UTC"
+ 
+ RUN apk --no-cache add \
+         openssh \
+-        tini \
+ &&  rm /etc/localtime \
+ &&  ln -sf /usr/share/zoneinfo/${BUILDBOT_TIMEZONE} /etc/localtime \
+ &&  echo "${BUILDBOT_TIMEZONE}" > /etc/timezone
+@@ -18,12 +14,12 @@ RUN pip --no-cache-dir install \
+     'attrs'
+ 
+ # Create buildbot user
++ARG BUILDBOT_DATA="/buildbot"
+ ARG BUILDBOT_UID=1000
++
++WORKDIR ${BUILDBOT_DATA}
+ COPY buildbot/ /home/buildbot/
+ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
+-&&  chown -v -R buildbot:buildbot "/buildbot" \
++&&  chown -v -R buildbot:buildbot "${BUILDBOT_DATA}" \
+ &&  chown -v -R buildbot:buildbot "/home/buildbot"
+-
+ USER buildbot
+-ENTRYPOINT ["/sbin/tini", "--"]
+-CMD ["/home/buildbot/start.sh"]
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+deleted file mode 100755
+index eec8ff56..00000000
+--- a/docker/buildbot-master/buildbot/start.sh
++++ /dev/null
+@@ -1,4 +0,0 @@
+-#!/bin/sh
+-
+-/usr/bin/buildbot --verbose upgrade-master
+-exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=/home/buildbot/buildbot.tac
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 9a308193..412ac9a5 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -59,6 +59,7 @@ container_port_args: '{{ buildbot_port_args }}'
+ # volumes mounted within the container
+ container_volumes:
+   - '{{ data_volume }}:{{ data_path }}:z'
++  - '{{ config_hostdir }}/buildbot.tac:{{ data_path }}/buildbot.tac'
+   - '{{ config_hostdir }}/master.cfg:{{ data_path }}/master.cfg'
+   - '{{ config_hostdir }}/openembedded.py:{{ data_path }}/openembedded.py'
+   - '{{ config_hostdir }}/ptxdist.py:{{ data_path }}/ptxdist.py'
+@@ -71,9 +72,10 @@ data_volume: '{{ docker_name_prefix }}buildbot_DV'
+ 
+ # build arguments of the image
+ image_args:
+-  BUILDBOT_UID: '{{buildbot_uid}}'
+-  BUILDBOT_VERSION: 'v{{buildbot_version}}'
++  BUILDBOT_DATA: '{{ data_path }}'
+   BUILDBOT_TIMEZONE: 'America/Chicago'
++  BUILDBOT_UID: '{{ buildbot_uid }}'
++  BUILDBOT_VERSION: 'v{{ buildbot_version }}'
+ 
+ # directory of the image source
+ image_dir: '{{ docker_projects_dir }}/buildbot-master'
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 138f692d..60a54247 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -14,11 +14,23 @@
+   copy:
+     src: "{{ item }}"
+     dest: "{{ config_hostdir }}/{{ item }}"
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
+   loop:
++    - buildbot.tac
+     - master.cfg
+     - openembedded.py
+     - ptxdist.py
+ 
++- name: Populate config templates
++  copy:
++    src: "{{ item }}"
++    dest: "{{ config_hostdir }}/{{ item }}"
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++  loop:
++    - buildbot.tac.j2
++
+ - name: Checkout image repo
+   git:
+     repo: '{{ image_repo }}'
+diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/roles/buildbot-master/templates/buildbot.tac.j2
+similarity index 81%
+rename from docker/buildbot-master/buildbot/buildbot.tac
+rename to roles/buildbot-master/templates/buildbot.tac.j2
+index c3b2e879..23824119 100644
+--- a/docker/buildbot-master/buildbot/buildbot.tac
++++ b/roles/buildbot-master/templates/buildbot.tac.j2
+@@ -6,13 +6,13 @@ from twisted.python.log import ILogObserver
+ 
+ from buildbot.master import BuildMaster
+ 
+-basedir = '/buildbot'
++basedir = '{{ data_path }}'
+ configfile = 'master.cfg'
+ 
+ # note: this line is matched against to check that this is a buildmaster
+ # directory; do not edit it.
+ application = service.Application('buildmaster')
+-# application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
++application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
+ 
+ m = BuildMaster(basedir, configfile, umask=None)
+ m.setServiceParent(application)
