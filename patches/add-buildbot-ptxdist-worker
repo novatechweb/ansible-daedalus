@@ -1,5 +1,5 @@
 Bottom: 2286bbd54d3b12e9f0bd6f9917885b8feb972113
-Top:    8d9d45a30c8914363c8ab2510d23e5477bcbe1e2
+Top:    09bc532609a2f4c6d9423a71ee9e45ee20e52068
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -319,7 +319,7 @@ index 00000000..f025e661
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
 new file mode 100644
-index 00000000..c3e0956c
+index 00000000..7fb5f918
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
 @@ -0,0 +1,80 @@
@@ -348,7 +348,7 @@ index 00000000..c3e0956c
 +cache_path: '/cache'
 +
 +# name of the cache volume
-+cache_volume: '{{ docker_name_prefix }}{{ hostname }}-cache'
++cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
 +
 +# environment passed to the container
 +container_env:
@@ -358,8 +358,11 @@ index 00000000..c3e0956c
 +  BUILDBOT_WORKER_NAME: 'worker-ptxdist'
 +  BUILDBOT_WORKER_PASS: 'pass'
 +
++# container_hostname
++container_hostname: '{{ role_name }}'
++
 +# the name of the container being started
-+container_name: '{{ docker_name_prefix }}{{ hostname }}'
++container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
 +
 +# volumes mounted within the container
 +container_volumes:
@@ -371,10 +374,7 @@ index 00000000..c3e0956c
 +data_path: '/buildbot'
 +
 +# name of the data volume
-+data_volume: '{{ docker_name_prefix }}{{ hostname }}-data'
-+
-+# hostname
-+hostname: buildbot-worker-ptxdist
++data_volume: '{{ docker_name_prefix }}{{ container_hostname }}-data'
 +
 +# address of hsm cryptographic service
 +hsm_host: '{{ansible_facts.default_ipv4.address}}'
@@ -387,10 +387,10 @@ index 00000000..c3e0956c
 +  PTK_HSM_HOST: '{{hsm_host}}'
 +
 +# directory of the image source
-+image_dir: '{{ docker_projects_dir }}/{{ hostname }}'
++image_dir: '{{ docker_projects_dir }}/{{ container_hostname }}'
 +
 +# name of the image being built
-+image_name: '{{ docker_registry_username }}/{{ hostname }}'
++image_name: '{{ docker_registry_username }}/{{ container_hostname }}'
 +
 +# repository URI of the image source
 +image_repo: '{{ buildbot_worker_ptxdist_image_repo | default("https://github.com/novatechweb/docker-buildbot-worker-ptxdist.git") }}'
