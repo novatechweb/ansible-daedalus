@@ -33,6 +33,9 @@ container_env:
   BUILDBOT_WORKER_NAME: 'worker-ntel'
   BUILDBOT_WORKER_PASS: 'pass'
 
+# extra hosts to add to container's /etc/hosts file
+container_etc_hosts: []
+
 # the name of the container being started
 container_name: '{{ docker_name_prefix }}{{ hostname }}'
 
