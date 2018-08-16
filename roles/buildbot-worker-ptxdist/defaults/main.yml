@@ -42,6 +42,9 @@ container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
 # network configuration for the confainer
 container_networks: []
 
+# network configuration for the confainer
+container_networks: []
+
 # port configuration of the container
 container_port_args: []
 
