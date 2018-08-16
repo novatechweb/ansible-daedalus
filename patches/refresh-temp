@@ -1,0 +1,20 @@
+Bottom: 1d69d7e2ae62dc49d59d5a86f54323da85987358
+Top:    c255842fa4438a1353bbe7970d7ee860afa172f2
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 10:20:18 -0500
+
+Refresh of codebase-generator
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index bc2acccb..a4a6fefc 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -153,7 +153,7 @@ def codebaseGenerator(chdict):
+     """
+ 
+     giturl = giturlparse(chdict['repository'])
+-    return giturl.owner
++    return "%s/%s" % (giturl.owner, giturl.repo)
+ 
+     # path = urlparse(chdict['revlink']).path.lstrip('/')
