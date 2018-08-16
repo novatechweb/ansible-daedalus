@@ -1,5 +1,5 @@
 FROM        buildbot/buildbot-master:v1.2.0
-MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
+LABEL maintainer="Andrew Cooper <andrew.cooper@novatechweb.com>"
 
 WORKDIR /buildbot
 
