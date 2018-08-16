@@ -1,13 +1,12 @@
 Version: 1
-Previous: 12dcb370549caa3355ef5ca3f52ffd0392de4579
-Head: 7dc0bfdb3b1302d49953bbdb414d98039b064044
+Previous: a923c2b15153724ce69501fb386af540a85f65dc
+Head: 8f3f11c4315a57898e61aa6ba79e9e0faf0c2c93
 Applied:
   add-buildbot-role: bdcc3de5278e7a6cf0a79fc7f718493325f58267
   add-buildbot-ntel-worker: 69efaa283698853adba14762c1870e63d96ae8a0
   hsm-host-arg: a1dbd8d9d02a1d024ca45e954a59cc7db6786274
   add-buildbot-ptxdist-worker: 3dddf89c9c1e9f9dbe405f6384f3f58fe2ab2500
-  update-ptxdist-build-factories: ab37deb63384251147f4e79f6fb36722278548c7
-  refresh-temp: 7dc0bfdb3b1302d49953bbdb414d98039b064044
+  update-ptxdist-build-factories: 8f3f11c4315a57898e61aa6ba79e9e0faf0c2c93
 Unapplied:
   ptxdist-bc-depend: 0b330b530bb7c3cfa8685bce93be4f2c0776c927
   fix-ssh-folder-permission: 28e15a46e62ed1f750b95a82a877a68f49054e4c
