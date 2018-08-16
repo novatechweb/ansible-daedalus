@@ -50,11 +50,6 @@
         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
       fi"
 
-- name: Create secrets volume
-  file:
-    path: '{{ secrets_hostdir }}'
-    state: directory
-
 - name: Checkout image repo
   git:
     repo: '{{ image_repo }}'
