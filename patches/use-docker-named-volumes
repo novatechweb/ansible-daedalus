@@ -1,5 +1,5 @@
 Bottom: 2d917a1a96b2fe5762ee0ae706b9a847653e4c8d
-Top:    8e2dd785b6a35f3ab78f71f27382fb6523ae8732
+Top:    aa78bec9319affa16300da970e19ed9b4467c584
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:38 -0500
 
@@ -336,7 +336,7 @@ index a95335ca..2a86d85e 100644
 +# the name of the sql database used by mediawiki
 +wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index d526ee43..4e7b5c22 100644
+index d526ee43..1aeb23dd 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -91,44 +91,46 @@
@@ -423,7 +423,7 @@ index d526ee43..4e7b5c22 100644
 -      - '{{ wiki_dv_name }}'
 +    volumes:
 +      - '{{ openssl_dv_name }}:/etc/ssl/private:z'
-+      - '{{ wiki_dv_name }}/var/www/html:z'
++      - '{{ wiki_dv_name }}:/var/www/html:z'
  
  # *****************************************************************************
  # restore?
