@@ -1,5 +1,5 @@
 Bottom: 96ffaaadc106f13f2d643faf3ea23689ba2814f7
-Top:    02c0e8376fd4d135bcf3e95586bdf73cc54100b1
+Top:    3748ef0b0bc92040c015f3d3be6cfb8543c3b18f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -105,10 +105,111 @@ index 521c8237..fff22446 100644
  
  WORKDIR /buildbot
  
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+new file mode 100644
+index 00000000..c40f52f0
+--- /dev/null
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -0,0 +1,92 @@
++---
++# defaults file for buildbot
++
++# backup host directory
++backup_hostdir: '{{ docker_backup_dir }}/buildbot'
++
++# numeric ID of buildbot user
++buildbot_uid: 1000
++
++# numeric version of buildbot service
++buildbot_version: 'master'
++
++# port number for workers to communicate with master
++buildbot_worker_port: 9989
++
++# port number for unencrypted web access
++buildbot_http_port: 8080
++
++# port number for encrypted web access
++buildbot_https_port: 8443
++
++# The hostname passed as an envirnment variable into the container
++buildbot_ip_addr: '127.0.0.1'
++buildbot_hostname: buildbot.example.com
++buildbot_port_args:
++  - '{{buildbot_http_port}}'
++  - '{{buildbot_https_port}}'
++  - '{{buildbot_worker_port}}'
++
++# host path containing configuration files
++config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
++
++# environment passed to the container
++container_env:
++  BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
++  BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
++  BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
++  BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
++  BUILDBOT_WORKER_NTEL: 'worker-ntel'
++  BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
++  BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
++  BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
++
++# the name of the container being started
++container_name: '{{ docker_name_prefix }}buildbot'
++
++# networks of the container
++container_networks:
++  - name: '{{ docker_network_frontend }}'
++    aliases:
++      - '{{ buildbot_hostname }}'
++
++# volumes mounted within the container
++container_volumes:
++  - '{{ data_volume }}:{{ data_path }}:z'
++  - '{{ config_hostdir }}:{{ secrets_path }}'
++
++# mount path of the data volume
++data_path: '/buildbot'
++
++# name of the data volume
++data_volume: '{{ docker_name_prefix }}buildbot_DV'
++
++# hostname
++hostname: buildbot-worker-ntel
++
++# build arguments of the image
++image_args:
++  BUILDBOT_UID: '{{buildbot_uid}}'
++  BUILDBOT_VERSION: 'v{{buildbot_version}}'
++  BUILDBOT_TIMEZONE: 'America/Chicago'
++
++# directory of the image source
++image_dir: '{{ docker_projects_dir }}/buildbot-master'
++
++# name of the image being built
++image_name: '{{ docker_registry_username }}/buildbot'
++
++# repository URI of the image source
++image_repo: '{{ buildbot_image_repo | default("https://github.com/novatechweb/docker-buildbot-master.git") }}'
++
++# restoration host directory
++restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'
++
++# host path containing secrets
++secrets_hostdir: '{{ config_hostdir }}'
++
++# name of the ssh known_hosts secret
++secrets_known_hosts: 'known_hosts'
++
++# mount path of the secrets volume
++secrets_path: '/run/secrets'
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/roles/buildbot-master/files/master.cfg
+similarity index 73%
+rename from docker/buildbot-master/buildbot/master.cfg
+rename to roles/buildbot-master/files/master.cfg
 index 658d5fb1..9784ff82 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
 @@ -5,9 +5,9 @@
  # 'master.cfg' in your buildmaster's base directory.
  
@@ -214,10 +315,13 @@ index 658d5fb1..9784ff82 100644
  c['buildbotNetUsageData'] = 'basic'
  
  import openembedded
-diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
+diff --git a/docker/buildbot-master/buildbot/openembedded.py b/roles/buildbot-master/files/openembedded.py
+similarity index 99%
+rename from docker/buildbot-master/buildbot/openembedded.py
+rename to roles/buildbot-master/files/openembedded.py
 index 5d2ba3d4..208948b2 100755
 --- a/docker/buildbot-master/buildbot/openembedded.py
-+++ b/docker/buildbot-master/buildbot/openembedded.py
++++ b/roles/buildbot-master/files/openembedded.py
 @@ -309,7 +309,7 @@ class BitBakeFactory(util.BuildFactory):
              retry=(360, 5)))
          self.addStep(steps.ShellCommand(
@@ -227,10 +331,13 @@ index 5d2ba3d4..208948b2 100755
          self.addStep(BitBakeConf(auto_conf, conf_file='auto.conf'))
          self.addStep(BitBakeConf(test_conf, conf_file='test.conf'))
          self.addStep(BitBakeConf(release_conf, conf_file='release.conf'))
-diff --git a/docker/buildbot-master/buildbot/ptxdist.py b/docker/buildbot-master/buildbot/ptxdist.py
+diff --git a/docker/buildbot-master/buildbot/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
+similarity index 98%
+rename from docker/buildbot-master/buildbot/ptxdist.py
+rename to roles/buildbot-master/files/ptxdist.py
 index 85020678..d6d84f2e 100644
 --- a/docker/buildbot-master/buildbot/ptxdist.py
-+++ b/docker/buildbot-master/buildbot/ptxdist.py
++++ b/roles/buildbot-master/files/ptxdist.py
 @@ -170,7 +170,7 @@ class PTXDistFactory(util.BuildFactory):
          self.addStep(PTXDistBuild(command=["ptxdist", "make", "ipkg-push"]))
          self.addStep(PTXDistBuild(command=["./scripts/ipkg-header"]))
@@ -327,110 +434,12 @@ index 85020678..d6d84f2e 100644
  remote_tests_am335x_factory = util.BuildFactory()
  remote_tests_am335x_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
                                                mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-new file mode 100644
-index 00000000..c40f52f0
---- /dev/null
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -0,0 +1,92 @@
-+---
-+# defaults file for buildbot
-+
-+# backup host directory
-+backup_hostdir: '{{ docker_backup_dir }}/buildbot'
-+
-+# numeric ID of buildbot user
-+buildbot_uid: 1000
-+
-+# numeric version of buildbot service
-+buildbot_version: 'master'
-+
-+# port number for workers to communicate with master
-+buildbot_worker_port: 9989
-+
-+# port number for unencrypted web access
-+buildbot_http_port: 8080
-+
-+# port number for encrypted web access
-+buildbot_https_port: 8443
-+
-+# The hostname passed as an envirnment variable into the container
-+buildbot_ip_addr: '127.0.0.1'
-+buildbot_hostname: buildbot.example.com
-+buildbot_port_args:
-+  - '{{buildbot_http_port}}'
-+  - '{{buildbot_https_port}}'
-+  - '{{buildbot_worker_port}}'
-+
-+# host path containing configuration files
-+config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
-+
-+# environment passed to the container
-+container_env:
-+  BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
-+  BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
-+  BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
-+  BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
-+  BUILDBOT_WORKER_NTEL: 'worker-ntel'
-+  BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
-+  BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
-+  BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
-+
-+# the name of the container being started
-+container_name: '{{ docker_name_prefix }}buildbot'
-+
-+# networks of the container
-+container_networks:
-+  - name: '{{ docker_network_frontend }}'
-+    aliases:
-+      - '{{ buildbot_hostname }}'
-+
-+# volumes mounted within the container
-+container_volumes:
-+  - '{{ data_volume }}:{{ data_path }}:z'
-+  - '{{ config_hostdir }}:{{ secrets_path }}'
-+
-+# mount path of the data volume
-+data_path: '/buildbot'
-+
-+# name of the data volume
-+data_volume: '{{ docker_name_prefix }}buildbot_DV'
-+
-+# hostname
-+hostname: buildbot-worker-ntel
-+
-+# build arguments of the image
-+image_args:
-+  BUILDBOT_UID: '{{buildbot_uid}}'
-+  BUILDBOT_VERSION: 'v{{buildbot_version}}'
-+  BUILDBOT_TIMEZONE: 'America/Chicago'
-+
-+# directory of the image source
-+image_dir: '{{ docker_projects_dir }}/buildbot-master'
-+
-+# name of the image being built
-+image_name: '{{ docker_registry_username }}/buildbot'
-+
-+# repository URI of the image source
-+image_repo: '{{ buildbot_image_repo | default("https://github.com/novatechweb/docker-buildbot-master.git") }}'
-+
-+# restoration host directory
-+restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'
-+
-+# host path containing secrets
-+secrets_hostdir: '{{ config_hostdir }}'
-+
-+# name of the ssh known_hosts secret
-+secrets_known_hosts: 'known_hosts'
-+
-+# mount path of the secrets volume
-+secrets_path: '/run/secrets'
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 00000000..7cd8f5a2
+index 00000000..3e49a65c
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,51 @@
 +---
 +# tasks file for buildbot
 +
@@ -442,6 +451,15 @@ index 00000000..7cd8f5a2
 +- name: Create buildbot data volume
 +  docker_volume:
 +    name: '{{ data_volume }}'
++
++- name: Populate config files
++  copy:
++    src: "{{ item }}"
++    dest: "{{ config_hostdir }}/{{ item }}"
++  loop:
++    - master.cfg
++    - openembedded.py
++    - ptxdist.py
 +
 +- name: Checkout image repo
 +  git:
