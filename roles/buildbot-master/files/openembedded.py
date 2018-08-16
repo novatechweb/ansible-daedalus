@@ -9,7 +9,7 @@ c = WorkerConfig = {}
 
 
 DEFAULT_BBFLAGS = '-k'
-DEFAULT_CODEBASE = "ntel/setup-scripts"
+DEFAULT_CODEBASE = "ntel"
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
