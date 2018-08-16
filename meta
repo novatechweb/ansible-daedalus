@@ -1,6 +1,6 @@
 Version: 1
-Previous: 7294ce3fa0d460f7fc412cab13acf536b1349120
-Head: 0f3afb87f6fa3569c9c5261a0341a70ed8808663
+Previous: 6365b461066c1aef465409efb25fe62004bb8f8e
+Head: 96e541aff7fc9017b799e24e60d1f7ce44e426c5
 Applied:
   add-buildbot-role: 182951ac2d5920bdf31de53d6869111d860984d0
   add-buildbot-ntel-worker: d3d875f37938bf543f58545e7e26bf0ce190b0bb
@@ -9,6 +9,7 @@ Applied:
   update-ptxdist-build-factories: 75aba91aba6f2d1cefc7f6e0e4fd083fc4ad14a2
   ptxdist-bc-depend: a8d06df20ead3086c210df3eb4a95e74f755fc22
   add-environment-variables-for: 0f3afb87f6fa3569c9c5261a0341a70ed8808663
+  refresh-temp: 96e541aff7fc9017b799e24e60d1f7ce44e426c5
 Unapplied:
   install-buildbot-plugin: fcec0fbd14c8949389f018c8067bd2165bf796f8
   generate-new-ssh-key-on-first: a45ff4f4b0af38571c2187afdbf95ff0e4a8a963
