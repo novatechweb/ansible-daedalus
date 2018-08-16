@@ -59,6 +59,7 @@ container_port_args: '{{ buildbot_port_args }}'
 # volumes mounted within the container
 container_volumes:
   - '{{ data_volume }}:{{ data_path }}:z'
+  - '{{ config_hostdir }}/buildbot.tac:{{ data_path }}/buildbot.tac'
   - '{{ config_hostdir }}/master.cfg:{{ data_path }}/master.cfg'
   - '{{ config_hostdir }}/openembedded.py:{{ data_path }}/openembedded.py'
   - '{{ config_hostdir }}/ptxdist.py:{{ data_path }}/ptxdist.py'
@@ -71,9 +72,10 @@ data_volume: '{{ docker_name_prefix }}buildbot_DV'
 
 # build arguments of the image
 image_args:
-  BUILDBOT_UID: '{{buildbot_uid}}'
-  BUILDBOT_VERSION: 'v{{buildbot_version}}'
+  BUILDBOT_DATA: '{{ data_path }}'
   BUILDBOT_TIMEZONE: 'America/Chicago'
+  BUILDBOT_UID: '{{ buildbot_uid }}'
+  BUILDBOT_VERSION: 'v{{ buildbot_version }}'
 
 # directory of the image source
 image_dir: '{{ docker_projects_dir }}/buildbot-master'

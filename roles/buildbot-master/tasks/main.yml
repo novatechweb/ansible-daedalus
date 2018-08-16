@@ -14,10 +14,22 @@
   copy:
     src: "{{ item }}"
     dest: "{{ config_hostdir }}/{{ item }}"
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
   loop:
+    - buildbot.tac
     - master.cfg
     - openembedded.py
     - ptxdist.py
+
+- name: Populate config templates
+  copy:
+    src: "{{ item }}"
+    dest: "{{ config_hostdir }}/{{ item }}"
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
+  loop:
+    - buildbot.tac.j2
 
 - name: Checkout image repo
   git:
