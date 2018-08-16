@@ -1,6 +1,6 @@
 Version: 1
-Previous: e92e78ee3bb8500cffaba84227cb58864c6587df
-Head: a377510147dbef86b5de94a1c870e436eb2e44e6
+Previous: feb1cdcef3928c6b120f874abf5e8226875beeb3
+Head: 79f57d14dd3a0478e92a8aeb021d6c71e128c9fe
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
@@ -12,8 +12,7 @@ Applied:
   install-buildbot-plugin: 2a85ed13a3582321965936b9f6e688b201934e0e
   generate-new-ssh-key-on-first: 8893d386e982fe978d80031983f3f5bbbd54fcbd
   gitlab-auth: 57f0dd381c78f468093f747b78b097a655e08680
-  known_hosts: 006c65aab6f6d4f0b4e8f2ec77246212051be184
-  refresh-temp: a377510147dbef86b5de94a1c870e436eb2e44e6
+  known_hosts: 79f57d14dd3a0478e92a8aeb021d6c71e128c9fe
 Unapplied:
   asset-host: 078e482114fdf0766136693278716c4e471e80e1
   update-ptxdistrc: 910620d23b4f7b1f1198c6d8da287e93d9dd252e
