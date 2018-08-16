@@ -1,5 +1,5 @@
 Bottom: 96ffaaadc106f13f2d643faf3ea23689ba2814f7
-Top:    dd7a2521a4feff30c3e497a236008db3a0c6fff6
+Top:    cd0729f59c534cb3c9c60d40ef815f4730ce37f5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -105,6 +105,22 @@ index 521c8237..fff22446 100644
  
  WORKDIR /buildbot
  
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index 63b884d4..eec8ff56 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -1,10 +1,4 @@
+ #!/bin/sh
+ 
+-mkdir -p $HOME/.ssh
+-cp -R /run/secrets/ssh/* $HOME/.ssh
+-chmod -R 600 $HOME/.ssh
+-
+-ln -v -s -f /home/buildbot/buildbot.tac /home/buildbot/master.cfg /home/buildbot/*.py /buildbot
+-
+ /usr/bin/buildbot --verbose upgrade-master
+-exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
++exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=/home/buildbot/buildbot.tac
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
 index 00000000..9a308193
