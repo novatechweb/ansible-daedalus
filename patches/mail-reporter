@@ -1,5 +1,5 @@
-Bottom: f273555492dbd5d67feeebbe8da3e3649c37d56e
-Top:    07e80bae9ca01109ca5f769403cddf9a2ea99b4b
+Bottom: 0fe729fe5031d451ed46b2f476b1399fd4bb2549
+Top:    0fe729fe5031d451ed46b2f476b1399fd4bb2549
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -7,40 +7,4 @@ Use internal mail server
 
 
 ---
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index e5b5a7a0..8cf12ec8 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -54,10 +54,10 @@ mn = reporters.MailNotifier(
-     sendToInterestedUsers=True,
-     extraRecipients=["andrew.cooper@novatechweb.com"],
-     useTls=True,
--    relayhost=os.getenv('BUILDBOT_SMTP_HOST',"relay.dnsexit.com"),
--    smtpPort=26,
--    smtpUser=os.getenv('BUILDBOT_SMTP_USER', "Dean.cox"),
--    smtpPassword=os.getenv('BUILDBOT_SMTP_PASS',"no5156")
-+    relayhost=os.getenv('BUILDBOT_SMTP_HOST'),
-+    smtpPort=os.getenv('BUILDBOT_SMTP_PORT'),
-+    smtpUser=os.getenv('BUILDBOT_SMTP_USER'),
-+    smtpPassword=os.getenv('BUILDBOT_SMTP_PASS')
-     )
- c['services'].append(mn)
- 
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index e9af6fdb..8806961b 100644
---- a/roles/buildbot-master/defaults/main.yml
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -38,9 +38,10 @@ container_env:
-   BUILDBOT_IRC_HOST: 'chat.freenode.net'
-   BUILDBOT_IRC_NICK: 'NovaTechCI'
-   BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
--  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
--  BUILDBOT_SMTP_USER: 'Dean.cox'
--  BUILDBOT_SMTP_PASS: 'no5156'
-+  BUILDBOT_SMTP_HOST: '{{ exim4_hostname }}'
-+  BUILDBOT_SMTP_PORT: '587'
-+  BUILDBOT_SMTP_USER: 'buildbot'
-+  BUILDBOT_SMTP_PASS: '{{ buildbot_email_password }}'
-   BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
-   BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
-   BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
+
