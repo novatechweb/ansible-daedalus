@@ -1,5 +1,5 @@
 Bottom: dd7a2521a4feff30c3e497a236008db3a0c6fff6
-Top:    431822c371b7eaaac0def0a2cd154d3fc6ee93bb
+Top:    175f4966c4e96f16f1ac553e5e85944bb120f920
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -723,10 +723,10 @@ index 00000000..f1bd9b16
 +secrets_path: '/run/secrets'
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
 new file mode 100644
-index 00000000..497956b8
+index 00000000..140f3e6b
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
-@@ -0,0 +1,91 @@
+@@ -0,0 +1,86 @@
 +---
 +# tasks file for buildbot-worker-ntel
 +
@@ -778,11 +778,6 @@ index 00000000..497956b8
 +      if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
 +        chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
 +      fi"
-+
-+- name: Create secrets volume
-+  file:
-+    path: '{{ secrets_hostdir }}'
-+    state: directory
 +
 +- name: Checkout image repo
 +  git:
