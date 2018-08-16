@@ -1,0 +1,24 @@
+Bottom: 145bc1a19ba1866ced0c0e3bce3f75a7ea69e353
+Top:    3b9fc119b5b5466f9623144c67801c306f03ad7f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 13:32:07 -0500
+
+Refresh of add-buildbot-ptxdist-worker
+
+---
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index 9b5be868..a3a55045 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -50,11 +50,6 @@
+         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+       fi"
+ 
+-- name: Create secrets volume
+-  file:
+-    path: '{{ secrets_hostdir }}'
+-    state: directory
+-
+ - name: Checkout image repo
+   git:
+     repo: '{{ image_repo }}'
