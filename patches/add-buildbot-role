@@ -1,5 +1,5 @@
 Bottom: 96ffaaadc106f13f2d643faf3ea23689ba2814f7
-Top:    1fcc11fbb8042fffeb49fad81683004dd403fe8e
+Top:    dd7a2521a4feff30c3e497a236008db3a0c6fff6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -441,7 +441,7 @@ index 85020678..d6d84f2e 100644
                                                mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 00000000..7164f3d0
+index 00000000..138f692d
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -0,0 +1,51 @@
@@ -493,7 +493,7 @@ index 00000000..7164f3d0
 +
 +- name: Add buildbot_master host
 +  add_host:
-+    name: buildbot_master
++    name: '{{ container_hostname }}'
 +    pubkey: "{{ output.stdout }}"
 +    ip_addr: "{{ buildbot_ip_addr }}"
 diff --git a/roles/buildbot-master/vars/main.yml b/roles/buildbot-master/vars/main.yml
