@@ -1,5 +1,5 @@
 Bottom: 96ffaaadc106f13f2d643faf3ea23689ba2814f7
-Top:    4a335549d8d6effaeaee2eed132e24589e15c369
+Top:    8392b73e3e5fb691fd3bb88919f19ffbae7e0503
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -9,7 +9,7 @@ Add buildbot role and new playbook
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
 new file mode 100644
-index 00000000..68181dcc
+index 00000000..d255a7ec
 --- /dev/null
 +++ b/ansible-playbook/buildbot.yml
 @@ -0,0 +1,14 @@
@@ -21,12 +21,12 @@ index 00000000..68181dcc
 +  become_user: root
 +  become_method: sudo
 +  tags:
-+  - buildbot
-+  roles:
-+  - name: Build and start the Buildbot master container
-+    role: buildbot-master
-+    tags:
++    - buildbot
 +    - buildbot-master
++  tasks:
++    - name: Build and start the Buildbot master container
++      import_role:
++        name: buildbot-master
 diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
 new file mode 100644
 index 00000000..69a154ff
