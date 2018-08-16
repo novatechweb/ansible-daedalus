@@ -1,5 +1,5 @@
-Bottom: f0bc263591b501ab4aba1fc5e50fd3aad5afcd21
-Top:    79678ee86f67ec9d983e6b5436abe54ba05e1887
+Bottom: d54212f5968429dac74e3e4e75e13e4ad3477e17
+Top:    80f06c69d5e9ff3de664a72eac14e7deed8a59ee
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -20,10 +20,10 @@ index 518403d2..96df8387 100644
  gitlab_email_password:               '{{ lookup("password", playbook_dir + "/credentials/git/email/gitlab@novatech-llc.com"   , length=20) }}'
  gitlab_root_password:                '{{ lookup("password", playbook_dir + "/credentials/git/users/root"                      , length=20) }}'
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 4e579094..9f020276 100644
+index 75ffbd1e..0453d12c 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
-@@ -20,7 +20,8 @@ RUN pip --no-cache-dir install \
+@@ -17,7 +17,8 @@ RUN pip --no-cache-dir install \
      'buildbot-waterfall-view' \
      'buildbot-www' \
      'ldap3' \
@@ -32,9 +32,9 @@ index 4e579094..9f020276 100644
 +    'txrequests'
  
  # Create buildbot user
- ARG BUILDBOT_UID=1000
+ ARG BUILDBOT_DATA="/buildbot"
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index cc429e05..eff5bcb9 100644
+index 90e226f1..93d7dee4 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -54,6 +54,7 @@ container_env:

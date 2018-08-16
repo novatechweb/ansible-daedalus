@@ -1,5 +1,5 @@
-Bottom: a34d9b567314c2770863d5451f61a23206939fb2
-Top:    d70622862d031d7103e17123fa2aaf39bf220a3c
+Bottom: f6fb42a80f8ff8450073eb5701b5ae47ca7d3f98
+Top:    a8d79809119860fe85a49dece9290ae5249ca990
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -20,7 +20,7 @@ index 69052558..888b3ffb 100644
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 237a8638..7c9ecb7f 100644
+index 3e81b9b2..4a014c40 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -47,6 +47,7 @@ container_env:

@@ -1,5 +1,5 @@
-Bottom: 2ef5152530066bf3621b58f6be3466efe961864d
-Top:    f0bc263591b501ab4aba1fc5e50fd3aad5afcd21
+Bottom: fdf877ee6c75137af86e204714bcb4af4754475b
+Top:    d54212f5968429dac74e3e4e75e13e4ad3477e17
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -20,10 +20,10 @@ index 3ad01d12..518403d2 100644
  buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist"             , length=20) }}'
  buildbot_webhook_secret:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/webhook"                    , length=20) }}'
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 7690ad05..4e579094 100644
+index bcc63e84..75ffbd1e 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
-@@ -19,7 +19,8 @@ RUN pip --no-cache-dir install \
+@@ -16,7 +16,8 @@ RUN pip --no-cache-dir install \
      'buildbot-grid-view' \
      'buildbot-waterfall-view' \
      'buildbot-www' \
@@ -32,9 +32,9 @@ index 7690ad05..4e579094 100644
 +    'pyOpenSSL'
  
  # Create buildbot user
- ARG BUILDBOT_UID=1000
+ ARG BUILDBOT_DATA="/buildbot"
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 7c9ecb7f..cc429e05 100644
+index 4a014c40..90e226f1 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -27,6 +27,9 @@ buildbot_port_args:
