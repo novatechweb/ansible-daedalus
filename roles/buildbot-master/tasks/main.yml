@@ -10,6 +10,15 @@
   docker_volume:
     name: '{{ data_volume }}'
 
+- name: Populate config files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ config_hostdir }}/{{ item }}"
+  loop:
+    - master.cfg
+    - openembedded.py
+    - ptxdist.py
+
 - name: Checkout image repo
   git:
     repo: '{{ image_repo }}'
