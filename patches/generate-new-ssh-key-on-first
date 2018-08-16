@@ -1,5 +1,5 @@
-Bottom: 50c5563a1bd4229ed28434716cf5e0bbccf14d0f
-Top:    2bfe92d612bf098a0711f8abc8cacbdf4879b083
+Bottom: a8cb8428597948e18e0ee513fe97284a5003c508
+Top:    85f74f58ecc8df0b7df275b92f8930be8e4ed087
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -86,7 +86,7 @@ index 71002f8b..85c28248 100755
  ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
  
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index 7164f3d0..ebde8486 100644
+index 138f692d..1154af42 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -44,6 +44,12 @@
@@ -101,4 +101,4 @@ index 7164f3d0..ebde8486 100644
 +
  - name: Add buildbot_master host
    add_host:
-     name: buildbot_master
+     name: '{{ container_hostname }}'
