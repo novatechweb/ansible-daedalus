@@ -47,5 +47,3 @@ phpldapadmin_port_args:
 - "{{ phpldapadmin_ip_addr }}:443:443"
 
 phpmyadmin_hostname: phpmyadmin.novatech-llc.com
-
-freeipa_hostname: freeipa.novatech-llc.com
