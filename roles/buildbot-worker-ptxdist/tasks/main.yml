@@ -46,17 +46,14 @@
     cleanup: yes
     command: /bin/ash -c 
       "mkdir -p {{item}} &&
-      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}}"
+      if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
+        chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+      fi"
 
 - name: Create secrets volume
   file:
     path: '{{ secrets_hostdir }}'
     state: directory
-
-- name: Populate known_hosts secret
-  copy:
-    content: '{{ known_hosts }}'
-    dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
 
 - name: Checkout image repo
   git:
@@ -72,14 +69,15 @@
     buildargs: '{{ image_args }}'
     force: true
 
-- name: Start buildbot container
+- name: Start buildbot worker container
   docker_container:
+    hostname: '{{ container_hostname }}'
     name: '{{ container_name }}'
     image: '{{ image_name }}:{{ docker_image_tag }}'
-    # networks: '{{ buildbot_worker_ptxdist_networks }}'
+    networks: '{{ container_networks }}'
     volumes: '{{ container_volumes }}'
     env: '{{ container_env }}'
-    # ports: '{{ buildbot_worker_ptxdist_port_args }}'
+    ports: '{{ container_port_args }}'
 
 - name: Grab ssh public key
   command: >
@@ -87,7 +85,7 @@
   changed_when: false
   register: output
 
-- name: Add buildbot_worker_ptxdist host
+- name: Add buildbot worker host
   add_host:
-    name: buildbot_worker_ptxdist
+    name: "{{ container_hostname }}"
     pubkey: "{{ output.stdout }}"

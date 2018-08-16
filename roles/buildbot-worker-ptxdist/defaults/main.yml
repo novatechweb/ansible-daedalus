@@ -39,6 +39,12 @@ container_hostname: '{{ role_name }}'
 # the name of the container being started
 container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
 
+# network configuration for the confainer
+container_networks: []
+
+# port configuration of the container
+container_port_args: []
+
 # volumes mounted within the container
 container_volumes:
 - '{{ data_volume }}:{{ data_path }}:z'
