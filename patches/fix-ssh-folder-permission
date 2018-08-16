@@ -1,5 +1,5 @@
-Bottom: 407b5880c328af364618b65da60b3788b83a6f98
-Top:    6dc41699e7dc2e3842841e96349c1a8f510dec88
+Bottom: 1eee944048723bf3ba671f04d3b52fce37592559
+Top:    1eee944048723bf3ba671f04d3b52fce37592559
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -11,15 +11,4 @@ effectively removing access.
 
 
 ---
-diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
-index 63b884d4..a30fbf6d 100755
---- a/docker/buildbot-master/buildbot/start.sh
-+++ b/docker/buildbot-master/buildbot/start.sh
-@@ -2,7 +2,7 @@
- 
- mkdir -p $HOME/.ssh
- cp -R /run/secrets/ssh/* $HOME/.ssh
--chmod -R 600 $HOME/.ssh
-+chmod -R 600 $HOME/.ssh/*
- 
- ln -v -s -f /home/buildbot/buildbot.tac /home/buildbot/master.cfg /home/buildbot/*.py /buildbot
+
