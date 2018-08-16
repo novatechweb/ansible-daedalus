@@ -1,5 +1,5 @@
 Bottom: 96ffaaadc106f13f2d643faf3ea23689ba2814f7
-Top:    c98de886db85526c9a20e2507b898fe956811cc3
+Top:    02c0e8376fd4d135bcf3e95586bdf73cc54100b1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -94,15 +94,17 @@ index 0727917d..ee706b65 100644
    hosts: buildsystem
    remote_user: ansibleremote
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 521c8237..2b04303b 100644
+index 521c8237..fff22446 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
-@@ -1,4 +1,4 @@
+@@ -1,5 +1,5 @@
 -FROM        buildbot/buildbot-master:v0.9.13
+-MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
 +FROM        buildbot/buildbot-master:v1.2.0
- MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
++LABEL maintainer="Andrew Cooper <andrew.cooper@novatechweb.com>"
  
  WORKDIR /buildbot
+ 
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
 index 658d5fb1..9784ff82 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
