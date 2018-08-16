@@ -1,0 +1,21 @@
+Bottom: 6109ae410c9a87186e5af8a8e734a1bb62843851
+Top:    e959c3b0d67a3b16e5243fd69184937bf59c0b38
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 09:44:18 -0500
+
+Refresh of codebase-generator
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index ba86837e..5b160a33 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -145,7 +145,7 @@ c['change_source'].extend(ptxdist.change_source)
+ 
+ def codebaseGenerator(chdict):
+     """ Generate a codebase description.
+-    
++
+     The codebase generator takes information about a change, like repository,
+     branch, and revision, and creates a predictable string describing the code.
+     This is used to decide upon the builder for a change and also to tie a fork
