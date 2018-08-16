@@ -1,4 +1,4 @@
-Bottom: 0fe729fe5031d451ed46b2f476b1399fd4bb2549
+Bottom: db4bc706daf53711805e7dbc60ee6760647094db
 Top:    e7ed84e5bc4f795df4e28ce66eecfc9ebc1a1201
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
@@ -7,19 +7,6 @@ Use internal mail server
 
 
 ---
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index da29cf67..c21b7455 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
-@@ -54,7 +54,7 @@ mn = reporters.MailNotifier(
-     extraRecipients=["andrew.cooper@novatechweb.com"],
-     useTls=True,
-     relayhost=os.getenv('BUILDBOT_SMTP_HOST'),
--    smtpPort=int(os.getenv('BUILDBOT_SMTP_HOST')),
-+    smtpPort=int(os.getenv('BUILDBOT_SMTP_PORT')),
-     smtpUser=os.getenv('BUILDBOT_SMTP_USER'),
-     smtpPassword=os.getenv('BUILDBOT_SMTP_PASS')
- )
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 index 73514ff5..91cc20ad 100644
 --- a/roles/buildbot-master/defaults/main.yml

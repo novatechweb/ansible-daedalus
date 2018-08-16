@@ -1,5 +1,5 @@
-Bottom: 4786cc9208984e7085d88b9774a0851dbe6f91fc
-Top:    069b66e7be6c52093c826731b4c9df1b6e693034
+Bottom: 2142b4518c0c44d79db74deaf3ae6191c84844ac
+Top:    e1fa70ffef5b082210255b60c0190ddc303eb2d6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -20,7 +20,7 @@ index 69052558..888b3ffb 100644
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index cf6b82fd..c969a528 100644
+index 52c07e46..aa317118 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -92,6 +92,11 @@ c['www'] = {

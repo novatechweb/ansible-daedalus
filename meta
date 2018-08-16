@@ -1,6 +1,6 @@
 Version: 1
-Previous: 3cb6552024273aab1b016be40980faa8b247b8c6
-Head: 9a2072340d7f7052aa26150cbaf19f9a82556f43
+Previous: 1733ee1dafd6767d7b7f50f3378d0bda5fb8fd92
+Head: d2dc604bf9ed77092f07d2876e7567351e0489c4
 Applied:
   add-buildbot-role: eb05eba4845d7fbaed152f414dccc088ceb07469
   add-buildbot-ntel-worker: d97ceed12d432d2022b4bf0861f8ef472a6f9d7e
@@ -10,20 +10,20 @@ Applied:
   ptxdist-bc-depend: 4a788c0428be01e77053240f5a62e7eb1260ae1b
   fix-ssh-folder-permission: 5d2ddac84c1e748f323a5dc923cde9b928998ae4
   add-environment-variables-for: 9a2072340d7f7052aa26150cbaf19f9a82556f43
+  use-original-buildbot: 08c281a8c73f8c076c3f5ac912f41668e47ed5e0
+  install-buildbot-plugin: 43a276c41369978de0fed4065433e4ae3374e5e5
+  generate-new-ssh-key-on-first: 4e8d6bcf7c3a8a6cef39e7ce928463e4e7225a62
+  gitlab-auth: ee2b0a0d85caac30a5d7fb35037af89d3bf2cb24
+  known_hosts: 71df3d7e02368cc118667cae33c9b972957a50a3
+  asset-host: 496e221c45ece8d2082075e2571756d81d90b2d2
+  update-ptxdistrc: ac7312b9df42922846c641752c6bc5aaeb293037
+  enable-secrets: 475ce256d5e61d39187031589c08bde3abe3c7e3
+  change-hooks: a65657b04fa00dd31cb366f0a137a3e930b98cb1
+  email-account: 989b8bcec40b01ad40609182ee3f69128d9b2069
+  codebase-generator: 99f8f4571e37b4f758975187f2cfa24514b85fd8
+  single-branch-builders: 9a2237aed32ae77aae9672c4a883ba5d746b5842
+  irc-reporter: f3bb6ac4cbe5f119db41f67d7468ac3c00938043
+  gitlab-status-reporter: f5b045ca8c213a8a549f8eb14fe3e46ea7877f3a
+  mail-reporter: d2dc604bf9ed77092f07d2876e7567351e0489c4
 Unapplied:
-  use-original-buildbot: e66550146c1f352ca7fe396f4a8be995cd7c0ac8
-  install-buildbot-plugin: e21bd3bd8c3143e2e33c64ff1e483d2ef83273b5
-  generate-new-ssh-key-on-first: 4ae8654ad34100065e1c04b6181557953953230b
-  gitlab-auth: 90aef9944a01ec1103311cbb663391cfba398759
-  known_hosts: 703818145a3424f4ea891e566edafa7fd9a3e4e8
-  asset-host: 7541c3b61150a5878a6c436421250a401e195be4
-  update-ptxdistrc: 2a310a67f3646b61ac8627a7b1a9b8d91d7d3ac3
-  enable-secrets: 5feb1caa7e486f730b983377d15eadf40cbb0f57
-  change-hooks: 595139696aac8cfe6e9cc17e191e065e73dfba23
-  email-account: 1e84d1ca8a04be57492bb63c764c0d8b5bd8404b
-  codebase-generator: d0f66daa559d7687a4fef72b48adf8deea41f8be
-  single-branch-builders: d6c34d84c08d2c87e893755cbe354803fce90edb
-  irc-reporter: 4870874597730d0bb6ecf91fce610fccc33adcb4
-  gitlab-status-reporter: 2e65c8f793f78596d5103585a661f4104487d666
-  mail-reporter: 66f5be122ab78b16f3ab02b2e2f148dbc28be3d0
 Hidden:
