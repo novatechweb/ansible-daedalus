@@ -55,6 +55,11 @@
     repo: '{{ image_repo }}'
     version: master
     dest: '{{ image_dir }}'
+    force: yes
+
+- template:
+    src: pydistutils.cfg.j2
+    dest: '{{ image_dir }}/buildbot/.pydistutils.cfg'
 
 - name: Create buildbot worker image
   docker_image:
