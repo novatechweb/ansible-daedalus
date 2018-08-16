@@ -1,5 +1,5 @@
-Bottom: 03d1d0d55e6fb228945e9be48b3019ff1eaf345d
-Top:    69df419b7ed5ccb8d1ec2d7fc35aca3672cf8a18
+Bottom: b771c5087c3960f2a005604de299c00bb0d7b41c
+Top:    4995d627381461651f8b7f364ece92f84b01dc00
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -42,10 +42,45 @@ index c3b2e879..4fbddaa2 100644
  configfile = 'master.cfg'
  
  # note: this line is matched against to check that this is a buildmaster
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
+index a30fbf6d..5e0eed75 100755
+--- a/docker/buildbot-master/buildbot/start.sh
++++ b/docker/buildbot-master/buildbot/start.sh
+@@ -1,10 +1,12 @@
+ #!/bin/sh
+ 
+-mkdir -p $HOME/.ssh
+-cp -R /run/secrets/ssh/* $HOME/.ssh
+-chmod -R 600 $HOME/.ssh/*
++BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
+ 
+-ln -v -s -f /home/buildbot/buildbot.tac /home/buildbot/master.cfg /home/buildbot/*.py /buildbot
++mkdir -p ${HOME}/.ssh
++cp -R /run/secrets/ssh/* ${HOME}/.ssh
++chmod -R 600 ${HOME}/.ssh/*
++
++ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
+ 
+ /usr/bin/buildbot --verbose upgrade-master
+ exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index c40f52f0..f7a65ff7 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -33,6 +33,9 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ # environment passed to the container
+ container_env:
+   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
++  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
++  BUILDBOT_SMTP_USER: 'Dean.cox'
++  BUILDBOT_SMTP_PASS: 'no5156'
+   BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
+   BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
+   BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
 index e17bce26..961819c3 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
 @@ -20,7 +20,7 @@ c['change_source'] = []
  # Defines the TCP port to listen on for connections from workers.
  # This must match the value configured into the buildworkers (with their
@@ -85,38 +120,3 @@ index e17bce26..961819c3 100644
  }
  
  # Extra Options
-diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
-index a30fbf6d..5e0eed75 100755
---- a/docker/buildbot-master/buildbot/start.sh
-+++ b/docker/buildbot-master/buildbot/start.sh
-@@ -1,10 +1,12 @@
- #!/bin/sh
- 
--mkdir -p $HOME/.ssh
--cp -R /run/secrets/ssh/* $HOME/.ssh
--chmod -R 600 $HOME/.ssh/*
-+BUILDBOT_DATA=${BUILDBOT_DATA-"/buildbot"}
- 
--ln -v -s -f /home/buildbot/buildbot.tac /home/buildbot/master.cfg /home/buildbot/*.py /buildbot
-+mkdir -p ${HOME}/.ssh
-+cp -R /run/secrets/ssh/* ${HOME}/.ssh
-+chmod -R 600 ${HOME}/.ssh/*
-+
-+ln -v -s -f ${HOME}/buildbot.tac ${HOME}/master.cfg ${HOME}/*.py $BUILDBOT_DATA
- 
- /usr/bin/buildbot --verbose upgrade-master
- exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index c40f52f0..f7a65ff7 100644
---- a/roles/buildbot-master/defaults/main.yml
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -33,6 +33,9 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
- # environment passed to the container
- container_env:
-   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
-+  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
-+  BUILDBOT_SMTP_USER: 'Dean.cox'
-+  BUILDBOT_SMTP_PASS: 'no5156'
-   BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
-   BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
-   BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'

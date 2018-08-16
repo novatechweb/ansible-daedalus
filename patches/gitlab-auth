@@ -1,5 +1,5 @@
-Bottom: 0edc6f1f9befadffe9e70609ca85da62a37b9e95
-Top:    7b41ddac234f1809b7912e9d217f568987a032b6
+Bottom: 776fdb63cdaaa21ed458945acf20512fe5f82dc5
+Top:    410f76364efa55452fd0102ffce0568eae290be0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -34,10 +34,27 @@ index d930fcbf..7690ad05 100644
  
  # Create buildbot user
  ARG BUILDBOT_UID=1000
-diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index f7a65ff7..777499b2 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -43,6 +43,12 @@ container_env:
+   BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
+   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
+   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
++  GITLAB_URI: 'https://{{ gitlab_hostname }}/'
++  GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
++  GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
++  LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
++  LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
++  LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
+ 
+ # the name of the container being started
+ container_name: '{{ docker_name_prefix }}buildbot'
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
 index 961819c3..fb54cb31 100644
---- a/docker/buildbot-master/buildbot/master.cfg
-+++ b/docker/buildbot-master/buildbot/master.cfg
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
 @@ -49,6 +49,20 @@ mn = reporters.MailNotifier(
  c['services'].append(mn)
  
@@ -94,20 +111,3 @@ index 961819c3..fb54cb31 100644
  }
  
  # Extra Options
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index f7a65ff7..777499b2 100644
---- a/roles/buildbot-master/defaults/main.yml
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -43,6 +43,12 @@ container_env:
-   BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
-   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
-   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
-+  GITLAB_URI: 'https://{{ gitlab_hostname }}/'
-+  GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
-+  GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
-+  LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
-+  LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
-+  LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
- 
- # the name of the container being started
- container_name: '{{ docker_name_prefix }}buildbot'
