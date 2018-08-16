@@ -1,7 +1,8 @@
 Version: 1
-Previous: dff9e6b2644c68c648af8d78bd222c307bf675cf
-Head: c51485a0c42decd3283be064ef1fb0515ab2c52c
+Previous: aa858cd82116c5571f0cf19a1132296a3c4db2ab
+Head: b52b511810b9728c63278009c97e0ceeb7ada603
 Applied:
+Unapplied:
   add-buildbot-role: 67fb3d53b92031aeaa8d02b73e3d353984a544af
   add-buildbot-ntel-worker: f1fd5c265a7c898d42c874b4ff9424da50eae45b
   hsm-host-arg: 11121fb9155da9d94a3f6ae9bb15ae86df4b28f0
@@ -26,5 +27,4 @@ Applied:
   gitlab-status-reporter: dcf38e052260ee97c1632306b3356b788908eace
   mail-reporter: 3fa06099a33cba9c50fb499f3e69a9543d0e5ba8
   ntel-layer-builders: c51485a0c42decd3283be064ef1fb0515ab2c52c
-Unapplied:
 Hidden:
