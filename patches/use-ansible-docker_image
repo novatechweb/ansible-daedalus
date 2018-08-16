@@ -1,5 +1,5 @@
-Bottom: f164593920b4a57f062c4d4e8cc1a4ff88eaaf9c
-Top:    45d439c54c081a4b278169f78a82561ab1eda381
+Bottom: 5f6ffb9f03127870b3e4d79f340788ef5d58011b
+Top:    f8bc563fd98e68f28a8153de96419113d3049956
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-15 10:31:39 -0500
 
@@ -353,7 +353,7 @@ index a9404bc6..ede4dc8d 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 6fa64e9d..00b0b0c2 100644
+index 6a4f77db..a0dc9fdb 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -82,10 +82,11 @@
