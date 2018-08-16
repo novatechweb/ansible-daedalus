@@ -1,5 +1,5 @@
 Bottom: dd7a2521a4feff30c3e497a236008db3a0c6fff6
-Top:    34b35f0361ac84a57faba0a8e623fb62826734af
+Top:    431822c371b7eaaac0def0a2cd154d3fc6ee93bb
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -631,7 +631,7 @@ index 208948b2..be348509 100755
              'machine': 'qemux86-64',
 diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
 new file mode 100644
-index 00000000..afd6f6b3
+index 00000000..f1bd9b16
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/defaults/main.yml
 @@ -0,0 +1,86 @@
@@ -660,7 +660,7 @@ index 00000000..afd6f6b3
 +cache_path: '/cache'
 +
 +# name of the cache volume
-+cache_volume: '{{ docker_name_prefix }}{{ hostname }}-cache'
++cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
 +
 +# environment passed to the container
 +container_env:
@@ -670,8 +670,11 @@ index 00000000..afd6f6b3
 +  BUILDBOT_WORKER_NAME: 'worker-ntel'
 +  BUILDBOT_WORKER_PASS: 'pass'
 +
++# container_hostname
++container_hostname: '{{ role_name }}'
++
 +# the name of the container being started
-+container_name: '{{ docker_name_prefix }}{{ hostname }}'
++container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
 +
 +# network configuration for the confainer
 +container_networks: []
@@ -689,10 +692,7 @@ index 00000000..afd6f6b3
 +data_path: '/buildbot'
 +
 +# name of the data volume
-+data_volume: '{{ docker_name_prefix }}{{ hostname }}-data'
-+
-+# hostname
-+hostname: '{{ role_name }}'
++data_volume: '{{ docker_name_prefix }}{{ container_hostname }}-data'
 +
 +# address of hsm cryptographic service
 +hsm_host: '{{ansible_facts.default_ipv4.address}}'
@@ -705,10 +705,10 @@ index 00000000..afd6f6b3
 +  PTK_HSM_HOST: '{{hsm_host}}'
 +
 +# directory of the image source
-+image_dir: '{{ docker_projects_dir }}/{{ hostname }}'
++image_dir: '{{ docker_projects_dir }}/{{ container_hostname }}'
 +
 +# name of the image being built
-+image_name: '{{ docker_registry_username }}/{{ hostname }}'
++image_name: '{{ docker_registry_username }}/{{ container_hostname }}'
 +
 +# repository URI of the image source
 +image_repo: '{{ buildbot_worker_ntel_image_repo | default("https://github.com/novatechweb/docker-buildbot-worker-ntel.git") }}'
@@ -723,10 +723,10 @@ index 00000000..afd6f6b3
 +secrets_path: '/run/secrets'
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
 new file mode 100644
-index 00000000..86403896
+index 00000000..497956b8
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
-@@ -0,0 +1,90 @@
+@@ -0,0 +1,91 @@
 +---
 +# tasks file for buildbot-worker-ntel
 +
@@ -798,8 +798,9 @@ index 00000000..86403896
 +    buildargs: '{{ image_args }}'
 +    force: true
 +
-+- name: Start buildbot container
++- name: Start buildbot worker container
 +  docker_container:
++    hostname: '{{ container_hostname }}'
 +    name: '{{ container_name }}'
 +    image: '{{ image_name }}:{{ docker_image_tag }}'
 +    networks: '{{ container_networks }}'
@@ -815,7 +816,7 @@ index 00000000..86403896
 +
 +- name: Add buildbot_worker_ntel host
 +  add_host:
-+    name: "{{ hostname }}"
++    name: "{{ container_hostname }}"
 +    pubkey: "{{ output.stdout }}"
 diff --git a/roles/buildbot-worker-ntel/vars/main.yml b/roles/buildbot-worker-ntel/vars/main.yml
 new file mode 100644
