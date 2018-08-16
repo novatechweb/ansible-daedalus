@@ -16,7 +16,8 @@ RUN pip --no-cache-dir install \
     'buildbot-grid-view' \
     'buildbot-waterfall-view' \
     'buildbot-www' \
-    'ldap3'
+    'ldap3' \
+    'pyOpenSSL'
 
 # Create buildbot user
 ARG BUILDBOT_DATA="/buildbot"
