@@ -1,5 +1,5 @@
 Bottom: 3af064a22089ea8866f0f9d1873ff0e5c426c7dc
-Top:    6109ae410c9a87186e5af8a8e734a1bb62843851
+Top:    e959c3b0d67a3b16e5243fd69184937bf59c0b38
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -13,7 +13,7 @@ repository back to its parent for merge requests.
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index aa317118..ba86837e 100644
+index aa317118..5b160a33 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -6,6 +6,7 @@
@@ -32,7 +32,7 @@ index aa317118..ba86837e 100644
 +
 +def codebaseGenerator(chdict):
 +    """ Generate a codebase description.
-+    
++
 +    The codebase generator takes information about a change, like repository,
 +    branch, and revision, and creates a predictable string describing the code.
 +    This is used to decide upon the builder for a change and also to tie a fork
