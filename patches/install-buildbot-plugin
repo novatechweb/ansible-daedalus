@@ -1,5 +1,5 @@
-Bottom: 04cdeeb2aa6047bb879b476ce6a61841673cdea6
-Top:    b207602d384511d16efdeffac47916ca1d1f14e2
+Bottom: 9b3a452fdcce5d91001afed0569597e0959a05fd
+Top:    dd5832c33e9b37843f4606cf6724c1432603ff42
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -8,7 +8,7 @@ Install buildbot plugin dependencies
 
 ---
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 0947a60c..1baa3f49 100644
+index 0529cfc9..d930fcbf 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
 @@ -14,7 +14,11 @@ RUN apk --no-cache add \
