@@ -1,5 +1,5 @@
 Bottom: c0fe56cef09d5ae171a8fb76f52f80529bf35587
-Top:    c0fe56cef09d5ae171a8fb76f52f80529bf35587
+Top:    0fe729fe5031d451ed46b2f476b1399fd4bb2549
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -7,4 +7,70 @@ Report build status to Gitlab
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 518403d2..96df8387 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -12,6 +12,7 @@ buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/cre
+ buildsystem_ssh_root_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/root"                , length=20) }}'
+ gitlab_buildbot_auth_id:             '{{ lookup("password", playbook_dir + "/credentials/git/auth/oauth_client_id") }}'
+ gitlab_buildbot_auth_secret:         '{{ lookup("password", playbook_dir + "/credentials/git/auth/oauth_secret") }}'
++gitlab_buildbot_token:               '{{ lookup("password", playbook_dir + "/credentials/git/auth/buildbot_token") }}'
+ gitlab_db_password:                  '{{ lookup("password", playbook_dir + "/credentials/git/db/user"                         , length=20) }}'
+ gitlab_email_password:               '{{ lookup("password", playbook_dir + "/credentials/git/email/gitlab@novatech-llc.com"   , length=20) }}'
+ gitlab_root_password:                '{{ lookup("password", playbook_dir + "/credentials/git/users/root"                      , length=20) }}'
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index 4e579094..9f020276 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -20,7 +20,8 @@ RUN pip --no-cache-dir install \
+     'buildbot-waterfall-view' \
+     'buildbot-www' \
+     'ldap3' \
+-    'pyOpenSSL'
++    'pyOpenSSL' \
++    'txrequests'
+ 
+ # Create buildbot user
+ ARG BUILDBOT_UID=1000
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 10a0e329..da29cf67 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -60,7 +60,15 @@ mn = reporters.MailNotifier(
+ )
+ c['services'].append(mn)
+ 
+-# WEB SERVER
++gl = reporters.GitLabStatusPush(
++    os.getenv('GITLAB_TOKEN'),
++    context="Buildbot CI",
++    baseURL=os.getenv("GITLAB_URI"),
++    verbose=True,
++    debug=True
++)
++c['services'].append(gl)
++
+ userInfoProvider = util.LdapUserInfo(
+     uri=os.getenv('LDAP_URI'),
+     bindUser=os.getenv('LDAP_BIND_USER'),
+@@ -75,6 +83,7 @@ userInfoProvider = util.LdapUserInfo(
+     accountExtraFields=['employeeType'],
+ )
+ 
++# WEB SERVER
+ c['www'] = {
+     'port': int(os.getenv('BUILDBOT_WEB_PORT', 8010)),
+     'plugins': {
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 3e987a85..73514ff5 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -54,6 +54,7 @@ container_env:
+   GITLAB_URI: 'https://{{ gitlab_hostname }}/'
+   GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
+   GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
++  GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
+   GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
+   LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
+   LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
