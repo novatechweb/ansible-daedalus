@@ -41,6 +41,9 @@ container_env:
   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
 
+# hostname
+container_hostname: '{{ buildbot_hostname }}'
+
 # the name of the container being started
 container_name: '{{ docker_name_prefix }}buildbot'
 
@@ -48,21 +51,23 @@ container_name: '{{ docker_name_prefix }}buildbot'
 container_networks:
   - name: '{{ docker_network_frontend }}'
     aliases:
-      - '{{ buildbot_hostname }}'
+      - '{{ container_hostname }}'
+
+# exposed ports of the container
+container_port_args: '{{ buildbot_port_args }}'
 
 # volumes mounted within the container
 container_volumes:
   - '{{ data_volume }}:{{ data_path }}:z'
-  - '{{ config_hostdir }}:{{ secrets_path }}'
+  - '{{ config_hostdir }}/master.cfg:{{ data_path }}/master.cfg'
+  - '{{ config_hostdir }}/openembedded.py:{{ data_path }}/openembedded.py'
+  - '{{ config_hostdir }}/ptxdist.py:{{ data_path }}/ptxdist.py'
 
 # mount path of the data volume
 data_path: '/buildbot'
 
 # name of the data volume
 data_volume: '{{ docker_name_prefix }}buildbot_DV'
-
-# hostname
-hostname: buildbot-worker-ntel
 
 # build arguments of the image
 image_args:

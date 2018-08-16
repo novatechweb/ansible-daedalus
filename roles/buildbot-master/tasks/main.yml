@@ -36,12 +36,12 @@
 - name: Start buildbot container
   docker_container:
     name: '{{ container_name }}'
-    hostname: '{{ buildbot_hostname }}'
+    hostname: '{{ container_hostname }}'
     image: '{{ image_name }}:{{ docker_image_tag }}'
     networks: '{{ container_networks }}'
     volumes: '{{ container_volumes }}'
     env: '{{ container_env }}'
-    ports: '{{ buildbot_port_args }}'
+    ports: '{{ container_port_args }}'
     state: started
 
 - name: Add buildbot_master host
