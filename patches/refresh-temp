@@ -1,0 +1,71 @@
+Bottom: 3748ef0b0bc92040c015f3d3be6cfb8543c3b18f
+Top:    1fcc11fbb8042fffeb49fad81683004dd403fe8e
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 13:10:15 -0500
+
+Refresh of add-buildbot-role
+
+---
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index c40f52f0..9a308193 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -41,6 +41,9 @@ container_env:
+   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
+   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
+ 
++# hostname
++container_hostname: '{{ buildbot_hostname }}'
++
+ # the name of the container being started
+ container_name: '{{ docker_name_prefix }}buildbot'
+ 
+@@ -48,12 +51,17 @@ container_name: '{{ docker_name_prefix }}buildbot'
+ container_networks:
+   - name: '{{ docker_network_frontend }}'
+     aliases:
+-      - '{{ buildbot_hostname }}'
++      - '{{ container_hostname }}'
++
++# exposed ports of the container
++container_port_args: '{{ buildbot_port_args }}'
+ 
+ # volumes mounted within the container
+ container_volumes:
+   - '{{ data_volume }}:{{ data_path }}:z'
+-  - '{{ config_hostdir }}:{{ secrets_path }}'
++  - '{{ config_hostdir }}/master.cfg:{{ data_path }}/master.cfg'
++  - '{{ config_hostdir }}/openembedded.py:{{ data_path }}/openembedded.py'
++  - '{{ config_hostdir }}/ptxdist.py:{{ data_path }}/ptxdist.py'
+ 
+ # mount path of the data volume
+ data_path: '/buildbot'
+@@ -61,9 +69,6 @@ data_path: '/buildbot'
+ # name of the data volume
+ data_volume: '{{ docker_name_prefix }}buildbot_DV'
+ 
+-# hostname
+-hostname: buildbot-worker-ntel
+-
+ # build arguments of the image
+ image_args:
+   BUILDBOT_UID: '{{buildbot_uid}}'
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index 3e49a65c..7164f3d0 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -36,12 +36,12 @@
+ - name: Start buildbot container
+   docker_container:
+     name: '{{ container_name }}'
+-    hostname: '{{ buildbot_hostname }}'
++    hostname: '{{ container_hostname }}'
+     image: '{{ image_name }}:{{ docker_image_tag }}'
+     networks: '{{ container_networks }}'
+     volumes: '{{ container_volumes }}'
+     env: '{{ container_env }}'
+-    ports: '{{ buildbot_port_args }}'
++    ports: '{{ container_port_args }}'
+     state: started
+ 
+ - name: Add buildbot_master host
