@@ -1,5 +1,5 @@
 Bottom: 38db7306184a2dd2f0c20467a2d828daa247de88
-Top:    2b740a086d80d30239bd8c2849c42f85fb53d509
+Top:    26f827cd0bfa90f5118732fc06b61626afac6bf7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -34,9 +34,18 @@ index 7690ad05..4e579094 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index a4a6fefc..c923aaca 100644
+index a4a6fefc..241e5ba5 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -5,7 +5,7 @@
+ # 'master.cfg' in your buildmaster's base directory.
+ 
+ import os
+-from buildbot.plugins import secrets, steps, util
++from buildbot.plugins import reporters, secrets, steps, util
+ from buildbot.util import giturlparse
+ 
+ os.environ['LONG_RUN_TIMEOUT'] = '14400'
 @@ -34,10 +34,18 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="/run/secrets")]
  
  c['services'] = []
