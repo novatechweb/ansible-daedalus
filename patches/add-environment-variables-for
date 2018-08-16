@@ -1,5 +1,5 @@
 Bottom: 03d1d0d55e6fb228945e9be48b3019ff1eaf345d
-Top:    87343df687b5f5570427e72b822276fcda8cc5ea
+Top:    69df419b7ed5ccb8d1ec2d7fc35aca3672cf8a18
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -43,7 +43,7 @@ index c3b2e879..4fbddaa2 100644
  
  # note: this line is matched against to check that this is a buildmaster
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index e17bce26..c476addf 100644
+index e17bce26..961819c3 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -20,7 +20,7 @@ c['change_source'] = []
@@ -63,7 +63,7 @@ index e17bce26..c476addf 100644
 -    smtpUser="Dean.cox", smtpPassword="no5156")
 +    useTls=True,
 +    relayhost=os.getenv('BUILDBOT_SMTP_HOST'),
-+    smtpPort=int(os.getenv('BUILDBOT_SMTP_HOST')),
++    smtpPort=int(os.getenv('BUILDBOT_SMTP_PORT')),
 +    smtpUser=os.getenv('BUILDBOT_SMTP_USER'),
 +    smtpPassword=os.getenv('BUILDBOT_SMTP_PASS')
 +)
