@@ -9,6 +9,7 @@ c = WorkerConfig = {}
 
 
 DEFAULT_BBFLAGS = '-k'
+DEFAULT_CODEBASE = "ntel/setup-scripts"
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
 
@@ -31,8 +32,60 @@ c['change_source'] = [
 
 # SCHEDULERS
 c['schedulers'] = [
+    schedulers.SingleBranchScheduler(
+        name="ntel-push",
+        builderNames=[
+            "ntel-orionlxm",
+            "ntel-orionlx-cpx",
+            "ntel-orionlx-plus",
+            "ntel-orion-io",
+            "ntel-qemux86-64",
+            "ntel-all",
+        ],
+        change_filter=util.ChangeFilter(
+            codebase=DEFAULT_CODEBASE,
+            category='push',
+        ),
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
+        properties={
+            'clobber': False,
+            'cache': True,
+            'release_pin': None,
+            'bbflags': DEFAULT_BBFLAGS,
+        },
+        treeStableTimer=5,
+    ),
+
+    schedulers.SingleBranchScheduler(
+        name="ntel-merge-request",
+        builderNames=[
+            "ntel-orionlxm",
+            "ntel-orionlx-cpx",
+            "ntel-orionlx-plus",
+            "ntel-orion-io",
+            "ntel-qemux86-64",
+            "ntel-all",
+        ],
+        change_filter=util.ChangeFilter(
+            codebase=DEFAULT_CODEBASE,
+            category='merge_request',
+        ),
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
+        properties={
+            'clobber': False,
+            'cache': True,
+            'release_pin': None,
+            'bbflags': DEFAULT_BBFLAGS,
+        },
+        treeStableTimer=5,
+    ),
+
     schedulers.ForceScheduler(
-        name="Force",
+        name="ntel-force",
         label="Force NTEL OpenEmbedded Build",
         builderNames=[
             "ntel-orionlxm",
@@ -40,26 +93,21 @@ c['schedulers'] = [
             "ntel-orionlx-plus",
             "ntel-orion-io",
             "ntel-qemux86-64",
-            "ntel-all"
+            "ntel-all",
         ],
         codebases=[
             util.CodebaseParameter(
-                "",
-                label="Main repository",
-                # will generate a combo box
-                branch=util.StringParameter(
-                    name="branch",
-                    default="morty"),
+                "codebase",
+                label="Build Source",
                 repository=util.StringParameter(
                     name="repository",
                     default=DEFAULT_REPO),
-
-                # will generate nothing in the form, but revision, repository,
-                # and project are needed by buildbot scheduling system so we
-                # need to pass a value ("")
-                revision=util.FixedParameter(name="revision", default=""),
-                project=util.FixedParameter(
-                    name="project", default="ntel-oe"),
+                branch=util.StringParameter(
+                    name="branch",
+                    default="morty"),
+                revision=util.StringParameter(
+                    name="revision",
+                    default="")
             )
         ],
         properties=[
@@ -96,31 +144,30 @@ c['schedulers'] = [
 
     schedulers.Nightly(
         name="ntel-nightly",
-        branch=None,
         builderNames=[
             "ntel-orionlxm",
             "ntel-orionlx-cpx",
             "ntel-orionlx-plus",
             "ntel-orion-io",
             "ntel-qemux86-64",
-            "ntel-all"
+            "ntel-all",
         ],
-        codebases={
-            '': {
-                'repository': DEFAULT_REPO,
-                'branch': 'morty',
-                'revision': '',
-            }
-        },
+        change_filter=util.ChangeFilter(
+            codebase=DEFAULT_CODEBASE,
+        ),
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
+        onlyIfChanged=True,
         properties={
             'clobber': True,
             'cache': True,
-            'bbflags': DEFAULT_BBFLAGS
+            'bbflags': DEFAULT_BBFLAGS,
         },
-        hour=22
-    ),
-
+        hour=22,
+    )
 ]
+
 
 # BUILDERS
 # The 'builders' list defines the Builders, which tell Buildbot how to perform
@@ -316,8 +363,6 @@ class BitBakeArchive(steps.ShellSequence):
         return steps.ShellSequence.runShellSequence(self, commands)
 
 
-
-
 class BitBakeFactory(util.BuildFactory):
 
     def __init__(self, *build_steps):
@@ -326,6 +371,7 @@ class BitBakeFactory(util.BuildFactory):
         self.addStep(steps.GitLab(
             repourl=util.Property('repository', default=DEFAULT_REPO),
             branch=util.Property('branch', default=DEFAULT_BRANCH),
+            codebase=util.Property('codebase', default=DEFAULT_CODEBASE),
             mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
             method="clobber",
             locks=[git_lock.access('exclusive')],
