@@ -6,9 +6,9 @@
   become_user: root
   become_method: sudo
   tags:
-  - buildbot
-  roles:
-  - name: Build and start the Buildbot master container
-    role: buildbot-master
-    tags:
+    - buildbot
     - buildbot-master
+  tasks:
+    - name: Build and start the Buildbot master container
+      import_role:
+        name: buildbot-master
