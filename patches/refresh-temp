@@ -1,0 +1,18 @@
+Bottom: c98de886db85526c9a20e2507b898fe956811cc3
+Top:    02c0e8376fd4d135bcf3e95586bdf73cc54100b1
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 09:27:15 -0500
+
+Refresh of add-buildbot-role
+
+---
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index 2b04303b..fff22446 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -1,5 +1,5 @@
+ FROM        buildbot/buildbot-master:v1.2.0
+-MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
++LABEL maintainer="Andrew Cooper <andrew.cooper@novatechweb.com>"
+ 
+ WORKDIR /buildbot
