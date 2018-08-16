@@ -1,5 +1,5 @@
 Bottom: 4484493da4b8cbb0e266234dff4725ad2b940370
-Top:    4484493da4b8cbb0e266234dff4725ad2b940370
+Top:    be51f9e4c032ca9955609f691a13beb963141d0e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 10:19:05 -0500
 
@@ -15,4 +15,29 @@ repository under /ntel/.
 
 
 ---
-
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 9eec296f..ec0dcfa0 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -170,7 +170,7 @@ def codebaseGenerator(chdict):
+     """
+ 
+     giturl = giturlparse(chdict['repository'])
+-    return "%s/%s" % (giturl.owner, giturl.repo)
++    return giturl.owner
+ 
+     # path = urlparse(chdict['revlink']).path.lstrip('/')
+ 
+diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
+index 5cbd252a..9166ece0 100755
+--- a/docker/buildbot-master/buildbot/openembedded.py
++++ b/docker/buildbot-master/buildbot/openembedded.py
+@@ -9,7 +9,7 @@ c = WorkerConfig = {}
+ 
+ 
+ DEFAULT_BBFLAGS = '-k'
+-DEFAULT_CODEBASE = "ntel/setup-scripts"
++DEFAULT_CODEBASE = "ntel"
+ 
+ # Workers
+ # The 'workers' list defines the set of recognized buildworkers. Each element is
