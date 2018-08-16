@@ -1,0 +1,21 @@
+Bottom: 87343df687b5f5570427e72b822276fcda8cc5ea
+Top:    69df419b7ed5ccb8d1ec2d7fc35aca3672cf8a18
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 09:43:28 -0500
+
+Refresh of add-environment-variables-for
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index c476addf..961819c3 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -42,7 +42,7 @@ mn = reporters.MailNotifier(
+     extraRecipients=["andrew.cooper@novatechweb.com"],
+     useTls=True,
+     relayhost=os.getenv('BUILDBOT_SMTP_HOST'),
+-    smtpPort=int(os.getenv('BUILDBOT_SMTP_HOST')),
++    smtpPort=int(os.getenv('BUILDBOT_SMTP_PORT')),
+     smtpUser=os.getenv('BUILDBOT_SMTP_USER'),
+     smtpPassword=os.getenv('BUILDBOT_SMTP_PASS')
+ )
