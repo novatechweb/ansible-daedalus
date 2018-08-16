@@ -1,4 +1,4 @@
-FROM        buildbot/buildbot-master:v0.9.13
+FROM        buildbot/buildbot-master:v1.2.0
 MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
 
 WORKDIR /buildbot
