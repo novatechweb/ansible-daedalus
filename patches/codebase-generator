@@ -1,5 +1,5 @@
 Bottom: 3af064a22089ea8866f0f9d1873ff0e5c426c7dc
-Top:    1d69d7e2ae62dc49d59d5a86f54323da85987358
+Top:    c255842fa4438a1353bbe7970d7ee860afa172f2
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -13,7 +13,7 @@ repository back to its parent for merge requests.
 
 ---
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index aa317118..bc2acccb 100644
+index aa317118..a4a6fefc 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -6,6 +6,7 @@
@@ -40,7 +40,7 @@ index aa317118..bc2acccb 100644
 +    """
 +
 +    giturl = giturlparse(chdict['repository'])
-+    return giturl.owner
++    return "%s/%s" % (giturl.owner, giturl.repo)
 +
 +    # path = urlparse(chdict['revlink']).path.lstrip('/')
 +
