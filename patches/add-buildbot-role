@@ -1,5 +1,5 @@
 Bottom: 96ffaaadc106f13f2d643faf3ea23689ba2814f7
-Top:    cd0729f59c534cb3c9c60d40ef815f4730ce37f5
+Top:    4a335549d8d6effaeaee2eed132e24589e15c369
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -94,39 +94,65 @@ index 0727917d..ee706b65 100644
    hosts: buildsystem
    remote_user: ansibleremote
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 521c8237..fff22446 100644
+index 521c8237..923e9542 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
-@@ -1,5 +1,5 @@
+@@ -1,14 +1,10 @@
 -FROM        buildbot/buildbot-master:v0.9.13
 -MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
-+FROM        buildbot/buildbot-master:v1.2.0
++FROM  buildbot/buildbot-master:v1.2.0
 +LABEL maintainer="Andrew Cooper <andrew.cooper@novatechweb.com>"
  
- WORKDIR /buildbot
+-WORKDIR /buildbot
+-
+-ARG BUILDBOT_UID=1000
+ ARG BUILDBOT_TIMEZONE="Etc/UTC"
  
+ RUN apk --no-cache add \
+         openssh \
+-        tini \
+ &&  rm /etc/localtime \
+ &&  ln -sf /usr/share/zoneinfo/${BUILDBOT_TIMEZONE} /etc/localtime \
+ &&  echo "${BUILDBOT_TIMEZONE}" > /etc/timezone
+@@ -18,12 +14,12 @@ RUN pip --no-cache-dir install \
+     'attrs'
+ 
+ # Create buildbot user
++ARG BUILDBOT_DATA="/buildbot"
+ ARG BUILDBOT_UID=1000
++
++WORKDIR ${BUILDBOT_DATA}
+ COPY buildbot/ /home/buildbot/
+ RUN adduser -h "/home/buildbot" -s "/bin/sh" -D -u ${BUILDBOT_UID} buildbot \
+-&&  chown -v -R buildbot:buildbot "/buildbot" \
++&&  chown -v -R buildbot:buildbot "${BUILDBOT_DATA}" \
+ &&  chown -v -R buildbot:buildbot "/home/buildbot"
+-
+ USER buildbot
+-ENTRYPOINT ["/sbin/tini", "--"]
+-CMD ["/home/buildbot/start.sh"]
 diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
-index 63b884d4..eec8ff56 100755
+deleted file mode 100755
+index 63b884d4..00000000
 --- a/docker/buildbot-master/buildbot/start.sh
-+++ b/docker/buildbot-master/buildbot/start.sh
-@@ -1,10 +1,4 @@
- #!/bin/sh
- 
++++ /dev/null
+@@ -1,10 +0,0 @@
+-#!/bin/sh
+-
 -mkdir -p $HOME/.ssh
 -cp -R /run/secrets/ssh/* $HOME/.ssh
 -chmod -R 600 $HOME/.ssh
 -
 -ln -v -s -f /home/buildbot/buildbot.tac /home/buildbot/master.cfg /home/buildbot/*.py /buildbot
 -
- /usr/bin/buildbot --verbose upgrade-master
+-/usr/bin/buildbot --verbose upgrade-master
 -exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
-+exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=/home/buildbot/buildbot.tac
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 00000000..9a308193
+index 00000000..412ac9a5
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -0,0 +1,97 @@
+@@ -0,0 +1,99 @@
 +---
 +# defaults file for buildbot
 +
@@ -188,6 +214,7 @@ index 00000000..9a308193
 +# volumes mounted within the container
 +container_volumes:
 +  - '{{ data_volume }}:{{ data_path }}:z'
++  - '{{ config_hostdir }}/buildbot.tac:{{ data_path }}/buildbot.tac'
 +  - '{{ config_hostdir }}/master.cfg:{{ data_path }}/master.cfg'
 +  - '{{ config_hostdir }}/openembedded.py:{{ data_path }}/openembedded.py'
 +  - '{{ config_hostdir }}/ptxdist.py:{{ data_path }}/ptxdist.py'
@@ -200,9 +227,10 @@ index 00000000..9a308193
 +
 +# build arguments of the image
 +image_args:
-+  BUILDBOT_UID: '{{buildbot_uid}}'
-+  BUILDBOT_VERSION: 'v{{buildbot_version}}'
++  BUILDBOT_DATA: '{{ data_path }}'
 +  BUILDBOT_TIMEZONE: 'America/Chicago'
++  BUILDBOT_UID: '{{ buildbot_uid }}'
++  BUILDBOT_VERSION: 'v{{ buildbot_version }}'
 +
 +# directory of the image source
 +image_dir: '{{ docker_projects_dir }}/buildbot-master'
@@ -457,10 +485,10 @@ index 85020678..d6d84f2e 100644
                                                mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 00000000..138f692d
+index 00000000..60a54247
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
-@@ -0,0 +1,51 @@
+@@ -0,0 +1,63 @@
 +---
 +# tasks file for buildbot
 +
@@ -477,10 +505,22 @@ index 00000000..138f692d
 +  copy:
 +    src: "{{ item }}"
 +    dest: "{{ config_hostdir }}/{{ item }}"
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
 +  loop:
++    - buildbot.tac
 +    - master.cfg
 +    - openembedded.py
 +    - ptxdist.py
++
++- name: Populate config templates
++  copy:
++    src: "{{ item }}"
++    dest: "{{ config_hostdir }}/{{ item }}"
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++  loop:
++    - buildbot.tac.j2
 +
 +- name: Checkout image repo
 +  git:
@@ -512,6 +552,29 @@ index 00000000..138f692d
 +    name: '{{ container_hostname }}'
 +    pubkey: "{{ output.stdout }}"
 +    ip_addr: "{{ buildbot_ip_addr }}"
+diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/roles/buildbot-master/templates/buildbot.tac.j2
+similarity index 81%
+rename from docker/buildbot-master/buildbot/buildbot.tac
+rename to roles/buildbot-master/templates/buildbot.tac.j2
+index c3b2e879..23824119 100644
+--- a/docker/buildbot-master/buildbot/buildbot.tac
++++ b/roles/buildbot-master/templates/buildbot.tac.j2
+@@ -6,13 +6,13 @@ from twisted.python.log import ILogObserver
+ 
+ from buildbot.master import BuildMaster
+ 
+-basedir = '/buildbot'
++basedir = '{{ data_path }}'
+ configfile = 'master.cfg'
+ 
+ # note: this line is matched against to check that this is a buildmaster
+ # directory; do not edit it.
+ application = service.Application('buildmaster')
+-# application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
++application.setComponent(ILogObserver, FileLogObserver(sys.stdout).emit)
+ 
+ m = BuildMaster(basedir, configfile, umask=None)
+ m.setServiceParent(application)
 diff --git a/roles/buildbot-master/vars/main.yml b/roles/buildbot-master/vars/main.yml
 new file mode 100644
 index 00000000..eed3963e
