@@ -1,0 +1,24 @@
+Bottom: d0c52cd95577996c35ccf6b6c2d05c672647b2b9
+Top:    34b35f0361ac84a57faba0a8e623fb62826734af
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 13:16:39 -0500
+
+Refresh of add-buildbot-ntel-worker
+
+---
+diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
+index 32136e2f..86403896 100644
+--- a/roles/buildbot-worker-ntel/tasks/main.yml
++++ b/roles/buildbot-worker-ntel/tasks/main.yml
+@@ -55,11 +55,6 @@
+     path: '{{ secrets_hostdir }}'
+     state: directory
+ 
+-- name: Populate known_hosts secret
+-  copy:
+-    content: '{{ known_hosts }}'
+-    dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
+-
+ - name: Checkout image repo
+   git:
+     repo: '{{ image_repo }}'
