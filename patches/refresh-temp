@@ -1,0 +1,24 @@
+Bottom: 431822c371b7eaaac0def0a2cd154d3fc6ee93bb
+Top:    175f4966c4e96f16f1ac553e5e85944bb120f920
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 13:30:48 -0500
+
+Refresh of add-buildbot-ntel-worker
+
+---
+diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
+index 497956b8..140f3e6b 100644
+--- a/roles/buildbot-worker-ntel/tasks/main.yml
++++ b/roles/buildbot-worker-ntel/tasks/main.yml
+@@ -50,11 +50,6 @@
+         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+       fi"
+ 
+-- name: Create secrets volume
+-  file:
+-    path: '{{ secrets_hostdir }}'
+-    state: directory
+-
+ - name: Checkout image repo
+   git:
+     repo: '{{ image_repo }}'
