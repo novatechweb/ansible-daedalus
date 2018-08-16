@@ -1,0 +1,221 @@
+Bottom: 7e32ac68c5ba7081848462cd797b637298466a09
+Top:    c98de886db85526c9a20e2507b898fe956811cc3
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-16 09:26:16 -0500
+
+Refresh of add-buildbot-role
+
+---
+diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
+index 75985b8a..9784ff82 100644
+--- a/docker/buildbot-master/buildbot/master.cfg
++++ b/docker/buildbot-master/buildbot/master.cfg
+@@ -5,9 +5,9 @@
+ # 'master.cfg' in your buildmaster's base directory.
+ 
+ import os
+-from buildbot.plugins import steps,util
++from buildbot.plugins import steps, util
+ 
+-os.environ['LONG_RUN_TIMEOUT']='14400'
++os.environ['LONG_RUN_TIMEOUT'] = '14400'
+ 
+ # This is the dictionary that the buildmaster pays attention to. We also use
+ # a shorter alias to save typing.
+@@ -20,9 +20,9 @@ c['change_source'] = []
+ # Defines the TCP port to listen on for connections from workers.
+ # This must match the value configured into the buildworkers (with their
+ # --master option)
+-c['protocols'] = {"pb": {"port": os.getenv('BUILDBOT_WORKER_PORT',9989)}}
++c['protocols'] = {"pb": {"port": os.getenv('BUILDBOT_WORKER_PORT', 9989)}}
+ 
+-####### STATUS TARGETS
++# STATUS TARGETS
+ 
+ # 'status' is a list of Status Targets. The results of each build will be
+ # pushed to these targets. buildbot/status/*.py has a variety to choose from,
+@@ -36,33 +36,34 @@ irc = reporters.IRC(host="172.16.64.3",
+                     channels=["#orion"])
+ c['services'].append(irc)
+ 
+-mn = reporters.MailNotifier(fromaddr="buildbot@novatechweb.com",
+-                  sendToInterestedUsers=True,
+-                  extraRecipients=["andrew.cooper@novatechweb.com"],
+-                  useTls=True, relayhost="relay.dnsexit.com", smtpPort=26,
+-                  smtpUser="Dean.cox", smtpPassword="no5156")
++mn = reporters.MailNotifier(
++    fromaddr="buildbot@novatechweb.com",
++    sendToInterestedUsers=True,
++    extraRecipients=["andrew.cooper@novatechweb.com"],
++    useTls=True, relayhost="relay.dnsexit.com", smtpPort=26,
++    smtpUser="Dean.cox", smtpPassword="no5156")
+ c['services'].append(mn)
+ 
+-####### WEB SERVER
++# WEB SERVER
+ c['www'] = {
+-    'port':os.getenv('BUILDBOT_WEB_PORT',8010),
++    'port': os.getenv('BUILDBOT_WEB_PORT', 8010),
+     'plugins': {
+         'waterfall_view': True,
+         'console_view': True,
+         'grid_view': True,
+-        },
+-    'auth':util.UserPasswordAuth([("georgem","tgbyhn")]),
+-    'authz':util.Authz(
++    },
++    'auth': util.UserPasswordAuth([("georgem", "tgbyhn")]),
++    'authz': util.Authz(
+         allowRules=[
+             util.AnyControlEndpointMatcher(role="admins"),
+-            ],
++        ],
+         roleMatchers=[
+             util.RolesFromUsername(roles=['admins'], usernames=["georgem"]),
+-            ],
+-        ),
+-    }
++        ],
++    ),
++}
+ 
+-####### PROJECT IDENTITY
++# PROJECT IDENTITY
+ 
+ # the 'title' string will appear at the top of this buildbot
+ # installation's html.WebStatus home page (linked to the
+@@ -77,17 +78,17 @@ c['titleURL'] = "http://git.novatech-llc.com/"
+ # with an externally-visible host name which the buildbot cannot figure out
+ # without some help.
+ 
+-c['buildbotURL'] = os.getenv('BUILDBOT_WEB_URL',"http://localhost:%s/"%(c['www']['port']))
++c['buildbotURL'] = os.getenv('BUILDBOT_WEB_URL', "http://localhost:%s/" % (c['www']['port']))
+ 
+-####### DB URL
++# DB URL
+ 
+ c['db'] = {
+     # This specifies what database buildbot uses to store its state.  You can leave
+     # this at its default for all but the largest installations.
+-    'db_url' : os.getenv('BUILDBOT_DATABASE',"sqlite://state.sqlite"),
++    'db_url': os.getenv('BUILDBOT_DATABASE', "sqlite://state.sqlite"),
+ }
+ 
+-####### Extra Options
++# Extra Options
+ c['buildbotNetUsageData'] = 'basic'
+ 
+ import openembedded
+diff --git a/docker/buildbot-master/buildbot/openembedded.py b/docker/buildbot-master/buildbot/openembedded.py
+index 5d2ba3d4..208948b2 100755
+--- a/docker/buildbot-master/buildbot/openembedded.py
++++ b/docker/buildbot-master/buildbot/openembedded.py
+@@ -309,7 +309,7 @@ class BitBakeFactory(util.BuildFactory):
+             retry=(360, 5)))
+         self.addStep(steps.ShellCommand(
+             command=["./oebb.sh", "config", util.Property('machine')]
+-            ))
++        ))
+         self.addStep(BitBakeConf(auto_conf, conf_file='auto.conf'))
+         self.addStep(BitBakeConf(test_conf, conf_file='test.conf'))
+         self.addStep(BitBakeConf(release_conf, conf_file='release.conf'))
+diff --git a/docker/buildbot-master/buildbot/ptxdist.py b/docker/buildbot-master/buildbot/ptxdist.py
+index 85020678..d6d84f2e 100644
+--- a/docker/buildbot-master/buildbot/ptxdist.py
++++ b/docker/buildbot-master/buildbot/ptxdist.py
+@@ -170,7 +170,7 @@ class PTXDistFactory(util.BuildFactory):
+         self.addStep(PTXDistBuild(command=["ptxdist", "make", "ipkg-push"]))
+         self.addStep(PTXDistBuild(command=["./scripts/ipkg-header"]))
+ 
+-### current_armeb_xscale ###
++# current_armeb_xscale #
+ current_armeb_xscale_factory = PTXDistFactory(
+     worker_ptxdist_repourl, worker_ptxdist_branch, 'armeb-xscale')
+ # check out the source
+@@ -199,7 +199,7 @@ current_armeb_xscale_factory.addStep(steps.ShellCommand(
+ # current_armeb_xscale_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_armeb_xscale']))
+ # current_armeb_xscale_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_armeb_xscale']))
+ 
+-### local_tests_armeb_xscale ###
++# local_tests_armeb_xscale #
+ local_tests_armeb_xscale_factory = util.BuildFactory()
+ local_tests_armeb_xscale_factory.addStep(
+     steps.ShellCommand(command=["uptime"]))
+@@ -208,7 +208,7 @@ local_tests_armeb_xscale_factory.addStep(
+ local_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
+     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
+ 
+-### remote_tests_armeb_xscale ###
++# remote_tests_armeb_xscale #
+ remote_tests_armeb_xscale_factory = util.BuildFactory()
+ # check out the source
+ remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+@@ -216,7 +216,7 @@ remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repo
+ remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
+     command=["py.test", "-s", "--orion=172.16.64.150", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
+ 
+-### current_i686 ###
++# current_i686 #
+ current_i686_factory = PTXDistFactory(
+     worker_ptxdist_repourl, worker_ptxdist_branch, 'i686')
+ # check out the source
+@@ -232,7 +232,7 @@ current_i686_factory.addStep(steps.ShellCommand(
+ # current_i686_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_i686']))
+ # current_i686_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_i686']))
+ 
+-### current_am335x ###
++# current_am335x #
+ current_am335x_factory = PTXDistFactory(
+     worker_ptxdist_repourl, worker_ptxdist_branch, 'am335x')
+ # check out the source
+@@ -244,7 +244,7 @@ current_am335x_factory.addStep(PTXDistBuild(command=["ptxdist", "images"]))
+ # current_am335x_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_am335x']))
+ # current_am335x_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_am335x']))
+ 
+-### upgrade_i686 ###
++# upgrade_i686 #
+ upgrade_i686_factory = util.BuildFactory()
+ upgrade_i686_factory.addStep(steps.ShellCommand(command=[
+                              "upgrade", "list", "172.16.64.3/~georgem/ipkg-repository/OrionLX-i686-glibc/dists"]))
+@@ -253,21 +253,21 @@ upgrade_i686_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
+ upgrade_i686_factory.addStep(steps.ShellCommand(
+     command=["systemctl", "start", "delayed-reboot.timer"]))
+ 
+-### local_tests_i686 ###
++# local_tests_i686 #
+ local_tests_i686_factory = util.BuildFactory()
+ local_tests_i686_factory.addStep(steps.ShellCommand(command=["uptime"]))
+ local_tests_i686_factory.addStep(steps.ShellCommand(command=["uname", "-a"]))
+ local_tests_i686_factory.addStep(steps.ShellCommand(
+     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
+ 
+-### remote_tests_i686 ###
++# remote_tests_i686 #
+ remote_tests_i686_factory = util.BuildFactory()
+ remote_tests_i686_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+                                             mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
+ remote_tests_i686_factory.addStep(steps.ShellCommand(command=[
+                                   "py.test", "-s", "--orion=172.16.65.100", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
+ 
+-### upgrade_am335x ###
++# upgrade_am335x #
+ upgrade_am335x_factory = util.BuildFactory()
+ upgrade_am335x_factory.addStep(steps.ShellCommand(command=[
+                                "upgrade", "list", "172.16.64.3/~georgem/ipkg-repository/OrionLX-am335x-glibc/dists"]))
+@@ -276,14 +276,14 @@ upgrade_am335x_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
+ upgrade_am335x_factory.addStep(steps.ShellCommand(
+     command=["systemctl", "start", "delayed-reboot.timer"]))
+ 
+-### local_tests_am335x ###
++# local_tests_am335x #
+ local_tests_am335x_factory = util.BuildFactory()
+ local_tests_am335x_factory.addStep(steps.ShellCommand(command=["uptime"]))
+ local_tests_am335x_factory.addStep(steps.ShellCommand(command=["uname", "-a"]))
+ local_tests_am335x_factory.addStep(steps.ShellCommand(
+     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
+ 
+-### remote_tests_am335x ###
++# remote_tests_am335x #
+ remote_tests_am335x_factory = util.BuildFactory()
+ remote_tests_am335x_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+                                               mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
