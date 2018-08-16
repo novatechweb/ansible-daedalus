@@ -1,5 +1,5 @@
-Bottom: 4c29d32d09873c9356649c671470a5865e6420a7
-Top:    e0082ce462db4cf0b9fabcc8af303cfd35f218c1
+Bottom: bf5f2a7397b5afd68c7e4b3aacf6c640e05402b2
+Top:    41529ffaf39e1f7243110c39e36ec06893141ced
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -34,7 +34,7 @@ index 7690ad05..4e579094 100644
  # Create buildbot user
  ARG BUILDBOT_UID=1000
 diff --git a/docker/buildbot-master/buildbot/master.cfg b/docker/buildbot-master/buildbot/master.cfg
-index 5b160a33..99076744 100644
+index bc2acccb..71a26a57 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/docker/buildbot-master/buildbot/master.cfg
 @@ -34,10 +34,18 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="/run/secrets")]
