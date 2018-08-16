@@ -170,7 +170,7 @@ class PTXDistFactory(util.BuildFactory):
         self.addStep(PTXDistBuild(command=["ptxdist", "make", "ipkg-push"]))
         self.addStep(PTXDistBuild(command=["./scripts/ipkg-header"]))
 
-### current_armeb_xscale ###
+# current_armeb_xscale #
 current_armeb_xscale_factory = PTXDistFactory(
     worker_ptxdist_repourl, worker_ptxdist_branch, 'armeb-xscale')
 # check out the source
@@ -199,7 +199,7 @@ current_armeb_xscale_factory.addStep(steps.ShellCommand(
 # current_armeb_xscale_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_armeb_xscale']))
 # current_armeb_xscale_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_armeb_xscale']))
 
-### local_tests_armeb_xscale ###
+# local_tests_armeb_xscale #
 local_tests_armeb_xscale_factory = util.BuildFactory()
 local_tests_armeb_xscale_factory.addStep(
     steps.ShellCommand(command=["uptime"]))
@@ -208,7 +208,7 @@ local_tests_armeb_xscale_factory.addStep(
 local_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
 
-### remote_tests_armeb_xscale ###
+# remote_tests_armeb_xscale #
 remote_tests_armeb_xscale_factory = util.BuildFactory()
 # check out the source
 remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
@@ -216,7 +216,7 @@ remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repo
 remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
     command=["py.test", "-s", "--orion=172.16.64.150", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
 
-### current_i686 ###
+# current_i686 #
 current_i686_factory = PTXDistFactory(
     worker_ptxdist_repourl, worker_ptxdist_branch, 'i686')
 # check out the source
@@ -232,7 +232,7 @@ current_i686_factory.addStep(steps.ShellCommand(
 # current_i686_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_i686']))
 # current_i686_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_i686']))
 
-### current_am335x ###
+# current_am335x #
 current_am335x_factory = PTXDistFactory(
     worker_ptxdist_repourl, worker_ptxdist_branch, 'am335x')
 # check out the source
@@ -244,7 +244,7 @@ current_am335x_factory.addStep(PTXDistBuild(command=["ptxdist", "images"]))
 # current_am335x_factory.addStep(trigger.Trigger(schedulerNames=['local_tests_am335x']))
 # current_am335x_factory.addStep(trigger.Trigger(schedulerNames=['remote_tests_am335x']))
 
-### upgrade_i686 ###
+# upgrade_i686 #
 upgrade_i686_factory = util.BuildFactory()
 upgrade_i686_factory.addStep(steps.ShellCommand(command=[
                              "upgrade", "list", "172.16.64.3/~georgem/ipkg-repository/OrionLX-i686-glibc/dists"]))
@@ -253,21 +253,21 @@ upgrade_i686_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
 upgrade_i686_factory.addStep(steps.ShellCommand(
     command=["systemctl", "start", "delayed-reboot.timer"]))
 
-### local_tests_i686 ###
+# local_tests_i686 #
 local_tests_i686_factory = util.BuildFactory()
 local_tests_i686_factory.addStep(steps.ShellCommand(command=["uptime"]))
 local_tests_i686_factory.addStep(steps.ShellCommand(command=["uname", "-a"]))
 local_tests_i686_factory.addStep(steps.ShellCommand(
     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
 
-### remote_tests_i686 ###
+# remote_tests_i686 #
 remote_tests_i686_factory = util.BuildFactory()
 remote_tests_i686_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
                                             mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
 remote_tests_i686_factory.addStep(steps.ShellCommand(command=[
                                   "py.test", "-s", "--orion=172.16.65.100", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
 
-### upgrade_am335x ###
+# upgrade_am335x #
 upgrade_am335x_factory = util.BuildFactory()
 upgrade_am335x_factory.addStep(steps.ShellCommand(command=[
                                "upgrade", "list", "172.16.64.3/~georgem/ipkg-repository/OrionLX-am335x-glibc/dists"]))
@@ -276,14 +276,14 @@ upgrade_am335x_factory.addStep(steps.ShellCommand(command=["opkg", "upgrade"]))
 upgrade_am335x_factory.addStep(steps.ShellCommand(
     command=["systemctl", "start", "delayed-reboot.timer"]))
 
-### local_tests_am335x ###
+# local_tests_am335x #
 local_tests_am335x_factory = util.BuildFactory()
 local_tests_am335x_factory.addStep(steps.ShellCommand(command=["uptime"]))
 local_tests_am335x_factory.addStep(steps.ShellCommand(command=["uname", "-a"]))
 local_tests_am335x_factory.addStep(steps.ShellCommand(
     command=["py.test"], workdir="/usr/local/OrionPythonTests"))
 
-### remote_tests_am335x ###
+# remote_tests_am335x #
 remote_tests_am335x_factory = util.BuildFactory()
 remote_tests_am335x_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
                                               mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
