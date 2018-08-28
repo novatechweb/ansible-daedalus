@@ -1,0 +1,23 @@
+Bottom: 38889f0ed3b670dcd424f7a3569d557d783fa6b8
+Top:    69537b179247cbcd22f9f986379a14fb018dc61d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-28 15:55:52 -0500
+
+Refresh of move-git-checkouts-to
+
+---
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index b8caea59..a7517366 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -77,8 +77,8 @@
+ - name: copy script
+   copy:
+     remote_src: true
+-    src: '{{ docker_projects_dir }}/docker-mantisbt/mantisbt.sh'
+-    dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
++    src: '{{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh'
++    dest: '{{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}/'
+     mode: 'u=rwx,g=rx,o=rx'
+ 
+ - name: build image
