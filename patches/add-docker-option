@@ -1,5 +1,5 @@
 Bottom: 684d8ed9f9a8ed77e6b4add421740c4b224a8092
-Top:    19e01024abcaa2e1581a325c7477516fb804e94e
+Top:    68456f08e932808e8ed9831dd0ab93a1fdf4c763
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:47 -0500
 
@@ -30,10 +30,10 @@ index 4dc23cfb..27ea7e22 100644
  nexus_privileges:
    - name: all-repos-read  # used as key to update a privilege
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 0727917d..74c6785b 100644
+index 0727917d..9b9c6261 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
-@@ -52,12 +52,16 @@
+@@ -52,12 +52,17 @@
      - build
      - testssh
      - buildbot
@@ -46,7 +46,8 @@ index 0727917d..74c6785b 100644
      - openssl_container
 +  - name: Build and start Nexus Artifact Repository container
 +    role: nexus3
-+    tags: [nexus, container]
++    tags:
++    - nexus_container
    - name: Build and start the SVN Docker container
      role: docker-svn
      svn_repos: 'ddio NCD_Release'
