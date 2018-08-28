@@ -1,12 +1,11 @@
 Version: 1
-Previous: cdc6b533885e31943d49c4a52ad04736bb8b3bb4
-Head: 463023d5cf362ba021aa69054183ab39585bab35
+Previous: 20ad0f0fe6e8ef1c25d2191a418770e447a232c4
+Head: 78558095f85158328bc7256257e939521ffaa48a
 Applied:
   updates-for-ansible-2-4-from-2: 45a48e274634a8b1b27fcdaa15714facdcfc9895
   remove-role-submodules: 13d6a8bedc623b0c3585fb87a41453fa80d4f8a4
-  move-git-checkouts-to: 009b60a8edef02e7b1769ab6d915dc997d1d3217
-  move-ansible-role-vars-to-role: 2eb431725d2b0c2f8af05851583b6308c3f286cb
-  normalize-variable-names: b0f14a9146bda3d2217676ac244feb437ffa3ad3
-  refresh-temp: 463023d5cf362ba021aa69054183ab39585bab35
+  move-git-checkouts-to: 7085831897f6da565180ad7a8261e5ba55bc0b79
+  move-ansible-role-vars-to-role: 9dea7a0a315d4e1aacf9bc447fb9ded8c2e75db2
+  normalize-variable-names: 78558095f85158328bc7256257e939521ffaa48a
 Unapplied:
 Hidden:

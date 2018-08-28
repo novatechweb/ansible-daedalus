@@ -1,5 +1,5 @@
 Bottom: 5246727ded770c8db1ead96962670bc8fd71d0fa
-Top:    7fd1fb636076eaf1f309919f2c61effacd2fefcf
+Top:    dfbd6ad70d4bec10d015aaa8f9f095f78a117ebd
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 10:41:17 -0500
 
@@ -241,7 +241,7 @@ index 7dbe8249..fac5a9c8 100644
  
  # the name of the container being started
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index dabe61e1..1d8c4f71 100644
+index dabe61e1..7641497f 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -58,9 +58,6 @@
@@ -267,8 +267,8 @@ index dabe61e1..1d8c4f71 100644
 +- name: copy script
 +  copy:
 +    remote_src: true
-+    src: '{{ docker_projects_dir }}/docker-mantisbt/mantisbt.sh'
-+    dest: '{{ docker_restore_config_base_dir }}/{{ mantisbt_dv_name }}/'
++    src: '{{ docker_projects_dir }}/docker-mediawiki/mediawiki.sh'
++    dest: '{{ docker_restore_config_base_dir }}/{{ wiki_dv_name }}/'
 +    mode: 'u=rwx,g=rx,o=rx'
 +
  - name: build image

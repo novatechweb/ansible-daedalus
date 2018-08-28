@@ -1,5 +1,5 @@
-Bottom: cfb17fd18d62ac58d76f5b135f7efc5bd33e712e
-Top:    38889f0ed3b670dcd424f7a3569d557d783fa6b8
+Bottom: 4f2ca5dfee01c1d9bafd3475bcc5c9f9cd312769
+Top:    69537b179247cbcd22f9f986379a14fb018dc61d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-07-20 10:41:17 -0500
 
@@ -325,7 +325,7 @@ index 57880398..216ec39c 100644
  # files restored from tape
  wiki_static_backup_file: '/mediawiki.tar'
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 1d8c4f71..b8caea59 100644
+index 7641497f..a7517366 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -12,7 +12,7 @@
