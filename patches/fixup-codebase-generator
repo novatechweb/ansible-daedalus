@@ -1,5 +1,5 @@
-Bottom: 2fd79910bb58709d9ed226785b2288f7acf9243d
-Top:    a40d89c5380d273444261bbb01e3a7ac97f1aaeb
+Bottom: c0ec615d4aa8dfd57b560a36e36ca9f4b0a5240f
+Top:    5349634cc51fdaf5b2d7c9f4ebe03485b4096ba2
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 09:09:08 -0500
 
@@ -7,7 +7,7 @@ Refresh of codebase-generator
 
 ---
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index 6ff933cb..21513f76 100644
+index c14bd7dd..5a366551 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -172,7 +172,7 @@ def codebaseGenerator(chdict):

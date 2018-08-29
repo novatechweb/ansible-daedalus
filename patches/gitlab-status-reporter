@@ -1,5 +1,5 @@
 Bottom: 865b086b49fea0a74fc066775cfa017629a965d7
-Top:    a020598df40fc568ec47987ea8e5d97d56f713ed
+Top:    1ded469f40115a675870295e717965550d8c1fe7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -46,7 +46,7 @@ index 90e226f1..93d7dee4 100644
    LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
    LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index a7964306..18e28549 100644
+index a7964306..adc9a24b 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -60,7 +60,15 @@ mn = reporters.MailNotifier(
@@ -56,7 +56,7 @@ index a7964306..18e28549 100644
 -# WEB SERVER
 +gl = reporters.GitLabStatusPush(
 +    os.getenv('GITLAB_TOKEN'),
-+    context="Buildbot CI",
++    context=util.Interpolate("%(prop:buildername)s"),
 +    baseURL=os.getenv("GITLAB_URI"),
 +    verbose=True,
 +    debug=True

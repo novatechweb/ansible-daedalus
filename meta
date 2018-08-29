@@ -1,6 +1,6 @@
 Version: 1
-Previous: ca62f541a110bc7a9932d0e23d8747f82d0920ec
-Head: 9a809522776b02340839105d9e412772a3a3218d
+Previous: 4061ec37c3872cbb3f8c6c217532ae515706376c
+Head: bc80a62ab73fd2f163d4d116eed4b75a13d1453c
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
@@ -21,11 +21,10 @@ Applied:
   codebase-generator: 08b72fd4c8ceaa727f5c9eccecc4d311a9f27918
   single-branch-builders: 54cfd190864ea27355daba88dedc2016694fdb54
   irc-reporter: 4d02fd9b3d7fe1ba34c4847849c0ed0f6bb38bd8
-  gitlab-status-reporter: 45a058eba1562ef86e657014440351ce060d45f7
-  mail-reporter: 2fae7e0bd7c3bfba4d8a4623b0357ca43f68c255
-  ntel-layer-builders: ae823f05b588b9a4a3f3e54c53d32226e4bddb56
-  fixup-asset-host: 533924670c7c8fdb62b49e1927051a86b17ac8c0
-  fixup-codebase-generator: 5daa63d174178d0bc88ce5e2f0aa7c67a28f4da6
-  refresh-temp: 9a809522776b02340839105d9e412772a3a3218d
+  gitlab-status-reporter: e908c48cc8c8199c3f3f523a4349c42591af0200
+  mail-reporter: df38e402c2510491303e063cc6bab0d764942211
+  ntel-layer-builders: 7b7ba85c5f96c1789c141f8d4f6409915794c0f9
+  fixup-asset-host: 721366e355762ca4b2852e0f5331ac7cec58010d
+  fixup-codebase-generator: bc80a62ab73fd2f163d4d116eed4b75a13d1453c
 Unapplied:
 Hidden:
