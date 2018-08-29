@@ -1,5 +1,5 @@
-Bottom: 333d9d547e23a7fec236ff683bd7c28effc4d8e0
-Top:    0b44fa9d0b5ccc06f69feb23dc570431d9a30b9c
+Bottom: cc4b566c6a8481b789ad1407a5eee1d80dea28ce
+Top:    4b8c638ae8d01c3ba594315677e6fc719eb5fe14
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -8,7 +8,7 @@ Populate buildbot with gitlab public keys
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 5e780ece..6a605b17 100644
+index 095f58de..49dd0ec2 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -9,9 +9,14 @@

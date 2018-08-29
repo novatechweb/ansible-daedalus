@@ -1,5 +1,5 @@
 Bottom: 52308ac6be22e80f5255d79baf9b10e36965f831
-Top:    e11013e114a1b531a68ec4de1451a5fce7196da2
+Top:    38458e063a2b7df4d4f6848ae0a49790cf2c19b4
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -8,7 +8,7 @@ Generate new ssh key on first run
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 7826ad0b..5e780ece 100644
+index 7826ad0b..095f58de 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -12,6 +12,14 @@
@@ -26,7 +26,7 @@ index 7826ad0b..5e780ece 100644
  
  - name: Setup Buildbot worker system
    hosts: builder
-@@ -29,4 +37,31 @@
+@@ -29,4 +37,37 @@
          name: buildbot-worker-ntel
      - name: Build and start the Buildbot worker container
        import_role: 
@@ -45,20 +45,26 @@ index 7826ad0b..5e780ece 100644
 +      role: gitlab-sshkey
 +      vars:
 +        username: buildbot
-+        pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
++        pubkey: "{{ hostvars[buildbot_hostname].pubkey }}"
 +        title: "buildbot-master"
++      tags:
++        - buildbot-master
 +    - name: Add buildbot-worker-ntel pubkey to buildbot user
 +      role: gitlab-sshkey
 +      vars:
 +        username: buildbot
 +        pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
 +        title: "buildbot-worker-ntel"
++      tags:
++        - buildbot-worker-ntel
 +    - name: Add buildbot-worker-ptxdist pubkey to buildbot user
 +      role: gitlab-sshkey
 +      vars:
 +        username: buildbot
 +        pubkey: "{{ hostvars['buildbot-worker-ptxdist'].pubkey }}"
 +        title: "buildbot-worker-ptxdist"
++      tags:
++        - buildbot-worker-ptxdist
 diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
 new file mode 100755
 index 00000000..bf4c4e5a
