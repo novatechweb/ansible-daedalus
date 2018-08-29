@@ -1,0 +1,32 @@
+Bottom: 5fdb04ada7567de91b0ec969e2a8f9c8b61eb8f7
+Top:    0386ea113fd71e596914df1d4107ebea6c72b280
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 09:40:05 -0500
+
+Refresh of fixup-update-ptxdist-build-factories
+
+---
+diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
+index 6f7bbb7e..4417cc5e 100644
+--- a/roles/buildbot-worker-ptxdist/defaults/main.yml
++++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
+@@ -43,9 +43,6 @@ container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
+ # network configuration for the confainer
+ container_networks: []
+ 
+-# network configuration for the confainer
+-container_networks: []
+-
+ # port configuration of the container
+ container_port_args: []
+ 
+@@ -54,6 +51,9 @@ container_volumes:
+ - '{{ data_volume }}:{{ data_path }}:z'
+ - '{{ cache_volume }}:{{ cache_path }}:z'
+ - '{{ secrets_hostdir }}:{{ secrets_path }}'
++- '{{ config_hostdir }}/pydistutils.cfg:/home/buildbot/.pydistutils.cfg'
++- '{{ config_hostdir }}/ptxdistrc:/home/buildbot/.ptxdist/ptxdistrc-2012.09'
++- '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
+ 
+ # mount path of the data volume
+ data_path: '/buildbot'
