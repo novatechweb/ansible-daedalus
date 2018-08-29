@@ -1,0 +1,132 @@
+Bottom: 202830fc12da12cedef02f7c57e4148c2ac0a028
+Top:    677faec2cdb21c5eec444f7d94601e79a147316b
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 11:17:51 -0500
+
+Refresh of add-buildbot-ntel-worker
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index 91f0ea08..38127bba 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -40,6 +40,7 @@
+   tags:
+     - buildbot
+     - buildbot-worker
++    - buildbot-worker-ntel
+   vars:
+     asset_host: "{{hostvars['nexus']['uri']}}"
+     asset_user: "buildbot"
+diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
+index 042d283b..03daa993 100755
+--- a/roles/buildbot-master/files/openembedded.py
++++ b/roles/buildbot-master/files/openembedded.py
+@@ -301,14 +301,17 @@ class BitBakeFactory(util.BuildFactory):
+         util.BuildFactory.__init__(self)
+         self.addStep(steps.SetProperties(ComputeBuildProperties))
+         self.addStep(steps.GitLab(
+-            repourl=util.Property('repository'),
+-            branch=util.Property('branch'),
+-            codebase=util.Property('codebase'),
++            repourl=util.Property('repository', default=DEFAULT_REPO),
++            branch=util.Property('branch', default=DEFAULT_BRANCH),
++            codebase=DEFAULT_CODEBASE,
+             mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
+             method="clobber",
+             locks=[git_lock.access('exclusive')],
+             retry=(360, 5)))
+         self.addStep(steps.ShellCommand(
++            name="configure",
++            description="configuring",
++            descriptionDone="configured",
+             command=["./oebb.sh", "config", util.Property('machine')]
+         ))
+         self.addStep(BitBakeConf(auto_conf, conf_file='auto.conf'))
+@@ -324,9 +327,9 @@ c['builders'].append(
+         name="ntel-orionlxm",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+-            BitBake("orionlxm-swu-image"),
+-            BitBake("orionlxm-disk-swu-image"),
+-            BitBake("orion-headless-image -c populate_sdk"),
++            BitBake("orionlxm-swu-image", name="swu image"),
++            BitBake("orionlxm-disk-swu-image", name="disk swu image"),
++            BitBake("orion-headless-image -c populate_sdk", name="SDK"),
+         ),
+         properties={
+             'machine': 'orionlxm',
+@@ -340,9 +343,9 @@ c['builders'].append(
+         name="ntel-orion-io",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+-            BitBake("-c cleanall u-boot-orion-io"),
+-            BitBake("orion-io-swu-image"),
+-            BitBake("orion-headless-image -c populate_sdk"),
++            BitBake("-c cleanall u-boot-orion-io", name="cleanup"),
++            BitBake("orion-io-swu-image", name="swu image"),
++            BitBake("orion-headless-image -c populate_sdk", name="SDK"),
+         ),
+         properties={
+             'machine': 'orion-io',
+@@ -356,10 +359,10 @@ c['builders'].append(
+         name="ntel-orionlx-cpx",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+-            BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
+-            BitBake("orionlx-cpx-swu-image"),
+-            BitBake("orionlx-cpx-disk-swu-image"),
+-            BitBake("orion-graphical-image -c populate_sdk"),
++            BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native", name="cleanup"),
++            BitBake("orionlx-cpx-swu-image", name="swu image"),
++            BitBake("orionlx-cpx-disk-swu-image", name="disk swu image"),
++            BitBake("orion-graphical-image -c populate_sdk", name="SDK"),
+         ),
+         properties={
+             'machine': 'orionlx-cpx',
+@@ -373,9 +376,9 @@ c['builders'].append(
+         name="ntel-orionlx-plus",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+-            BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
+-            BitBake("orionlx-plus-swu-image"),
+-            BitBake("orion-graphical-image -c populate_sdk"),
++            BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native", name="cleanup"),
++            BitBake("orionlx-plus-swu-image", name="swu image"),
++            BitBake("orion-graphical-image -c populate_sdk", name="SDK"),
+         ),
+         properties={
+             'machine': 'orionlx-plus',
+@@ -389,9 +392,9 @@ c['builders'].append(
+         name="ntel-qemux86-64",
+         workernames=["worker-ntel"],
+         factory=BitBakeFactory(
+-            BitBake("gdk-pixbuf-native:do_cleanall"),
+-            BitBake("orion-graphical-image"),
+-            BitBake("orion-graphical-image -c populate_sdk"),
++            BitBake("gdk-pixbuf-native:do_cleanall", name="cleanup"),
++            BitBake("orion-graphical-image", name="image"),
++            BitBake("orion-graphical-image -c populate_sdk", name="SDK"),
+         ),
+         properties={
+             'machine': 'qemux86-64',
+@@ -408,15 +411,15 @@ c['builders'].append(
+         factory=BitBakeFactory(
+             BitBake(" gdk-pixbuf-native:do_cleanall"
+                     " multiconfig:orionlx-cpx:gdk-pixbuf-native:do_cleanall"
+-                    " multiconfig:orionlx-plus:gdk-pixbuf-native:do_cleanall"
+-                    ),
++                    " multiconfig:orionlx-plus:gdk-pixbuf-native:do_cleanall",
++                    name="cleanup"),
+             BitBake(" orion-graphical-image"
+                     " multiconfig:orionlx-cpx:orionlx-cpx-swu-image"
+                     " multiconfig:orionlx-cpx:orionlx-cpx-disk-swu-image"
+                     " multiconfig:orionlx-plus:orionlx-plus-swu-image"
+                     " multiconfig:orionlxm:orionlxm-swu-image"
+-                    " multiconfig:orion-io:orion-io-swu-image"
+-                    ),
++                    " multiconfig:orion-io:orion-io-swu-image",
++                    name="images"),
+         ),
+         properties={
+             'machine': 'qemux86-64',
