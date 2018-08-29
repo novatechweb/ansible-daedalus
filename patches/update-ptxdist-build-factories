@@ -1,5 +1,5 @@
-Bottom: 5d2febcf8718314e8f399b04d91d98b0867b0853
-Top:    0da3d4cd5116f81074167781aaf591f91c5f452e
+Bottom: 51dc7e499dfd805e5d6ab191fa3dda5875ee4e43
+Top:    71491c4e8204881ce2b3db558f9c9f1ea798fc96
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -454,7 +454,7 @@ index 11c44750..32665ca7 100644
  # directory of the image source
  image_dir: '{{ docker_projects_dir }}/{{ container_hostname }}'
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index a3a55045..323363a8 100644
+index b85341a0..9b0bce1f 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
 @@ -55,6 +55,11 @@

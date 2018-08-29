@@ -1,32 +1,31 @@
 Version: 1
-Previous: ff6fa87411b016e0326d280cf489014dd3ff66f6
-Head: 51ee5d9a802a6be7f8a3e791e92b63ccd275b050
+Previous: 9c8daba46d19786b85d441eb5d64aab0ca417ae5
+Head: 58fb74ab7752ec766c6ee68748a8de2c9f87defe
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
   hsm-host-arg: 95a929dbf60de6df96094c524f0f681fa98df807
-  add-buildbot-ptxdist-worker: 96dbd44b088bbf4874d9c33ad881b20e1d6e017d
-  update-ptxdist-build-factories: 7079162eb3d7e293f8379a01e3b5c1577f692f62
-  ptxdist-bc-depend: a24bedcfe41411ddc89a251eb4bc9f8c4a5da061
-  add-environment-variables-for: 57f8b3735be5831cd1c118c3451a54e43206c933
-  install-buildbot-plugin: 2a85ed13a3582321965936b9f6e688b201934e0e
-  generate-new-ssh-key-on-first: 8893d386e982fe978d80031983f3f5bbbd54fcbd
-  gitlab-auth: 10cf4c998be20c9ccb747fd979d17f208deab177
-  known_hosts: 49e74776fc2bd88d3480255ecd3680f467ab5b51
-  asset-host: cc4eee406a1f4b5ea43853ff02af4efe61f6234c
-  update-ptxdistrc: 4b5b88b0313b5ea7e16d83051cff7dc259091826
-  enable-secrets: db29ecd4c0a942dab82293abe7ca259dc2c3e818
-  change-hooks: 5cc09cf296b634a1d4ebe095c1e23b2a42f3894a
-  email-account: 7954d0bd8694f744e6ccda3fe06ab8669d401ab3
-  codebase-generator: 483e63d17f37c5f449f1ed8acc472ec41c3416e8
-  single-branch-builders: 83e7f1b0b4daac57ef3d28cf57bca4d94623b9da
-  irc-reporter: c6d32210ca25f541fa4b3c0a81e4892b63ae3ae4
-  gitlab-status-reporter: 2ea0fd8e1158d5746d055fc8171884172ee3a23d
-  mail-reporter: 2d80e1b56ec4e5091ab555219506ecfb7d53655e
-  ntel-layer-builders: 6346751782a6bef548d6695199abfd1dff0406d3
-  fixup-asset-host: caccc3a7eaed37657497e4f55ec3f1bf06511ef0
-  fixup-codebase-generator: a312203164d82e1b615d21f4b1efd671bce48efc
-  fixup-add-buildbot-role: a83a5bf2c9e2bd1e463623202fb4433a646f55c3
-  refresh-temp: 51ee5d9a802a6be7f8a3e791e92b63ccd275b050
+  add-buildbot-ptxdist-worker: 8986a291e5640af6d880e8e82dc46c2175d1e0ae
+  update-ptxdist-build-factories: 19596c9194e40ee17895b89b7e039ee329662ac2
+  ptxdist-bc-depend: 3a8f15213c31612f3874c831889c72ee49f36bbe
+  add-environment-variables-for: 785f2dce1b687d9ff52b50a867e86742ed98f0b6
+  install-buildbot-plugin: 81f958beeada291f021777e25fe59c16f15d54a3
+  generate-new-ssh-key-on-first: bc518b43e0d761cce62b8766271c6edbeb3c329c
+  gitlab-auth: 64f83b61617827c7231ff76918ce09850d671732
+  known_hosts: e10c5488043590b8f425848a75a6f4d95fa710ae
+  asset-host: ced95c4ffdd2a8207530ecf7dc63a17847d5b997
+  update-ptxdistrc: 7d1e2f8fbf3507d078a38bdba2b2cef793b166ac
+  enable-secrets: 32bacf232ab45e9748989b0cee4fc72bd7344326
+  change-hooks: df63bf5fabc9880a6082b1bb4c164f169c82bd57
+  email-account: f0bde508ee6466170abfa0b0a2837f53a185ed6f
+  codebase-generator: 0e81c993369ef4e6d7ee5b6ea94017adf3e68883
+  single-branch-builders: 3ec3edb6ee3d89e9ced91ef33053f7dc1fbf337f
+  irc-reporter: 0cf5e96ec982d3cf0d054cb32cd1ae57826cef91
+  gitlab-status-reporter: 677cfd7d545aaa55038c4e798f2a23791f0e4ae6
+  mail-reporter: b9747b17edc9de7da245f4e7fa47ae3ad4d5da5d
+  ntel-layer-builders: 29f1b374fd24551f084111d87773665c6a0e99b8
+  fixup-asset-host: 42ed2379aa996c3ee6f03fef148e4d0357a3cf12
+  fixup-codebase-generator: 98994ca1e7e18cd1a3149f4bf6ddecb0faf6bda1
+  fixup-add-buildbot-role: 58fb74ab7752ec766c6ee68748a8de2c9f87defe
 Unapplied:
 Hidden:

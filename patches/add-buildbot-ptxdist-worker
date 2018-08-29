@@ -1,5 +1,5 @@
 Bottom: 4e7a934ec0bf649d731059879b8d575ce10c0534
-Top:    5d2febcf8718314e8f399b04d91d98b0867b0853
+Top:    51dc7e499dfd805e5d6ab191fa3dda5875ee4e43
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -412,7 +412,7 @@ index 00000000..11c44750
 +secrets_path: '/run/secrets'
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
 new file mode 100644
-index 00000000..a3a55045
+index 00000000..b85341a0
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
 @@ -0,0 +1,86 @@
@@ -464,7 +464,7 @@ index 00000000..a3a55045
 +    cleanup: yes
 +    command: /bin/ash -c 
 +      "mkdir -p {{item}} &&
-+      if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
++      if [ $(stat -c '%u' '{{item}}') -ne {{buildbot_uid}} ]; then
 +        chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
 +      fi"
 +

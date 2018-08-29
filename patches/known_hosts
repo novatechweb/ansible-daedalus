@@ -1,5 +1,5 @@
-Bottom: d09ea955ff5b36ee84ed2cb761ecabcd5adbcd67
-Top:    c096d612734616d6da177bd38648f48790ceb77c
+Bottom: 333d9d547e23a7fec236ff683bd7c28effc4d8e0
+Top:    0b44fa9d0b5ccc06f69feb23dc570431d9a30b9c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -153,7 +153,7 @@ index 140f3e6b..b1bcf349 100644
    git:
      repo: '{{ image_repo }}'
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index 323363a8..f24bb829 100644
+index 9b0bce1f..4ee12074 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
 @@ -50,6 +50,16 @@
