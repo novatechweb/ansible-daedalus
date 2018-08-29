@@ -1,6 +1,6 @@
 Version: 1
-Previous: 81d9eff312384d9363f7572e7966e174517cc732
-Head: d8e49b0e6ca3f6f86fc7836ca53c3d8bb88d0980
+Previous: 65175a7064cdc82993e4f91dbaebd1803d90bb50
+Head: 75a3c0ae693af17e4927b94c17ff31c2ad1be4c3
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
@@ -28,7 +28,6 @@ Applied:
   fixup-codebase-generator: e8ba2f2192ec4f3d9267a1e102ba43523eeb6703
   fixup-add-buildbot-role: 5c2930d88d775b3062225ba6aa27bb30b8c510b0
   fixup-update-ptxdist-build-factories: ba40c6ad927a325b2d9a54def26ce3ab8355d17f
-  fixup-add-buildbot-ntel-worker: 7c2ff3a673757d86d9631b3fca3479d56a2755d8
-  refresh-temp: d8e49b0e6ca3f6f86fc7836ca53c3d8bb88d0980
+  fixup-add-buildbot-ntel-worker: 75a3c0ae693af17e4927b94c17ff31c2ad1be4c3
 Unapplied:
 Hidden:

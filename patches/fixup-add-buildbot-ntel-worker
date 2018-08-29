@@ -1,5 +1,5 @@
 Bottom: 202830fc12da12cedef02f7c57e4148c2ac0a028
-Top:    fb1f634fd99654c4e2f281c2b54dbbacc97e20d8
+Top:    b7436551e834acb0553d90ec5079f3ce3be2e95a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 11:17:51 -0500
 
@@ -19,7 +19,7 @@ index 91f0ea08..38127bba 100644
      asset_host: "{{hostvars['nexus']['uri']}}"
      asset_user: "buildbot"
 diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
-index 042d283b..90dc4dec 100755
+index 042d283b..c193fc59 100755
 --- a/roles/buildbot-master/files/openembedded.py
 +++ b/roles/buildbot-master/files/openembedded.py
 @@ -9,6 +9,7 @@ c = WorkerConfig = {}
@@ -30,8 +30,12 @@ index 042d283b..90dc4dec 100755
  ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
  
  # Workers
-@@ -19,8 +20,6 @@ c['workers'] = [
-     worker.Worker("worker-ntel", "pass", max_builds=1),
+@@ -16,11 +17,9 @@ ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+ # a Worker object, specifying a unique worker name and password.  The same
+ # worker name and password must be configured on the worker.
+ c['workers'] = [
+-    worker.Worker("worker-ntel", "pass", max_builds=1),
++    worker.Worker("worker-ntel", "pass", max_builds=3),
  ]
  
 -DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
