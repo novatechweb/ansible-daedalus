@@ -1,6 +1,6 @@
 Version: 1
-Previous: 95d07bb802b210bfdef9f343933da414c22c62de
-Head: 4035fd2122e93d643efc6617ae62a99243b3ca13
+Previous: e67b99c0cb9625c863206204b73a1afa06934ccd
+Head: a83a5bf2c9e2bd1e463623202fb4433a646f55c3
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
@@ -15,18 +15,17 @@ Applied:
   known_hosts: 49e74776fc2bd88d3480255ecd3680f467ab5b51
   asset-host: cc4eee406a1f4b5ea43853ff02af4efe61f6234c
   update-ptxdistrc: 4b5b88b0313b5ea7e16d83051cff7dc259091826
-  enable-secrets: a2971fc669e67ca3c14512e757fe1c31498ac000
-  change-hooks: e2e84ff412e016d97df716ed956efb9b2152249a
-  email-account: 76dd103a3348aa59b41d3b3ddde98e7b46c97529
-  codebase-generator: 08b72fd4c8ceaa727f5c9eccecc4d311a9f27918
-  single-branch-builders: 54cfd190864ea27355daba88dedc2016694fdb54
-  irc-reporter: 4d02fd9b3d7fe1ba34c4847849c0ed0f6bb38bd8
-  gitlab-status-reporter: e908c48cc8c8199c3f3f523a4349c42591af0200
-  mail-reporter: df38e402c2510491303e063cc6bab0d764942211
-  ntel-layer-builders: 7b7ba85c5f96c1789c141f8d4f6409915794c0f9
-  fixup-asset-host: 721366e355762ca4b2852e0f5331ac7cec58010d
-  fixup-codebase-generator: bc80a62ab73fd2f163d4d116eed4b75a13d1453c
-  fixup-add-buildbot-role: 873af258b382a160ba3043aa0f803b61291a5f6b
-  refresh-temp: 4035fd2122e93d643efc6617ae62a99243b3ca13
+  enable-secrets: db29ecd4c0a942dab82293abe7ca259dc2c3e818
+  change-hooks: 5cc09cf296b634a1d4ebe095c1e23b2a42f3894a
+  email-account: 7954d0bd8694f744e6ccda3fe06ab8669d401ab3
+  codebase-generator: 483e63d17f37c5f449f1ed8acc472ec41c3416e8
+  single-branch-builders: 83e7f1b0b4daac57ef3d28cf57bca4d94623b9da
+  irc-reporter: c6d32210ca25f541fa4b3c0a81e4892b63ae3ae4
+  gitlab-status-reporter: 2ea0fd8e1158d5746d055fc8171884172ee3a23d
+  mail-reporter: 2d80e1b56ec4e5091ab555219506ecfb7d53655e
+  ntel-layer-builders: 6346751782a6bef548d6695199abfd1dff0406d3
+  fixup-asset-host: caccc3a7eaed37657497e4f55ec3f1bf06511ef0
+  fixup-codebase-generator: a312203164d82e1b615d21f4b1efd671bce48efc
+  fixup-add-buildbot-role: a83a5bf2c9e2bd1e463623202fb4433a646f55c3
 Unapplied:
 Hidden:

@@ -1,5 +1,5 @@
-Bottom: f06f4e0314d94d42377967436ea19e88d10515cd
-Top:    c0ec615d4aa8dfd57b560a36e36ca9f4b0a5240f
+Bottom: def792caf4d33fc30cf018c702cddfb2f4e97fed
+Top:    290b985e6277ecd6277bf04886fd9a8675d53d04
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 08:59:00 -0500
 
@@ -88,7 +88,7 @@ index 61ceb169..8caf5b7b 100644
  
  # directory of the image source
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
-index f2d14cf8..91e7d6d4 100644
+index 1f7d1664..d96081aa 100644
 --- a/roles/buildbot-worker-ntel/tasks/main.yml
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
 @@ -50,6 +50,14 @@
@@ -119,7 +119,7 @@ index bc804731..6f7bbb7e 100644
    BUILDBOT_MASTER: '{{ buildbot_master }}'
    BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index bc182e7f..e9499970 100644
+index 1ec58529..e86c19a4 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
 @@ -50,6 +50,14 @@
