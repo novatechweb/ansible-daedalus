@@ -1,0 +1,21 @@
+Bottom: a40d89c5380d273444261bbb01e3a7ac97f1aaeb
+Top:    5349634cc51fdaf5b2d7c9f4ebe03485b4096ba2
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 09:12:19 -0500
+
+Refresh of gitlab-status-reporter
+
+---
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
+index 21513f76..5a366551 100644
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
+@@ -62,7 +62,7 @@ c['services'].append(mn)
+ 
+ gl = reporters.GitLabStatusPush(
+     os.getenv('GITLAB_TOKEN'),
+-    context="Buildbot CI",
++    context=util.Interpolate("%(prop:buildername)s"),
+     baseURL=os.getenv("GITLAB_URI"),
+     verbose=True,
+     debug=True
