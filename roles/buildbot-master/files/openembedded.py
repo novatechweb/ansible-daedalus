@@ -9,6 +9,7 @@ c = WorkerConfig = {}
 
 
 DEFAULT_BBFLAGS = '-k'
+DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
 
 # Workers
@@ -18,8 +19,6 @@ ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
 c['workers'] = [
     worker.Worker("worker-ntel", "pass", max_builds=1),
 ]
-
-DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 
 # CHANGESOURCES
 c['change_source'] = [
@@ -174,8 +173,7 @@ c['builders'] = []
 git_lock = util.MasterLock("git")
 
 
-@util.renderer
-def CurrentTime(props):
+def CurrentTime():
     from datetime import datetime
     import string
     dt = datetime.now()
@@ -188,13 +186,39 @@ def CurrentTime(props):
 def ComputeBuildProperties(props):
     newprops = {}
 
-    newprops['timestamp'] = ts = CurrentTime
+    newprops['timestamp'] = CurrentTime()
 
-    newprops['dest'] = dest = util.Interpolate(
-        "/cache/images/%(prop:buildername)s")
+    version = props.getProperty('version', default=newprops['timestamp'])
+    newprops['artifacts'] = {}
+    machines = [props.getProperty('machine')]
 
-    newprops['archive'] = archive = util.Interpolate(
-        "%(kw:d)s/%(prop:machine)s.%(kw:t)s.tar.gz", d=dest, t=ts)
+    mc = props.getProperty('multiconfig')
+    if mc:
+        machines.extend(mc.split(' '))
+
+    for m in machines:
+        a = {}
+
+        a['dest'] = "/cache/images/%s" % (
+            props.getProperty('buildername')
+        )
+
+        a['prefix'] = "%s-%s" % (
+            m,
+            version,
+        )
+
+        a['artifact'] = "%s.tar.gz" % (
+            a['prefix'],
+        )
+
+        a['url'] = "%s/%s/%s" % (
+            ASSET_HOST,
+            urlpath,
+            a['artifact'],
+        )
+
+        newprops['artifacts'][m] = a
 
     bbflags = props.getProperty('bbflags', DEFAULT_BBFLAGS)
     cache = props.getProperty('cache', True)
@@ -231,9 +255,7 @@ auto_conf = [
 class BitBakeConf(steps.StringDownload):
 
     def __init__(self, args, **kw):
-        lines = [
-        ]
-        lines.extend(args)
+        lines = list(args)
         configstring = '\n'.join(lines)
         conf_file = kw.setdefault('conf_file', 'auto.conf')
         sdkw = {
@@ -246,7 +268,8 @@ class BitBakeConf(steps.StringDownload):
 
 class BitBake(steps.Compile):
 
-    def __init__(self, package):
+    def __init__(self, package, **kwargs):
+
         kw = {
             'command': [
                 'bash',
@@ -258,41 +281,60 @@ class BitBake(steps.Compile):
             ],
             'description': 'building',
             'descriptionDone': 'build',
-            'descriptionSuffix': package,
-            'env': {'ENV': 'environment-ntel', 'BASH_ENV': 'environment-ntel'},
+            'env': {
+                'ENV': 'environment-ntel',
+                'BASH_ENV': 'environment-ntel',
+            },
             'flunkOnFailure': True,
             'haltOnFailure': False,
             'name': 'bitbake',
             'timeout': int(os.getenv('LONG_RUN_TIMEOUT', 600)),
             'warningPattern': "^WARNING: ",
         }
+        kw.update(kwargs)
         steps.Compile.__init__(self, **kw)
 
 
-class BitBakeArchive(steps.ShellCommand):
+class BitBakeArchive(steps.ShellSequence):
 
-    def __init__(self, **kw):
-        if 'machine' in kw:
-            self.machine = kw['machine']
-        else:
-            self.machine = util.Property('machine')
+    def __init__(self, **kwargs):
         kw = {
-            'command': ['ci-archive.sh',
-                        self.machine,
-                        util.Property("dest"),
-                        util.Property("timestamp")],
             'description': 'archiving',
             'descriptionDone': 'archive',
-            'env': {},
-            'flunkOnFailure': True,
-            'haltOnFailure': False,
-            'name': 'archive',
-            'env': {'PATH': ['/home/buildbot/', '${PATH}'],
+            'env': {
                     'ENV': 'environment-ntel',
                     'BASH_ENV': 'environment-ntel',
                     },
+            'flunkOnFailure': True,
+            'haltOnFailure': False,
+            'name': 'archive',
+            'timeout': int(os.getenv('LONG_RUN_TIMEOUT', 600)),
         }
-        steps.ShellCommand.__init__(self, **kw)
+        kw.update(kwargs)
+        kw = self.setupShellMixin(kw)
+        steps.ShellSequence.__init__(self, **kw)
+
+    def run(self):
+        commands = []
+
+        artifacts = self.getProperty('artifacts')
+        for m, art in artifacts.iteritems():
+            commands.append(util.ShellArg(
+                command="echo 'MACHINE=\"%s\"' >> conf/auto.conf" % (m),
+            ))
+
+            artfile = os.path.join(art['dest'], art['artifact'])
+            commands.append(util.ShellArg(
+                command=[
+                    'scripts/ci-archive.sh',
+                    art['prefix'],
+                    artfile
+                ],
+                logfile="Create %s archive" % (m),
+            ))
+        return steps.ShellSequence.runShellSequence(self, commands)
+
+
 
 
 class BitBakeFactory(util.BuildFactory):
