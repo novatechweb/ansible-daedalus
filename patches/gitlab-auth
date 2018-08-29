@@ -1,5 +1,5 @@
 Bottom: f117e4bb9fda9ab2c8cba8f4a98fdfe9f3817391
-Top:    f731402cc7db37eea18840d3dafd3f430ea9435c
+Top:    d09ea955ff5b36ee84ed2cb761ecabcd5adbcd67
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -52,7 +52,7 @@ index 7e6c0cc2..a4296e57 100644
  # hostname
  container_hostname: '{{ buildbot_hostname }}'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index 961819c3..fb54cb31 100644
+index 961819c3..11942aaa 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -49,6 +49,20 @@ mn = reporters.MailNotifier(
@@ -76,7 +76,7 @@ index 961819c3..fb54cb31 100644
  c['www'] = {
      'port': int(os.getenv('BUILDBOT_WEB_PORT', 8010)),
      'plugins': {
-@@ -56,13 +70,23 @@ c['www'] = {
+@@ -56,13 +70,25 @@ c['www'] = {
          'console_view': True,
          'grid_view': True,
      },
@@ -88,7 +88,10 @@ index 961819c3..fb54cb31 100644
 +        userInfoProvider=userInfoProvider),
      'authz': util.Authz(
          allowRules=[
-             util.AnyControlEndpointMatcher(role="admins"),
+-            util.AnyControlEndpointMatcher(role="admins"),
++            # admins can do anything,
++            # defaultDeny=False: if user does not have the admin role, we continue parsing rules
++            util.AnyEndpointMatcher(role="admins", defaultDeny=False),
          ],
          roleMatchers=[
 -            util.RolesFromUsername(roles=['admins'], usernames=["georgem"]),
@@ -102,7 +105,7 @@ index 961819c3..fb54cb31 100644
          ],
      ),
  }
-@@ -89,7 +113,7 @@ c['buildbotURL'] = os.getenv('BUILDBOT_WEB_URL', "http://localhost:%s/" % (c['ww
+@@ -89,7 +115,7 @@ c['buildbotURL'] = os.getenv('BUILDBOT_WEB_URL', "http://localhost:%s/" % (c['ww
  c['db'] = {
      # This specifies what database buildbot uses to store its state.  You can leave
      # this at its default for all but the largest installations.

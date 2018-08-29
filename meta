@@ -1,6 +1,6 @@
 Version: 1
-Previous: c764bba68c9b7a8dc12f251227271925cc9848a4
-Head: df16687cc88092270c240d0a8e482826af5081fd
+Previous: 76fc9305c2b2c37b378ead29c5acde268d44ff12
+Head: 533924670c7c8fdb62b49e1927051a86b17ac8c0
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
@@ -11,20 +11,19 @@ Applied:
   add-environment-variables-for: 57f8b3735be5831cd1c118c3451a54e43206c933
   install-buildbot-plugin: 2a85ed13a3582321965936b9f6e688b201934e0e
   generate-new-ssh-key-on-first: 8893d386e982fe978d80031983f3f5bbbd54fcbd
-  gitlab-auth: 57f0dd381c78f468093f747b78b097a655e08680
-  known_hosts: 79f57d14dd3a0478e92a8aeb021d6c71e128c9fe
-  asset-host: a901e4c1008d35d8e338d40443930a511ce4f8bd
-  update-ptxdistrc: 71f150239b6959b4241e79bbd593407af9a96e13
-  enable-secrets: f8195cc72a6cdc717ea6805d897b5829792bd549
-  change-hooks: f77bdf30448c8c25055b4349e68c76ad0433a8b1
-  email-account: 3f38afb0f2ede9b9e36bed2b2f10b913c7eeb325
-  codebase-generator: dc2451e8e8653f84b194382aa20f90053378a9e7
-  single-branch-builders: 906ee863a3567861632542874a1129791fe0faa9
-  irc-reporter: 85010c3eecc2a7e70694f50d740ad976aef0df00
-  gitlab-status-reporter: abe5629cb73ccc88347bdb5b477f28b0e6e0d250
-  mail-reporter: 2190e684c2243a4b25b67508fb8ef4b48c650082
-  ntel-layer-builders: ccaa0fcdbfed1c5a1bdb0edbd07c5ec88cb0c8ee
-  fixup-asset-host: 8b653f84c377ff1f6983f3e1863f36997a01b8c5
-  refresh-temp: df16687cc88092270c240d0a8e482826af5081fd
+  gitlab-auth: 10cf4c998be20c9ccb747fd979d17f208deab177
+  known_hosts: 49e74776fc2bd88d3480255ecd3680f467ab5b51
+  asset-host: cc4eee406a1f4b5ea43853ff02af4efe61f6234c
+  update-ptxdistrc: 4b5b88b0313b5ea7e16d83051cff7dc259091826
+  enable-secrets: a2971fc669e67ca3c14512e757fe1c31498ac000
+  change-hooks: e2e84ff412e016d97df716ed956efb9b2152249a
+  email-account: 76dd103a3348aa59b41d3b3ddde98e7b46c97529
+  codebase-generator: 08b72fd4c8ceaa727f5c9eccecc4d311a9f27918
+  single-branch-builders: 54cfd190864ea27355daba88dedc2016694fdb54
+  irc-reporter: 4d02fd9b3d7fe1ba34c4847849c0ed0f6bb38bd8
+  gitlab-status-reporter: 45a058eba1562ef86e657014440351ce060d45f7
+  mail-reporter: 2fae7e0bd7c3bfba4d8a4623b0357ca43f68c255
+  ntel-layer-builders: ae823f05b588b9a4a3f3e54c53d32226e4bddb56
+  fixup-asset-host: 533924670c7c8fdb62b49e1927051a86b17ac8c0
 Unapplied:
 Hidden:

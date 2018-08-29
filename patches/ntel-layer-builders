@@ -1,5 +1,5 @@
-Bottom: 74be047e42271c016ee923bff3140cc2c4107b64
-Top:    e80376e4e66ca9205db4cff276ae41ee58f53d12
+Bottom: be07fe9abf85ffb214eaf71e8370fad6337b8a7c
+Top:    60e8caf754699e043d1498eadefc9c1366cb6ece
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 10:19:05 -0500
 
@@ -16,10 +16,10 @@ repository under /ntel/.
 
 ---
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index 1245dc16..e1608831 100644
+index 18e28549..6ff933cb 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
-@@ -170,7 +170,7 @@ def codebaseGenerator(chdict):
+@@ -172,7 +172,7 @@ def codebaseGenerator(chdict):
      """
  
      giturl = giturlparse(chdict['repository'])

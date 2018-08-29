@@ -1,5 +1,5 @@
-Bottom: cd8a883a3a28a88bca1445e8dad94d6910c88360
-Top:    02e255dc756eb8cd08be7d444b98ac102dfb257d
+Bottom: 4e0e50052a2643cd2a8bb8e01940531e6ba4583b
+Top:    aab0ccb073a9c93b49dd7c210b390c3285595806
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -13,7 +13,7 @@ repository back to its parent for merge requests.
 
 ---
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index aa317118..a4a6fefc 100644
+index a12bdaa8..9ba78802 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -6,6 +6,7 @@
@@ -24,7 +24,7 @@ index aa317118..a4a6fefc 100644
  
  os.environ['LONG_RUN_TIMEOUT'] = '14400'
  
-@@ -140,3 +141,30 @@ c['workers'].extend(ptxdist.workers)
+@@ -142,3 +143,30 @@ c['workers'].extend(ptxdist.workers)
  c['schedulers'].extend(ptxdist.schedulers)
  c['builders'].extend(ptxdist.builders)
  c['change_source'].extend(ptxdist.change_source)

@@ -1,5 +1,5 @@
-Bottom: f536f7dc02a0f5783c9bc9a22f5b448b21d6050d
-Top:    effbd311439fc11a5e9907e19d60b19b93226377
+Bottom: 04ba3a9908b07bcd98e6c7b5ff69814a2a5ac278
+Top:    865b086b49fea0a74fc066775cfa017629a965d7
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -59,7 +59,7 @@ index 4a014c40..90e226f1 100644
    BUILDBOT_SMTP_USER: 'Dean.cox'
    BUILDBOT_SMTP_PASS: 'no5156'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index a4a6fefc..241e5ba5 100644
+index 9ba78802..a7964306 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -5,7 +5,7 @@

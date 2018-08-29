@@ -1,5 +1,5 @@
-Bottom: 53a18e39013c7e8cd0f4b5eff5fc8aeb7e8d1305
-Top:    0bf483359b5fa1aaf6030781fb597f52b583df34
+Bottom: 78e72e6bb3eee18ca8303381c6f797a4b8259127
+Top:    e6150f32613163fe48535125b72b88d8c8abc33c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -32,10 +32,10 @@ index 3e81b9b2..4a014c40 100644
    LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
    LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index 52c07e46..aa317118 100644
+index c453a09b..a12bdaa8 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
-@@ -92,6 +92,11 @@ c['www'] = {
+@@ -94,6 +94,11 @@ c['www'] = {
                  ]),
          ],
      ),

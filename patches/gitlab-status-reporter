@@ -1,5 +1,5 @@
-Bottom: effbd311439fc11a5e9907e19d60b19b93226377
-Top:    9c77ef0bb7c38a827167aad68b5c61ecae5b5f29
+Bottom: 865b086b49fea0a74fc066775cfa017629a965d7
+Top:    a020598df40fc568ec47987ea8e5d97d56f713ed
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -46,7 +46,7 @@ index 90e226f1..93d7dee4 100644
    LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
    LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index 241e5ba5..1245dc16 100644
+index a7964306..18e28549 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -60,7 +60,15 @@ mn = reporters.MailNotifier(
