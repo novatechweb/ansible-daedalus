@@ -1,6 +1,6 @@
 Version: 1
-Previous: 6a0902300e833b5e865c0ced271d78a8f13cb0a3
-Head: 8c2cae5d5ad98c6fb9e91dd757306fae8f8f6ce7
+Previous: 59698dd9b7fcab22f600ab7679d3255e7a415d8a
+Head: af4aebbab07bc422587b0be30bcd2abf5a0a9367
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
@@ -24,10 +24,9 @@ Applied:
   gitlab-status-reporter: 677cfd7d545aaa55038c4e798f2a23791f0e4ae6
   mail-reporter: b9747b17edc9de7da245f4e7fa47ae3ad4d5da5d
   ntel-layer-builders: 29f1b374fd24551f084111d87773665c6a0e99b8
-  fixup-asset-host: 6b51fef1062e061402872f54e1d2b7639b7ac530
-  fixup-codebase-generator: fcf6675d0b39ce0cd48ab5e18cec6768f3f55f65
-  fixup-add-buildbot-role: a42bd85acda05f4fed744a068f8548314456ddf1
-  fixup-update-ptxdist-build-factories: 21fda3ea51b0e6a4a2b8cf2da62cd7a3e86574e5
-  refresh-temp: 8c2cae5d5ad98c6fb9e91dd757306fae8f8f6ce7
+  fixup-asset-host: af6097f492fbf06b5c63228295ef850320c58ee1
+  fixup-codebase-generator: 7da99a9b9cb9722f8f3928b95ef45d10810dc2b8
+  fixup-add-buildbot-role: 0e1b57be8e3d6ed8b726c64696598c2581767f54
+  fixup-update-ptxdist-build-factories: af4aebbab07bc422587b0be30bcd2abf5a0a9367
 Unapplied:
 Hidden:

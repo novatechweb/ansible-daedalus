@@ -1,5 +1,5 @@
 Bottom: bcef787158dcf4bd838b2ae9cf1d0856995cec23
-Top:    8a85b5c770c9e3442093af4bb1b69eb4ce7e9a6f
+Top:    bddfb959164cf008bcd0d8be00e14213b4272a73
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 08:59:00 -0500
 
@@ -285,10 +285,26 @@ index bc804731..6f7bbb7e 100644
    BUILDBOT_MASTER: '{{ buildbot_master }}'
    BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index dda687d1..220372ab 100644
+index dda687d1..6c29d05d 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
-@@ -50,6 +50,14 @@
+@@ -25,7 +25,7 @@
+     - '{{ cache_volume }}:{{ cache_path }}:z'
+     detach: no
+     cleanup: yes
+-    command: /bin/ash -c 
++    command: /bin/ash -c
+       "mkdir -p {{item}} &&
+       chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}} &&
+       chmod -v 777 {{item}}"
+@@ -44,12 +44,20 @@
+     - '{{ data_volume }}:{{ data_path }}:z'
+     detach: no
+     cleanup: yes
+-    command: /bin/ash -c 
++    command: /bin/ash -c
+       "mkdir -p {{item}} &&
+       if [ $(stat -c '%u' '{{item}}') -ne {{buildbot_uid}} ]; then
          chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
        fi"
  
@@ -303,6 +319,14 @@ index dda687d1..220372ab 100644
  - name: Create secrets volume
    file:
      path: '{{ secrets_hostdir }}'
+@@ -84,6 +92,7 @@
+ 
+ - name: Start buildbot worker container
+   docker_container:
++    etc_hosts: '{{ container_etc_hosts }}'
+     hostname: '{{ container_hostname }}'
+     name: '{{ container_name }}'
+     image: '{{ image_name }}:{{ docker_image_tag }}'
 diff --git a/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2 b/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
 index 3c7f3345..1d205ea2 100644
 --- a/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
