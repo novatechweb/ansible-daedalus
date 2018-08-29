@@ -104,10 +104,12 @@
     tag: '{{ docker_image_tag }}'
     path: '{{ image_dir }}'
     buildargs: '{{ image_args }}'
+    extra_hosts: '{{ container_etc_hosts }}'
     force: true
 
 - name: Start buildbot worker container
   docker_container:
+    etc_hosts: '{{ container_etc_hosts }}'
     hostname: '{{ container_hostname }}'
     name: '{{ container_name }}'
     image: '{{ image_name }}:{{ docker_image_tag }}'
