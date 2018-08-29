@@ -4,6 +4,8 @@ from buildbot.plugins import *
 from datetime import datetime
 from buildbot.config import BuilderConfig
 
+ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+
 collections = {
     "armeb-xscale": "armeb-base",
     "i686": "i686-base",
