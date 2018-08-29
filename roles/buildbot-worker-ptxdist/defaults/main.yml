@@ -43,9 +43,6 @@ container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
 # network configuration for the confainer
 container_networks: []
 
-# network configuration for the confainer
-container_networks: []
-
 # port configuration of the container
 container_port_args: []
 
@@ -54,6 +51,9 @@ container_volumes:
 - '{{ data_volume }}:{{ data_path }}:z'
 - '{{ cache_volume }}:{{ cache_path }}:z'
 - '{{ secrets_hostdir }}:{{ secrets_path }}'
+- '{{ config_hostdir }}/pydistutils.cfg:/home/buildbot/.pydistutils.cfg'
+- '{{ config_hostdir }}/ptxdistrc:/home/buildbot/.ptxdist/ptxdistrc-2012.09'
+- '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
 
 # mount path of the data volume
 data_path: '/buildbot'
