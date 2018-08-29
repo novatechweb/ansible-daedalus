@@ -17,7 +17,7 @@ ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
 # a Worker object, specifying a unique worker name and password.  The same
 # worker name and password must be configured on the worker.
 c['workers'] = [
-    worker.Worker("worker-ntel", "pass", max_builds=1),
+    worker.Worker("worker-ntel", "pass", max_builds=3),
 ]
 
 # CHANGESOURCES
