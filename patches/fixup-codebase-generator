@@ -1,9 +1,20 @@
 Bottom: fbfc5d4cbe018cdb5addf5cc56cf35d3487b0927
-Top:    fbfc5d4cbe018cdb5addf5cc56cf35d3487b0927
+Top:    139664cec39f2e531f468fbe9ca3f47885ad4291
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 09:09:08 -0500
 
 Refresh of codebase-generator
 
 ---
-
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
+index 9ba78802..249bc9e3 100644
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
+@@ -155,7 +155,7 @@ def codebaseGenerator(chdict):
+     """
+ 
+     giturl = giturlparse(chdict['repository'])
+-    return "%s/%s" % (giturl.owner, giturl.repo)
++    return '/'.join((giturl.owner, giturl.repo))
+ 
+     # path = urlparse(chdict['revlink']).path.lstrip('/')
