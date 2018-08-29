@@ -1,0 +1,20 @@
+Bottom: 6b7ed9be4aa4132fbdc9aa0762198786d84af015
+Top:    8bd35ed5cab6db2f70c1160f8806771aa7f12fef
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 09:36:05 -0500
+
+Refresh of add-buildbot-ptxdist-worker
+
+---
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index e86c19a4..220372ab 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -46,7 +46,7 @@
+     cleanup: yes
+     command: /bin/ash -c 
+       "mkdir -p {{item}} &&
+-      if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
++      if [ $(stat -c '%u' '{{item}}') -ne {{buildbot_uid}} ]; then
+         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+       fi"
