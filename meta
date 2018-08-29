@@ -1,6 +1,6 @@
 Version: 1
-Previous: 93a370f1e12f8dc5b122771061f31931fa399cc8
-Head: 6136751850548b3adf0c2b603fd3f5f3fefe4381
+Previous: aae7d7a5ee04a617da8b32901bf480d824eb3503
+Head: 18f75185dcbd099918b4787eb1f101f9b43ffcb7
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -28,8 +28,7 @@ Applied:
   codebase-generator: 10f2c9560009c78a8315300e7d8028ceeec0eeb9
   fixup-codebase-generator: debf41067f9616aa56408f78bfa941cf4b1cfb03
   single-branch-builders: 7d3dcd6d79c5d18deeb4508e5c5d2912e5ffbb09
-  fixup-single-branch-builders: 1286b03caa4a019aed786bf45042c20d67820ad3
-  refresh-temp: 6136751850548b3adf0c2b603fd3f5f3fefe4381
+  fixup-single-branch-builders: 18f75185dcbd099918b4787eb1f101f9b43ffcb7
 Unapplied:
   irc-reporter: 9ca0b50ca4fb1c3864edaf0eb55a77bcd8e4c5c0
   gitlab-status-reporter: 2b08415452c95cc9637ca64c6a3c4baee7d33b64

@@ -1,9 +1,149 @@
 Bottom: 0ff2e64521821d616cf758b8052f22e98af3153b
-Top:    0ff2e64521821d616cf758b8052f22e98af3153b
+Top:    14f09b71ee0db965f38fb679e973143939951b7d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 14:16:10 -0500
 
 Refresh of single-branch-builders
 
 ---
-
+diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
+index a1f4fa21..7384ec25 100755
+--- a/roles/buildbot-master/files/openembedded.py
++++ b/roles/buildbot-master/files/openembedded.py
+@@ -9,10 +9,26 @@ c = WorkerConfig = {}
+ 
+ 
+ DEFAULT_BBFLAGS = '-k'
++DEFAULT_BRANCH = 'morty'
+ DEFAULT_CODEBASE = "ntel/setup-scripts"
+ DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
+ ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+ 
++NTEL_LAYERS = {
++    DEFAULT_CODEBASE: {
++        "repository": DEFAULT_REPO,
++        "branch": DEFAULT_BRANCH,
++        "revision": None
++    },
++    # TODO: Enable when update-layers.py is merged
++    # "ntel/meta-ntel",
++    # "ntel/meta-orion-bsp",
++    # "ntel/meta-backports",
++    # "ntel/meta-copalp",
++    # "ntel/meta-orion",
++    # "ntel/meta-sssd",
++}
++
+ # Workers
+ # The 'workers' list defines the set of recognized buildworkers. Each element is
+ # a Worker object, specifying a unique worker name and password.  The same
+@@ -43,14 +59,11 @@ c['schedulers'] = [
+             "ntel-all",
+         ],
+         change_filter=util.ChangeFilter(
+-            codebase=DEFAULT_CODEBASE,
+             category='push',
+         ),
+-        codebases=[
+-            DEFAULT_CODEBASE
+-        ],
++        codebases=NTEL_LAYERS,
+         properties={
+-            'clobber': False,
++            'clobber': True,
+             'cache': True,
+             'release_pin': None,
+             'bbflags': DEFAULT_BBFLAGS,
+@@ -69,12 +82,9 @@ c['schedulers'] = [
+             "ntel-all",
+         ],
+         change_filter=util.ChangeFilter(
+-            codebase=DEFAULT_CODEBASE,
+             category='merge_request',
+         ),
+-        codebases=[
+-            DEFAULT_CODEBASE
+-        ],
++        codebases=NTEL_LAYERS,
+         properties={
+             'clobber': False,
+             'cache': True,
+@@ -97,7 +107,7 @@ c['schedulers'] = [
+         ],
+         codebases=[
+             util.CodebaseParameter(
+-                "codebase",
++                DEFAULT_CODEBASE,
+                 label="Build Source",
+                 repository=util.StringParameter(
+                     name="repository",
+@@ -129,16 +139,10 @@ c['schedulers'] = [
+                 label="BitBake Options",
+                 default=DEFAULT_BBFLAGS),
+             util.StringParameter(
+-                name="release_pin",
+-                label="PIN for release signing",
++                name='version',
++                label='Build Version',
+                 default='',
+-                required=False,
+-            ),
+-            util.StringParameter(
+-                name='bbflags',
+-                label="BitBake Options",
+-                default=DEFAULT_BBFLAGS
+-            ),
++                required=False),
+         ],
+     ),
+ 
+@@ -363,6 +367,40 @@ class BitBakeArchive(steps.ShellSequence):
+         return steps.ShellSequence.runShellSequence(self, commands)
+ 
+ 
++class UpdateNtelLayers(steps.ShellSequence):
++
++    def __init__(self, **kwargs):
++        kwargs = self.setupShellMixin(kwargs)
++        steps.ShellSequence.__init__(self, **kwargs)
++
++    def run(self):
++        commands = []
++        changes = self.getProperties().changes
++        for c in changes:
++            cmd = [
++                'python',
++                'scripts/update-layer.py',
++                '--file=sources/layers.txt',
++                '--revision=%s' % (c['revision']),
++            ]
++
++            if c['category'] == 'merge_request':
++                url, _ = c['properties']['source_git_ssh_url']
++                cmd.append('--repository=%s' % (url))
++
++                branch, _ = c['properties']['source_branch']
++                cmd.append('--branch=%s' % (branch))
++
++            cmd.append(c['project'])
++
++            commands.append(util.ShellArg(
++                command=cmd,
++                logfile='stdio',
++                haltOnFailure=True
++            ))
++        return steps.ShellSequence.runShellSequence(self, commands)
++
++
+ class BitBakeFactory(util.BuildFactory):
+ 
+     def __init__(self, *build_steps):
+@@ -376,6 +414,8 @@ class BitBakeFactory(util.BuildFactory):
+             method="clobber",
+             locks=[git_lock.access('exclusive')],
+             retry=(360, 5)))
++        # # TODO: Enable when update-layers.py is merged
++        # # self.addStep(UpdateNtelLayers())
+         self.addStep(steps.ShellCommand(
+             name="configure",
+             description="configuring",
