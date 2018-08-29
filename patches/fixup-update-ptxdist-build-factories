@@ -1,73 +1,9 @@
-Bottom: b58c277dd33eb39bf869eae74899603f5bd31e07
-Top:    202830fc12da12cedef02f7c57e4148c2ac0a028
+Bottom: 157e96e989dddeb2c576dffb74a1dfd65d0d4458
+Top:    157e96e989dddeb2c576dffb74a1dfd65d0d4458
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 09:36:51 -0500
 
 Refresh of update-ptxdist-build-factories
 
 ---
-diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
-index 6f7bbb7e..4417cc5e 100644
---- a/roles/buildbot-worker-ptxdist/defaults/main.yml
-+++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
-@@ -43,9 +43,6 @@ container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
- # network configuration for the confainer
- container_networks: []
- 
--# network configuration for the confainer
--container_networks: []
--
- # port configuration of the container
- container_port_args: []
- 
-@@ -54,6 +51,9 @@ container_volumes:
- - '{{ data_volume }}:{{ data_path }}:z'
- - '{{ cache_volume }}:{{ cache_path }}:z'
- - '{{ secrets_hostdir }}:{{ secrets_path }}'
-+- '{{ config_hostdir }}/pydistutils.cfg:/home/buildbot/.pydistutils.cfg'
-+- '{{ config_hostdir }}/ptxdistrc:/home/buildbot/.ptxdist/ptxdistrc-2012.09'
-+- '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
- 
- # mount path of the data volume
- data_path: '/buildbot'
-diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index 6c29d05d..9e5bafb7 100644
---- a/roles/buildbot-worker-ptxdist/tasks/main.yml
-+++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
-@@ -50,6 +50,25 @@
-         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
-       fi"
- 
-+- name: Create configuration directory
-+  file:
-+    path: '{{ config_hostdir }}'
-+    state: directory
-+
-+- name: Generate distutils configuration
-+  template:
-+    src: pydistutils.cfg.j2
-+    dest: '{{ config_hostdir }}/pydistutils.cfg'
-+    group: '{{ buildbot_uid }}'
-+    owner: '{{ buildbot_uid }}'
-+
-+- name: Generate PTXdist configuration
-+  template:
-+    src: ptxdistrc.j2
-+    dest: '{{ config_hostdir }}/ptxdistrc'
-+    group: '{{ buildbot_uid }}'
-+    owner: '{{ buildbot_uid }}'
-+
- - name: Populate assets secret
-   template:
-     src: "netrc.j2"
-@@ -77,10 +96,6 @@
-     dest: '{{ image_dir }}'
-     force: yes
- 
--- template:
--    src: pydistutils.cfg.j2
--    dest: '{{ image_dir }}/buildbot/.pydistutils.cfg'
--
- - name: Create buildbot worker image
-   docker_image:
-     name: '{{ image_name }}'
+
