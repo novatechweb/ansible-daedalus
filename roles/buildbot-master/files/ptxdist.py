@@ -208,6 +208,20 @@ class PTXDistBuild(steps.ShellSequence):
                     util.Property("project")
                 ]
             ),
+
+            util.ShellArg(
+                logfile="upload",
+                haltOnFailure=False,
+                flunkOnFailure=True,
+                command=[
+                    'curl', '--netrc', '--verbose',
+                    '--upload-file', util.Property('ipkg_artifact'),
+                    '--url', util.Property('ipkg_url')
+                ],
+            ),
+        ]
+
+
 class PTXDistImages(steps.ShellSequence):
 
     def __init__(self, **kwargs):
@@ -244,9 +258,20 @@ class PTXDistImages(steps.ShellSequence):
                     "-C", util.Property("image_root"),
                     "-f", util.Interpolate("%(prop:artifact_dest)s/%(prop:image_artifact)s"),
                     "."
-        ]
+                ]
             ),
 
+            util.ShellArg(
+                logfile="upload",
+                haltOnFailure=False,
+                flunkOnFailure=True,
+                command=[
+                    'curl', '--netrc', '--verbose',
+                    '--upload-file', util.Property('image_artifact'),
+                    '--url', util.Property('image_url')
+                ],
+            ),
+        ]
 
 
 def CurrentTime():
@@ -300,8 +325,36 @@ def ComputeBuildProperties(props):
         props.getProperty('platform')
     )
 
+    if props.getProperty('release'):
+        urlpath = os.path.join(
+            'ptxdist',
+            'release',
+            version
+        )
+    elif props.getProperty('scheduler') == "ptxdist-nightly":
+        urlpath = os.path.join(
+            'ptxdist',
+            'nightly',
+            version
+        )
+    else:
+        urlpath = os.path.join(
+            'ptxdist',
+            'beta',
+            version
+        )
+
+    newprops['ipkg_url'] = os.path.join(
+        ASSET_HOST,
+        urlpath,
+        ipkg_artifact,
     )
 
+    newprops['image_url'] = os.path.join(
+        ASSET_HOST,
+        urlpath,
+        image_artifact,
+    )
 
     return newprops
 
