@@ -1,10 +1,9 @@
 Bottom: 96ffaaadc106f13f2d643faf3ea23689ba2814f7
-Top:    8392b73e3e5fb691fd3bb88919f19ffbae7e0503
+Top:    c0d6266400957e0781dfdb8ea52d7b21165d20f1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:43 -0500
+Date:   2018-08-29 16:41:09 -0500
 
 Add buildbot role and new playbook
-
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
@@ -485,10 +484,10 @@ index 85020678..d6d84f2e 100644
                                                mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 00000000..60a54247
+index 00000000..84a40408
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
-@@ -0,0 +1,63 @@
+@@ -0,0 +1,62 @@
 +---
 +# tasks file for buildbot
 +
@@ -508,19 +507,18 @@ index 00000000..60a54247
 +    group: '{{ buildbot_uid }}'
 +    owner: '{{ buildbot_uid }}'
 +  loop:
-+    - buildbot.tac
 +    - master.cfg
 +    - openembedded.py
 +    - ptxdist.py
 +
 +- name: Populate config templates
-+  copy:
-+    src: "{{ item }}"
++  template:
++    src: "{{ item }}.j2"
 +    dest: "{{ config_hostdir }}/{{ item }}"
 +    group: '{{ buildbot_uid }}'
 +    owner: '{{ buildbot_uid }}'
 +  loop:
-+    - buildbot.tac.j2
++    - buildbot.tac
 +
 +- name: Checkout image repo
 +  git:

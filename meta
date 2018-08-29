@@ -1,9 +1,8 @@
 Version: 1
-Previous: edbee7f3735f369cd691e7d700362c7fb011d3dd
-Head: fa5438961339b90bcde0e85ab9bc389490455fcf
+Previous: fb2ce76dfc0ac0c16320fdab7a3ed650c2538640
+Head: 0342241947be00863f5366f75faa9c44092b6be7
 Applied:
-  add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
-  fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
+  add-buildbot-role: 0342241947be00863f5366f75faa9c44092b6be7
 Unapplied:
   add-buildbot-ntel-worker: b1906c1af828596f3fbab2068505c92a89384fd8
   fixup-add-buildbot-ntel-worker: bab6599776653e6cb0294d7fada8ad2859a63ceb
