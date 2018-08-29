@@ -9,7 +9,7 @@ c = WorkerConfig = {}
 
 
 DEFAULT_BBFLAGS = '-k'
-DEFAULT_CODEBASE = "ntel"
+ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
