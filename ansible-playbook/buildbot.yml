@@ -21,9 +21,10 @@
   tags:
     - buildbot
     - buildbot-worker
+    - buildbot-worker-ntel
   vars:
-    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
+    buildbot_master: "{{ hostvars[buildbot_hostname].ip_addr }}"
   tasks:
     - name: Build and start the Buildbot worker container
-      import_role: 
+      import_role:
         name: buildbot-worker-ntel
