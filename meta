@@ -1,6 +1,6 @@
 Version: 1
-Previous: 32f16265d733e9fae9a8c1458070c56e15c07df4
-Head: c96c0ae89761e44d00647a7985cc9688477dd445
+Previous: 37be041ca98ec5b074c3aae15edda096477e94c2
+Head: e08d9ca75b0ac16ae10646a53818eb7b2e6141dc
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -14,8 +14,7 @@ Applied:
   ptxdist-bc-depend: 6f5ee1be23e857b5ac57b78d636772cc4b8b2775
   add-environment-variables-for: c425f1e2e340144f4f6fc86e1f4c0a3e9ebb6753
   install-buildbot-plugin: 2cc02680a6d7b3f6128428af72752433724dac83
-  generate-new-ssh-key-on-first: 2054fb82179423cfbfc4fddd157e4f8f8bbbcd40
-  refresh-temp: c96c0ae89761e44d00647a7985cc9688477dd445
+  generate-new-ssh-key-on-first: e08d9ca75b0ac16ae10646a53818eb7b2e6141dc
 Unapplied:
   gitlab-auth: bd2d3bb1eea33e828b293905af8bb0b27014acff
   known_hosts: abc780fcb2cf187ea805738aeb338b81e8a3af4d
