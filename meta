@@ -1,6 +1,6 @@
 Version: 1
-Previous: 3b1fb0aba963301889f5d5fae210091abc6aa1c0
-Head: 6fc2d6923abd653423252b1bee84c4490ab466c5
+Previous: c6bb93defe013ccc089801fb8af78e316d73c6ad
+Head: af7ee836b1f5a0b5f3d9c2335697691e65d52c1c
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -18,6 +18,7 @@ Applied:
   gitlab-auth: d4418297d4e55c63f065b11cf12879e6b4ccce92
   known_hosts: 40355a840300ff62ef54d015c14221ac5c806dd1
   asset-host: 6fc2d6923abd653423252b1bee84c4490ab466c5
+  fixup-asset-host: af7ee836b1f5a0b5f3d9c2335697691e65d52c1c
 Unapplied:
   update-ptxdistrc: d4ad225d36935ce43a42de34ccc0f7b2625841f0
   enable-secrets: 2fe4517f04b68ab44792180da931917dc08fe69a
@@ -29,7 +30,6 @@ Unapplied:
   gitlab-status-reporter: 2b08415452c95cc9637ca64c6a3c4baee7d33b64
   mail-reporter: 0ee61d758b225efbf834758d32c3201d51de33e6
   ntel-layer-builders: 2e2c000296c19fd0fb722a08927b9162e7c28f92
-  fixup-asset-host: d6437bf4f002de35ceefd32f86d430f9e895cb3d
   fixup-codebase-generator: e8ba2f2192ec4f3d9267a1e102ba43523eeb6703
   fixup-single-branch-builders: f3d04341d0e45251adafbf28cc79825e865ee2de
   fixup-asset-host-2: cf32db0692feeaea563f02f2cf05bb1cbac6fefc
