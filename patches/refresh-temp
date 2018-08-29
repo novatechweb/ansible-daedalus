@@ -1,0 +1,21 @@
+Bottom: fb1f634fd99654c4e2f281c2b54dbbacc97e20d8
+Top:    b7436551e834acb0553d90ec5079f3ce3be2e95a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 14:01:47 -0500
+
+Refresh of fixup-add-buildbot-ntel-worker
+
+---
+diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
+index 90dc4dec..c193fc59 100755
+--- a/roles/buildbot-master/files/openembedded.py
++++ b/roles/buildbot-master/files/openembedded.py
+@@ -17,7 +17,7 @@ ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+ # a Worker object, specifying a unique worker name and password.  The same
+ # worker name and password must be configured on the worker.
+ c['workers'] = [
+-    worker.Worker("worker-ntel", "pass", max_builds=1),
++    worker.Worker("worker-ntel", "pass", max_builds=3),
+ ]
+ 
+ # CHANGESOURCES
