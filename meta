@@ -1,6 +1,6 @@
 Version: 1
-Previous: 2633d5698c0a58e140b5de4a5346796b7129b933
-Head: 9fa571f20c6cd69ab92fffe0741535411b461690
+Previous: ea6715482f56b9f5fe07d5dcc9d3a1e1b94712d1
+Head: 60033b2d8ae3eb02525e4f83b0034dab4ee63843
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -10,6 +10,7 @@ Applied:
   add-buildbot-ptxdist-worker: 2461ac04662e49e2a14cbeefbb0eb65770d663cf
   update-ptxdist-build-factories: 40c8a8671f8e320456340147ae9ee729b403ee2e
   fixup-update-ptxdist-build-factories: 9fa571f20c6cd69ab92fffe0741535411b461690
+  refresh-temp: 60033b2d8ae3eb02525e4f83b0034dab4ee63843
 Unapplied:
   fixup-update-ptxdist-build-factories-2: 25cba87af505322a40c23c8c57ba961b6e03a57d
   ptxdist-bc-depend: 3a8f15213c31612f3874c831889c72ee49f36bbe
