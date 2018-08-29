@@ -1,0 +1,101 @@
+Bottom: 36b93fd521cdc1f26d231010f0bd4b6d310542ee
+Top:    9ff6ed4c01d9ed3a8f5b5d1e27567d124805dba3
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 14:24:49 -0500
+
+Refresh of fixup-asset-host
+
+---
+diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
+index ffbab3c9..43732915 100755
+--- a/roles/buildbot-master/files/openembedded.py
++++ b/roles/buildbot-master/files/openembedded.py
+@@ -121,23 +121,23 @@ c['schedulers'] = [
+             )
+         ],
+         properties=[
+-                    util.BooleanParameter(
+-                        name="clobber",
+-                        label="Clobber build directory",
+-                        default=False),
+-                    util.BooleanParameter(
+-                        name='cache',
+-                        label="Use cached state",
+-                        default=True),
+-                    util.StringParameter(
+-                        name="release_pin",
+-                        label="PIN for release signing",
+-                        default='',
+-                        required=False),
+-                    util.StringParameter(
+-                        name='bbflags',
+-                        label="BitBake Options",
+-                        default=DEFAULT_BBFLAGS),
++            util.BooleanParameter(
++                name="clobber",
++                label="Clobber build directory",
++                default=False),
++            util.BooleanParameter(
++                name='cache',
++                label="Use cached state",
++                default=True),
++            util.StringParameter(
++                name="release_pin",
++                label="PIN for release signing",
++                default='',
++                required=False),
++            util.StringParameter(
++                name='bbflags',
++                label="BitBake Options",
++                default=DEFAULT_BBFLAGS),
+             util.StringParameter(
+                 name='version',
+                 label='Build Version',
+@@ -198,6 +198,17 @@ def ComputeBuildProperties(props):
+     newprops['timestamp'] = CurrentTime()
+ 
+     version = props.getProperty('version', default=newprops['timestamp'])
++
++    urlpath = 'ntel/unofficial'
++
++    if props.getProperty('release_pin') is True:
++        urlpath = 'ntel/release'
++
++    if props.getProperty('scheduler') == 'ntel-nightly':
++        urlpath = 'ntel/nightly'
++
++    urlpath = os.path.join('ntel', urlpath, version)
++
+     newprops['artifacts'] = {}
+     machines = [props.getProperty('machine')]
+ 
+@@ -311,9 +322,9 @@ class BitBakeArchive(steps.ShellSequence):
+             'description': 'archiving',
+             'descriptionDone': 'archive',
+             'env': {
+-                    'ENV': 'environment-ntel',
+-                    'BASH_ENV': 'environment-ntel',
+-                    },
++                'ENV': 'environment-ntel',
++                'BASH_ENV': 'environment-ntel',
++            },
+             'flunkOnFailure': True,
+             'haltOnFailure': False,
+             'name': 'archive',
+@@ -341,6 +352,18 @@ class BitBakeArchive(steps.ShellSequence):
+                 ],
+                 logfile="Create %s archive" % (m),
+             ))
++
++            arturl = art['url']
++            commands.append(util.ShellArg(
++                logfile="Upload %s archive" % (m),
++                haltOnFailure=False,
++                flunkOnFailure=True,
++                command=[
++                    'curl', '--netrc', '--verbose',
++                    '--upload-file', artfile,
++                    '--url', arturl
++                ],
++            ))
+         return steps.ShellSequence.runShellSequence(self, commands)
