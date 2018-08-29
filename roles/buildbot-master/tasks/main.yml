@@ -17,19 +17,18 @@
     group: '{{ buildbot_uid }}'
     owner: '{{ buildbot_uid }}'
   loop:
-    - buildbot.tac
     - master.cfg
     - openembedded.py
     - ptxdist.py
 
 - name: Populate config templates
-  copy:
-    src: "{{ item }}"
+  template:
+    src: "{{ item }}.j2"
     dest: "{{ config_hostdir }}/{{ item }}"
     group: '{{ buildbot_uid }}'
     owner: '{{ buildbot_uid }}'
   loop:
-    - buildbot.tac.j2
+    - buildbot.tac
 
 - name: Create secrets volume
   file:
