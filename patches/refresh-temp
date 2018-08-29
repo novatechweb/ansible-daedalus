@@ -1,0 +1,116 @@
+Bottom: 197349585e9c47b7d367faf9a0bc7118476739a7
+Top:    da4030269ca0f1f5ed91fc909760f03c8ea8d37c
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 15:14:24 -0500
+
+Refresh of fixup-update-ptxdist-build-factories-2
+
+---
+diff --git a/roles/buildbot-master/files/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
+index 6a52b397..d6ec7856 100644
+--- a/roles/buildbot-master/files/ptxdist.py
++++ b/roles/buildbot-master/files/ptxdist.py
+@@ -7,6 +7,7 @@ from buildbot.config import BuilderConfig
+ c = WorkerConfig = {}
+ 
+ DEFAULT_BRANCH = 'master'
++DEFAULT_CODEBASE = 'Orion-ptxdist/workspace-ptxdist2'
+ DEFAULT_REPO = 'git@git.novatech-llc.com:Orion-ptxdist/workspace-ptxdist2'
+ ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+ 
+@@ -298,13 +299,9 @@ def ComputeBuildProperties(props):
+     newprops['collection'] = collections.get(
+         props.getProperty('platform')
+     )
+-    )
+ 
+-    newprops['ipkg'] = ipkg = util.Interpolate(
+-        "/cache/ipkg-repository/%(kw:p)s", p=proj
+     )
+ 
+-    newprops['collection'] = clct = collections.get(props.getProperty('platform'))
+ 
+     return newprops
+ 
+@@ -334,12 +331,11 @@ ptxdist_factory.addSteps([
+ 
+     PTXDistBuild(),
+ 
+-    steps.CopyDirectory(
+-        src=util.Interpolate("platform-%(prop:platform)s/images"),
+-        dest=util.Property('dest'),
+-        doStepIf=isReleaseBuild
++    PTXDistImages(
++        doStepIf=isReleaseBuild,
+     ),
+ ])
++
+ # ptxdist_factory.addStep(steps.ShellCommand(command=["./scripts/build-upgrade-test.sh"]))
+ # ptxdist_factory.addStep(steps.ShellCommand(command=["curl", "--progress-bar", "-o", "/dev/null", "http://george:1234@172.16.190.70/outlet?1=CCL"]))
+ # ptxdist_factory.addStep(steps.ShellCommand(command=[
+@@ -370,13 +366,13 @@ local_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
+ remote_tests_armeb_xscale_factory = util.BuildFactory()
+ # check out the source
+ remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+-                                                    mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
++                                                    mode="incremental", method="clobber", retry=(120, 5)))
+ remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
+     command=["py.test", "-s", "--orion=172.16.64.150", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
+ 
+ # current_i686 #
+ # current_i686_factory = PTXDistFactory(
+-#     worker_ptxdist_repourl, worker_ptxdist_branch, 'i686')
++#     DEFAULT_REPO, DEFAULT_BRANCH, 'i686')
+ # # check out the source
+ # current_i686_factory.addStep(PTXDistBuild(
+ #     command=["ptxdist", "collection", "i686-base"]))
+@@ -392,7 +388,7 @@ remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
+ 
+ # current_am335x #
+ # current_am335x_factory = PTXDistFactory(
+-#     worker_ptxdist_repourl, worker_ptxdist_branch, 'am335x')
++#     DEFAULT_REPO, DEFAULT_BRANCH, 'am335x')
+ # # check out the source
+ # current_am335x_factory.addStep(PTXDistBuild(
+ #     command=["ptxdist", "collection", "am335x-base"]))
+@@ -421,7 +417,7 @@ local_tests_i686_factory.addStep(steps.ShellCommand(
+ # remote_tests_i686 #
+ remote_tests_i686_factory = util.BuildFactory()
+ remote_tests_i686_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+-                                            mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
++                                            mode="incremental", method="clobber", retry=(120, 5)))
+ remote_tests_i686_factory.addStep(steps.ShellCommand(command=[
+                                   "py.test", "-s", "--orion=172.16.65.100", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
+ 
+@@ -444,27 +440,27 @@ local_tests_am335x_factory.addStep(steps.ShellCommand(
+ # remote_tests_am335x #
+ remote_tests_am335x_factory = util.BuildFactory()
+ remote_tests_am335x_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+-                                              mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
++                                              mode="incremental", method="clobber", retry=(120, 5)))
+ remote_tests_am335x_factory.addStep(steps.ShellCommand(command=[
+                                     "py.test", "-s", "--orion=172.16.190.72", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
+ 
+ builders = []
+ builders.append(
+-    BuilderConfig(name="force_armeb_xscale",
++    BuilderConfig(name="force-armeb-xscale",
+                   workernames=["worker-ptxdist"],
+                   factory=ptxdist_factory,
+                   properties={
+                       'platform': 'armeb-xscale',
+                   }))
+ builders.append(
+-    BuilderConfig(name="force_i686",
++    BuilderConfig(name="force-i686",
+                   workernames=["worker-ptxdist"],
+                   factory=ptxdist_factory,
+                   properties={
+                       'platform': 'i686',
+                   }))
+ builders.append(
+-    BuilderConfig(name="force_am335x",
++    BuilderConfig(name="force-am335x",
+                   workernames=["worker-ptxdist"],
+                   factory=ptxdist_factory,
+                   properties={
