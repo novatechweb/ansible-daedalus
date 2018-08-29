@@ -1,0 +1,139 @@
+Bottom: e80376e4e66ca9205db4cff276ae41ee58f53d12
+Top:    bef107adf40b5b9e4b9ef07ff2548a9b1837727c
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 08:59:00 -0500
+
+Refresh of asset-host
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index c4588c1c..e198fba8 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -10,8 +10,8 @@
+     - buildbot-master
+   tasks:
+     - add_host:
+-        name: nexus # required. The hostname/ip of the host to add to the inventory, can include a colon and a port number.
+-        groups: services # not required. The groups to add the hostname to, comma separated.
++        name: nexus
++        groups: services
+         ip_addr: "{{ nexus_ip_addr }}"
+         uri: "http://{{nexus_hostname}}/repository"
+     - name: Scan Gitlab ssh keys
+@@ -22,6 +22,7 @@
+         name: buildbot-master
+       vars:
+         known_hosts: "{{gitlab_keys.stdout}}"
++        asset_host: "{{hostvars['nexus']['uri']}}"
+     - name: Add buildbot user to Gitlab
+       import_role:
+         name: gitlab-user
+@@ -40,8 +41,9 @@
+     - buildbot
+     - buildbot-worker
+   vars:
+-    asset_host: "{{hostvars['nexus']['uri']}}/download"
+-    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
++    asset_host: "{{hostvars['nexus']['uri']}}"
++    asset_user: "buildbot"
++    asset_password: "{{nexus_buildbot_password}}"
+     container_etc_hosts:
+       nexus.novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
+     known_hosts: "{{ gitlab_keys.stdout }}"
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index da42e009..d23f6eee 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -35,6 +35,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ 
+ # environment passed to the container
+ container_env:
++  ASSET_HOST: '{{asset_host}}'
+   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
+   BUILDBOT_IRC_CHANNELS: "{{ buildbot_irc_channels | join(',') }}"
+diff --git a/roles/buildbot-master/files/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
+index 13e9b27e..eea89644 100644
+--- a/roles/buildbot-master/files/ptxdist.py
++++ b/roles/buildbot-master/files/ptxdist.py
+@@ -4,6 +4,8 @@ from buildbot.plugins import *
+ from datetime import datetime
+ from buildbot.config import BuilderConfig
+ 
++ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
++
+ collections = {
+     "armeb-xscale": "armeb-base",
+     "i686": "i686-base",
+diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
+index 61ceb169..8caf5b7b 100644
+--- a/roles/buildbot-worker-ntel/defaults/main.yml
++++ b/roles/buildbot-worker-ntel/defaults/main.yml
+@@ -27,6 +27,7 @@ cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
+ 
+ # environment passed to the container
+ container_env:
++  ASSET_HOST: '{{asset_host}}/ntel'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
+   BUILDBOT_MASTER: '{{ buildbot_master }}'
+   BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
+@@ -67,7 +68,7 @@ hsm_host: '{{ansible_facts.default_ipv4.address}}'
+ image_args:
+   BUILDBOT_UID: '{{buildbot_uid}}'
+   BUILDBOT_VERSION: 'v{{buildbot_version}}'
+-  PTK_URI: '{{asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
++  PTK_URI: '{{asset_host}}/download/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
+   PTK_HSM_HOST: '{{hsm_host}}'
+ 
+ # directory of the image source
+diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
+index f2d14cf8..91e7d6d4 100644
+--- a/roles/buildbot-worker-ntel/tasks/main.yml
++++ b/roles/buildbot-worker-ntel/tasks/main.yml
+@@ -50,6 +50,14 @@
+         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+       fi"
+ 
++- name: Populate assets secret
++  template:
++    src: "netrc.j2"
++    dest: '{{ config_hostdir }}/netrc'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++    mode: "u=rw,g=,o="
++
+ - name: Create secrets volume
+   file:
+     path: '{{ secrets_hostdir }}'
+diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
+index bc804731..6f7bbb7e 100644
+--- a/roles/buildbot-worker-ptxdist/defaults/main.yml
++++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
+@@ -27,6 +27,7 @@ cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
+ 
+ # environment passed to the container
+ container_env:
++  ASSET_HOST: '{{asset_host}}/ptxdist'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
+   BUILDBOT_MASTER: '{{ buildbot_master }}'
+   BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index bc182e7f..e9499970 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -50,6 +50,14 @@
+         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+       fi"
+ 
++- name: Populate assets secret
++  template:
++    src: "netrc.j2"
++    dest: '{{ config_hostdir }}/netrc'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++    mode: "u=rw,g=,o="
++
+ - name: Create secrets volume
+   file:
+     path: '{{ secrets_hostdir }}'
