@@ -391,6 +391,8 @@ class BitBakeFactory(util.BuildFactory):
             method="clobber",
             locks=[git_lock.access('exclusive')],
             retry=(360, 5)))
+        # # TODO: Enable when update-layers.py is merged
+        # # self.addStep(UpdateNtelLayers())
         self.addStep(steps.ShellCommand(
             name="configure",
             description="configuring",
