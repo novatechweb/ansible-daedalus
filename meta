@@ -1,6 +1,6 @@
 Version: 1
-Previous: 86568ce5ea7dd25876ddfe535a1275cc424865ce
-Head: 2461ac04662e49e2a14cbeefbb0eb65770d663cf
+Previous: d9ad3dc19a3b53af97634ba76e13315939b48e37
+Head: 40c8a8671f8e320456340147ae9ee729b403ee2e
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -8,10 +8,10 @@ Applied:
   fixup-add-buildbot-ntel-worker: bab6599776653e6cb0294d7fada8ad2859a63ceb
   hsm-host-arg: 0528c4547a727b91070f625a965e2b16ed0f46eb
   add-buildbot-ptxdist-worker: 2461ac04662e49e2a14cbeefbb0eb65770d663cf
+  update-ptxdist-build-factories: 40c8a8671f8e320456340147ae9ee729b403ee2e
 Unapplied:
   fixup-update-ptxdist-build-factories: 9a946a73457cffc9b5b1014b3177bb38d420ce2d
   fixup-update-ptxdist-build-factories-2: 25cba87af505322a40c23c8c57ba961b6e03a57d
-  update-ptxdist-build-factories: 19596c9194e40ee17895b89b7e039ee329662ac2
   ptxdist-bc-depend: 3a8f15213c31612f3874c831889c72ee49f36bbe
   add-environment-variables-for: 785f2dce1b687d9ff52b50a867e86742ed98f0b6
   install-buildbot-plugin: 81f958beeada291f021777e25fe59c16f15d54a3
