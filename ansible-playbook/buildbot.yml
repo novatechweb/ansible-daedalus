@@ -40,6 +40,7 @@
   tags:
     - buildbot
     - buildbot-worker
+    - buildbot-worker-ntel
   vars:
     asset_host: "{{hostvars['nexus']['uri']}}"
     asset_user: "buildbot"
