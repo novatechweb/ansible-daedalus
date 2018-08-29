@@ -1,5 +1,5 @@
-Bottom: dd51ed548b733bdea739d35f27e779efcb4683c7
-Top:    b58c277dd33eb39bf869eae74899603f5bd31e07
+Bottom: 8392b73e3e5fb691fd3bb88919f19ffbae7e0503
+Top:    c0d6266400957e0781dfdb8ea52d7b21165d20f1
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 09:24:23 -0500
 
@@ -7,7 +7,7 @@ Refresh of add-buildbot-role
 
 ---
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index f2d530d1..b68c44c2 100644
+index 60a54247..84a40408 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -17,19 +17,18 @@
@@ -31,5 +31,5 @@ index f2d530d1..b68c44c2 100644
 -    - buildbot.tac.j2
 +    - buildbot.tac
  
- - name: Create secrets volume
-   file:
+ - name: Checkout image repo
+   git:
