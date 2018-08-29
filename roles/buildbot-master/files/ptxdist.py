@@ -4,6 +4,11 @@ from buildbot.plugins import *
 from datetime import datetime
 from buildbot.config import BuilderConfig
 
+c = WorkerConfig = {}
+
+DEFAULT_BRANCH = 'master'
+DEFAULT_CODEBASE = 'Orion-ptxdist/workspace-ptxdist2'
+DEFAULT_REPO = 'git@git.novatech-llc.com:Orion-ptxdist/workspace-ptxdist2'
 ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
 
 collections = {
@@ -17,21 +22,19 @@ collections = {
 # a Worker object, specifying a unique worker name and password.  The same
 # worker name and password must be configured on the worker.
 workers = [
-    worker.Worker("worker-ptxdist", "pass", max_builds=1),
-    worker.Worker("orion-i686-slave", "pass"),
-    worker.Worker("orion-armeb-xscale-slave", "pass"),
-    worker.Worker("orion-am335x-slave", "pass"),
+    worker.Worker("worker-ptxdist", "pass", max_builds=3),
+    worker.Worker("orion-i686-slave", "pass", max_builds=1),
+    worker.Worker("orion-armeb-xscale-slave", "pass", max_builds=1),
+    worker.Worker("orion-am335x-slave", "pass", max_builds=1),
 ]
 
-worker_ptxdist_repourl = 'git@git.novatech-llc.com:Orion-ptxdist/workspace-ptxdist2'
-worker_ptxdist_branch = 'master'
 acceptance_test_repourl = 'git@git.novatech-llc.com:NovaTech-Testing/AcceptanceTests.git'
 
 # CHANGESOURCES
 change_source = [
     changes.GitPoller(
-        repourl=worker_ptxdist_repourl,
-        branches=['master'],
+        repourl=DEFAULT_REPO,
+        branches=[DEFAULT_BRANCH],
         project='ptxdist',
         workdir='gitpoller-ptxdist')
 ]
@@ -56,30 +59,27 @@ schedulers = [
     #                            treeStableTimer=9*60,
     #                            builderNames=["linux-3.8_am335x"]))
     schedulers.ForceScheduler(
-        name="Force_PTXdist",
+        name="ptxdist-force",
         label="Force PTXdist Build",
         builderNames=[
-            "force_armeb_xscale",
-            "force_i686",
-            "force_am335x",
+            "force-armeb-xscale",
+            "force-i686",
+            "force-am335x",
         ],
         codebases=[
             util.CodebaseParameter(
                 codebase="orion-ptxdist-workspace",
-                label="Main repository",
+                label="Build Source",
                 # will generate a combo box
-                branch=util.StringParameter(
-                    name="branch",
-                    default=worker_ptxdist_branch),
                 repository=util.StringParameter(
                     name="repository",
-                    default=worker_ptxdist_repourl),
-
-                # will generate nothing in the form, but revision, repository,
-                # and project are needed by buildbot scheduling system so we
-                # need to pass a value ("")
-                revision=util.FixedParameter(name="revision", default=""),
-                project=util.FixedParameter(name="project", default="orion-ptxdist"),
+                    default=DEFAULT_REPO),
+                branch=util.StringParameter(
+                    name="branch",
+                    default=DEFAULT_BRANCH),
+                revision=util.StringParameter(
+                    name="revision",
+                    default="")
             )
         ],
         properties=[
@@ -148,19 +148,6 @@ schedulers = [
 # only take place on one worker.
 
 
-class PTXDistBuildCounter(util.LogLineObserver):
-    numTargets = 0
-    numPackages = 0
-
-    def outLineReceived(self, line):
-        if line.startswith('finished target '):
-            self.numTargets += 1
-            self.step.setProgress('targets', self.numTargets)
-            if line.strip().endswith('.targetinstall'):
-                self.numPackages += 1
-                self.step.setProgress('packages', self.numPackages)
-
-
 class PTXDistBuild(steps.ShellSequence):
 
     def __init__(self, **kwargs):
@@ -169,16 +156,13 @@ class PTXDistBuild(steps.ShellSequence):
 
         steps.ShellSequence.__init__(self, **kwargs)
 
-        counter = PTXDistBuildCounter()
-        self.addLogObserver('stdio', counter)
-        self.progressMetrics += ('targets', 'packages')
-
         self.name = "PTXDist Build"
         self.description = "building"
         self.descriptionDone = "built"
         self.commands = [
             # set ptxdist build platform
             util.ShellArg(
+                haltOnFailure=True,
                 command=[
                     "ptxdist",
                     "platform",
@@ -187,6 +171,7 @@ class PTXDistBuild(steps.ShellSequence):
 
             # set ptxdist target
             util.ShellArg(
+                haltOnFailure=True,
                 command=[
                     "ptxdist",
                     "select",
@@ -196,6 +181,7 @@ class PTXDistBuild(steps.ShellSequence):
             # run ptxdist build with build.py
             util.ShellArg(
                 logfile="ptxdist build",
+                haltOnFailure=True,
                 command=util.FlattenList([
                     "python",
                     "scripts/build.py",
@@ -212,8 +198,31 @@ class PTXDistBuild(steps.ShellSequence):
                 ])
             ),
 
+            util.ShellArg(
+                logfile="archive",
+                haltOnFailure=True,
+                command=[
+                    "tar", "-v", "-c", "-z",
+                    "-C", util.Property("ipkg_root"),
+                    "-f", util.Interpolate("%(prop:artifact_dest)s/%(prop:ipkg_artifact)s"),
+                    util.Property("project")
+                ]
+            ),
+class PTXDistImages(steps.ShellSequence):
+
+    def __init__(self, **kwargs):
+        kwargs.setdefault('haltOnFailure', True)
+        kwargs.setdefault('flunkOnFailure', True)
+
+        steps.ShellSequence.__init__(self, **kwargs)
+
+        self.name = "PTXDist Images"
+        self.description = "making images"
+        self.descriptionDone = "images"
+        self.commands = [
             # set ptxdist collection
             util.ShellArg(
+                haltOnFailure=True,
                 command=[
                     "ptxdist",
                     "collection",
@@ -222,17 +231,26 @@ class PTXDistBuild(steps.ShellSequence):
 
             # If building a release, create and copy images
             util.ShellArg(
-                command=["ptxdist", "images"]
+                logfile="ptxdist images",
+                haltOnFailure=True,
+                command=["ptxdist", "images"],
             ),
 
+            util.ShellArg(
+                logfile="archive",
+                haltOnFailure=True,
+                command=[
+                    "tar", "-v", "-c", "-z",
+                    "-C", util.Property("image_root"),
+                    "-f", util.Interpolate("%(prop:artifact_dest)s/%(prop:image_artifact)s"),
+                    "."
         ]
+            ),
 
 
-git_lock = util.MasterLock("git")
 
-
-@util.renderer
-def CurrentTime(props):
+def CurrentTime():
+    from datetime import datetime
     import string
     dt = datetime.now()
     dt.replace(microsecond=0)
@@ -244,25 +262,46 @@ def CurrentTime(props):
 def ComputeBuildProperties(props):
     newprops = {}
 
-    newprops['timestamp'] = ts = CurrentTime
+    newprops['timestamp'] = CurrentTime()
 
-    newprops['project'] = proj = util.Interpolate(
-        "OrionLX-%(prop:platform)s-glibc"
+    version = props.getProperty('version', default=timestamp)
+
+    newprops['project'] = "OrionLX-%s-glibc" % (
+        props.getProperty("platform")
     )
 
-    newprops['dest'] = dest = util.Interpolate(
-        "/cache/images/%(kw:p)s", p=proj
+    newprops['artifact_dest'] = "/cache/artifacts/%s" % (
+        version
     )
 
-    newprops['archive'] = archive = util.Interpolate(
-        "%(kw:d)s/%(prop:machine)s.%(kw:t)s.tar.gz", d=dest, t=ts
+    newprops['image_root'] = "%s/build/platform-%s/images" % (
+        props.getProperty("builddir"),
+        props.getProperty("platform"),
     )
 
-    newprops['ipkg'] = ipkg = util.Interpolate(
-        "/cache/ipkg-repository/%(kw:p)s", p=proj
+    newprops['image_artifact'] = "%s-%s.images.tar.gz" % (
+        newprops['project'],
+        version,
     )
 
-    newprops['collection'] = clct = collections.get(props.getProperty('platform'))
+    newprops['ipkg_root'] = "/cache/ipkg-repository"
+
+    newprops['ipkg_repo'] = "%s/%s" % (
+        newprops['ipkg_root'],
+        newprops['project'],
+    )
+
+    newprops['ipkg_artifact'] = "%s-%s.ipkg.tar.gz" % (
+        newprops['project'],
+        version
+    )
+
+    newprops['collection'] = collections.get(
+        props.getProperty('platform')
+    )
+
+    )
+
 
     return newprops
 
@@ -275,12 +314,11 @@ def isReleaseBuild(step):
 # Create build factory for ptxdist
 ptxdist_factory = util.BuildFactory()
 ptxdist_factory.addSteps([
-
     steps.SetProperties(ComputeBuildProperties),
 
-    steps.MakeDirectory(dir=util.Property('dest')),
+    steps.MakeDirectory(dir=util.Property('artifact_dest')),
 
-    steps.MakeDirectory(dir=util.Property('ipkg')),
+    steps.MakeDirectory(dir=util.Property('ipkg_repo')),
 
     # check out the source
     steps.Git(
@@ -289,18 +327,15 @@ ptxdist_factory.addSteps([
         branch=util.Property('branch'),
         mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
         method="clobber",
-        locks=[git_lock.access('exclusive')],
-        retry=(360, 5)
     ),
 
     PTXDistBuild(),
 
-    steps.CopyDirectory(
-        src=util.Interpolate("platform-%(prop:platform)s/images"),
-        dest=util.Property('dest'),
-        doStepIf=isReleaseBuild
+    PTXDistImages(
+        doStepIf=isReleaseBuild,
     ),
 ])
+
 # ptxdist_factory.addStep(steps.ShellCommand(command=["./scripts/build-upgrade-test.sh"]))
 # ptxdist_factory.addStep(steps.ShellCommand(command=["curl", "--progress-bar", "-o", "/dev/null", "http://george:1234@172.16.190.70/outlet?1=CCL"]))
 # ptxdist_factory.addStep(steps.ShellCommand(command=[
@@ -331,13 +366,13 @@ local_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
 remote_tests_armeb_xscale_factory = util.BuildFactory()
 # check out the source
 remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
-                                                    mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
+                                                    mode="incremental", method="clobber", retry=(120, 5)))
 remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
     command=["py.test", "-s", "--orion=172.16.64.150", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
 
 # current_i686 #
 # current_i686_factory = PTXDistFactory(
-#     worker_ptxdist_repourl, worker_ptxdist_branch, 'i686')
+#     DEFAULT_REPO, DEFAULT_BRANCH, 'i686')
 # # check out the source
 # current_i686_factory.addStep(PTXDistBuild(
 #     command=["ptxdist", "collection", "i686-base"]))
@@ -353,7 +388,7 @@ remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
 
 # current_am335x #
 # current_am335x_factory = PTXDistFactory(
-#     worker_ptxdist_repourl, worker_ptxdist_branch, 'am335x')
+#     DEFAULT_REPO, DEFAULT_BRANCH, 'am335x')
 # # check out the source
 # current_am335x_factory.addStep(PTXDistBuild(
 #     command=["ptxdist", "collection", "am335x-base"]))
@@ -382,7 +417,7 @@ local_tests_i686_factory.addStep(steps.ShellCommand(
 # remote_tests_i686 #
 remote_tests_i686_factory = util.BuildFactory()
 remote_tests_i686_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
-                                            mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
+                                            mode="incremental", method="clobber", retry=(120, 5)))
 remote_tests_i686_factory.addStep(steps.ShellCommand(command=[
                                   "py.test", "-s", "--orion=172.16.65.100", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
 
@@ -405,27 +440,27 @@ local_tests_am335x_factory.addStep(steps.ShellCommand(
 # remote_tests_am335x #
 remote_tests_am335x_factory = util.BuildFactory()
 remote_tests_am335x_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
-                                              mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
+                                              mode="incremental", method="clobber", retry=(120, 5)))
 remote_tests_am335x_factory.addStep(steps.ShellCommand(command=[
                                     "py.test", "-s", "--orion=172.16.190.72", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
 
 builders = []
 builders.append(
-    BuilderConfig(name="force_armeb_xscale",
+    BuilderConfig(name="force-armeb-xscale",
                   workernames=["worker-ptxdist"],
                   factory=ptxdist_factory,
                   properties={
                       'platform': 'armeb-xscale',
                   }))
 builders.append(
-    BuilderConfig(name="force_i686",
+    BuilderConfig(name="force-i686",
                   workernames=["worker-ptxdist"],
                   factory=ptxdist_factory,
                   properties={
                       'platform': 'i686',
                   }))
 builders.append(
-    BuilderConfig(name="force_am335x",
+    BuilderConfig(name="force-am335x",
                   workernames=["worker-ptxdist"],
                   factory=ptxdist_factory,
                   properties={
