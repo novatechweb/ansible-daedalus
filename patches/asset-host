@@ -1,14 +1,13 @@
 Bottom: e4457094de46b50eb4d7b881b8503549d8a8c766
-Top:    91d28b55331bce49782cee6dea560b5cec88cb94
+Top:    b0f8531f5801564754e4b85174407639f873fd2f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:44 -0500
+Date:   2018-08-29 16:44:42 -0500
 
 Support asset host
 
-
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 557ea2de..3af549a8 100644
+index 557ea2de..166390e6 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -9,6 +9,11 @@
@@ -16,19 +15,29 @@ index 557ea2de..3af549a8 100644
      - buildbot-master
    tasks:
 +    - add_host:
-+        name: nexus # required. The hostname/ip of the host to add to the inventory, can include a colon and a port number.
-+        groups: services # not required. The groups to add the hostname to, comma separated.
++        name: nexus
++        groups: services
 +        ip_addr: "{{ nexus_ip_addr }}"
 +        uri: "http://{{nexus_hostname}}/repository"
      - name: Scan Gitlab ssh keys
        command: ssh-keyscan {{gitlab_hostname}}
        register: gitlab_keys
-@@ -37,7 +42,10 @@
+@@ -17,6 +22,7 @@
+         name: buildbot-master
+       vars:
+         known_hosts: "{{gitlab_keys.stdout}}"
++        asset_host: "{{hostvars['nexus']['uri']}}"
+     - name: Add buildbot user to Gitlab
+       import_role:
+         name: gitlab-user
+@@ -37,7 +43,11 @@
      - buildbot-worker-ntel
      - buildbot-worker-ptxdist
    vars:
-+    asset_host: "{{hostvars['nexus']['uri']}}/download"
-     buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
+-    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
++    asset_host: "{{hostvars['nexus']['uri']}}"
++    asset_user: "buildbot"
++    asset_password: "{{nexus_buildbot_password}}"
 +    container_etc_hosts:
 +      nexus.novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
      known_hosts: "{{ gitlab_keys.stdout }}"
@@ -73,18 +82,208 @@ index 7dbac6ef..b5c0c70e 100644
  PTXCONF_SETUP_CHECK_NOTEMPTY=y
  # PTXCONF_SETUP_CHECK_NEVER is not set
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
-index 8dc2a29b..ee683c3d 100644
+deleted file mode 100644
+index 8dc2a29b..00000000
 --- a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
-+++ b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
-@@ -1,2 +1,2 @@
- [easy_install]
++++ /dev/null
+@@ -1,2 +0,0 @@
+-[easy_install]
 -index-url=http://172.16.103.72/repository/PyPi_Proxy/simple
-+index-url=http://nexus.novatech-llc.com/repository/pypi/simple
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 3e81b9b2..ee40c325 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -32,6 +32,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ 
+ # environment passed to the container
+ container_env:
++  ASSET_HOST: '{{asset_host}}'
+   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
+   BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
+diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
+index 5c2d9da5..89c57a2c 100755
+--- a/roles/buildbot-master/files/openembedded.py
++++ b/roles/buildbot-master/files/openembedded.py
+@@ -66,13 +66,20 @@ c['schedulers'] = [
+             util.BooleanParameter(
+                 name="clobber",
+                 label="Clobber build directory",
+-                default=False
+-            ),
++                default=False),
+             util.BooleanParameter(
+                 name='cache',
+                 label="Use cached state",
+-                default=True
+-            ),
++                default=True),
++            util.StringParameter(
++                name="release_pin",
++                label="PIN for release signing",
++                default='',
++                required=False),
++            util.StringParameter(
++                name='bbflags',
++                label="BitBake Options",
++                default=DEFAULT_BBFLAGS),
+             util.StringParameter(
+                 name="release_pin",
+                 label="PIN for release signing",
+@@ -140,6 +147,17 @@ def ComputeBuildProperties(props):
+     newprops['timestamp'] = CurrentTime()
+ 
+     version = props.getProperty('version', default=newprops['timestamp'])
++
++    urlpath = 'ntel/unofficial'
++
++    if props.getProperty('release_pin') is True:
++        urlpath = 'ntel/release'
++
++    if props.getProperty('scheduler') == 'ntel-nightly':
++        urlpath = 'ntel/nightly'
++
++    urlpath = os.path.join('ntel', urlpath, version)
++
+     newprops['artifacts'] = {}
+     machines = [props.getProperty('machine')]
+ 
+@@ -253,9 +271,9 @@ class BitBakeArchive(steps.ShellSequence):
+             'description': 'archiving',
+             'descriptionDone': 'archive',
+             'env': {
+-                    'ENV': 'environment-ntel',
+-                    'BASH_ENV': 'environment-ntel',
+-                    },
++                'ENV': 'environment-ntel',
++                'BASH_ENV': 'environment-ntel',
++            },
+             'flunkOnFailure': True,
+             'haltOnFailure': False,
+             'name': 'archive',
+@@ -283,6 +301,18 @@ class BitBakeArchive(steps.ShellSequence):
+                 ],
+                 logfile="Create %s archive" % (m),
+             ))
++
++            arturl = art['url']
++            commands.append(util.ShellArg(
++                logfile="Upload %s archive" % (m),
++                haltOnFailure=False,
++                flunkOnFailure=True,
++                command=[
++                    'curl', '--netrc', '--verbose',
++                    '--upload-file', artfile,
++                    '--url', arturl
++                ],
++            ))
+         return steps.ShellSequence.runShellSequence(self, commands)
+ 
+ 
+diff --git a/roles/buildbot-master/files/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
+index c6e148cf..c6e563b8 100644
+--- a/roles/buildbot-master/files/ptxdist.py
++++ b/roles/buildbot-master/files/ptxdist.py
+@@ -194,6 +194,16 @@ class PTXDistBuild(steps.ShellSequence):
+                     "-f", util.Interpolate("%(prop:artifact_dest)s/%(prop:ipkg_artifact)s"),
+                     util.Property("project")
+                 ]),
++
++            util.ShellArg(
++                logfile="upload",
++                haltOnFailure=False,
++                flunkOnFailure=True,
++                command=[
++                    'curl', '--netrc', '--verbose',
++                    '--upload-file', util.Property('ipkg_artifact'),
++                    '--url', util.Property('ipkg_url')
++                ]),
+         ]
+ 
+ 
+@@ -220,8 +230,10 @@ class PTXDistImages(steps.ShellSequence):
+             util.ShellArg(
+                 logfile="ptxdist images",
+                 haltOnFailure=True,
+-                command=["ptxdist", "images"],
+-            ),
++                command=[
++                    "ptxdist",
++                    "images"
++                ]),
+ 
+             util.ShellArg(
+                 logfile="archive",
+@@ -231,8 +243,17 @@ class PTXDistImages(steps.ShellSequence):
+                     "-C", util.Property("image_root"),
+                     "-f", util.Interpolate("%(prop:artifact_dest)s/%(prop:image_artifact)s"),
+                     "."
+-                ]
+-            ),
++                ]),
++
++            util.ShellArg(
++                logfile="upload",
++                haltOnFailure=False,
++                flunkOnFailure=True,
++                command=[
++                    'curl', '--netrc', '--verbose',
++                    '--upload-file', util.Property('image_artifact'),
++                    '--url', util.Property('image_url')
++                ]),
+         ]
+ 
+ 
+@@ -287,6 +308,37 @@ def ComputeBuildProperties(props):
+         props.getProperty('platform')
+     )
+ 
++    if props.getProperty('release'):
++        urlpath = os.path.join(
++            'ptxdist',
++            'release',
++            version
++        )
++    elif props.getProperty('scheduler') == "ptxdist-nightly":
++        urlpath = os.path.join(
++            'ptxdist',
++            'nightly',
++            version
++        )
++    else:
++        urlpath = os.path.join(
++            'ptxdist',
++            'beta',
++            version
++        )
++
++    newprops['ipkg_url'] = os.path.join(
++        ASSET_HOST,
++        urlpath,
++        ipkg_artifact,
++    )
++
++    newprops['image_url'] = os.path.join(
++        ASSET_HOST,
++        urlpath,
++        image_artifact,
++    )
++
+     return newprops
+ 
+ 
 diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
-index f1bd9b16..61ceb169 100644
+index f1bd9b16..0f440dc6 100644
 --- a/roles/buildbot-worker-ntel/defaults/main.yml
 +++ b/roles/buildbot-worker-ntel/defaults/main.yml
-@@ -33,6 +33,9 @@ container_env:
+@@ -27,12 +27,16 @@ cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
+ 
+ # environment passed to the container
+ container_env:
++  ASSET_HOST: '{{asset_host}}/ntel'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
+   BUILDBOT_MASTER: '{{ buildbot_master }}'
+   BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
    BUILDBOT_WORKER_NAME: 'worker-ntel'
    BUILDBOT_WORKER_PASS: 'pass'
  
@@ -94,11 +293,81 @@ index f1bd9b16..61ceb169 100644
  # container_hostname
  container_hostname: '{{ role_name }}'
  
+@@ -50,6 +54,9 @@ container_volumes:
+ - '{{ data_volume }}:{{ data_path }}:z'
+ - '{{ cache_volume }}:{{ cache_path }}:z'
+ - '{{ secrets_hostdir }}:{{ secrets_path }}'
++- '{{ config_hostdir }}/pydistutils.cfg:/home/buildbot/.pydistutils.cfg'
++- '{{ config_hostdir }}/ptxdistrc:/home/buildbot/.ptxdist/ptxdistrc-2012.09'
++- '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
+ 
+ # mount path of the data volume
+ data_path: '/buildbot'
+@@ -64,7 +71,7 @@ hsm_host: '{{ansible_facts.default_ipv4.address}}'
+ image_args:
+   BUILDBOT_UID: '{{buildbot_uid}}'
+   BUILDBOT_VERSION: 'v{{buildbot_version}}'
+-  PTK_URI: '{{asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
++  PTK_URI: '{{asset_host}}/download/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
+   PTK_HSM_HOST: '{{hsm_host}}'
+ 
+ # directory of the image source
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
-index b1bcf349..f2d14cf8 100644
+index b1bcf349..c6c57101 100644
 --- a/roles/buildbot-worker-ntel/tasks/main.yml
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
-@@ -72,10 +72,12 @@
+@@ -25,7 +25,7 @@
+     - '{{ cache_volume }}:{{ cache_path }}:z'
+     detach: no
+     cleanup: yes
+-    command: /bin/ash -c 
++    command: /bin/ash -c
+       "mkdir -p {{item}} &&
+       chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}} &&
+       chmod -v 777 {{item}}"
+@@ -44,12 +44,32 @@
+     - '{{ data_volume }}:{{ data_path }}:z'
+     detach: no
+     cleanup: yes
+-    command: /bin/ash -c 
++    command: /bin/ash -c
+       "mkdir -p {{item}} &&
+       if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
+         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+       fi"
+ 
++- name: Create configuration directory
++  file:
++    path: '{{ config_hostdir }}'
++    state: directory
++
++- name: Generate distutils configuration
++  template:
++    src: pydistutils.cfg.j2
++    dest: '{{ config_hostdir }}/pydistutils.cfg'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++
++- name: Populate assets secret
++  template:
++    src: "netrc.j2"
++    dest: '{{ config_hostdir }}/netrc'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++    mode: "u=rw,g=,o="
++
+ - name: Create secrets volume
+   file:
+     path: '{{ secrets_hostdir }}'
+@@ -65,6 +85,7 @@
+     repo: '{{ image_repo }}'
+     version: master
+     dest: '{{ image_dir }}'
++    force: yes
+ 
+ - name: Create buildbot worker image
+   docker_image:
+@@ -72,10 +93,12 @@
      tag: '{{ docker_image_tag }}'
      path: '{{ image_dir }}'
      buildargs: '{{ image_args }}'
@@ -111,11 +380,118 @@ index b1bcf349..f2d14cf8 100644
      hostname: '{{ container_hostname }}'
      name: '{{ container_name }}'
      image: '{{ image_name }}:{{ docker_image_tag }}'
+diff --git a/roles/buildbot-worker-ntel/templates/netrc.j2 b/roles/buildbot-worker-ntel/templates/netrc.j2
+new file mode 100644
+index 00000000..e81d1062
+--- /dev/null
++++ b/roles/buildbot-worker-ntel/templates/netrc.j2
+@@ -0,0 +1,3 @@
++machine {{ asset_host | urlsplit('hostname') }}
++login {{ asset_user }}
++password {{ asset_password }}
+diff --git a/roles/buildbot-worker-ntel/templates/ptxdistrc.j2 b/roles/buildbot-worker-ntel/templates/ptxdistrc.j2
+new file mode 100644
+index 00000000..4d2b48e9
+--- /dev/null
++++ b/roles/buildbot-worker-ntel/templates/ptxdistrc.j2
+@@ -0,0 +1,76 @@
++#
++# Automatically generated file; DO NOT EDIT.
++# PTXdist 2012.09.1-00373-gee9622f
++#
++
++#
++# PTXDIST Setup Menu
++#
++
++#
++# User
++#
++PTXCONF_SETUP_USER_NAME="NovaTech Buildbot"
++PTXCONF_SETUP_USER_EMAIL="buildbot@novatechweb.com"
++
++#
++# Proxies
++#
++PTXCONF_SETUP_FTP_PROXY=""
++PTXCONF_SETUP_HTTP_PROXY=""
++PTXCONF_SETUP_HTTPS_PROXY=""
++PTXCONF_SETUP_NO_PROXY=""
++
++#
++# Project Searchpath
++#
++PTXCONF_SETUP_PROJECTPATH="${PTXDIST_TOPDIR}/projects"
++
++#
++# Source Directories
++#
++PTXCONF_SETUP_SRCDIR="{{cache_path}}/downloads"
++
++#
++# Source Download
++#
++# PTXCONF_SETUP_NO_DOWNLOAD is not set
++# PTXCONF_SETUP_PTXMIRROR_ONLY is not set
++PTXCONF_SETUP_PTXMIRROR="{{asset_host}}/orphans"
++PTXCONF_SETUP_DEBMIRROR="{{asset_host}}/debian"
++PTXCONF_SETUP_SFMIRROR="{{asset_host}}/sourceforge"
++PTXCONF_SETUP_GNUMIRROR="{{asset_host}}/gnu"
++PTXCONF_SETUP_XORGMIRROR="{{asset_host}}/xorg"
++PTXCONF_SETUP_KERNELMIRROR="{{asset_host}}/kernel"
++PTXCONF_SETUP_PYPIMIRROR="{{asset_host}}/pypi"
++# PTXCONF_SETUP_CHECK_ALWAYS is not set
++PTXCONF_SETUP_CHECK_NOTEMPTY=y
++# PTXCONF_SETUP_CHECK_NEVER is not set
++PTXCONF_SETUP_CHECK="notempty"
++
++#
++# IPKG Repository
++#
++PTXCONF_SETUP_IPKG_REPOSITORY="{{cache_path}}/ipkg-repository"
++
++#
++# Java SDK
++#
++PTXCONF_SETUP_JAVA_SDK="/usr"
++
++#
++# Developer Options
++#
++# PTXCONF_SETUP_DISABLE_LOCAL_CHECK is not set
++PTXCONF_SETUP_ENV_WHITELIST=""
++# PTXCONF_SETUP_COMMON_CACHE is not set
++# PTXCONF_SETUP_GEN_DEP_TREE is not set
++# PTXCONF_SETUP_CHECK_EXIT_ON_ERROR is not set
++PTXCONF_SETUP_CCACHE=y
++PTXCONF_SETUP_PATCHIN_GIT=y
++# PTXCONF_SETUP_NFS_REL_SYMLINK is not set
++# PTXCONF_SETUP_DIRECT_CLEAN is not set
++PTXCONF_SETUP_HOST_CPP="cpp"
++PTXCONF_SETUP_HOST_CC="gcc"
++PTXCONF_SETUP_HOST_CXX="g++"
++PTXCONF_SETUP_HOST_MAKE="make"
+diff --git a/roles/buildbot-worker-ntel/templates/pydistutils.cfg.j2 b/roles/buildbot-worker-ntel/templates/pydistutils.cfg.j2
+new file mode 100644
+index 00000000..1d205ea2
+--- /dev/null
++++ b/roles/buildbot-worker-ntel/templates/pydistutils.cfg.j2
+@@ -0,0 +1,2 @@
++[easy_install]
++index_url = {{asset_host}}/pypi/simple
 diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
-index ebe2d7ed..6285dd03 100644
+index ebe2d7ed..5a128da1 100644
 --- a/roles/buildbot-worker-ptxdist/defaults/main.yml
 +++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
-@@ -42,6 +42,9 @@ container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
+@@ -27,6 +27,7 @@ cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
+ 
+ # environment passed to the container
+ container_env:
++  ASSET_HOST: '{{asset_host}}/ptxdist'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
+   BUILDBOT_MASTER: '{{ buildbot_master }}'
+   BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
+@@ -42,6 +43,9 @@ container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
  # network configuration for the confainer
  container_networks: []
  
@@ -126,10 +502,10 @@ index ebe2d7ed..6285dd03 100644
  container_port_args: []
  
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index ce3e4e97..c41df667 100644
+index ce3e4e97..46bf6355 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
-@@ -104,6 +104,7 @@
+@@ -104,10 +104,12 @@
      tag: '{{ docker_image_tag }}'
      path: '{{ image_dir }}'
      buildargs: '{{ image_args }}'
@@ -137,11 +513,16 @@ index ce3e4e97..c41df667 100644
      force: true
  
  - name: Start buildbot worker container
+   docker_container:
++    etc_hosts: '{{ container_etc_hosts }}'
+     hostname: '{{ container_hostname }}'
+     name: '{{ container_name }}'
+     image: '{{ image_name }}:{{ docker_image_tag }}'
 diff --git a/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2 b/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
 new file mode 100644
-index 00000000..3c7f3345
+index 00000000..1d205ea2
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
 @@ -0,0 +1,2 @@
 +[easy_install]
-+index_url = {{asset_host}}
++index_url = {{asset_host}}/pypi/simple
