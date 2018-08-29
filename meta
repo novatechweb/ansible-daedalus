@@ -1,6 +1,6 @@
 Version: 1
-Previous: 00ba619c10737c0f0725d2ea9effac06213aab53
-Head: 49f2f915ff884a7deaef4eae0f140cf0f95bff2b
+Previous: c524393b5ef4033582ec88801a7b3cb51c54ff43
+Head: 96b951df2d789efb36ec655897be255b911724d7
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -20,6 +20,7 @@ Applied:
   asset-host: 6fc2d6923abd653423252b1bee84c4490ab466c5
   fixup-asset-host: 286d94d6a2b4da828f0aded0a1dfb602176bce4b
   fixup-asset-host-2: 49f2f915ff884a7deaef4eae0f140cf0f95bff2b
+  fixup-asset-host-3: 96b951df2d789efb36ec655897be255b911724d7
 Unapplied:
   update-ptxdistrc: d4ad225d36935ce43a42de34ccc0f7b2625841f0
   enable-secrets: 2fe4517f04b68ab44792180da931917dc08fe69a
@@ -33,5 +34,4 @@ Unapplied:
   ntel-layer-builders: 2e2c000296c19fd0fb722a08927b9162e7c28f92
   fixup-codebase-generator: e8ba2f2192ec4f3d9267a1e102ba43523eeb6703
   fixup-single-branch-builders: f3d04341d0e45251adafbf28cc79825e865ee2de
-  fixup-asset-host-3: d654540b9447cf6b86ffab51542319988f02894d
 Hidden:
