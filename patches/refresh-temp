@@ -1,0 +1,35 @@
+Bottom: 5349634cc51fdaf5b2d7c9f4ebe03485b4096ba2
+Top:    5b49675e8097b435f15f907123f01b761ced736d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 09:24:23 -0500
+
+Refresh of add-buildbot-role
+
+---
+diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
+index f2d530d1..b68c44c2 100644
+--- a/roles/buildbot-master/tasks/main.yml
++++ b/roles/buildbot-master/tasks/main.yml
+@@ -17,19 +17,18 @@
+     group: '{{ buildbot_uid }}'
+     owner: '{{ buildbot_uid }}'
+   loop:
+-    - buildbot.tac
+     - master.cfg
+     - openembedded.py
+     - ptxdist.py
+ 
+ - name: Populate config templates
+-  copy:
+-    src: "{{ item }}"
++  template:
++    src: "{{ item }}.j2"
+     dest: "{{ config_hostdir }}/{{ item }}"
+     group: '{{ buildbot_uid }}'
+     owner: '{{ buildbot_uid }}'
+   loop:
+-    - buildbot.tac.j2
++    - buildbot.tac
+ 
+ - name: Create secrets volume
+   file:

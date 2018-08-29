@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4061ec37c3872cbb3f8c6c217532ae515706376c
-Head: bc80a62ab73fd2f163d4d116eed4b75a13d1453c
+Previous: 7c6a50cbe45b77275f070d1730ce7ac8bb09bfc1
+Head: 873af258b382a160ba3043aa0f803b61291a5f6b
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
@@ -26,5 +26,6 @@ Applied:
   ntel-layer-builders: 7b7ba85c5f96c1789c141f8d4f6409915794c0f9
   fixup-asset-host: 721366e355762ca4b2852e0f5331ac7cec58010d
   fixup-codebase-generator: bc80a62ab73fd2f163d4d116eed4b75a13d1453c
+  refresh-temp: 873af258b382a160ba3043aa0f803b61291a5f6b
 Unapplied:
 Hidden:
