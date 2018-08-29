@@ -1,6 +1,6 @@
 Version: 1
-Previous: db928b961e68a237c46716ba1d1462b7fc934822
-Head: 10f2c9560009c78a8315300e7d8028ceeec0eeb9
+Previous: dafc830d5b9b785818a2e449c513e42dcfeb9fa9
+Head: dab2c4c4e59b86b141100d002349f6ea309ba0a5
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -26,12 +26,12 @@ Applied:
   change-hooks: d818c8dedd8ba35afbed4d567001be75d92a42db
   email-account: 40d50b3e63b93dc865729c76703271054e004e79
   codebase-generator: 10f2c9560009c78a8315300e7d8028ceeec0eeb9
+  fixup-codebase-generator: dab2c4c4e59b86b141100d002349f6ea309ba0a5
 Unapplied:
   single-branch-builders: af2048c3e632e062104c482c96866fc3e638217a
   irc-reporter: 9ca0b50ca4fb1c3864edaf0eb55a77bcd8e4c5c0
   gitlab-status-reporter: 2b08415452c95cc9637ca64c6a3c4baee7d33b64
   mail-reporter: 0ee61d758b225efbf834758d32c3201d51de33e6
   ntel-layer-builders: 2e2c000296c19fd0fb722a08927b9162e7c28f92
-  fixup-codebase-generator: e8ba2f2192ec4f3d9267a1e102ba43523eeb6703
   fixup-single-branch-builders: f3d04341d0e45251adafbf28cc79825e865ee2de
 Hidden:
