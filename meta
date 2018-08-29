@@ -1,6 +1,6 @@
 Version: 1
-Previous: 1ab62d31a9526f930806e079da8a5091b6c82233
-Head: 0c84e9545ff1a3e181c469c6fb152a2a0ec1db78
+Previous: 9ac27b5fef446b0f70cf56589a63c0089c42b560
+Head: ec7e320e6e9a8dea994977a5ab9a7516daeb1692
 Applied:
   add-buildbot-role: 0342241947be00863f5366f75faa9c44092b6be7
   add-buildbot-ntel-worker: 8d226c1b802548356a07c6a693f835371f737aa5
@@ -15,8 +15,8 @@ Applied:
   known_hosts: 6ec8ed2fe1aa7fc11d13735bf8eacd15d8871004
   asset-host: 52f04bba9a12b350678db200917d61d3dc902815
   fixup-asset-host: 0c84e9545ff1a3e181c469c6fb152a2a0ec1db78
+  fixup-asset-host-2: ec7e320e6e9a8dea994977a5ab9a7516daeb1692
 Unapplied:
-  fixup-asset-host-2: 49f2f915ff884a7deaef4eae0f140cf0f95bff2b
   fixup-asset-host-3: 69856e1c74d1f777daa5feaedd3ef2ddbf0b16ce
   update-ptxdistrc: 138ff51850895580b61444a25877b82dc3bb6e17
   enable-secrets: 49292d7477ad64d62ea877104031b70f05b49927
