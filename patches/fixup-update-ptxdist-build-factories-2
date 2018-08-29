@@ -1,5 +1,5 @@
 Bottom: fda32a70a3dcd3faf576b05f2200c182ce885e7a
-Top:    197349585e9c47b7d367faf9a0bc7118476739a7
+Top:    da4030269ca0f1f5ed91fc909760f03c8ea8d37c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 15:07:01 -0500
 
@@ -32,21 +32,22 @@ index b68da51b..87fce125 100644
  
  - name: Gitlab public keys for buildbot containers
 diff --git a/roles/buildbot-master/files/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
-index eea89644..6a52b397 100644
+index eea89644..d6ec7856 100644
 --- a/roles/buildbot-master/files/ptxdist.py
 +++ b/roles/buildbot-master/files/ptxdist.py
-@@ -4,6 +4,10 @@ from buildbot.plugins import *
+@@ -4,6 +4,11 @@ from buildbot.plugins import *
  from datetime import datetime
  from buildbot.config import BuilderConfig
  
 +c = WorkerConfig = {}
 +
 +DEFAULT_BRANCH = 'master'
++DEFAULT_CODEBASE = 'Orion-ptxdist/workspace-ptxdist2'
 +DEFAULT_REPO = 'git@git.novatech-llc.com:Orion-ptxdist/workspace-ptxdist2'
  ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
  
  collections = {
-@@ -17,21 +21,19 @@ collections = {
+@@ -17,21 +22,19 @@ collections = {
  # a Worker object, specifying a unique worker name and password.  The same
  # worker name and password must be configured on the worker.
  workers = [
@@ -74,7 +75,7 @@ index eea89644..6a52b397 100644
          project='ptxdist',
          workdir='gitpoller-ptxdist')
  ]
-@@ -56,30 +58,27 @@ schedulers = [
+@@ -56,30 +59,27 @@ schedulers = [
      #                            treeStableTimer=9*60,
      #                            builderNames=["linux-3.8_am335x"]))
      schedulers.ForceScheduler(
@@ -117,7 +118,7 @@ index eea89644..6a52b397 100644
              )
          ],
          properties=[
-@@ -148,19 +147,6 @@ schedulers = [
+@@ -148,19 +148,6 @@ schedulers = [
  # only take place on one worker.
  
  
@@ -137,7 +138,7 @@ index eea89644..6a52b397 100644
  class PTXDistBuild(steps.ShellSequence):
  
      def __init__(self, **kwargs):
-@@ -169,16 +155,13 @@ class PTXDistBuild(steps.ShellSequence):
+@@ -169,16 +156,13 @@ class PTXDistBuild(steps.ShellSequence):
  
          steps.ShellSequence.__init__(self, **kwargs)
  
@@ -155,7 +156,7 @@ index eea89644..6a52b397 100644
                  command=[
                      "ptxdist",
                      "platform",
-@@ -187,6 +170,7 @@ class PTXDistBuild(steps.ShellSequence):
+@@ -187,6 +171,7 @@ class PTXDistBuild(steps.ShellSequence):
  
              # set ptxdist target
              util.ShellArg(
@@ -163,7 +164,7 @@ index eea89644..6a52b397 100644
                  command=[
                      "ptxdist",
                      "select",
-@@ -196,6 +180,7 @@ class PTXDistBuild(steps.ShellSequence):
+@@ -196,6 +181,7 @@ class PTXDistBuild(steps.ShellSequence):
              # run ptxdist build with build.py
              util.ShellArg(
                  logfile="ptxdist build",
@@ -171,7 +172,7 @@ index eea89644..6a52b397 100644
                  command=util.FlattenList([
                      "python",
                      "scripts/build.py",
-@@ -212,8 +197,31 @@ class PTXDistBuild(steps.ShellSequence):
+@@ -212,8 +198,31 @@ class PTXDistBuild(steps.ShellSequence):
                  ])
              ),
  
@@ -203,7 +204,7 @@ index eea89644..6a52b397 100644
                  command=[
                      "ptxdist",
                      "collection",
-@@ -222,17 +230,26 @@ class PTXDistBuild(steps.ShellSequence):
+@@ -222,17 +231,26 @@ class PTXDistBuild(steps.ShellSequence):
  
              # If building a release, create and copy images
              util.ShellArg(
@@ -235,7 +236,7 @@ index eea89644..6a52b397 100644
      import string
      dt = datetime.now()
      dt.replace(microsecond=0)
-@@ -244,18 +261,43 @@ def CurrentTime(props):
+@@ -244,25 +262,46 @@ def CurrentTime(props):
  def ComputeBuildProperties(props):
      newprops = {}
  
@@ -243,26 +244,26 @@ index eea89644..6a52b397 100644
 +    newprops['timestamp'] = CurrentTime()
 +
 +    version = props.getProperty('version', default=timestamp)
-+
-+    newprops['project'] = "OrionLX-%s-glibc" % (
-+        props.getProperty("platform")
-+    )
  
 -    newprops['project'] = proj = util.Interpolate(
 -        "OrionLX-%(prop:platform)s-glibc"
-+    newprops['artifact_dest'] = "/cache/artifacts/%s" % (
-+        version
++    newprops['project'] = "OrionLX-%s-glibc" % (
++        props.getProperty("platform")
      )
  
 -    newprops['dest'] = dest = util.Interpolate(
 -        "/cache/images/%(kw:p)s", p=proj
-+    newprops['image_root'] = "%s/build/platform-%s/images" % (
-+        props.getProperty("builddir"),
-+        props.getProperty("platform"),
++    newprops['artifact_dest'] = "/cache/artifacts/%s" % (
++        version
      )
  
 -    newprops['archive'] = archive = util.Interpolate(
 -        "%(kw:d)s/%(prop:machine)s.%(kw:t)s.tar.gz", d=dest, t=ts
++    newprops['image_root'] = "%s/build/platform-%s/images" % (
++        props.getProperty("builddir"),
++        props.getProperty("platform"),
++    )
++
 +    newprops['image_artifact'] = "%s-%s.images.tar.gz" % (
 +        newprops['project'],
 +        version,
@@ -282,11 +283,17 @@ index eea89644..6a52b397 100644
 +
 +    newprops['collection'] = collections.get(
 +        props.getProperty('platform')
-+    )
      )
  
-     newprops['ipkg'] = ipkg = util.Interpolate(
-@@ -275,12 +317,11 @@ def isReleaseBuild(step):
+-    newprops['ipkg'] = ipkg = util.Interpolate(
+-        "/cache/ipkg-repository/%(kw:p)s", p=proj
+     )
+ 
+-    newprops['collection'] = clct = collections.get(props.getProperty('platform'))
+ 
+     return newprops
+ 
+@@ -275,12 +314,11 @@ def isReleaseBuild(step):
  # Create build factory for ptxdist
  ptxdist_factory = util.BuildFactory()
  ptxdist_factory.addSteps([
@@ -301,7 +308,7 @@ index eea89644..6a52b397 100644
  
      # check out the source
      steps.Git(
-@@ -289,8 +330,6 @@ ptxdist_factory.addSteps([
+@@ -289,18 +327,15 @@ ptxdist_factory.addSteps([
          branch=util.Property('branch'),
          mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
          method="clobber",
@@ -310,3 +317,82 @@ index eea89644..6a52b397 100644
      ),
  
      PTXDistBuild(),
+ 
+-    steps.CopyDirectory(
+-        src=util.Interpolate("platform-%(prop:platform)s/images"),
+-        dest=util.Property('dest'),
+-        doStepIf=isReleaseBuild
++    PTXDistImages(
++        doStepIf=isReleaseBuild,
+     ),
+ ])
++
+ # ptxdist_factory.addStep(steps.ShellCommand(command=["./scripts/build-upgrade-test.sh"]))
+ # ptxdist_factory.addStep(steps.ShellCommand(command=["curl", "--progress-bar", "-o", "/dev/null", "http://george:1234@172.16.190.70/outlet?1=CCL"]))
+ # ptxdist_factory.addStep(steps.ShellCommand(command=[
+@@ -331,13 +366,13 @@ local_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
+ remote_tests_armeb_xscale_factory = util.BuildFactory()
+ # check out the source
+ remote_tests_armeb_xscale_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+-                                                    mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
++                                                    mode="incremental", method="clobber", retry=(120, 5)))
+ remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
+     command=["py.test", "-s", "--orion=172.16.64.150", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
+ 
+ # current_i686 #
+ # current_i686_factory = PTXDistFactory(
+-#     worker_ptxdist_repourl, worker_ptxdist_branch, 'i686')
++#     DEFAULT_REPO, DEFAULT_BRANCH, 'i686')
+ # # check out the source
+ # current_i686_factory.addStep(PTXDistBuild(
+ #     command=["ptxdist", "collection", "i686-base"]))
+@@ -353,7 +388,7 @@ remote_tests_armeb_xscale_factory.addStep(steps.ShellCommand(
+ 
+ # current_am335x #
+ # current_am335x_factory = PTXDistFactory(
+-#     worker_ptxdist_repourl, worker_ptxdist_branch, 'am335x')
++#     DEFAULT_REPO, DEFAULT_BRANCH, 'am335x')
+ # # check out the source
+ # current_am335x_factory.addStep(PTXDistBuild(
+ #     command=["ptxdist", "collection", "am335x-base"]))
+@@ -382,7 +417,7 @@ local_tests_i686_factory.addStep(steps.ShellCommand(
+ # remote_tests_i686 #
+ remote_tests_i686_factory = util.BuildFactory()
+ remote_tests_i686_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+-                                            mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
++                                            mode="incremental", method="clobber", retry=(120, 5)))
+ remote_tests_i686_factory.addStep(steps.ShellCommand(command=[
+                                   "py.test", "-s", "--orion=172.16.65.100", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
+ 
+@@ -405,27 +440,27 @@ local_tests_am335x_factory.addStep(steps.ShellCommand(
+ # remote_tests_am335x #
+ remote_tests_am335x_factory = util.BuildFactory()
+ remote_tests_am335x_factory.addStep(steps.Git(repourl=acceptance_test_repourl, alwaysUseLatest=True,
+-                                              mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
++                                              mode="incremental", method="clobber", retry=(120, 5)))
+ remote_tests_am335x_factory.addStep(steps.ShellCommand(command=[
+                                     "py.test", "-s", "--orion=172.16.190.72", "--hub-address=172.16.64.25:4444", "--browser=chrome"], workdir='build/WebUI'))
+ 
+ builders = []
+ builders.append(
+-    BuilderConfig(name="force_armeb_xscale",
++    BuilderConfig(name="force-armeb-xscale",
+                   workernames=["worker-ptxdist"],
+                   factory=ptxdist_factory,
+                   properties={
+                       'platform': 'armeb-xscale',
+                   }))
+ builders.append(
+-    BuilderConfig(name="force_i686",
++    BuilderConfig(name="force-i686",
+                   workernames=["worker-ptxdist"],
+                   factory=ptxdist_factory,
+                   properties={
+                       'platform': 'i686',
+                   }))
+ builders.append(
+-    BuilderConfig(name="force_am335x",
++    BuilderConfig(name="force-am335x",
+                   workernames=["worker-ptxdist"],
+                   factory=ptxdist_factory,
+                   properties={
