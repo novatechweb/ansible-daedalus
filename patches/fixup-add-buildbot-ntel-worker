@@ -1,5 +1,5 @@
 Bottom: 202830fc12da12cedef02f7c57e4148c2ac0a028
-Top:    b7436551e834acb0553d90ec5079f3ce3be2e95a
+Top:    6d1278723784493d209b2f8ce3bdc61ac96772c2
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 11:17:51 -0500
 
@@ -7,10 +7,10 @@ Refresh of add-buildbot-ntel-worker
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 91f0ea08..38127bba 100644
+index 91f0ea08..b68da51b 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
-@@ -40,6 +40,7 @@
+@@ -40,10 +40,12 @@
    tags:
      - buildbot
      - buildbot-worker
@@ -18,6 +18,11 @@ index 91f0ea08..38127bba 100644
    vars:
      asset_host: "{{hostvars['nexus']['uri']}}"
      asset_user: "buildbot"
+     asset_password: "{{nexus_buildbot_password}}"
++    buildbot_master: "{{ hostvars[buildbot_hostname].ip_addr }}"
+     container_etc_hosts:
+       nexus.novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
+     known_hosts: "{{ gitlab_keys.stdout }}"
 diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
 index 042d283b..c193fc59 100755
 --- a/roles/buildbot-master/files/openembedded.py
