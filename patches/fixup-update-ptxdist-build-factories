@@ -1,9 +1,76 @@
 Bottom: e6b2f720094da0180d95d8f32a8a3abc93bba8c9
-Top:    e6b2f720094da0180d95d8f32a8a3abc93bba8c9
+Top:    0a71f9d0823eb7578271dfaccd4c0dc3ce861b7b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 09:36:51 -0500
 
 Refresh of update-ptxdist-build-factories
 
 ---
-
+diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
+index 32665ca7..ebe2d7ed 100644
+--- a/roles/buildbot-worker-ptxdist/defaults/main.yml
++++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
+@@ -50,6 +50,9 @@ container_volumes:
+ - '{{ data_volume }}:{{ data_path }}:z'
+ - '{{ cache_volume }}:{{ cache_path }}:z'
+ - '{{ secrets_hostdir }}:{{ secrets_path }}'
++- '{{ config_hostdir }}/pydistutils.cfg:/home/buildbot/.pydistutils.cfg'
++- '{{ config_hostdir }}/ptxdistrc:/home/buildbot/.ptxdist/ptxdistrc-2012.09'
++- '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
+ 
+ # mount path of the data volume
+ data_path: '/buildbot'
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index 9b0bce1f..b78c2af0 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -25,7 +25,7 @@
+     - '{{ cache_volume }}:{{ cache_path }}:z'
+     detach: no
+     cleanup: yes
+-    command: /bin/ash -c 
++    command: /bin/ash -c
+       "mkdir -p {{item}} &&
+       chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}} &&
+       chmod -v 777 {{item}}"
+@@ -44,12 +44,39 @@
+     - '{{ data_volume }}:{{ data_path }}:z'
+     detach: no
+     cleanup: yes
+-    command: /bin/ash -c 
++    command: /bin/ash -c
+       "mkdir -p {{item}} &&
+       if [ $(stat -c '%u' '{{item}}') -ne {{buildbot_uid}} ]; then
+         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+       fi"
+ 
++- name: Create configuration directory
++  file:
++    path: '{{ config_hostdir }}'
++    state: directory
++
++- name: Generate distutils configuration
++  template:
++    src: pydistutils.cfg.j2
++    dest: '{{ config_hostdir }}/pydistutils.cfg'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++
++- name: Generate PTXdist configuration
++  template:
++    src: ptxdistrc.j2
++    dest: '{{ config_hostdir }}/ptxdistrc'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++
++- name: Populate assets secret
++  template:
++    src: "netrc.j2"
++    dest: '{{ config_hostdir }}/netrc'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++    mode: "u=rw,g=,o="
++
+ - name: Checkout image repo
+   git:
+     repo: '{{ image_repo }}'
