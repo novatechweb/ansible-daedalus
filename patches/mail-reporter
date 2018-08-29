@@ -1,5 +1,5 @@
-Bottom: 1e789de88ce655af5426c04878807c7c83f80dc7
-Top:    6f6570877df637d3214b27fabf30b98bc4c4d15e
+Bottom: 956af72de0b2c69f8cabc9079128f5345ab2cc3d
+Top:    dd9c798f0c86323622065c0374a089b43a65a5a0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -8,10 +8,10 @@ Use internal mail server
 
 ---
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 93d7dee4..da42e009 100644
+index 8a0b6cee..d23f6eee 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -41,9 +41,10 @@ container_env:
+@@ -42,9 +42,10 @@ container_env:
    BUILDBOT_IRC_HOST: 'chat.freenode.net'
    BUILDBOT_IRC_NICK: 'NovaTechCI'
    BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'

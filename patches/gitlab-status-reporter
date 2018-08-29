@@ -1,5 +1,5 @@
-Bottom: 2fdb4eec4ee18c36176628726bd5b4502fd0f19f
-Top:    1e789de88ce655af5426c04878807c7c83f80dc7
+Bottom: 2aab5b5beb77863031ea0b0f5e1968de8e272aff
+Top:    956af72de0b2c69f8cabc9079128f5345ab2cc3d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -34,10 +34,10 @@ index 75ffbd1e..0453d12c 100644
  # Create buildbot user
  ARG BUILDBOT_DATA="/buildbot"
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 90e226f1..93d7dee4 100644
+index fbf1af0a..8a0b6cee 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
-@@ -54,6 +54,7 @@ container_env:
+@@ -55,6 +55,7 @@ container_env:
    GITLAB_URI: 'https://{{ gitlab_hostname }}/'
    GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
    GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
@@ -46,7 +46,7 @@ index 90e226f1..93d7dee4 100644
    LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
    LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index a7964306..adc9a24b 100644
+index 547e75c8..5a366551 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -60,7 +60,15 @@ mn = reporters.MailNotifier(

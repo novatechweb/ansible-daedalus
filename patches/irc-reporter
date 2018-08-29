@@ -1,5 +1,5 @@
-Bottom: 50710ce6d96563c4cb15bfc09b57177aa051bdea
-Top:    2fdb4eec4ee18c36176628726bd5b4502fd0f19f
+Bottom: 14f09b71ee0db965f38fb679e973143939951b7d
+Top:    2aab5b5beb77863031ea0b0f5e1968de8e272aff
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -34,7 +34,7 @@ index bcc63e84..75ffbd1e 100644
  # Create buildbot user
  ARG BUILDBOT_DATA="/buildbot"
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 4a014c40..90e226f1 100644
+index 32cde229..fbf1af0a 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -27,6 +27,9 @@ buildbot_port_args:
@@ -47,8 +47,8 @@ index 4a014c40..90e226f1 100644
  # host path containing configuration files
  config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
  
-@@ -34,6 +37,10 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
- container_env:
+@@ -35,6 +38,10 @@ container_env:
+   ASSET_HOST: '{{asset_host}}'
    BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
    BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
 +  BUILDBOT_IRC_CHANNELS: "{{ buildbot_irc_channels | join(',') }}"
@@ -59,7 +59,7 @@ index 4a014c40..90e226f1 100644
    BUILDBOT_SMTP_USER: 'Dean.cox'
    BUILDBOT_SMTP_PASS: 'no5156'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index 9ba78802..a7964306 100644
+index 249bc9e3..547e75c8 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -5,7 +5,7 @@
