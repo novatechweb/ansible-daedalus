@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4af53cb83121ea9d7aba7a721438eb838cf2fc94
-Head: 75455ce40608a181c84767a09a3974975e8f780f
+Previous: 755aae68eb0934acc542b241e7b3c88920e26338
+Head: 1bdf1e5a7665ebdecf61a1b293040b3dca8a9bd9
 Applied:
   add-buildbot-role: 0342241947be00863f5366f75faa9c44092b6be7
   add-buildbot-ntel-worker: 8d226c1b802548356a07c6a693f835371f737aa5
@@ -8,8 +8,8 @@ Applied:
   add-buildbot-ptxdist-worker: 41c2f4d0b2416323f61affc15e31257d912f89cb
   update-ptxdist-build-factories: d2d35b7d5150d6ebe1478560a3875d8dc98f86db
   fixup-update-ptxdist-build-factories: 75455ce40608a181c84767a09a3974975e8f780f
+  fixup-update-ptxdist-build-factories-2: 1bdf1e5a7665ebdecf61a1b293040b3dca8a9bd9
 Unapplied:
-  fixup-update-ptxdist-build-factories-2: d71450bffdb63324a7d4798bf4fc33b1d3af55a6
   ptxdist-bc-depend: 6f5ee1be23e857b5ac57b78d636772cc4b8b2775
   add-environment-variables-for: c425f1e2e340144f4f6fc86e1f4c0a3e9ebb6753
   install-buildbot-plugin: 2cc02680a6d7b3f6128428af72752433724dac83
