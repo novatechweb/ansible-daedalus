@@ -35,6 +35,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
 
 # environment passed to the container
 container_env:
+  ASSET_HOST: '{{asset_host}}'
   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
   BUILDBOT_IRC_CHANNELS: "{{ buildbot_irc_channels | join(',') }}"

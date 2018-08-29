@@ -50,6 +50,14 @@
         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
       fi"
 
+- name: Populate assets secret
+  template:
+    src: "netrc.j2"
+    dest: '{{ config_hostdir }}/netrc'
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
+    mode: "u=rw,g=,o="
+
 - name: Create secrets volume
   file:
     path: '{{ secrets_hostdir }}'
