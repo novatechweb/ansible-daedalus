@@ -1,0 +1,21 @@
+Bottom: 8db47c0356b6d21febb7857ffbed6c74f29f5895
+Top:    36b93fd521cdc1f26d231010f0bd4b6d310542ee
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 14:23:44 -0500
+
+Refresh of fixup-single-branch-builders
+
+---
+diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
+index 2bc6d874..ffbab3c9 100755
+--- a/roles/buildbot-master/files/openembedded.py
++++ b/roles/buildbot-master/files/openembedded.py
+@@ -391,6 +391,8 @@ class BitBakeFactory(util.BuildFactory):
+             method="clobber",
+             locks=[git_lock.access('exclusive')],
+             retry=(360, 5)))
++        # # TODO: Enable when update-layers.py is merged
++        # # self.addStep(UpdateNtelLayers())
+         self.addStep(steps.ShellCommand(
+             name="configure",
+             description="configuring",
