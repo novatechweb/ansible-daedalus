@@ -46,7 +46,7 @@
     cleanup: yes
     command: /bin/ash -c 
       "mkdir -p {{item}} &&
-      if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
+      if [ $(stat -c '%u' '{{item}}') -ne {{buildbot_uid}} ]; then
         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
       fi"
 
