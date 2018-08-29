@@ -1,6 +1,6 @@
 Version: 1
-Previous: 47f221ec3d86d07bc79d0940ab3565f7faadb1a0
-Head: 8b653f84c377ff1f6983f3e1863f36997a01b8c5
+Previous: c764bba68c9b7a8dc12f251227271925cc9848a4
+Head: df16687cc88092270c240d0a8e482826af5081fd
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   add-buildbot-ntel-worker: 0ed1c873dae68b8e371f62ec0eba61c7543b8e05
@@ -25,5 +25,6 @@ Applied:
   mail-reporter: 2190e684c2243a4b25b67508fb8ef4b48c650082
   ntel-layer-builders: ccaa0fcdbfed1c5a1bdb0edbd07c5ec88cb0c8ee
   fixup-asset-host: 8b653f84c377ff1f6983f3e1863f36997a01b8c5
+  refresh-temp: df16687cc88092270c240d0a8e482826af5081fd
 Unapplied:
 Hidden:

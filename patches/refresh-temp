@@ -1,0 +1,23 @@
+Bottom: bef107adf40b5b9e4b9ef07ff2548a9b1837727c
+Top:    2fd79910bb58709d9ed226785b2288f7acf9243d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 09:06:23 -0500
+
+Refresh of gitlab-auth
+
+---
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
+index e1608831..6ff933cb 100644
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
+@@ -98,7 +98,9 @@ c['www'] = {
+         userInfoProvider=userInfoProvider),
+     'authz': util.Authz(
+         allowRules=[
+-            util.AnyControlEndpointMatcher(role="admins"),
++            # admins can do anything,
++            # defaultDeny=False: if user does not have the admin role, we continue parsing rules
++            util.AnyEndpointMatcher(role="admins", defaultDeny=False),
+         ],
+         roleMatchers=[
+             util.RolesFromUsername(
