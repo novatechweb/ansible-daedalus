@@ -1,6 +1,6 @@
 Version: 1
-Previous: d9ad3dc19a3b53af97634ba76e13315939b48e37
-Head: 40c8a8671f8e320456340147ae9ee729b403ee2e
+Previous: 2633d5698c0a58e140b5de4a5346796b7129b933
+Head: 9fa571f20c6cd69ab92fffe0741535411b461690
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -9,8 +9,8 @@ Applied:
   hsm-host-arg: 0528c4547a727b91070f625a965e2b16ed0f46eb
   add-buildbot-ptxdist-worker: 2461ac04662e49e2a14cbeefbb0eb65770d663cf
   update-ptxdist-build-factories: 40c8a8671f8e320456340147ae9ee729b403ee2e
+  fixup-update-ptxdist-build-factories: 9fa571f20c6cd69ab92fffe0741535411b461690
 Unapplied:
-  fixup-update-ptxdist-build-factories: 9a946a73457cffc9b5b1014b3177bb38d420ce2d
   fixup-update-ptxdist-build-factories-2: 25cba87af505322a40c23c8c57ba961b6e03a57d
   ptxdist-bc-depend: 3a8f15213c31612f3874c831889c72ee49f36bbe
   add-environment-variables-for: 785f2dce1b687d9ff52b50a867e86742ed98f0b6
