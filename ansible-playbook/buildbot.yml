@@ -70,17 +70,23 @@
       role: gitlab-sshkey
       vars:
         username: buildbot
-        pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
+        pubkey: "{{ hostvars[buildbot_hostname].pubkey }}"
         title: "buildbot-master"
+      tags:
+        - buildbot-master
     - name: Add buildbot-worker-ntel pubkey to buildbot user
       role: gitlab-sshkey
       vars:
         username: buildbot
         pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
         title: "buildbot-worker-ntel"
+      tags:
+        - buildbot-worker-ntel
     - name: Add buildbot-worker-ptxdist pubkey to buildbot user
       role: gitlab-sshkey
       vars:
         username: buildbot
         pubkey: "{{ hostvars['buildbot-worker-ptxdist'].pubkey }}"
         title: "buildbot-worker-ptxdist"
+      tags:
+        - buildbot-worker-ptxdist
