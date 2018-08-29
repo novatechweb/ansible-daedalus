@@ -1,6 +1,6 @@
 Version: 1
-Previous: c6bb93defe013ccc089801fb8af78e316d73c6ad
-Head: af7ee836b1f5a0b5f3d9c2335697691e65d52c1c
+Previous: ddd45c78f7872d0d4116327cc496c9908b96a56f
+Head: 27176b7513a99bdc5fcd45c3ae98234092ec8fe4
 Applied:
   add-buildbot-role: 534b4d0b91a87517210fa67dcc705a0b7500bdc7
   fixup-add-buildbot-role: fa5438961339b90bcde0e85ab9bc389490455fcf
@@ -19,6 +19,7 @@ Applied:
   known_hosts: 40355a840300ff62ef54d015c14221ac5c806dd1
   asset-host: 6fc2d6923abd653423252b1bee84c4490ab466c5
   fixup-asset-host: af7ee836b1f5a0b5f3d9c2335697691e65d52c1c
+  refresh-temp: 27176b7513a99bdc5fcd45c3ae98234092ec8fe4
 Unapplied:
   update-ptxdistrc: d4ad225d36935ce43a42de34ccc0f7b2625841f0
   enable-secrets: 2fe4517f04b68ab44792180da931917dc08fe69a
