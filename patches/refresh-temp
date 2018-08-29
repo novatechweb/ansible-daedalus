@@ -1,0 +1,37 @@
+Bottom: bbcc0a1bfa49dd01790dee6bf27898b4dde2733e
+Top:    202830fc12da12cedef02f7c57e4148c2ac0a028
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 10:27:55 -0500
+
+Refresh of generate-new-ssh-key-on-first
+
+---
+diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
+index e198fba8..91f0ea08 100644
+--- a/ansible-playbook/buildbot.yml
++++ b/ansible-playbook/buildbot.yml
+@@ -70,17 +70,23 @@
+       role: gitlab-sshkey
+       vars:
+         username: buildbot
+-        pubkey: "{{ hostvars['buildbot-master'].pubkey }}"
++        pubkey: "{{ hostvars[buildbot_hostname].pubkey }}"
+         title: "buildbot-master"
++      tags:
++        - buildbot-master
+     - name: Add buildbot-worker-ntel pubkey to buildbot user
+       role: gitlab-sshkey
+       vars:
+         username: buildbot
+         pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
+         title: "buildbot-worker-ntel"
++      tags:
++        - buildbot-worker-ntel
+     - name: Add buildbot-worker-ptxdist pubkey to buildbot user
+       role: gitlab-sshkey
+       vars:
+         username: buildbot
+         pubkey: "{{ hostvars['buildbot-worker-ptxdist'].pubkey }}"
+         title: "buildbot-worker-ptxdist"
++      tags:
++        - buildbot-worker-ptxdist
