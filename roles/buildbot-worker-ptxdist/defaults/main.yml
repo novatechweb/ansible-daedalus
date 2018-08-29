@@ -27,6 +27,7 @@ cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
 
 # environment passed to the container
 container_env:
+  ASSET_HOST: '{{asset_host}}/ptxdist'
   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
   BUILDBOT_MASTER: '{{ buildbot_master }}'
   BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
