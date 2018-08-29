@@ -1,6 +1,6 @@
 Version: 1
-Previous: 5956a5a74a19c453c9bb97cedeae33dc8a0d6892
-Head: ff3b176f50c7832d027575ce228e1a918e88092c
+Previous: 94741f0a069622ba17480c7441963c3ee2e0a336
+Head: f3b3d90155807703e260ffdcfb69b1dbae779094
 Applied:
   add-buildbot-role: 0342241947be00863f5366f75faa9c44092b6be7
   add-buildbot-ntel-worker: 8d226c1b802548356a07c6a693f835371f737aa5
@@ -18,8 +18,7 @@ Applied:
   enable-secrets: 5c4d20d2eaae3ec186eedbcace424ab2f202f1dd
   change-hooks: d49597bd457da51b53deb4ea56cac2878513a63d
   email-account: 2fca53e6fe56d9089492edb91b5f7d44562d50c2
-  codebase-generator: e2735e8d1a5bb45f871bc941809e7e9228585f42
-  fixup-codebase-generator: ff3b176f50c7832d027575ce228e1a918e88092c
+  codebase-generator: f3b3d90155807703e260ffdcfb69b1dbae779094
 Unapplied:
   single-branch-builders: 7d3dcd6d79c5d18deeb4508e5c5d2912e5ffbb09
   fixup-single-branch-builders: 18f75185dcbd099918b4787eb1f101f9b43ffcb7

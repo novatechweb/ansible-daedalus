@@ -1,7 +1,7 @@
 Bottom: 4a3b6b0cfc1e6e1685dd16ad0d554a91d6b2f5d3
-Top:    fbfc5d4cbe018cdb5addf5cc56cf35d3487b0927
+Top:    139664cec39f2e531f468fbe9ca3f47885ad4291
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:44 -0500
+Date:   2018-08-29 16:45:07 -0500
 
 Add codebase generator function
 
@@ -10,10 +10,9 @@ branch, and revision, and creates a predictable string describing the code.
 This is used to decide upon the builder for a change and also to tie a fork
 repository back to its parent for merge requests.
 
-
 ---
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index a12bdaa8..9ba78802 100644
+index a12bdaa8..249bc9e3 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -6,6 +6,7 @@
@@ -40,7 +39,7 @@ index a12bdaa8..9ba78802 100644
 +    """
 +
 +    giturl = giturlparse(chdict['repository'])
-+    return "%s/%s" % (giturl.owner, giturl.repo)
++    return '/'.join((giturl.owner, giturl.repo))
 +
 +    # path = urlparse(chdict['revlink']).path.lstrip('/')
 +
