@@ -1,0 +1,49 @@
+Bottom: 8bd35ed5cab6db2f70c1160f8806771aa7f12fef
+Top:    c8d8d6b4be24265eba03acc9daf111e309b61d9b
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-29 09:36:51 -0500
+
+Refresh of update-ptxdist-build-factories
+
+---
+diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
+index 220372ab..f46b0124 100644
+--- a/roles/buildbot-worker-ptxdist/tasks/main.yml
++++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
+@@ -50,6 +50,25 @@
+         chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+       fi"
+ 
++- name: Create configuration directory
++  file:
++    path: '{{ config_hostdir }}'
++    state: directory
++
++- name: Generate distutils configuration
++  template:
++    src: pydistutils.cfg.j2
++    dest: '{{ config_hostdir }}/pydistutils.cfg'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++
++- name: Generate PTXdist configuration
++  template:
++    src: ptxdistrc.j2
++    dest: '{{ config_hostdir }}/ptxdistrc'
++    group: '{{ buildbot_uid }}'
++    owner: '{{ buildbot_uid }}'
++
+ - name: Populate assets secret
+   template:
+     src: "netrc.j2"
+@@ -77,10 +96,6 @@
+     dest: '{{ image_dir }}'
+     force: yes
+ 
+-- template:
+-    src: pydistutils.cfg.j2
+-    dest: '{{ image_dir }}/buildbot/.pydistutils.cfg'
+-
+ - name: Create buildbot worker image
+   docker_image:
+     name: '{{ image_name }}'
