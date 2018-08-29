@@ -1,5 +1,5 @@
 Bottom: bcef787158dcf4bd838b2ae9cf1d0856995cec23
-Top:    3fe1568716338a7f4ae03924fcbd90bb304f978a
+Top:    524849a80a6128e6c6daf5eb083fb27582c6b7a6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-29 08:59:00 -0500
 
@@ -137,3 +137,11 @@ index dda687d1..220372ab 100644
  - name: Create secrets volume
    file:
      path: '{{ secrets_hostdir }}'
+diff --git a/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2 b/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
+index 3c7f3345..1d205ea2 100644
+--- a/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
++++ b/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
+@@ -1,2 +1,2 @@
+ [easy_install]
+-index_url = {{asset_host}}
++index_url = {{asset_host}}/pypi/simple
