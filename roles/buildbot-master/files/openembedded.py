@@ -66,13 +66,20 @@ c['schedulers'] = [
             util.BooleanParameter(
                 name="clobber",
                 label="Clobber build directory",
-                default=False
-            ),
+                default=False),
             util.BooleanParameter(
                 name='cache',
                 label="Use cached state",
-                default=True
-            ),
+                default=True),
+            util.StringParameter(
+                name="release_pin",
+                label="PIN for release signing",
+                default='',
+                required=False),
+            util.StringParameter(
+                name='bbflags',
+                label="BitBake Options",
+                default=DEFAULT_BBFLAGS),
             util.StringParameter(
                 name="release_pin",
                 label="PIN for release signing",
@@ -140,6 +147,17 @@ def ComputeBuildProperties(props):
     newprops['timestamp'] = CurrentTime()
 
     version = props.getProperty('version', default=newprops['timestamp'])
+
+    urlpath = 'ntel/unofficial'
+
+    if props.getProperty('release_pin') is True:
+        urlpath = 'ntel/release'
+
+    if props.getProperty('scheduler') == 'ntel-nightly':
+        urlpath = 'ntel/nightly'
+
+    urlpath = os.path.join('ntel', urlpath, version)
+
     newprops['artifacts'] = {}
     machines = [props.getProperty('machine')]
 
@@ -253,9 +271,9 @@ class BitBakeArchive(steps.ShellSequence):
             'description': 'archiving',
             'descriptionDone': 'archive',
             'env': {
-                    'ENV': 'environment-ntel',
-                    'BASH_ENV': 'environment-ntel',
-                    },
+                'ENV': 'environment-ntel',
+                'BASH_ENV': 'environment-ntel',
+            },
             'flunkOnFailure': True,
             'haltOnFailure': False,
             'name': 'archive',
@@ -282,6 +300,18 @@ class BitBakeArchive(steps.ShellSequence):
                     artfile
                 ],
                 logfile="Create %s archive" % (m),
+            ))
+
+            arturl = art['url']
+            commands.append(util.ShellArg(
+                logfile="Upload %s archive" % (m),
+                haltOnFailure=False,
+                flunkOnFailure=True,
+                command=[
+                    'curl', '--netrc', '--verbose',
+                    '--upload-file', artfile,
+                    '--url', arturl
+                ],
             ))
         return steps.ShellSequence.runShellSequence(self, commands)
 
