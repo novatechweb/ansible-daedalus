@@ -1,5 +1,5 @@
-Bottom: 4b8c638ae8d01c3ba594315677e6fc719eb5fe14
-Top:    ab7198f69f0aa95dbf145412dd7951df243e17a7
+Bottom: e4457094de46b50eb4d7b881b8503549d8a8c766
+Top:    91d28b55331bce49782cee6dea560b5cec88cb94
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -8,7 +8,7 @@ Support asset host
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 49dd0ec2..d425f9b6 100644
+index 557ea2de..3af549a8 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -9,6 +9,11 @@
@@ -23,9 +23,9 @@ index 49dd0ec2..d425f9b6 100644
      - name: Scan Gitlab ssh keys
        command: ssh-keyscan {{gitlab_hostname}}
        register: gitlab_keys
-@@ -35,7 +40,10 @@
-     - buildbot
-     - buildbot-worker
+@@ -37,7 +42,10 @@
+     - buildbot-worker-ntel
+     - buildbot-worker-ptxdist
    vars:
 +    asset_host: "{{hostvars['nexus']['uri']}}/download"
      buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
@@ -112,7 +112,7 @@ index b1bcf349..f2d14cf8 100644
      name: '{{ container_name }}'
      image: '{{ image_name }}:{{ docker_image_tag }}'
 diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
-index 32665ca7..bc804731 100644
+index ebe2d7ed..6285dd03 100644
 --- a/roles/buildbot-worker-ptxdist/defaults/main.yml
 +++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
 @@ -42,6 +42,9 @@ container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
@@ -126,10 +126,10 @@ index 32665ca7..bc804731 100644
  container_port_args: []
  
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index 4ee12074..b70fe155 100644
+index ce3e4e97..c41df667 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
-@@ -77,6 +77,7 @@
+@@ -104,6 +104,7 @@
      tag: '{{ docker_image_tag }}'
      path: '{{ image_dir }}'
      buildargs: '{{ image_args }}'
