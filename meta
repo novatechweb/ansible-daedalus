@@ -1,6 +1,6 @@
 Version: 1
-Previous: 4d3eb8cb9c8b03f48582ce4bbdd5aaf99dada0f5
-Head: 788acf08710ec3f720921252731704ba5e6dc67a
+Previous: 0197bcad5df448167554aec4dc071ce2f77c7974
+Head: 788b4e5f1fa11d1728b8c882e89b48482a48fca3
 Applied:
   add-buildbot-role: 0342241947be00863f5366f75faa9c44092b6be7
   ntel-worker: 8d226c1b802548356a07c6a693f835371f737aa5
@@ -16,8 +16,7 @@ Applied:
   update-ptxdistrc: e8f09efb4ce38e859adc54e8fbb95a1f438c022c
   enable-secrets: 030350f38b5beda3581a4bcffb82d3b3afa57dd6
   change-hooks: e1d75029a80ff4392ca7692b66b9f9e57f17b210
-  email-account: be0c3d8fdfe07c408b822aa7adf6db98e2263b48
-  mail-reporter: 788acf08710ec3f720921252731704ba5e6dc67a
+  email-account: 788b4e5f1fa11d1728b8c882e89b48482a48fca3
 Unapplied:
   codebase-generator: f3b3d90155807703e260ffdcfb69b1dbae779094
   single-branch-builders: e3245da76e1bb6ac6f27f80a92ba08089756793b
