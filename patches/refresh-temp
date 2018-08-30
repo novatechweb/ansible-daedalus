@@ -1,0 +1,30 @@
+Bottom: 4d477fd17bb83e2770ab6ddde133e234236e324e
+Top:    0826cae86e6d58cacccea6c9e5cc05bd095e9025
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-08-30 16:38:37 -0500
+
+Refresh of add-host-builder
+
+---
+diff --git a/ansible-playbook/staging b/ansible-playbook/staging
+index 673cb4dd..5fced1de 100644
+--- a/ansible-playbook/staging
++++ b/ansible-playbook/staging
+@@ -1,5 +1,3 @@
+-builder.novatech-llc.com ansible_host=172.16.64.4 ansible_user=ansibleremote
+-
+ [bacula]
+ testdaedalus.novatech-llc.com
+ 
+@@ -8,10 +6,9 @@ testdaedalus.novatech-llc.com
+ 
+ [docker-hosts]
+ testdaedalus.novatech-llc.com
+-builder.novatech-llc.com
+ 
+ [buildsystem]
+ buildsystem.novatech-llc.com
+ 
+ [builder]
+-builder.novatech-llc.com
++testdaedalus.novatech-llc.com
