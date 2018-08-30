@@ -13,7 +13,7 @@
     detach: True
     image: "{{ name_prefix }}teststation_tftp_image"
     name: "{{ name_prefix }}TestStation_tftp_server"
-    ports: "{{ container_addr_map.build.ip_addr }}:69:69/udp"
+    ports: "{{ build_ip_addr }}:69:69/udp"
     state: "{{ container_start_state_nondata }}"
     restart_policy: '{{ docker_restart_policy }}'
     volumes_from:
