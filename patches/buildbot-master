@@ -1,7 +1,7 @@
 Bottom: 96ffaaadc106f13f2d643faf3ea23689ba2814f7
-Top:    c0d6266400957e0781dfdb8ea52d7b21165d20f1
+Top:    428c08cc885ef2b5d8844ce51ee4c36fbd38826f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-29 16:41:09 -0500
+Date:   2018-08-30 09:57:04 -0500
 
 Add buildbot role and new playbook
 
@@ -93,10 +93,10 @@ index 0727917d..ee706b65 100644
    hosts: buildsystem
    remote_user: ansibleremote
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 521c8237..923e9542 100644
+index 521c8237..f6c51117 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
-@@ -1,14 +1,10 @@
+@@ -1,29 +1,29 @@
 -FROM        buildbot/buildbot-master:v0.9.13
 -MAINTAINER  Andrew Cooper <andrew.cooper@novatechweb.com>
 +FROM  buildbot/buildbot-master:v1.2.0
@@ -113,8 +113,15 @@ index 521c8237..923e9542 100644
  &&  rm /etc/localtime \
  &&  ln -sf /usr/share/zoneinfo/${BUILDBOT_TIMEZONE} /etc/localtime \
  &&  echo "${BUILDBOT_TIMEZONE}" > /etc/timezone
-@@ -18,12 +14,12 @@ RUN pip --no-cache-dir install \
-     'attrs'
+ 
+ # install pip dependencies
+ RUN pip --no-cache-dir install \
+-    'attrs'
++    'attrs' \
++    'buildbot-console-view' \
++    'buildbot-grid-view' \
++    'buildbot-waterfall-view' \
++    'buildbot-www'
  
  # Create buildbot user
 +ARG BUILDBOT_DATA="/buildbot"
