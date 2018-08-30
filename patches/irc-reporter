@@ -1,5 +1,5 @@
 Bottom: 99782c542811fdd5217cde656ed69fd782989653
-Top:    99782c542811fdd5217cde656ed69fd782989653
+Top:    e3d8c4d2ccc6ab1c87f5cb8d54231ba41026e67d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:44 -0500
 
@@ -7,4 +7,90 @@ Configure freenode as IRC reporter
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index 3ad01d12..518403d2 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -2,6 +2,7 @@
+ # passwords
+ buildbot_admin_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/admin"                      , length=20) }}'
+ buildbot_email_password:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/buildbot@novatech-llc.com"  , length=20) }}'
++buildbot_irc_password:               '{{ lookup("password", playbook_dir + "/credentials/buildbot/irc-NovaTechCI"             , length=20) }}'
+ buildbot_worker_ntel_password:       '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ntel"                , length=20) }}'
+ buildbot_worker_ptxdist_password:    '{{ lookup("password", playbook_dir + "/credentials/buildbot/worker_ptxdist"             , length=20) }}'
+ buildbot_webhook_secret:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/webhook"                    , length=20) }}'
+diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
+index bcc63e84..75ffbd1e 100644
+--- a/docker/buildbot-master/Dockerfile
++++ b/docker/buildbot-master/Dockerfile
+@@ -16,7 +16,8 @@ RUN pip --no-cache-dir install \
+     'buildbot-grid-view' \
+     'buildbot-waterfall-view' \
+     'buildbot-www' \
+-    'ldap3'
++    'ldap3' \
++    'pyOpenSSL'
+ 
+ # Create buildbot user
+ ARG BUILDBOT_DATA="/buildbot"
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index 04777525..e4c781bf 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -27,6 +27,9 @@ buildbot_port_args:
+   - '{{buildbot_https_port}}'
+   - '{{buildbot_worker_port}}'
+ 
++buildbot_irc_channels:
++  - '#novatech-ci'
++
+ # host path containing configuration files
+ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+ 
+@@ -35,6 +38,10 @@ container_env:
+   ASSET_HOST: '{{asset_host}}'
+   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
++  BUILDBOT_IRC_CHANNELS: "{{ buildbot_irc_channels | join(',') }}"
++  BUILDBOT_IRC_HOST: 'chat.freenode.net'
++  BUILDBOT_IRC_NICK: 'NovaTechCI'
++  BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
+   BUILDBOT_SMTP_HOST: '{{ exim4_hostname }}'
+   BUILDBOT_SMTP_PORT: '587'
+   BUILDBOT_SMTP_USER: 'buildbot'
+diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
+index 249bc9e3..547e75c8 100644
+--- a/roles/buildbot-master/files/master.cfg
++++ b/roles/buildbot-master/files/master.cfg
+@@ -5,7 +5,7 @@
+ # 'master.cfg' in your buildmaster's base directory.
+ 
+ import os
+-from buildbot.plugins import secrets, steps, util
++from buildbot.plugins import reporters, secrets, steps, util
+ from buildbot.util import giturlparse
+ 
+ os.environ['LONG_RUN_TIMEOUT'] = '14400'
+@@ -34,10 +34,18 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="/run/secrets")]
+ 
+ c['services'] = []
+ 
+-from buildbot.plugins import reporters
+-irc = reporters.IRC(host="172.16.64.3",
+-                    nick="orionbb",
+-                    channels=["#orion"])
++irc = reporters.IRC(
++    allowForce=False,
++    allowShutdown=False,
++    channels=os.getenv("BUILDBOT_IRC_CHANNELS").split(','),
++    host=os.getenv("BUILDBOT_IRC_HOST"),
++    nick=os.getenv("BUILDBOT_IRC_NICK"),
++    notify_events=[],
++    password=os.getenv("BUILDBOT_IRC_PASS"),
++    port=6697,
++    useColors=True,
++    useSSL=True
++)
+ c['services'].append(irc)
+ 
+ mn = reporters.MailNotifier(
