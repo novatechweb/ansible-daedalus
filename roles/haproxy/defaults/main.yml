@@ -1,0 +1,10 @@
+---
+
+image_name: "haproxy:1.8.12-alpine"
+
+conf_volume_hostdir: "{{ docker_restore_config_base_dir }}/{{ container_name }}"
+conf_volume_mount: "/usr/local/etc/haproxy/"
+
+container_name: "{{ docker_name_prefix }}haproxy"
+container_volumes:
+  - "{{conf_volume_hostdir}}:{{conf_volume_mount}}:ro"
