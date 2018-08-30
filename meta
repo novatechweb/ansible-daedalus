@@ -1,10 +1,9 @@
 Version: 1
-Previous: 345b9406f0c2a8c778d3661233b30d4ed9c84585
-Head: 8d226c1b802548356a07c6a693f835371f737aa5
+Previous: 1b7cd1cc3bf86c3cb631a8e608e14b6e98a0b56f
+Head: 6303f472fdb1527f9e2a9cb7072286719950cbb6
 Applied:
   add-buildbot-role: 0342241947be00863f5366f75faa9c44092b6be7
   ntel-worker: 8d226c1b802548356a07c6a693f835371f737aa5
-Unapplied:
   hsm-host-arg: b99c69ec5a1cfdb62cb84970c28aca185b4ebab2
   ptxdist-worker: 41c2f4d0b2416323f61affc15e31257d912f89cb
   update-ptxdist-build-factories: ed3361209b36b0b1ebfd2d5d10c623a6b9805866
@@ -24,4 +23,5 @@ Unapplied:
   irc-reporter: 11dadf9e6d8d7eab932978bef62af80bbd6f85cc
   gitlab-status-reporter: 14eb8c38bd824f9e8eef327ee66993335a2a1aa8
   mail-reporter: 6303f472fdb1527f9e2a9cb7072286719950cbb6
+Unapplied:
 Hidden:
