@@ -1,5 +1,5 @@
-Bottom: 956af72de0b2c69f8cabc9079128f5345ab2cc3d
-Top:    dd9c798f0c86323622065c0374a089b43a65a5a0
+Bottom: 4a3b6b0cfc1e6e1685dd16ad0d554a91d6b2f5d3
+Top:    4a3b6b0cfc1e6e1685dd16ad0d554a91d6b2f5d3
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:45 -0500
 
@@ -7,21 +7,4 @@ Use internal mail server
 
 
 ---
-diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 8a0b6cee..d23f6eee 100644
---- a/roles/buildbot-master/defaults/main.yml
-+++ b/roles/buildbot-master/defaults/main.yml
-@@ -42,9 +42,10 @@ container_env:
-   BUILDBOT_IRC_HOST: 'chat.freenode.net'
-   BUILDBOT_IRC_NICK: 'NovaTechCI'
-   BUILDBOT_IRC_PASS: '{{ buildbot_irc_password }}'
--  BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
--  BUILDBOT_SMTP_USER: 'Dean.cox'
--  BUILDBOT_SMTP_PASS: 'no5156'
-+  BUILDBOT_SMTP_HOST: '{{ exim4_hostname }}'
-+  BUILDBOT_SMTP_PORT: '587'
-+  BUILDBOT_SMTP_USER: 'buildbot'
-+  BUILDBOT_SMTP_PASS: '{{ buildbot_email_password }}'
-   BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
-   BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
-   BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
+
