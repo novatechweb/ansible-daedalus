@@ -1,6 +1,6 @@
 Version: 1
-Previous: bb29a68f43d36452a341d6a7fe14249a90adfbaf
-Head: 82f3b719800f270f8a8a1fede541b30e7a6b59bc
+Previous: 9c1f6dd4236827f8d3b5bae93a7faeab02e8a83b
+Head: c127e72d8efaf00f32933aac27f4a7ae04e0f92c
 Applied:
   add-buildbot-role: 0342241947be00863f5366f75faa9c44092b6be7
   ntel-worker: 8d226c1b802548356a07c6a693f835371f737aa5
@@ -18,6 +18,7 @@ Applied:
   change-hooks: e1d75029a80ff4392ca7692b66b9f9e57f17b210
   email-account: be0c3d8fdfe07c408b822aa7adf6db98e2263b48
   mail-reporter: 82f3b719800f270f8a8a1fede541b30e7a6b59bc
+  refresh-temp: c127e72d8efaf00f32933aac27f4a7ae04e0f92c
 Unapplied:
   codebase-generator: f3b3d90155807703e260ffdcfb69b1dbae779094
   single-branch-builders: e3245da76e1bb6ac6f27f80a92ba08089756793b
