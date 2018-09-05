@@ -1,7 +1,7 @@
-Bottom: f94d043d236a493fc86bdf7cd4b25cfa3d060d8b
-Top:    0354d490730c8c748e83053517e9d079ac584f2b
+Bottom: d3b68f13ccd50c9593779d608aaf8c7b26ebbcb9
+Top:    d6b650e59e7fea872e5b95c37aa6f84ac8a2949b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-30 14:59:04 -0500
+Date:   2018-08-30 15:57:50 -0500
 
 Configure an HAProxy reverse proxy
 
