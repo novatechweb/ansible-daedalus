@@ -1,5 +1,5 @@
-Bottom: ba73db3add009e731f606eba8ff6fa780b3069bc
-Top:    0061c21c690bf77edcf8500a7fbdf405db7d2152
+Bottom: 6e11389ff1e604edc2434600ef2e558721aec62d
+Top:    c6b94d4436b199c535ba57e71817e66cdf19a1be
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 15:44:30 -0500
 
@@ -8,7 +8,7 @@ run nexus behind reverse proxy
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index 6e49eef7..a93dfc53 100644
+index 6e49eef7c..a93dfc53a 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
 @@ -5,7 +5,6 @@ nexus_networks:
@@ -20,7 +20,7 @@ index 6e49eef7..a93dfc53 100644
  nexus_email_server_enabled: true
  nexus_email_server_host: "mail.novatech-llc.com"
 diff --git a/roles/nexus3/README.md b/roles/nexus3/README.md
-index 3165f5e3..d7367c69 100644
+index 3165f5e3e..d7367c69f 100644
 --- a/roles/nexus3/README.md
 +++ b/roles/nexus3/README.md
 @@ -134,7 +134,7 @@ Allow [anonymous access](https://help.sonatype.com/display/NXRM3/Anonymous+Acces
@@ -42,7 +42,7 @@ index 3165f5e3..d7367c69 100644
  ```yaml
  nexus_rut_auth_realm: true
 diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
-index ddc4d701..a75cc401 100644
+index ddc4d7015..a75cc4010 100644
 --- a/roles/nexus3/defaults/main.yml
 +++ b/roles/nexus3/defaults/main.yml
 @@ -17,7 +17,7 @@ nexus_container_name: 'nexus3'
@@ -64,7 +64,7 @@ index ddc4d701..a75cc401 100644
  # security realms
  nexus_nuget_api_key_realm: false
 diff --git a/roles/nexus3/molecule/nexus_test_vars.yml b/roles/nexus3/molecule/nexus_test_vars.yml
-index 173d7629..e7c6dc81 100644
+index 173d7629b..e7c6dc815 100644
 --- a/roles/nexus3/molecule/nexus_test_vars.yml
 +++ b/roles/nexus3/molecule/nexus_test_vars.yml
 @@ -4,7 +4,7 @@ httpd_setup_enable: true
@@ -77,7 +77,7 @@ index 173d7629..e7c6dc81 100644
  nexus_backup_configure: true
  
 diff --git a/roles/nexus3/tasks/call_script.yml b/roles/nexus3/tasks/call_script.yml
-index 657fd502..bea09c0a 100644
+index 657fd5023..bea09c0a4 100644
 --- a/roles/nexus3/tasks/call_script.yml
 +++ b/roles/nexus3/tasks/call_script.yml
 @@ -1,7 +1,7 @@
@@ -90,7 +90,7 @@ index 657fd502..bea09c0a 100644
      password: "{{ current_nexus_admin_password }}"
      headers:
 diff --git a/roles/nexus3/tasks/declare_script_each.yml b/roles/nexus3/tasks/declare_script_each.yml
-index 5bb77c1c..eb17fe57 100644
+index 5bb77c1ca..eb17fe573 100644
 --- a/roles/nexus3/tasks/declare_script_each.yml
 +++ b/roles/nexus3/tasks/declare_script_each.yml
 @@ -1,7 +1,7 @@
@@ -112,7 +112,7 @@ index 5bb77c1c..eb17fe57 100644
      password: "{{ current_nexus_admin_password }}"
      body_format: json
 diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
-index 59befd09..8a77e6c4 100644
+index 59befd09d..8a77e6c48 100644
 --- a/roles/nexus3/tasks/main.yml
 +++ b/roles/nexus3/tasks/main.yml
 @@ -182,7 +182,7 @@
@@ -125,7 +125,7 @@ index 59befd09..8a77e6c4 100644
  - include: call_script.yml
    vars:
 diff --git a/roles/nexus3/tasks/nexus_install_docker.yml b/roles/nexus3/tasks/nexus_install_docker.yml
-index 50c528bd..54a42c1a 100644
+index 50c528bd3..54a42c1a2 100644
 --- a/roles/nexus3/tasks/nexus_install_docker.yml
 +++ b/roles/nexus3/tasks/nexus_install_docker.yml
 @@ -65,17 +65,32 @@
@@ -181,7 +181,7 @@ index 50c528bd..54a42c1a 100644
    include: declare_script_each.yml
    vars:
 diff --git a/roles/nexus3/templates/nexus-vhost.conf b/roles/nexus3/templates/nexus-vhost.conf
-index ff06a159..1205da5d 100644
+index ff06a1598..1205da5db 100644
 --- a/roles/nexus3/templates/nexus-vhost.conf
 +++ b/roles/nexus3/templates/nexus-vhost.conf
 @@ -15,7 +15,7 @@
