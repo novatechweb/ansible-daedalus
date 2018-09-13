@@ -28,9 +28,6 @@ case ${1} in
             [ -e /etc/mailname ] \
                 && rm -rf /etc/mailname
             echo "${HOSTNAME}" > /etc/mailname
-            # set local IP addr
-            LOCAL_IP_ADDR=$(grep "[ \t]*${HOSTNAME}[ \t]*" /etc/hosts|cut -f 1)
-            sed -i 's|dc_local_interfaces=.*|dc_local_interfaces='"'${LOCAL_IP_ADDR}'"'|' ${CONFIG_PATH}/update-exim4.conf.conf
             # copy certificate
             [ -e /etc/ssl/private/exim.crt ] \
                 && rm -f ${CONFIG_PATH}/exim.crt \
