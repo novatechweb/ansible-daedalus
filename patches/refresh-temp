@@ -1,0 +1,35 @@
+Bottom: 6299f7df8d8e53648f6fd9125579ad6e44a4dae1
+Top:    522464332e57cc624d171ac09dd8a0b1ec8ab0b4
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-13 15:43:56 -0500
+
+Refresh of gitlab-haproxy
+
+---
+diff --git a/roles/docker-gitlab/templates/gitlab.rb-10.8.4.j2 b/roles/docker-gitlab/templates/gitlab.rb-10.8.4.j2
+index f66fc491..24c834aa 100644
+--- a/roles/docker-gitlab/templates/gitlab.rb-10.8.4.j2
++++ b/roles/docker-gitlab/templates/gitlab.rb-10.8.4.j2
+@@ -884,7 +884,7 @@ gitlab_rails['smtp_tls'] = true
+ 
+ nginx['enable'] = true
+ # nginx['client_max_body_size'] = '250m'
+-nginx['redirect_http_to_https'] = true
++# nginx['redirect_http_to_https'] = true
+ # nginx['redirect_http_to_https_port'] = 80
+ 
+ ##! Most root CA's are included by default
+@@ -924,11 +924,11 @@ nginx['ssl_dhparam'] = "/etc/ssl/private/dhparam.pem" # Path to dhparams.pem, eg
+ 
+ ##! **Override only if you use a reverse proxy**
+ ##! Docs: https://docs.gitlab.com/omnibus/settings/nginx.html#setting-the-nginx-listen-port
+-# nginx['listen_port'] = nil
++nginx['listen_port'] = 80
+ 
+ ##! **Override only if your reverse proxy internally communicates over HTTP**
+ ##! Docs: https://docs.gitlab.com/omnibus/settings/nginx.html#supporting-proxied-ssl
+-# nginx['listen_https'] = nil
++nginx['listen_https'] = false
+ 
+ # nginx['custom_gitlab_server_config'] = "location ^~ /foo-namespace/bar-project/raw/ {\n deny all;\n}\n"
+ # nginx['custom_nginx_config'] = "include /etc/nginx/conf.d/example.conf;"
