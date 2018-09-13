@@ -1,0 +1,132 @@
+Bottom: 9e5b37515aa889b7537016a8961e4fed2f021d41
+Top:    931eff96c43308864787f6f7c6dbcef414f9b7ef
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-13 15:45:51 -0500
+
+Refresh of haproxy
+
+---
+diff --git a/portmap.txt b/portmap.txt
+new file mode 100644
+index 00000000..6318bf53
+--- /dev/null
++++ b/portmap.txt
+@@ -0,0 +1,118 @@
++              *:111
++              *:9101
++              *:9103
++             :::111
++            ::1:25
++127.000.000.001:25      smtp
++127.000.000.001:9102    bacula-fd
++
++172.016.000.100:22      ssh
++172.016.000.100:3306    mysql
++
++svn.novatech-llc.com
++172.016.000.101:443     https
++172.016.000.101:80      http
++
++git.novatech-llc.com
++172.016.000.102:22      ssh
++172.016.000.102:443     https
++172.016.000.102:80      http
++
++wiki.novatech-llc.com
++172.016.000.103:443     https
++172.016.000.103:80      http
++
++mantis.novatech-llc.com
++172.016.000.104:443     https
++172.016.000.104:80      http
++
++buildsystem.novatech-llc.com
++172.016.000.105:22      ssh
++172.016.000.105:3306    mysql
++172.016.000.105:80      http
++
++testssh.novatech-llc.com
++172.016.000.106:22      ssh
++
++mail.novatech-llc.com
++172.016.000.107:25      smtp
++172.016.000.107:465     smtps
++172.016.000.107:587     smtp+starttls
++
++ldap.novatech-llc.com
++172.016.000.108:389     ldap
++172.016.000.108:443     https
++172.016.000.108:636     ldaps
++172.016.000.108:80      http
++
++buildbot.novatech-llc.com
++172.016.000.110:443     https
++172.016.000.110:80      http
++172.016.000.110:9989    buildbot
++
++nexus.novatech-llc.com
++172.016.000.111:443     https
++172.016.000.111:80      http
++
++frankensteinbs.novatech-llc.com
++172.016.000.120:22      ssh
++172.016.000.120:3306    mysql
++172.016.000.120:69      tftp
++172.016.000.120:80      http
++
++192.168.122.001:53      dns
++
++ssh:22
++    daedalus
++    git
++    buildsystem
++    testssh
++    frankensteinbs
++
++smtp:25
++    mail
++
++tftp:69
++    frankensteinbs
++
++http:80
++    svn
++    git
++    wiki
++    mantis
++    buildsystem
++    ldap
++    buildbot
++    nexus
++    frankensteinbs
++
++ldap:389
++    ldap
++
++https:443
++    svn
++    git
++    wiki
++    mantis
++    buildsystem
++    ldap
++    buildbot
++    nexus
++    frankensteinbs
++
++smtps:465
++    mail
++
++smtp+starttls:587
++    mail
++
++ldaps:636
++    ldap
++
++mysql:3306
++    daedalus
++    buildsystem
++    frankensteinbs
++
++buildbot:9989
++    buildbot
