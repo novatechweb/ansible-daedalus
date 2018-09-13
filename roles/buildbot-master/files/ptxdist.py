@@ -272,7 +272,9 @@ def ComputeBuildProperties(props):
 
     newprops['timestamp'] = CurrentTime()
 
-    version = props.getProperty('version', default=timestamp)
+    version = props.getProperty('version')
+    if not version:
+        version = newprops['timestamp']
 
     newprops['project'] = "OrionLX-%s-glibc" % (
         props.getProperty("platform")
@@ -348,7 +350,7 @@ def isReleaseBuild(step):
     return False
 
 # Create build factory for ptxdist
-ptxdist_factory = util.BuildFactory(
+ptxdist_factory = util.BuildFactory([
     steps.SetProperties(ComputeBuildProperties),
 
     steps.MakeDirectory(dir=util.Property('artifact_dest')),
@@ -369,7 +371,7 @@ ptxdist_factory = util.BuildFactory(
     PTXDistImages(
         doStepIf=isReleaseBuild,
     ),
-)
+])
 
 # ptxdist_factory.addStep(steps.ShellCommand(command=["./scripts/build-upgrade-test.sh"]))
 # ptxdist_factory.addStep(steps.ShellCommand(command=["curl", "--progress-bar", "-o", "/dev/null", "http://george:1234@172.16.190.70/outlet?1=CCL"]))

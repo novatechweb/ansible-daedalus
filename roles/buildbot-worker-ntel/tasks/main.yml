@@ -61,6 +61,7 @@
     dest: '{{ config_hostdir }}/pydistutils.cfg'
     group: '{{ buildbot_uid }}'
     owner: '{{ buildbot_uid }}'
+    mode: "u=rw,g=,o="
 
 - name: Populate assets secret
   template:
@@ -69,6 +70,14 @@
     group: '{{ buildbot_uid }}'
     owner: '{{ buildbot_uid }}'
     mode: "u=rw,g=,o="
+
+- name: Populate archival script
+  copy:
+    src: ci-archive.sh
+    dest: '{{ config_hostdir }}/ci-archive.sh'
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
+    mode: 'u=rwx,g=rx,o=rx'
 
 - name: Create secrets volume
   file:
@@ -81,6 +90,7 @@
     dest: '{{ secrets_hostdir }}/{{ secrets_known_hosts }}'
     group: '{{ buildbot_uid }}'
     owner: '{{ buildbot_uid }}'
+    mode: "u=rw,g=,o="
 
 - name: Checkout image repo
   git:
@@ -95,7 +105,7 @@
     tag: '{{ docker_image_tag }}'
     path: '{{ image_dir }}'
     buildargs: '{{ image_args }}'
-    extra_hosts: '{{ container_etc_hosts }}'
+    etc_hosts: '{{ container_etc_hosts }}'
     force: true
 
 - name: Start buildbot worker container

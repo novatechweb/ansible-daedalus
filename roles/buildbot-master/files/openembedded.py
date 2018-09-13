@@ -197,15 +197,17 @@ def ComputeBuildProperties(props):
 
     newprops['timestamp'] = CurrentTime()
 
-    version = props.getProperty('version', default=newprops['timestamp'])
+    version = props.getProperty('version')
+    if not version:
+        version = newprops['timestamp']
 
-    urlpath = 'ntel/unofficial'
+    urlpath = 'unofficial'
 
-    if props.getProperty('release_pin') is True:
-        urlpath = 'ntel/release'
+    if props.getProperty('release_pin'):
+        urlpath = 'release'
 
     if props.getProperty('scheduler') == 'ntel-nightly':
-        urlpath = 'ntel/nightly'
+        urlpath = 'nightly'
 
     urlpath = os.path.join('ntel', urlpath, version)
 
@@ -346,7 +348,7 @@ class BitBakeArchive(steps.ShellSequence):
             artfile = os.path.join(art['dest'], art['artifact'])
             commands.append(util.ShellArg(
                 command=[
-                    'scripts/ci-archive.sh',
+                    'ci-archive.sh',
                     art['prefix'],
                     artfile
                 ],

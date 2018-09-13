@@ -46,6 +46,7 @@
     asset_host: "{{hostvars['nexus']['uri']}}"
     asset_user: "buildbot"
     asset_password: "{{nexus_buildbot_password}}"
+    buildbot_master: "{{hostvars[buildbot_hostname].ip_addr}}"
     container_etc_hosts:
       nexus.novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
     known_hosts: "{{ gitlab_keys.stdout }}"
