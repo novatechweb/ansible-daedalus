@@ -13,7 +13,6 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes --no-install-recommends \
         git \
         imagemagick \
-        libicu52 \
         libicu-dev \
         libldap2-dev \
     && \
