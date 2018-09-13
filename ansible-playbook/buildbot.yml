@@ -9,6 +9,11 @@
     - buildbot
     - buildbot-master
   tasks:
+    - add_host:
+        name: nexus
+        groups: services
+        ip_addr: "{{ nexus_ip_addr }}"
+        uri: "http://{{nexus_hostname}}/repository"
     - name: Scan Gitlab ssh keys
       command: ssh-keyscan {{gitlab_hostname}}
       register: gitlab_keys
@@ -17,6 +22,7 @@
         name: buildbot-master
       vars:
         known_hosts: "{{gitlab_keys.stdout}}"
+        asset_host: "{{hostvars['nexus']['uri']}}"
     - name: Add buildbot user to Gitlab
       import_role:
         name: gitlab-user
@@ -37,7 +43,11 @@
     - buildbot-worker-ntel
     - buildbot-worker-ptxdist
   vars:
-    buildbot_master: "{{ hostvars['buildbot-master'].ip_addr }}"
+    asset_host: "{{hostvars['nexus']['uri']}}"
+    asset_user: "buildbot"
+    asset_password: "{{nexus_buildbot_password}}"
+    container_etc_hosts:
+      nexus.novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
     known_hosts: "{{ gitlab_keys.stdout }}"
   tasks:
     - name: Scan Gitlab ssh keys
