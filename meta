@@ -1,8 +1,8 @@
 Version: 1
-Previous: 2de58b4b177aedc79a574a49eaf56c19b085c3e3
-Head: c0f8f9b95c78c6cb763dc9862d087d3120ae06bc
+Previous: a0706239afe8ae2d249e7b1077b9d912d11270e4
+Head: cdd5ea02af3d239af0c8e0e3785b2652235580db
 Applied:
   add-haproxy-role: c0f8f9b95c78c6cb763dc9862d087d3120ae06bc
+  haproxy: cdd5ea02af3d239af0c8e0e3785b2652235580db
 Unapplied:
-  haproxy: 10ab1fd79a542d3ca950f97bd063d687ca2d0b5d
 Hidden:
