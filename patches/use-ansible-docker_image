@@ -1,7 +1,7 @@
-Bottom: 5f6ffb9f03127870b3e4d79f340788ef5d58011b
-Top:    f8bc563fd98e68f28a8153de96419113d3049956
+Bottom: 7da446a75fa17233086533b079d21c391f45b5f6
+Top:    373827f51c9b4972a1a4af05ea751d32718f61f2
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-15 10:31:39 -0500
+Date:   2018-08-30 15:57:43 -0500
 
 Use ansible docker_image module
 
@@ -353,7 +353,7 @@ index a9404bc6..ede4dc8d 100644
  # *****************************************************************************
  # Create the data volumes
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 6a4f77db..a0dc9fdb 100644
+index bb5ebf1f..b8f1bc1c 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -82,10 +82,11 @@

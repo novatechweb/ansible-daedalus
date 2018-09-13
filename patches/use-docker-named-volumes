@@ -1,7 +1,7 @@
-Bottom: 2d917a1a96b2fe5762ee0ae706b9a847653e4c8d
-Top:    aa78bec9319affa16300da970e19ed9b4467c584
+Bottom: 92481efc2708e06d281406e2a28b0a023a0b7d84
+Top:    d0b0fa7dc780d17f5beb9179fb26e8a4e799acd9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-15 10:31:38 -0500
+Date:   2018-08-30 15:57:43 -0500
 
 Use docker named volumes
 
@@ -336,7 +336,7 @@ index a95335ca..2a86d85e 100644
 +# the name of the sql database used by mediawiki
 +wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index d526ee43..1aeb23dd 100644
+index 9a8fad98..b214ceeb 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -91,44 +91,46 @@

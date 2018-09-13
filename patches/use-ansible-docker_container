@@ -1,7 +1,7 @@
-Bottom: 38889f0ed3b670dcd424f7a3569d557d783fa6b8
-Top:    2d917a1a96b2fe5762ee0ae706b9a847653e4c8d
+Bottom: 69537b179247cbcd22f9f986379a14fb018dc61d
+Top:    92481efc2708e06d281406e2a28b0a023a0b7d84
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-15 10:31:38 -0500
+Date:   2018-08-30 15:57:43 -0500
 
 Use ansible docker_container module
 
@@ -517,7 +517,7 @@ index 216ec39c..a95335ca 100644
  # database usernames and passwords
  wiki_db_user: novatech
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index b8caea59..d526ee43 100644
+index a7517366..9a8fad98 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -123,14 +123,33 @@

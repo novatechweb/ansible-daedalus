@@ -1,7 +1,7 @@
-Bottom: aa78bec9319affa16300da970e19ed9b4467c584
-Top:    5f6ffb9f03127870b3e4d79f340788ef5d58011b
+Bottom: d0b0fa7dc780d17f5beb9179fb26e8a4e799acd9
+Top:    7da446a75fa17233086533b079d21c391f45b5f6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-15 10:31:38 -0500
+Date:   2018-08-30 15:57:43 -0500
 
 Use docker named networks
 
@@ -894,7 +894,7 @@ index 2a86d85e..36f6bd3e 100644
  # the name of the sql database used by mediawiki
  wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index 1aeb23dd..6a4f77db 100644
+index b214ceeb..bb5ebf1f 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -111,6 +111,9 @@
