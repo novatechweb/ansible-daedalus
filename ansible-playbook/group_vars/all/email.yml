@@ -2,3 +2,12 @@ email_accounts:
   buildbot:
     user: buildbot
     password: '{{ buildbot_email_password }}'
+  wiki:
+    user: wiki
+    password: '{{ wiki_email_password }}'
+  gitlab:
+    user: gitlab
+    password: '{{ gitlab_email_password }}'
+  mantisbt:
+    user: mantis
+    password: '{{ mantisbt_email_password }}'
