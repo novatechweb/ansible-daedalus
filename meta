@@ -1,11 +1,10 @@
 Version: 1
-Previous: 219644e698d854d5651b5bcbddd2654b55512b32
-Head: 27f9e9fd86c65c67eb85c9b3bae3e56cd9bfe66f
+Previous: 8abdbf1b6dc0af6528dbc8fcf1119e77220d1c43
+Head: 3d216708cda83c926931f20248dbbcad8b8fafd0
 Applied:
   buildbot-fixup: 29131835626a7bd88bce64c0a2d2a8568238736c
   haproxy: e09f2e2903799c882fe2a5b9b4109379b2c9038c
   openload-fixup: 997aee8183ad837cb5a3697a70cb84ed24b369fa
-  gitlab-haproxy: 64080cb3da5c04311e0da1b15815ca9b7193bd87
-  refresh-temp: 27f9e9fd86c65c67eb85c9b3bae3e56cd9bfe66f
+  gitlab-haproxy: 3d216708cda83c926931f20248dbbcad8b8fafd0
 Unapplied:
 Hidden:
