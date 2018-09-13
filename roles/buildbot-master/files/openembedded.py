@@ -309,7 +309,7 @@ class BitBakeFactory(util.BuildFactory):
             retry=(360, 5)))
         self.addStep(steps.ShellCommand(
             command=["./oebb.sh", "config", util.Property('machine')]
-            ))
+        ))
         self.addStep(BitBakeConf(auto_conf, conf_file='auto.conf'))
         self.addStep(BitBakeConf(test_conf, conf_file='test.conf'))
         self.addStep(BitBakeConf(release_conf, conf_file='release.conf'))
