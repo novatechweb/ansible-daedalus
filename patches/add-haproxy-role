@@ -1,0 +1,132 @@
+Bottom: fbb0e0365b72d0a4491125668eb51a619ccd5848
+Top:    15d8d98db031ee157781c0b62ee952b94723db9f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-13 16:59:12 -0500
+
+Configure an HAProxy reverse proxy
+
+
+---
+diff --git a/roles/haproxy/defaults/main.yml b/roles/haproxy/defaults/main.yml
+new file mode 100644
+index 000000000..1fcca9210
+--- /dev/null
++++ b/roles/haproxy/defaults/main.yml
+@@ -0,0 +1,10 @@
++---
++
++image_name: "haproxy:1.8.12-alpine"
++
++conf_volume_hostdir: "{{ docker_restore_config_base_dir }}/{{ container_name }}"
++conf_volume_mount: "/usr/local/etc/haproxy/"
++
++container_name: "{{ docker_name_prefix }}haproxy"
++container_volumes:
++  - "{{conf_volume_hostdir}}:{{conf_volume_mount}}:ro"
+diff --git a/roles/haproxy/files/haproxy.cfg b/roles/haproxy/files/haproxy.cfg
+new file mode 100644
+index 000000000..e44016891
+--- /dev/null
++++ b/roles/haproxy/files/haproxy.cfg
+@@ -0,0 +1,98 @@
++global
++    daemon
++    maxconn 256
++    ssl-dh-param-file /etc/ssl/private/dhparam.pem
++
++defaults
++    mode http
++    timeout connect 5s
++    timeout client 50s
++    timeout server 50s
++
++#enable stats page
++listen stats
++    bind :9000
++    mode http
++    stats enable
++    stats hide-version
++    stats realm Haproxy\ Statistics
++    stats uri /haproxy_stats
++    stats auth stats:stats
++    stats refresh 5s
++
++#
++frontend container_https_in
++    mode http
++    bind *:80
++    bind *:443 ssl crt /etc/ssl/private/haproxy.pem
++
++    acl is_buildbot     hdr(host) eq buildbot.novatech-llc.com
++    acl is_gitlab       hdr(host) eq git.novatech-llc.com
++    acl is_ldapadmin    hdr(host) eq ldap.novatech-llc.com
++    acl is_mantisbt     hdr(host) eq mantis.novatech-llc.com
++    acl is_nexus        hdr(host) eq nexus.novatech-llc.com
++    acl is_svn          hdr(host) eq svn.novatech-llc.com
++    acl is_wiki         hdr(host) eq wiki.novatech-llc.com
++
++    use_backend backend-buildbot if is_buildbot
++    use_backend backend-nexus if is_nexus
++
++frontend container_ldap_in
++    mode tcp
++    bind *:389
++    bind *:636
++
++    use_backend backend-ldap
++
++frontend container_smtp_in
++    mode tcp
++    bind *:25
++    bind *:465
++    bind *:587
++
++    use_backend backend-exim4
++
++frontend container_ssh_in
++    mode tcp
++    bind *:22
++    default_backend
++
++#
++backend backend-svn
++    redirect scheme https code 301 if !{ ssl_fc }
++    server svn.frontend:80 check
++
++backend backend-phpldapadmin
++    redirect scheme https code 301 if !{ ssl_fc }
++    server phpldapadmin.frontend:80 check
++
++backend backend-exim4
++    server exim4.frontend:25 check
++
++backend backend-gitlab
++    redirect scheme https code 301 if !{ ssl_fc }
++    server gitlab.frontend:80 check
++
++backend backend-wiki
++    redirect scheme https code 301 if !{ ssl_fc }
++    server wiki.frontend:80 check
++
++backend backend-mantisbt
++    redirect scheme https code 301 if !{ ssl_fc }
++    server mantisbt.frontend:80 check
++
++backend backend-build
++    redirect scheme https code 301 if !{ ssl_fc }
++    server build.frontend:80 check
++
++backend backend-testssh
++    redirect scheme https code 301 if !{ ssl_fc }
++    server testssh.frontend:80 check
++
++backend backend-buildbot
++    redirect scheme https code 301 if !{ ssl_fc }
++    server buildbot.frontend:80 check
++
++backend backend-nexus
++    redirect scheme https code 301 if !{ ssl_fc }
++    server nexus.frontend:80 check
+diff --git a/roles/haproxy/tasks/main.yml b/roles/haproxy/tasks/main.yml
+new file mode 100644
+index 000000000..e69de29bb
