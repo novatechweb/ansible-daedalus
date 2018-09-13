@@ -1,7 +1,8 @@
 Version: 1
-Previous: a0c0d46d40d88caae3778b47e108563a3d17ea9b
-Head: 29131835626a7bd88bce64c0a2d2a8568238736c
+Previous: 3c93c71805cd1eb7c31d23f888a8a4fedc1d3f84
+Head: 4a6fcbeb8b5cc896be7e1a13cd0d4c532ecf9698
 Applied:
   buildbot-fixup: 29131835626a7bd88bce64c0a2d2a8568238736c
+  haproxy: 4a6fcbeb8b5cc896be7e1a13cd0d4c532ecf9698
 Unapplied:
 Hidden:
