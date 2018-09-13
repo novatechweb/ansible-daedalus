@@ -32,15 +32,3 @@
     line: 'ansibleremote ALL=(ALL) NOPASSWD: ALL'
     regexp: 'ansibleremote ALL=(ALL) NOPASSWD: ALL'
     state: present
-
-- name: lockdown root user
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: '^[#]?PermitRootLogin .*$'
-    line: 'PermitRootLogin no'
-    state: present
-
-- name: restart sshd service
-  service:
-    name: sshd
-    state: restarted
