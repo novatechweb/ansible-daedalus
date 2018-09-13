@@ -22,7 +22,7 @@
   become_user: root
   become_method: sudo
   tags: daedalus
-  roles: 
+  roles:
   - role: daedalus
 
 - name: Bacula
@@ -87,6 +87,10 @@
     role: docker-openssl
     tags:
     - openssl_container
+  - name: Build and start haproxy reverse proxy container
+    role: haproxy
+    tags:
+    - haproxy_container
   - name: Build and start Nexus Artifact Repository container
     role: nexus3
     tags:
