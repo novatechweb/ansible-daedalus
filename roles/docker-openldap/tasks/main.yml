@@ -151,10 +151,11 @@
       LDAP_HOSTNAME: '{{ openldap_hostname }}'
     hostname: '{{ phpldapadmin_hostname }}'
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
-    link: '{{ openldap_container_name }}:ldap'
     name: '{{ phpldapadmin_container_name }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+        links:
+          - '{{ openldap_container_name }}:ldap'
     ports: '{{ phpldapadmin_port_args }}'
     purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
