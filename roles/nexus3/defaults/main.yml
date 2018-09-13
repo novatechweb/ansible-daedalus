@@ -17,7 +17,7 @@ nexus_container_name: 'nexus3'
 nexus_image_tag: 'nexus:{{ nexus_version}}'
 nexus_backup_volume: nexus-backup
 nexus_data_volume: nexus-data
-nexus_networks: 
+nexus_networks:
   - name: nexus3
 nexus_port_args:
   - "8081"
@@ -57,7 +57,7 @@ nexus_default_context_path: '/'
 nexus_admin_password: 'changeme'  # Note : admin password change subsequent to first-time install is *not implemented* yet
 nexus_anonymous_access: false
 
-public_hostname: 'nexus.vm'
+nexus_hostname: 'nexus.vm'
 
 # security realms
 nexus_nuget_api_key_realm: false
