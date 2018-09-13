@@ -1,0 +1,15 @@
+Bottom: a70600178f11045ea85da17e577c4d64a350a4b9
+Top:    b2c8ab15ba730db34f8d02b6ee6599390b93d7e1
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-13 15:33:16 -0500
+
+Refresh of hsm-host-arg
+
+---
+diff --git a/ansible-playbook/group_vars/all/hsm.yml b/ansible-playbook/group_vars/all/hsm.yml
+new file mode 100644
+index 00000000..ed45f648
+--- /dev/null
++++ b/ansible-playbook/group_vars/all/hsm.yml
+@@ -0,0 +1 @@
++hsm_host: 172.16.64.38
