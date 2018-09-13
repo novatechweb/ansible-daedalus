@@ -1,10 +1,9 @@
 Bottom: fbb0e0365b72d0a4491125668eb51a619ccd5848
 Top:    15d8d98db031ee157781c0b62ee952b94723db9f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-09-13 16:59:12 -0500
+Date:   2018-09-13 17:10:09 -0500
 
 Configure an HAProxy reverse proxy
-
 
 ---
 diff --git a/roles/haproxy/defaults/main.yml b/roles/haproxy/defaults/main.yml
