@@ -1,0 +1,95 @@
+---
+
+- name: Install/Setup Docker images and containers on Daedalus
+  hosts: daedalus
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+    - buildbot
+    - buildbot-master
+  tasks:
+    - add_host:
+        name: nexus
+        groups: services
+        ip_addr: "{{ nexus_ip_addr }}"
+        uri: "http://{{nexus_hostname}}/repository"
+    - name: Scan Gitlab ssh keys
+      command: ssh-keyscan {{gitlab_hostname}}
+      register: gitlab_keys
+    - name: Build and start the Buildbot master container
+      import_role:
+        name: buildbot-master
+      vars:
+        known_hosts: "{{gitlab_keys.stdout}}"
+        asset_host: "{{hostvars['nexus']['uri']}}"
+    - name: Add buildbot user to Gitlab
+      import_role:
+        name: gitlab-user
+      vars:
+        new_user: buildbot
+        new_user_name: Build Robot
+        new_user_email: buildbot@novatech-llc.com
+        new_user_pass: "{{ lookup('password', '/dev/null') }}"
+
+- name: Setup Buildbot worker system
+  hosts: builder
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+    - buildbot
+    - buildbot-worker
+    - buildbot-worker-ntel
+    - buildbot-worker-ptxdist
+  vars:
+    asset_host: "{{hostvars['nexus']['uri']}}"
+    asset_user: "buildbot"
+    asset_password: "{{nexus_buildbot_password}}"
+    buildbot_master: "{{hostvars[buildbot_hostname].ip_addr}}"
+    container_etc_hosts:
+      nexus.novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
+    known_hosts: "{{ gitlab_keys.stdout }}"
+  tasks:
+    - name: Scan Gitlab ssh keys
+      command: ssh-keyscan {{gitlab_hostname}}
+      register: gitlab_keys
+    - name: Build and start the Buildbot worker container
+      import_role:
+        name: buildbot-worker-ntel
+    - name: Build and start the Buildbot worker container
+      import_role:
+        name: buildbot-worker-ptxdist
+
+- name: Gitlab public keys for buildbot containers
+  hosts: daedalus
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+    - buildbot
+  roles:
+    - name: Add buildbot-master pubkey to buildbot user
+      role: gitlab-sshkey
+      vars:
+        username: buildbot
+        pubkey: "{{ hostvars[buildbot_hostname].pubkey }}"
+        title: "buildbot-master"
+      tags:
+        - buildbot-master
+    - name: Add buildbot-worker-ntel pubkey to buildbot user
+      role: gitlab-sshkey
+      vars:
+        username: buildbot
+        pubkey: "{{ hostvars['buildbot-worker-ntel'].pubkey }}"
+        title: "buildbot-worker-ntel"
+      tags:
+        - buildbot-worker-ntel
+    - name: Add buildbot-worker-ptxdist pubkey to buildbot user
+      role: gitlab-sshkey
+      vars:
+        username: buildbot
+        pubkey: "{{ hostvars['buildbot-worker-ptxdist'].pubkey }}"
+        title: "buildbot-worker-ptxdist"
+      tags:
+        - buildbot-worker-ptxdist
