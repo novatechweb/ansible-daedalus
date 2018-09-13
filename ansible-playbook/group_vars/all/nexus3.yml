@@ -5,7 +5,6 @@ nexus_networks:
       - '{{ nexus_hostname }}'
 docker: true
 nexus_default_port: 80
-public_hostname: '{{ nexus_hostname }}'
 
 nexus_email_server_enabled: true
 nexus_email_server_host: "mail.novatech-llc.com"
