@@ -1,0 +1,23 @@
+---
+# This will generate passwords for these accounts.
+- assert:
+    that:
+    - haproxy_stats_password is defined
+
+- name: Populate config files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ config_hostdir }}/{{ item }}"
+  loop:
+    - haproxy.cfg
+
+- name: Start haproxy container
+  docker_container:
+    name: '{{ container_name }}'
+    env: '{{ container_env }}'
+    hostname: '{{ container_hostname }}'
+    image: '{{ image_name }}'
+    networks: '{{ container_networks }}'
+    ports: '{{ container_port_args }}'
+    state: started
+    volumes: '{{ container_volumes }}'
