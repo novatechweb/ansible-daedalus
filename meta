@@ -1,10 +1,11 @@
 Version: 1
-Previous: 8abdbf1b6dc0af6528dbc8fcf1119e77220d1c43
-Head: 3d216708cda83c926931f20248dbbcad8b8fafd0
+Previous: b09c1b904256247d361c79144069394f6f3d9c72
+Head: 5d85f3a57b4b5aa88a382c64fe1175e1756d1911
 Applied:
   buildbot-fixup: 29131835626a7bd88bce64c0a2d2a8568238736c
   haproxy: e09f2e2903799c882fe2a5b9b4109379b2c9038c
   openload-fixup: 997aee8183ad837cb5a3697a70cb84ed24b369fa
   gitlab-haproxy: 3d216708cda83c926931f20248dbbcad8b8fafd0
+  nexus-haproxy: 5d85f3a57b4b5aa88a382c64fe1175e1756d1911
 Unapplied:
 Hidden:
