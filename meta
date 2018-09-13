@@ -1,10 +1,10 @@
 Version: 1
-Previous: 1e8d8efb19ebd18f285313db41797ad1d98888a4
-Head: 82bb4e9ab52c47b7f48f210b6939ba373e2982f4
+Previous: 3b771553be766ac060999b77557ae5cfc7bdec71
+Head: 6bc992042b5503cc81b865435568275c958f9802
 Applied:
   add-haproxy-role: 6bc992042b5503cc81b865435568275c958f9802
-  gitlab-haproxy: 82bb4e9ab52c47b7f48f210b6939ba373e2982f4
 Unapplied:
+  gitlab-haproxy: 82bb4e9ab52c47b7f48f210b6939ba373e2982f4
   nexus-haproxy: d2af968f74e436ca690ad532c5018452f300826d
   production: 926180ddaa2409018b25be15cae53ebe40b22b8c
 Hidden:
