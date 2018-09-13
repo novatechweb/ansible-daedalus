@@ -1,5 +1,5 @@
 Bottom: a6a23b142bb93b32c4275585ed65746bb676d999
-Top:    1927096f79c1e32a9c50c516920d0d047ed977b1
+Top:    67cb26828fb039ad1f8300db492b976375c08127
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-08-16 09:17:43 -0500
 
@@ -7,6 +7,13 @@ Add build variable for HSM host
 
 
 ---
+diff --git a/ansible-playbook/group_vars/all/hsm.yml b/ansible-playbook/group_vars/all/hsm.yml
+new file mode 100644
+index 00000000..ed45f648
+--- /dev/null
++++ b/ansible-playbook/group_vars/all/hsm.yml
+@@ -0,0 +1 @@
++hsm_host: 172.16.64.38
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
 index 11a726fb..729332d4 100644
 --- a/docker/buildbot-worker-ntel/Dockerfile
