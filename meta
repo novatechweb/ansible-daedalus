@@ -1,10 +1,10 @@
 Version: 1
-Previous: 011df572db2237527dad301584b4112ab207c12b
-Head: 2d59ced8c90da7308602ff38fa3a6f48fead6323
+Previous: b0beec4f09b45b62aa7c6d7760a0843b099cd1a7
+Head: 926180ddaa2409018b25be15cae53ebe40b22b8c
 Applied:
+  production: 926180ddaa2409018b25be15cae53ebe40b22b8c
 Unapplied:
   haproxy: 6011670130d7368b85423e43dff03b66c4dbb3a6
   gitlab-haproxy: 77a214c6e37fb76320d163b05072e1262713ada2
   nexus-haproxy: d9442acb5446cefb3a77e828f2486f216ab9bdf7
-  production: e91603c8143db781e21a77450773bd784b5e225c
 Hidden:
