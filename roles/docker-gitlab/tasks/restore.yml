@@ -5,8 +5,9 @@
 # Get data from tape
 
 - name: find files
-  files_in_dir:
+  find:
     path: '{{ gitlab_docker_restore_dir }}'
+    file_type: any
   register: gitlab_backup
 
 - name: data from tape
@@ -16,11 +17,12 @@
     fileset: '{{ bacula_fileset }}'
     dest: '{{ bacula_dest }}'
     path_to_restore: '{{ gitlab_docker_backup_dir }}'
-  when: gitlab_backup.file_list == []
+  when: gitlab_backup.matched == 0
 
 - name: find files
-  files_in_dir:
+  find:
     path: '{{ gitlab_docker_restore_dir }}'
+    file_type: any
   register: gitlab_backup
 
 - name: File permissions
@@ -35,11 +37,43 @@
 # *****************************************************************************
 # restore the gitlap backup
 
+- name: Copy backup files to container
+  copy:
+    remote_src: yes
+    src: '{{ item.path }}'
+    dest: '{{ gitlab_docker_backup_dir }}/'
+    owner: root
+    group: root
+    mode: 'u=rwx,g=rwx,o=rwx'
+  loop: "{{ gitlab_backup.files }}"
+
+- name: shut down gitlab services for restoration
+  command: >
+    docker exec {{ gitlab_container_name }}
+    supervisorctl stop {{ item }}
+  loop:
+  - unicorn
+  - sidekiq
+
 - name: gitlab restore script
-  command: '{{ docker_projects_dir }}/docker-gitlab/gitlab.sh restore'
-  args:
-    chdir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/'
-  when: gitlab_backup.file_list != []
+  command: >
+    docker exec -u git {{ gitlab_container_name }}
+    bundle exec rake gitlab:backup:restore force=yes BACKUP="{{backup_file}}"
+  vars:
+    backup_file: '{{ (gitlab_backup.files | first)["path"] | basename | replace("_gitlab_backup.tar","") }}'
+
+- name: restart gitlab services
+  command: >
+    docker exec {{ gitlab_container_name }}
+    supervisorctl start all
+
+- name: Wait for gitlab to be fully running
+  uri:
+    url: 'http://{{ gitlab_hostname }}/users/sign_in'
+  register: health
+  retries: 60
+  delay: 5
+  until: health.status == 200
 
 # *****************************************************************************
 # cleanup
