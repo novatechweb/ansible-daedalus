@@ -1,0 +1,10 @@
+Bottom: 6299f7df8d8e53648f6fd9125579ad6e44a4dae1
+Top:    6299f7df8d8e53648f6fd9125579ad6e44a4dae1
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-13 15:43:49 -0500
+
+run gitlab behind haproxy
+
+
+---
+
