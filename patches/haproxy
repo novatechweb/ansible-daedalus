@@ -1,14 +1,14 @@
-Bottom: 4762dd0eddb07c97f23ad79a20a6e9ab96e78d6d
-Top:    f3bb2662176161c347f3bee6b2aa8013323f77fe
+Bottom: ce994ec4d4ef56378d9d534ae78acc5e588ff757
+Top:    514ceabe6f316d98979192aa5bf8042dc32875d9
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-09-13 15:41:47 -0500
+Date:   2018-09-13 15:53:16 -0500
 
 haproxy configuration
 
 
 ---
 diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
-index f908c8f0..b73f26e2 100644
+index f908c8f03..b73f26e20 100644
 --- a/ansible-playbook/group_vars/docker-hosts/networking.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
 @@ -1,30 +1,20 @@
@@ -76,7 +76,7 @@ index f908c8f0..b73f26e2 100644
 +nexus_port_args: []
 diff --git a/portmap.txt b/portmap.txt
 new file mode 100644
-index 00000000..6318bf53
+index 000000000..6318bf53e
 --- /dev/null
 +++ b/portmap.txt
 @@ -0,0 +1,118 @@
@@ -199,7 +199,7 @@ index 00000000..6318bf53
 +buildbot:9989
 +    buildbot
 diff --git a/roles/haproxy/files/haproxy.cfg b/roles/haproxy/files/haproxy.cfg
-index e4401689..eccf2ffc 100644
+index e44016891..eccf2ffc2 100644
 --- a/roles/haproxy/files/haproxy.cfg
 +++ b/roles/haproxy/files/haproxy.cfg
 @@ -8,17 +8,13 @@ defaults

@@ -1,7 +1,7 @@
-Bottom: d3b68f13ccd50c9593779d608aaf8c7b26ebbcb9
-Top:    4762dd0eddb07c97f23ad79a20a6e9ab96e78d6d
+Bottom: 9a2843586b4cd8166ee64ba27de6a8593c6bc44d
+Top:    ce994ec4d4ef56378d9d534ae78acc5e588ff757
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-30 15:57:50 -0500
+Date:   2018-09-13 15:53:16 -0500
 
 Configure an HAProxy reverse proxy
 
@@ -9,7 +9,7 @@ Configure an HAProxy reverse proxy
 ---
 diff --git a/roles/haproxy/defaults/main.yml b/roles/haproxy/defaults/main.yml
 new file mode 100644
-index 00000000..1fcca921
+index 000000000..1fcca9210
 --- /dev/null
 +++ b/roles/haproxy/defaults/main.yml
 @@ -0,0 +1,10 @@
@@ -25,7 +25,7 @@ index 00000000..1fcca921
 +  - "{{conf_volume_hostdir}}:{{conf_volume_mount}}:ro"
 diff --git a/roles/haproxy/files/haproxy.cfg b/roles/haproxy/files/haproxy.cfg
 new file mode 100644
-index 00000000..e4401689
+index 000000000..e44016891
 --- /dev/null
 +++ b/roles/haproxy/files/haproxy.cfg
 @@ -0,0 +1,98 @@
@@ -129,4 +129,4 @@ index 00000000..e4401689
 +    server nexus.frontend:80 check
 diff --git a/roles/haproxy/tasks/main.yml b/roles/haproxy/tasks/main.yml
 new file mode 100644
-index 00000000..e69de29b
+index 000000000..e69de29bb
