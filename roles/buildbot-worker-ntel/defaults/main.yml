@@ -54,6 +54,7 @@ container_volumes:
 - '{{ data_volume }}:{{ data_path }}:z'
 - '{{ cache_volume }}:{{ cache_path }}:z'
 - '{{ secrets_hostdir }}:{{ secrets_path }}'
+- '{{ config_hostdir }}/ci-archive.sh:/usr/local/bin/ci-archive.sh'
 - '{{ config_hostdir }}/pydistutils.cfg:/home/buildbot/.pydistutils.cfg'
 - '{{ config_hostdir }}/ptxdistrc:/home/buildbot/.ptxdist/ptxdistrc-2012.09'
 - '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
