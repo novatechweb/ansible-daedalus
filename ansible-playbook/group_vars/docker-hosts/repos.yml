@@ -1,0 +1,13 @@
+---
+
+buildbot_image_repo: https://github.com/AndrewCooper/docker-buildbot-master.git
+buildbot_worker_ntel_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ntel.git
+buildbot_worker_ptxdist_image_repo: https://github.com/AndrewCooper/docker-buildbot-worker-ptxdist.git
+exim4_image_repo: https://github.com/AndrewCooper/docker-exim4.git
+gitlab_image_repo: 'https://github.com/AndrewCooper/docker-gitlab.git'
+mantisbt_image_repo: https://github.com/AndrewCooper/docker-mantisbt.git
+openldap_image_repo: https://github.com/AndrewCooper/docker-openldap.git
+openssl_image_repo: https://github.com/AndrewCooper/docker-openssl.git
+phpldapadmin_image_repo: https://github.com/AndrewCooper/docker-phpldapadmin.git
+svn_image_repo: https://github.com/AndrewCooper/docker-svn.git
+wiki_image_repo: https://github.com/AndrewCooper/docker-mediawiki.git
