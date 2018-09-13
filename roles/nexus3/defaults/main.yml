@@ -55,7 +55,7 @@ nexus_default_context_path: '/'
 nexus_admin_password: 'changeme'  # Note : admin password change subsequent to first-time install is *not implemented* yet
 nexus_anonymous_access: false
 
-public_hostname: 'nexus.vm'
+nexus_hostname: 'nexus.vm'
 
 # security realms
 nexus_nuget_api_key_realm: false
