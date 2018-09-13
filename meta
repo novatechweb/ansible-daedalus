@@ -1,10 +1,9 @@
 Version: 1
-Previous: db4c4ebc60fcc8ec46fde2427de7333c63f5bed7
-Head: 7836980eea1667f4af3f88e8dff5b589fbcf70d8
+Previous: 84d9308902be2388f208c0393c65986b2bda7f01
+Head: 997aee8183ad837cb5a3697a70cb84ed24b369fa
 Applied:
   buildbot-fixup: 29131835626a7bd88bce64c0a2d2a8568238736c
   haproxy: e09f2e2903799c882fe2a5b9b4109379b2c9038c
-  openload-fixup: 28c2961073383b6fbf5f679d0de41c1bcb1cee3e
-  refresh-temp: 7836980eea1667f4af3f88e8dff5b589fbcf70d8
+  openload-fixup: 997aee8183ad837cb5a3697a70cb84ed24b369fa
 Unapplied:
 Hidden:
