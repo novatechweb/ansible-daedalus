@@ -1,8 +1,9 @@
 Version: 1
-Previous: 86dc5ce464dd1b3632f53a6038b855cc40aabdcd
-Head: e09f2e2903799c882fe2a5b9b4109379b2c9038c
+Previous: 380a16c6529550dfff8397b05b1d30cf5a02b2fd
+Head: 28c2961073383b6fbf5f679d0de41c1bcb1cee3e
 Applied:
   buildbot-fixup: 29131835626a7bd88bce64c0a2d2a8568238736c
   haproxy: e09f2e2903799c882fe2a5b9b4109379b2c9038c
+  openload-fixup: 28c2961073383b6fbf5f679d0de41c1bcb1cee3e
 Unapplied:
 Hidden:
