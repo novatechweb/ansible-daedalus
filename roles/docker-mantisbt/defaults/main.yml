@@ -18,8 +18,7 @@ mantisbt_db_user: novatech
 mantisbt_image_repo: https://github.com/novatechweb/docker-mantisbt.git
 mantisbt_image_name: '{{ docker_registry_username }}/mantisbt'
 
-mantisbt_db_image_name: 'mysql'
-mantisbt_db_image_tag: 5
+mantisbt_db_image_name: 'mysql:5'
 
 # the name of the container being started
 mantisbt_container_name: '{{ docker_name_prefix }}mantisbt'
