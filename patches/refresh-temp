@@ -1,0 +1,25 @@
+Bottom: e7f92a191cbbee66dd5b57a34069f07df7250368
+Top:    b63e1b7f97abb8d778caec62a5c10a24b6bc80a5
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-17 11:03:40 -0500
+
+Refresh of fixup-move-vars-to-role-defaults
+
+---
+diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
+index 36f6bd3e0..93ab0c201 100644
+--- a/roles/docker-mediawiki/defaults/main.yml
++++ b/roles/docker-mediawiki/defaults/main.yml
+@@ -14,10 +14,10 @@ wiki_db_user: novatech
+ # wiki_db_root_password: ''
+ # wiki_db_password: ''
+ 
+-wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
+-
+ # the name of the image being duilt and used for the container
++wiki_image_repo: https://github.com/novatechweb/docker-mediawiki.git
+ wiki_image_name: '{{ docker_registry_username }}/wiki'
++
+ wiki_db_image_name: 'mysql:5'
+ 
+ # the name of the container being started
