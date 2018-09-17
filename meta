@@ -1,11 +1,11 @@
 Version: 1
-Previous: 754b5c3204b4a691e52eed6a4a59a019441957e8
+Previous: 6763950d4588a321888facff57b8bae56390ea50
 Head: 9d6560afc54525498ea2b565107b82f20d90d2ef
 Applied:
   add-haproxy-role: 159f453cd4c8ba0b1fe03ee24dda41af0a08178e
   gitlab-haproxy: b65787e4ee07d7d8cd787f835d590a556ddf6a0d
   nexus-haproxy: 58ac9d3be8e902a9345eeb1c84846276651ee5a0
-  patch: 9d6560afc54525498ea2b565107b82f20d90d2ef
+  fixup-use-docker-named-volumes: 9d6560afc54525498ea2b565107b82f20d90d2ef
 Unapplied:
   production: 926180ddaa2409018b25be15cae53ebe40b22b8c
 Hidden:
