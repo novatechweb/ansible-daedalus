@@ -1,0 +1,10 @@
+Bottom: e7f92a191cbbee66dd5b57a34069f07df7250368
+Top:    e7f92a191cbbee66dd5b57a34069f07df7250368
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-17 11:03:35 -0500
+
+fixup! Move ansible role vars to role defaults
+
+
+---
+
