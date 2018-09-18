@@ -1,0 +1,170 @@
+Bottom: 746a408ab1025e3418d4b919f5a38426879175c0
+Top:    fd511c34e4388ff28a0a2cb136027f8f727575ae
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-18 16:35:20 -0500
+
+Refresh of add-haproxy-role
+
+---
+diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
+index e7a2255bc..921381ed6 100644
+--- a/ansible-playbook/group_vars/all/credentials.yml
++++ b/ansible-playbook/group_vars/all/credentials.yml
+@@ -17,6 +17,7 @@ gitlab_db_password:                  '{{ lookup("password", playbook_dir + "/cre
+ gitlab_email_password:               '{{ lookup("password", playbook_dir + "/credentials/git/email/gitlab@novatech-llc.com"   , length=20) }}'
+ gitlab_root_password:                '{{ lookup("password", playbook_dir + "/credentials/git/users/root"                      , length=20) }}'
+ gitlab_secrets_db_key_base:          '{{ lookup("password", playbook_dir + "/credentials/git/key/GITLAB_SECRETS_DB_KEY_BASE"  , length=40) }}'
++haproxy_stats_password:              '{{ lookup("password", playbook_dir + "/credentials/haproxy/stats"                       , length=20) }}'
+ mantisbt_db_password:                '{{ lookup("password", playbook_dir + "/credentials/mantis/db/user"                      , length=20) }}'
+ mantisbt_db_root_password:           '{{ lookup("password", playbook_dir + "/credentials/mantis/db/root"                      , length=20) }}'
+ mantisbt_email_password:             '{{ lookup("password", playbook_dir + "/credentials/mantis/email/mantis@novatech-llc.com", length=20) }}'
+diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
+index b73f26e20..7d353b98a 100644
+--- a/ansible-playbook/group_vars/docker-hosts/networking.yml
++++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
+@@ -40,3 +40,8 @@ buildbot_port_args:
+ 
+ nexus_hostname: nexus.novatech-llc.com
+ nexus_port_args: []
++
++haproxy_port_args:
++- "80:80"
++- "443:443"
++- "9000:9000"
+diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
+index b4ff3af83..fcdb207fb 100644
+--- a/ansible-playbook/site.yml
++++ b/ansible-playbook/site.yml
+@@ -22,7 +22,7 @@
+   become_user: root
+   become_method: sudo
+   tags: daedalus
+-  roles: 
++  roles:
+   - role: daedalus
+ 
+ - name: Bacula
+@@ -87,6 +87,10 @@
+     role: docker-openssl
+     tags:
+     - openssl_container
++  - name: Build and start haproxy reverse proxy container
++    role: haproxy
++    tags:
++    - haproxy_container
+   - name: Build and start Nexus Artifact Repository container
+     role: nexus3
+     tags:
+diff --git a/roles/haproxy/defaults/main.yml b/roles/haproxy/defaults/main.yml
+index 1fcca9210..5951965ba 100644
+--- a/roles/haproxy/defaults/main.yml
++++ b/roles/haproxy/defaults/main.yml
+@@ -1,10 +1,32 @@
+ ---
+ 
++haproxy_port_args: []
++
+ image_name: "haproxy:1.8.12-alpine"
+ 
+-conf_volume_hostdir: "{{ docker_restore_config_base_dir }}/{{ container_name }}"
+-conf_volume_mount: "/usr/local/etc/haproxy/"
++config_cert_path: /etc/ssl/private
++
++# host path containing configuration files
++config_hostdir: "{{ docker_restore_config_base_dir }}/{{ container_name }}"
++
++# environment passed to the container
++container_env: {}
++
++# hostname
++container_hostname: "{{ container_name }}"
+ 
++# the name of the container being started
+ container_name: "{{ docker_name_prefix }}haproxy"
++
++# networks of the container
++container_networks:
++  - name: '{{ docker_network_frontend }}'
++    aliases:
++      - '{{ container_hostname }}'
++
++# exposed ports of the container
++container_port_args: '{{ haproxy_port_args }}'
++
+ container_volumes:
+-  - "{{conf_volume_hostdir}}:{{conf_volume_mount}}:ro"
++  - "{{ config_hostdir }}:/usr/local/etc/haproxy:ro"
++  - "{{ openssl_dv_name }}:{{ config_cert_path }}:z"
+diff --git a/roles/haproxy/tasks/main.yml b/roles/haproxy/tasks/main.yml
+index e69de29bb..63a42aff4 100644
+--- a/roles/haproxy/tasks/main.yml
++++ b/roles/haproxy/tasks/main.yml
+@@ -0,0 +1,23 @@
++---
++# This will generate passwords for these accounts.
++- assert:
++    that:
++    - haproxy_stats_password is defined
++
++- name: Populate config files
++  template:
++    src: "{{ item }}.j2"
++    dest: "{{ config_hostdir }}/{{ item }}"
++  loop:
++    - haproxy.cfg
++
++- name: Start haproxy container
++  docker_container:
++    name: '{{ container_name }}'
++    env: '{{ container_env }}'
++    hostname: '{{ container_hostname }}'
++    image: '{{ image_name }}'
++    networks: '{{ container_networks }}'
++    ports: '{{ container_port_args }}'
++    state: started
++    volumes: '{{ container_volumes }}'
+diff --git a/roles/haproxy/files/haproxy.cfg b/roles/haproxy/templates/haproxy.cfg.j2
+similarity index 76%
+rename from roles/haproxy/files/haproxy.cfg
+rename to roles/haproxy/templates/haproxy.cfg.j2
+index eccf2ffc2..aebe31d01 100644
+--- a/roles/haproxy/files/haproxy.cfg
++++ b/roles/haproxy/templates/haproxy.cfg.j2
+@@ -1,7 +1,7 @@
+ global
+     daemon
+     maxconn 256
+-    ssl-dh-param-file /etc/ssl/private/dhparam.pem
++    ssl-dh-param-file {{ config_cert_path }}/dhparam.pem
+ 
+ defaults
+     mode http
+@@ -20,20 +20,20 @@ listen stats
+ frontend container_https_in
+     mode http
+     bind *:80
+-    bind *:443 ssl crt /etc/ssl/private/haproxy.pem
++    bind *:443 ssl crt {{ config_cert_path }}/haproxy.pem
+ 
+     http-request set-header X-Forwarded-Proto https
+     http-request set-header X-SSL %[ssl_fc]
+ 
+     http-request redirect scheme https code 301 if !{ ssl_fc }
+ 
+-    acl is_buildbot     hdr(host) eq buildbot.novatech-llc.com
+-    acl is_gitlab       hdr(host) eq git.novatech-llc.com
+-    acl is_ldapadmin    hdr(host) eq ldap.novatech-llc.com
+-    acl is_mantisbt     hdr(host) eq mantis.novatech-llc.com
+-    acl is_nexus        hdr(host) eq nexus.novatech-llc.com
+-    acl is_svn          hdr(host) eq svn.novatech-llc.com
+-    acl is_wiki         hdr(host) eq wiki.novatech-llc.com
++    acl is_buildbot     hdr(host) eq {{ buildbot_hostname }}
++    acl is_gitlab       hdr(host) eq {{ gitlab_hostname }}
++    acl is_ldapadmin    hdr(host) eq {{ openldap_hostname }}
++    acl is_mantisbt     hdr(host) eq {{ mantisbt_hostname }}
++    acl is_nexus        hdr(host) eq {{ nexus_hostname }}
++    acl is_svn          hdr(host) eq {{ svn_hostname }}
++    acl is_wiki         hdr(host) eq {{ wiki_hostname }}
+ 
+     use_backend backend-buildbot if is_buildbot
+     use_backend backend-nexus if is_nexus
