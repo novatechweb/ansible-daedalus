@@ -40,3 +40,8 @@ buildbot_port_args:
 
 nexus_hostname: nexus.novatech-llc.com
 nexus_port_args: []
+
+haproxy_port_args:
+- "80:80"
+- "443:443"
+- "9000:9000"

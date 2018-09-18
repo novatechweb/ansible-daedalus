@@ -1,7 +1,7 @@
 global
     daemon
     maxconn 256
-    ssl-dh-param-file /etc/ssl/private/dhparam.pem
+    ssl-dh-param-file {{ config_cert_path }}/dhparam.pem
 
 defaults
     mode http
@@ -20,20 +20,20 @@ listen stats
 frontend container_https_in
     mode http
     bind *:80
-    bind *:443 ssl crt /etc/ssl/private/haproxy.pem
+    bind *:443 ssl crt {{ config_cert_path }}/haproxy.pem
 
     http-request set-header X-Forwarded-Proto https
     http-request set-header X-SSL %[ssl_fc]
 
     http-request redirect scheme https code 301 if !{ ssl_fc }
 
-    acl is_buildbot     hdr(host) eq buildbot.novatech-llc.com
-    acl is_gitlab       hdr(host) eq git.novatech-llc.com
-    acl is_ldapadmin    hdr(host) eq ldap.novatech-llc.com
-    acl is_mantisbt     hdr(host) eq mantis.novatech-llc.com
-    acl is_nexus        hdr(host) eq nexus.novatech-llc.com
-    acl is_svn          hdr(host) eq svn.novatech-llc.com
-    acl is_wiki         hdr(host) eq wiki.novatech-llc.com
+    acl is_buildbot     hdr(host) eq {{ buildbot_hostname }}
+    acl is_gitlab       hdr(host) eq {{ gitlab_hostname }}
+    acl is_ldapadmin    hdr(host) eq {{ openldap_hostname }}
+    acl is_mantisbt     hdr(host) eq {{ mantisbt_hostname }}
+    acl is_nexus        hdr(host) eq {{ nexus_hostname }}
+    acl is_svn          hdr(host) eq {{ svn_hostname }}
+    acl is_wiki         hdr(host) eq {{ wiki_hostname }}
 
     use_backend backend-buildbot if is_buildbot
     use_backend backend-nexus if is_nexus
