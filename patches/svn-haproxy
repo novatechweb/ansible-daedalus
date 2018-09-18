@@ -1,0 +1,10 @@
+Bottom: b63e1b7f97abb8d778caec62a5c10a24b6bc80a5
+Top:    b63e1b7f97abb8d778caec62a5c10a24b6bc80a5
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-18 16:25:50 -0500
+
+Modify svn scripts for running behind a reverse proxy
+
+
+---
+
