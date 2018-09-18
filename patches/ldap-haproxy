@@ -1,0 +1,10 @@
+Bottom: b63e1b7f97abb8d778caec62a5c10a24b6bc80a5
+Top:    b63e1b7f97abb8d778caec62a5c10a24b6bc80a5
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-18 16:30:52 -0500
+
+Update openldap scripts to run behind reverse proxy
+
+
+---
+
