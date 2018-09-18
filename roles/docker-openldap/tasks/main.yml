@@ -147,15 +147,14 @@
     detach: true
     env:
       PHPLDAPADMIN_HTTPS: 'false'
-      PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
+      PHPLDAPADMIN_LDAP_HOSTS: '{{ openldap_container_name }}'
+      PHPLDAPADMIN_TRUST_PROXY_SSL: 'true'
       LDAP_HOSTNAME: '{{ openldap_hostname }}'
-    hostname: '{{ phpldapadmin_hostname }}'
+    hostname: '{{ phpldapadmin_container_name }}'
     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
     name: '{{ phpldapadmin_container_name }}'
     networks:
       - name: '{{ docker_network_frontend }}'
-        links:
-          - '{{ openldap_container_name }}:ldap'
     ports: '{{ phpldapadmin_port_args }}'
     purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
