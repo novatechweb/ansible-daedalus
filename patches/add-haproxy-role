@@ -1,5 +1,5 @@
 Bottom: fbb0e0365b72d0a4491125668eb51a619ccd5848
-Top:    80fd0b0f8660c8336c295cbc2a24c2b44bdc7f73
+Top:    a65b59870a760baf3d148a782f36fe8b306cc71d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 17:10:09 -0500
 
@@ -243,27 +243,6 @@ index 000000000..6318bf53e
 +
 +buildbot:9989
 +    buildbot
-diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index 7670085f4..fea7d1b67 100644
---- a/roles/docker-svn/tasks/main.yml
-+++ b/roles/docker-svn/tasks/main.yml
-@@ -53,11 +53,11 @@
- 
- # *****************************************************************************
- # Update or make the image.
--- name: Checkout image repo
--  git:
--    repo: '{{ svn_image_repo }}'
--    version: master
--    dest: '{{ docker_projects_dir }}/docker-svn'
-+# - name: Checkout image repo
-+#   git:
-+#     repo: '{{ svn_image_repo }}'
-+#     version: master
-+#     dest: '{{ docker_projects_dir }}/docker-svn'
- 
- - name: build image
-   docker_image:
 diff --git a/roles/haproxy/defaults/main.yml b/roles/haproxy/defaults/main.yml
 new file mode 100644
 index 000000000..5951965ba
