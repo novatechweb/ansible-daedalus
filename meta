@@ -1,6 +1,6 @@
 Version: 1
-Previous: 41fd7237dc9ff8a2a20a11e9be1ad868f242583d
-Head: 33562fb7b2f63e235709132f12817256c86e5858
+Previous: 9d4dc43a46f620412af82c355d77debf4329b4f9
+Head: 5a6d1d95f9be19f8ef3b06c96597c72c8fbb32bb
 Applied:
   add-haproxy-role: 814c79336ff92ded89b6e5444200208eb04cae50
   gitlab-haproxy: e9abfadb2dc3add0a28592e4b26c0a380840ccf6
@@ -9,6 +9,6 @@ Applied:
   fixup-move-vars-to-role-defaults: 37bd7637fab5013ed477b8386a4e7f50bd8fc3e0
   svn-haproxy: b990c47258d0aa40b86c8f4d9284abfbdec9962a
   ldap-haproxy: 5a6d1d95f9be19f8ef3b06c96597c72c8fbb32bb
-  production: 33562fb7b2f63e235709132f12817256c86e5858
 Unapplied:
+  production: 33562fb7b2f63e235709132f12817256c86e5858
 Hidden:
