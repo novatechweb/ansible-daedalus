@@ -1,5 +1,5 @@
 Bottom: f12c9722e744deb20f4a74f47128c177245d1e60
-Top:    76c676c34d47a7bf20c28ca59480fa9cb6e9800c
+Top:    864f252245ef65e2be8011c6500bd283d5c20591
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 15:44:30 -0500
 
@@ -8,14 +8,16 @@ run nexus behind reverse proxy
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index 6e49eef7c..a93dfc53a 100644
+index 6e49eef7c..5963e9fa3 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
-@@ -5,7 +5,6 @@ nexus_networks:
+@@ -4,8 +4,7 @@ nexus_networks:
+     aliases:
        - '{{ nexus_hostname }}'
  docker: true
- nexus_default_port: 80
+-nexus_default_port: 80
 -public_hostname: '{{ nexus_hostname }}'
++nexus_default_port: 8081
  
  nexus_email_server_enabled: true
  nexus_email_server_host: "mail.novatech-llc.com"
@@ -116,10 +118,10 @@ index 59befd09d..8a77e6c48 100644
  - include: call_script.yml
    vars:
 diff --git a/roles/nexus3/tasks/nexus_install_docker.yml b/roles/nexus3/tasks/nexus_install_docker.yml
-index 50c528bd3..54a42c1a2 100644
+index 50c528bd3..26bf93017 100644
 --- a/roles/nexus3/tasks/nexus_install_docker.yml
 +++ b/roles/nexus3/tasks/nexus_install_docker.yml
-@@ -65,17 +65,32 @@
+@@ -65,17 +65,33 @@
  - name: Start nexus container
    docker_container:
      name: '{{ nexus_container_name }}'
@@ -129,6 +131,7 @@ index 50c528bd3..54a42c1a2 100644
      networks: '{{ nexus_networks }}'
      volumes: '{{ nexus_volumes }}'
      ports: '{{ nexus_port_args }}'
++    purge_networks: true
      state: started
 +  register: nexus_container
 +
@@ -143,8 +146,8 @@ index 50c528bd3..54a42c1a2 100644
 +    uri: "https://{{nexus_hostname}}{{nexus_default_context_path}}"
 +    private_uri: "http://{{host}}:{{port}}{{nexus_default_context_path}}"
 +  vars:
-+    host: "{{ nexus_container.ansible_facts.docker_container.NetworkSettings.Ports['8081/tcp'][0].HostIp }}"
-+    port: "{{ nexus_container.ansible_facts.docker_container.NetworkSettings.Ports['8081/tcp'][0].HostPort }}"
++    host: "{{ nexus_container.ansible_facts.docker_container.NetworkSettings.Networks[docker_network_frontend].IPAddress }}"
++    port: "{{ nexus_default_port }}"
  
  - name: First-time install admin password
    set_fact:
@@ -154,7 +157,7 @@ index 50c528bd3..54a42c1a2 100644
  
  - name: Subsequent re-provision admin password
    set_fact:
-@@ -85,7 +100,7 @@
+@@ -85,7 +101,7 @@
  
  - name: Wait for container to start
    uri:
@@ -163,7 +166,12 @@ index 50c528bd3..54a42c1a2 100644
      force_basic_auth: yes
      method: GET
      password: "{{ current_nexus_admin_password }}"
-@@ -97,6 +112,7 @@
+@@ -93,10 +109,11 @@
+     status_code: 200,204
+     user: 'admin'
+   register: nexus_ping
+-  retries: 20
++  retries: 3
    delay: 5
    until: nexus_ping.content == "pong\n"
  
