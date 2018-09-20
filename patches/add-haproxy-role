@@ -1,5 +1,5 @@
 Bottom: 30b3c74e18a864b8392349a6407b343a29bfdddd
-Top:    8d373fedae51081bcbbf2d66d3a6a847f4fe0a09
+Top:    7e3e9d8c9ad24ca4a2fb68c4c23b4129dd6ac256
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 17:10:09 -0500
 
@@ -19,7 +19,7 @@ index e7a2255bc..921381ed6 100644
  mantisbt_db_root_password:           '{{ lookup("password", playbook_dir + "/credentials/mantis/db/root"                      , length=20) }}'
  mantisbt_email_password:             '{{ lookup("password", playbook_dir + "/credentials/mantis/email/mantis@novatech-llc.com", length=20) }}'
 diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
-index f652891ad..977d118e1 100644
+index f652891ad..38e7fdc6b 100644
 --- a/ansible-playbook/group_vars/docker-hosts/networking.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
 @@ -1,30 +1,20 @@
@@ -57,23 +57,8 @@ index f652891ad..977d118e1 100644
  
  testssh_hostname: testssh.novatech-llc.com
  testssh_port_args:
-@@ -32,29 +22,28 @@ testssh_port_args:
- 
- exim4_hostname: mail.novatech-llc.com
- exim4_port_args:
--- "{{ exim4_ip_addr }}:25:25"
--- "{{ exim4_ip_addr }}:465:465"
--- "{{ exim4_ip_addr }}:587:587"
-+- "{{ ansible_facts.default_ipv4.address }}:25:25"
-+- "{{ ansible_facts.default_ipv4.address }}:465:465"
-+- "{{ ansible_facts.default_ipv4.address }}:587:587"
- 
- openldap_hostname: ldap.novatech-llc.com
- openldap_port_args:
--- "{{ openldap_ip_addr }}:389:389"
--- "{{ openldap_ip_addr }}:636:636"
-+- "{{ ansible_facts.default_ipv4.address }}:389:389"
-+- "{{ ansible_facts.default_ipv4.address }}:636:636"
+@@ -42,19 +32,22 @@ openldap_port_args:
+ - "{{ openldap_ip_addr }}:636:636"
  
  phpldapadmin_hostname: ldap.novatech-llc.com
 -phpldapadmin_port_args:
@@ -87,8 +72,7 @@ index f652891ad..977d118e1 100644
  buildbot_port_args:
 -- "{{ buildbot_ip_addr }}:80:8080"
 -- "{{ buildbot_ip_addr }}:443:8443"
--- "{{ buildbot_ip_addr }}:9989:9989"
-+- "{{ ansible_facts.default_ipv4.address }}:9989:9989"
+ - "{{ buildbot_ip_addr }}:9989:9989"
  
  nexus_hostname: nexus.novatech-llc.com
 -nexus_port_args:
@@ -100,6 +84,10 @@ index f652891ad..977d118e1 100644
 +- "{{ ansible_facts.default_ipv4.address }}:80:80"
 +- "{{ ansible_facts.default_ipv4.address }}:443:443"
 +- "{{ ansible_facts.default_ipv4.address }}:9000:9000"
++- "{{ buildbot_ip_addr }}:80:80"
++- "{{ buildbot_ip_addr }}:443:443"
++- "{{ nexus_ip_addr }}:80:80"
++- "{{ nexus_ip_addr }}:443:443"
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index b4ff3af83..fcdb207fb 100644
 --- a/ansible-playbook/site.yml
