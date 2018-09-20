@@ -1,0 +1,26 @@
+Bottom: d33b688f58088664bce734fe31d36b574a2987a6
+Top:    c0bae257ac060023dff47b6893832f379f67757a
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-20 14:53:08 -0500
+
+Refresh of nexus-haproxy
+
+---
+diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
+index 1e1501d69..96842ce59 100644
+--- a/roles/nexus3/defaults/main.yml
++++ b/roles/nexus3/defaults/main.yml
+@@ -17,11 +17,9 @@ nexus_container_name: 'nexus3'
+ nexus_image_tag: 'nexus:{{ nexus_version}}'
+ nexus_backup_volume: nexus-backup
+ nexus_data_volume: nexus-data
+-nexus_networks: 
++nexus_networks:
+   - name: nexus3
+-nexus_port_args:
+-  - "8081"
+-  - "8443"
++nexus_port_args: []
+ nexus_volumes:
+   - '{{ nexus_data_volume }}:{{ nexus_data_dir }}:z'
+   - '{{ nexus_backup_volume }}:{{ nexus_backup_dir }}:z'
