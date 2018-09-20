@@ -1,0 +1,11 @@
+Bottom: e5db4646212353dc13465f6b26785b770ee19dd8
+Top:    e5db4646212353dc13465f6b26785b770ee19dd8
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-20 09:51:00 -0500
+
+Update configuration for running behind reverse proxy
+
+
+
+---
+
