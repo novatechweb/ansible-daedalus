@@ -1,0 +1,21 @@
+Bottom: e5db4646212353dc13465f6b26785b770ee19dd8
+Top:    82f974ac7d1ab440fac536597e73a6cea75af80d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-20 09:53:25 -0500
+
+Refresh of buildbot-haproxy
+
+---
+diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
+index d23f6eee7..656c05a3e 100644
+--- a/roles/buildbot-master/defaults/main.yml
++++ b/roles/buildbot-master/defaults/main.yml
+@@ -47,7 +47,7 @@ container_env:
+   BUILDBOT_SMTP_USER: 'buildbot'
+   BUILDBOT_SMTP_PASS: '{{ buildbot_email_password }}'
+   BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
+-  BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
++  BUILDBOT_WEB_URL: 'https://{{ buildbot_hostname }}/'
+   BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
+   BUILDBOT_WORKER_NTEL: 'worker-ntel'
+   BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
