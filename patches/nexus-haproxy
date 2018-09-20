@@ -1,5 +1,5 @@
-Bottom: 0c3e3afdaf0015a22cbef0a25b5a0260674d9c4e
-Top:    c0bae257ac060023dff47b6893832f379f67757a
+Bottom: 0cf07e3c547f8193e511a73a12b63f44c2ff00cb
+Top:    d33b688f58088664bce734fe31d36b574a2987a6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 15:44:30 -0500
 
@@ -44,10 +44,10 @@ index 3165f5e3e..d7367c69f 100644
  ```yaml
  nexus_rut_auth_realm: true
 diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
-index e891ad741..96842ce59 100644
+index ddc4d7015..1e1501d69 100644
 --- a/roles/nexus3/defaults/main.yml
 +++ b/roles/nexus3/defaults/main.yml
-@@ -55,7 +55,7 @@ nexus_default_context_path: '/'
+@@ -57,7 +57,7 @@ nexus_default_context_path: '/'
  nexus_admin_password: 'changeme'  # Note : admin password change subsequent to first-time install is *not implemented* yet
  nexus_anonymous_access: false
  
