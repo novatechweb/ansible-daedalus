@@ -1,0 +1,49 @@
+Bottom: 5ed7e9bb453abfd639b3b196f4417d8e72668861
+Top:    ee2cebe1de99b232e8abc181c7cf684ed92e8570
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-20 14:44:33 -0500
+
+Refresh of add-haproxy-role
+
+---
+diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
+index 977d118e1..38e7fdc6b 100644
+--- a/ansible-playbook/group_vars/docker-hosts/networking.yml
++++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
+@@ -22,14 +22,14 @@ testssh_port_args:
+ 
+ exim4_hostname: mail.novatech-llc.com
+ exim4_port_args:
+-- "{{ ansible_facts.default_ipv4.address }}:25:25"
+-- "{{ ansible_facts.default_ipv4.address }}:465:465"
+-- "{{ ansible_facts.default_ipv4.address }}:587:587"
++- "{{ exim4_ip_addr }}:25:25"
++- "{{ exim4_ip_addr }}:465:465"
++- "{{ exim4_ip_addr }}:587:587"
+ 
+ openldap_hostname: ldap.novatech-llc.com
+ openldap_port_args:
+-- "{{ ansible_facts.default_ipv4.address }}:389:389"
+-- "{{ ansible_facts.default_ipv4.address }}:636:636"
++- "{{ openldap_ip_addr }}:389:389"
++- "{{ openldap_ip_addr }}:636:636"
+ 
+ phpldapadmin_hostname: ldap.novatech-llc.com
+ phpldapadmin_port_args: []
+@@ -38,7 +38,7 @@ phpmyadmin_hostname: phpmyadmin.novatech-llc.com
+ 
+ buildbot_hostname: buildbot.novatech-llc.com
+ buildbot_port_args:
+-- "{{ ansible_facts.default_ipv4.address }}:9989:9989"
++- "{{ buildbot_ip_addr }}:9989:9989"
+ 
+ nexus_hostname: nexus.novatech-llc.com
+ nexus_port_args: []
+@@ -47,3 +47,7 @@ haproxy_port_args:
+ - "{{ ansible_facts.default_ipv4.address }}:80:80"
+ - "{{ ansible_facts.default_ipv4.address }}:443:443"
+ - "{{ ansible_facts.default_ipv4.address }}:9000:9000"
++- "{{ buildbot_ip_addr }}:80:80"
++- "{{ buildbot_ip_addr }}:443:443"
++- "{{ nexus_ip_addr }}:80:80"
++- "{{ nexus_ip_addr }}:443:443"
