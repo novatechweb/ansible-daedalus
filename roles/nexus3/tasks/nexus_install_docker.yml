@@ -109,10 +109,9 @@
     status_code: 200,204
     user: 'admin'
   register: nexus_ping
-  retries: 3
+  retries: 20
   delay: 5
   until: nexus_ping.content == "pong\n"
-
 
 - name: Declare groovy scripts in nexus
   include: declare_script_each.yml
