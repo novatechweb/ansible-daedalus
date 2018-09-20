@@ -17,9 +17,11 @@ nexus_container_name: 'nexus3'
 nexus_image_tag: 'nexus:{{ nexus_version}}'
 nexus_backup_volume: nexus-backup
 nexus_data_volume: nexus-data
-nexus_networks:
+nexus_networks: 
   - name: nexus3
-nexus_port_args: []
+nexus_port_args:
+  - "8081"
+  - "8443"
 nexus_volumes:
   - '{{ nexus_data_volume }}:{{ nexus_data_dir }}:z'
   - '{{ nexus_backup_volume }}:{{ nexus_backup_dir }}:z'
