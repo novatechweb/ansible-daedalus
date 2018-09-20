@@ -1,5 +1,5 @@
 Bottom: fbb0e0365b72d0a4491125668eb51a619ccd5848
-Top:    a65b59870a760baf3d148a782f36fe8b306cc71d
+Top:    0dd06981332b6ddd36fd90cede013a99907d1e30
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 17:10:09 -0500
 
@@ -19,7 +19,7 @@ index e7a2255bc..921381ed6 100644
  mantisbt_db_root_password:           '{{ lookup("password", playbook_dir + "/credentials/mantis/db/root"                      , length=20) }}'
  mantisbt_email_password:             '{{ lookup("password", playbook_dir + "/credentials/mantis/email/mantis@novatech-llc.com", length=20) }}'
 diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
-index f652891ad..7d353b98a 100644
+index f652891ad..32d99802b 100644
 --- a/ansible-playbook/group_vars/docker-hosts/networking.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
 @@ -1,30 +1,20 @@
@@ -57,19 +57,23 @@ index f652891ad..7d353b98a 100644
  
  testssh_hostname: testssh.novatech-llc.com
  testssh_port_args:
-@@ -32,9 +22,7 @@ testssh_port_args:
+@@ -32,29 +22,28 @@ testssh_port_args:
  
  exim4_hostname: mail.novatech-llc.com
  exim4_port_args:
 -- "{{ exim4_ip_addr }}:25:25"
 -- "{{ exim4_ip_addr }}:465:465"
 -- "{{ exim4_ip_addr }}:587:587"
-+- "25"
++- "25:25"
++- "465:465"
++- "587:587"
  
  openldap_hostname: ldap.novatech-llc.com
  openldap_port_args:
-@@ -42,19 +30,18 @@ openldap_port_args:
- - "{{ openldap_ip_addr }}:636:636"
+-- "{{ openldap_ip_addr }}:389:389"
+-- "{{ openldap_ip_addr }}:636:636"
++- "389:389"
++- "636:636"
  
  phpldapadmin_hostname: ldap.novatech-llc.com
 -phpldapadmin_port_args:
@@ -83,7 +87,8 @@ index f652891ad..7d353b98a 100644
  buildbot_port_args:
 -- "{{ buildbot_ip_addr }}:80:8080"
 -- "{{ buildbot_ip_addr }}:443:8443"
- - "{{ buildbot_ip_addr }}:9989:9989"
+-- "{{ buildbot_ip_addr }}:9989:9989"
++- "9989:9989"
  
  nexus_hostname: nexus.novatech-llc.com
 -nexus_port_args:
