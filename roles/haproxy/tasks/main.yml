@@ -4,6 +4,17 @@
     that:
     - haproxy_stats_password is defined
 
+# Setup the configuration directory
+- name: docker_container.conf dir
+  file:
+    state: directory
+    path: '{{ config_hostdir }}'
+    owner: root
+    group: root
+    mode: 'u=rwx,g=rx,o=rx'
+    recurse: no
+
+
 - name: Populate config files
   template:
     src: "{{ item }}.j2"
@@ -19,5 +30,6 @@
     image: '{{ image_name }}'
     networks: '{{ container_networks }}'
     ports: '{{ container_port_args }}'
+    purge_networks: true
     state: started
     volumes: '{{ container_volumes }}'
