@@ -1,0 +1,25 @@
+Bottom: ee2cebe1de99b232e8abc181c7cf684ed92e8570
+Top:    c540b5229583b76e3e576e73928cc7cd71c330ab
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-20 16:22:45 -0500
+
+Refresh of add-haproxy-role
+
+---
+diff --git a/roles/nexus3/tasks/nexus_install_docker.yml b/roles/nexus3/tasks/nexus_install_docker.yml
+index 26bf93017..fc19157fb 100644
+--- a/roles/nexus3/tasks/nexus_install_docker.yml
++++ b/roles/nexus3/tasks/nexus_install_docker.yml
+@@ -109,11 +109,10 @@
+     status_code: 200,204
+     user: 'admin'
+   register: nexus_ping
+-  retries: 3
++  retries: 20
+   delay: 5
+   until: nexus_ping.content == "pong\n"
+ 
+-
+ - name: Declare groovy scripts in nexus
+   include: declare_script_each.yml
+   vars:
