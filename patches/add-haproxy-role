@@ -1,5 +1,5 @@
 Bottom: 30b3c74e18a864b8392349a6407b343a29bfdddd
-Top:    7e3e9d8c9ad24ca4a2fb68c4c23b4129dd6ac256
+Top:    3db371792cd682d85f634f62a487c2a95b42ee6f
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 17:10:09 -0500
 
@@ -414,21 +414,3 @@ index 000000000..228ef73a0
 +
 +backend backend-nexus
 +    server nexus1 nexus3.frontend:8081
-diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
-index ddc4d7015..e891ad741 100644
---- a/roles/nexus3/defaults/main.yml
-+++ b/roles/nexus3/defaults/main.yml
-@@ -17,11 +17,9 @@ nexus_container_name: 'nexus3'
- nexus_image_tag: 'nexus:{{ nexus_version}}'
- nexus_backup_volume: nexus-backup
- nexus_data_volume: nexus-data
--nexus_networks: 
-+nexus_networks:
-   - name: nexus3
--nexus_port_args:
--  - "8081"
--  - "8443"
-+nexus_port_args: []
- nexus_volumes:
-   - '{{ nexus_data_volume }}:{{ nexus_data_dir }}:z'
-   - '{{ nexus_backup_volume }}:{{ nexus_backup_dir }}:z'
