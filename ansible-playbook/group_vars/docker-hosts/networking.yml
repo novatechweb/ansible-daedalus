@@ -22,12 +22,14 @@ testssh_port_args:
 
 exim4_hostname: mail.novatech-llc.com
 exim4_port_args:
-- "25"
+- "25:25"
+- "465:465"
+- "587:587"
 
 openldap_hostname: ldap.novatech-llc.com
 openldap_port_args:
-- "{{ openldap_ip_addr }}:389:389"
-- "{{ openldap_ip_addr }}:636:636"
+- "389:389"
+- "636:636"
 
 phpldapadmin_hostname: ldap.novatech-llc.com
 phpldapadmin_port_args: []
@@ -36,7 +38,7 @@ phpmyadmin_hostname: phpmyadmin.novatech-llc.com
 
 buildbot_hostname: buildbot.novatech-llc.com
 buildbot_port_args:
-- "{{ buildbot_ip_addr }}:9989:9989"
+- "9989:9989"
 
 nexus_hostname: nexus.novatech-llc.com
 nexus_port_args: []
