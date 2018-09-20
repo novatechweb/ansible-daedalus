@@ -1,6 +1,6 @@
 Version: 1
-Previous: 81a601e46aad361eff145492bff2f395f2f9f743
-Head: 8b067987dedce632546c79bee6686a57bd31c3a4
+Previous: b8010b43add6bd7de7a7906ffaed713b0b7edabc
+Head: 02d8d6e6191627ac2d9071a6328dc51f1eaaa8fe
 Applied:
   fixup-use-docker-named-volumes: 7b18db59f490ad7181ac5f7fdba15e641e61d238
   fixup-move-vars-to-role-defaults: 95526cd63c652f69e36b7e3d8f5ea16e13365aab
@@ -9,7 +9,7 @@ Applied:
   nexus-haproxy: 64450c7c3bb9749cf919edba5fc1fdfc039b2ec2
   svn-haproxy: f0ae111cb71724fbea49eeff8460ad81a6d3031b
   ldap-haproxy: fd6a7ef867219356dedd072f96ed3626372d0a60
-  production: 084d51379b47bdeaf3a6a5f022cf09a6398dc41c
-  buildbot-haproxy: 8b067987dedce632546c79bee6686a57bd31c3a4
+  buildbot-haproxy: 6bc39834346bc4932882ff86e291adfd8b5f8ff4
+  production: 02d8d6e6191627ac2d9071a6328dc51f1eaaa8fe
 Unapplied:
 Hidden:
