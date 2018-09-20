@@ -6,13 +6,6 @@
     name: docker
     system: yes
 
-- name: restart docker service
-  service:
-    name: docker
-    state: restarted
-    enabled: yes
-
-- import_tasks: ip_addr.yml
 - import_tasks: packages.yml
 - import_tasks: sshd_settings.yml
 - import_tasks: mariadb_settings.yml

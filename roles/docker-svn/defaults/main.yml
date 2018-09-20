@@ -1,17 +1,11 @@
 ---
 
 # The hostname passed as an envirnment variable into the container
-container_addr_map:
-  svn:
-    ip_addr: '127.0.0.1'
-    hostname: svn.example.com
-
-# the port mappings used when starting the container
-container_port_map:
-  svn:
-    port_args: 
-      - '{{ container_addr_map.svn.ip_addr }}:80:80'
-      - '{{ container_addr_map.svn.ip_addr }}:443:443'
+svn_ip_addr: '127.0.0.1'
+svn_hostname: svn.example.com
+svn_port_args: 
+  - '80'
+  - '443'
 
 # The repositories that will be created/imported durring a data-volume restore
 svn_repos: 'example'
@@ -29,3 +23,6 @@ svn_dv_name: '{{ docker_name_prefix }}svn_DV'
 # restore directories to temporarly store data being restored into docker containers
 svn_docker_backup_dir: '{{ docker_backup_dir }}/SVN'
 svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
+
+# Network names
+docker_network_frontend: 'frontend'
