@@ -1,7 +1,7 @@
 Bottom: d0b0fa7dc780d17f5beb9179fb26e8a4e799acd9
-Top:    7da446a75fa17233086533b079d21c391f45b5f6
+Top:    cda603223ee1c88851213ed96ad9af6bb1b95ea0
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-30 15:57:43 -0500
+Date:   2018-09-20 16:26:20 -0500
 
 Use docker named networks
 
@@ -13,10 +13,9 @@ cause as little disturbance as possible.
 Hostnames for testdaedalus must match live daedalus in order for backup restore
 functions to work properly.
 
-
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 8d742df6..534a0a67 100644
+index 8d742df65..534a0a675 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -1,17 +1,17 @@
@@ -50,7 +49,7 @@ index 8d742df6..534a0a67 100644
  buildsystem_ssh_root_user_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/ssh/root length=20") }}'
  buildsystem_database_root_password:  '{{ lookup("password", inventory_dir + "/credentials/buildsystem.novatech-llc.com/database/root length=20") }}'
 diff --git a/ansible-playbook/group_vars/docker-hosts/docker.yml b/ansible-playbook/group_vars/docker-hosts/docker.yml
-index 1e26c99f..f9faae1c 100644
+index 1e26c99f3..f9faae1cd 100644
 --- a/ansible-playbook/group_vars/docker-hosts/docker.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/docker.yml
 @@ -18,3 +18,6 @@ docker_backup_dir: '/tmp/docker'
@@ -62,7 +61,7 @@ index 1e26c99f..f9faae1c 100644
 +docker_network_frontend: 'frontend'
 diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
 new file mode 100644
-index 00000000..f142ff2e
+index 000000000..f142ff2e7
 --- /dev/null
 +++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
 @@ -0,0 +1,51 @@
@@ -119,7 +118,7 @@ index 00000000..f142ff2e
 +freeipa_hostname: freeipa.novatech-llc.com
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 deleted file mode 100644
-index 0f4498cc..00000000
+index 0f4498cc3..000000000
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 +++ /dev/null
 @@ -1,88 +0,0 @@
@@ -213,7 +212,7 @@ index 0f4498cc..00000000
 -      - '{{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 new file mode 100644
-index 00000000..db655fca
+index 000000000..db655fca7
 --- /dev/null
 +++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 @@ -0,0 +1,18 @@
@@ -237,7 +236,7 @@ index 00000000..db655fca
 +freeipa_ip_addr:      172.16.0.110
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 deleted file mode 100644
-index 4a07c812..00000000
+index 4a07c8129..000000000
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker-container_addr_map-and-container_port_map.yml
 +++ /dev/null
 @@ -1,88 +0,0 @@
@@ -331,7 +330,7 @@ index 4a07c812..00000000
 -      - '{{ container_addr_map.phpmyadmin.ip_addr }}:443:443'
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 new file mode 100644
-index 00000000..54e8ce2d
+index 000000000..54e8ce2d3
 --- /dev/null
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 @@ -0,0 +1,18 @@
@@ -354,7 +353,7 @@ index 00000000..54e8ce2d
 +phpmyadmin_ip_addr:   172.16.103.109
 +freeipa_ip_addr:      172.16.103.110
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 2d82aa67..1a2fc0a4 100644
+index 2d82aa676..1a2fc0a42 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -75,6 +75,22 @@
@@ -381,7 +380,7 @@ index 2d82aa67..1a2fc0a4 100644
      role: docker-svn
      svn_repos: 'ddio NCD_Release'
 diff --git a/ansible-playbook/staging b/ansible-playbook/staging
-index d5701031..89cff574 100644
+index d57010315..89cff5746 100644
 --- a/ansible-playbook/staging
 +++ b/ansible-playbook/staging
 @@ -10,4 +10,4 @@ testdaedalus.novatech-llc.com
@@ -391,7 +390,7 @@ index d5701031..89cff574 100644
 -buildsystem.novatech-llc.com ansible_ssh_host=172.16.64.105
 +buildsystem.novatech-llc.com
 diff --git a/roles/docker-buildsystem/defaults/main.yml b/roles/docker-buildsystem/defaults/main.yml
-index 9d4820f9..b4341aa0 100644
+index 9d4820f94..b4341aa0d 100644
 --- a/roles/docker-buildsystem/defaults/main.yml
 +++ b/roles/docker-buildsystem/defaults/main.yml
 @@ -1,19 +1,19 @@
@@ -420,7 +419,7 @@ index 9d4820f9..b4341aa0 100644
  # restore directories to temporarly store data being restored into docker containers
  backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
-index 2cc83270..e88455d0 100644
+index 2cc832707..e88455d0e 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_database.yml
 @@ -25,7 +25,7 @@
@@ -433,7 +432,7 @@ index 2cc83270..e88455d0 100644
      restart_policy: '{{ docker_restart_policy }}'
      volumes_from:
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
-index 9dee514f..dea13311 100644
+index 9dee514fd..dea133115 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_http.yml
 @@ -14,7 +14,7 @@
@@ -446,7 +445,7 @@ index 9dee514f..dea13311 100644
      restart_policy: '{{ docker_restart_policy }}'
      volumes_from:
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
-index 2be1cb0c..977ac9a1 100644
+index 2be1cb0cb..977ac9a16 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh.yml
 @@ -20,7 +20,7 @@
@@ -459,7 +458,7 @@ index 2be1cb0c..977ac9a1 100644
      state: "{{ container_start_state_nondata }}"
      volumes_from:
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
-index 1f4c4b10..12c95bb1 100644
+index 1f4c4b10c..12c95bb10 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_ssh_prod.yml
 @@ -31,6 +31,6 @@
@@ -471,7 +470,7 @@ index 1f4c4b10..12c95bb1 100644
      state: "{{ container_start_state_nondata }}"
      restart_policy: '{{ docker_restart_policy }}'
 diff --git a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
-index 821fbe0f..714027bf 100644
+index 821fbe0fb..714027bf2 100644
 --- a/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
 +++ b/roles/docker-buildsystem/tasks/docker_containers/server_tftp.yml
 @@ -13,7 +13,7 @@
@@ -484,7 +483,7 @@ index 821fbe0f..714027bf 100644
      restart_policy: '{{ docker_restart_policy }}'
      volumes_from:
 diff --git a/roles/docker-buildsystem/tasks/main.yml b/roles/docker-buildsystem/tasks/main.yml
-index b62739ea..065f10b9 100644
+index b62739ea0..065f10b94 100644
 --- a/roles/docker-buildsystem/tasks/main.yml
 +++ b/roles/docker-buildsystem/tasks/main.yml
 @@ -2,8 +2,8 @@
@@ -500,7 +499,7 @@ index b62739ea..065f10b9 100644
      - buildsystem_database_root_password is defined
 diff --git a/roles/docker-common/tasks/ip_addr.yml b/roles/docker-common/tasks/ip_addr.yml
 deleted file mode 100644
-index 6f8d9656..00000000
+index 6f8d96560..000000000
 --- a/roles/docker-common/tasks/ip_addr.yml
 +++ /dev/null
 @@ -1,44 +0,0 @@
@@ -549,7 +548,7 @@ index 6f8d9656..00000000
 -    state: restarted
 -  when: ansible_os_family == "RedHat"
 diff --git a/roles/docker-common/tasks/main.yml b/roles/docker-common/tasks/main.yml
-index da75e132..699b23f7 100644
+index da75e132c..699b23f7c 100644
 --- a/roles/docker-common/tasks/main.yml
 +++ b/roles/docker-common/tasks/main.yml
 @@ -6,13 +6,6 @@
@@ -568,7 +567,7 @@ index da75e132..699b23f7 100644
  - import_tasks: mariadb_settings.yml
 diff --git a/roles/docker-common/templates/ifcfg-br0.j2 b/roles/docker-common/templates/ifcfg-br0.j2
 deleted file mode 100644
-index e4280e01..00000000
+index e4280e01f..000000000
 --- a/roles/docker-common/templates/ifcfg-br0.j2
 +++ /dev/null
 @@ -1,9 +0,0 @@
@@ -582,7 +581,7 @@ index e4280e01..00000000
 -BROADCAST=172.16.255.255
 -TYPE=Ethernet
 diff --git a/roles/docker-exim4/defaults/main.yml b/roles/docker-exim4/defaults/main.yml
-index 087ad336..dd4c2eca 100644
+index 087ad3364..dd4c2eca5 100644
 --- a/roles/docker-exim4/defaults/main.yml
 +++ b/roles/docker-exim4/defaults/main.yml
 @@ -1,18 +1,12 @@
@@ -618,7 +617,7 @@ index 087ad336..dd4c2eca 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
-index aed4ecf5..e71c619f 100644
+index aed4ecf55..e71c619fc 100644
 --- a/roles/docker-exim4/tasks/main.yml
 +++ b/roles/docker-exim4/tasks/main.yml
 @@ -104,10 +104,15 @@
@@ -641,7 +640,7 @@ index aed4ecf5..e71c619f 100644
      state: started
      volumes:
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index d28280d7..562a856c 100644
+index d28280d77..562a856c3 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -1,18 +1,12 @@
@@ -677,7 +676,7 @@ index d28280d7..562a856c 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 70bf4e2d..704b51d4 100644
+index 70bf4e2d9..704b51d4f 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -129,6 +129,9 @@
@@ -745,7 +744,7 @@ index 70bf4e2d..704b51d4 100644
      state: started
      timeout: 180
 diff --git a/roles/docker-mantisbt/defaults/main.yml b/roles/docker-mantisbt/defaults/main.yml
-index 7e8179c4..29727bd9 100644
+index 7e8179c45..29727bd90 100644
 --- a/roles/docker-mantisbt/defaults/main.yml
 +++ b/roles/docker-mantisbt/defaults/main.yml
 @@ -1,17 +1,11 @@
@@ -803,7 +802,7 @@ index 7e8179c4..29727bd9 100644
 +# the name of the sql database used by mantisbt
 +mantisbt_database_name: 'bugtracker'
 diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
-index 450e58d7..a9404bc6 100644
+index 450e58d7f..a9404bc6e 100644
 --- a/roles/docker-mantisbt/tasks/main.yml
 +++ b/roles/docker-mantisbt/tasks/main.yml
 @@ -141,6 +141,9 @@
@@ -847,7 +846,7 @@ index 450e58d7..a9404bc6 100644
      volumes:
        - '{{ openssl_dv_name }}:/etc/ssl/private:z'
 diff --git a/roles/docker-mantisbt/templates/config.sh.j2 b/roles/docker-mantisbt/templates/config.sh.j2
-index f9538c8a..6f4f7087 100644
+index f9538c8ac..6f4f70872 100644
 --- a/roles/docker-mantisbt/templates/config.sh.j2
 +++ b/roles/docker-mantisbt/templates/config.sh.j2
 @@ -11,5 +11,5 @@
@@ -858,7 +857,7 @@ index f9538c8a..6f4f7087 100644
 +  MANTISBT_DB_DB_NAME='{{ mantisbt_database_name }}'
  }
 diff --git a/roles/docker-mediawiki/defaults/main.yml b/roles/docker-mediawiki/defaults/main.yml
-index 2a86d85e..36f6bd3e 100644
+index 2a86d85e4..36f6bd3e0 100644
 --- a/roles/docker-mediawiki/defaults/main.yml
 +++ b/roles/docker-mediawiki/defaults/main.yml
 @@ -1,17 +1,11 @@
@@ -894,7 +893,7 @@ index 2a86d85e..36f6bd3e 100644
  # the name of the sql database used by mediawiki
  wiki_database_name: wikidb
 diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
-index b214ceeb..bb5ebf1f 100644
+index b214ceeb8..bb5ebf1fa 100644
 --- a/roles/docker-mediawiki/tasks/main.yml
 +++ b/roles/docker-mediawiki/tasks/main.yml
 @@ -111,6 +111,9 @@
@@ -938,7 +937,7 @@ index b214ceeb..bb5ebf1f 100644
      volumes:
 diff --git a/roles/docker-networking/defaults/main.yml b/roles/docker-networking/defaults/main.yml
 new file mode 100644
-index 00000000..f480011b
+index 000000000..f480011b1
 --- /dev/null
 +++ b/roles/docker-networking/defaults/main.yml
 @@ -0,0 +1,5 @@
@@ -949,7 +948,7 @@ index 00000000..f480011b
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-networking/tasks/hosts.yml b/roles/docker-networking/tasks/hosts.yml
 new file mode 100644
-index 00000000..f96b3d8b
+index 000000000..f96b3d8b5
 --- /dev/null
 +++ b/roles/docker-networking/tasks/hosts.yml
 @@ -0,0 +1,14 @@
@@ -969,7 +968,7 @@ index 00000000..f96b3d8b
 +  loop: "{{ services }}"
 diff --git a/roles/docker-networking/tasks/ip_addr.yml b/roles/docker-networking/tasks/ip_addr.yml
 new file mode 100644
-index 00000000..5ef28e7f
+index 000000000..5ef28e7fb
 --- /dev/null
 +++ b/roles/docker-networking/tasks/ip_addr.yml
 @@ -0,0 +1,46 @@
@@ -1021,7 +1020,7 @@ index 00000000..5ef28e7f
 +    - ( network_pre != network_post )
 diff --git a/roles/docker-networking/tasks/main.yml b/roles/docker-networking/tasks/main.yml
 new file mode 100644
-index 00000000..c220b585
+index 000000000..c220b585b
 --- /dev/null
 +++ b/roles/docker-networking/tasks/main.yml
 @@ -0,0 +1,17 @@
@@ -1043,7 +1042,7 @@ index 00000000..c220b585
 +    name: '{{ docker_network_frontend }}'
 +    state: present
 diff --git a/roles/docker-openldap/defaults/main.yml b/roles/docker-openldap/defaults/main.yml
-index 1a00928d..99990b2c 100644
+index 1a00928d3..99990b2ce 100644
 --- a/roles/docker-openldap/defaults/main.yml
 +++ b/roles/docker-openldap/defaults/main.yml
 @@ -1,24 +1,17 @@
@@ -1090,7 +1089,7 @@ index 1a00928d..99990b2c 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 836e2b7e..ba3177ff 100644
+index 836e2b7ec..c605ebaa2 100644
 --- a/roles/docker-openldap/tasks/main.yml
 +++ b/roles/docker-openldap/tasks/main.yml
 @@ -110,11 +110,16 @@
@@ -1113,7 +1112,7 @@ index 836e2b7e..ba3177ff 100644
      restart_policy: '{{ docker_restart_policy }}'
      volumes:
        - '{{ openssl_dv_name }}:/etc/ssl/private:z'
-@@ -127,15 +132,18 @@
+@@ -127,15 +132,19 @@
      env:
        PHPLDAPADMIN_HTTPS: 'false'
        PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
@@ -1122,11 +1121,13 @@ index 836e2b7e..ba3177ff 100644
 +      LDAP_HOSTNAME: '{{ openldap_hostname }}'
 +    hostname: '{{ phpldapadmin_hostname }}'
      image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
-     link: '{{ openldap_container_name }}:ldap'
+-    link: '{{ openldap_container_name }}:ldap'
      name: '{{ phpldapadmin_container_name }}'
 -    ports: '{{ container_port_map.phpldapadmin.port_args }}'
 +    networks:
 +      - name: '{{ docker_network_frontend }}'
++        links:
++          - '{{ openldap_container_name }}:ldap'
 +    ports: '{{ phpldapadmin_port_args }}'
 +    purge_networks: true
      restart_policy: '{{ docker_restart_policy }}'
@@ -1138,7 +1139,7 @@ index 836e2b7e..ba3177ff 100644
  # *****************************************************************************
  # restore?
 diff --git a/roles/docker-svn/defaults/main.yml b/roles/docker-svn/defaults/main.yml
-index 17e66a42..93ba7053 100644
+index 17e66a424..93ba70539 100644
 --- a/roles/docker-svn/defaults/main.yml
 +++ b/roles/docker-svn/defaults/main.yml
 @@ -1,17 +1,11 @@
@@ -1172,7 +1173,7 @@ index 17e66a42..93ba7053 100644
 +# Network names
 +docker_network_frontend: 'frontend'
 diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
-index 9367164c..a76dfae6 100644
+index 9367164ca..a76dfae6c 100644
 --- a/roles/docker-svn/tasks/main.yml
 +++ b/roles/docker-svn/tasks/main.yml
 @@ -79,14 +79,17 @@
