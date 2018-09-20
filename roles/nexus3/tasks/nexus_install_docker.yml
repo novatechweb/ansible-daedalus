@@ -70,6 +70,7 @@
     networks: '{{ nexus_networks }}'
     volumes: '{{ nexus_volumes }}'
     ports: '{{ nexus_port_args }}'
+    purge_networks: true
     state: started
   register: nexus_container
 
@@ -84,8 +85,8 @@
     uri: "https://{{nexus_hostname}}{{nexus_default_context_path}}"
     private_uri: "http://{{host}}:{{port}}{{nexus_default_context_path}}"
   vars:
-    host: "{{ nexus_container.ansible_facts.docker_container.NetworkSettings.Ports['8081/tcp'][0].HostIp }}"
-    port: "{{ nexus_container.ansible_facts.docker_container.NetworkSettings.Ports['8081/tcp'][0].HostPort }}"
+    host: "{{ nexus_container.ansible_facts.docker_container.NetworkSettings.Networks[docker_network_frontend].IPAddress }}"
+    port: "{{ nexus_default_port }}"
 
 - name: First-time install admin password
   set_fact:
@@ -108,7 +109,7 @@
     status_code: 200,204
     user: 'admin'
   register: nexus_ping
-  retries: 20
+  retries: 3
   delay: 5
   until: nexus_ping.content == "pong\n"
 
