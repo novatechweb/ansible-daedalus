@@ -1,5 +1,5 @@
 Bottom: 0cf07e3c547f8193e511a73a12b63f44c2ff00cb
-Top:    d33b688f58088664bce734fe31d36b574a2987a6
+Top:    c0bae257ac060023dff47b6893832f379f67757a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 15:44:30 -0500
 
@@ -44,10 +44,24 @@ index 3165f5e3e..d7367c69f 100644
  ```yaml
  nexus_rut_auth_realm: true
 diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
-index ddc4d7015..1e1501d69 100644
+index ddc4d7015..96842ce59 100644
 --- a/roles/nexus3/defaults/main.yml
 +++ b/roles/nexus3/defaults/main.yml
-@@ -57,7 +57,7 @@ nexus_default_context_path: '/'
+@@ -17,11 +17,9 @@ nexus_container_name: 'nexus3'
+ nexus_image_tag: 'nexus:{{ nexus_version}}'
+ nexus_backup_volume: nexus-backup
+ nexus_data_volume: nexus-data
+-nexus_networks: 
++nexus_networks:
+   - name: nexus3
+-nexus_port_args:
+-  - "8081"
+-  - "8443"
++nexus_port_args: []
+ nexus_volumes:
+   - '{{ nexus_data_volume }}:{{ nexus_data_dir }}:z'
+   - '{{ nexus_backup_volume }}:{{ nexus_backup_dir }}:z'
+@@ -57,7 +55,7 @@ nexus_default_context_path: '/'
  nexus_admin_password: 'changeme'  # Note : admin password change subsequent to first-time install is *not implemented* yet
  nexus_anonymous_access: false
  
