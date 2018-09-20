@@ -1,5 +1,5 @@
 Bottom: 30b3c74e18a864b8392349a6407b343a29bfdddd
-Top:    9454298acd624d36f03172295763d47004f26b6c
+Top:    8d373fedae51081bcbbf2d66d3a6a847f4fe0a09
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 17:10:09 -0500
 
@@ -19,7 +19,7 @@ index e7a2255bc..921381ed6 100644
  mantisbt_db_root_password:           '{{ lookup("password", playbook_dir + "/credentials/mantis/db/root"                      , length=20) }}'
  mantisbt_email_password:             '{{ lookup("password", playbook_dir + "/credentials/mantis/email/mantis@novatech-llc.com", length=20) }}'
 diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
-index f652891ad..32d99802b 100644
+index f652891ad..977d118e1 100644
 --- a/ansible-playbook/group_vars/docker-hosts/networking.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
 @@ -1,30 +1,20 @@
@@ -64,16 +64,16 @@ index f652891ad..32d99802b 100644
 -- "{{ exim4_ip_addr }}:25:25"
 -- "{{ exim4_ip_addr }}:465:465"
 -- "{{ exim4_ip_addr }}:587:587"
-+- "25:25"
-+- "465:465"
-+- "587:587"
++- "{{ ansible_facts.default_ipv4.address }}:25:25"
++- "{{ ansible_facts.default_ipv4.address }}:465:465"
++- "{{ ansible_facts.default_ipv4.address }}:587:587"
  
  openldap_hostname: ldap.novatech-llc.com
  openldap_port_args:
 -- "{{ openldap_ip_addr }}:389:389"
 -- "{{ openldap_ip_addr }}:636:636"
-+- "389:389"
-+- "636:636"
++- "{{ ansible_facts.default_ipv4.address }}:389:389"
++- "{{ ansible_facts.default_ipv4.address }}:636:636"
  
  phpldapadmin_hostname: ldap.novatech-llc.com
 -phpldapadmin_port_args:
@@ -88,7 +88,7 @@ index f652891ad..32d99802b 100644
 -- "{{ buildbot_ip_addr }}:80:8080"
 -- "{{ buildbot_ip_addr }}:443:8443"
 -- "{{ buildbot_ip_addr }}:9989:9989"
-+- "9989:9989"
++- "{{ ansible_facts.default_ipv4.address }}:9989:9989"
  
  nexus_hostname: nexus.novatech-llc.com
 -nexus_port_args:
@@ -97,9 +97,9 @@ index f652891ad..32d99802b 100644
 +nexus_port_args: []
 +
 +haproxy_port_args:
-+- "80:80"
-+- "443:443"
-+- "9000:9000"
++- "{{ ansible_facts.default_ipv4.address }}:80:80"
++- "{{ ansible_facts.default_ipv4.address }}:443:443"
++- "{{ ansible_facts.default_ipv4.address }}:9000:9000"
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
 index b4ff3af83..fcdb207fb 100644
 --- a/ansible-playbook/site.yml
@@ -288,15 +288,26 @@ index 000000000..5951965ba
 +  - "{{ openssl_dv_name }}:{{ config_cert_path }}:z"
 diff --git a/roles/haproxy/tasks/main.yml b/roles/haproxy/tasks/main.yml
 new file mode 100644
-index 000000000..63a42aff4
+index 000000000..533ab9c3d
 --- /dev/null
 +++ b/roles/haproxy/tasks/main.yml
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,35 @@
 +---
 +# This will generate passwords for these accounts.
 +- assert:
 +    that:
 +    - haproxy_stats_password is defined
++
++# Setup the configuration directory
++- name: docker_container.conf dir
++  file:
++    state: directory
++    path: '{{ config_hostdir }}'
++    owner: root
++    group: root
++    mode: 'u=rwx,g=rx,o=rx'
++    recurse: no
++
 +
 +- name: Populate config files
 +  template:
@@ -313,11 +324,12 @@ index 000000000..63a42aff4
 +    image: '{{ image_name }}'
 +    networks: '{{ container_networks }}'
 +    ports: '{{ container_port_args }}'
++    purge_networks: true
 +    state: started
 +    volumes: '{{ container_volumes }}'
 diff --git a/roles/haproxy/templates/haproxy.cfg.j2 b/roles/haproxy/templates/haproxy.cfg.j2
 new file mode 100644
-index 000000000..aebe31d01
+index 000000000..228ef73a0
 --- /dev/null
 +++ b/roles/haproxy/templates/haproxy.cfg.j2
 @@ -0,0 +1,93 @@
@@ -410,7 +422,7 @@ index 000000000..aebe31d01
 +    server testssh1 testssh.frontend:80
 +
 +backend backend-buildbot
-+    server buildbot1 buildbot.frontend:80
++    server buildbot1 buildbot.frontend:8080
 +
 +backend backend-nexus
 +    server nexus1 nexus3.frontend:8081
