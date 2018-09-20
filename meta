@@ -1,11 +1,10 @@
 Version: 1
-Previous: 1f77b9f7129c39b74c845e4f5254e29d6cc26095
-Head: 25edd6250e3433950969aa7a22448e61b6d04e70
+Previous: 6a43b162ea30e01a9af03d0b41b654d54fe0a21e
+Head: 9508d3d8b047a11cb2a257bc5a179e6cb99c3190
 Applied:
   use-ansible-docker_container: 88d5ec8e6df5f3d5bb81a30292872e7a51cc65b5
   use-docker-named-volumes: 037c8b117bca8c22e7c1108d8f6021c68ecce711
   use-docker-named-networks: 9508d3d8b047a11cb2a257bc5a179e6cb99c3190
-  ldap-haproxy: 25edd6250e3433950969aa7a22448e61b6d04e70
 Unapplied:
   use-ansible-docker_image: f44e5ca169bedef85426f5ae7cfb79449eb69499
 Hidden:
