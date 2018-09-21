@@ -1,5 +1,5 @@
-Bottom: b1e4192cb2d88657f353b474efd1b3b52d7bce0f
-Top:    c0186b047a31a0712c09b1f3718da6dc0f616342
+Bottom: 1a0c9490f6ead8df787531d7396dd55ed2d4bc59
+Top:    1a0c9490f6ead8df787531d7396dd55ed2d4bc59
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-18 16:30:52 -0500
 
@@ -7,26 +7,4 @@ Update openldap scripts to run behind reverse proxy
 
 
 ---
-diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
-index 629032adb..0e6b72712 100644
---- a/roles/docker-openldap/tasks/main.yml
-+++ b/roles/docker-openldap/tasks/main.yml
-@@ -147,15 +147,14 @@
-     detach: true
-     env:
-       PHPLDAPADMIN_HTTPS: 'false'
--      PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
-+      PHPLDAPADMIN_LDAP_HOSTS: '{{ openldap_container_name }}'
-+      PHPLDAPADMIN_TRUST_PROXY_SSL: 'true'
-       LDAP_HOSTNAME: '{{ openldap_hostname }}'
--    hostname: '{{ phpldapadmin_hostname }}'
-+    hostname: '{{ phpldapadmin_container_name }}'
-     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
-     name: '{{ phpldapadmin_container_name }}'
-     networks:
-       - name: '{{ docker_network_frontend }}'
--        links:
--          - '{{ openldap_container_name }}:ldap'
-     ports: '{{ phpldapadmin_port_args }}'
-     purge_networks: true
-     restart_policy: '{{ docker_restart_policy }}'
+
