@@ -1,11 +1,10 @@
 Version: 1
-Previous: 5ac9fd2f3bc1e9eb6dfbb12fb3e9671936749613
-Head: c701e19720a9ba08089882048a9165372d38402e
+Previous: 4fea8e70f4490fc821a49d6665c1914bbf8e2c44
+Head: d3e896d7700e4d61e144efc752b0a11b96feb320
 Applied:
   use-ansible-docker_container: 88d5ec8e6df5f3d5bb81a30292872e7a51cc65b5
   use-docker-named-volumes: 037c8b117bca8c22e7c1108d8f6021c68ecce711
-  use-docker-named-networks: 9508d3d8b047a11cb2a257bc5a179e6cb99c3190
-  refresh-temp: c701e19720a9ba08089882048a9165372d38402e
+  use-docker-named-networks: d3e896d7700e4d61e144efc752b0a11b96feb320
 Unapplied:
   use-ansible-docker_image: f44e5ca169bedef85426f5ae7cfb79449eb69499
 Hidden:
