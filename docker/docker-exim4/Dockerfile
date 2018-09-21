@@ -27,6 +27,8 @@ RUN apt-get update \
 
 # copy over files
 COPY docker-entrypoint.sh /
+COPY etc/ /etc/
+RUN update-exim4.conf
 
 # specify which network ports will be used
 EXPOSE 25 465 587
