@@ -6,14 +6,15 @@
     - svn_username is defined
     - svn_password is defined
 
-- include: grab_files/ncd.yml
-  username: "{{ svn_username }}"
-  password: "{{ svn_password }}"
-  repo: "{{ ncd_repo }}"
-  working_directory: "{{ local_working_directory }}"
+- import_tasks: grab_files/ncd.yml
+  vars:
+    username: "{{ svn_username }}"
+    password: "{{ svn_password }}"
+    repo: "{{ ncd_repo }}"
+    working_directory: "{{ local_working_directory }}"
 
 
-- include: grab_files/web.yml
+- import_tasks: grab_files/web.yml
   vars:
     working_directory: "{{ local_working_directory }}"
     web_site_name: BuildSystem
@@ -24,7 +25,7 @@
     server_directory: "{{ buildsystem_directory }}"
 
 
-- include: create_db_user.yml
+- import_tasks: create_db_user.yml
   vars:
     db_host:                 "test_station_mysql_server"
     db_admin_user:           "root"
