@@ -1,7 +1,7 @@
-Bottom: 97d26932d078bd100ba867fd4d4ccd98b4dd9c87
-Top:    185cad7341d196b269b3ec4c417ee037c40a2e59
+Bottom: d3b68f13ccd50c9593779d608aaf8c7b26ebbcb9
+Top:    f6f592edf1e264a389874f77d59b4147e3d0e395
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-20 10:41:23 -0500
+Date:   2018-08-30 15:57:47 -0500
 
 Updates gitlab to 10.8.4
 
@@ -11,7 +11,7 @@ of Gitlab 10.8.4.
 
 ---
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index 5e14d572..0f97c3ac 100644
+index 5e14d5721..0f97c3ace 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -1,5 +1,7 @@
@@ -68,7 +68,7 @@ index 5e14d572..0f97c3ac 100644
  docker_network_frontend: 'frontend'
 +gitlab_config_dir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index 9e50bcdf..65b08f3a 100644
+index 9e50bcdfe..65b08f3a5 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -21,7 +21,7 @@
@@ -291,7 +291,7 @@ index 9e50bcdf..65b08f3a 100644
 +  delay: 30
 +  until: check is success
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index b9f74ee0..e01594c8 100644
+index b9f74ee0a..e01594c87 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
 @@ -5,8 +5,13 @@
@@ -427,7 +427,7 @@ index b9f74ee0..e01594c8 100644
 +  shell: 'date --rfc-3339=seconds > {{ gitlab_config_dir }}/restore.date.txt'
    when: st_gitlab_restore.stat.exists == False
 diff --git a/roles/docker-gitlab/templates/after_backup.j2 b/roles/docker-gitlab/templates/after_backup.j2
-index 85b103f0..9016eb5e 100644
+index 85b103f0e..9016eb5ec 100644
 --- a/roles/docker-gitlab/templates/after_backup.j2
 +++ b/roles/docker-gitlab/templates/after_backup.j2
 @@ -3,4 +3,5 @@
@@ -437,7 +437,7 @@ index 85b103f0..9016eb5e 100644
 +docker exec {{ gitlab_container_name }} /bin/bash -c "rm -rf {{ gitlab_bv_mountpoint}}/*"
  {% endif %}
 diff --git a/roles/docker-gitlab/templates/before_backup.j2 b/roles/docker-gitlab/templates/before_backup.j2
-index d304bcb7..74764935 100644
+index d304bcb75..747649359 100644
 --- a/roles/docker-gitlab/templates/before_backup.j2
 +++ b/roles/docker-gitlab/templates/before_backup.j2
 @@ -3,8 +3,10 @@
@@ -456,7 +456,7 @@ index d304bcb7..74764935 100644
  {% endif %}
 diff --git a/roles/docker-gitlab/templates/gitlab.rb-10.8.4.j2 b/roles/docker-gitlab/templates/gitlab.rb-10.8.4.j2
 new file mode 100644
-index 00000000..f66fc491
+index 000000000..f66fc4911
 --- /dev/null
 +++ b/roles/docker-gitlab/templates/gitlab.rb-10.8.4.j2
 @@ -0,0 +1,1883 @@
