@@ -1,6 +1,9 @@
 [bacula]
 testdaedalus.novatech-llc.com
 
+[daedalus]
+testdaedalus.novatech-llc.com
+
 [docker-hosts]
 testdaedalus.novatech-llc.com
 
