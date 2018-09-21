@@ -1,0 +1,128 @@
+Bottom: cda603223ee1c88851213ed96ad9af6bb1b95ea0
+Top:    6f0928da4767317c26cddb3cdaf34a6bc12c67e6
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-21 11:49:35 -0500
+
+Refresh of use-docker-named-networks
+
+---
+diff --git a/roles/docker-exim4/tasks/main.yml b/roles/docker-exim4/tasks/main.yml
+index e71c619fc..3eca18800 100644
+--- a/roles/docker-exim4/tasks/main.yml
++++ b/roles/docker-exim4/tasks/main.yml
+@@ -105,7 +105,7 @@
+ - name: start container
+   docker_container:
+     name: '{{ exim4_container_name }}'
+-    hostname: '{{ exim4_hostname }}'
++    hostname: '{{ exim4_container_name }}'
+     image: '{{ exim4_image_name }}:{{ docker_image_tag }}'
+     networks:
+       - name: '{{ docker_network_frontend }}'
+diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
+index 704b51d4f..1fba40a6d 100644
+--- a/roles/docker-gitlab/tasks/main.yml
++++ b/roles/docker-gitlab/tasks/main.yml
+@@ -159,16 +159,16 @@
+       - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
+       - GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }}
+     env-file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
+-    hostname: '{{ gitlab_hostname }}'
++    hostname: '{{ gitlab_container_name }}'
+     image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
+-    link:
+-      - '{{ openldap_container_name }}:gitlab-ldap'
+-      - '{{ gitlab_redis_container_name }}:gitlab-redis'
+-      - '{{ gitlab_db_container_name }}:gitlab-db'
+-      - '{{ exim4_container_name }}:{{ exim4_hostname }}'
+     name: '{{ gitlab_container_name }}'
+     networks:
+       - name: '{{ docker_network_frontend }}'
++        links:
++          - '{{ openldap_container_name }}:gitlab-ldap'
++          - '{{ gitlab_redis_container_name }}:gitlab-redis'
++          - '{{ gitlab_db_container_name }}:gitlab-db'
++          - '{{ exim4_container_name }}:{{ exim4_hostname }}'
+     ports: '{{ gitlab_port_args }}'
+     purge_networks: true
+     restart_policy: '{{ docker_restart_policy }}'
+diff --git a/roles/docker-mantisbt/tasks/main.yml b/roles/docker-mantisbt/tasks/main.yml
+index a9404bc6e..af4544626 100644
+--- a/roles/docker-mantisbt/tasks/main.yml
++++ b/roles/docker-mantisbt/tasks/main.yml
+@@ -169,7 +169,7 @@
+       MANTISBT_MAIL_USER: 'mantis'
+       MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
+       MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
+-    hostname: '{{ mantisbt_hostname }}'
++    hostname: '{{ mantisbt_container_name }}'
+     image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
+     name: '{{ mantisbt_container_name }}'
+     networks:
+diff --git a/roles/docker-mediawiki/tasks/main.yml b/roles/docker-mediawiki/tasks/main.yml
+index bb5ebf1fa..b592c32b3 100644
+--- a/roles/docker-mediawiki/tasks/main.yml
++++ b/roles/docker-mediawiki/tasks/main.yml
+@@ -121,7 +121,7 @@
+ 
+ - name: wait for mysql initialization to complete
+   shell: >
+-      printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
++      printf 'SHOW GLOBAL STATUS\n' | docker exec -i
+       '{{ wiki_db_container_name }}'
+       mysql --host=localhost
+       --user={{ wiki_db_user | quote }}
+@@ -142,7 +142,7 @@
+       WIKI_HOSTNAME: '{{ wiki_hostname }}'
+       WIKI_MAIL_USER: 'wiki'
+       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
+-    hostname: '{{ wiki_hostname }}'
++    hostname: '{{ wiki_container_name }}'
+     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
+     name: '{{ wiki_container_name }}'
+     networks:
+diff --git a/roles/docker-openldap/tasks/main.yml b/roles/docker-openldap/tasks/main.yml
+index c605ebaa2..d666ba054 100644
+--- a/roles/docker-openldap/tasks/main.yml
++++ b/roles/docker-openldap/tasks/main.yml
+@@ -111,7 +111,7 @@
+     detach: true
+     env:
+       LDAP_HOSTNAME: '{{ openldap_hostname }}'
+-    hostname: '{{ openldap_hostname }}'
++    hostname: '{{ openldap_container_name }}'
+     image: '{{ openldap_image_name }}:{{ docker_image_tag }}'
+     name: '{{ openldap_container_name }}'
+     networks:
+@@ -131,15 +131,14 @@
+     detach: true
+     env:
+       PHPLDAPADMIN_HTTPS: 'false'
+-      PHPLDAPADMIN_LDAP_HOSTS: 'ldap'
++      PHPLDAPADMIN_LDAP_HOSTS: '{{ openldap_container_name }}'
++      PHPLDAPADMIN_TRUST_PROXY_SSL: 'true'
+       LDAP_HOSTNAME: '{{ openldap_hostname }}'
+-    hostname: '{{ phpldapadmin_hostname }}'
++    hostname: '{{ phpldapadmin_container_name }}'
+     image: '{{ phpldapadmin_image_name }}:{{ docker_image_tag }}'
+     name: '{{ phpldapadmin_container_name }}'
+     networks:
+       - name: '{{ docker_network_frontend }}'
+-        links:
+-          - '{{ openldap_container_name }}:ldap'
+     ports: '{{ phpldapadmin_port_args }}'
+     purge_networks: true
+     restart_policy: '{{ docker_restart_policy }}'
+diff --git a/roles/docker-svn/tasks/main.yml b/roles/docker-svn/tasks/main.yml
+index a76dfae6c..2f070bedc 100644
+--- a/roles/docker-svn/tasks/main.yml
++++ b/roles/docker-svn/tasks/main.yml
+@@ -81,7 +81,7 @@
+     env:
+       SVN_HOSTNAME: '{{ svn_hostname }}'
+       SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
+-    hostname: '{{ svn_hostname }}'
++    hostname: '{{ svn_container_name }}'
+     image: '{{ svn_image_name }}:{{ docker_image_tag }}'
+     name: '{{ svn_container_name }}'
+     networks:
