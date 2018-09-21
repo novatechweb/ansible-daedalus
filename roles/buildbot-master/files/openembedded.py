@@ -5,20 +5,23 @@
 import os
 from buildbot.plugins import *
 
+c = WorkerConfig = {}
+
+
 DEFAULT_BBFLAGS = '-k'
+DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
+ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
 # a Worker object, specifying a unique worker name and password.  The same
 # worker name and password must be configured on the worker.
-workers = [
-    worker.Worker("worker-ntel", "pass", max_builds=1),
+c['workers'] = [
+    worker.Worker("worker-ntel", "pass", max_builds=3),
 ]
 
-DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
-
 # CHANGESOURCES
-change_source = [
+c['change_source'] = [
     changes.GitPoller(
         repourl=DEFAULT_REPO,
         branches=['master', 'morty'],
@@ -27,17 +30,17 @@ change_source = [
 ]
 
 # SCHEDULERS
-schedulers = [
+c['schedulers'] = [
     schedulers.ForceScheduler(
         name="Force",
         label="Force NTEL OpenEmbedded Build",
         builderNames=[
-            "ntel_orionlxm",
-            "ntel_orionlx_cpx",
-            "ntel_orionlx_plus",
-            "ntel_orion_io",
-            "ntel_qemux86_64",
-            "ntel_all"
+            "ntel-orionlxm",
+            "ntel-orionlx-cpx",
+            "ntel-orionlx-plus",
+            "ntel-orion-io",
+            "ntel-qemux86-64",
+            "ntel-all"
         ],
         codebases=[
             util.CodebaseParameter(
@@ -88,12 +91,12 @@ schedulers = [
         name="ntel-nightly",
         branch=None,
         builderNames=[
-            "ntel_orionlxm",
-            "ntel_orionlx_cpx",
-            "ntel_orionlx_plus",
-            "ntel_orion_io",
-            "ntel_qemux86_64",
-            "ntel_all"
+            "ntel-orionlxm",
+            "ntel-orionlx-cpx",
+            "ntel-orionlx-plus",
+            "ntel-orion-io",
+            "ntel-qemux86-64",
+            "ntel-all"
         ],
         codebases={
             '': {
@@ -116,13 +119,12 @@ schedulers = [
 # The 'builders' list defines the Builders, which tell Buildbot how to perform
 # a build: what steps, and which workers can execute them.  Note that any
 # particular build will only take place on one worker.
-builders = []
+c['builders'] = []
 
 git_lock = util.MasterLock("git")
 
 
-@util.renderer
-def CurrentTime(props):
+def CurrentTime():
     from datetime import datetime
     import string
     dt = datetime.now()
@@ -135,19 +137,39 @@ def CurrentTime(props):
 def ComputeBuildProperties(props):
     newprops = {}
 
-    newprops['timestamp'] = ts = CurrentTime
+    newprops['timestamp'] = CurrentTime()
 
-    newprops['dest'] = dest = util.Interpolate(
-        "/cache/images/%(prop:buildername)s")
+    version = props.getProperty('version', default=newprops['timestamp'])
+    newprops['artifacts'] = {}
+    machines = [props.getProperty('machine')]
 
-    newprops['archive'] = archive = util.Interpolate(
-        "%(kw:d)s/%(prop:machine)s.%(kw:t)s.tar.gz", d=dest, t=ts)
+    mc = props.getProperty('multiconfig')
+    if mc:
+        machines.extend(mc.split(' '))
 
-    newprops['pkcs11_pin'] = pin = props.getProperty('release_pin')
-    if pin == '':
-        newprops['sign.conf'] = 'test.conf'
-    else:
-        newprops['sign.conf'] = 'release.conf'
+    for m in machines:
+        a = {}
+
+        a['dest'] = "/cache/images/%s" % (
+            props.getProperty('buildername')
+        )
+
+        a['prefix'] = "%s-%s" % (
+            m,
+            version,
+        )
+
+        a['artifact'] = "%s.tar.gz" % (
+            a['prefix'],
+        )
+
+        a['url'] = "%s/%s/%s" % (
+            ASSET_HOST,
+            urlpath,
+            a['artifact'],
+        )
+
+        newprops['artifacts'][m] = a
 
     bbflags = props.getProperty('bbflags', DEFAULT_BBFLAGS)
     cache = props.getProperty('cache', True)
@@ -162,8 +184,6 @@ auto_conf = [
     'MACHINE                = "%(prop:machine)s"',
     '%(prop:multiconfig:+'
     'BBMULTICONFIG          = "%(prop:multiconfig)s")s',
-    'TMPDIR_append          = "-${MACHINE}"',
-    'DEPLOY_DIR_append      = "-${MACHINE}"',
     '',
     '# Directories for cached downloads and state',
     'DL_DIR                 = "/cache/downloads"',
@@ -176,58 +196,9 @@ auto_conf = [
     'unset PRSERV_HOST',
     '',
     '# Release signing configuration',
+    '%(prop:release_pin:+'
+    'PKCS11_PIN             = "%(prop:release_pin)s")s',
     'include %(prop:release_pin:#?|release.conf|test.conf)s',
-    '',
-]
-
-multi_conf = [
-    '# multiconfig for %(kw:machine)s',
-    'MACHINE = "%(kw:machine)s"',
-]
-
-test_conf = [
-    '# Uncomment to build with test keys',
-    'UBOOT_SIGN_ENABLE = "1"',
-    'UBOOT_SIGN_KEYNAME = "u-boot-test"',
-    'UBOOT_SIGN_IMAGE_KEYNAME = "u-boot-image-test"',
-    'UBOOT_SIGN_KEYDIR = "${TOPDIR}/keys"',
-    'UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"',
-    '',
-    '# Uncomment to build with test keys',
-    'SWUPDATE_SIGNING = "1"',
-    'SWUPDATE_PRIVATE_KEY = "${TOPDIR}/keys/swupdate-test.pem"',
-]
-
-release_conf = [
-    'PKCS11_TOKEN = "model=PSI-E2%%3aPL220;manufacturer=SafeNet%%20Inc.;serial=540758%%3a63014;token=orion"',
-    '# Fill in this PIN for production signing',
-    'PKCS11_PIN ?= "%(prop:pkcs11_pin)s"',
-    '',
-    '# Uncomment to build with production keys',
-    'UBOOT_SIGN_ENABLE = "1"',
-    'UBOOT_SIGN_KEYNAME = "${MACHINE}-u-boot"',
-    'UBOOT_SIGN_IMAGE_KEYNAME = "${MACHINE}-u-boot-image"',
-    'UBOOT_SIGN_KEYDIR = "${PKCS11_TOKEN};pin-value=${PKCS11_PIN}"',
-    'UBOOT_MKIMAGE_DTCOPTS = "-I dts -O dtb -p 2000"',
-    'UBOOT_MKIMAGE_ENGINE = "pkcs11"',
-    '',
-    '# Uncomment to build with production keys',
-    'IMA_EVM_KEY_DIR = "${TOPDIR}/keys/${MACHINE}-ima"',
-    'IMA_EVM_ROOT_CA = "${TOPDIR}/keys/${MACHINE}-ima/ima-local-ca.x509"',
-    'IMA_EVM_PRIVKEY = "pkcs11:${PKCS11_TOKEN};object=${MACHINE}-ima-key;type=private"',
-    'IMA_EVM_SIGN_EXTRA_ARGS = "-e pkcs11 --engine_so \'${STAGING_LIBDIR_NATIVE}/engines/libpkcs11.so\' --engine_module \'${STAGING_LIBDIR_NATIVE}/p11-kit-proxy.so\' --pkcs11_module cryptoki -p${PKCS11_PIN}"',
-    '',
-    '# Uncomment to build with production keys',
-    'CST_PKCS11_URLPREFIX = "pkcs11:${PKCS11_TOKEN};pin-value=${PKCS11_PIN};object="',
-    'CST_HAB_DIR = "${TOPDIR}/keys/hab-production"',
-    '',
-    '# Uncomment to build with production keys',
-    'SWUPDATE_SIGNING = "1"',
-    'SWUPDATE_PUBLIC_KEY = "${TOPDIR}/keys/swupdate.pub"',
-    'SWUPDATE_SIGN_TOOL = "openssl.real dgst -sha256 -sign \'pkcs11:${PKCS11_TOKEN};object=swupdate;type=private;pin-value=${PKCS11_PIN}\' -engine pkcs11 -keyform engine -out \'${S}/sw-description.sig\' \'${S}/sw-description\'"',
-    '',
-    '# Uncomment for release builds',
-    'NT_GIT_USE_TAGS = "1"',
     '',
 ]
 
@@ -235,9 +206,7 @@ release_conf = [
 class BitBakeConf(steps.StringDownload):
 
     def __init__(self, args, **kw):
-        lines = [
-        ]
-        lines.extend(args)
+        lines = list(args)
         configstring = '\n'.join(lines)
         conf_file = kw.setdefault('conf_file', 'auto.conf')
         sdkw = {
@@ -250,7 +219,8 @@ class BitBakeConf(steps.StringDownload):
 
 class BitBake(steps.Compile):
 
-    def __init__(self, package):
+    def __init__(self, package, **kwargs):
+
         kw = {
             'command': [
                 'bash',
@@ -262,37 +232,60 @@ class BitBake(steps.Compile):
             ],
             'description': 'building',
             'descriptionDone': 'build',
-            'descriptionSuffix': package,
-            'env': {'ENV': 'environment-ntel', 'BASH_ENV': 'environment-ntel'},
+            'env': {
+                'ENV': 'environment-ntel',
+                'BASH_ENV': 'environment-ntel',
+            },
             'flunkOnFailure': True,
             'haltOnFailure': False,
             'name': 'bitbake',
             'timeout': int(os.getenv('LONG_RUN_TIMEOUT', 600)),
             'warningPattern': "^WARNING: ",
         }
+        kw.update(kwargs)
         steps.Compile.__init__(self, **kw)
 
 
-class BitBakeArchive(steps.ShellCommand):
+class BitBakeArchive(steps.ShellSequence):
 
-    def __init__(self, **kw):
-        if 'machine' in kw:
-            self.machine = kw['machine']
-        else:
-            self.machine = util.Property('machine')
+    def __init__(self, **kwargs):
         kw = {
-            'command': ['ci-archive.sh',
-                        self.machine,
-                        util.Property("dest"),
-                        util.Property("timestamp")],
             'description': 'archiving',
             'descriptionDone': 'archive',
+            'env': {
+                    'ENV': 'environment-ntel',
+                    'BASH_ENV': 'environment-ntel',
+                    },
             'flunkOnFailure': True,
             'haltOnFailure': False,
             'name': 'archive',
-            'env': {'PATH': ['/home/buildbot/', '${PATH}']},
+            'timeout': int(os.getenv('LONG_RUN_TIMEOUT', 600)),
         }
-        steps.ShellCommand.__init__(self, **kw)
+        kw.update(kwargs)
+        kw = self.setupShellMixin(kw)
+        steps.ShellSequence.__init__(self, **kw)
+
+    def run(self):
+        commands = []
+
+        artifacts = self.getProperty('artifacts')
+        for m, art in artifacts.iteritems():
+            commands.append(util.ShellArg(
+                command="echo 'MACHINE=\"%s\"' >> conf/auto.conf" % (m),
+            ))
+
+            artfile = os.path.join(art['dest'], art['artifact'])
+            commands.append(util.ShellArg(
+                command=[
+                    'scripts/ci-archive.sh',
+                    art['prefix'],
+                    artfile
+                ],
+                logfile="Create %s archive" % (m),
+            ))
+        return steps.ShellSequence.runShellSequence(self, commands)
+
+
 
 
 class BitBakeFactory(util.BuildFactory):
@@ -300,33 +293,35 @@ class BitBakeFactory(util.BuildFactory):
     def __init__(self, *build_steps):
         util.BuildFactory.__init__(self)
         self.addStep(steps.SetProperties(ComputeBuildProperties))
-        self.addStep(steps.Git(
-            repourl=util.Property('repository'),
-            branch=util.Property('branch'),
+        self.addStep(steps.GitLab(
+            repourl=util.Property('repository', default=DEFAULT_REPO),
+            branch=util.Property('branch', default=DEFAULT_BRANCH),
             mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
             method="clobber",
             locks=[git_lock.access('exclusive')],
             retry=(360, 5)))
         self.addStep(steps.ShellCommand(
+            name="configure",
+            description="configuring",
+            descriptionDone="configured",
             command=["./oebb.sh", "config", util.Property('machine')]
         ))
         self.addStep(BitBakeConf(auto_conf, conf_file='auto.conf'))
-        self.addStep(BitBakeConf(test_conf, conf_file='test.conf'))
-        self.addStep(BitBakeConf(release_conf, conf_file='release.conf'))
 
         if build_steps:
             self.addSteps(build_steps)
         self.addStep(BitBakeArchive())
 
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLXm",
-        name="ntel_orionlxm",
+        name="ntel-orionlxm",
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
-            BitBake("orionlxm-swu-image"),
-            BitBake("orionlxm-swu-image -c populate_sdk"),
+            BitBake("orionlxm-swu-image", name="swu image"),
+            BitBake("orionlxm-disk-swu-image", name="disk swu image"),
+            BitBake("orion-headless-image -c populate_sdk", name="SDK"),
         ),
         properties={
             'machine': 'orionlxm',
@@ -334,15 +329,15 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion I/O",
-        name="ntel_orion_io",
+        name="ntel-orion-io",
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
-            BitBake("-c cleanall u-boot-orion-io"),
-            BitBake("orion-io-swu-image"),
-            BitBake("orion-io-swu-image -c populate_sdk"),
+            BitBake("-c cleanall u-boot-orion-io", name="cleanup"),
+            BitBake("orion-io-swu-image", name="swu image"),
+            BitBake("orion-headless-image -c populate_sdk", name="SDK"),
         ),
         properties={
             'machine': 'orion-io',
@@ -350,16 +345,16 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLX (CPX)",
-        name="ntel_orionlx_cpx",
+        name="ntel-orionlx-cpx",
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
-            BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
-            BitBake("orion-graphical-image -c populate_sdk"),
-            BitBake("orionlx-cpx-swu-image"),
-            BitBake("orionlx-cpx-disk-swu-image"),
+            BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native", name="cleanup"),
+            BitBake("orionlx-cpx-swu-image", name="swu image"),
+            BitBake("orionlx-cpx-disk-swu-image", name="disk swu image"),
+            BitBake("orion-graphical-image -c populate_sdk", name="SDK"),
         ),
         properties={
             'machine': 'orionlx-cpx',
@@ -367,15 +362,15 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="OrionLX (Plus)",
-        name="ntel_orionlx_plus",
+        name="ntel-orionlx-plus",
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
-            BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native"),
-            BitBake("orion-graphical-image -c populate_sdk"),
-            BitBake("orionlx-plus-swu-image"),
+            BitBake("-c cleanall gdk-pixbuf-native librsvg-native gtk-icon-utils-native", name="cleanup"),
+            BitBake("orionlx-plus-swu-image", name="swu image"),
+            BitBake("orion-graphical-image -c populate_sdk", name="SDK"),
         ),
         properties={
             'machine': 'orionlx-plus',
@@ -383,15 +378,15 @@ builders.append(
         }
     ))
 
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion (qemu)",
-        name="ntel_qemux86_64",
+        name="ntel-qemux86-64",
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
-            BitBake("gdk-pixbuf-native:do_cleanall"),
-            BitBake("orion-graphical-image"),
-            BitBake("orion-graphical-image -c populate_sdk"),
+            BitBake("gdk-pixbuf-native:do_cleanall", name="cleanup"),
+            BitBake("orion-graphical-image", name="image"),
+            BitBake("orion-graphical-image -c populate_sdk", name="SDK"),
         ),
         properties={
             'machine': 'qemux86-64',
@@ -400,34 +395,23 @@ builders.append(
     ))
 
 multiconfig = ['orionlx-cpx', 'orionlx-plus', 'orionlxm', 'orion-io']
-mc_steps = []
-for machine in multiconfig:
-    mc_steps.append(
-        BitBakeConf(
-            multi_conf,
-            machine=machine,
-            conf_file='multiconfig/%s.conf' % (machine)
-        ))
-mc_steps.extend((
-    BitBake(" gdk-pixbuf-native:do_cleanall"
-            " multiconfig:orionlx-cpx:gdk-pixbuf-native:do_cleanall"
-            " multiconfig:orionlx-plus:gdk-pixbuf-native:do_cleanall"
-            ),
-    BitBake(" orion-graphical-image"
-            " multiconfig:orionlx-cpx:orionlx-cpx-swu-image"
-            " multiconfig:orionlx-cpx:orionlx-cpx-disk-swu-image"
-            " multiconfig:orionlx-plus:orionlx-plus-swu-image"
-            " multiconfig:orionlxm:orionlxm-swu-image"
-            " multiconfig:orion-io:orion-io-swu-image"
-            ),
-))
-builders.append(
+c['builders'].append(
     util.BuilderConfig(
         description="Orion (all)",
-        name="ntel_all",
+        name="ntel-all",
         workernames=["worker-ntel"],
         factory=BitBakeFactory(
-            *mc_steps
+            BitBake(" gdk-pixbuf-native:do_cleanall"
+                    " multiconfig:orionlx-cpx:gdk-pixbuf-native:do_cleanall"
+                    " multiconfig:orionlx-plus:gdk-pixbuf-native:do_cleanall",
+                    name="cleanup"),
+            BitBake(" orion-graphical-image"
+                    " multiconfig:orionlx-cpx:orionlx-cpx-swu-image"
+                    " multiconfig:orionlx-cpx:orionlx-cpx-disk-swu-image"
+                    " multiconfig:orionlx-plus:orionlx-plus-swu-image"
+                    " multiconfig:orionlxm:orionlxm-swu-image"
+                    " multiconfig:orion-io:orion-io-swu-image",
+                    name="images"),
         ),
         properties={
             'machine': 'qemux86-64',
