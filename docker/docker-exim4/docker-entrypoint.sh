@@ -25,8 +25,6 @@ case ${1} in
           && [[ ! -f ${CONFIG_PATH}/exim4.conf ]]
         then
             # set the hostname
-            [ -e /etc/mailname ] \
-                && rm -rf /etc/mailname
             echo "${HOSTNAME}" > /etc/mailname
             # copy certificate
             [ -e /etc/ssl/private/exim.crt ] \
