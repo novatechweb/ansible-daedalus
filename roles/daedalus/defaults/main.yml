@@ -1,0 +1,8 @@
+---
+
+daedalus_thinpool_vg: "centos"
+daedalus_thinpool_name: "pool"
+daedalus_thinpool_size: "100%FREE"
+daedalus_thinpool_profile_name: "{{ daedalus_thinpool_vg }}-{{ daedalus_thinpool_name }}"
+daedalus_thinpool_autoextend_threshold: 60
+daedalus_thinpool_autoextend_percent: 20
