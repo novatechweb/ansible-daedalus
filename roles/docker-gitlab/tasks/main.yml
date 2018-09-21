@@ -159,16 +159,16 @@
       - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
       - GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }}
     env-file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
-    hostname: '{{ gitlab_hostname }}'
+    hostname: '{{ gitlab_container_name }}'
     image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
-    link:
-      - '{{ openldap_container_name }}:gitlab-ldap'
-      - '{{ gitlab_redis_container_name }}:gitlab-redis'
-      - '{{ gitlab_db_container_name }}:gitlab-db'
-      - '{{ exim4_container_name }}:{{ exim4_hostname }}'
     name: '{{ gitlab_container_name }}'
     networks:
       - name: '{{ docker_network_frontend }}'
+        links:
+          - '{{ openldap_container_name }}:gitlab-ldap'
+          - '{{ gitlab_redis_container_name }}:gitlab-redis'
+          - '{{ gitlab_db_container_name }}:gitlab-db'
+          - '{{ exim4_container_name }}:{{ exim4_hostname }}'
     ports: '{{ gitlab_port_args }}'
     purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'

@@ -121,7 +121,7 @@
 
 - name: wait for mysql initialization to complete
   shell: >
-      printf 'SHOW GLOBAL STATUS\n' | docker exec -i 
+      printf 'SHOW GLOBAL STATUS\n' | docker exec -i
       '{{ wiki_db_container_name }}'
       mysql --host=localhost
       --user={{ wiki_db_user | quote }}
@@ -142,7 +142,7 @@
       WIKI_HOSTNAME: '{{ wiki_hostname }}'
       WIKI_MAIL_USER: 'wiki'
       WIKI_MAIL_PASSWORD: '{{ wiki_email_password | quote }}'
-    hostname: '{{ wiki_hostname }}'
+    hostname: '{{ wiki_container_name }}'
     image: '{{ wiki_image_name }}:{{ docker_image_tag }}'
     name: '{{ wiki_container_name }}'
     networks:

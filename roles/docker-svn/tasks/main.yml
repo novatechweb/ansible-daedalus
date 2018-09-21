@@ -81,7 +81,7 @@
     env:
       SVN_HOSTNAME: '{{ svn_hostname }}'
       SVN_LDAP_PASSWORD: '{{ openldap_proxyagent_password }}'
-    hostname: '{{ svn_hostname }}'
+    hostname: '{{ svn_container_name }}'
     image: '{{ svn_image_name }}:{{ docker_image_tag }}'
     name: '{{ svn_container_name }}'
     networks:

@@ -169,7 +169,7 @@
       MANTISBT_MAIL_USER: 'mantis'
       MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
       MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
-    hostname: '{{ mantisbt_hostname }}'
+    hostname: '{{ mantisbt_container_name }}'
     image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
     name: '{{ mantisbt_container_name }}'
     networks:
