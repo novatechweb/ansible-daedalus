@@ -1,7 +1,7 @@
 Version: 1
-Previous: 32add0bfb9f109b06fb0c6881fdfcb76591f7221
-Head: 3df498e481a7224dbc187c0645299ed610ae3924
+Previous: 19f5208138fc23cea73f9a971d73722f33da3f7b
+Head: e8941ed4a864fac7939c0e54879c67d0e5fabde6
 Applied:
+  gitlab-10.8: 7ca58e013ece00f6096cc11e64dca05500529b92
 Unapplied:
-  gitlab-10.8: 94fbb11cd169c0a58a9e4ef67f8b49911e7b3f8d
 Hidden:
