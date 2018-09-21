@@ -1,9 +1,8 @@
 Version: 1
-Previous: d4c95a3dbee3440713fc4908d308e54fb0372df7
-Head: 934eeadd8f95c3b083c0e13a326002dfcd951a8c
+Previous: 60004bdd1ca8009ce2ae32bf473de1face81893c
+Head: 98a32a8348ad7aa63544f5757b395e83938cd499
 Applied:
   add-a-version-argument-to-the: 7c868a1e2ff3c99aac0b8936d97be0c7dd56a10f
-  update-gitlab-to-10-1: d643929fdd14262c74f7b0b5fc2ba6296d5f751d
-  refresh-temp: 934eeadd8f95c3b083c0e13a326002dfcd951a8c
+  update-gitlab-to-10-1: 98a32a8348ad7aa63544f5757b395e83938cd499
 Unapplied:
 Hidden:
