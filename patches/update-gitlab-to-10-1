@@ -1,7 +1,7 @@
-Bottom: 9060af7596f69d170567f502fb9f7f062c686409
-Top:    94adb2828722f6e7f5668c730ad96ffe8e0cb1fb
+Bottom: 749e4ade09b929f8c986595854052e992c598018
+Top:    71401d0649f68ed9969f80e05cec4d570184ee1c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-07-20 11:05:59 -0500
+Date:   2018-08-30 15:57:50 -0500
 
 Update gitlab to 10.1
 
@@ -9,7 +9,7 @@ Update gitlab to 10.1
 ---
 diff --git a/ansible-playbook/gitlab.yml b/ansible-playbook/gitlab.yml
 new file mode 100644
-index 00000000..4e2155de
+index 000000000..4e2155dec
 --- /dev/null
 +++ b/ansible-playbook/gitlab.yml
 @@ -0,0 +1,95 @@
@@ -109,7 +109,7 @@ index 00000000..4e2155de
 +    include_role:
 +      name: gitlab-omnibus
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker.yml
-index df7bb7de..30d74e22 100644
+index df7bb7de7..30d74e223 100644
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker.yml
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/docker.yml
 @@ -1,3 +1,5 @@
@@ -120,7 +120,7 @@ index df7bb7de..30d74e22 100644
 +docker_restart_policy: 'no'
 diff --git a/ansible-playbook/library/docker_volume_clone.py b/ansible-playbook/library/docker_volume_clone.py
 new file mode 100644
-index 00000000..b9a360e7
+index 000000000..b9a360e7b
 --- /dev/null
 +++ b/ansible-playbook/library/docker_volume_clone.py
 @@ -0,0 +1,153 @@
@@ -278,7 +278,7 @@ index 00000000..b9a360e7
 +if __name__ == '__main__':
 +    main()
 diff --git a/docker/docker-gitlab-data/Dockerfile b/docker/docker-gitlab-data/Dockerfile
-index 2571036e..43edab83 100644
+index 2571036e9..43edab833 100644
 --- a/docker/docker-gitlab-data/Dockerfile
 +++ b/docker/docker-gitlab-data/Dockerfile
 @@ -3,8 +3,7 @@
@@ -292,7 +292,7 @@ index 2571036e..43edab83 100644
  
  # copy wrapper script
 diff --git a/roles/docker-gitlab/defaults/main.yml b/roles/docker-gitlab/defaults/main.yml
-index 5e14d572..683de775 100644
+index 5e14d5721..683de7750 100644
 --- a/roles/docker-gitlab/defaults/main.yml
 +++ b/roles/docker-gitlab/defaults/main.yml
 @@ -1,5 +1,7 @@
@@ -332,7 +332,7 @@ index 5e14d572..683de775 100644
  # the name of the data-volume used by the container
  gitlab_dv_name: '{{ docker_name_prefix }}gitlab_DV'
 diff --git a/roles/docker-gitlab/tasks/main.yml b/roles/docker-gitlab/tasks/main.yml
-index e8f7ee88..6dc447b9 100644
+index 9e50bcdfe..226177b56 100644
 --- a/roles/docker-gitlab/tasks/main.yml
 +++ b/roles/docker-gitlab/tasks/main.yml
 @@ -65,13 +65,20 @@
@@ -460,7 +460,7 @@ index e8f7ee88..6dc447b9 100644
  # *****************************************************************************
  # restore?
 diff --git a/roles/docker-gitlab/tasks/restore.yml b/roles/docker-gitlab/tasks/restore.yml
-index b9f74ee0..bcb88947 100644
+index b9f74ee0a..bcb889471 100644
 --- a/roles/docker-gitlab/tasks/restore.yml
 +++ b/roles/docker-gitlab/tasks/restore.yml
 @@ -5,8 +5,9 @@
@@ -539,7 +539,7 @@ index b9f74ee0..bcb88947 100644
  # cleanup
 diff --git a/roles/docker-gitlab/tasks/upgrade.yml b/roles/docker-gitlab/tasks/upgrade.yml
 new file mode 100644
-index 00000000..3f03ba2c
+index 000000000..3f03ba2c1
 --- /dev/null
 +++ b/roles/docker-gitlab/tasks/upgrade.yml
 @@ -0,0 +1,32 @@
@@ -577,7 +577,7 @@ index 00000000..3f03ba2c
 +  register: st_gitlab_restore
 diff --git a/roles/gitlab-omnibus/defaults/main.yml b/roles/gitlab-omnibus/defaults/main.yml
 new file mode 100644
-index 00000000..0f97c3ac
+index 000000000..0f97c3ace
 --- /dev/null
 +++ b/roles/gitlab-omnibus/defaults/main.yml
 @@ -0,0 +1,41 @@
@@ -624,7 +624,7 @@ index 00000000..0f97c3ac
 +gitlab_config_dir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}'
 diff --git a/roles/gitlab-omnibus/files/fetch_merge_requests.rb b/roles/gitlab-omnibus/files/fetch_merge_requests.rb
 new file mode 100644
-index 00000000..f94be4f5
+index 000000000..f94be4f5d
 --- /dev/null
 +++ b/roles/gitlab-omnibus/files/fetch_merge_requests.rb
 @@ -0,0 +1,17 @@
@@ -647,7 +647,7 @@ index 00000000..f94be4f5
 +puts ']'
 diff --git a/roles/gitlab-omnibus/tasks/fetch_merge_requests.yml b/roles/gitlab-omnibus/tasks/fetch_merge_requests.yml
 new file mode 100644
-index 00000000..517a713d
+index 000000000..517a713d7
 --- /dev/null
 +++ b/roles/gitlab-omnibus/tasks/fetch_merge_requests.yml
 @@ -0,0 +1,13 @@
@@ -666,7 +666,7 @@ index 00000000..517a713d
 +    gitlab-rails runner /mnt/backups/fetch_merge_requests.rb
 diff --git a/roles/gitlab-omnibus/tasks/main.yml b/roles/gitlab-omnibus/tasks/main.yml
 new file mode 100644
-index 00000000..f09245f0
+index 000000000..f09245f07
 --- /dev/null
 +++ b/roles/gitlab-omnibus/tasks/main.yml
 @@ -0,0 +1,175 @@
@@ -847,7 +847,7 @@ index 00000000..f09245f0
 +  - gitlab_version is version('10.2', '<')
 diff --git a/roles/gitlab-omnibus/tasks/restore.yml b/roles/gitlab-omnibus/tasks/restore.yml
 new file mode 100644
-index 00000000..fc564206
+index 000000000..fc564206a
 --- /dev/null
 +++ b/roles/gitlab-omnibus/tasks/restore.yml
 @@ -0,0 +1,127 @@
@@ -980,7 +980,7 @@ index 00000000..fc564206
 +  when: st_gitlab_restore.stat.exists == False
 diff --git a/roles/gitlab-omnibus/tasks/upgrade.yml b/roles/gitlab-omnibus/tasks/upgrade.yml
 new file mode 100644
-index 00000000..f606f7c7
+index 000000000..f606f7c7f
 --- /dev/null
 +++ b/roles/gitlab-omnibus/tasks/upgrade.yml
 @@ -0,0 +1,30 @@
@@ -1016,7 +1016,7 @@ index 00000000..f606f7c7
 +  register: st_gitlab_restore
 diff --git a/roles/gitlab-omnibus/templates/after_backup.j2 b/roles/gitlab-omnibus/templates/after_backup.j2
 new file mode 100644
-index 00000000..9016eb5e
+index 000000000..9016eb5ec
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/after_backup.j2
 @@ -0,0 +1,7 @@
@@ -1029,7 +1029,7 @@ index 00000000..9016eb5e
 +{% endif %}
 diff --git a/roles/gitlab-omnibus/templates/before_backup.j2 b/roles/gitlab-omnibus/templates/before_backup.j2
 new file mode 100644
-index 00000000..6d882a32
+index 000000000..6d882a324
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/before_backup.j2
 @@ -0,0 +1,11 @@
@@ -1046,7 +1046,7 @@ index 00000000..6d882a32
 +{% endif %}
 diff --git a/roles/gitlab-omnibus/templates/gitlab.rb-10.8.4.j2 b/roles/gitlab-omnibus/templates/gitlab.rb-10.8.4.j2
 new file mode 100644
-index 00000000..f66fc491
+index 000000000..f66fc4911
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/gitlab.rb-10.8.4.j2
 @@ -0,0 +1,1883 @@
@@ -2935,7 +2935,7 @@ index 00000000..f66fc491
 +# }
 diff --git a/roles/gitlab-omnibus/templates/gitlab.rb-8.0.5.j2 b/roles/gitlab-omnibus/templates/gitlab.rb-8.0.5.j2
 new file mode 100644
-index 00000000..fd032bf6
+index 000000000..fd032bf60
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/gitlab.rb-8.0.5.j2
 @@ -0,0 +1,774 @@
@@ -3715,7 +3715,7 @@ index 00000000..fd032bf6
 +# mattermost_nginx['cache_max_size'] = '5000m'
 diff --git a/roles/gitlab-omnibus/templates/gitlab.rb-8.17.8.j2 b/roles/gitlab-omnibus/templates/gitlab.rb-8.17.8.j2
 new file mode 100644
-index 00000000..7afec90d
+index 000000000..7afec90d7
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/gitlab.rb-8.17.8.j2
 @@ -0,0 +1,1416 @@
@@ -5137,7 +5137,7 @@ index 00000000..7afec90d
 +# ]
 diff --git a/roles/gitlab-omnibus/templates/gitlab.rb-9.0.13.j2 b/roles/gitlab-omnibus/templates/gitlab.rb-9.0.13.j2
 new file mode 100644
-index 00000000..897b4535
+index 000000000..897b45354
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/gitlab.rb-9.0.13.j2
 @@ -0,0 +1,1659 @@
@@ -6802,7 +6802,7 @@ index 00000000..897b4535
 +# }
 diff --git a/roles/gitlab-omnibus/templates/gitlab.rb-9.5.10.j2 b/roles/gitlab-omnibus/templates/gitlab.rb-9.5.10.j2
 new file mode 100644
-index 00000000..897b4535
+index 000000000..897b45354
 --- /dev/null
 +++ b/roles/gitlab-omnibus/templates/gitlab.rb-9.5.10.j2
 @@ -0,0 +1,1659 @@
@@ -8467,7 +8467,7 @@ index 00000000..897b4535
 +# }
 diff --git a/upgrade.sh b/upgrade.sh
 new file mode 100755
-index 00000000..b01c7e13
+index 000000000..b01c7e139
 --- /dev/null
 +++ b/upgrade.sh
 @@ -0,0 +1,14 @@
@@ -8487,7 +8487,7 @@ index 00000000..b01c7e13
 +        ansible-playbook/gitlab.yml "$@"
 diff --git a/upgrade_production.sh b/upgrade_production.sh
 new file mode 100755
-index 00000000..8dd819ba
+index 000000000..8dd819ba2
 --- /dev/null
 +++ b/upgrade_production.sh
 @@ -0,0 +1,14 @@

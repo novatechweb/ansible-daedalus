@@ -1,7 +1,7 @@
-Bottom: 74e6eadeb7ddbcd6f0e66118f8748396b5f55b89
-Top:    9060af7596f69d170567f502fb9f7f062c686409
+Bottom: 6eacfb8f692575fb15f8c2006d59bbb8aec5580f
+Top:    5c8680222222b6201d3c37a552304377e73563a6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-07 15:29:00 -0500
+Date:   2018-09-21 11:51:14 -0500
 
 Add a version argument to the Dockerfile
 
@@ -10,7 +10,7 @@ Allows the user to pick any sameersbn/gitlab version
 
 ---
 diff --git a/docker/docker-gitlab-data/Dockerfile b/docker/docker-gitlab-data/Dockerfile
-index e8156c3c..2571036e 100644
+index e8156c3cf..2571036e9 100644
 --- a/docker/docker-gitlab-data/Dockerfile
 +++ b/docker/docker-gitlab-data/Dockerfile
 @@ -3,8 +3,8 @@
