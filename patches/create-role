@@ -1,5 +1,5 @@
 Bottom: 6eacfb8f692575fb15f8c2006d59bbb8aec5580f
-Top:    0368f77f26b4b41252408036e4de5b47bd3cd09a
+Top:    867d58096ff5954f8f9733c9dd129915d7d5ad4c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-25 14:57:05 -0500
 
@@ -22,7 +22,7 @@ index c306cadfa..88c2fbdcd 100644
  svn_password:                        '{{ lookup("password", playbook_dir + "/credentials/svn/ansible"                         , length=20) }}'
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
 new file mode 100644
-index 000000000..c3765ecf2
+index 000000000..f0e2f118e
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
 @@ -0,0 +1,153 @@
@@ -154,7 +154,7 @@ index 000000000..c3765ecf2
 +  - name: ntel-unofficial
 +    strict_content_validation: false
 +    write_policy: allow  # one of "allow", "allow_once" or "deny"
-+  - name: ntel-sstate
++  - name: orphans
 +    strict_content_validation: false
 +    write_policy: allow  # one of "allow", "allow_once" or "deny"
 +    blob_store: permanent
