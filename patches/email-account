@@ -1,15 +1,16 @@
-Bottom: 1101885254aab5b4178882c088109818ab14d5ee
-Top:    8dfc94b54e77745d1eee9ff2c9378d7170fee8f4
+Bottom: 8b98ef0bc0064ef0efce7153461bd83e5083f84e
+Top:    2c5b6fca8fde6681fd5b0bbc527a3fea0b119f84
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-30 09:54:07 -0500
+Date:   2018-09-21 11:49:50 -0500
 
 Use internal email server
 
 Use our internal email server instead of an external relay
 
+
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 888b3ffb..3ad01d12 100644
+index 888b3ffbf..3ad01d125 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -1,6 +1,7 @@
@@ -22,7 +23,7 @@ index 888b3ffb..3ad01d12 100644
  buildbot_webhook_secret:             '{{ lookup("password", playbook_dir + "/credentials/buildbot/webhook"                    , length=20) }}'
 diff --git a/ansible-playbook/group_vars/all/email.yml b/ansible-playbook/group_vars/all/email.yml
 new file mode 100644
-index 00000000..2e5c0c22
+index 000000000..2e5c0c228
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/email.yml
 @@ -0,0 +1,4 @@
@@ -31,7 +32,7 @@ index 00000000..2e5c0c22
 +    user: buildbot
 +    password: '{{ buildbot_email_password }}'
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 32cde229..04777525 100644
+index 32cde2290..047775256 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -35,9 +35,10 @@ container_env:

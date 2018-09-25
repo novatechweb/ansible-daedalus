@@ -1,14 +1,14 @@
-Bottom: de0f8505df5fba523bb814a86d06d6bafd2ade73
-Top:    4f7c0c848d4ea6247452c7a99be89bf94fe188a4
+Bottom: 77585dabf3ae1b5f466dff97416835754695cd5c
+Top:    327480ab213443f668ca3ff3d6bc445d2216a978
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:44 -0500
+Date:   2018-09-21 11:49:50 -0500
 
 Generate new ssh key on first run
 
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 6c94f54e..d55ec278 100644
+index 6c94f54e7..d55ec2783 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -12,6 +12,14 @@
@@ -65,7 +65,7 @@ index 6c94f54e..d55ec278 100644
 +        - buildbot-worker-ptxdist
 diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
 new file mode 100755
-index 00000000..bf4c4e5a
+index 000000000..bf4c4e5a4
 --- /dev/null
 +++ b/docker/buildbot-master/buildbot/start.sh
 @@ -0,0 +1,10 @@
@@ -80,7 +80,7 @@ index 00000000..bf4c4e5a
 +# Run original buildbot entrypoint
 +exec "/usr/src/buildbot/docker/start_buildbot.sh"
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
-index 84a40408..f47bfc53 100644
+index 84a404084..f47bfc532 100644
 --- a/roles/buildbot-master/tasks/main.yml
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -55,6 +55,12 @@

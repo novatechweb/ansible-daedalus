@@ -1,14 +1,14 @@
-Bottom: ff7991955049d87d207868db3b20d9045e041544
-Top:    de0f8505df5fba523bb814a86d06d6bafd2ade73
+Bottom: 1b9f9a8931554329ad6d4a28128ee20d15b6e3fa
+Top:    77585dabf3ae1b5f466dff97416835754695cd5c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:44 -0500
+Date:   2018-09-21 11:49:50 -0500
 
 Add environment variables for parameters
 
 
 ---
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 412ac9a5..7e6c0cc2 100644
+index 412ac9a57..7e6c0cc20 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -33,6 +33,9 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
@@ -22,7 +22,7 @@ index 412ac9a5..7e6c0cc2 100644
    BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
    BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index e17bce26..961819c3 100644
+index e17bce267..961819c37 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -20,7 +20,7 @@ c['change_source'] = []

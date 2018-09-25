@@ -1,13 +1,14 @@
-Bottom: 0a8d8dcce54102dfaafb5a67298bcb19c806b671
-Top:    d10dc661d23455f9cc6c7a054d44078cf78df92d
+Bottom: 3579f1cf141f7dedb5a2900058f225522eb4480c
+Top:    9afe0ea18a95d1d48f1b9ae8c0bf9626f224e875
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-29 16:44:42 -0500
+Date:   2018-09-21 11:49:50 -0500
 
 Support asset host
 
+
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 557ea2de..166390e6 100644
+index 557ea2dee..166390e64 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -9,6 +9,11 @@
@@ -45,7 +46,7 @@ index 557ea2de..166390e6 100644
      - name: Scan Gitlab ssh keys
 diff --git a/ansible-playbook/library/docker_image.py b/ansible-playbook/library/docker_image.py
 new file mode 100644
-index 00000000..90bf2b20
+index 000000000..90bf2b20f
 --- /dev/null
 +++ b/ansible-playbook/library/docker_image.py
 @@ -0,0 +1,615 @@
@@ -665,7 +666,7 @@ index 00000000..90bf2b20
 +if __name__ == '__main__':
 +    main()
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
-index 729332d4..5d040ea8 100644
+index 729332d4a..5d040ea8a 100644
 --- a/docker/buildbot-worker-ntel/Dockerfile
 +++ b/docker/buildbot-worker-ntel/Dockerfile
 @@ -68,8 +68,9 @@ RUN wget https://bootstrap.pypa.io/get-pip.py \
@@ -680,7 +681,7 @@ index 729332d4..5d040ea8 100644
  &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_sdk/PTKcpsdk-5.3.0-16.x86_64.rpm \
  &&  alien --to-deb --install --scripts /tmp/610-009981-015_SW_PTK_5.3_Client_RevA/SDKs/Linux64/ptkc_runtime/PTKcprt-5.3.0-15.x86_64.rpm \
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
-index 7dbac6ef..b5c0c70e 100644
+index 7dbac6ef4..b5c0c70ed 100644
 --- a/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
 +++ b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
 @@ -36,12 +36,12 @@ PTXCONF_SETUP_SRCDIR="/cache/downloads"
@@ -704,14 +705,14 @@ index 7dbac6ef..b5c0c70e 100644
  # PTXCONF_SETUP_CHECK_NEVER is not set
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
 deleted file mode 100644
-index 8dc2a29b..00000000
+index 8dc2a29b6..000000000
 --- a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
 +++ /dev/null
 @@ -1,2 +0,0 @@
 -[easy_install]
 -index-url=http://172.16.103.72/repository/PyPi_Proxy/simple
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 3e81b9b2..ee40c325 100644
+index 3e81b9b2a..ee40c3256 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -32,6 +32,7 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
@@ -723,7 +724,7 @@ index 3e81b9b2..ee40c325 100644
    BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
    BUILDBOT_SMTP_HOST: 'relay.dnsexit.com'
 diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
-index 5c2d9da5..89c57a2c 100755
+index 5c2d9da56..89c57a2c3 100755
 --- a/roles/buildbot-master/files/openembedded.py
 +++ b/roles/buildbot-master/files/openembedded.py
 @@ -66,13 +66,20 @@ c['schedulers'] = [
@@ -802,7 +803,7 @@ index 5c2d9da5..89c57a2c 100755
  
  
 diff --git a/roles/buildbot-master/files/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
-index c6e148cf..c6e563b8 100644
+index c6e148cf5..c6e563b8c 100644
 --- a/roles/buildbot-master/files/ptxdist.py
 +++ b/roles/buildbot-master/files/ptxdist.py
 @@ -194,6 +194,16 @@ class PTXDistBuild(steps.ShellSequence):
@@ -894,7 +895,7 @@ index c6e148cf..c6e563b8 100644
  
  
 diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
-index f1bd9b16..0f440dc6 100644
+index f1bd9b16c..0f440dc6a 100644
 --- a/roles/buildbot-worker-ntel/defaults/main.yml
 +++ b/roles/buildbot-worker-ntel/defaults/main.yml
 @@ -27,12 +27,16 @@ cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
@@ -934,7 +935,7 @@ index f1bd9b16..0f440dc6 100644
  
  # directory of the image source
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
-index b1bcf349..c6c57101 100644
+index b1bcf3495..c6c571016 100644
 --- a/roles/buildbot-worker-ntel/tasks/main.yml
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
 @@ -25,7 +25,7 @@
@@ -1003,7 +1004,7 @@ index b1bcf349..c6c57101 100644
      image: '{{ image_name }}:{{ docker_image_tag }}'
 diff --git a/roles/buildbot-worker-ntel/templates/netrc.j2 b/roles/buildbot-worker-ntel/templates/netrc.j2
 new file mode 100644
-index 00000000..e81d1062
+index 000000000..e81d10622
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/templates/netrc.j2
 @@ -0,0 +1,3 @@
@@ -1012,7 +1013,7 @@ index 00000000..e81d1062
 +password {{ asset_password }}
 diff --git a/roles/buildbot-worker-ntel/templates/ptxdistrc.j2 b/roles/buildbot-worker-ntel/templates/ptxdistrc.j2
 new file mode 100644
-index 00000000..4d2b48e9
+index 000000000..4d2b48e91
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/templates/ptxdistrc.j2
 @@ -0,0 +1,76 @@
@@ -1094,14 +1095,14 @@ index 00000000..4d2b48e9
 +PTXCONF_SETUP_HOST_MAKE="make"
 diff --git a/roles/buildbot-worker-ntel/templates/pydistutils.cfg.j2 b/roles/buildbot-worker-ntel/templates/pydistutils.cfg.j2
 new file mode 100644
-index 00000000..1d205ea2
+index 000000000..1d205ea20
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/templates/pydistutils.cfg.j2
 @@ -0,0 +1,2 @@
 +[easy_install]
 +index_url = {{asset_host}}/pypi/simple
 diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
-index ebe2d7ed..5a128da1 100644
+index ebe2d7edb..5a128da14 100644
 --- a/roles/buildbot-worker-ptxdist/defaults/main.yml
 +++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
 @@ -27,6 +27,7 @@ cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
@@ -1123,7 +1124,7 @@ index ebe2d7ed..5a128da1 100644
  container_port_args: []
  
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index ce3e4e97..46bf6355 100644
+index ce3e4e973..46bf6355e 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
 @@ -104,10 +104,12 @@
@@ -1141,7 +1142,7 @@ index ce3e4e97..46bf6355 100644
      image: '{{ image_name }}:{{ docker_image_tag }}'
 diff --git a/roles/buildbot-worker-ptxdist/templates/netrc.j2 b/roles/buildbot-worker-ptxdist/templates/netrc.j2
 new file mode 100644
-index 00000000..e81d1062
+index 000000000..e81d10622
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/templates/netrc.j2
 @@ -0,0 +1,3 @@
@@ -1150,7 +1151,7 @@ index 00000000..e81d1062
 +password {{ asset_password }}
 diff --git a/roles/buildbot-worker-ptxdist/templates/ptxdistrc.j2 b/roles/buildbot-worker-ptxdist/templates/ptxdistrc.j2
 new file mode 100644
-index 00000000..4d2b48e9
+index 000000000..4d2b48e91
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/templates/ptxdistrc.j2
 @@ -0,0 +1,76 @@
@@ -1232,7 +1233,7 @@ index 00000000..4d2b48e9
 +PTXCONF_SETUP_HOST_MAKE="make"
 diff --git a/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2 b/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
 new file mode 100644
-index 00000000..1d205ea2
+index 000000000..1d205ea20
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/templates/pydistutils.cfg.j2
 @@ -0,0 +1,2 @@

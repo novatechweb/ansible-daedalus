@@ -1,25 +1,25 @@
 Version: 1
-Previous: ce286760ba952b2bef627638bac0df8a08a4feb2
-Head: b35ba85a40ad942dce91ff5e087ead51ee1e7687
+Previous: ee8763c87d3bc9083094340b57e4c5971fcdba89
+Head: 8200318d1198b3e428644cb5e4586c81d28881c8
 Applied:
-  buildbot-master: 1987167d233ff2cdc815dc7280388148a6e1e655
-  ntel-worker: f1436215edec6cb016f3349d52259f7b9d926254
-  hsm-host-arg: 90cf5a30bee6bd86791e4d13136a21c0143c0fac
-  ptxdist-worker: 841f5115dbd10bc436811f6714df3df55ca1be3f
-  ptxdist-bc-depend: 28c14031021d9a810eaed3afc4c22c2d6f2f42ce
-  add-environment-variables-for: fb0570570f10f09a499a1aad961a82019ed0911d
-  generate-new-ssh-key-on-first: e18f34f42e845c93d97c200fe45e8a2190ac32be
-  gitlab-auth: 8f1d3027021d577f8632f136820d54432c25e014
-  known_hosts: 12e8c32608f609b427009bd8f8c14cb4303a7aaa
-  asset-host: ad363aa3a82dc6445742a99ab308cf8b3d914d6d
-  update-ptxdistrc: d43c2b96f82c4b3dbc0c3868e187452d497403f7
-  enable-secrets: b8e213544f1e1b4110e18c4cc9239feff3da489f
-  change-hooks: c7e49e1a37cb715d1c799fba431bd910ff013f99
-  email-account: 6e34007eb0469e18cd8606e824d8e89080b24ee3
-  codebase-generator: 443a5fc4f7f38b8aad92aefebbd2a5a2f0a76515
-  single-branch-builders: 27966e9ebd84672222b2217bace2e5c80482a428
-  irc-reporter: 48c70fd0c19b75429d7e93f22360141ceb01b7de
-  gitlab-status-reporter: 476a1ab657e128a97eba71f1b2e6773dd90bb312
-  buildbot-fixup: b35ba85a40ad942dce91ff5e087ead51ee1e7687
+  buildbot-master: 09dc8ed2f2763a952375d6498f1a0e595dd9e209
+  ntel-worker: cda3f27514a6a6003f3bb0827a455f4d19a92227
+  hsm-host-arg: 3882fa1ba83246a0ba0304e73f382869f1131c58
+  ptxdist-worker: 4b68f6d7523f741951ee0a88dceebdb391dedce5
+  ptxdist-bc-depend: 3eb9f2600c5d1c35dfee4cfe09fd307026096390
+  add-environment-variables-for: 88e598dd4debe0d9859caf6d8c70638abf856af6
+  generate-new-ssh-key-on-first: f8398b307fdd52dc3f9eaa8192cf3255df2d9ce1
+  gitlab-auth: 7aae4657393f4ee2e9ed855a6e10306b6be5d7f6
+  known_hosts: 8b53e21b77556e4dc30e3a6f71da28e42bbc4749
+  asset-host: c55e916d48185c52f42b36e79d7f07939bb2ebd7
+  update-ptxdistrc: 85e305d9e6471446fdbefc6752ff8c6183970463
+  enable-secrets: 4f3888ed7660187309f011c291ed569068f2f587
+  change-hooks: 054dced10f79eb343cf04f727cfd8ed6f97deef1
+  email-account: 52358e26ef0bbe394d5e30bcbe6ae09aeee11b68
+  codebase-generator: f02658d0d46da5a06c2dc96cd48ced2e97c49a46
+  single-branch-builders: 2a04cbcf5254479d640eefa0baf315b78e30b16e
+  irc-reporter: 287412be65d1d7486ff3b63239338a19868c3cdb
+  gitlab-status-reporter: 6d27c4aba38e5842feb02ce7099e8dd597f6359f
+  buildbot-fixup: 8200318d1198b3e428644cb5e4586c81d28881c8
 Unapplied:
 Hidden:

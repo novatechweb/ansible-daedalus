@@ -1,7 +1,7 @@
-Bottom: 0826cae86e6d58cacccea6c9e5cc05bd095e9025
-Top:    39aa012234ee04375a4c23b73e68b419c5c1dae3
+Bottom: 78bb02464bfd41cab6f89c78871b1015a7481521
+Top:    07f96bc9fa2d45c84316ce3301ae9123d2e2e5d5
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-30 16:44:43 -0500
+Date:   2018-09-21 11:49:49 -0500
 
 Add buildbot role and new playbook
 
@@ -9,7 +9,7 @@ Add buildbot role and new playbook
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
 new file mode 100644
-index 00000000..d255a7ec
+index 000000000..d255a7ec7
 --- /dev/null
 +++ b/ansible-playbook/buildbot.yml
 @@ -0,0 +1,14 @@
@@ -29,7 +29,7 @@ index 00000000..d255a7ec
 +        name: buildbot-master
 diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
 new file mode 100644
-index 00000000..69a154ff
+index 000000000..69a154ff7
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/buildbot.yml
 @@ -0,0 +1,3 @@
@@ -37,7 +37,7 @@ index 00000000..69a154ff
 +buildbot_version: 1.2.0
 +buildbot_worker_port: 9989
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index c306cadf..d476bf91 100644
+index c306cadfa..d476bf91e 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -1,5 +1,6 @@
@@ -48,7 +48,7 @@ index c306cadf..d476bf91 100644
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
 diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
-index f908c8f0..42db8fdb 100644
+index f908c8f03..42db8fdb5 100644
 --- a/ansible-playbook/group_vars/docker-hosts/networking.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
 @@ -47,3 +47,9 @@ phpldapadmin_port_args:
@@ -62,7 +62,7 @@ index f908c8f0..42db8fdb 100644
 +- "{{ buildbot_ip_addr }}:443:8443"
 +- "{{ buildbot_ip_addr }}:9989:9989"
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
-index c6323198..5e2d2774 100644
+index c63231984..5e2d2774d 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 @@ -15,3 +15,4 @@ exim4_ip_addr:        172.16.0.107
@@ -71,7 +71,7 @@ index c6323198..5e2d2774 100644
  phpmyadmin_ip_addr:   172.16.0.109
 +buildbot_ip_addr:     172.16.0.110
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
-index b3e366ce..aa95e93b 100644
+index b3e366ced..aa95e93b5 100644
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 @@ -15,3 +15,4 @@ exim4_ip_addr:        172.16.103.107
@@ -80,7 +80,7 @@ index b3e366ce..aa95e93b 100644
  phpmyadmin_ip_addr:   172.16.103.109
 +buildbot_ip_addr:     172.16.103.110
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 0727917d..ee706b65 100644
+index 0727917de..ee706b655 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -90,6 +90,9 @@
@@ -94,7 +94,7 @@ index 0727917d..ee706b65 100644
    hosts: buildsystem
    remote_user: ansibleremote
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index 521c8237..f6c51117 100644
+index 521c8237e..f6c511175 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
 @@ -1,29 +1,29 @@
@@ -140,7 +140,7 @@ index 521c8237..f6c51117 100644
 -CMD ["/home/buildbot/start.sh"]
 diff --git a/docker/buildbot-master/buildbot/start.sh b/docker/buildbot-master/buildbot/start.sh
 deleted file mode 100755
-index 63b884d4..00000000
+index 63b884d48..000000000
 --- a/docker/buildbot-master/buildbot/start.sh
 +++ /dev/null
 @@ -1,10 +0,0 @@
@@ -156,7 +156,7 @@ index 63b884d4..00000000
 -exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
 new file mode 100644
-index 00000000..412ac9a5
+index 000000000..412ac9a57
 --- /dev/null
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -0,0 +1,99 @@
@@ -263,7 +263,7 @@ diff --git a/docker/buildbot-master/buildbot/master.cfg b/roles/buildbot-master/
 similarity index 73%
 rename from docker/buildbot-master/buildbot/master.cfg
 rename to roles/buildbot-master/files/master.cfg
-index 658d5fb1..9784ff82 100644
+index 658d5fb13..9784ff826 100644
 --- a/docker/buildbot-master/buildbot/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -5,9 +5,9 @@
@@ -375,7 +375,7 @@ diff --git a/docker/buildbot-master/buildbot/openembedded.py b/roles/buildbot-ma
 similarity index 99%
 rename from docker/buildbot-master/buildbot/openembedded.py
 rename to roles/buildbot-master/files/openembedded.py
-index 5d2ba3d4..208948b2 100755
+index 5d2ba3d44..208948b2a 100755
 --- a/docker/buildbot-master/buildbot/openembedded.py
 +++ b/roles/buildbot-master/files/openembedded.py
 @@ -309,7 +309,7 @@ class BitBakeFactory(util.BuildFactory):
@@ -391,7 +391,7 @@ diff --git a/docker/buildbot-master/buildbot/ptxdist.py b/roles/buildbot-master/
 similarity index 98%
 rename from docker/buildbot-master/buildbot/ptxdist.py
 rename to roles/buildbot-master/files/ptxdist.py
-index 85020678..d6d84f2e 100644
+index 850206786..d6d84f2e5 100644
 --- a/docker/buildbot-master/buildbot/ptxdist.py
 +++ b/roles/buildbot-master/files/ptxdist.py
 @@ -170,7 +170,7 @@ class PTXDistFactory(util.BuildFactory):
@@ -492,7 +492,7 @@ index 85020678..d6d84f2e 100644
                                                mode="incremental", method="clobber", locks=[git_lock.access('exclusive')], retry=(120, 5)))
 diff --git a/roles/buildbot-master/tasks/main.yml b/roles/buildbot-master/tasks/main.yml
 new file mode 100644
-index 00000000..84a40408
+index 000000000..84a404084
 --- /dev/null
 +++ b/roles/buildbot-master/tasks/main.yml
 @@ -0,0 +1,62 @@
@@ -562,7 +562,7 @@ diff --git a/docker/buildbot-master/buildbot/buildbot.tac b/roles/buildbot-maste
 similarity index 81%
 rename from docker/buildbot-master/buildbot/buildbot.tac
 rename to roles/buildbot-master/templates/buildbot.tac.j2
-index c3b2e879..23824119 100644
+index c3b2e8792..23824119b 100644
 --- a/docker/buildbot-master/buildbot/buildbot.tac
 +++ b/roles/buildbot-master/templates/buildbot.tac.j2
 @@ -6,13 +6,13 @@ from twisted.python.log import ILogObserver
@@ -583,7 +583,7 @@ index c3b2e879..23824119 100644
  m.setServiceParent(application)
 diff --git a/roles/buildbot-master/vars/main.yml b/roles/buildbot-master/vars/main.yml
 new file mode 100644
-index 00000000..eed3963e
+index 000000000..eed3963ef
 --- /dev/null
 +++ b/roles/buildbot-master/vars/main.yml
 @@ -0,0 +1,2 @@

@@ -1,7 +1,7 @@
-Bottom: a6a23b142bb93b32c4275585ed65746bb676d999
-Top:    67cb26828fb039ad1f8300db492b976375c08127
+Bottom: 25eed00255f5635926d0ebfc5a0433f7df39d6aa
+Top:    92408a037dfd18456716be46e72b3200834a2427
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:43 -0500
+Date:   2018-09-21 11:49:50 -0500
 
 Add build variable for HSM host
 
@@ -9,13 +9,13 @@ Add build variable for HSM host
 ---
 diff --git a/ansible-playbook/group_vars/all/hsm.yml b/ansible-playbook/group_vars/all/hsm.yml
 new file mode 100644
-index 00000000..ed45f648
+index 000000000..ed45f648f
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/hsm.yml
 @@ -0,0 +1 @@
 +hsm_host: 172.16.64.38
 diff --git a/docker/buildbot-worker-ntel/Dockerfile b/docker/buildbot-worker-ntel/Dockerfile
-index 11a726fb..729332d4 100644
+index 11a726fb8..729332d4a 100644
 --- a/docker/buildbot-worker-ntel/Dockerfile
 +++ b/docker/buildbot-worker-ntel/Dockerfile
 @@ -67,12 +67,14 @@ RUN wget https://bootstrap.pypa.io/get-pip.py \

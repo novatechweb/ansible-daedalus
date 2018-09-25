@@ -1,14 +1,14 @@
-Bottom: 89a33667ac7fa11db4bd5e0ab4a9dbaff85c6792
-Top:    1101885254aab5b4178882c088109818ab14d5ee
+Bottom: fa7d9fbd56a739bae7cebd723e6c59fcaa0466e9
+Top:    8b98ef0bc0064ef0efce7153461bd83e5083f84e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:44 -0500
+Date:   2018-09-21 11:49:50 -0500
 
 Enable change hooks from Gitlab
 
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index 69052558..888b3ffb 100644
+index 69052558a..888b3ffbf 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -3,6 +3,7 @@
@@ -20,7 +20,7 @@ index 69052558..888b3ffb 100644
  buildsystem_database_root_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/database/root"           , length=20) }}'
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index ee40c325..32cde229 100644
+index ee40c3256..32cde2290 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -48,6 +48,7 @@ container_env:
@@ -32,7 +32,7 @@ index ee40c325..32cde229 100644
    LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
    LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index c453a09b..a12bdaa8 100644
+index c453a09b1..a12bdaa87 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -94,6 +94,11 @@ c['www'] = {

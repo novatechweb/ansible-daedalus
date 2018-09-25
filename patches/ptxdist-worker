@@ -1,13 +1,14 @@
-Bottom: 67cb26828fb039ad1f8300db492b976375c08127
-Top:    034ff88b3b6bdc0e1e49bbef78fbc61c4debd921
+Bottom: 92408a037dfd18456716be46e72b3200834a2427
+Top:    8814da87e879054d9922c828b112b674b1d9d636
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-30 09:43:47 -0500
+Date:   2018-09-21 11:49:50 -0500
 
 Add buildbot PTXdist worker Docker image
 
+
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index aa76fbaf..6c94f54e 100644
+index aa76fbaf1..6c94f54e7 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -22,9 +22,13 @@
@@ -25,7 +26,7 @@ index aa76fbaf..6c94f54e 100644
 +      import_role:
 +        name: buildbot-worker-ptxdist
 diff --git a/ansible-playbook/group_vars/all/buildbot.yml b/ansible-playbook/group_vars/all/buildbot.yml
-index e9601b3c..a93f6ccb 100644
+index e9601b3cc..a93f6ccb2 100644
 --- a/ansible-playbook/group_vars/all/buildbot.yml
 +++ b/ansible-playbook/group_vars/all/buildbot.yml
 @@ -2,3 +2,4 @@
@@ -34,7 +35,7 @@ index e9601b3c..a93f6ccb 100644
  buildbot_worker_ntel: worker-ntel
 +buildbot_worker_ptxdist: worker-ptxdist
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index afeff4e3..f3aec6f1 100644
+index afeff4e3a..f3aec6f18 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -2,6 +2,7 @@
@@ -47,7 +48,7 @@ index afeff4e3..f3aec6f1 100644
  buildsystem_ssh_prod_user_password:  '{{ lookup("password", playbook_dir + "/credentials/buildsystem/ssh/prod"                , length=20) }}'
 diff --git a/docker/buildbot-worker-ptxdist/Dockerfile b/docker/buildbot-worker-ptxdist/Dockerfile
 new file mode 100644
-index 00000000..ee6bfeb5
+index 000000000..ee6bfeb5f
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/Dockerfile
 @@ -0,0 +1,93 @@
@@ -146,7 +147,7 @@ index 00000000..ee6bfeb5
 +CMD ["/home/buildbot/start.sh"]
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.ccache/ccache.conf b/docker/buildbot-worker-ptxdist/buildbot/.ccache/ccache.conf
 new file mode 100644
-index 00000000..150374b8
+index 000000000..150374b83
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/.ccache/ccache.conf
 @@ -0,0 +1,8 @@
@@ -160,7 +161,7 @@ index 00000000..150374b8
 +cache_dir = /cache/ccache
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.gitconfig b/docker/buildbot-worker-ptxdist/buildbot/.gitconfig
 new file mode 100644
-index 00000000..efd988f4
+index 000000000..efd988f4f
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/.gitconfig
 @@ -0,0 +1,3 @@
@@ -169,7 +170,7 @@ index 00000000..efd988f4
 +	email = buildbot@novatechweb.com
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
 new file mode 100644
-index 00000000..7dbac6ef
+index 000000000..7dbac6ef4
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/.ptxdist/ptxdistrc-git
 @@ -0,0 +1,75 @@
@@ -250,7 +251,7 @@ index 00000000..7dbac6ef
 +PTXCONF_SETUP_HOST_MAKE="make"
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
 new file mode 100644
-index 00000000..8dc2a29b
+index 000000000..8dc2a29b6
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/.pydistutils.cfg
 @@ -0,0 +1,2 @@
@@ -258,7 +259,7 @@ index 00000000..8dc2a29b
 +index-url=http://172.16.103.72/repository/PyPi_Proxy/simple
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
 new file mode 100644
-index 00000000..37012ab4
+index 000000000..37012ab4b
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/buildbot.tac
 @@ -0,0 +1,38 @@
@@ -302,7 +303,7 @@ index 00000000..37012ab4
 +s.setServiceParent(application)
 diff --git a/docker/buildbot-worker-ptxdist/buildbot/start.sh b/docker/buildbot-worker-ptxdist/buildbot/start.sh
 new file mode 100755
-index 00000000..f025e661
+index 000000000..f025e6615
 --- /dev/null
 +++ b/docker/buildbot-worker-ptxdist/buildbot/start.sh
 @@ -0,0 +1,18 @@
@@ -325,7 +326,7 @@ index 00000000..f025e661
 +ln -v -s -f ${HOME}/buildbot.tac $BUILDBOT_DATA
 +exec twistd --nodaemon --logfile=- --pidfile=/tmp/twistd.pid --python=buildbot.tac
 diff --git a/roles/buildbot-master/files/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
-index d6d84f2e..c6e148cf 100644
+index d6d84f2e5..c6e148cf5 100644
 --- a/roles/buildbot-master/files/ptxdist.py
 +++ b/roles/buildbot-master/files/ptxdist.py
 @@ -1,26 +1,39 @@
@@ -864,7 +865,7 @@ index d6d84f2e..c6e148cf 100644
 -                  factory=remote_tests_am335x_factory))
 diff --git a/roles/buildbot-worker-ptxdist/defaults/main.yml b/roles/buildbot-worker-ptxdist/defaults/main.yml
 new file mode 100644
-index 00000000..ebe2d7ed
+index 000000000..ebe2d7edb
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/defaults/main.yml
 @@ -0,0 +1,87 @@
@@ -957,7 +958,7 @@ index 00000000..ebe2d7ed
 +secrets_path: '/run/secrets'
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
 new file mode 100644
-index 00000000..b78c2af0
+index 000000000..b78c2af01
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
 @@ -0,0 +1,118 @@
@@ -1081,7 +1082,7 @@ index 00000000..b78c2af0
 +    pubkey: "{{ output.stdout }}"
 diff --git a/roles/buildbot-worker-ptxdist/vars/main.yml b/roles/buildbot-worker-ptxdist/vars/main.yml
 new file mode 100644
-index 00000000..ae5fa61c
+index 000000000..ae5fa61cd
 --- /dev/null
 +++ b/roles/buildbot-worker-ptxdist/vars/main.yml
 @@ -0,0 +1,2 @@

@@ -1,14 +1,14 @@
-Bottom: 4f7c0c848d4ea6247452c7a99be89bf94fe188a4
-Top:    a7fe0471ab0562d8e28812d06694159b17f01c2c
+Bottom: 327480ab213443f668ca3ff3d6bc445d2216a978
+Top:    96b4342ffbe1b35c071c8ada8e7ddb4cd383691c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:44 -0500
+Date:   2018-09-21 11:49:50 -0500
 
 Add Gitlab Authentication
 
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index f3aec6f1..69052558 100644
+index f3aec6f18..69052558a 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -7,6 +7,8 @@ buildsystem_database_build_password: '{{ lookup("password", playbook_dir + "/cre
@@ -21,7 +21,7 @@ index f3aec6f1..69052558 100644
  gitlab_email_password:               '{{ lookup("password", playbook_dir + "/credentials/git/email/gitlab@novatech-llc.com"   , length=20) }}'
  gitlab_root_password:                '{{ lookup("password", playbook_dir + "/credentials/git/users/root"                      , length=20) }}'
 diff --git a/docker/buildbot-master/Dockerfile b/docker/buildbot-master/Dockerfile
-index f6c51117..bcc63e84 100644
+index f6c511175..bcc63e84a 100644
 --- a/docker/buildbot-master/Dockerfile
 +++ b/docker/buildbot-master/Dockerfile
 @@ -15,7 +15,8 @@ RUN pip --no-cache-dir install \
@@ -35,7 +35,7 @@ index f6c51117..bcc63e84 100644
  # Create buildbot user
  ARG BUILDBOT_DATA="/buildbot"
 diff --git a/roles/buildbot-master/defaults/main.yml b/roles/buildbot-master/defaults/main.yml
-index 7e6c0cc2..a4296e57 100644
+index 7e6c0cc20..a4296e57b 100644
 --- a/roles/buildbot-master/defaults/main.yml
 +++ b/roles/buildbot-master/defaults/main.yml
 @@ -43,6 +43,12 @@ container_env:
@@ -52,7 +52,7 @@ index 7e6c0cc2..a4296e57 100644
  # hostname
  container_hostname: '{{ buildbot_hostname }}'
 diff --git a/roles/buildbot-master/files/master.cfg b/roles/buildbot-master/files/master.cfg
-index 961819c3..11942aaa 100644
+index 961819c37..11942aaa9 100644
 --- a/roles/buildbot-master/files/master.cfg
 +++ b/roles/buildbot-master/files/master.cfg
 @@ -49,6 +49,20 @@ mn = reporters.MailNotifier(

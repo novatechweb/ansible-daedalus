@@ -1,14 +1,14 @@
-Bottom: 33c7aadf8e0e42df46840fbf09d4dce9b40ee49a
-Top:    c5bd3d1905ecb55c9d2c7f1eac745ccab084eb7a
+Bottom: d2d87cf52a1c803d01d25e4805247dcb39170b95
+Top:    16c37bdabbc39208ce914055452f4259fe2637f6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-09-13 15:47:08 -0500
+Date:   2018-09-21 11:49:51 -0500
 
 fixup buildbot
 
 
 ---
 diff --git a/ansible-playbook/buildbot.yml b/ansible-playbook/buildbot.yml
-index 166390e6..e019df23 100644
+index 166390e64..e019df238 100644
 --- a/ansible-playbook/buildbot.yml
 +++ b/ansible-playbook/buildbot.yml
 @@ -46,6 +46,7 @@
@@ -20,7 +20,7 @@ index 166390e6..e019df23 100644
        nexus.novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
      known_hosts: "{{ gitlab_keys.stdout }}"
 diff --git a/roles/buildbot-master/files/openembedded.py b/roles/buildbot-master/files/openembedded.py
-index 7384ec25..a2a59480 100755
+index 7384ec25f..a2a59480a 100755
 --- a/roles/buildbot-master/files/openembedded.py
 +++ b/roles/buildbot-master/files/openembedded.py
 @@ -197,15 +197,17 @@ def ComputeBuildProperties(props):
@@ -56,7 +56,7 @@ index 7384ec25..a2a59480 100755
                      artfile
                  ],
 diff --git a/roles/buildbot-master/files/ptxdist.py b/roles/buildbot-master/files/ptxdist.py
-index c6e563b8..aab8d231 100644
+index c6e563b8c..aab8d2317 100644
 --- a/roles/buildbot-master/files/ptxdist.py
 +++ b/roles/buildbot-master/files/ptxdist.py
 @@ -272,7 +272,9 @@ def ComputeBuildProperties(props):
@@ -89,7 +89,7 @@ index c6e563b8..aab8d231 100644
  # ptxdist_factory.addStep(steps.ShellCommand(command=["./scripts/build-upgrade-test.sh"]))
  # ptxdist_factory.addStep(steps.ShellCommand(command=["curl", "--progress-bar", "-o", "/dev/null", "http://george:1234@172.16.190.70/outlet?1=CCL"]))
 diff --git a/roles/buildbot-worker-ntel/defaults/main.yml b/roles/buildbot-worker-ntel/defaults/main.yml
-index 0f440dc6..c6097fe5 100644
+index 0f440dc6a..c6097fe56 100644
 --- a/roles/buildbot-worker-ntel/defaults/main.yml
 +++ b/roles/buildbot-worker-ntel/defaults/main.yml
 @@ -54,6 +54,7 @@ container_volumes:
@@ -102,7 +102,7 @@ index 0f440dc6..c6097fe5 100644
  - '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
 diff --git a/roles/buildbot-worker-ntel/files/ci-archive.sh b/roles/buildbot-worker-ntel/files/ci-archive.sh
 new file mode 100644
-index 00000000..57c3c260
+index 000000000..57c3c260a
 --- /dev/null
 +++ b/roles/buildbot-worker-ntel/files/ci-archive.sh
 @@ -0,0 +1,34 @@
@@ -141,7 +141,7 @@ index 00000000..57c3c260
 +rm $files_to_archive
 +rm $bitbake_vars
 diff --git a/roles/buildbot-worker-ntel/tasks/main.yml b/roles/buildbot-worker-ntel/tasks/main.yml
-index 7c865e5c..503c9c5e 100644
+index 7c865e5cc..503c9c5e0 100644
 --- a/roles/buildbot-worker-ntel/tasks/main.yml
 +++ b/roles/buildbot-worker-ntel/tasks/main.yml
 @@ -61,6 +61,7 @@
@@ -185,7 +185,7 @@ index 7c865e5c..503c9c5e 100644
  
  - name: Start buildbot worker container
 diff --git a/roles/buildbot-worker-ptxdist/tasks/main.yml b/roles/buildbot-worker-ptxdist/tasks/main.yml
-index c3a63545..e4c3fccd 100644
+index c3a635458..e4c3fccd2 100644
 --- a/roles/buildbot-worker-ptxdist/tasks/main.yml
 +++ b/roles/buildbot-worker-ptxdist/tasks/main.yml
 @@ -106,7 +106,7 @@
