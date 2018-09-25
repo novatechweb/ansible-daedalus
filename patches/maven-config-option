@@ -1,7 +1,7 @@
-Bottom: 0d07e6c8df62fd8cf7bc2c6de16ce08be450d32f
-Top:    2688eb847a22e9db1b736886a6df3d49820e9634
+Bottom: 2c83c6841f9d47bc3838f6382735f7ce7dfbf82c
+Top:    ef755030e17218a7086cda7c9d158b3a0dbe3059
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:47 -0500
+Date:   2018-09-21 11:51:13 -0500
 
 Add new option for maven configuration
 
@@ -11,7 +11,7 @@ All other repository types had an option to disable configuration.
 
 ---
 diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
-index 64d8c88d..1cfa7111 100644
+index 64d8c88d0..1cfa71113 100644
 --- a/roles/nexus3/tasks/main.yml
 +++ b/roles/nexus3/tasks/main.yml
 @@ -74,14 +74,16 @@

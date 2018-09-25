@@ -1,7 +1,7 @@
-Bottom: 2688eb847a22e9db1b736886a6df3d49820e9634
-Top:    684d8ed9f9a8ed77e6b4add421740c4b224a8092
+Bottom: ef755030e17218a7086cda7c9d158b3a0dbe3059
+Top:    ebf04fb16790f60e697dd5fd260401334422fcbf
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:47 -0500
+Date:   2018-09-21 11:51:13 -0500
 
 Rework check for first install
 
@@ -12,7 +12,7 @@ of a command in several places.
 
 ---
 diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
-index 1cfa7111..0e570bf4 100644
+index 1cfa71113..0e570bf4c 100644
 --- a/roles/nexus3/tasks/main.yml
 +++ b/roles/nexus3/tasks/main.yml
 @@ -32,7 +32,7 @@
@@ -34,7 +34,7 @@ index 1cfa7111..0e570bf4 100644
  - include: setup_ldap_each.yml
    with_items: "{{ ldap_connections }}"
 diff --git a/roles/nexus3/tasks/nexus_install.yml b/roles/nexus3/tasks/nexus_install.yml
-index b3bf57b5..02053005 100644
+index b3bf57b59..02053005c 100644
 --- a/roles/nexus3/tasks/nexus_install.yml
 +++ b/roles/nexus3/tasks/nexus_install.yml
 @@ -210,11 +210,14 @@

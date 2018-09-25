@@ -1,14 +1,14 @@
-Bottom: 684d8ed9f9a8ed77e6b4add421740c4b224a8092
-Top:    68456f08e932808e8ed9831dd0ab93a1fdf4c763
+Bottom: ebf04fb16790f60e697dd5fd260401334422fcbf
+Top:    f68ad01a6f152423dff19247604c581572626935
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:47 -0500
+Date:   2018-09-21 11:51:13 -0500
 
 Add option to run Nexus in a container
 
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index 4dc23cfb..27ea7e22 100644
+index 4dc23cfb7..27ea7e223 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
 @@ -33,11 +33,16 @@ ldap_connections:
@@ -30,7 +30,7 @@ index 4dc23cfb..27ea7e22 100644
  nexus_privileges:
    - name: all-repos-read  # used as key to update a privilege
 diff --git a/ansible-playbook/site.yml b/ansible-playbook/site.yml
-index 0727917d..9b9c6261 100644
+index 0727917de..9b9c6261f 100644
 --- a/ansible-playbook/site.yml
 +++ b/ansible-playbook/site.yml
 @@ -52,12 +52,17 @@
@@ -52,7 +52,7 @@ index 0727917d..9b9c6261 100644
      role: docker-svn
      svn_repos: 'ddio NCD_Release'
 diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
-index 992be594..ddc4d701 100644
+index 992be594b..ddc4d7015 100644
 --- a/roles/nexus3/defaults/main.yml
 +++ b/roles/nexus3/defaults/main.yml
 @@ -12,6 +12,19 @@ nexus_timezone: 'UTC'  # java timezone
@@ -93,7 +93,7 @@ index 992be594..ddc4d701 100644
  nexus_config_docker: false
  nexus_config_raw: false
 diff --git a/roles/nexus3/handlers/main.yml b/roles/nexus3/handlers/main.yml
-index 3ee7078e..ad054674 100644
+index 3ee7078ed..ad0546749 100644
 --- a/roles/nexus3/handlers/main.yml
 +++ b/roles/nexus3/handlers/main.yml
 @@ -15,6 +15,17 @@
@@ -115,7 +115,7 @@ index 3ee7078e..ad054674 100644
    wait_for:
      path: "{{ nexus_data_dir }}/log/nexus.log"
 diff --git a/roles/nexus3/tasks/call_script.yml b/roles/nexus3/tasks/call_script.yml
-index 1edcb9ca..657fd502 100644
+index 1edcb9ca0..657fd5023 100644
 --- a/roles/nexus3/tasks/call_script.yml
 +++ b/roles/nexus3/tasks/call_script.yml
 @@ -1,7 +1,7 @@
@@ -128,7 +128,7 @@ index 1edcb9ca..657fd502 100644
      password: "{{ current_nexus_admin_password }}"
      headers:
 diff --git a/roles/nexus3/tasks/declare_script_each.yml b/roles/nexus3/tasks/declare_script_each.yml
-index 16b231a7..5bb77c1c 100644
+index 16b231a72..5bb77c1ca 100644
 --- a/roles/nexus3/tasks/declare_script_each.yml
 +++ b/roles/nexus3/tasks/declare_script_each.yml
 @@ -1,7 +1,7 @@
@@ -150,7 +150,7 @@ index 16b231a7..5bb77c1c 100644
      password: "{{ current_nexus_admin_password }}"
      body_format: json
 diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
-index 0e570bf4..59befd09 100644
+index 0e570bf4c..59befd09d 100644
 --- a/roles/nexus3/tasks/main.yml
 +++ b/roles/nexus3/tasks/main.yml
 @@ -18,7 +18,7 @@
@@ -163,7 +163,7 @@ index 0e570bf4..59befd09 100644
  - include: admin_password_setup.yml
  
 diff --git a/roles/nexus3/tasks/nexus_install.yml b/roles/nexus3/tasks/nexus_install.yml
-index 02053005..e796909f 100644
+index 02053005c..e796909f0 100644
 --- a/roles/nexus3/tasks/nexus_install.yml
 +++ b/roles/nexus3/tasks/nexus_install.yml
 @@ -1,301 +1,6 @@
@@ -474,7 +474,7 @@ index 02053005..e796909f 100644
 +  when: docker
 diff --git a/roles/nexus3/tasks/nexus_install_docker.yml b/roles/nexus3/tasks/nexus_install_docker.yml
 new file mode 100644
-index 00000000..50c528bd
+index 000000000..50c528bd3
 --- /dev/null
 +++ b/roles/nexus3/tasks/nexus_install_docker.yml
 @@ -0,0 +1,106 @@
@@ -586,7 +586,7 @@ index 00000000..50c528bd
 +    loop_var: filename
 diff --git a/roles/nexus3/tasks/nexus_install_systemd.yml b/roles/nexus3/tasks/nexus_install_systemd.yml
 new file mode 100644
-index 00000000..b8c82f5c
+index 000000000..b8c82f5c5
 --- /dev/null
 +++ b/roles/nexus3/tasks/nexus_install_systemd.yml
 @@ -0,0 +1,306 @@
@@ -897,7 +897,7 @@ index 00000000..b8c82f5c
 +  include: declare_script_each.yml
 +  with_items: "{{ nexus_groovy_files_changed.stdout_lines}}"
 diff --git a/roles/nexus3/tasks/nexus_purge.yml b/roles/nexus3/tasks/nexus_purge.yml
-index caa2a656..a9b2405a 100644
+index caa2a6568..a9b2405a9 100644
 --- a/roles/nexus3/tasks/nexus_purge.yml
 +++ b/roles/nexus3/tasks/nexus_purge.yml
 @@ -1,25 +1,7 @@
@@ -932,7 +932,7 @@ index caa2a656..a9b2405a 100644
 +  when: docker
 diff --git a/roles/nexus3/tasks/nexus_purge_docker.yml b/roles/nexus3/tasks/nexus_purge_docker.yml
 new file mode 100644
-index 00000000..ef6c3ca9
+index 000000000..ef6c3ca95
 --- /dev/null
 +++ b/roles/nexus3/tasks/nexus_purge_docker.yml
 @@ -0,0 +1,24 @@
@@ -962,7 +962,7 @@ index 00000000..ef6c3ca9
 +    state: absent
 diff --git a/roles/nexus3/tasks/nexus_purge_systemd.yml b/roles/nexus3/tasks/nexus_purge_systemd.yml
 new file mode 100644
-index 00000000..caa2a656
+index 000000000..caa2a6568
 --- /dev/null
 +++ b/roles/nexus3/tasks/nexus_purge_systemd.yml
 @@ -0,0 +1,25 @@

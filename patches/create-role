@@ -1,14 +1,14 @@
-Bottom: f45a116878ec827b928652ecbed5a1a0ef23c3eb
-Top:    0d07e6c8df62fd8cf7bc2c6de16ce08be450d32f
+Bottom: 6eacfb8f692575fb15f8c2006d59bbb8aec5580f
+Top:    2c83c6841f9d47bc3838f6382735f7ce7dfbf82c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:47 -0500
+Date:   2018-09-21 11:51:13 -0500
 
 Create new role nexus to configure Nexus3 service
 
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
-index c306cadf..88c2fbdc 100644
+index c306cadfa..88c2fbdcd 100644
 --- a/ansible-playbook/group_vars/all/credentials.yml
 +++ b/ansible-playbook/group_vars/all/credentials.yml
 @@ -11,6 +11,9 @@ gitlab_secrets_db_key_base:          '{{ lookup("password", playbook_dir + "/cre
@@ -23,7 +23,7 @@ index c306cadf..88c2fbdc 100644
  svn_password:                        '{{ lookup("password", playbook_dir + "/credentials/svn/ansible"                         , length=20) }}'
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
 new file mode 100644
-index 00000000..4dc23cfb
+index 000000000..4dc23cfb7
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
 @@ -0,0 +1,135 @@
@@ -163,7 +163,7 @@ index 00000000..4dc23cfb
 +nexus_config_gitlfs: false
 +nexus_config_yum: false
 diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
-index f908c8f0..e94bb8ac 100644
+index f908c8f03..e94bb8ac4 100644
 --- a/ansible-playbook/group_vars/docker-hosts/networking.yml
 +++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
 @@ -47,3 +47,8 @@ phpldapadmin_port_args:
@@ -176,7 +176,7 @@ index f908c8f0..e94bb8ac 100644
 +- "{{ nexus_ip_addr }}:80:8081"
 +- "{{ nexus_ip_addr }}:443:8443"
 diff --git a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
-index c6323198..2d8c4735 100644
+index c63231984..2d8c4735f 100644
 --- a/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/daedalus.novatech-llc.com/networking.yml
 @@ -15,3 +15,4 @@ exim4_ip_addr:        172.16.0.107
@@ -185,7 +185,7 @@ index c6323198..2d8c4735 100644
  phpmyadmin_ip_addr:   172.16.0.109
 +nexus_ip_addr:        172.16.0.111
 diff --git a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
-index b3e366ce..8d8fabe4 100644
+index b3e366ced..8d8fabe4f 100644
 --- a/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 +++ b/ansible-playbook/host_vars/testdaedalus.novatech-llc.com/networking.yml
 @@ -15,3 +15,4 @@ exim4_ip_addr:        172.16.103.107

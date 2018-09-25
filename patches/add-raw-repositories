@@ -1,7 +1,7 @@
-Bottom: 68456f08e932808e8ed9831dd0ab93a1fdf4c763
-Top:    6563caac3a6cb7338bc4707d48179c0cba0f2f56
+Bottom: f68ad01a6f152423dff19247604c581572626935
+Top:    1e34d849d02c5b7eb77f56c62577f589b680ce3e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-08-16 09:17:47 -0500
+Date:   2018-09-21 11:51:13 -0500
 
 Create raw repositories for ptxdist builds
 
@@ -9,7 +9,7 @@ Create raw repositories for ptxdist builds
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index 27ea7e22..4445958a 100644
+index 27ea7e223..4445958a7 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
 @@ -115,20 +115,38 @@ nexus_repos_raw_hosted:
