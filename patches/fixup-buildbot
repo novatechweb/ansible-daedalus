@@ -1,5 +1,5 @@
-Bottom: 4b9bcd7952b44a33be5d0d61d1d09a96ae9c3190
-Top:    e99a3e5887d868e6ad3982afa3f65926339f7f2e
+Bottom: 2c83c6841f9d47bc3838f6382735f7ce7dfbf82c
+Top:    2c83c6841f9d47bc3838f6382735f7ce7dfbf82c
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-25 14:04:52 -0500
 
@@ -7,51 +7,4 @@ fixup buildbot
 
 
 ---
-diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index 6e49eef7c..836d58701 100644
---- a/ansible-playbook/group_vars/all/nexus3.yml
-+++ b/ansible-playbook/group_vars/all/nexus3.yml
-@@ -76,6 +76,10 @@ nexus_local_users:
- nexus_delete_default_blobstore: false
- nexus_blob_split: false     # True - blobstores per format
- 
-+nexus_blobstores:
-+- name: permanent
-+  path: '{{ nexus_data_dir }}/blobs/permanent'
-+
- nexus_delete_default_repos: true
- 
- nexus_config_maven: false
-@@ -115,19 +119,30 @@ nexus_repos_docker_group:
- 
- nexus_config_raw: true
- nexus_repos_raw_hosted:
-+  # Global download storage
-   - name: download
-     strict_content_validation: false
-     write_policy: allow  # one of "allow", "allow_once" or "deny"
--  - name: ntel
-+    blob_store: permanent
-+  - name: ntel-release
-+    strict_content_validation: false
-+    write_policy: allow  # one of "allow", "allow_once" or "deny"
-+    blob_store: permanent
-+  - name: ntel-sstate
-     strict_content_validation: false
-     write_policy: allow  # one of "allow", "allow_once" or "deny"
--  - name: bitbake-sstate
-+  - name: ntel-unofficial
-     strict_content_validation: false
-     write_policy: allow  # one of "allow", "allow_once" or "deny"
-   - name: orphans
-     strict_content_validation: false
-     write_policy: allow  # one of "allow", "allow_once" or "deny"
--  - name: ptxdist
-+    blob_store: permanent
-+  - name: ptxdist-release
-+    strict_content_validation: false
-+    write_policy: allow  # one of "allow", "allow_once" or "deny"
-+    blob_store: permanent
-+  - name: ptxdist-unofficial
-     strict_content_validation: false
-     write_policy: allow  # one of "allow", "allow_once" or "deny"
+
