@@ -1,5 +1,5 @@
 Bottom: 67ab8c7034989d20b885a7cfef854f24266a03ed
-Top:    9c788d3d4be46b6552a8e291f1f1810ce19759af
+Top:    d446d055fa367f795f1cfc456902f22472de5005
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 17:10:09 -0500
 
@@ -317,10 +317,10 @@ index 000000000..533ab9c3d
 +    volumes: '{{ container_volumes }}'
 diff --git a/roles/haproxy/templates/haproxy.cfg.j2 b/roles/haproxy/templates/haproxy.cfg.j2
 new file mode 100644
-index 000000000..228ef73a0
+index 000000000..975cc0d35
 --- /dev/null
 +++ b/roles/haproxy/templates/haproxy.cfg.j2
-@@ -0,0 +1,93 @@
+@@ -0,0 +1,95 @@
 +global
 +    daemon
 +    maxconn 256
@@ -328,9 +328,11 @@ index 000000000..228ef73a0
 +
 +defaults
 +    mode http
++    option forwardfor
 +    timeout connect 5s
 +    timeout client 50s
 +    timeout server 50s
++    timeout tunnel 3600s
 +    default-server init-addr last,libc,none
 +
 +#enable stats page
