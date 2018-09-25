@@ -1,0 +1,21 @@
+Bottom: 0368f77f26b4b41252408036e4de5b47bd3cd09a
+Top:    867d58096ff5954f8f9733c9dd129915d7d5ad4c
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-25 15:02:17 -0500
+
+Refresh of create-role
+
+---
+diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
+index c3765ecf2..f0e2f118e 100644
+--- a/ansible-playbook/group_vars/all/nexus3.yml
++++ b/ansible-playbook/group_vars/all/nexus3.yml
+@@ -126,7 +126,7 @@ nexus_repos_raw_hosted:
+   - name: ntel-unofficial
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+-  - name: ntel-sstate
++  - name: orphans
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+     blob_store: permanent
