@@ -1,4 +1,4 @@
-Bottom: 2e8eaebaca3e3881d40aec8b26d8fcab53ca492f
+Bottom: aa14c696469f89bb0b3ec5c68ea62cef06d9d969
 Top:    b00373d46bb18b68f2d92e41169607a568207dc6
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-21 11:51:13 -0500
@@ -9,18 +9,9 @@ Create raw repositories for ptxdist builds
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index bf72f13d6..215f074dd 100644
+index e548c7505..215f074dd 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
-@@ -131,7 +131,7 @@ nexus_repos_raw_hosted:
-   - name: ntel-unofficial
-     strict_content_validation: false
-     write_policy: allow  # one of "allow", "allow_once" or "deny"
--  - name: ntel-sstate
-+  - name: orphans
-     strict_content_validation: false
-     write_policy: allow  # one of "allow", "allow_once" or "deny"
-     blob_store: permanent
 @@ -144,9 +144,24 @@ nexus_repos_raw_hosted:
      write_policy: allow  # one of "allow", "allow_once" or "deny"
  
