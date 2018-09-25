@@ -12,7 +12,10 @@ DEFAULT_BBFLAGS = '-k'
 DEFAULT_BRANCH = 'morty'
 DEFAULT_CODEBASE = "ntel/setup-scripts"
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
-ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+
+BETA_URI = os.getenv("NTEL_BETA_URI", default="http://127.0.0.1")
+RELEASE_URI = os.getenv("NTEL_RELEASE_URI", default="http://127.0.0.1")
+SSTATE_URI = os.getenv("NTEL_SSTATE_URI", default="http://127.0.0.1")
 
 NTEL_LAYERS = {
     DEFAULT_CODEBASE: {
@@ -201,16 +204,6 @@ def ComputeBuildProperties(props):
     if not version:
         version = newprops['timestamp']
 
-    urlpath = 'unofficial'
-
-    if props.getProperty('release_pin'):
-        urlpath = 'release'
-
-    if props.getProperty('scheduler') == 'ntel-nightly':
-        urlpath = 'nightly'
-
-    urlpath = os.path.join('ntel', urlpath, version)
-
     newprops['artifacts'] = {}
     machines = [props.getProperty('machine')]
 
@@ -234,8 +227,14 @@ def ComputeBuildProperties(props):
             a['prefix'],
         )
 
-        a['url'] = "%s/%s/%s" % (
-            ASSET_HOST,
+        if props.getProperty('release_pin'):
+            uri = RELEASE_URI
+        else:
+            uri = BETA_URI
+
+        a['url'] = os.path.join(
+            uri,
+            version,
             urlpath,
             a['artifact'],
         )

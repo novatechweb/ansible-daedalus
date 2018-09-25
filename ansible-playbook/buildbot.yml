@@ -13,7 +13,7 @@
         name: nexus
         groups: services
         ip_addr: "{{ nexus_ip_addr }}"
-        uri: "http://{{nexus_hostname}}/repository"
+        uri: "repository"
     - name: Scan Gitlab ssh keys
       command: ssh-keyscan {{gitlab_hostname}}
       register: gitlab_keys
@@ -22,7 +22,12 @@
         name: buildbot-master
       vars:
         known_hosts: "{{gitlab_keys.stdout}}"
-        asset_host: "{{hostvars['nexus']['uri']}}"
+        ntel_release_uri:    "https://{{nexus_hostname}}/repository/ntel-release"
+        ntel_beta_uri:       "https://{{nexus_hostname}}/repository/ntel-unofficial"
+        ntel_sstate_uri:     "https://{{nexus_hostname}}/repository/ntel-sstate"
+        ptxdist_release_uri: "https://{{nexus_hostname}}/repository/ptxdist-release"
+        ptxdist_beta_uri:    "https://{{nexus_hostname}}/repository/ptxdist-unofficial"
+
     - name: Add buildbot user to Gitlab
       import_role:
         name: gitlab-user
@@ -43,13 +48,21 @@
     - buildbot-worker-ntel
     - buildbot-worker-ptxdist
   vars:
-    asset_host: "{{hostvars['nexus']['uri']}}"
+    asset_host: "https://{{nexus_hostname}}/repository"
     asset_user: "buildbot"
     asset_password: "{{nexus_buildbot_password}}"
     buildbot_master: "{{hostvars[buildbot_hostname].ip_addr}}"
     container_etc_hosts:
       nexus.novatech-llc.com: "{{hostvars['nexus']['ip_addr']}}"
     known_hosts: "{{ gitlab_keys.stdout }}"
+    asset_downloads:   "{{ asset_host }}/download"
+    asset_orphans:     "{{ asset_host }}/orphans"
+    asset_debian:      "{{ asset_host }}/debian"
+    asset_sourceforge: "{{ asset_host }}/sourceforge"
+    asset_gnu:         "{{ asset_host }}/gnu"
+    asset_xorg:        "{{ asset_host }}/xorg"
+    asset_kernel:      "{{ asset_host }}/kernel"
+    asset_pypi:        "{{ asset_host }}/pypi"
   tasks:
     - name: Scan Gitlab ssh keys
       command: ssh-keyscan {{gitlab_hostname}}
