@@ -1,5 +1,5 @@
 Bottom: 2c83c6841f9d47bc3838f6382735f7ce7dfbf82c
-Top:    2c83c6841f9d47bc3838f6382735f7ce7dfbf82c
+Top:    0368f77f26b4b41252408036e4de5b47bd3cd09a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-25 14:04:52 -0500
 
@@ -7,4 +7,50 @@ fixup buildbot
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
+index 4dc23cfb7..c3765ecf2 100644
+--- a/ansible-playbook/group_vars/all/nexus3.yml
++++ b/ansible-playbook/group_vars/all/nexus3.yml
+@@ -68,6 +68,10 @@ nexus_local_users:
+ nexus_delete_default_blobstore: false
+ nexus_blob_split: false     # True - blobstores per format
+ 
++nexus_blobstores:
++- name: permanent
++  path: '{{ nexus_data_dir }}/blobs/permanent'
++
+ nexus_delete_default_repos: true
+ 
+ nexus_config_maven: false
+@@ -107,16 +111,30 @@ nexus_repos_docker_group:
+ 
+ nexus_config_raw: true
+ nexus_repos_raw_hosted:
++  # Global download storage
+   - name: download
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+-  - name: ntel-ipkg
++    blob_store: permanent
++  - name: ntel-release
++    strict_content_validation: false
++    write_policy: allow  # one of "allow", "allow_once" or "deny"
++    blob_store: permanent
++  - name: ntel-sstate
++    strict_content_validation: false
++    write_policy: allow  # one of "allow", "allow_once" or "deny"
++  - name: ntel-unofficial
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+   - name: ntel-sstate
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+-  - name: ptxdist-ipkg
++    blob_store: permanent
++  - name: ptxdist-release
++    strict_content_validation: false
++    write_policy: allow  # one of "allow", "allow_once" or "deny"
++    blob_store: permanent
++  - name: ptxdist-unofficial
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
