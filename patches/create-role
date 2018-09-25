@@ -1,10 +1,9 @@
 Bottom: 6eacfb8f692575fb15f8c2006d59bbb8aec5580f
-Top:    2c83c6841f9d47bc3838f6382735f7ce7dfbf82c
+Top:    0368f77f26b4b41252408036e4de5b47bd3cd09a
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
-Date:   2018-09-21 11:51:13 -0500
+Date:   2018-09-25 14:57:05 -0500
 
 Create new role nexus to configure Nexus3 service
-
 
 ---
 diff --git a/ansible-playbook/group_vars/all/credentials.yml b/ansible-playbook/group_vars/all/credentials.yml
@@ -23,10 +22,10 @@ index c306cadfa..88c2fbdcd 100644
  svn_password:                        '{{ lookup("password", playbook_dir + "/credentials/svn/ansible"                         , length=20) }}'
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
 new file mode 100644
-index 000000000..4dc23cfb7
+index 000000000..c3765ecf2
 --- /dev/null
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
-@@ -0,0 +1,135 @@
+@@ -0,0 +1,153 @@
 +nexus_version: 3.13.0
 +nexus_networks:
 +  - name: '{{ docker_network_frontend }}'
@@ -97,6 +96,10 @@ index 000000000..4dc23cfb7
 +nexus_delete_default_blobstore: false
 +nexus_blob_split: false     # True - blobstores per format
 +
++nexus_blobstores:
++- name: permanent
++  path: '{{ nexus_data_dir }}/blobs/permanent'
++
 +nexus_delete_default_repos: true
 +
 +nexus_config_maven: false
@@ -136,16 +139,30 @@ index 000000000..4dc23cfb7
 +
 +nexus_config_raw: true
 +nexus_repos_raw_hosted:
++  # Global download storage
 +  - name: download
 +    strict_content_validation: false
 +    write_policy: allow  # one of "allow", "allow_once" or "deny"
-+  - name: ntel-ipkg
++    blob_store: permanent
++  - name: ntel-release
++    strict_content_validation: false
++    write_policy: allow  # one of "allow", "allow_once" or "deny"
++    blob_store: permanent
++  - name: ntel-sstate
++    strict_content_validation: false
++    write_policy: allow  # one of "allow", "allow_once" or "deny"
++  - name: ntel-unofficial
 +    strict_content_validation: false
 +    write_policy: allow  # one of "allow", "allow_once" or "deny"
 +  - name: ntel-sstate
 +    strict_content_validation: false
 +    write_policy: allow  # one of "allow", "allow_once" or "deny"
-+  - name: ptxdist-ipkg
++    blob_store: permanent
++  - name: ptxdist-release
++    strict_content_validation: false
++    write_policy: allow  # one of "allow", "allow_once" or "deny"
++    blob_store: permanent
++  - name: ptxdist-unofficial
 +    strict_content_validation: false
 +    write_policy: allow  # one of "allow", "allow_once" or "deny"
 +
