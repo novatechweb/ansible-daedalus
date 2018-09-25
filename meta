@@ -1,6 +1,6 @@
 Version: 1
-Previous: 95721e4518cce36347b97504aaf3d27f1e58f2ee
-Head: 44805cba1c490d7ec78fbff4fd934bc96a4c3d19
+Previous: b2dc38a93b097df7c40a1aa8126855d8028c54db
+Head: 789140c4487df79356eb1cffe24f02a38632bc6c
 Applied:
   create-role: 28ee11f863f9928ac18e33e6b43d2684926dc70e
   maven-config-option: a6454746ff01207952a25b90f12e7ac8dc937e0b
@@ -8,6 +8,6 @@ Applied:
   add-docker-option: 15f006a5774e7a289355f60dc4682cee98de3929
   add-raw-repositories: f879148c30b898be75aa3ca8ae748c0cf622379a
   privileges: 44805cba1c490d7ec78fbff4fd934bc96a4c3d19
+  fixup-buildbot: 789140c4487df79356eb1cffe24f02a38632bc6c
 Unapplied:
-  fixup-buildbot: 8565512bc468ed4e8aad5591194754f701b5b212
 Hidden:
