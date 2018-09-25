@@ -47,3 +47,8 @@ phpldapadmin_port_args:
 - "{{ phpldapadmin_ip_addr }}:443:443"
 
 phpmyadmin_hostname: phpmyadmin.novatech-llc.com
+
+nexus_hostname: nexus.novatech-llc.com
+nexus_port_args:
+- "{{ nexus_ip_addr }}:80:8081"
+- "{{ nexus_ip_addr }}:443:8443"
