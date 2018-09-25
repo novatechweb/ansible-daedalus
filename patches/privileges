@@ -1,5 +1,5 @@
-Bottom: 1e34d849d02c5b7eb77f56c62577f589b680ce3e
-Top:    4b9bcd7952b44a33be5d0d61d1d09a96ae9c3190
+Bottom: b00373d46bb18b68f2d92e41169607a568207dc6
+Top:    e99a3e5887d868e6ad3982afa3f65926339f7f2e
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-21 11:51:13 -0500
 
@@ -11,7 +11,7 @@ Anonymous access to read artifacts
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index 4445958a7..6e49eef7c 100644
+index 215f074dd..836d58701 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
 @@ -44,6 +44,8 @@ ldap_connections:
