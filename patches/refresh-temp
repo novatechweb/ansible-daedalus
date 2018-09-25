@@ -1,0 +1,45 @@
+Bottom: 2e8eaebaca3e3881d40aec8b26d8fcab53ca492f
+Top:    b00373d46bb18b68f2d92e41169607a568207dc6
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-25 14:59:14 -0500
+
+Refresh of add-raw-repositories
+
+---
+diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
+index bf72f13d6..215f074dd 100644
+--- a/ansible-playbook/group_vars/all/nexus3.yml
++++ b/ansible-playbook/group_vars/all/nexus3.yml
+@@ -131,7 +131,7 @@ nexus_repos_raw_hosted:
+   - name: ntel-unofficial
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+-  - name: ntel-sstate
++  - name: orphans
+     strict_content_validation: false
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+     blob_store: permanent
+@@ -144,9 +144,24 @@ nexus_repos_raw_hosted:
+     write_policy: allow  # one of "allow", "allow_once" or "deny"
+ 
+ nexus_repos_raw_proxy:
++  - name: debian
++    remote_url: 'http://ftp.us.debian.org/debian/'
++    strict_content_validation: false
++  - name: gnu
++    remote_url: 'http://mirror.team-cymru.com/gnu/'
++    strict_content_validation: false
++  - name: kernel
++    remote_url: 'https://mirrors.edge.kernel.org/pub/'
++    strict_content_validation: false
++  - name: sourceforge
++    remote_url: 'http://downloads.sourceforge.net/project'
++    strict_content_validation: false
+   - name: ubuntu-archive
+     remote_url: 'http://archive.ubuntu.com/ubuntu/'
+     strict_content_validation: false
++  - name: xorg
++    remote_url: 'http://xorg.mirrors.pair.com/'
++    strict_content_validation: false
+ 
+ nexus_repos_raw_group: []
