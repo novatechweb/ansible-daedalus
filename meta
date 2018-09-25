@@ -1,5 +1,5 @@
 Version: 1
-Previous: 601f3a2cb52a695d41b70c78bb056d6aedf2e98f
+Previous: 95721e4518cce36347b97504aaf3d27f1e58f2ee
 Head: 44805cba1c490d7ec78fbff4fd934bc96a4c3d19
 Applied:
   create-role: 28ee11f863f9928ac18e33e6b43d2684926dc70e
@@ -9,4 +9,5 @@ Applied:
   add-raw-repositories: f879148c30b898be75aa3ca8ae748c0cf622379a
   privileges: 44805cba1c490d7ec78fbff4fd934bc96a4c3d19
 Unapplied:
+  fixup-buildbot: 8565512bc468ed4e8aad5591194754f701b5b212
 Hidden:
