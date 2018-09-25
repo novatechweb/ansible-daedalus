@@ -1,6 +1,6 @@
 Version: 1
-Previous: a4080118cb803dd5620486929ffe7d5dde54113e
-Head: 9a749937fb12c82d7e60aa27f76170287e35655b
+Previous: e2dd5fab7769f138005ef02dc67ec3b67cd2a271
+Head: b329c66b8c58422c6ed569bed26a62d61fc4fb95
 Applied:
   buildbot-master: 09dc8ed2f2763a952375d6498f1a0e595dd9e209
   ntel-worker: cda3f27514a6a6003f3bb0827a455f4d19a92227
@@ -22,5 +22,6 @@ Applied:
   gitlab-status-reporter: 6d27c4aba38e5842feb02ce7099e8dd597f6359f
   buildbot-fixup: 8200318d1198b3e428644cb5e4586c81d28881c8
   fixup-buildbot: 9a749937fb12c82d7e60aa27f76170287e35655b
+  refresh-temp: b329c66b8c58422c6ed569bed26a62d61fc4fb95
 Unapplied:
 Hidden:
