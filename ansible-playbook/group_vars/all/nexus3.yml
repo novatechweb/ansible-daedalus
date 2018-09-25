@@ -76,6 +76,10 @@ nexus_local_users:
 nexus_delete_default_blobstore: false
 nexus_blob_split: false     # True - blobstores per format
 
+nexus_blobstores:
+- name: permanent
+  path: '{{ nexus_data_dir }}/blobs/permanent'
+
 nexus_delete_default_repos: true
 
 nexus_config_maven: false
@@ -115,19 +119,30 @@ nexus_repos_docker_group:
 
 nexus_config_raw: true
 nexus_repos_raw_hosted:
+  # Global download storage
   - name: download
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ntel
+    blob_store: permanent
+  - name: ntel-release
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: bitbake-sstate
+    blob_store: permanent
+  - name: ntel-sstate
+    strict_content_validation: false
+    write_policy: allow  # one of "allow", "allow_once" or "deny"
+  - name: ntel-unofficial
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
   - name: orphans
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ptxdist
+    blob_store: permanent
+  - name: ptxdist-release
+    strict_content_validation: false
+    write_policy: allow  # one of "allow", "allow_once" or "deny"
+    blob_store: permanent
+  - name: ptxdist-unofficial
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
 
