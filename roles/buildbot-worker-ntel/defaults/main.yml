@@ -2,7 +2,7 @@
 # defaults file for buildbot-worker-ntel
 
 # host containing build assets
-asset_host: 'http://{{ansible_facts.default_ipv4.address}}/'
+asset_downloads: 'http://{{ansible_facts.default_ipv4.address}}/'
 
 # address of buildbot master service
 buildbot_master: '{{ansible_facts.default_ipv4.address}}'
@@ -27,7 +27,6 @@ cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
 
 # environment passed to the container
 container_env:
-  ASSET_HOST: '{{asset_host}}/ntel'
   BUILDBOT_KNOWN_HOSTS_FILE: '{{secrets_path}}/{{secrets_known_hosts}}'
   BUILDBOT_MASTER: '{{ buildbot_master }}'
   BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
@@ -72,7 +71,7 @@ hsm_host: '{{ansible_facts.default_ipv4.address}}'
 image_args:
   BUILDBOT_UID: '{{buildbot_uid}}'
   BUILDBOT_VERSION: 'v{{buildbot_version}}'
-  PTK_URI: '{{asset_host}}/download/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
+  PTK_URI: '{{asset_downloads}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
   PTK_HSM_HOST: '{{hsm_host}}'
 
 # directory of the image source
