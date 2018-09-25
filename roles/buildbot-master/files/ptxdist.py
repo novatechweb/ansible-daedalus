@@ -8,7 +8,9 @@ c = WorkerConfig = {}
 
 DEFAULT_BRANCH = 'master'
 DEFAULT_REPO = 'git@git.novatech-llc.com:Orion-ptxdist/workspace-ptxdist2'
-ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+
+BETA_URI = os.getenv("PTXDIST_BETA_URI", default="http://127.0.0.1")
+RELEASE_URI = os.getenv("PTXDIST_RELEASE_URI", default="http://127.0.0.1")
 
 collections = {
     "armeb-xscale": "armeb-base",
@@ -311,32 +313,20 @@ def ComputeBuildProperties(props):
     )
 
     if props.getProperty('release'):
-        urlpath = os.path.join(
-            'ptxdist',
-            'release',
-            version
-        )
-    elif props.getProperty('scheduler') == "ptxdist-nightly":
-        urlpath = os.path.join(
-            'ptxdist',
-            'nightly',
-            version
-        )
+        uri = RELEASE_URI
     else:
-        urlpath = os.path.join(
-            'ptxdist',
-            'beta',
-            version
-        )
+        uri = BETA_URI
 
     newprops['ipkg_url'] = os.path.join(
-        ASSET_HOST,
+        uri,
+        version,
         urlpath,
         ipkg_artifact,
     )
 
     newprops['image_url'] = os.path.join(
-        ASSET_HOST,
+        uri,
+        version,
         urlpath,
         image_artifact,
     )
