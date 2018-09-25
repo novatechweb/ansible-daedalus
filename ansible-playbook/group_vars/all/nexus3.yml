@@ -126,7 +126,7 @@ nexus_repos_raw_hosted:
   - name: ntel-unofficial
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
-  - name: ntel-sstate
+  - name: orphans
     strict_content_validation: false
     write_policy: allow  # one of "allow", "allow_once" or "deny"
     blob_store: permanent
