@@ -1,13 +1,12 @@
 Version: 1
-Previous: c051730d348d64a12800845265485de0163a7692
-Head: e5e35321cf698da496b55318683598a953adaaa4
+Previous: 9584b289af6280cf9cfb42b69eeff3242ba58607
+Head: 76e3fadbcc9f7a9bc7eccf3d2c6fab0970ac7933
 Applied:
   create-role: 284bb6f6a06456b442807b7b42300d50c5e86278
   maven-config-option: 8390f26a8647334c950a138d4e7f5a80bb35b3db
   check-first-install: 7109327f2f8762d08cdd8eeb5ace2ed591df943d
   add-docker-option: bb10e63f31be3f5b87b1104795f74871d9d2b40b
-  add-raw-repositories: cff0ecdb723352c963fbf258fb46ac547374739e
-  refresh-temp: e5e35321cf698da496b55318683598a953adaaa4
+  add-raw-repositories: 76e3fadbcc9f7a9bc7eccf3d2c6fab0970ac7933
 Unapplied:
   privileges: 44805cba1c490d7ec78fbff4fd934bc96a4c3d19
 Hidden:
