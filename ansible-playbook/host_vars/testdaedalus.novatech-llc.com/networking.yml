@@ -15,3 +15,4 @@ exim4_ip_addr:        172.16.103.107
 openldap_ip_addr:     172.16.103.108
 phpldapadmin_ip_addr: 172.16.103.108
 phpmyadmin_ip_addr:   172.16.103.109
+nexus_ip_addr:        172.16.103.111
