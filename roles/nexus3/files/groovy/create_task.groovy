@@ -41,13 +41,13 @@ if (parsed_args.cron) {
     schedule = taskScheduler.scheduleFactory.hourly(new Date())
 } else if (parsed_args.monthly) {
     Set<CalendarDay> days
-    parsed_args.monthly.each{ value -> days.add(CalendarDay.day(Integer.valueOf(value))) }
+    parsed_args.monthly.each { value -> days.add(CalendarDay.day(Integer.valueOf(value))) }
     schedule = taskScheduler.scheduleFactory.monthly(new Date(), parsed_args.monthly)
 } else if (parsed_args.once) {
     schedule = taskScheduler.scheduleFactory.once(new Date())
 } else if (parsed_args.weekly) {
     Set<Weekday> days
-    parsed_args.weekly.each{ value -> days.add(Weekday.valueOf(value)) }
+    parsed_args.weekly.each { value -> days.add(Weekday.valueOf(value)) }
     schedule = taskScheduler.scheduleFactory.weekly(new Date(), parsed_args.weekly)
 } else {
     schedule = taskScheduler.scheduleFactory.manual()
