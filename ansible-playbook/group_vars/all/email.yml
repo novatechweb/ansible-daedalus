@@ -1,0 +1,4 @@
+email_accounts:
+  buildbot:
+    user: buildbot
+    password: '{{ buildbot_email_password }}'
