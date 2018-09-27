@@ -1,5 +1,5 @@
-Bottom: 0cafab3acdc04d415774f0c121b7b390613b0218
-Top:    126dc390603233ad9a181a727e0e56c4ea95550c
+Bottom: 2e29251e23a4ad1cba04c832dbbe90e44c198a52
+Top:    8fc7860b36baf8914abd93d204786526be13c0cc
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-13 15:44:30 -0500
 
@@ -8,7 +8,7 @@ run nexus behind reverse proxy
 
 ---
 diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
-index 6e49eef7c..5963e9fa3 100644
+index 836d58701..58bfc5c18 100644
 --- a/ansible-playbook/group_vars/all/nexus3.yml
 +++ b/ansible-playbook/group_vars/all/nexus3.yml
 @@ -4,8 +4,7 @@ nexus_networks:
@@ -119,7 +119,7 @@ index 5bb77c1ca..eb17fe573 100644
      password: "{{ current_nexus_admin_password }}"
      body_format: json
 diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
-index 59befd09d..8a77e6c48 100644
+index df168c49b..fc83741bd 100644
 --- a/roles/nexus3/tasks/main.yml
 +++ b/roles/nexus3/tasks/main.yml
 @@ -182,7 +182,7 @@
