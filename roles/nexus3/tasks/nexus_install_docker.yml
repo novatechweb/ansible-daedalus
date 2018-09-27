@@ -62,6 +62,10 @@
     name: '{{ nexus_backup_volume }}'
     state: present
 
+- name: Set permissions on backup volume
+  command:
+    docker exec -u root nexus3 chmod 777 {{nexus_backup_dir}}
+
 - name: Start nexus container
   docker_container:
     name: '{{ nexus_container_name }}'
