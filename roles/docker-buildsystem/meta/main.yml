@@ -1,5 +1,2 @@
 ---
 dependencies:
-
-- name: docker-common as a dependency
-  role: docker-common
