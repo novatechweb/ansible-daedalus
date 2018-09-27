@@ -1,0 +1,21 @@
+Bottom: c01f964469b7db25afd5ef91e440402edabb803d
+Top:    7051252d72a46b929e07852dd9c773a052ef85c2
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-09-27 14:38:14 -0500
+
+Refresh of backup-configuration
+
+---
+diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
+index 59befd09d..df168c49b 100644
+--- a/roles/nexus3/tasks/main.yml
++++ b/roles/nexus3/tasks/main.yml
+@@ -259,7 +259,7 @@
+     args:
+       name: db and blobstores backup
+       typeId: script
+-      cron: "{{ nexus_backup_cron }}"
++      manual: true
+       taskProperties:
+         language: groovy
+         source: "{{ lookup('template', './templates/backup.groovy.j2') }}"
