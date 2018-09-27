@@ -18,7 +18,7 @@
 - include: nexus_install.yml
 
 - include: httpd_reverse_proxy_config.yml
-  when: httpd_setup_enable
+  when: ((not docker) and (httpd_setup_enable))
 
 - include: admin_password_setup.yml
 
@@ -32,7 +32,7 @@
     - nuget-group
     - nuget-hosted
     - nuget.org-proxy
-  when: nexus_data_dir_contents.stdout == "" and nexus_delete_default_repos
+  when: nexus_first_install and nexus_delete_default_repos
 
 - name: Deleting default blobstore
   include: delete_blobstore_each.yml
@@ -48,7 +48,7 @@
     - name: "{{ nexus_blob_names.mvn.blob }}"
     - name: "{{ nexus_blob_names.gitlfs.blob }}"
     - name: "{{ nexus_blob_names.yum.blob }}"
-  when: nexus_data_dir_contents.stdout == "" and nexus_delete_default_blobstore
+  when: nexus_first_install and nexus_delete_default_blobstore
 
 - include: setup_ldap_each.yml
   with_items: "{{ ldap_connections }}"
@@ -74,14 +74,16 @@
   include: nexus-restore.yml
   when: nexus_restore_point is defined
 
-- include: create_repo_maven_proxy_each.yml
-  with_items: "{{ nexus_repos_maven_proxy }}"
+- block:
+    - include: create_repo_maven_proxy_each.yml
+      with_items: "{{ nexus_repos_maven_proxy }}"
 
-- include: create_repo_maven_hosted_each.yml
-  with_items: "{{ nexus_repos_maven_hosted }}"
+    - include: create_repo_maven_hosted_each.yml
+      with_items: "{{ nexus_repos_maven_hosted }}"
 
-- include: create_repo_maven_group_each.yml
-  with_items: "{{ nexus_repos_maven_group }}"
+    - include: create_repo_maven_group_each.yml
+      with_items: "{{ nexus_repos_maven_group }}"
+  when: nexus_config_maven
 
 - block:
     - include: create_repo_docker_hosted_each.yml
@@ -257,7 +259,7 @@
     args:
       name: db and blobstores backup
       typeId: script
-      cron: "{{ nexus_backup_cron }}"
+      manual: true
       taskProperties:
         language: groovy
         source: "{{ lookup('template', './templates/backup.groovy.j2') }}"
