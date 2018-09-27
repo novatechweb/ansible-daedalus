@@ -1,6 +1,6 @@
 Version: 1
-Previous: 801403bf6a2b694a46c93da0ea6a2beba6d8a5c0
-Head: c609e9db8c6f1047111fb728e720f34794b52aab
+Previous: 72eb85d28c4a80c741cf452075bfcdeb2a68e256
+Head: 42815cfc290863f16ac63b85f0e9b16b02fe03ec
 Applied:
   fixup-use-docker-named-volumes: b1bf120585fc74c3a4b4bcd429d27582f093310d
   fixup-move-vars-to-role-defaults: e99e5f2484e6980defbafd9914cd1b559aca95ef
@@ -11,5 +11,6 @@ Applied:
   ldap-haproxy: 1cd2f4ef214762897216cc3f4e4a0757e4dfce3c
   buildbot-haproxy: 5cc01df47a4a489dc6d9b6f271632149fc3a27f9
   production: c609e9db8c6f1047111fb728e720f34794b52aab
+  fixup-phpldapadmin: 42815cfc290863f16ac63b85f0e9b16b02fe03ec
 Unapplied:
 Hidden:
