@@ -1,0 +1,59 @@
+---
+
+- name: Create Docker service configuration directory
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    owner: root
+    group: root
+
+- name: Configure Docker Daemon (host options)
+  template:
+    dest: /etc/systemd/system/docker.service.d/00-host.conf
+    src: service-host.conf.j2
+    owner: root
+    group: root
+    mode: 'u=rw,g=r,o=r'
+  notify: "restart docker service"
+
+- name: Configure Docker Daemon (log driver options)
+  template:
+    dest: /etc/systemd/system/docker.service.d/10-log.conf
+    src: service-log-json.conf.j2
+    owner: root
+    group: root
+    mode: 'u=rw,g=r,o=r'
+  notify: "restart docker service"
+
+- assert:
+    that: docker_thinpool_lv is defined
+  when: docker_storage_driver == "devicemapper"
+
+- name: Configure Docker Daemon (storage driver options)
+  template:
+    dest: /etc/systemd/system/docker.service.d/20-storage.conf
+    src: service-storage-dm.conf.j2
+    owner: root
+    group: root
+    mode: 'u=rw,g=r,o=r'
+  when: docker_storage_driver == "devicemapper"
+  notify: "restart docker service"
+
+- name: Configure Docker Daemon (storage driver options)
+  template:
+    dest: /etc/systemd/system/docker.service.d/20-storage.conf
+    src: service-storage-ov2.conf.j2
+    owner: root
+    group: root
+    mode: 'u=rw,g=r,o=r'
+  when: docker_storage_driver == "overlay2"
+  notify: "restart docker service"
+
+- name: Configure Docker Daemon (service)
+  template:
+    dest: /etc/systemd/system/docker.service.d/99-service.conf
+    src: service.conf.j2
+    owner: root
+    group: root
+    mode: 'u=rw,g=r,o=r'
+  notify: "restart docker service"
