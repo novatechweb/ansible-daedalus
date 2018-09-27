@@ -1,5 +1,5 @@
 Bottom: e99a3e5887d868e6ad3982afa3f65926339f7f2e
-Top:    226bf4827381fba7bc3248b3eff0d216c3a4c38e
+Top:    c01f964469b7db25afd5ef91e440402edabb803d
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-27 10:55:04 -0500
 
@@ -8,7 +8,7 @@ Add more options for scheduling tasks in nxrm
 
 ---
 diff --git a/roles/nexus3/files/groovy/create_task.groovy b/roles/nexus3/files/groovy/create_task.groovy
-index 241c01033..114d76221 100644
+index 241c01033..dc6b8f6a3 100644
 --- a/roles/nexus3/files/groovy/create_task.groovy
 +++ b/roles/nexus3/files/groovy/create_task.groovy
 @@ -3,6 +3,8 @@ import org.sonatype.nexus.scheduling.TaskConfiguration
@@ -35,13 +35,13 @@ index 241c01033..114d76221 100644
 +    schedule = taskScheduler.scheduleFactory.hourly(new Date())
 +} else if (parsed_args.monthly) {
 +    Set<CalendarDay> days
-+    parsed_args.monthly.each{ value -> days.add(CalendarDay.day(Integer.valueOf(value))) }
++    parsed_args.monthly.each { value -> days.add(CalendarDay.day(Integer.valueOf(value))) }
 +    schedule = taskScheduler.scheduleFactory.monthly(new Date(), parsed_args.monthly)
 +} else if (parsed_args.once) {
 +    schedule = taskScheduler.scheduleFactory.once(new Date())
 +} else if (parsed_args.weekly) {
 +    Set<Weekday> days
-+    parsed_args.weekly.each{ value -> days.add(Weekday.valueOf(value)) }
++    parsed_args.weekly.each { value -> days.add(Weekday.valueOf(value)) }
 +    schedule = taskScheduler.scheduleFactory.weekly(new Date(), parsed_args.weekly)
 +} else {
 +    schedule = taskScheduler.scheduleFactory.manual()
