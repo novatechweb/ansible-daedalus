@@ -1,5 +1,5 @@
 Bottom: 484647ef80bfb01c3a7a609d0a7ea5d6d740da67
-Top:    484647ef80bfb01c3a7a609d0a7ea5d6d740da67
+Top:    54349eeebc566918894965bc811531d19afdb27b
 Author: Andrew Cooper <andrew.cooper@novatechweb.com>
 Date:   2018-09-18 16:30:52 -0500
 
@@ -7,4 +7,13 @@ Update openldap scripts to run behind reverse proxy
 
 
 ---
-
+diff --git a/ansible-playbook/group_vars/docker-hosts/networking.yml b/ansible-playbook/group_vars/docker-hosts/networking.yml
+index 38e7fdc6b..11afcddab 100644
+--- a/ansible-playbook/group_vars/docker-hosts/networking.yml
++++ b/ansible-playbook/group_vars/docker-hosts/networking.yml
+@@ -51,3 +51,5 @@ haproxy_port_args:
+ - "{{ buildbot_ip_addr }}:443:443"
+ - "{{ nexus_ip_addr }}:80:80"
+ - "{{ nexus_ip_addr }}:443:443"
++- "{{ phpldapadmin_ip_addr }}:80:80"
++- "{{ phpldapadmin_ip_addr }}:443:443"
