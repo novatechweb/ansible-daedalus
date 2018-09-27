@@ -259,7 +259,7 @@
     args:
       name: db and blobstores backup
       typeId: script
-      cron: "{{ nexus_backup_cron }}"
+      manual: true
       taskProperties:
         language: groovy
         source: "{{ lookup('template', './templates/backup.groovy.j2') }}"
