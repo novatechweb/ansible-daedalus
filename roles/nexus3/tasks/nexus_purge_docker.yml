@@ -1,0 +1,24 @@
+---
+- name: Make sure nexus is stopped
+  debug:
+    msg: "trigger nexus stop"
+  changed_when: true
+  notify:
+    - nexus-container-stop
+
+- meta: flush_handlers
+
+- name: "Remove Nexus Container"
+  docker_container:
+    name: "{{ nexus_container_name }}"
+    state: absent
+
+- name: "Purge Nexus"
+  docker_volume:
+    name: "{{ nexus_data_volume }}"
+    state: absent
+
+- name: "remove nexus package if present"
+  package:
+    name: nexus
+    state: absent

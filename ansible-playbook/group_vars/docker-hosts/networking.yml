@@ -53,3 +53,8 @@ buildbot_port_args:
 - "{{ buildbot_ip_addr }}:80:8080"
 - "{{ buildbot_ip_addr }}:443:8443"
 - "{{ buildbot_ip_addr }}:9989:9989"
+
+nexus_hostname: nexus.novatech-llc.com
+nexus_port_args:
+- "{{ nexus_ip_addr }}:80:8081"
+- "{{ nexus_ip_addr }}:443:8443"
