@@ -1,7 +1,7 @@
 ---
 
 - include_tasks: nexus_purge_systemd.yml
-  when: not docker
+  when: not nexus_host_docker
 
 - include_tasks: nexus_purge_docker.yml
-  when: docker
+  when: nexus_host_docker
