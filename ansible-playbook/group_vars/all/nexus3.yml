@@ -6,6 +6,20 @@ nexus_networks:
 nexus_host_docker: true
 nexus_default_port: 8081
 
+# Nexus Backup
+nexus_backup_dir: '/var/nexus-backup'
+nexus_backup_blob_filter:
+  - permanent
+nexus_restore_log: '{{ nexus_backup_dir }}/nexus-restore.log'
+nexus_backup_log: '{{ nexus_backup_dir }}/nexus-backup.log'
+# Shall we configure backup ?
+nexus_backup_configure: true
+# Backup time cron expression
+nexus_backup_manual: true
+# Shall we rotate backups ? No effect if nexus_backup_configure is false
+nexus_backup_rotate: false
+nexus_backup_keep_rotations: 1  # Keep 4 backup rotation by default (current + last 3)
+
 nexus_email_server_enabled: true
 nexus_email_server_host: "mail.novatech-llc.com"
 nexus_email_server_port: 587
