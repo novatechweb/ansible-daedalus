@@ -1,14 +1,14 @@
 Version: 1
-Previous: ba7b64ab15c28763214530021504f8ca74f5bff7
-Head: a2cd464357c10c7609fd7aefbc2f111de5939ff3
+Previous: c1a33173ff47c4d84a2d0ce51e12ef9106d68f14
+Head: ddf179ee34b617913cf6b4af8a8733cb940c5826
 Applied:
   create-role: a0c9501dbd57fdb0df6c247b1748e71512803768
   maven-config-option: f0182afc42cb117552410ef441743ba2e36289c7
   check-first-install: 507c434e6c9cd5d17a6f6bab06f6b88555bed0e4
   add-docker-option: a2cd464357c10c7609fd7aefbc2f111de5939ff3
+  add-raw-repositories: c0f3e4a2406cfe6fa68e15389b75360aec6282fd
+  privileges: 269ba1aacf03199b94c8c55baeacd3f62d4f9239
+  scheduler-expansion: b4ba0c6f1d859a0c841122c878fb798c04696d07
+  backup-configuration: ddf179ee34b617913cf6b4af8a8733cb940c5826
 Unapplied:
-  add-raw-repositories: e6a7c18c3107ca0f01f7923d71e177997c5b491f
-  privileges: 2744ffd1c7ceb6d19de0e95fa24250a098d33852
-  scheduler-expansion: 5d78b8b844e7d92f84e44cf287892fa61a187b21
-  backup-configuration: dc595a585614cd7c2e98e5a23c20d95e57544a27
 Hidden:
