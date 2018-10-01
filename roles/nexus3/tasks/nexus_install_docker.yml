@@ -1,0 +1,106 @@
+---
+
+- name: Checkout nexus image repository
+  git:
+    repo: '{{ nexus_repository_url }}'
+    version: '{{ nexus_version }}'
+    dest: '{{ nexus_installation_dir }}/nexus-{{ nexus_version }}'
+
+- name: Update nexus image
+  docker_image:
+    name: '{{ nexus_image_tag }}'
+    path: '{{ nexus_installation_dir }}/nexus-{{ nexus_version }}'
+    force: true
+
+- name: Get rest API endpoint (v < 3.8.0)
+  set_fact:
+    nexus_rest_api_endpoint: "service/siesta/rest/v1/script"
+  when: nexus_version is version_compare('3.8.0', '<')
+
+- name: Get rest API endpoint (v >= 3.8.0)
+  set_fact:
+    nexus_rest_api_endpoint: "service/rest/v1/script"
+  when: nexus_version is version_compare('3.8.0', '>=')
+
+- name: Get path to database restore dir (v < 3.11.0)
+  set_fact:
+    nexus_db_restore_dir: "{{ nexus_data_dir }}/backup"
+  when: nexus_version is version_compare('3.11.0', '<')
+
+- name: Get path to database restore dir (v >= 3.11.0)
+  set_fact:
+    nexus_db_restore_dir: "{{ nexus_data_dir }}/restore-from-backup"
+  when: nexus_version is version_compare('3.11.0', '>=')
+
+- name: Get internal container path to nexus data
+  set_fact:
+    nexus_data_dir: '/nexus-data'
+
+- name: Create nexus data volume
+  docker_volume:
+    name: '{{ nexus_data_volume }}'
+    state: present
+
+- name: 'Check if data directory is empty (first-time install)'
+  docker_container:
+    name: '{{ nexus_container_name }}-first-run-check'
+    cleanup: yes
+    detach: no
+    image: 'alpine:latest'
+    volumes:
+      - "{{ nexus_data_volume }}:{{ nexus_data_dir }}:z"
+    command: ls "{{ nexus_data_dir }}"
+  register: nexus_data_dir_contents
+  check_mode: no
+  changed_when: false
+
+- set_fact:
+    nexus_first_install: '{{ nexus_data_dir_contents.ansible_facts.docker_container.Output == "" }}'
+
+- name: Create nexus backup volume
+  docker_volume:
+    name: '{{ nexus_backup_volume }}'
+    state: present
+
+- name: Start nexus container
+  docker_container:
+    name: '{{ nexus_container_name }}'
+    hostname: '{{ public_hostname }}'
+    image: '{{ nexus_image_tag }}'
+    networks: '{{ nexus_networks }}'
+    volumes: '{{ nexus_volumes }}'
+    ports: '{{ nexus_port_args }}'
+    state: started
+
+- name: First-time install admin password
+  set_fact:
+    current_nexus_admin_password: 'admin123'
+  when: nexus_first_install 
+
+- name: Subsequent re-provision admin password
+  set_fact:
+    current_nexus_admin_password: "{{ nexus_admin_password }}"
+  when: not nexus_first_install
+  no_log: true
+
+- name: Wait for container to start
+  uri:
+    url: "http://{{ public_hostname }}:{{ nexus_default_port }}{{ nexus_default_context_path }}service/metrics/ping"
+    force_basic_auth: yes
+    method: GET
+    password: "{{ current_nexus_admin_password }}"
+    return_content: yes
+    status_code: 200,204
+    user: 'admin'
+  register: nexus_ping
+  retries: 20
+  delay: 5
+  until: nexus_ping.content == "pong\n"
+
+- name: Declare groovy scripts in nexus
+  include: declare_script_each.yml
+  vars:
+    item: "{{ filename | basename | replace('.groovy','') }}"
+  loop: "{{ query('fileglob', 'groovy/*.groovy') }}"
+  loop_control:
+    loop_var: filename
