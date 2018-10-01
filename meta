@@ -1,16 +1,16 @@
 Version: 1
-Previous: 64aa61ac6c765c2554519864726ffd21171d2cc9
-Head: 7ec27a90e829ee473332580a15e5a1b626143882
+Previous: 66e9364802cffb94056117b5fb07994841d77def
+Head: c327c4e4f6c6ecbe1f828f888a70fc2bb7d0fe84
 Applied:
   fixup-use-docker-named-volumes: c1fbad9218a2a7482cefac450496ed97223f8437
   fixup-move-vars-to-role-defaults: b424282d07f91afe53560a217ebea811fdbcf2f9
   add-haproxy-role: 4422f4514205402fd72e047a53a4b247586c4280
   gitlab-haproxy: ca7763d84544099f05a4e841f71df6b3c83c2538
   nexus-haproxy: 7ec27a90e829ee473332580a15e5a1b626143882
+  svn-haproxy: 6f931ab03d8999c40b3ccca01bbad79c10309b22
+  ldap-haproxy: 51bd857b3de811d42675fcb8d9d50a4025d9f72c
+  buildbot-haproxy: 398dd65fb832a7704fc89ecf313ec8d21fdc14bf
+  fixup-phpldapadmin: 134e611cf4c1754a22a326a6b389e2543e918cbb
+  production: c327c4e4f6c6ecbe1f828f888a70fc2bb7d0fe84
 Unapplied:
-  svn-haproxy: bf57650f49ba4eac8cfbb654ccbf45c6e09cb549
-  ldap-haproxy: 7b85b53ba2ea94ee6d06bc66c64a94c87b3119ef
-  buildbot-haproxy: b0d159ca56e33820d29a4b22e374042a2dcf7df6
-  fixup-phpldapadmin: f8441b78bb3d6f598fada188cbe54e7e5053c23f
-  production: a8d5871d8ef7f29e2776b372ff1482b45189cf5c
 Hidden:
