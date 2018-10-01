@@ -1,0 +1,201 @@
+Bottom: 94184dd20cbdf6e3ba661adea44e7a8de474a878
+Top:    1873f7641c4402293c3c37b37e12dbfd3f36b13d
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-10-01 12:44:43 -0500
+
+Refresh of nexus-haproxy
+
+---
+diff --git a/roles/nexus3/README.md b/roles/nexus3/README.md
+index 3165f5e3e..d7367c69f 100644
+--- a/roles/nexus3/README.md
++++ b/roles/nexus3/README.md
+@@ -134,7 +134,7 @@ Allow [anonymous access](https://help.sonatype.com/display/NXRM3/Anonymous+Acces
+ 
+ ### Public hostname
+ ```yaml
+-    public_hostname: 'nexus.vm'
++    nexus_hostname: 'nexus.vm'
+ ```
+ 
+ The fully qualified domain name under which the nexus instance will be accessible to its clients.
+@@ -441,7 +441,7 @@ nexus_npm_bearer_token_realm: false
+ nexus_docker_bearer_token_realm: false  # required for docker anonymous access
+ ```
+ 
+-The Remote User Realm can also be enabled with 
++The Remote User Realm can also be enabled with
+ 
+ ```yaml
+ nexus_rut_auth_realm: true
+diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
+index 4d42d1b14..96842ce59 100644
+--- a/roles/nexus3/defaults/main.yml
++++ b/roles/nexus3/defaults/main.yml
+@@ -19,9 +19,7 @@ nexus_backup_volume: nexus-backup
+ nexus_data_volume: nexus-data
+ nexus_networks:
+   - name: nexus3
+-nexus_port_args:
+-  - "8081"
+-  - "8443"
++nexus_port_args: []
+ nexus_volumes:
+   - '{{ nexus_data_volume }}:{{ nexus_data_dir }}:z'
+   - '{{ nexus_backup_volume }}:{{ nexus_backup_dir }}:z'
+@@ -57,7 +55,7 @@ nexus_default_context_path: '/'
+ nexus_admin_password: 'changeme'  # Note : admin password change subsequent to first-time install is *not implemented* yet
+ nexus_anonymous_access: false
+ 
+-public_hostname: 'nexus.vm'
++nexus_hostname: 'nexus.vm'
+ 
+ # security realms
+ nexus_nuget_api_key_realm: false
+diff --git a/roles/nexus3/molecule/nexus_test_vars.yml b/roles/nexus3/molecule/nexus_test_vars.yml
+index 173d7629b..e7c6dc815 100644
+--- a/roles/nexus3/molecule/nexus_test_vars.yml
++++ b/roles/nexus3/molecule/nexus_test_vars.yml
+@@ -4,7 +4,7 @@ httpd_setup_enable: true
+ httpd_copy_ssl_files: false
+ httpd_ssl_cert_file_location: "{{ default_cert }}"
+ httpd_ssl_cert_key_location: "{{ default_key }}"
+-public_hostname: localhost
++nexus_hostname: localhost
+ 
+ nexus_backup_configure: true
+ 
+diff --git a/roles/nexus3/tasks/call_script.yml b/roles/nexus3/tasks/call_script.yml
+index 657fd5023..bea09c0a4 100644
+--- a/roles/nexus3/tasks/call_script.yml
++++ b/roles/nexus3/tasks/call_script.yml
+@@ -1,7 +1,7 @@
+ ---
+ - name: Calling Groovy script {{ script_name }}
+   uri:
+-    url: "http://{{ public_hostname }}:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}/{{ script_name }}/run"
++    url: "{{hostvars.nexus.private_uri}}{{ nexus_rest_api_endpoint }}/{{ script_name }}/run"
+     user: 'admin'
+     password: "{{ current_nexus_admin_password }}"
+     headers:
+diff --git a/roles/nexus3/tasks/declare_script_each.yml b/roles/nexus3/tasks/declare_script_each.yml
+index 5bb77c1ca..eb17fe573 100644
+--- a/roles/nexus3/tasks/declare_script_each.yml
++++ b/roles/nexus3/tasks/declare_script_each.yml
+@@ -1,7 +1,7 @@
+ ---
+ - name: Removing (potential) previously declared Groovy script {{ item }}
+   uri:
+-    url: "http://{{ public_hostname }}:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}/{{ item }}"
++    url: "{{hostvars.nexus.private_uri}}{{ nexus_rest_api_endpoint }}/{{ item }}"
+     user: 'admin'
+     password: "{{ current_nexus_admin_password }}"
+     method: DELETE
+@@ -10,7 +10,7 @@
+ 
+ - name: Declaring Groovy script {{ item }}
+   uri:
+-    url: "http://{{ public_hostname }}:{{ nexus_default_port }}{{ nexus_default_context_path }}{{ nexus_rest_api_endpoint }}"
++    url: "{{hostvars.nexus.private_uri}}{{ nexus_rest_api_endpoint }}"
+     user: 'admin'
+     password: "{{ current_nexus_admin_password }}"
+     body_format: json
+diff --git a/roles/nexus3/tasks/main.yml b/roles/nexus3/tasks/main.yml
+index df168c49b..fc83741bd 100644
+--- a/roles/nexus3/tasks/main.yml
++++ b/roles/nexus3/tasks/main.yml
+@@ -182,7 +182,7 @@
+   vars:
+     script_name: setup_base_url
+     args:
+-      base_url: "https://{{ public_hostname }}/"
++      base_url: "https://{{ nexus_hostname }}/"
+ 
+ - include: call_script.yml
+   vars:
+diff --git a/roles/nexus3/tasks/nexus_install_docker.yml b/roles/nexus3/tasks/nexus_install_docker.yml
+index 06ee86b30..f9789e491 100644
+--- a/roles/nexus3/tasks/nexus_install_docker.yml
++++ b/roles/nexus3/tasks/nexus_install_docker.yml
+@@ -69,17 +69,33 @@
+ - name: Start nexus container
+   docker_container:
+     name: '{{ nexus_container_name }}'
+-    hostname: '{{ public_hostname }}'
++    hostname: '{{ nexus_hostname }}'
+     image: '{{ nexus_image_tag }}'
+     networks: '{{ nexus_networks }}'
+     volumes: '{{ nexus_volumes }}'
+     ports: '{{ nexus_port_args }}'
++    purge_networks: true
+     state: started
++  register: nexus_container
++
++- debug:
++    var: nexus_container
++
++- name: Register nexus host
++  add_host:
++    name: nexus
++    groups: services
++    ip_addr: "{{nexus_ip_addr}}"
++    uri: "https://{{nexus_hostname}}{{nexus_default_context_path}}"
++    private_uri: "http://{{host}}:{{port}}{{nexus_default_context_path}}"
++  vars:
++    host: "{{ nexus_container.ansible_facts.docker_container.NetworkSettings.Networks[docker_network_frontend].IPAddress }}"
++    port: "{{ nexus_default_port }}"
+ 
+ - name: First-time install admin password
+   set_fact:
+     current_nexus_admin_password: 'admin123'
+-  when: nexus_first_install 
++  when: nexus_first_install
+ 
+ - name: Subsequent re-provision admin password
+   set_fact:
+@@ -89,7 +105,7 @@
+ 
+ - name: Wait for container to start
+   uri:
+-    url: "http://{{ public_hostname }}:{{ nexus_default_port }}{{ nexus_default_context_path }}service/metrics/ping"
++    url: "{{hostvars.nexus.private_uri}}service/metrics/ping"
+     force_basic_auth: yes
+     method: GET
+     password: "{{ current_nexus_admin_password }}"
+@@ -97,10 +113,11 @@
+     status_code: 200,204
+     user: 'admin'
+   register: nexus_ping
+-  retries: 20
++  retries: 3
+   delay: 5
+   until: nexus_ping.content == "pong\n"
+ 
++
+ - name: Declare groovy scripts in nexus
+   include: declare_script_each.yml
+   vars:
+diff --git a/roles/nexus3/templates/nexus-vhost.conf b/roles/nexus3/templates/nexus-vhost.conf
+index ff06a1598..1205da5db 100644
+--- a/roles/nexus3/templates/nexus-vhost.conf
++++ b/roles/nexus3/templates/nexus-vhost.conf
+@@ -15,7 +15,7 @@
+   SSLCertificateKeyFile {{ httpd_ssl_cert_key_location }}
+   {% endif -%}
+ 
+-  ServerName {{ public_hostname }}
++  ServerName {{ nexus_hostname }}
+   ServerAdmin {{ httpd_default_admin_email }}
+ 
+   RewriteEngine on
+@@ -25,8 +25,8 @@
+   ProxyPassReverse / http://localhost:{{ nexus_default_port }}{{ nexus_default_context_path }}
+   RequestHeader set X-Forwarded-Proto "https"
+ 
+-  ErrorLog /var/log/{{ httpd_package_name }}/{{ public_hostname }}_nexus_error.log
+-  CustomLog /var/log/{{ httpd_package_name }}/{{ public_hostname }}_nexus_access.log common
++  ErrorLog /var/log/{{ httpd_package_name }}/{{ nexus_hostname }}_nexus_error.log
++  CustomLog /var/log/{{ httpd_package_name }}/{{ nexus_hostname }}_nexus_access.log common
+ 
+   {% if nexus_config_npm -%}
+   # This is needed for npm scoped packages downloads
