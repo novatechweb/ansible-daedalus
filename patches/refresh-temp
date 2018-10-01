@@ -1,0 +1,78 @@
+Bottom: 7051252d72a46b929e07852dd9c773a052ef85c2
+Top:    052d8b5fb84d7b7f715345f7422622f3276ce46f
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-10-01 12:27:58 -0500
+
+Refresh of create-role
+
+---
+diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
+index 836d58701..be1c9bab9 100644
+--- a/ansible-playbook/group_vars/all/nexus3.yml
++++ b/ansible-playbook/group_vars/all/nexus3.yml
+@@ -3,9 +3,8 @@ nexus_networks:
+   - name: '{{ docker_network_frontend }}'
+     aliases:
+       - '{{ nexus_hostname }}'
+-docker: true
+-nexus_default_port: 80
+-public_hostname: '{{ nexus_hostname }}'
++nexus_host_docker: true
++nexus_default_port: 8081
+ 
+ nexus_email_server_enabled: true
+ nexus_email_server_host: "mail.novatech-llc.com"
+diff --git a/roles/nexus3/defaults/main.yml b/roles/nexus3/defaults/main.yml
+index ddc4d7015..3b9f5914b 100644
+--- a/roles/nexus3/defaults/main.yml
++++ b/roles/nexus3/defaults/main.yml
+@@ -44,8 +44,8 @@ nexus_backup_keep_rotations: 4  # Keep 4 backup rotation by default (current + l
+ 
+ # Nexus purge procedure:
+ # run ansible-playbook example.yml -e "purge=true"
+-purge: false
+-docker: false
++nexus_purge: false
++nexus_host_docker: false
+ 
+ # Nexus default properties
+ nexus_default_port: 8081
+diff --git a/roles/nexus3/tasks/create_blobstore_each.yml b/roles/nexus3/tasks/create_blobstore_each.yml
+index 3f7cdcca1..e2274af60 100644
+--- a/roles/nexus3/tasks/create_blobstore_each.yml
++++ b/roles/nexus3/tasks/create_blobstore_each.yml
+@@ -6,6 +6,7 @@
+     group: "{{ nexus_os_group }}"
+     state: directory
+     recurse: true
++  when: not nexus_host_docker
+ 
+ - include: call_script.yml
+   vars:
+diff --git a/roles/nexus3/tasks/nexus_install.yml b/roles/nexus3/tasks/nexus_install.yml
+index e796909f0..c3f28f57c 100644
+--- a/roles/nexus3/tasks/nexus_install.yml
++++ b/roles/nexus3/tasks/nexus_install.yml
+@@ -1,6 +1,6 @@
+ ---
+ - include_tasks: nexus_install_systemd.yml
+-  when: not docker
++  when: not nexus_host_docker
+ 
+ - include_tasks: nexus_install_docker.yml
+-  when: docker
++  when: nexus_host_docker
+diff --git a/roles/nexus3/tasks/nexus_purge.yml b/roles/nexus3/tasks/nexus_purge.yml
+index a9b2405a9..4b2d20e70 100644
+--- a/roles/nexus3/tasks/nexus_purge.yml
++++ b/roles/nexus3/tasks/nexus_purge.yml
+@@ -1,7 +1,7 @@
+ ---
+ 
+ - include_tasks: nexus_purge_systemd.yml
+-  when: not docker
++  when: not nexus_host_docker
+ 
+ - include_tasks: nexus_purge_docker.yml
+-  when: docker
++  when: nexus_host_docker
