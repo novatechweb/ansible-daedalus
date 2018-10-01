@@ -1,0 +1,3 @@
+HOSTVARS (ANSIBLE GATHERED, group_vars, host_vars) :
+
+{{ hostvars | to_yaml }}
