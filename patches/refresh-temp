@@ -1,0 +1,47 @@
+Bottom: 66ef82428667f75d5f4ce603705130f8b6a78a58
+Top:    fd1a50c0b480fd732ae7ec83323730111276bdb1
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-10-01 12:37:11 -0500
+
+Refresh of add-docker-option
+
+---
+diff --git a/roles/nexus3/tasks/create_blobstore_each.yml b/roles/nexus3/tasks/create_blobstore_each.yml
+index 3f7cdcca1..e2274af60 100644
+--- a/roles/nexus3/tasks/create_blobstore_each.yml
++++ b/roles/nexus3/tasks/create_blobstore_each.yml
+@@ -6,6 +6,7 @@
+     group: "{{ nexus_os_group }}"
+     state: directory
+     recurse: true
++  when: not nexus_host_docker
+ 
+ - include: call_script.yml
+   vars:
+diff --git a/roles/nexus3/tasks/nexus_install.yml b/roles/nexus3/tasks/nexus_install.yml
+index e796909f0..c3f28f57c 100644
+--- a/roles/nexus3/tasks/nexus_install.yml
++++ b/roles/nexus3/tasks/nexus_install.yml
+@@ -1,6 +1,6 @@
+ ---
+ - include_tasks: nexus_install_systemd.yml
+-  when: not docker
++  when: not nexus_host_docker
+ 
+ - include_tasks: nexus_install_docker.yml
+-  when: docker
++  when: nexus_host_docker
+diff --git a/roles/nexus3/tasks/nexus_purge.yml b/roles/nexus3/tasks/nexus_purge.yml
+index a9b2405a9..4b2d20e70 100644
+--- a/roles/nexus3/tasks/nexus_purge.yml
++++ b/roles/nexus3/tasks/nexus_purge.yml
+@@ -1,7 +1,7 @@
+ ---
+ 
+ - include_tasks: nexus_purge_systemd.yml
+-  when: not docker
++  when: not nexus_host_docker
+ 
+ - include_tasks: nexus_purge_docker.yml
+-  when: docker
++  when: nexus_host_docker
