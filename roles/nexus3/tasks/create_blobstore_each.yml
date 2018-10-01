@@ -6,6 +6,7 @@
     group: "{{ nexus_os_group }}"
     state: directory
     recurse: true
+  when: not nexus_host_docker
 
 - include: call_script.yml
   vars:

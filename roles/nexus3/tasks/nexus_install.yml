@@ -1,6 +1,6 @@
 ---
 - include_tasks: nexus_install_systemd.yml
-  when: not docker
+  when: not nexus_host_docker
 
 - include_tasks: nexus_install_docker.yml
-  when: docker
+  when: nexus_host_docker
