@@ -9,7 +9,7 @@
     state: "{{ image_build_state_nondata }}"
 
 - name: Start docker container - Test Station cron service
-  docker:
+  docker_container:
     detach: True
     image: "{{ name_prefix }}teststation_cron_image"
     name: "{{ name_prefix }}TestStation_cron_service"
