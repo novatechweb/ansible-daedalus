@@ -1,0 +1,76 @@
+Bottom: bfb0a601ad8ad3a2ddfeb0cd17db9325b221be08
+Top:    e70e3d37b945cf5d48a9a1039ed95d0e486f1597
+Author: Andrew Cooper <andrew.cooper@novatechweb.com>
+Date:   2018-10-01 12:43:14 -0500
+
+Refresh of backup-configuration
+
+---
+diff --git a/ansible-playbook/group_vars/all/nexus3.yml b/ansible-playbook/group_vars/all/nexus3.yml
+index be1c9bab9..cb2e8c7a8 100644
+--- a/ansible-playbook/group_vars/all/nexus3.yml
++++ b/ansible-playbook/group_vars/all/nexus3.yml
+@@ -6,6 +6,20 @@ nexus_networks:
+ nexus_host_docker: true
+ nexus_default_port: 8081
+ 
++# Nexus Backup
++nexus_backup_dir: '/var/nexus-backup'
++nexus_backup_blob_filter:
++  - permanent
++nexus_restore_log: '{{ nexus_backup_dir }}/nexus-restore.log'
++nexus_backup_log: '{{ nexus_backup_dir }}/nexus-backup.log'
++# Shall we configure backup ?
++nexus_backup_configure: true
++# Backup time cron expression
++nexus_backup_manual: true
++# Shall we rotate backups ? No effect if nexus_backup_configure is false
++nexus_backup_rotate: false
++nexus_backup_keep_rotations: 1  # Keep 4 backup rotation by default (current + last 3)
++
+ nexus_email_server_enabled: true
+ nexus_email_server_host: "mail.novatech-llc.com"
+ nexus_email_server_port: 587
+diff --git a/roles/nexus3/tasks/nexus_install_docker.yml b/roles/nexus3/tasks/nexus_install_docker.yml
+index 50c528bd3..06ee86b30 100644
+--- a/roles/nexus3/tasks/nexus_install_docker.yml
++++ b/roles/nexus3/tasks/nexus_install_docker.yml
+@@ -62,6 +62,10 @@
+     name: '{{ nexus_backup_volume }}'
+     state: present
+ 
++- name: Set permissions on backup volume
++  command:
++    docker exec -u root nexus3 chmod 777 {{nexus_backup_dir}}
++
+ - name: Start nexus container
+   docker_container:
+     name: '{{ nexus_container_name }}'
+diff --git a/roles/nexus3/templates/backup.groovy.j2 b/roles/nexus3/templates/backup.groovy.j2
+index 4fadd7cfe..3683b867c 100644
+--- a/roles/nexus3/templates/backup.groovy.j2
++++ b/roles/nexus3/templates/backup.groovy.j2
+@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit
+  */
+ 
+ 
++nexusBlobFilterRaw = "{{ nexus_backup_blob_filter | default ('') | join(',') }}"
++nexusBackupBlobFilter = (nexusBlobFilterRaw.isEmpty()) ? null : nexusBlobFilterRaw.split(",")
+ nexusBackupLogFilePath = "{{ nexus_backup_log }}"
+ nexusBackupDirPath = "{{ nexus_backup_dir }}"
+ nexusDataDirPath = "{{ nexus_data_dir }}"
+@@ -49,7 +51,13 @@ try {
+     tempBackupTask.runNow()
+ 
+     backupLog << "Copy the blobstores into "+CurrentBackupDirPath+"\n"
+-    FileUtils.copyDirectory(new File(nexusDataDirPath+'/blobs'), new File(CurrentBackupDirPath))
++    def copier = { dir -> FileUtils.copyDirectory(dir, new File(CurrentBackupDirPath+"/"+dir.name)) }
++    if (nexusBackupBlobFilter) {
++        def pattern = nexusBackupBlobFilter
++        new File(nexusDataDirPath+'/blobs').eachDirMatch(pattern,copier)
++    } else {
++        new File(nexusDataDirPath+'/blobs').eachDir(copier)
++    }
+ 
+     backupLog << "Wait for temporary db backup task to finish\n"
+     while (tempBackupTask.currentState.state != TaskInfo.State.WAITING) {
