@@ -53,8 +53,8 @@ done
 # make certian the containers exist
 docker inspect ${WIKI_CONTAINER_NAME} > /dev/null
 docker inspect ${WIKI_DB_CONTAINER_NAME} > /dev/null
-docker inspect ${WIKI_DV_NAME} > /dev/null
-docker inspect ${WIKI_DB_DV_NAME} > /dev/null
+docker volume inspect ${WIKI_DV_NAME} > /dev/null
+docker volume inspect ${WIKI_DB_DV_NAME} > /dev/null
 
 get_db_user_and_password() {
     db_user="$(docker 2>&1 exec ${WIKI_CONTAINER_NAME} grep -e '^$wgDBuser' LocalSettings.php|sed 's|^.* = \"\(.*\)\";$|\1|' || true)"
