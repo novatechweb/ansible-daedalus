@@ -1,13 +1,13 @@
 Version: 1
-Previous: 4c5f20c50d0ba9cf74e0dd0ab8b6f1edc4a7d3fc
-Head: 4361c923591441e9dc30e401d83523cda96710e0
+Previous: e7468cd3d34afa8ec8c90b8c3290524d1198877e
+Head: 4dec51c9cf48b055de9e4eb3f8044a7863fd31ed
 Applied:
+  fixup-use-docker-named-volumes: c1fbad9218a2a7482cefac450496ed97223f8437
+  fixup-move-vars-to-role-defaults: b424282d07f91afe53560a217ebea811fdbcf2f9
+  add-haproxy-role: 4422f4514205402fd72e047a53a4b247586c4280
+  gitlab-haproxy: ca7763d84544099f05a4e841f71df6b3c83c2538
+  nexus-haproxy: 4dec51c9cf48b055de9e4eb3f8044a7863fd31ed
 Unapplied:
-  fixup-use-docker-named-volumes: d48dbb685d4de2710525dd00aa290a3b0460c1fd
-  fixup-move-vars-to-role-defaults: 6ee8d0ae5fdec9976f1d10d144571426b65dce18
-  add-haproxy-role: 8076011ae8ee7061c19bc649f99092eb04553dc6
-  gitlab-haproxy: 23384c46540100ee9e77e089c762605d16f002aa
-  nexus-haproxy: 4bd41994aa06c806ad49b29619b8069643b1c204
   svn-haproxy: bf57650f49ba4eac8cfbb654ccbf45c6e09cb549
   ldap-haproxy: 7b85b53ba2ea94ee6d06bc66c64a94c87b3119ef
   buildbot-haproxy: b0d159ca56e33820d29a4b22e374042a2dcf7df6
