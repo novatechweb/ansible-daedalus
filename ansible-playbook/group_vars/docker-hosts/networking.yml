@@ -42,19 +42,24 @@ openldap_port_args:
 - "{{ openldap_ip_addr }}:636:636"
 
 phpldapadmin_hostname: ldap.novatech-llc.com
-phpldapadmin_port_args:
-- "{{ phpldapadmin_ip_addr }}:80:80"
-- "{{ phpldapadmin_ip_addr }}:443:443"
+phpldapadmin_port_args: []
 
 phpmyadmin_hostname: phpmyadmin.novatech-llc.com
 
 buildbot_hostname: buildbot.novatech-llc.com
 buildbot_port_args:
-- "{{ buildbot_ip_addr }}:80:8080"
-- "{{ buildbot_ip_addr }}:443:8443"
 - "{{ buildbot_ip_addr }}:9989:9989"
 
 nexus_hostname: nexus.novatech-llc.com
-nexus_port_args:
-- "{{ nexus_ip_addr }}:80:8081"
-- "{{ nexus_ip_addr }}:443:8443"
+nexus_port_args: []
+
+haproxy_port_args:
+- "{{ ansible_facts.default_ipv4.address }}:80:80"
+- "{{ ansible_facts.default_ipv4.address }}:443:443"
+- "{{ ansible_facts.default_ipv4.address }}:9000:9000"
+- "{{ buildbot_ip_addr }}:80:80"
+- "{{ buildbot_ip_addr }}:443:443"
+- "{{ nexus_ip_addr }}:80:80"
+- "{{ nexus_ip_addr }}:443:443"
+- "{{ phpldapadmin_ip_addr }}:80:80"
+- "{{ phpldapadmin_ip_addr }}:443:443"

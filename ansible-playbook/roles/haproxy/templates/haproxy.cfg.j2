@@ -1,0 +1,99 @@
+global
+    daemon
+    maxconn 256
+    ssl-dh-param-file {{ config_cert_path }}/dhparam.pem
+
+defaults
+    mode http
+    option forwardfor
+    timeout connect 5s
+    timeout client 50s
+    timeout server 50s
+    timeout tunnel 3600s
+    default-server init-addr last,libc,none resolvers docker
+
+# Use internal docker dns server
+resolvers docker
+    nameserver dns 127.0.0.11:53
+
+#enable stats page
+listen stats
+    bind *:9000
+    mode http
+    stats enable
+
+#
+frontend container_https_in
+    mode http
+    bind *:80
+    bind *:443 ssl crt {{ config_cert_path }}/haproxy.pem
+
+    http-request set-header X-Forwarded-Proto https
+    http-request set-header X-SSL %[ssl_fc]
+
+    http-request redirect scheme https code 301 if !{ ssl_fc }
+
+    acl is_buildbot     hdr(host) eq {{ buildbot_hostname }}
+    acl is_gitlab       hdr(host) eq {{ gitlab_hostname }}
+    acl is_ldapadmin    hdr(host) eq {{ openldap_hostname }}
+    acl is_mantisbt     hdr(host) eq {{ mantisbt_hostname }}
+    acl is_nexus        hdr(host) eq {{ nexus_hostname }}
+    acl is_svn          hdr(host) eq {{ svn_hostname }}
+    acl is_wiki         hdr(host) eq {{ wiki_hostname }}
+
+    use_backend backend-buildbot if is_buildbot
+    use_backend backend-nexus if is_nexus
+    use_backend backend-svn if is_svn
+    use_backend backend-ldapadmin if is_ldapadmin
+    use_backend backend-gitlab if is_gitlab
+    use_backend backend-mantisbt if is_mantisbt
+    use_backend backend-wiki if is_wiki
+
+# frontend container_ldap_in
+#     mode tcp
+#     bind *:389
+#     bind *:636
+#     use_backend backend-ldap
+
+# frontend container_smtp_in
+#     mode tcp
+#     bind *:25
+#     bind *:465
+#     bind *:587
+#     use_backend backend-exim4
+
+# frontend container_ssh_in
+#     mode tcp
+#     bind *:22
+#     default_backend
+
+#
+backend backend-svn
+    server svn1 svn.frontend:80
+
+backend backend-ldapadmin
+    server phpldapadmin1 phpldapadmin.frontend:80
+
+backend backend-exim4
+    server exim4_1 exim4.frontend:25
+
+backend backend-gitlab
+    server gitlab1 gitlab.frontend:80
+
+backend backend-wiki
+    server wiki1 wiki.frontend:80
+
+backend backend-mantisbt
+    server mantisbt1 mantisbt.frontend:80
+
+backend backend-build
+    server build1 build.frontend:80
+
+backend backend-testssh
+    server testssh1 testssh.frontend:80
+
+backend backend-buildbot
+    server buildbot1 buildbot.frontend:8080
+
+backend backend-nexus
+    server nexus1 nexus3.frontend:8081
