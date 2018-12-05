@@ -2,6 +2,6 @@
 
 # *****************************************************************************
 # Make docker base backup dir
-docker run --rm -v {{ docker_backup_dir }}/..:/tmp/import_export:z {{ repository_images.debian.image }}:{{ repository_images.debian.tag }} bash -c "rm -rf /tmp/import_export/docker"
+docker run --rm -v {{ docker_backup_dir }}/..:/tmp/import_export:z debian:latest bash -c "rm -rf /tmp/import_export/docker"
 mkdir -p -m u=rwx,g=rwx,o= {{ docker_backup_dir }}
 {% endif %}
