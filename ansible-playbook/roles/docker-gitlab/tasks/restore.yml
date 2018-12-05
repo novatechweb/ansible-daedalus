@@ -18,8 +18,13 @@
 # Get data from tape
 
 - name: find files
-  files_in_dir:
+  find:
     path: '{{ gitlab_docker_restore_dir }}'
+    patterns:
+    - "{{gitlab_backup_pattern_secrets}}"
+    - "{{gitlab_backup_pattern_data}}"
+    file_type: any
+    follow: yes
   register: gitlab_backup
 
 - name: data from tape
@@ -29,11 +34,16 @@
     fileset: '{{ bacula_fileset }}'
     dest: '{{ bacula_dest }}'
     path_to_restore: '{{ gitlab_docker_backup_dir }}'
-  when: gitlab_backup.file_list == []
+  when: gitlab_backup.matched == 0
 
 - name: find files
-  files_in_dir:
+  find:
     path: '{{ gitlab_docker_restore_dir }}'
+    patterns:
+    - "{{gitlab_backup_pattern_secrets}}"
+    - "{{gitlab_backup_pattern_data}}"
+    file_type: any
+    follow: yes
   register: gitlab_backup
 
 - name: File permissions
@@ -46,13 +56,84 @@
   with_items: '{{ gitlab_backup.file_list | default([]) }}'
 
 # *****************************************************************************
-# restore the gitlap backup
+# restore the gitlab backup
 
-- name: gitlab restore script
-  command: '{{ docker_projects_dir }}/docker-gitlab/gitlab.sh restore'
-  args:
-    chdir: '{{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/'
-  when: gitlab_backup.file_list != []
+- name: Copy backup files to container
+  command: >
+      docker cp '{{ item.path }}' {{ gitlab_container_name }}:'{{ gitlab_bv_mountpoint }}'
+  loop: "{{ gitlab_backup.files }}"
+
+- name: shut down gitlab services for restoration
+  command: >
+    docker exec -t {{ gitlab_container_name }} gitlab-ctl stop {{ item }}
+  loop:
+  - unicorn
+  - sidekiq
+
+- block:
+  - name: find gitlab secrets archive
+    find:
+      path: '{{ gitlab_docker_restore_dir }}'
+      pattern: "{{gitlab_backup_pattern_secrets}}"
+    register: backup_files
+  - set_fact:
+      backup_file: "{{gitlab_bv_mountpoint}}/{{backup_files.files[0]['path'] | basename}}"
+    when: backup_files.matched > 0
+  - name: restore gitlab secrets
+    command: >
+      docker exec -t {{ gitlab_container_name }}
+      /bin/sh -c 'tar vxzf "{{backup_file}}" -C /' 
+    when: backup_files.matched > 0
+
+- block:
+  - name: find gitlab data archive
+    find:
+      path: '{{ gitlab_docker_restore_dir }}'
+      pattern: "{{gitlab_backup_pattern_data}}"
+    register: backup_files
+  - set_fact:
+      backup_file: "{{gitlab_bv_mountpoint}}/{{backup_files.files[0]['path'] | basename | replace('_gitlab_backup.tar','')}}"
+    when: backup_files.matched > 0
+  - name: restore gitlab data
+    command: >
+      docker exec -t {{ gitlab_container_name }}
+      gitlab-rake gitlab:backup:restore force=yes BACKUP="{{backup_file}}"
+    when: backup_files.matched > 0
+
+- name: reconfigure gitlab for updated configuration
+  command: >
+    docker exec -t {{ gitlab_container_name }} gitlab-ctl reconfigure
+
+- name: restart gitlab services
+  command: >
+    docker exec -t {{ gitlab_container_name }} gitlab-ctl start
+  register: result
+  failed_when: ( result.rc not in [ 0, 127 ] )
+
+- name: Wait for gitlab to be fully running
+  uri:
+    url: 'http://{{ gitlab_hostname }}/users/sign_in'
+  register: health
+  retries: 60
+  delay: 5
+  until: health.status == 200
+
+- name: Set root user password in restored database
+  command: >
+    docker exec -t {{ gitlab_container_name }} 
+    gitlab-rails runner 
+      'user=User.where(id: 1).first;
+       user.password="{{ gitlab_root_password }}";
+       user.password_confirmation="{{ gitlab_root_password }}";
+       user.save!'
+
+- name: Wait for gitlab to be fully running
+  docker_health:
+    name: '{{ gitlab_container_name }}'
+  register: health
+  retries: 60
+  delay: 5
+  until: health.Health.Status == "healthy"
 
 # *****************************************************************************
 # cleanup
@@ -63,5 +144,5 @@
     state: absent
 
 - name: State file
-  shell: 'date --rfc-3339=seconds > {{ docker_restore_config_base_dir }}/{{ gitlab_dv_name }}/restore.date.txt'
+  shell: 'date --rfc-3339=seconds > {{ gitlab_config_dir }}/restore.date.txt'
   when: st_gitlab_restore.stat.exists == False
