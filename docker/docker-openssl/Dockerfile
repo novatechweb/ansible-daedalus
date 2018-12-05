@@ -17,6 +17,6 @@ RUN apt-get update && \
 COPY ./docker-entrypoint.sh /
 
 # create the openssl directory volumes
-VOLUME ["/etc/ssl", "/usr/share/ca-certificates", "/usr/local/share/ca-certificates", "/etc/grid-security"]
+VOLUME ["/etc/ssl/private"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
