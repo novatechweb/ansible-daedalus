@@ -20,3 +20,5 @@ sed -i "s/password_hash/password_hash_custom/g" /var/www/phpldapadmin_bootstrap/
 
 # fix php5-fpm $_SERVER['SCRIPT_NAME'] bad value with cgi.fix_pathinfo=0
 sed -i "s/'SCRIPT_NAME'/'PATH_INFO'/g" /var/www/phpldapadmin_bootstrap/lib/common.php
+
+cp /container/service/phpldapadmin/changepassword.php /var/www/changepassword.php

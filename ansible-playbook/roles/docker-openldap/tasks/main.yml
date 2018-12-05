@@ -114,6 +114,21 @@
       - '{{ openldap_cv_name }}:/etc/ldap:z'
       - '{{ openldap_dv_name }}:/var/lib/ldap:z'
 
+# *****************************************************************************
+# Update or make the image.
+- name: Checkout image repo
+  git:
+    repo: '{{ phpldapadmin_image_repo }}'
+    version: stable
+    dest: '{{ docker_projects_dir }}/docker-phpldapadmin'
+
+- name: build image
+  docker_image:
+    name: '{{ phpldapadmin_image_name }}'
+    tag: '{{ docker_image_tag }}'
+    path: '{{ docker_projects_dir }}/docker-phpldapadmin/image'
+    force: "{{ docker_image_force_build }}"
+
 - name: start container (phpldapadmin)
   docker_container:
     detach: true
