@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit
  */
 
 
+nexusBlobFilterRaw = "{{ nexus_backup_blob_filter | default ('') | join(',') }}"
+nexusBackupBlobFilter = (nexusBlobFilterRaw.isEmpty()) ? null : nexusBlobFilterRaw.split(",")
 nexusBackupLogFilePath = "{{ nexus_backup_log }}"
 nexusBackupDirPath = "{{ nexus_backup_dir }}"
 nexusDataDirPath = "{{ nexus_data_dir }}"
@@ -49,7 +51,13 @@ try {
     tempBackupTask.runNow()
 
     backupLog << "Copy the blobstores into "+CurrentBackupDirPath+"\n"
-    FileUtils.copyDirectory(new File(nexusDataDirPath+'/blobs'), new File(CurrentBackupDirPath))
+    def copier = { dir -> FileUtils.copyDirectory(dir, new File(CurrentBackupDirPath+"/"+dir.name)) }
+    if (nexusBackupBlobFilter) {
+        def pattern = nexusBackupBlobFilter
+        new File(nexusDataDirPath+'/blobs').eachDirMatch(pattern,copier)
+    } else {
+        new File(nexusDataDirPath+'/blobs').eachDir(copier)
+    }
 
     backupLog << "Wait for temporary db backup task to finish\n"
     while (tempBackupTask.currentState.state != TaskInfo.State.WAITING) {

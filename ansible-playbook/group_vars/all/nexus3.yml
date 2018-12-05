@@ -9,6 +9,23 @@ nexus_default_port: 8081
 nexus_java_url: 'http://download.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/server-jre-8u192-linux-x64.tar.gz'
 nexus_java_sha256: '3d811a5ec65dc6fc261f488757bae86ecfe285a79992363b016f60cdb4dbe7e6'
 
+# Nexus Backup
+nexus_docker_backup_dir: "{{ docker_backup_dir }}/NEXUS3"
+nexus_docker_backup_archive: "{{ nexus_docker_backup_dir }}/nexus3.tar.gz"
+nexus_backup_dir: '/var/nexus-backup'
+nexus_backup_blob_filter:
+  - permanent
+nexus_restore_log: '{{ nexus_backup_dir }}/nexus-restore.log'
+nexus_backup_log: '{{ nexus_backup_dir }}/nexus-backup.log'
+# Shall we configure backup ?
+nexus_backup_configure: true
+# Backup time cron expression
+nexus_backup_manual: true
+# Shall we rotate backups ? No effect if nexus_backup_configure is false
+nexus_backup_rotate: false
+nexus_backup_keep_rotations: 1  # Keep 4 backup rotation by default (current + last 3)
+nexus_backup_task_name: db and blobstores backup
+
 nexus_email_server_enabled: true
 nexus_email_server_host: "mail.novatech-llc.com"
 nexus_email_server_port: 587
@@ -90,6 +107,13 @@ nexus_roles:
       - all-repos-read
       - nx-repository-view-*-*-*
     roles: []
+  - id: Backup  # can map to a LDAP group id, also used as a key to update a role
+    name: backup
+    description: Backup system
+    privileges:
+      - nx-tasks-read
+      - nx-tasks-run
+    roles: []
 
 nexus_local_users:
   - username: buildbot # used as key to update
@@ -99,6 +123,13 @@ nexus_local_users:
     password: "{{ nexus_buildbot_password }}"
     roles:
       - Developers # role ID here
+  - username: bacula
+    first_name: Bacula
+    last_name: Backups
+    email: bacula@novatech-llc.com
+    password: "{{ nexus_bacula_password }}"
+    roles:
+      - Backup
 
 nexus_delete_default_blobstore: false
 nexus_blob_split: false     # True - blobstores per format

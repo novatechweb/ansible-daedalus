@@ -1,0 +1,11 @@
+{% if nexus_docker_backup_dir is defined %}
+
+# *****************************************************************************
+# Clean up nexus3
+
+docker run --rm -v {{ docker_backup_dir }}:{{ docker_backup_dir }}:z \
+    debian:latest /bin/sh -c "rm -rf {{ nexus_docker_backup_dir }}"
+
+docker exec {{ nexus_container_name }} /bin/sh -c "rm -rf {{ nexus_backup_dir }}/*"
+
+{% endif %}

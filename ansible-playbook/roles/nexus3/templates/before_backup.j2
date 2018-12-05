@@ -1,0 +1,46 @@
+{% if nexus_docker_backup_dir is defined %}
+
+# *****************************************************************************
+# Backup nexus3
+
+nexus_backup_task_id="{{ nexus_tasks[nexus_backup_task_name]['id'] }}"
+
+function nexus_task_get_state {
+    local taskid="$1"
+    local url="https://{{ nexus_hostname }}/service/rest/v1/tasks/${taskid}"
+    curl --user "bacula:{{ nexus_bacula_password }}" -s --request GET "$url" | python -c "import sys,json; print json.load(sys.stdin)['currentState']"
+}
+
+function nexus_task_wait_state() {
+    local taskid="$1"
+    local target_state="$2"
+    until [ "x$target_state" = "x$(nexus_task_get_state $taskid)" ];
+    do
+        sleep 10
+    done
+}
+
+function nexus_task_run() {
+    local taskid="$1"
+    local url="https://{{ nexus_hostname }}/service/rest/v1/tasks/${taskid}/run"
+
+    nexus_task_wait_state "$nexus_backup_task_id" "WAITING"
+    curl --user "bacula:{{ nexus_bacula_password }}" -s --request POST "$url"
+    nexus_task_wait_state "$nexus_backup_task_id" "WAITING"
+}
+
+docker run --rm -v {{ docker_backup_dir }}:{{ docker_backup_dir }}:z \
+    debian:latest /bin/sh -c "rm -rf {{ nexus_docker_backup_dir }}"
+
+mkdir -p -m u=rwx,g=rwx,o= {{ nexus_docker_backup_dir }}
+
+docker exec {{ nexus_container_name }} /bin/sh -c "rm -rf {{ nexus_backup_dir }}/*"
+
+echo "Backing up Nexus Repository Manager database and files"
+time nexus_task_run "$nexus_backup_task_id"
+
+echo "Archiving backup"
+time docker exec -i {{ nexus_container_name }} /bin/sh -c "\
+    cd {{ nexus_backup_dir }}; tar czf - *" > {{ nexus_docker_backup_archive }}
+
+{% endif %}

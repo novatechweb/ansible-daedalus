@@ -3,3 +3,24 @@
   vars:
     script_name: create_task
     args: "{{ item }}"
+
+- name: Get list of tasks
+  uri:
+    url: "{{hostvars.nexus.private_uri}}{{ nexus_rest_api_endpoint }}/tasks"
+    user: 'admin'
+    password: "{{ current_nexus_admin_password }}"
+    headers:
+      Content-Type: "application/json"
+    method: GET
+    status_code: 200,204
+    force_basic_auth: yes
+    body_format: json
+    return_content: yes
+  register: all_tasks
+
+- name: Store list of tasks
+  set_fact:
+    nexus_tasks: "{{ nexus_tasks | default({}) | combine({ task_item['name']: task_item }) }}"
+  loop: "{{ all_tasks['json']['items'] }}"
+  loop_control:
+    loop_var: task_item

@@ -17,12 +17,12 @@
 
 - name: Get rest API endpoint (v < 3.8.0)
   set_fact:
-    nexus_rest_api_endpoint: "service/siesta/rest/v1/script"
+    nexus_rest_api_endpoint: "service/siesta/rest/v1"
   when: nexus_version is version_compare('3.8.0', '<')
 
 - name: Get rest API endpoint (v >= 3.8.0)
   set_fact:
-    nexus_rest_api_endpoint: "service/rest/v1/script"
+    nexus_rest_api_endpoint: "service/rest/v1"
   when: nexus_version is version_compare('3.8.0', '>=')
 
 - name: Get path to database restore dir (v < 3.11.0)
@@ -60,6 +60,11 @@
 - name: Set first_install fact
   set_fact:
     nexus_first_install: '{{ nexus_data_dir_contents.ansible_facts.docker_container.Output == "" }}'
+
+- name: Create nexus backup volume
+  docker_volume:
+    name: '{{ nexus_backup_volume }}'
+    state: present
 
 - name: Start nexus container
   docker_container:
@@ -109,6 +114,11 @@
   retries: 20
   delay: 5
   until: nexus_ping.content == "pong\n"
+
+- name: Set permissions on backup volume
+  command:
+    docker exec -u root nexus3 chmod 777 {{nexus_backup_dir}}
+  changed_when: false
 
 - name: Declare groovy scripts in nexus
   include: declare_script_each.yml

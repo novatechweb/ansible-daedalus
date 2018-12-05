@@ -84,12 +84,12 @@
 
 - name: Get rest API endpoint (v < 3.8.0)
   set_fact:
-    nexus_rest_api_endpoint: "service/siesta/rest/v1/script"
+    nexus_rest_api_endpoint: "service/siesta/rest/v1"
   when: nexus_version is version_compare('3.8.0', '<')
 
 - name: Get rest API endpoint (v >= 3.8.0)
   set_fact:
-    nexus_rest_api_endpoint: "service/rest/v1/script"
+    nexus_rest_api_endpoint: "service/rest/v1"
   when: nexus_version is version_compare('3.8.0', '>=')
 
 - name: Get path to database restore dir (v < 3.11.0)
