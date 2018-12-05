@@ -9,11 +9,28 @@ c = WorkerConfig = {}
 
 
 DEFAULT_BBFLAGS = '-k'
+DEFAULT_BRANCH = 'morty'
+DEFAULT_CODEBASE = "ntel/setup-scripts"
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
 
 BETA_URI = os.getenv("NTEL_BETA_URI", default="http://127.0.0.1")
 RELEASE_URI = os.getenv("NTEL_RELEASE_URI", default="http://127.0.0.1")
 SSTATE_URI = os.getenv("NTEL_SSTATE_URI", default="http://127.0.0.1")
+
+NTEL_LAYERS = {
+    DEFAULT_CODEBASE: {
+        "repository": DEFAULT_REPO,
+        "branch": DEFAULT_BRANCH,
+        "revision": None
+    },
+    # TODO: Enable when update-layers.py is merged
+    # "ntel/meta-ntel",
+    # "ntel/meta-orion-bsp",
+    # "ntel/meta-backports",
+    # "ntel/meta-copalp",
+    # "ntel/meta-orion",
+    # "ntel/meta-sssd",
+}
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
@@ -34,8 +51,54 @@ c['change_source'] = [
 
 # SCHEDULERS
 c['schedulers'] = [
+    schedulers.SingleBranchScheduler(
+        name="ntel-push",
+        builderNames=[
+            "ntel-orionlxm",
+            "ntel-orionlx-cpx",
+            "ntel-orionlx-plus",
+            "ntel-orion-io",
+            "ntel-qemux86-64",
+            "ntel-all",
+        ],
+        change_filter=util.ChangeFilter(
+            category='push',
+        ),
+        codebases=NTEL_LAYERS,
+        properties={
+            'clobber': True,
+            'cache': True,
+            'release_pin': None,
+            'bbflags': DEFAULT_BBFLAGS,
+        },
+        treeStableTimer=5,
+    ),
+
+    schedulers.SingleBranchScheduler(
+        name="ntel-merge-request",
+        builderNames=[
+            "ntel-orionlxm",
+            "ntel-orionlx-cpx",
+            "ntel-orionlx-plus",
+            "ntel-orion-io",
+            "ntel-qemux86-64",
+            "ntel-all",
+        ],
+        change_filter=util.ChangeFilter(
+            category='merge_request',
+        ),
+        codebases=NTEL_LAYERS,
+        properties={
+            'clobber': False,
+            'cache': True,
+            'release_pin': None,
+            'bbflags': DEFAULT_BBFLAGS,
+        },
+        treeStableTimer=5,
+    ),
+
     schedulers.ForceScheduler(
-        name="Force",
+        name="ntel-force",
         label="Force NTEL OpenEmbedded Build",
         builderNames=[
             "ntel-orionlxm",
@@ -43,26 +106,21 @@ c['schedulers'] = [
             "ntel-orionlx-plus",
             "ntel-orion-io",
             "ntel-qemux86-64",
-            "ntel-all"
+            "ntel-all",
         ],
         codebases=[
             util.CodebaseParameter(
-                "",
-                label="Main repository",
-                # will generate a combo box
-                branch=util.StringParameter(
-                    name="branch",
-                    default="morty"),
+                DEFAULT_CODEBASE,
+                label="Build Source",
                 repository=util.StringParameter(
                     name="repository",
                     default=DEFAULT_REPO),
-
-                # will generate nothing in the form, but revision, repository,
-                # and project are needed by buildbot scheduling system so we
-                # need to pass a value ("")
-                revision=util.FixedParameter(name="revision", default=""),
-                project=util.FixedParameter(
-                    name="project", default="ntel-oe"),
+                branch=util.StringParameter(
+                    name="branch",
+                    default="morty"),
+                revision=util.StringParameter(
+                    name="revision",
+                    default="")
             )
         ],
         properties=[
@@ -84,46 +142,39 @@ c['schedulers'] = [
                 label="BitBake Options",
                 default=DEFAULT_BBFLAGS),
             util.StringParameter(
-                name="release_pin",
-                label="PIN for release signing",
+                name='version',
+                label='Build Version',
                 default='',
-                required=False,
-            ),
-            util.StringParameter(
-                name='bbflags',
-                label="BitBake Options",
-                default=DEFAULT_BBFLAGS
-            ),
+                required=False),
         ],
     ),
 
     schedulers.Nightly(
         name="ntel-nightly",
-        branch=None,
         builderNames=[
             "ntel-orionlxm",
             "ntel-orionlx-cpx",
             "ntel-orionlx-plus",
             "ntel-orion-io",
             "ntel-qemux86-64",
-            "ntel-all"
+            "ntel-all",
         ],
-        codebases={
-            '': {
-                'repository': DEFAULT_REPO,
-                'branch': 'morty',
-                'revision': '',
-            }
-        },
+        change_filter=util.ChangeFilter(
+            codebase=DEFAULT_CODEBASE,
+        ),
+        codebases=[
+            DEFAULT_CODEBASE
+        ],
+        onlyIfChanged=True,
         properties={
             'clobber': True,
             'cache': True,
-            'bbflags': DEFAULT_BBFLAGS
+            'bbflags': DEFAULT_BBFLAGS,
         },
-        hour=22
-    ),
-
+        hour=22,
+    )
 ]
+
 
 # BUILDERS
 # The 'builders' list defines the Builders, which tell Buildbot how to perform
@@ -316,6 +367,40 @@ class BitBakeArchive(steps.ShellSequence):
         return steps.ShellSequence.runShellSequence(self, commands)
 
 
+class UpdateNtelLayers(steps.ShellSequence):
+
+    def __init__(self, **kwargs):
+        kwargs = self.setupShellMixin(kwargs)
+        steps.ShellSequence.__init__(self, **kwargs)
+
+    def run(self):
+        commands = []
+        changes = self.getProperties().changes
+        for c in changes:
+            cmd = [
+                'python',
+                'scripts/update-layer.py',
+                '--file=sources/layers.txt',
+                '--revision=%s' % (c['revision']),
+            ]
+
+            if c['category'] == 'merge_request':
+                url, _ = c['properties']['source_git_ssh_url']
+                cmd.append('--repository=%s' % (url))
+
+                branch, _ = c['properties']['source_branch']
+                cmd.append('--branch=%s' % (branch))
+
+            cmd.append(c['project'])
+
+            commands.append(util.ShellArg(
+                command=cmd,
+                logfile='stdio',
+                haltOnFailure=True
+            ))
+        return steps.ShellSequence.runShellSequence(self, commands)
+
+
 class BitBakeFactory(util.BuildFactory):
 
     def __init__(self, *build_steps):
@@ -324,10 +409,13 @@ class BitBakeFactory(util.BuildFactory):
         self.addStep(steps.GitLab(
             repourl=util.Property('repository', default=DEFAULT_REPO),
             branch=util.Property('branch', default=DEFAULT_BRANCH),
+            codebase=util.Property('codebase', default=DEFAULT_CODEBASE),
             mode=util.Interpolate("%(prop:clobber:#?|full|incremental)s"),
             method="clobber",
             locks=[git_lock.access('exclusive')],
             retry=(360, 5)))
+        # # TODO: Enable when update-layers.py is merged
+        # # self.addStep(UpdateNtelLayers())
         self.addStep(steps.ShellCommand(
             name="configure",
             description="configuring",
