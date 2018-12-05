@@ -3,6 +3,8 @@ import org.sonatype.nexus.scheduling.TaskConfiguration
 import org.sonatype.nexus.scheduling.TaskInfo
 import org.sonatype.nexus.scheduling.TaskScheduler
 import org.sonatype.nexus.scheduling.schedule.Schedule
+import org.sonatype.nexus.scheduling.schedule.Monthly.CalendarDay
+import org.sonatype.nexus.scheduling.schedule.Weekly.Weekday
 
 parsed_args = new JsonSlurper().parseText(args)
 
@@ -29,6 +31,26 @@ if (parsed_args.task_alert_email) {
 
 parsed_args.booleanTaskProperties.each { key, value -> taskConfiguration.setBoolean(key, Boolean.valueOf(value)) }
 
-Schedule schedule = taskScheduler.scheduleFactory.cron(new Date(), parsed_args.cron)
+Schedule schedule
+
+if (parsed_args.cron) {
+    schedule = taskScheduler.scheduleFactory.cron(new Date(), parsed_args.cron)
+} else if (parsed_args.daily) {
+    schedule = taskScheduler.scheduleFactory.daily(new Date())
+} else if (parsed_args.hourly) {
+    schedule = taskScheduler.scheduleFactory.hourly(new Date())
+} else if (parsed_args.monthly) {
+    Set<CalendarDay> days
+    parsed_args.monthly.each { value -> days.add(CalendarDay.day(Integer.valueOf(value))) }
+    schedule = taskScheduler.scheduleFactory.monthly(new Date(), parsed_args.monthly)
+} else if (parsed_args.once) {
+    schedule = taskScheduler.scheduleFactory.once(new Date())
+} else if (parsed_args.weekly) {
+    Set<Weekday> days
+    parsed_args.weekly.each { value -> days.add(Weekday.valueOf(value)) }
+    schedule = taskScheduler.scheduleFactory.weekly(new Date(), parsed_args.weekly)
+} else {
+    schedule = taskScheduler.scheduleFactory.manual()
+}
 
 taskScheduler.scheduleTask(taskConfiguration, schedule)
