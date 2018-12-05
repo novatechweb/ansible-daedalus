@@ -10,19 +10,6 @@
     - buildsystem_database_root_password is defined
     - docker_restore_config_base_dir is defined
 
-
-- name: Check that docker is installed
-  yum:
-    name: docker
-    state: present
-
-
-- name: Make sure docker service is started
-  service:
-    name: docker
-    state: started
-
-
 - name: Make directory for checkout
   file:
     mode: 0775
