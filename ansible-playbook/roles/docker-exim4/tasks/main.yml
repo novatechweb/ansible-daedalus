@@ -76,6 +76,12 @@
 # *****************************************************************************
 # Update or make the image.
 
+- name: Checkout image repo
+  git:
+    repo: '{{ exim4_image_repo }}'
+    version: master
+    dest: '{{ docker_projects_dir }}/docker-exim4'
+
 - name: build image
   docker_build:
     image_name: '{{ exim4_image_name }}'

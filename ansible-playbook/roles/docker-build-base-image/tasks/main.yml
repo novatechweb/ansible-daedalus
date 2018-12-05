@@ -10,6 +10,7 @@
     repo: '{{ item.value.repo }}'
     dest: '{{ docker_projects_dir }}/base-images/{{ item.key }}'
     clone: yes
+    key_file: '/home/ansibleremote/.ssh/id_rsa'
     recursive: yes
     update: yes
     version: '{{ item.value.commit_id }}'
