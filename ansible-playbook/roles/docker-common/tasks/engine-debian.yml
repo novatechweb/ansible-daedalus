@@ -1,0 +1,42 @@
+---
+- name: remove obsolete docker engines
+  apt:
+    state: absent
+    name:
+    - docker
+    - docker-engine
+    - docker.io
+
+- name: install docker-ce prerequisites
+  apt:
+    state: present
+    name:
+    - apt-transport-https 
+    - ca-certificates 
+    - curl 
+    - gnupg2 
+    - software-properties-common
+    - python-pip
+
+- name: install docker-ce gpg key
+  apt_key:
+    state: present
+    id: 0EBFCD88
+    url: https://download.docker.com/linux/debian/gpg
+
+- name: add docker-ce apt repository
+  apt_repository:
+    state: present
+    filename: docker-ce
+    repo: >
+      deb [arch=amd64] 
+      https://download.docker.com/linux/debian
+      {{ansible_facts.distribution_release}}
+      stable
+    update_cache: yes
+
+- name: install docker-ce
+  apt:
+    state: present
+    name:
+    - docker-ce
