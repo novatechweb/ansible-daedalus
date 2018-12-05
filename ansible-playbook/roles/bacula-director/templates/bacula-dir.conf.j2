@@ -108,9 +108,6 @@ FileSet {
 #    directory to give a reasonable FileSet to backup to
 #    disk storage during initial testing.
 #
-    {% if bacula_director_backup_vms is defined %}
-    File = /var/lib/libvirt/backup
-    {% endif %}
     File = /tmp/docker
   }
 
