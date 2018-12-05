@@ -1,0 +1,45 @@
+---
+# file: roles/docker-common/tasks/ip_addr.yaml
+
+- name: install needed network manager libs
+  yum:
+    name: NetworkManager-glib
+    state: installed
+  notify: Restart NetworkManager
+
+# nmcli always returns 'changed', so we need
+# to manually detect changes to the interface file
+- name: Get interface checksum
+  command: nmcli connection show "{{ network_connection }}"
+  register: network_pre
+  changed_when: false
+
+- name: Add service IP addresses
+  command: >
+    nmcli connection
+    modify '{{ network_connection }}'
+    +ipv4.addresses '{{ ip_addr }}'
+  changed_when: true
+  vars:
+    ip_addr: '{{ lookup("vars", item + "_ip_addr") }}/{{ subnet | ipaddr("prefix") }}'
+  loop: "{{ services }}"
+
+
+- name: Enable ipv4 forwarding for Docker
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+  when: ansible_os_family == "RedHat"
+
+- name: Get interface checksum
+  command: nmcli connection show "{{ network_connection }}"
+  register: network_post
+  changed_when: false
+
+- name: make IPs active if needed
+  command: nmcli connection up "{{ network_connection }}"
+  when:
+    - ( network_pre != network_post )

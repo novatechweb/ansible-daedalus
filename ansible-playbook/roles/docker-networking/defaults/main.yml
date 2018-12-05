@@ -1,2 +1,5 @@
 ---
 # defaults file for docker-networking
+
+docker_network_backend: backend
+docker_network_frontend: frontend

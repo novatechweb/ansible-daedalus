@@ -118,6 +118,9 @@
     detach: true
     image: '{{ redis_image_name }}:{{ docker_image_tag }}'
     name: '{{ gitlab_redis_container_name }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
 
 - name: start container (postgres)
@@ -125,6 +128,9 @@
     detach: true
     image: '{{ gitlab_db_image_name }}:{{ docker_image_tag }}'
     name: '{{ gitlab_db_container_name }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
     volumes_from: '{{ gitlab_db_dv_name }}'
 
@@ -132,25 +138,28 @@
   docker_container:
     detach: true
     env:
-      - GITLAB_HOST={{ container_addr_map.git.hostname }}
-      - GITLAB_SSH_HOST={{ container_addr_map.git.hostname }}
+      - GITLAB_HOST={{ gitlab_hostname }}
+      - GITLAB_SSH_HOST={{ gitlab_hostname }}
       - DB_USER={{ gitlab_db_user }}
       - DB_PASS={{ gitlab_db_password | quote }}
-      - SMTP_HOST={{ container_addr_map.exim4.hostname }}
+      - SMTP_HOST={{ exim4_hostname }}
       - SMTP_PASS={{ gitlab_email_password | quote }}
       - LDAP_PASS={{ ldap_proxyagent_password | quote }}
       - GITLAB_ROOT_PASSWORD={{ gitlab_root_password | quote }}
       - GITLAB_SECRETS_DB_KEY_BASE={{ gitlab_secrets_db_key_base | quote }}
     env-file: '{{ docker_projects_dir }}/docker-gitlab/gitlab.env.list'
-    hostname: '{{ container_addr_map.git.hostname }}'
+    hostname: '{{ gitlab_container_name }}'
     image: '{{ gitlab_image_name }}:{{ docker_image_tag }}'
-    link:
-      - '{{ openldap_container_name }}:gitlab-ldap'
-      - '{{ gitlab_redis_container_name }}:gitlab-redis'
-      - '{{ gitlab_db_container_name }}:gitlab-db'
-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
     name: '{{ gitlab_container_name }}'
-    ports: '{{ container_port_map.git.port_args }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+        links:
+          - '{{ openldap_container_name }}:gitlab-ldap'
+          - '{{ gitlab_redis_container_name }}:gitlab-redis'
+          - '{{ gitlab_db_container_name }}:gitlab-db'
+          - '{{ exim4_container_name }}:{{ exim4_hostname }}'
+    ports: '{{ gitlab_port_args }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
     volumes_from:
       - '{{ openssl_dv_name }}'
@@ -159,7 +168,7 @@
 - name: Wait for gitlab to be fully running
   wait_for:
     delay: 10
-    host: '{{ container_addr_map.git.ip_addr }}'
+    host: '{{ gitlab_network.ip_addr }}'
     port: 22
     state: started
     timeout: 180

@@ -1,19 +1,19 @@
 # Variables that are used by the role, but defined at the playbook level.
 # docker_projects_dir
-# container_addr_map.build.ip_addr
-# container_addr_map.testssh.ip_addr
+# build_ip_addr
+# testssh_ip_addr
 # buildsystem_ssh_prod_user_password
 # buildsystem_ssh_root_user_password
 # buildsystem_database_root_password
 
 buildsystem:
     port_args:
-      - '{{ container_addr_map.build.ip_addr }}:80:80'
-      - '{{ container_addr_map.build.ip_addr }}:443:443'
+      - '80'
+      - '443'
 
 test_ssh:
     port_args:
-    - '{{ container_addr_map.testssh.ip_addr }}:2200:22'
+    - '22'
 
 # restore directories to temporarly store data being restored into docker containers
 backup_buildsystem_docker_dir: '{{ docker_backup_dir }}/buildsystem'

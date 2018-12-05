@@ -1,2 +1,6 @@
 ---
-# handlers file for docker-networking
+
+- name: Restart NetworkManager
+  service:
+    name: NetworkManager
+state: restarted

@@ -129,6 +129,9 @@
       MYSQL_ROOT_PASSWORD: '{{ mantisbt_db_root_password }}'
       MYSQL_USER: '{{ mantisbt_db_user }}'
       MYSQL_PASSWORD: '{{ mantisbt_db_password }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+    purge_networks: true
 
 - name: wait for initialization to complete
   shell: >
@@ -150,18 +153,22 @@
   docker_container:
     detach: true
     env:
-      MANTISBT_HOSTNAME: '{{ container_addr_map.mantisbt.hostname }}'
+      MANTISBT_HOSTNAME: '{{ mantisbt_hostname }}'
       MANTISBT_MAIL_USER: 'mantis'
       MANTISBT_MAIL_PASSWORD: '{{ mantisbt_email_password | quote }}'
       MANTISBT_LDAP_PASSWORD: '{{ openldap_proxyagent_password | quote }}'
-    hostname: '{{ container_addr_map.mantisbt.hostname }}'
+    hostname: '{{ mantisbt_container_name }}'
     image: '{{ mantisbt_image_name }}:{{ docker_image_tag }}'
-    link:
-      - '{{ openldap_container_name }}:mantisbt_ldap'
-      - '{{ mantisbt_db_container_name }}:mantisbt_db'
-      - '{{ exim4_container_name }}:{{ container_addr_map.exim4.hostname }}'
     name: '{{ mantisbt_container_name }}'
-    ports: '{{ container_port_map.mantisbt.port_args }}'
+    networks:
+      - name: '{{ docker_network_frontend }}'
+        aliases:
+          - '{{ mantisbt_hostname }}'
+        links:
+          - '{{ openldap_container_name }}:mantisbt_ldap'
+          - '{{ mantisbt_db_container_name }}:mantisbt_db'
+    ports: '{{ mantisbt_port_args }}'
+    purge_networks: true
     restart_policy: '{{ docker_restart_policy }}'
     volumes:
       - '{{ openssl_dv_name }}:/etc/ssl/private:z'

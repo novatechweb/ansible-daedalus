@@ -3,8 +3,8 @@
   assert:
     that:
     - docker_projects_dir is defined
-    - container_addr_map.build.ip_addr is defined
-    - container_addr_map.testssh.ip_addr is defined
+    - build_ip_addr is defined
+    - testssh_ip_addr is defined
     - buildsystem_ssh_prod_user_password is defined
     - buildsystem_ssh_root_user_password is defined
     - buildsystem_database_root_password is defined
