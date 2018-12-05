@@ -9,7 +9,9 @@ container_addr_map:
 # the port mappings used when starting the container
 container_port_map:
   svn:
-    port_args: '-P'
+    port_args: 
+      - '{{ container_addr_map.svn.ip_addr }}:80:80'
+      - '{{ container_addr_map.svn.ip_addr }}:443:443'
 
 # The repositories that will be created/imported durring a data-volume restore
 svn_repos: 'example'

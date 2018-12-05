@@ -9,7 +9,9 @@ container_addr_map:
 # the port mappings used when starting the container
 container_port_map:
   wiki:
-    port_args: '-P'
+    port_args:
+      - '{{ container_addr_map.wiki.ip_addr }}:80:80'
+      - '{{ container_addr_map.wiki.ip_addr }}:443:443'
 
 # database usernames and passwords
 wiki_db_user: novatech
