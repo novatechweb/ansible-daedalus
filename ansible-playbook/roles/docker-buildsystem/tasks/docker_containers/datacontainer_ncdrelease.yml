@@ -7,6 +7,7 @@
     name: "{{ name_prefix }}teststation_http_data_ncdrelease_image"
     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_http_data_ncdrelease.dir_name }}"
     state: "{{ image_build_state_data }}"
+    force: "{{ docker_image_force_build }}"
 
 - name: Start docker container - Test Station ncd release data
   docker_container:
