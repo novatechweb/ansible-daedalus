@@ -13,11 +13,11 @@
     recursive: yes
     update: yes
     version: '{{ item.value.commit_id }}'
-  with_dict: docker_build_base_images
+  with_dict: "{{ docker_build_base_images }}"
 
 - name: build image
   docker_build:
     image_name: '{{ item.value.image_name }}'
     image_tag: '{{ item.value.image_tag }}'
     dockerfile_dir: '{{ docker_projects_dir }}/base-images/{{ item.key }}/{{ item.value.relative_dir }}'
-  with_dict: docker_build_base_images
+  with_dict: "{{ docker_build_base_images }}"

@@ -9,6 +9,6 @@
     image_name: '{{ item.value.image }}'
     pull_image_tag: '{{ item.value.tag }}'
     working_image_tag: '{{ docker_image_tag }}'
-  with_dict: repository_images
+  with_dict: "{{ repository_images }}"
   tags:
     - docker_pull

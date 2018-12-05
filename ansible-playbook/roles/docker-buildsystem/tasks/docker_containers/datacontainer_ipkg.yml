@@ -9,7 +9,7 @@
     state: "{{ image_build_state_data }}"
 
 - name: Start docker container - Test Station ipkg data
-  docker: 
+  docker_container: 
     detach: True
     image: "{{ name_prefix }}teststation_http_data_ipkg_image"
     name: "{{ name_prefix }}TestStation_http_data_ipkg"

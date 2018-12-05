@@ -8,17 +8,21 @@
 - name: Stop bacula-sd service
   service: name=bacula-sd state=stopped
 - name: Create temp directory for restore
-  command: mktemp -d /tmp/bacula-catalog-restore.XXXXXXXX
+  tempfile:
+      state: directory
+      prefix: bacula-catalog-restore.
   register: restore_tmp_dir
 - name: Extract catalog from tape
-  command: /usr/sbin/bextract -b /var/spool/bacula/BackupCatalog.bsr /dev/nst0 {{ restore_tmp_dir.stdout }}
+  command: /usr/sbin/bextract -b /var/spool/bacula/BackupCatalog.bsr /dev/nst0 {{ restore_tmp_dir.path }}
+  changed_when: true
 - name: Start bacula-sd service
   service: name=bacula-sd state=started
 - name: Stop bacula-dir service
   service: name=bacula-dir state=stopped
 - name: Restore Bacula catalog from file
-  shell: /usr/bin/mysql bacula < {{ restore_tmp_dir.stdout }}/var/spool/bacula/bacula.sql
+  shell: /usr/bin/mysql bacula < {{ restore_tmp_dir.path }}/var/spool/bacula/bacula.sql
+  changed_when: true
 - name: Start bacula-dir service
   service: name=bacula-dir state=started
 - name: Delete temp directory
-  file: path={{ restore_tmp_dir.stdout }} state=absent
+  file: path={{ restore_tmp_dir.path }} state=absent

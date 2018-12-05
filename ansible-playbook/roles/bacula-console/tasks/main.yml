@@ -1,5 +1,6 @@
 ---
-- assert:
+- name: Check preconditions
+  assert:
     that:
     - bacula_director_password is defined
 - name: Install/setup Bacula Console

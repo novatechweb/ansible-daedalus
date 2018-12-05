@@ -1,5 +1,6 @@
 ---
-- assert:
+- name: Check preconditions
+  assert:
     that:
     - bacula_director_password is defined
     - bacula_monitor_password is defined
@@ -12,5 +13,6 @@
           owner=bacula group=bacula mode=0640 backup=yes
 - name: Test Bacula client configuration
   command: /usr/sbin/bacula-fd -t -c {{ bacula_client_config_dir }}/bacula-fd.conf
+  changed_when: false
 - name: Enable and start Bacula Client
   service: name=bacula-fd enabled=yes state=started

@@ -27,7 +27,7 @@
     state: "{{ image_build_state_nondata }}"
 
 - name: Start docker container - Test Station production ssh server temp.
-  docker:
+  docker_container:
     detach: True
     image: "{{ name_prefix }}teststation_ssh_server_manualtest_image"
     name: "{{ name_prefix }}TestStation_ssh_server_manualtest"

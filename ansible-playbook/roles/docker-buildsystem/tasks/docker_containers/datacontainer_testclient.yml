@@ -3,13 +3,13 @@
 # Test Client Data Container
 #---------------------------------------------------------
 - name: Build docker image ----- Test Station test client data
-  docker_image: 
+  docker_image:
     name: "{{ name_prefix }}teststation_http_data_testclient_image"
     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_http_data_testclient.dir_name }}"
     state: "{{ image_build_state_data }}"
 
 - name: Start docker container - Test Station  test client data
-  docker: 
+  docker_container:
     detach: True
     image: "{{ name_prefix }}teststation_http_data_testclient_image"
     name: "{{ name_prefix }}TestStation_http_data_testclient"

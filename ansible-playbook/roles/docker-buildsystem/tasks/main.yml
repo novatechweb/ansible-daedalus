@@ -1,5 +1,6 @@
 ---
-- assert:
+- name: Check preconditions
+  assert:
     that:
     - docker_projects_dir is defined
     - container_addr_map.build.ip_addr is defined
@@ -37,22 +38,22 @@
   with_dict: "{{ build_system_docker_repos }}"
 
 
-- include: docker_containers/datacontainer_buildsystem.yml
-- include: docker_containers/datacontainer_database.yml
-#- include: docker_containers/datacontainer_ipkg.yml
-- include: docker_containers/datacontainer_iso.yml
-- include: docker_containers/datacontainer_ncdrelease.yml
-- include: docker_containers/datacontainer_testclient.yml
-- include: docker_containers/datacontainer_tftp.yml
+- import_tasks: docker_containers/datacontainer_buildsystem.yml
+- import_tasks: docker_containers/datacontainer_database.yml
+#- import_tasks: docker_containers/datacontainer_ipkg.yml
+- import_tasks: docker_containers/datacontainer_iso.yml
+- import_tasks: docker_containers/datacontainer_ncdrelease.yml
+- import_tasks: docker_containers/datacontainer_testclient.yml
+- import_tasks: docker_containers/datacontainer_tftp.yml
 
-- include: docker_containers/server_database.yml
-- include: docker_containers/service_cron.yml
-- include: docker_containers/server_tftp.yml
-- include: docker_containers/server_ssh.yml
-- include: docker_containers/server_http.yml
-- include: docker_containers/server_ssh_prod.yml
+- import_tasks: docker_containers/server_database.yml
+- import_tasks: docker_containers/service_cron.yml
+- import_tasks: docker_containers/server_tftp.yml
+- import_tasks: docker_containers/server_ssh.yml
+- import_tasks: docker_containers/server_http.yml
+- import_tasks: docker_containers/server_ssh_prod.yml
 
-- include: docker_containers/service_backup.yml
+- import_tasks: docker_containers/service_backup.yml
 
 - name: Copy Build System default ssh key to user directroy
   fetch:
@@ -61,7 +62,7 @@
     flat: yes
 
 - name: Setting ssh key file permissions
-  sudo: false
+  become: false
   local_action:
     module: file
     path: ~/.ssh/id_rsa_buildsystem_default
@@ -131,5 +132,5 @@
 # *****************************************************************************
 # restore?
 
-- include: restore.yml
+- import_tasks: restore.yml
   when: st_buildsystem_restore.stat.exists == False

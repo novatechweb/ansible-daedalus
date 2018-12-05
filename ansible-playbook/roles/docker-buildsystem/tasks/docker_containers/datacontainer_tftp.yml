@@ -3,13 +3,13 @@
 # TFTP Data Container
 #---------------------------------------------------------
 - name: Build docker image ----- Test Station tftp data
-  docker_image: 
+  docker_image:
     name: "{{ name_prefix }}teststation_tftp_data_image"
     path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_tftp_data.dir_name }}"
     state: "{{ image_build_state_data }}"
 
 - name: Start docker container - Test Station tftp data
-  docker: 
+  docker_container:
     detach: True
     image: "{{ name_prefix }}teststation_tftp_data_image"
     name: "{{ name_prefix }}TestStation_tftp_data"

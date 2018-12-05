@@ -3,7 +3,8 @@
 
 # This will generate passwords for these accounts.
 # A manuel step of setting the passwords into the LDAP database is required
-- assert:
+- name: Check preconditions
+  assert:
     that:
     - ldap_admin_password is defined
     - ldap_proxyagent_password is defined
@@ -99,7 +100,7 @@
 # *****************************************************************************
 # restore?
 
-- include: restore.yml
+- include_tasks: restore.yml
   when: st_openldap_restore.stat.exists == False
 
 # *****************************************************************************

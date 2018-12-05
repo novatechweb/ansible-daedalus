@@ -1,5 +1,6 @@
 ---
-- assert: { that: vm_name is defined }
+- name: Check preconditions
+  assert: { that: vm_name is defined }
 - include: volume.yml
 - include: domain.yml
 - name: Start domain
