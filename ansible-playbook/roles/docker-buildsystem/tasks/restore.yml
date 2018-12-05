@@ -46,6 +46,44 @@
   with_items: '{{ buildsystem_restore_files.file_list | default([]) }}'
 
 # *****************************************************************************
+# For old backups that included the mysql database.
+# Can remove this section once those old backups are obsolete
+
+- name: create temporary location for editing
+  tempfile:
+    path: '{{ restore_buildsystem_docker_dir }}'
+    state: file
+    suffix: sql
+  register: backup_tmpfile
+
+- name: copy database dump to temporary file
+  copy:
+    remote_src: true
+    src: '{{ restore_buildsystem_docker_dir }}/buildsystem_backup.sql'
+    dest: '{{ backup_tmpfile.path }}'
+
+- name: begin marking database dump
+  lineinfile:
+    backup: yes
+    insertafter: "^-- Current Database: `mysql`"
+    line: "-- BEGIN ANSIBLE MANAGED BLOCK"
+    path: '{{ backup_tmpfile.path }}'
+
+- name: end marking database dump
+  lineinfile:
+    backup: yes
+    insertbefore: "^-- Current Database: `protocol`"
+    line: "-- END ANSIBLE MANAGED BLOCK"
+    path: '{{ backup_tmpfile.path }}'
+
+- name: cleanup database dump
+  blockinfile:
+    backup: yes
+    marker: "-- {mark} ANSIBLE MANAGED BLOCK"
+    content: ""
+    path: '{{ backup_tmpfile.path }}'
+
+# *****************************************************************************
 # restore the build system backup
 
 - name: restore build system repositories
