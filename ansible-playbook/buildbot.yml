@@ -8,7 +8,13 @@
   tags:
     - buildbot
     - buildbot-master
+  vars:
+    known_hosts: "{{gitlab_keys.stdout}}"
   tasks:
+    - name: Scan Gitlab ssh keys
+      command: ssh-keyscan {{gitlab_hostname}}
+      register: gitlab_keys
+      changed_when: false
     - name: Build and start the Buildbot master container
       import_role:
         name: buildbot-master
@@ -25,7 +31,12 @@
     - buildbot-worker-ptxdist
   vars:
     buildbot_master: "{{ buildbot_hostname }}"
+    known_hosts: "{{ gitlab_keys.stdout }}"
   tasks:
+    - name: Scan Gitlab ssh keys
+      command: ssh-keyscan {{gitlab_hostname}}
+      register: gitlab_keys
+      changed_when: false
     - name: Build and start the Buildbot worker container
       import_role:
         name: buildbot-worker-ntel

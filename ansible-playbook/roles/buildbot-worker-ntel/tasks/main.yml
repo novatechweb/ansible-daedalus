@@ -67,15 +67,16 @@
   loop:
     - '{{ buildbot_worker_ntel_sshkey }}'
 
-# - name: Populate config templates
-#   template:
-#     src: "{{ item }}.j2"
-#     dest: "{{ config_hostdir }}/{{ item }}"
-#     group: '{{ buildbot_uid }}'
-#     owner: '{{ buildbot_uid }}'
-#     mode: "u=rw,g=,o="
-#     unsafe_writes: yes
-#   loop:
+- name: Populate config templates
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ config_hostdir }}/{{ item }}"
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
+    mode: "u=rw,g=,o="
+    unsafe_writes: yes
+  loop:
+    - known_hosts
 
 - name: Populate archival script
   copy:

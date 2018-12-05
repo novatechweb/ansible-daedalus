@@ -41,6 +41,7 @@
     unsafe_writes: yes
   loop:
     - buildbot.tac
+    - known_hosts
 
 - name: Checkout image repo
   git:

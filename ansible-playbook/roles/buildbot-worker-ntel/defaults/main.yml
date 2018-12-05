@@ -50,6 +50,7 @@ container_volumes:
 - '{{ cache_volume }}:{{ cache_path }}:z'
 - '{{ config_hostdir }}/ci-archive.sh:/usr/local/bin/ci-archive.sh'
 - '{{ config_hostdir }}/{{ buildbot_worker_ntel_sshkey | basename }}:/home/buildbot/.ssh/id_rsa'
+- '{{ config_hostdir }}/known_hosts:/home/buildbot/.ssh/known_hosts'
 
 # mount path of the data volume
 data_path: '/buildbot'

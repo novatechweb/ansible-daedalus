@@ -76,6 +76,7 @@ container_volumes:
   - '{{ config_hostdir }}/openembedded.py:{{ data_path }}/openembedded.py'
   - '{{ config_hostdir }}/ptxdist.py:{{ data_path }}/ptxdist.py'
   - '{{ config_hostdir }}/{{ buildbot_master_sshkey | basename }}:/home/buildbot/.ssh/id_rsa'
+  - '{{ config_hostdir }}/known_hosts:/home/buildbot/.ssh/known_hosts'
 
 # mount path of the data volume
 data_path: '/buildbot'

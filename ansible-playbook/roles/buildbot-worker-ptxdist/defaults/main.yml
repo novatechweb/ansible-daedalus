@@ -52,6 +52,7 @@ container_volumes:
 - '{{ config_hostdir }}/ptxdistrc:/home/buildbot/.ptxdist/ptxdistrc-2012.09'
 - '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
 - '{{ config_hostdir }}/{{ buildbot_worker_ptxdist_sshkey | basename }}:/home/buildbot/.ssh/id_rsa'
+- '{{ config_hostdir }}/known_hosts:/home/buildbot/.ssh/known_hosts'
 
 # mount path of the data volume
 data_path: '/buildbot'
