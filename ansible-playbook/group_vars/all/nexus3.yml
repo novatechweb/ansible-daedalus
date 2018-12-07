@@ -46,6 +46,8 @@ ldap_connections:
     ldap_user_subtree: false
     ldap_group_subtree: true
 
+nexus_anonymous_access: true
+
 nexus_privileges:
   - name: all-repos-read  # used as key to update a privilege
     description: 'Read & Browse access to all repos'
@@ -55,12 +57,38 @@ nexus_privileges:
       - browse
 
 nexus_roles:
+  - id: anonymous
+    name: anonymous
+    description: Selective anonymous access
+    privileges:
+      - nx-repository-view-pypi-pypi-browse
+      - nx-repository-view-pypi-pypi-read
+      - nx-repository-view-docker-docker-browse
+      - nx-repository-view-docker-docker-read
+      - nx-repository-view-raw-debian-browse
+      - nx-repository-view-raw-debian-read
+      - nx-repository-view-raw-download-browse
+      - nx-repository-view-raw-download-read
+      - nx-repository-view-raw-gnu-browse
+      - nx-repository-view-raw-gnu-read
+      - nx-repository-view-raw-kernel-browse
+      - nx-repository-view-raw-kernel-read
+      - nx-repository-view-raw-orphans-browse
+      - nx-repository-view-raw-orphans-read
+      - nx-repository-view-raw-sourceforge-browse
+      - nx-repository-view-raw-sourceforge-read
+      - nx-repository-view-raw-ubuntu-archive-browse
+      - nx-repository-view-raw-ubuntu-archive-read
+      - nx-repository-view-raw-xorg-browse
+      - nx-repository-view-raw-xorg-read
+    roles: []
   - id: Developers  # can map to a LDAP group id, also used as a key to update a role
     name: developers
     description: All developers
     privileges:
       - nx-search-read
       - all-repos-read
+      - nx-repository-view-*-*-*
     roles: []
 
 nexus_local_users:
