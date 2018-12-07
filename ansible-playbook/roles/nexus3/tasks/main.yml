@@ -18,7 +18,7 @@
 - include: nexus_install.yml
 
 - include: httpd_reverse_proxy_config.yml
-  when: httpd_setup_enable
+  when: ((not docker) and (httpd_setup_enable))
 
 - include: admin_password_setup.yml
 
@@ -182,7 +182,7 @@
   vars:
     script_name: setup_base_url
     args:
-      base_url: "https://{{ public_hostname }}/"
+      base_url: "https://{{ nexus_hostname }}/"
 
 - include: call_script.yml
   vars:

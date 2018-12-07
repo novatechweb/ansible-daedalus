@@ -1,10 +1,13 @@
-nexus_version: 3.13.0
+nexus_version: '3.14.0'
 nexus_networks:
   - name: '{{ docker_network_frontend }}'
     aliases:
       - '{{ nexus_hostname }}'
 nexus_host_docker: true
 nexus_default_port: 8081
+
+nexus_java_url: 'http://download.oracle.com/otn-pub/java/jdk/8u192-b12/750e1c8617c5452694857ad95c3ee230/server-jre-8u192-linux-x64.tar.gz'
+nexus_java_sha256: '3d811a5ec65dc6fc261f488757bae86ecfe285a79992363b016f60cdb4dbe7e6'
 
 nexus_email_server_enabled: true
 nexus_email_server_host: "mail.novatech-llc.com"
@@ -32,11 +35,16 @@ ldap_connections:
     ldap_user_id_attribute: 'uid'
     ldap_user_real_name_attribute: 'cn'
     ldap_user_email_attribute: 'mail'
+    ldap_map_groups_as_roles: yes
+    ldap_map_groups_as_roles_type: "static"
+    ldap_user_memberof_attribute: ""
     ldap_group_base_dn: 'ou=group'
     ldap_group_object_class: 'posixGroup'
-    ldap_group_id_attribute: 'gidNumber'
+    ldap_group_id_attribute: 'cn'
     ldap_group_member_attribute: 'memberUid'
     ldap_group_member_format: '${username}'
+    ldap_user_subtree: false
+    ldap_group_subtree: true
 
 nexus_privileges:
   - name: all-repos-read  # used as key to update a privilege

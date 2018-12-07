@@ -134,7 +134,7 @@ Allow [anonymous access](https://help.sonatype.com/display/NXRM3/Anonymous+Acces
 
 ### Public hostname
 ```yaml
-    public_hostname: 'nexus.vm'
+    nexus_hostname: 'nexus.vm'
 ```
 
 The fully qualified domain name under which the nexus instance will be accessible to its clients.
@@ -441,7 +441,7 @@ nexus_npm_bearer_token_realm: false
 nexus_docker_bearer_token_realm: false  # required for docker anonymous access
 ```
 
-The Remote User Realm can also be enabled with 
+The Remote User Realm can also be enabled with
 
 ```yaml
 nexus_rut_auth_realm: true
