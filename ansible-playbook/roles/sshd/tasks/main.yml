@@ -1,5 +1,17 @@
 ---
-- name: Set ListenAddress
-  replace: dest=/etc/ssh/sshd_config regexp='#ListenAddress 0.0.0.0' replace='ListenAddress {{ ansible_br0["ipv4"]["address"] }}' backup=yes
-- name: Restart sshd
-  service: name=sshd state=restarted
+# tasks file for sshd
+
+- name: lockdown root user
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^[#]?PermitRootLogin .*$'
+    line: 'PermitRootLogin no'
+    state: present
+  notify: "restart sshd service"
+
+- name: Set ssh ListenAddress
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: '^[#]?ListenAddress .*$'
+    line: 'ListenAddress {{ ansible_default_ipv4["address"] }}'
+  notify: "restart sshd service"
