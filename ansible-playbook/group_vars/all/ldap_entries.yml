@@ -1,0 +1,28 @@
+ansible_ldap_user: ansible
+
+ldap_entries:
+- entry_dn: 'uid=ansible,ou=user,dc=novatech'
+  entry_class: inetOrgPerson
+  entry_attributes:
+    cn: ansible
+    sn: ansible
+    uid: ansible
+    userPassword: '{{ openldap_ansible_password | password_hash("ldap_sha1") }}'
+
+- entry_dn: 'cn=ddio,cn=svn.novatech-llc.com,ou=group,dc=novatech'
+  entry_class: posixGroup
+  entry_attributes:
+    cn: ddio
+    memberUid: ansible
+
+- entry_dn: 'cn=hardware,cn=svn.novatech-llc.com,ou=group,dc=novatech'
+  entry_class: posixGroup
+  entry_attributes:
+    cn: hardware
+    memberUid: ansible
+
+- entry_dn: 'cn=NCD_Release,cn=svn.novatech-llc.com,ou=group,dc=novatech'
+  entry_class: posixGroup
+  entry_attributes:
+    cn: NCD_Release
+    memberUid: ansible

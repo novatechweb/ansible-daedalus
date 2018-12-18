@@ -100,6 +100,9 @@
     tags:
     - buildsystem_container
 
+- name: Setup LDAP users
+  import_playbook: ldap_entries.yml
+
 - name: Setup the Build System (Test Station) with repo data
   hosts: buildsystem
   remote_user: ansibleremote
@@ -109,7 +112,10 @@
   roles:
   - role: buildsystem
     tags:
-     - buildsystem_container
+    - buildsystem_container
+    vars:
+      svn_username: ansible
+      svn_password: '{{ openldap_ansible_password }}'
 
 - name: Assemble Bacula backup scripts
   hosts: bacula

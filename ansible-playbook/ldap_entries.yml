@@ -1,0 +1,22 @@
+---
+
+- name:
+  hosts: daedalus
+  remote_user: ansibleremote
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: 'Setup ansible LDAP entry {{ roleinputvar.entry_dn }}'
+    include_role:
+      name: ldap-user
+    vars:
+      server_uri: 'ldap://{{ openldap_hostname }}/'
+      bind_dn: 'cn=admin,dc=novatech'
+      bind_pw: '{{ openldap_admin_password }}'
+      entry_dn: '{{ roleinputvar.entry_dn }}'
+      entry_class: '{{ roleinputvar.entry_class }}'
+      entry_attributes: '{{ roleinputvar.entry_attributes }}'
+    loop: '{{ ldap_entries }}'
+    loop_control:
+      loop_var: roleinputvar

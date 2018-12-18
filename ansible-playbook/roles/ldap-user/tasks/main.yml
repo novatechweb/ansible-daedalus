@@ -1,0 +1,32 @@
+---
+# tasks file for ldap-user
+- name: Check preconditions
+  assert:
+    that:
+    - server_uri is defined
+    - bind_dn is defined
+    - bind_pw is defined
+    - entry_dn is defined
+    - entry_class is defined
+    - entry_attributes is defined
+
+- name: Ensure entry exists
+  ldap_entry:
+    server_uri: '{{ server_uri }}'
+    bind_dn: '{{ bind_dn }}'
+    bind_pw: '{{ bind_pw }}'
+    state: present
+    dn: '{{ entry_dn }}'
+    objectClass: '{{ entry_class }}'
+    attributes: '{{ entry_attributes }}'
+
+- name: Ensure entry attributes exist
+  ldap_attr:
+    server_uri: '{{ server_uri }}'
+    bind_dn: '{{ bind_dn }}'
+    bind_pw: '{{ bind_pw }}'
+    state: present
+    dn: '{{ entry_dn }}'
+    name: '{{ item.key }}'
+    values: '{{ item.value }}'
+  loop: '{{ entry_attributes | dict2items }}'
