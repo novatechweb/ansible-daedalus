@@ -33,46 +33,46 @@ container_start_state_nondata: started
 build_system_docker_repos:
   TestStation_http_data_buildsystem:
     dir_name: docker-TestStation_http_data_buildsystem
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_data_buildsystem.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_http_data_buildsystem.git
   TestStation_database_data:
     dir_name: docker-TestStation_database_data
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_database_data.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_database_data.git
   TestStation_http_data_ipkg:
     dir_name: docker-TestStation_http_data_ipkg
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_data_ipkg.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_http_data_ipkg.git
   TestStation_http_data_ncdiso:
     dir_name: docker-TestStation_http_data_ncdiso
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_data_ncdiso.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_http_data_ncdiso.git
   TestStation_http_data_ncdrelease:
     dir_name: docker-TestStation_http_data_ncdrelease
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_data_ncdrelease.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_http_data_ncdrelease.git
   TestStation_http_data_testclient:
     dir_name: docker-TestStation_http_data_testclient
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_data_testclient.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_http_data_testclient.git
   TestStation_tftp_data:
     dir_name: docker-TestStation_tftp_data
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_tftp_data.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_tftp_data.git
   TestStation_database_server:
     dir_name: docker-TestStation_database_server
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_database_server.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_database_server.git
   TestStation_http_server:
     dir_name: docker-TestStation_http_server
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_http_server.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_http_server.git
   TestStation_ssh_server:
     dir_name: docker-TestStation_ssh_server
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_ssh_server.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_ssh_server.git
   TestStation_ssh_server_manualtest:
     dir_name: docker-TestStation_ssh_server_manualtest
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_ssh_server_manualtest.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_ssh_server_manualtest.git
   TestStation_tftp_server:
     dir_name: docker-TestStation_tftp_server
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_tftp_server.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_tftp_server.git
   TestStation_cron_service:
     dir_name: docker-TestStation_cron_service
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_cron_service.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_cron_service.git
   Backup_Restore:
     dir_name: docker-TestStation_SupportSite_backup_restore
-    url: https://git.novatech-llc.com/NovaTech-Testing/docker-TestStation_SupportSite_backup_restore.git
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_SupportSite_backup_restore.git
 
 buildsystem_ssh_prod_user_name: production
 buildsystem_database_name: protocol
