@@ -1,3 +1,16 @@
 ---
 
 gitlab_users:
+- username: ansible
+  name: Ansible Automation Tool
+  email: ansible@novatech-llc.com
+  password: "{{ ansibleremote_gitlab_password }}"
+  sshkey_file: "{{ lookup('file', ansibleremote_user_public_key ) }}"
+  sshkey_name: "ansibleremote user"
+
+- username: ansible
+  name: Ansible Automation Tool
+  email: ansible@novatech-llc.com
+  password: "{{ ansibleremote_gitlab_password }}"
+  sshkey_file: "{{ lookup('file', ansibleremote_root_public_key ) }}"
+  sshkey_name: "ansibleremote root"
