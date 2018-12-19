@@ -14,3 +14,24 @@ gitlab_users:
   password: "{{ ansibleremote_gitlab_password }}"
   sshkey_file: "{{ lookup('file', ansibleremote_root_public_key ) }}"
   sshkey_name: "ansibleremote root"
+
+- username: buildbot
+  name: Build Robot
+  email: buildbot@novatech-llc.com
+  password: "{{ buildbot_gitlab_password }}"
+  sshkey_file: "{{ lookup('file', buildbot_master_sshkey + '.pub') }}"
+  sshkey_name: "buildbot-master"
+
+- username: buildbot
+  name: Build Robot
+  email: buildbot@novatech-llc.com
+  password: "{{ buildbot_gitlab_password }}"
+  sshkey_file: "{{ lookup('file', buildbot_worker_ntel_sshkey + '.pub') }}"
+  sshkey_name: "buildbot-worker-ntel"
+
+- username: buildbot
+  name: Build Robot
+  email: buildbot@novatech-llc.com
+  password: "{{ buildbot_gitlab_password }}"
+  sshkey_file: "{{ lookup('file', buildbot_worker_ptxdist_sshkey + '.pub') }}"
+  sshkey_name: "buildbot-worker-ptxdist"

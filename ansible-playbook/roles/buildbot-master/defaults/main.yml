@@ -44,6 +44,14 @@ container_env:
   BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
   BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
   BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
+  GITLAB_URI: 'https://{{ gitlab_hostname }}/'
+  GITLAB_OAUTH_ID: '{{ gitlab_buildbot_auth_id }}'
+  GITLAB_OAUTH_SECRET: '{{ gitlab_buildbot_auth_secret }}'
+  GITLAB_TOKEN: '{{ gitlab_buildbot_token }}'
+  GITLAB_WEBHOOK_SECRET: '{{ buildbot_webhook_secret }}'
+  LDAP_URI: 'ldap://{{ openldap_hostname }}:389/'
+  LDAP_BIND_USER: 'cn=proxyagent,dc=novatech'
+  LDAP_BIND_PW: '{{ openldap_proxyagent_password }}'
 
 # hostname
 container_hostname: '{{ buildbot_hostname }}'
