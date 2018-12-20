@@ -1,0 +1,23 @@
+- name: Create/Update Gitlab Users
+  hosts: daedalus
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+    - gitlab_users
+  module_defaults:
+    gitlab_user:
+      server_url: "https://{{ gitlab_hostname }}/"
+      login_user: root
+      login_password: "{{ gitlab_root_password }}"
+      state: present
+  tasks:
+    - name: "Add gitlab users with ssh public keys"
+      gitlab_user:
+        username: "{{ item.username }}"
+        name: "{{ item.name }}"
+        email: "{{ item.email }}"
+        password: "{{ item.password }}"
+        sshkey_file: "{{ item.sshkey_file }}"
+        sshkey_name: "{{ item.sshkey_name }}"
+      loop: "{{ gitlab_users }}"
