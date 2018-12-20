@@ -17,17 +17,24 @@
   become: true
   become_user: root
   become_method: sudo
+  tags: bacula
   roles:
   - role: mariadb
     mariadb_open_firewall: true
     mariadb_remote_root_access: false
   - role: bacula-director
+    tags: bacula-director
   - role: bacula-storage
+    tags: bacula-storage
   - role: bacula-client
+    tags: bacula-client
   - role: bacula-console
+    tags: bacula-console
   - role: bacula-script
     assemble_scripts: false
+    tags: bacula-script
   - role: bacula-catalog
+    tags: bacula-catalog
 
 - name: Prepare Docker host systems
   hosts: docker-hosts
