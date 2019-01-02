@@ -109,6 +109,9 @@
 - name: Setup Gitlab users
   import_playbook: gitlab_users.yml
 
+- name: Setup the buildbot containers
+  import_playbook: buildbot.yml
+
 - name: Install/Setup Docker images and containers on daedalus
   hosts: daedalus
   remote_user: ansibleremote

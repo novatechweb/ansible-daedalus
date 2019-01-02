@@ -1,0 +1,94 @@
+---
+# defaults file for buildbot-master
+
+# backup host directory
+backup_hostdir: '{{ docker_backup_dir }}/buildbot'
+
+# numeric ID of buildbot user
+buildbot_uid: 1000
+
+# numeric version of buildbot service
+buildbot_version: '1.6.0'
+
+# port number for workers to communicate with master
+buildbot_worker_port: 9989
+
+# port number for unencrypted web access
+buildbot_http_port: 8080
+
+# port number for encrypted web access
+buildbot_https_port: 8443
+
+# The hostname passed as an envirnment variable into the container
+buildbot_ip_addr: '127.0.0.1'
+buildbot_hostname: buildbot.example.com
+buildbot_port_args:
+  - '{{buildbot_http_port}}'
+  - '{{buildbot_https_port}}'
+  - '{{buildbot_worker_port}}'
+
+# host path containing configuration files
+config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+
+# environment passed to the container
+container_env:
+  BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
+  BUILDBOT_SMTP_HOST: '{{ exim4_hostname }}'
+  BUILDBOT_SMTP_PORT: '587'
+  BUILDBOT_SMTP_USER: 'buildbot'
+  BUILDBOT_SMTP_PASS: '{{ buildbot_email_password }}'
+  BUILDBOT_WEB_PORT: '{{buildbot_http_port}}'
+  BUILDBOT_WEB_URL: 'http://{{ buildbot_hostname }}/'
+  BUILDBOT_WORKER_PORT: '{{buildbot_worker_port}}'
+  BUILDBOT_WORKER_NTEL: 'worker-ntel'
+  BUILDBOT_WORKER_NTEL_PASS: '{{ buildbot_worker_ntel_password }}'
+  BUILDBOT_WORKER_PTXDIST: 'worker-ptxdist'
+  BUILDBOT_WORKER_PTXDIST_PASS: '{{ buildbot_worker_ptxdist_password }}'
+
+# hostname
+container_hostname: '{{ buildbot_hostname }}'
+
+# the name of the container being started
+container_name: '{{ docker_name_prefix }}buildbot'
+
+# networks of the container
+container_networks:
+  - name: '{{ docker_network_frontend }}'
+    aliases:
+      - '{{ container_hostname }}'
+
+# exposed ports of the container
+container_port_args: '{{ buildbot_port_args }}'
+
+# volumes mounted within the container
+container_volumes:
+  - '{{ data_volume }}:{{ data_path }}:z'
+  - '{{ config_hostdir }}/buildbot.tac:{{ data_path }}/buildbot.tac'
+  - '{{ config_hostdir }}/master.cfg:{{ data_path }}/master.cfg'
+  - '{{ config_hostdir }}/openembedded.py:{{ data_path }}/openembedded.py'
+  - '{{ config_hostdir }}/ptxdist.py:{{ data_path }}/ptxdist.py'
+  - '{{ config_hostdir }}/{{ buildbot_master_sshkey | basename }}:/home/buildbot/.ssh/id_rsa'
+
+# mount path of the data volume
+data_path: '/buildbot'
+
+# name of the data volume
+data_volume: '{{ docker_name_prefix }}buildbot_DV'
+
+# build arguments of the image
+image_args:
+  BUILDBOT_TIMEZONE: 'America/Chicago'
+  BUILDBOT_UID: '{{ buildbot_uid }}'
+  BUILDBOT_VERSION: 'v{{ buildbot_version }}'
+
+# directory of the image source
+image_dir: '{{ docker_projects_dir }}/buildbot-master'
+
+# name of the image being built
+image_name: '{{ docker_registry_username }}/buildbot'
+
+# repository URI of the image source
+image_repo: '{{ buildbot_image_repo | default("https://github.com/novatechweb/docker-buildbot-master.git") }}'
+
+# restoration host directory
+restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'

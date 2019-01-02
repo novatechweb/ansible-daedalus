@@ -1,0 +1,69 @@
+---
+# tasks file for buildbot-master
+
+# This will generate passwords for these accounts.
+- name: Check conditions
+  assert:
+    that:
+    - buildbot_admin_password is defined
+    - buildbot_master_sshkey is defined
+
+- name: Create buildbot data volume
+  docker_volume:
+    name: '{{ data_volume }}'
+
+- name: Create config directory
+  file:
+    path: "{{ config_hostdir }}"
+    state: directory
+
+- name: Populate config files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ config_hostdir }}/{{ item | basename }}"
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
+    mode: "u=rw,g=,o="
+    unsafe_writes: yes
+  loop:
+    - master.cfg
+    - openembedded.py
+    - ptxdist.py
+    - '{{ buildbot_master_sshkey }}'
+
+- name: Populate config templates
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ config_hostdir }}/{{ item }}"
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
+    mode: "u=rw,g=,o="
+    unsafe_writes: yes
+  loop:
+    - buildbot.tac
+
+- name: Checkout image repo
+  git:
+    repo: '{{ image_repo }}'
+    version: master
+    dest: '{{ image_dir }}'
+    force: true
+
+- name: Create buildbot master image
+  docker_image:
+    buildargs: '{{ image_args }}'
+    name: '{{ image_name }}'
+    path: '{{ image_dir }}'
+    tag: '{{ docker_image_tag }}'
+    force: true
+
+- name: Start buildbot container
+  docker_container:
+    env: '{{ container_env }}'
+    hostname: '{{ container_hostname }}'
+    image: '{{ image_name }}:{{ docker_image_tag }}'
+    name: '{{ container_name }}'
+    networks: '{{ container_networks }}'
+    volumes: '{{ container_volumes }}'
+    ports: '{{ container_port_args }}'
+    state: started
