@@ -12,3 +12,19 @@
     - name: Build and start the Buildbot master container
       import_role:
         name: buildbot-master
+
+- name: Setup Buildbot worker system
+  hosts: builder
+  become: true
+  become_user: root
+  become_method: sudo
+  tags:
+    - buildbot
+    - buildbot-worker
+    - buildbot-worker-ntel
+  vars:
+    buildbot_master: "{{ buildbot_hostname }}"
+  tasks:
+    - name: Build and start the Buildbot worker container
+      import_role:
+        name: buildbot-worker-ntel

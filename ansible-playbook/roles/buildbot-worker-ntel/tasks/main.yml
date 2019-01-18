@@ -1,2 +1,113 @@
 ---
 # tasks file for buildbot-worker-ntel
+
+# This will generate passwords for these accounts.
+- assert:
+    that:
+    - buildbot_worker_ntel_password is defined
+    - buildbot_worker_ntel_sshkey is defined
+
+- name: Create buildbot cache volume
+  docker_volume:
+    name: '{{ cache_volume }}'
+
+- name: Populate buildbot cache volume
+  loop:
+  - /cache
+  - /cache/downloads
+  - /cache/images
+  - /cache/mirrors
+  - /cache/releases
+  - /cache/sstate
+  docker_container:
+    name: '{{ container_name }}-bootstrap'
+    image: 'alpine:latest'
+    volumes:
+    - '{{ cache_volume }}:{{ cache_path }}:z'
+    detach: no
+    cleanup: yes
+    command: /bin/ash -c
+      "mkdir -p {{item}} &&
+      chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}} &&
+      chmod -v 777 {{item}}"
+
+- name: Create buildbot data volume
+  docker_volume:
+    name: '{{ data_volume }}'
+
+- name: Populate buildbot data volume
+  loop:
+  - /buildbot
+  docker_container:
+    name: '{{ container_name }}-bootstrap'
+    image: 'alpine:latest'
+    volumes:
+    - '{{ data_volume }}:{{ data_path }}:z'
+    detach: no
+    cleanup: yes
+    command: /bin/ash -c
+      "mkdir -p {{item}} &&
+      if [ $(stat --printf='%u' '{{item}}') -ne {{buildbot_uid}} ]; then
+        chown -c -R {{buildbot_uid}}:{{buildbot_uid}} {{item}};
+      fi"
+
+- name: Create config directory
+  file:
+    path: "{{ config_hostdir }}"
+    state: directory
+
+- name: Populate config files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ config_hostdir }}/{{ item | basename }}"
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
+    mode: "u=rw,g=,o="
+    unsafe_writes: yes
+  loop:
+    - '{{ buildbot_worker_ntel_sshkey }}'
+
+# - name: Populate config templates
+#   template:
+#     src: "{{ item }}.j2"
+#     dest: "{{ config_hostdir }}/{{ item }}"
+#     group: '{{ buildbot_uid }}'
+#     owner: '{{ buildbot_uid }}'
+#     mode: "u=rw,g=,o="
+#     unsafe_writes: yes
+#   loop:
+
+- name: Populate archival script
+  copy:
+    src: ci-archive.sh
+    dest: '{{ config_hostdir }}/ci-archive.sh'
+    group: '{{ buildbot_uid }}'
+    owner: '{{ buildbot_uid }}'
+    mode: 'u=rwx,g=rx,o=rx'
+    unsafe_writes: yes
+
+- name: Checkout image repo
+  git:
+    repo: '{{ image_repo }}'
+    version: master
+    dest: '{{ image_dir }}'
+    force: true
+
+- name: Create buildbot worker image
+  docker_image:
+    buildargs: '{{ image_args }}'
+    name: '{{ image_name }}'
+    path: '{{ image_dir }}'
+    tag: '{{ docker_image_tag }}'
+    force: true
+
+- name: Start buildbot worker container
+  docker_container:
+    env: '{{ container_env }}'
+    hostname: '{{ container_hostname }}'
+    image: '{{ image_name }}:{{ docker_image_tag }}'
+    name: '{{ container_name }}'
+    networks: '{{ container_networks }}'
+    volumes: '{{ container_volumes }}'
+    ports: '{{ container_port_args }}'
+    state: started

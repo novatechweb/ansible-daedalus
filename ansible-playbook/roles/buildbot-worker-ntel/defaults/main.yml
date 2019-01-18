@@ -1,2 +1,83 @@
 ---
 # defaults file for buildbot-worker-ntel
+
+# host containing build assets
+asset_host: 'http://{{ansible_facts.default_ipv4.address}}/'
+
+# address of buildbot master service
+buildbot_master: '{{ansible_facts.default_ipv4.address}}'
+
+# numeric ID of buildbot user
+buildbot_uid: 1000
+
+# numeric version of buildbot service
+buildbot_version: '1.6.0'
+
+# port number for workers to communicate with master
+buildbot_worker_port: 9989
+
+# host path containing configuration files
+config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+
+# mount path of the cache volume
+cache_path: '/cache'
+
+# name of the cache volume
+cache_volume: '{{ docker_name_prefix }}{{ container_hostname }}-cache'
+
+# environment passed to the container
+container_env:
+  BUILDBOT_MASTER: '{{ buildbot_master }}'
+  BUILDBOT_WORKER_PORT: '{{ buildbot_worker_port }}'
+  BUILDBOT_WORKER_NAME: 'worker-ntel'
+  BUILDBOT_WORKER_PASS: 'pass'
+
+# container_hostname
+container_hostname: '{{ role_name }}'
+
+# the name of the container being started
+container_name: '{{ docker_name_prefix }}{{ container_hostname }}'
+
+# network configuration for the confainer
+container_networks: []
+
+# port configuration of the container
+container_port_args: []
+
+# volumes mounted within the container
+container_volumes:
+- '{{ data_volume }}:{{ data_path }}:z'
+- '{{ cache_volume }}:{{ cache_path }}:z'
+- '{{ config_hostdir }}/ci-archive.sh:/usr/local/bin/ci-archive.sh'
+- '{{ config_hostdir }}/{{ buildbot_worker_ntel_sshkey | basename }}:/home/buildbot/.ssh/id_rsa'
+
+# mount path of the data volume
+data_path: '/buildbot'
+
+# name of the data volume
+data_volume: '{{ docker_name_prefix }}{{ container_hostname }}-data'
+
+# address of hsm cryptographic service
+hsm_host: '{{ansible_facts.default_ipv4.address}}'
+
+# build arguments of the image
+image_args:
+  BUILDBOT_UID: '{{buildbot_uid}}'
+  BUILDBOT_VERSION: 'v{{buildbot_version}}'
+  PTK_URI: '{{asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
+  PTK_HSM_HOST: '{{hsm_host}}'
+
+# directory of the image source
+image_dir: '{{ docker_projects_dir }}/{{ container_hostname }}'
+
+# name of the image being built
+image_name: '{{ docker_registry_username }}/{{ container_hostname }}'
+
+# repository URI of the image source
+image_repo: '{{ buildbot_worker_ntel_image_repo | default("https://github.com/novatechweb/docker-buildbot-worker-ntel.git") }}'
+
+# host path containing secrets
+secrets_hostdir: '{{ config_hostdir }}'
+
+# name of the ssh known_hosts secret
+secrets_known_hosts: 'known_hosts'
