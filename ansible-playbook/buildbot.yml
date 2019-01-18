@@ -22,9 +22,13 @@
     - buildbot
     - buildbot-worker
     - buildbot-worker-ntel
+    - buildbot-worker-ptxdist
   vars:
     buildbot_master: "{{ buildbot_hostname }}"
   tasks:
     - name: Build and start the Buildbot worker container
       import_role:
         name: buildbot-worker-ntel
+    - name: Build and start the Buildbot worker container
+      import_role:
+        name: buildbot-worker-ptxdist
