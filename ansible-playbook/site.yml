@@ -75,6 +75,7 @@
     - buildbot
     - nexus
     - ddio
+    - easyrsa
     tags:
     - docker_networking
   - name: Build the openssl Docker volume
@@ -116,6 +117,10 @@
     role: docker-mantisbt
     tags:
     - mantisbt_container
+  - name: Build and start the EasyRSA utility container
+    role: easyrsa
+    tags:
+    - easyrsa_container
 
 - name: Setup LDAP users
   import_playbook: ldap_entries.yml

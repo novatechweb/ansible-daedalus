@@ -1,0 +1,72 @@
+---
+# file: roles/docker-mantisbt/tasks/restore.yaml
+
+# *****************************************************************************
+# Setup the directory where the backup and restore is to take place
+
+- name: restore dir
+  file:
+    state: directory
+    path: '{{ restore_hostdir }}'
+    owner: root
+    group: tape
+    mode: 'u=rwx,g=rwx,o=rx'
+    recurse: no
+    setype: svirt_sandbox_file_t
+
+# *****************************************************************************
+# Get data from tape
+
+- name: Backup archive exists
+  stat:
+    path: '{{ restore_hostdir }}/{{ backup_archive }}'
+    get_checksum: False
+    get_md5: False
+  register: easyrsa_archive
+
+- name: Restore backup archive from tape
+  bacula:
+    command: restore
+    storage: '{{ bacula_storage }}'
+    fileset: '{{ bacula_fileset }}'
+    dest: '{{ bacula_dest }}'
+    path_to_restore: '{{ backup_hostdir }}'
+  when: easyrsa_archive.stat.exists == False
+
+- name: Backup archive exists
+  stat:
+    path: '{{ restore_hostdir }}/{{ backup_archive }}'
+    get_checksum: False
+    get_md5: False
+  register: easyrsa_archive
+
+- assert:
+    that: easyrsa_archive.stat.exists
+
+- name: Backup archive permissions
+  file:
+    path: '{{ restore_hostdir }}/{{ backup_archive }}'
+    state: touch
+    owner: root
+    group: root
+    mode: 'u=rw,g=rw,o='
+
+# *****************************************************************************
+# restore the backup
+
+- name:
+  shell: >
+    docker exec  -i '{{ container_name }}' tar xz -f- -C '{{ data_path }}' < '{{ easyrsa_archive.stat.path }}'
+
+# *****************************************************************************
+# cleanup
+
+- name: Remove - Static and SQL
+  file:
+    path: '{{ restore_hostdir }}'
+    state: absent
+
+- name: State file
+  copy:
+    content: '{{ ansible_date_time.iso8601 }}'
+    dest: '{{ config_hostdir }}/restore.date.txt'

@@ -1,2 +1,80 @@
 ---
 # tasks file for easyrsa
+
+- name: Add public keys to authorized_keys for container
+  authorized_key:
+    key: '{{ lookup("file", item.src) }}'
+    manage_dir: no
+    path: '{{ config_authkeys }}'
+    state: present
+    user: root
+  with_filetree: '{{ playbook_dir }}/public_keys'
+
+- name: Set authorized_keys file permissions
+  file:
+    group: '{{ easyrsa_uid }}'
+    mode: u=rw,g=,o=
+    owner: '{{ easyrsa_uid }}'
+    path: '{{ config_authkeys }}'
+    state: file
+
+- name: Deploy Source
+  synchronize:
+    archive: yes
+    checksum: yes
+    compress: yes
+    src: docker/
+    dest: '{{ image_dir }}/'
+  register: deploy_source
+
+- name: Build Docker image from Dockerfile
+  docker_image:
+    buildargs: '{{ image_args }}'
+    force: '{{ deploy_source.changed }}'
+    name: '{{ image_name }}'
+    path: '{{ image_dir }}'
+    state: present
+  register: build_image
+
+- name: Run container
+  docker_container:
+    detach: true
+    hostname: '{{ container_hostname }}'
+    image: '{{ image_name }}'
+    name: '{{ container_name }}'
+    networks: '{{ container_networks }}'
+    ports: '{{ container_port_args }}'
+    purge_networks: true
+    recreate: '{{ build_image.changed }}'
+    restart_policy: '{{ docker_restart_policy }}'
+    state: started
+    volumes: '{{ container_volumes }}'
+
+# *****************************************************************************
+# backup script creation
+
+- name: Assemble dir for backup scripts
+  file:
+    path: /usr/libexec/bacula/backup-scripts
+    state: directory
+
+- name: Create before_backup script
+  template:
+    src: before_backup.j2
+    dest: /usr/libexec/bacula/backup-scripts/55.before_backup.easyrsa
+
+- name: Create after_backup script
+  template:
+    src: after_backup.j2
+    dest: /usr/libexec/bacula/backup-scripts/55.after_backup.easyrsa
+
+# *****************************************************************************
+# restore?
+
+- name: exists - state file
+  stat:
+    path: '{{ config_hostdir }}/restore.date.txt'
+  register: restore_state
+
+- include_tasks: restore.yml
+  when: restore_state.stat.exists == False

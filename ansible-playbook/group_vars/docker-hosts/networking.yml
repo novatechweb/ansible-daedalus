@@ -66,3 +66,7 @@ haproxy_port_args:
 
 ddio_hostname: ddio.novatech-llc.com
 ddio_port_args: []
+
+easyrsa_hostname: easyrsa.novatech-llc.com
+easyrsa_port_args:
+- "{{ easyrsa_ip_addr }}:22:22"

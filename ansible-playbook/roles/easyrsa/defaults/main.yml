@@ -1,2 +1,62 @@
 ---
 # defaults file for easyrsa
+
+# backup host directory
+backup_archive: easyrsa.tar.gz
+backup_hostdir: '{{ docker_backup_dir }}/easyrsa'
+
+# port number for workers to communicate with master
+easyrsa_ssh_port: 22
+
+# The hostname passed as an envirnment variable into the container
+easyrsa_ip_addr: '127.0.0.1'
+easyrsa_hostname: easyrsa.example.com
+easyrsa_port_args:
+  - '{{easyrsa_ssh_port}}'
+easyrsa_uid: 1000
+
+# host path containing configuration files
+config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
+config_authkeys: '{{ config_hostdir }}/authorized_keys'
+
+# environment passed to the container
+container_env: []
+
+# hostname
+container_hostname: '{{ easyrsa_hostname }}'
+
+# the name of the container being started
+container_name: '{{ docker_name_prefix }}easyrsa'
+
+# networks of the container
+container_networks:
+  - name: '{{ docker_network_frontend }}'
+    aliases:
+      - '{{ container_hostname }}'
+
+# exposed ports of the container
+container_port_args: '{{ easyrsa_port_args }}'
+
+# volumes mounted within the container
+container_volumes:
+  - '{{ data_volume }}:{{ data_path }}:z'
+  - '{{ config_authkeys }}:/home/easyrsa/.ssh/authorized_keys'
+
+# mount path of the data volume
+data_path: '/easyrsa'
+
+# name of the data volume
+data_volume: '{{ docker_name_prefix }}easyrsa_DV'
+
+# build arguments of the image
+image_args:
+  EASYRSA_UID: '{{ easyrsa_uid }}'
+
+# directory of the image source
+image_dir: '{{ docker_projects_dir }}/easyrsa'
+
+# name of the image being built
+image_name: '{{ docker_registry_username }}/easyrsa:{{ docker_image_tag }}'
+
+# restoration host directory
+restore_hostdir: '{{ bacula_dest }}{{ backup_hostdir }}'

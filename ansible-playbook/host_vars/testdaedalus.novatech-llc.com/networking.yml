@@ -18,3 +18,4 @@ phpmyadmin_ip_addr:   172.16.103.109
 buildbot_ip_addr:     172.16.103.110
 nexus_ip_addr:        172.16.103.111
 ddio_ip_addr:         172.16.103.112
+easyrsa_ip_addr:      172.16.103.113

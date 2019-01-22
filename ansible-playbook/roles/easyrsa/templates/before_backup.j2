@@ -1,0 +1,9 @@
+{% if backup_hostdir is defined %}
+
+# *****************************************************************************
+# Backup easyrsa data container
+mkdir -p -m u=rwx,g=rwx,o= "{{ backup_hostdir }}"
+docker exec {{ container_name }} \
+    tar c -f- -C "{{data_path}}" -z . > "{{ backup_hostdir }}/{{ backup_archive }}"
+
+{% endif %}

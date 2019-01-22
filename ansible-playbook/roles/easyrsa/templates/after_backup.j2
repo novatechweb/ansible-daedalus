@@ -1,0 +1,7 @@
+{% if backup_hostdir is defined %}
+
+# *****************************************************************************
+# Clean up easyrsa
+docker run --rm -v $(dirname "{{ backup_hostdir }}"):$(dirname "{{ backup_hostdir }}"):z \
+    debian:latest rm -rf "{{ backup_hostdir }}"
+{% endif %}
