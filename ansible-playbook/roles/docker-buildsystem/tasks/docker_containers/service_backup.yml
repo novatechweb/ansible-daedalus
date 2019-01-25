@@ -13,6 +13,12 @@
     regexp: '(ENV\s+DATABASE_PASSWORD\s+).*'
     replace: '\1 {{ buildsystem_database_root_password }}'
 
+- name: Setting db password used to access MySQL DB's
+  replace:
+    dest: "{{ docker_projects_dir }}/{{ build_system_docker_repos.Backup_Restore.dir_name }}/Dockerfile"
+    regexp: '(ENV\s+DDIO_PASSWORD\s+).*'
+    replace: '\1 {{ buildsystem_ddio_database_root_password }}'
+
 - name: Build docker image ----- Test Station Backup service
   docker_image:
     name: "{{ name_prefix }}teststation_supportsite_backup_restore_image"

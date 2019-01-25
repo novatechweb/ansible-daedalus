@@ -4,6 +4,7 @@
 # The following environment variables should be populated by the ansible scripts before the image is built.
 #----------------------------------------------------
 # DATABASE_PASSWORD
+# DDIO_PASSWORD
 #====================================================
 
 
@@ -20,6 +21,12 @@ BUILDSYSTEM_TEST_CLIENT_RESTORE_FILE="/restore/test_client_files.tgz"
 BUILDSYSTEM_SQL_BACKUP_FILE="/backup/buildsystem_backup.sql"
 BUILDSYSTEM_TFTP_BACKUP_FILE="/backup/tftp_files.tgz"
 BUILDSYSTEM_TEST_CLIENT_BACKUP_FILE="/backup/test_client_files.tgz"
+#----------------------------------------------------
+DDIO_SQL_RESTORE_FILE="/restore/ddio_backup.sql"
+DDIO_TFTP_RESTORE_FILE="/restore/ddio_tftp_files.tgz"
+#----------------------------------------------------
+DDIO_SQL_BACKUP_FILE="/backup/ddio_backup.sql"
+DDIO_TFTP_BACKUP_FILE="/backup/ddio_tftp_files.tgz"
 #----------------------------------------------------
 SUPPORTSITE_SQL_RESTORE_FILE="/restore/supportsite_backup.sql"
 #----------------------------------------------------
@@ -93,6 +100,36 @@ case ${1} in
     cleanup_supportsite)
         rm -fr /cleanup/supportsite
     ;;
+
+    restore_ddio)
+        if [ -e $DDIO_SQL_RESTORE_FILE ]; then
+            echo "Restore DDIO MySQL"
+            mysql --host=ddio_mysql_server --user=root --password=$DDIO_PASSWORD < $DDIO_SQL_RESTORE_FILE
+        fi
+        if [ -e $DDIO_TFTP_RESTORE_FILE ]; then
+            echo "Restore DDIO TFTP"
+            tar -xz -f $DDIO_TFTP_RESTORE_FILE        --directory=/
+        fi
+    ;;
+
+    backup_ddio)
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        # MySQL backup
+        echo "Backup DDIO MySQL"
+        mysqldump --host=ddio_mysql_server --user=root --password=$DDIO_PASSWORD \
+            --events --triggers --result-file=$DDIO_SQL_RESTORE_FILE \
+            ddiotest
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        # ddio tftp file backup
+        echo "Backup DDIO TFTP"
+        tar -cz -f $DDIO_TFTP_BACKUP_FILE --directory=/ \
+            /opt/tftp_files
+    ;;
+
+    cleanup_ddio)
+        rm -fr /cleanup/ddio
+    ;;
+
 #===================================================================================================
     *)
         exec "$@"

@@ -1,0 +1,13 @@
+{% if docker_backup_dir is defined %}
+{% if name_prefix is defined %}
+
+#===============================================================================
+# Clean up Build System backup directory
+docker run --rm \
+    -v {{ docker_backup_dir }}:/clean:z \
+    --name Backup_Restore_BS_SS \
+    {{ name_prefix }}teststation_supportsite_backup_restore_image \
+    cleanup_ddio
+
+{% endif %}
+{% endif %}

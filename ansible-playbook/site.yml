@@ -74,6 +74,7 @@
     - testssh
     - buildbot
     - nexus
+    - ddio
     tags:
     - docker_networking
   - name: Build the openssl Docker volume

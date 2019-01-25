@@ -13,6 +13,7 @@ COPY ./ssh_files/id_rsa_buildsystem /root/.ssh/id_rsa_buildsystem
 RUN chmod 700 /root/.ssh/*
 
 ENV DATABASE_PASSWORD root_password
+ENV DDIO_PASSWORD root_password
 
 COPY ./entrypoint.sh /
 RUN chmod 777 /entrypoint.sh

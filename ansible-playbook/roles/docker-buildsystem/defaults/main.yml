@@ -74,5 +74,13 @@ build_system_docker_repos:
     dir_name: docker-TestStation_SupportSite_backup_restore
     url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_SupportSite_backup_restore.git
 
+  TestStation_tftp_ddio_server:
+    dir_name: docker-TestStation_tftp_ddio_server
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_tftp_server.git
+  TestStation_ddio_database_server:
+    dir_name: docker-TestStation_ddio_database_server
+    url: git@git.novatech-llc.com:NovaTech-Testing/docker-TestStation_database_server.git
+
 buildsystem_ssh_prod_user_name: production
 buildsystem_database_name: protocol
+buildsystem_ddio_database_name: ddiotest

@@ -17,3 +17,4 @@ phpldapadmin_ip_addr: 172.16.0.108
 phpmyadmin_ip_addr:   172.16.0.109
 buildbot_ip_addr:     172.16.0.110
 nexus_ip_addr:        172.16.0.111
+ddio_ip_addr:         172.16.0.112

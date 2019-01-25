@@ -1,0 +1,21 @@
+---
+#=========================================================
+# TFTP Server Container
+#---------------------------------------------------------
+- name: Build docker image ----- Test Station tftp server
+  docker_image:
+    name: "{{ name_prefix }}teststation_tftp_ddio_image"
+    path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_tftp_ddio_server.dir_name }}"
+    state: "{{ image_build_state_nondata }}"
+    force: "{{ docker_image_force_build }}"
+
+- name: Start docker container - Test Station tftp server
+  docker_container:
+    detach: True
+    image: "{{ name_prefix }}teststation_tftp_ddio_image"
+    name: "{{ name_prefix }}TestStation_tftp_ddio_server"
+    ports: "{{ ddio_ip_addr }}:69:69/udp"
+    state: "{{ container_start_state_nondata }}"
+    restart_policy: '{{ docker_restart_policy }}'
+    volumes:
+      - "{{ name_prefix }}TestStation_tftp_ddio_data:/opt/tftp_files"

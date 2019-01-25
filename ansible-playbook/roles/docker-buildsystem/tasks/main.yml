@@ -42,6 +42,9 @@
 
 - import_tasks: docker_containers/service_backup.yml
 
+- import_tasks: docker_containers/server_database_ddio.yml
+- import_tasks: docker_containers/server_tftp_ddio.yml
+
 - name: Copy Build System default ssh key to user directroy
   fetch:
     src: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_ssh_server.dir_name }}/id_rsa_buildsystem"
@@ -77,6 +80,11 @@
     src: before_backup_buildsystem.j2
     dest: /usr/libexec/bacula/backup-scripts/56.before_backup.buildsystem
 
+- name: Create before_backup script for DDIO
+  template:
+    src: before_backup_ddio.j2
+    dest: /usr/libexec/bacula/backup-scripts/56.before_backup.ddio
+
 - name: Create before_backup script for the Support Site
   template:
     src: before_backup_supportsite.j2
@@ -86,6 +94,11 @@
   template:
     src: after_backup_buildsystem.j2
     dest: /usr/libexec/bacula/backup-scripts/56.after_backup.buildsystem
+
+- name: Create after_backup script for DDIO
+  template:
+    src: after_backup_ddio.j2
+    dest: /usr/libexec/bacula/backup-scripts/56.after_backup.ddio
 
 - name: Create after_backup script for the Support Site
   template:

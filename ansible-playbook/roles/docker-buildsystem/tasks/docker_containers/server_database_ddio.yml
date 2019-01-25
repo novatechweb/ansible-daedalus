@@ -1,0 +1,33 @@
+---
+#=========================================================
+# DDIO Database Server Container
+#---------------------------------------------------------
+- name: Setting db root user password, for the bs docker container
+  replace:
+    dest: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_ddio_database_server.dir_name }}/Dockerfile"
+    regexp: '(ENV\s+MYSQL_ROOT_PASSWORD\s+).*'
+    replace: '\1 {{ buildsystem_ddio_database_root_password }}'
+
+- name: Setting db name, for the bs docker container
+  replace:
+    dest: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_ddio_database_server.dir_name }}/Dockerfile"
+    regexp: '(ENV\s+MYSQL_DATABASE\s+).*'
+    replace: '\1 {{ buildsystem_ddio_database_name }}'
+
+- name: Build docker image ----- Test Station database server
+  docker_image:
+    name: "{{ name_prefix }}teststation_ddio_database_server_image"
+    path: "{{ docker_projects_dir }}/{{ build_system_docker_repos.TestStation_ddio_database_server.dir_name }}"
+    state: "{{ image_build_state_nondata }}"
+    force: "{{ docker_image_force_build }}"
+
+- name: Start docker container - Test Station database server
+  docker_container:
+    detach: True
+    image: "{{ name_prefix }}teststation_ddio_database_server_image"
+    name: "{{ name_prefix }}TestStation_ddio_database_server"
+    ports: "{{ ddio_ip_addr }}:3306:3306"
+    state: "{{ container_start_state_nondata }}"
+    restart_policy: '{{ docker_restart_policy }}'
+    volumes:
+      - "{{ name_prefix }}TestStation_ddio_database_data:/var/lib/mysql"

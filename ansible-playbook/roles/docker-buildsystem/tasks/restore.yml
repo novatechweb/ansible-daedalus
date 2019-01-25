@@ -91,6 +91,24 @@
   when: buildsystem_restore_files.file_list != []
 
 # *****************************************************************************
+# restore the build system backup
+
+- name: restore ddio repositories
+  docker_container:
+    cleanup: yes
+    command: restore_ddio
+    detach: false
+    image: '{{ name_prefix }}teststation_supportsite_backup_restore_image'
+    links:
+    - '{{ name_prefix }}TestStation_ddio_database_server:ddio_mysql_server'
+    name: 'Backup_Restore_BS_SS'
+    state: started
+    volumes:
+    - '{{ restore_buildsystem_docker_dir }}:/restore:z'
+    - '{{ name_prefix }}TestStation_tftp_ddio_data:/opt/tftp_files'
+  when: buildsystem_restore_files.file_list != []
+
+# *****************************************************************************
 # cleanup
 
 - name: Remove files

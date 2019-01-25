@@ -63,3 +63,6 @@ haproxy_port_args:
 - "{{ nexus_ip_addr }}:443:443"
 - "{{ phpldapadmin_ip_addr }}:80:80"
 - "{{ phpldapadmin_ip_addr }}:443:443"
+
+ddio_hostname: ddio.novatech-llc.com
+ddio_port_args: []
