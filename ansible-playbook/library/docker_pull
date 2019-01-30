@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# Ansible transports arguments to modules in a file. The
+# path to the arguments file is in $1, and the file
+# contains the module's arguments like this:
+#
+#       image_name=debian pull_image_tag=8 working_image_tag=current
+#
+# Arguments:
+#    image_name
+#    pull_image_tag
+#    working_image_tag
+
+eval $(sed -e "s/\s?\([^=]+\)\s?=\s?\(\x22\([^\x22]+\)\x22|\x27\([^\x27]+\)\x27|\(\S+\)\)\s?/\1='\2'/p" $1)
+
+if [[ -z "${image_name}" ]]; then
+    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs image_name= argument\"}"
+    exit 1
+fi
+
+if [[ -z "${pull_image_tag}" ]]; then
+    printf "{\"failed\": true, \"changed\": false, \"msg\": \"Module needs pull_image_tag= argument\"}"
+    exit 1
+fi
+
+# {   mkdir -p /tmp/ansible
+#     filename=$(mktemp -q --tmpdir=/tmp/ansible/ docker_db_init.XXXXXX)
+#     chgrp users ${filename}
+#     chmod a+r ${filename}
+#     echo "${*}" >> ${filename}
+#     echo "------------------------------" >> ${filename}
+#     echo "image_name:                   ${image_name}" >> ${filename}
+#     echo "pull_image_tag:               ${pull_image_tag}" >> ${filename}
+#     echo "working_image_tag:            ${working_image_tag}" >> ${filename}
+#     echo "------------------------------" >> ${filename}
+# }
+
+# *****************************************************************************
+# Pull to get the latest image
+error_msg="$(docker 2>&1 pull ${image_name}:${pull_image_tag})"
+result="${?}"
+
+# {   echo "result = ${result}  changed = ${changed}" >> ${filename}
+#     echo "==============================" >> ${filename}
+#     echo "${error_msg}" >> ${filename}
+#     echo "------------------------------" >> ${filename}
+# }
+
+changed='false'
+echo "${error_msg}" | grep -q -e ' Pull complete' -e ' Download complete' -e ' Verifying Checksum' -e ' Pulling fs layer'
+if [[ "${?}" == "0" ]]; then
+    changed='true'
+fi
+
+if [[ ${result} != "0" ]]; then
+    printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"Error pulling/updating repository image.\", \"stdout\": \"${error_msg}\"}"
+    exit 1
+fi
+
+if [[ -z "${working_image_tag}" ]]; then
+    printf "{\"failed\": false, \"changed\": ${changed}, \"msg\": \"pulled the latest version of ${image_name}:${pull_image_tag}.\", \"stdout\": \"${error_msg}\"}"
+    exit 0
+fi
+
+# {   echo "changed:                      ${changed}" >> ${filename}
+#     echo "------------------------------" >> ${filename}
+# }
+
+# *****************************************************************************
+# Check if working_image_tag exists, remove working_image_tag if it exists
+docker inspect ${image_name}:${working_image_tag} &> /dev/null
+result="${?}"
+if [[ ${result} == "0" ]]; then
+    if [[ "${changed}" == "false" ]]; then
+        printf "{\"failed\": false, \"changed\": false, \"msg\": \"No new image to pull and tagged image already exists.\"}"
+        exit 0
+    fi
+    # *****************************************************************************
+    # Remove working_image_tag
+    error_msg="$(docker 2>&1 rmi ${image_name}:${working_image_tag})"
+    result="${?}"
+    if [[ ${result} != "0" ]]; then
+        printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"Failure removeing tagged image.\", \"stdout\": \"${error_msg}\"}"
+        exit 1
+    fi
+    changed='true'
+fi
+echo "${changed}"
+
+# {   echo "changed:                      ${changed}" >> ${filename}
+#     echo "------------------------------" >> ${filename}
+# }
+
+# *****************************************************************************
+# tag the image with working_image_tag
+error_msg="$(docker 2>&1 tag ${image_name}:${pull_image_tag} ${image_name}:${working_image_tag})"
+result="${?}"
+if [[ ${result} != "0" ]]; then
+    printf "{\"failed\": true, \"changed\": ${changed}, \"msg\": \"Failure tagging docker image.\", \"stdout\": \"${error_msg}\"}"
+    exit 1
+fi
+
+# {   echo "changed:                      ${changed}" >> ${filename}
+#     echo "------------------------------" >> ${filename}
+# }
+
+printf "{\"failed\": false, \"changed\": true, \"msg\": \"Pulled ${image_name}:${pull_image_tag} and tagged ${image_name}:${working_image_tag}\"}"
+exit 0

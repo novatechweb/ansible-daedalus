@@ -1,0 +1,5 @@
+---
+
+bacula_storage: TapeDrive
+bacula_fileset: 'Full Set'
+bacula_dest: /tmp/bacula-restores

@@ -1,0 +1,13 @@
+[bacula]
+daedalus.novatech-llc.com
+
+[virtual-machine-hosts]
+daedalus.novatech-llc.com
+
+[freeipa-VM]
+
+[docker-hosts]
+daedalus.novatech-llc.com
+
+[buildsystem]
+buildsystem.novatech-llc.com

@@ -1,0 +1,66 @@
+[submodule "roles/docker-build-base-image"]
+	path = roles/docker-build-base-image
+	url = https://github.com/novatechweb/ansible-docker-build-base-image.git
+[submodule "roles/docker-common"]
+	path = roles/docker-common
+	url = https://github.com/novatechweb/ansible-docker-common.git
+[submodule "roles/docker-gitlab"]
+	path = roles/docker-gitlab
+	url = https://github.com/novatechweb/ansible-docker-gitlab.git
+[submodule "roles/docker-mediawiki"]
+	path = roles/docker-mediawiki
+	url = https://github.com/novatechweb/ansible-docker-mediawiki.git
+[submodule "roles/docker-openldap"]
+	path = roles/docker-openldap
+	url = https://github.com/novatechweb/ansible-docker-openldap.git
+[submodule "roles/docker-openssl"]
+	path = roles/docker-openssl
+	url = https://github.com/novatechweb/ansible-docker-openssl.git
+[submodule "roles/docker-pull-images"]
+	path = roles/docker-pull-images
+	url = https://github.com/novatechweb/ansible-docker-pull-images.git
+[submodule "roles/docker-svn"]
+	path = roles/docker-svn
+	url = https://github.com/novatechweb/ansible-docker-svn.git
+[submodule "roles/bacula-catalog"]
+	path = roles/bacula-catalog
+	url = https://github.com/novatechweb/ansible-bacula-catalog.git
+[submodule "roles/bacula-client"]
+	path = roles/bacula-client
+	url = https://github.com/novatechweb/ansible-bacula-client.git
+[submodule "roles/bacula-console"]
+	path = roles/bacula-console
+	url = https://github.com/novatechweb/ansible-bacula-console.git
+[submodule "roles/bacula-director"]
+	path = roles/bacula-director
+	url = https://github.com/novatechweb/ansible-bacula-director.git
+[submodule "roles/bacula-storage"]
+	path = roles/bacula-storage
+	url = https://github.com/novatechweb/ansible-bacula-storage.git
+[submodule "roles/libvirt-lvmpool"]
+	path = roles/libvirt-lvmpool
+	url = https://github.com/novatechweb/ansible-libvirt-lvmpool.git
+[submodule "roles/libvirt-vm"]
+	path = roles/libvirt-vm
+	url = https://github.com/novatechweb/ansible-libvirt-vm.git
+[submodule "roles/bacula-script"]
+	path = roles/bacula-script
+	url = https://github.com/novatechweb/ansible-bacula-script.git
+[submodule "roles/mariadb"]
+	path = roles/mariadb
+	url = https://github.com/novatechweb/ansible-mariadb.git
+[submodule "roles/setup-remote-user"]
+	path = roles/setup-remote-user
+	url = https://github.com/novatechweb/ansible-setup-remote-user.git
+[submodule "roles/docker-mantisbt"]
+	path = roles/docker-mantisbt
+	url = https://github.com/novatechweb/ansible-docker-mantisbt.git
+[submodule "roles/docker-exim4"]
+	path = roles/docker-exim4
+	url = https://github.com/novatechweb/ansible-docker-exim4.git
+[submodule "roles/docker-buildsystem"]
+	path = roles/docker-buildsystem
+	url = https://github.com/novatechweb/ansible-docker-buildsystem.git
+[submodule "roles/buildsystem"]
+	path = roles/buildsystem
+	url = https://github.com/novatechweb/ansible-buildsystem.git

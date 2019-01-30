@@ -1,0 +1,13 @@
+[bacula]
+testdaedalus.novatech-llc.com
+
+[virtual-machine-hosts]
+testdaedalus.novatech-llc.com
+
+[freeipa-VM]
+
+[docker-hosts]
+testdaedalus.novatech-llc.com
+
+[buildsystem]
+buildsystem.novatech-llc.com ansible_ssh_host=172.16.64.105
