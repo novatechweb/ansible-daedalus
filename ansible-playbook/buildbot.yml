@@ -10,7 +10,17 @@
     - buildbot-master
   vars:
     known_hosts: "{{gitlab_keys.stdout}}"
+    ntel_release_uri:    "https://{{nexus_hostname}}/repository/ntel-release"
+    ntel_beta_uri:       "https://{{nexus_hostname}}/repository/ntel-unofficial"
+    ntel_sstate_uri:     "https://{{nexus_hostname}}/repository/ntel-sstate"
+    ptxdist_release_uri: "https://{{nexus_hostname}}/repository/ptxdist-release"
+    ptxdist_beta_uri:    "https://{{nexus_hostname}}/repository/ptxdist-unofficial"
   tasks:
+    - add_host:
+        name: nexus
+        groups: services
+        ip_addr: "{{ nexus_ip_addr }}"
+        uri: "repository"
     - name: Scan Gitlab ssh keys
       command: ssh-keyscan {{gitlab_hostname}}
       register: gitlab_keys
@@ -30,6 +40,17 @@
     - buildbot-worker-ntel
     - buildbot-worker-ptxdist
   vars:
+    asset_host: "https://{{nexus_hostname}}/repository"
+    asset_user: "buildbot"
+    asset_password: "{{nexus_buildbot_password}}"
+    asset_downloads:   "{{ asset_host }}/download"
+    asset_orphans:     "{{ asset_host }}/orphans"
+    asset_debian:      "{{ asset_host }}/debian"
+    asset_sourceforge: "{{ asset_host }}/sourceforge"
+    asset_gnu:         "{{ asset_host }}/gnu"
+    asset_xorg:        "{{ asset_host }}/xorg"
+    asset_kernel:      "{{ asset_host }}/kernel/linux"
+    asset_pypi:        "{{ asset_host }}/pypi"
     buildbot_master: "{{ buildbot_hostname }}"
     known_hosts: "{{ gitlab_keys.stdout }}"
   tasks:

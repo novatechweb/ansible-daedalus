@@ -77,6 +77,9 @@
     unsafe_writes: yes
   loop:
     - known_hosts
+    - netrc
+    - pydistutils.cfg
+    - ptxdistrc
 
 - name: Checkout image repo
   git:

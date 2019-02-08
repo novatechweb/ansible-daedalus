@@ -1,6 +1,6 @@
 #
-# Automatically generated make config: don't edit
-# PTXdist 2011.09.0-00029-gd149989
+# Automatically generated file; DO NOT EDIT.
+# PTXdist 2012.09.1-00373-gee9622f
 #
 
 #
@@ -29,19 +29,20 @@ PTXCONF_SETUP_PROJECTPATH="${PTXDIST_TOPDIR}/projects"
 #
 # Source Directories
 #
-PTXCONF_SETUP_SRCDIR=""
+PTXCONF_SETUP_SRCDIR="{{cache_path}}/downloads"
 
 #
 # Source Download
 #
 # PTXCONF_SETUP_NO_DOWNLOAD is not set
 # PTXCONF_SETUP_PTXMIRROR_ONLY is not set
-PTXCONF_SETUP_PTXMIRROR="http://nexus.novatech-llc.com/repository/orphans"
-PTXCONF_SETUP_DEBMIRROR="http://nexus.novatech-llc.com/repository/debian"
-PTXCONF_SETUP_SFMIRROR="http://nexus.novatech-llc.com/repository/sourceforge"
-PTXCONF_SETUP_GNUMIRROR="http://nexus.novatech-llc.com/repository/gnu"
-PTXCONF_SETUP_XORGMIRROR="http://nexus.novatech-llc.com/repository/xorg"
-PTXCONF_SETUP_KERNELMIRROR="http://nexus.novatech-llc.com/repository/kernel"
+PTXCONF_SETUP_PTXMIRROR="{{asset_orphans}}"
+PTXCONF_SETUP_DEBMIRROR="{{asset_debian}}"
+PTXCONF_SETUP_SFMIRROR="{{asset_sourceforge}}"
+PTXCONF_SETUP_GNUMIRROR="{{asset_gnu}}"
+PTXCONF_SETUP_XORGMIRROR="{{asset_xorg}}"
+PTXCONF_SETUP_KERNELMIRROR="{{asset_kernel}}"
+PTXCONF_SETUP_PYPIMIRROR="{{asset_pypi}}"
 # PTXCONF_SETUP_CHECK_ALWAYS is not set
 PTXCONF_SETUP_CHECK_NOTEMPTY=y
 # PTXCONF_SETUP_CHECK_NEVER is not set
@@ -50,7 +51,7 @@ PTXCONF_SETUP_CHECK="notempty"
 #
 # IPKG Repository
 #
-PTXCONF_SETUP_IPKG_REPOSITORY=""
+PTXCONF_SETUP_IPKG_REPOSITORY="{{cache_path}}/ipkg-repository"
 
 #
 # Java SDK
@@ -65,7 +66,7 @@ PTXCONF_SETUP_ENV_WHITELIST=""
 # PTXCONF_SETUP_COMMON_CACHE is not set
 # PTXCONF_SETUP_GEN_DEP_TREE is not set
 # PTXCONF_SETUP_CHECK_EXIT_ON_ERROR is not set
-# PTXCONF_SETUP_CCACHE is not set
+PTXCONF_SETUP_CCACHE=y
 PTXCONF_SETUP_PATCHIN_GIT=y
 # PTXCONF_SETUP_NFS_REL_SYMLINK is not set
 # PTXCONF_SETUP_DIRECT_CLEAN is not set

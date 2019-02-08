@@ -32,6 +32,11 @@ config_hostdir: '{{ docker_restore_config_base_dir }}/{{ container_name }}'
 
 # environment passed to the container
 container_env:
+  NTEL_BETA_URI: '{{ ntel_beta_uri }}'
+  NTEL_RELEASE_URI: '{{ ntel_release_uri }}'
+  NTEL_SSTATE_URI: '{{ ntel_sstate_uri }}'
+  PTXDIST_BETA_URI: '{{ ptxdist_beta_uri }}'
+  PTXDIST_RELEASE_URI: '{{ ptxdist_release_uri }}'
   BUILDBOT_DATABASE: 'sqlite:///{{ data_path }}/state.sqlite'
   BUILDBOT_SMTP_HOST: '{{ exim4_hostname }}'
   BUILDBOT_SMTP_PORT: '587'

@@ -10,7 +10,10 @@ c = WorkerConfig = {}
 
 DEFAULT_BBFLAGS = '-k'
 DEFAULT_REPO = 'git@git.novatech-llc.com:ntel/setup-scripts.git'
-ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+
+BETA_URI = os.getenv("NTEL_BETA_URI", default="http://127.0.0.1")
+RELEASE_URI = os.getenv("NTEL_RELEASE_URI", default="http://127.0.0.1")
+SSTATE_URI = os.getenv("NTEL_SSTATE_URI", default="http://127.0.0.1")
 
 # Workers
 # The 'workers' list defines the set of recognized buildworkers. Each element is
@@ -66,13 +69,20 @@ c['schedulers'] = [
             util.BooleanParameter(
                 name="clobber",
                 label="Clobber build directory",
-                default=False
-            ),
+                default=False),
             util.BooleanParameter(
                 name='cache',
                 label="Use cached state",
-                default=True
-            ),
+                default=True),
+            util.StringParameter(
+                name="release_pin",
+                label="PIN for release signing",
+                default='',
+                required=False),
+            util.StringParameter(
+                name='bbflags',
+                label="BitBake Options",
+                default=DEFAULT_BBFLAGS),
             util.StringParameter(
                 name="release_pin",
                 label="PIN for release signing",
@@ -166,9 +176,14 @@ def ComputeBuildProperties(props):
             a['prefix'],
         )
 
-        a['url'] = "%s/%s/%s" % (
-            ASSET_HOST,
-            urlpath,
+        if props.getProperty('release_pin'):
+            uri = RELEASE_URI
+        else:
+            uri = BETA_URI
+
+        a['url'] = os.path.join(
+            uri,
+            version,
             a['artifact'],
         )
 
@@ -284,7 +299,19 @@ class BitBakeArchive(steps.ShellSequence):
                     art['prefix'],
                     artfile
                 ],
+                haltOnFailure=True,
                 logfile="Create %s archive" % (m),
+            ))
+
+            arturl = art['url']
+            commands.append(util.ShellArg(
+                logfile="Upload %s archive" % (m),
+                haltOnFailure=True,
+                command=[
+                    'curl', '--fail', '--netrc', '--verbose',
+                    '--upload-file', artfile,
+                    '--url', arturl
+                ],
             ))
         return steps.ShellSequence.runShellSequence(self, commands)
 

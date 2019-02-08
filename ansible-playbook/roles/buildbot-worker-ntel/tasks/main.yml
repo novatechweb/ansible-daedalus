@@ -77,6 +77,8 @@
     unsafe_writes: yes
   loop:
     - known_hosts
+    - netrc
+    - pydistutils.cfg
 
 - name: Populate archival script
   copy:

@@ -8,7 +8,9 @@ c = WorkerConfig = {}
 
 DEFAULT_BRANCH = 'master'
 DEFAULT_REPO = 'git@git.novatech-llc.com:Orion-ptxdist/workspace-ptxdist2'
-ASSET_HOST = os.getenv("ASSET_HOST", default="http://127.0.0.1")
+
+BETA_URI = os.getenv("PTXDIST_BETA_URI", default="http://127.0.0.1")
+RELEASE_URI = os.getenv("PTXDIST_RELEASE_URI", default="http://127.0.0.1")
 
 collections = {
     "armeb-xscale": "armeb-base",
@@ -198,6 +200,15 @@ class PTXDistBuild(steps.ShellSequence):
                     "-f", util.Interpolate("%(prop:artifact_dest)s/%(prop:ipkg_artifact)s"),
                     util.Property("project")
                 ]),
+
+            util.ShellArg(
+                logfile="upload",
+                haltOnFailure=True,
+                command=[
+                    'curl', '--netrc', '--verbose',
+                    '--upload-file', util.Interpolate("%(prop:artifact_dest)s/%(prop:image_artifact)s"),
+                    '--url', util.Property('ipkg_url')
+                ]),
         ]
 
 
@@ -224,8 +235,10 @@ class PTXDistImages(steps.ShellSequence):
             util.ShellArg(
                 logfile="ptxdist images",
                 haltOnFailure=True,
-                command=["ptxdist", "images"],
-            ),
+                command=[
+                    "ptxdist",
+                    "images"
+                ]),
 
             util.ShellArg(
                 logfile="archive",
@@ -235,8 +248,17 @@ class PTXDistImages(steps.ShellSequence):
                     "-C", util.Property("image_root"),
                     "-f", util.Interpolate("%(prop:artifact_dest)s/%(prop:image_artifact)s"),
                     "."
-                ]
-            ),
+                ]),
+
+            util.ShellArg(
+                logfile="upload",
+                haltOnFailure=False,
+                flunkOnFailure=True,
+                command=[
+                    'curl', '--netrc', '--verbose',
+                    '--upload-file', util.Interpolate("%(prop:artifact_dest)s/%(prop:image_artifact)s"),
+                    '--url', util.Property('image_url')
+                ]),
         ]
 
 
@@ -291,6 +313,23 @@ def ComputeBuildProperties(props):
 
     newprops['collection'] = collections.get(
         props.getProperty('platform')
+    )
+
+    if props.getProperty('release'):
+        uri = RELEASE_URI
+    else:
+        uri = BETA_URI
+
+    newprops['ipkg_url'] = os.path.join(
+        uri,
+        version,
+        newprops['ipkg_artifact'],
+    )
+
+    newprops['image_url'] = os.path.join(
+        uri,
+        version,
+        newprops['image_artifact'],
     )
 
     return newprops

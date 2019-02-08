@@ -2,7 +2,7 @@
 # defaults file for buildbot-worker-ntel
 
 # host containing build assets
-asset_host: 'http://{{ansible_facts.default_ipv4.address}}/'
+asset_downloads: 'http://{{ansible_facts.default_ipv4.address}}/'
 
 # address of buildbot master service
 buildbot_master: '{{ansible_facts.default_ipv4.address}}'
@@ -51,6 +51,8 @@ container_volumes:
 - '{{ config_hostdir }}/ci-archive.sh:/usr/local/bin/ci-archive.sh'
 - '{{ config_hostdir }}/{{ buildbot_worker_ntel_sshkey | basename }}:/home/buildbot/.ssh/id_rsa'
 - '{{ config_hostdir }}/known_hosts:/home/buildbot/.ssh/known_hosts'
+- '{{ config_hostdir }}/pydistutils.cfg:/home/buildbot/.pydistutils.cfg'
+- '{{ config_hostdir }}/netrc:/home/buildbot/.netrc'
 
 # mount path of the data volume
 data_path: '/buildbot'
@@ -65,7 +67,7 @@ hsm_host: '{{ansible_facts.default_ipv4.address}}'
 image_args:
   BUILDBOT_UID: '{{buildbot_uid}}'
   BUILDBOT_VERSION: 'v{{buildbot_version}}'
-  PTK_URI: '{{asset_host}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
+  PTK_URI: '{{asset_downloads}}/610-009981-015_SW_PTK_5.3_Client_RevA.tar'
   PTK_HSM_HOST: '{{hsm_host}}'
 
 # directory of the image source

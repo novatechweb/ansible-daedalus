@@ -36,12 +36,12 @@ PTXCONF_SETUP_SRCDIR=""
 #
 # PTXCONF_SETUP_NO_DOWNLOAD is not set
 # PTXCONF_SETUP_PTXMIRROR_ONLY is not set
-PTXCONF_SETUP_PTXMIRROR="http://www.pengutronix.de/software/ptxdist/temporary-src"
-PTXCONF_SETUP_DEBMIRROR="http://ftp.uni-kl.de/debian"
-PTXCONF_SETUP_SFMIRROR="http://downloads.sourceforge.net/sourceforge"
-PTXCONF_SETUP_GNUMIRROR="http://ftp.uni-kl.de/pub/gnu"
-PTXCONF_SETUP_XORGMIRROR="http://xorg.mirrors.pair.com/pub/X11/ftp.x.org"
-PTXCONF_SETUP_KERNELMIRROR="http://www.kernel.org/pub/linux"
+PTXCONF_SETUP_PTXMIRROR="http://nexus.novatech-llc.com/repository/orphans"
+PTXCONF_SETUP_DEBMIRROR="http://nexus.novatech-llc.com/repository/debian"
+PTXCONF_SETUP_SFMIRROR="http://nexus.novatech-llc.com/repository/sourceforge"
+PTXCONF_SETUP_GNUMIRROR="http://nexus.novatech-llc.com/repository/gnu"
+PTXCONF_SETUP_XORGMIRROR="http://nexus.novatech-llc.com/repository/xorg"
+PTXCONF_SETUP_KERNELMIRROR="http://nexus.novatech-llc.com/repository/kernel"
 # PTXCONF_SETUP_CHECK_ALWAYS is not set
 PTXCONF_SETUP_CHECK_NOTEMPTY=y
 # PTXCONF_SETUP_CHECK_NEVER is not set
