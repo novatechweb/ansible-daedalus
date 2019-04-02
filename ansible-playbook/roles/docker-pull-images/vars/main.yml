@@ -1,0 +1,39 @@
+---
+
+repository_images:
+  debian:
+    image: debian
+    tag: '8'
+# There is an issue with the LdapAuthentication extension working with the latest php 5.6.11
+#  wiki:
+#    image: php
+#    tag: '5.6-apache'
+# I am waiting to remove this untill the new code has been tested
+#    image: synctree/mediawiki
+#    tag: '1.24'
+  ubuntu:
+    image: ubuntu
+    tag: '14.04'
+  gitlab:
+    image: sameersbn/gitlab
+    tag: '7.14.3'
+  redis:
+    image: redis
+    tag: '3.0'
+  mysql:
+    image: mysql
+    tag: '5'
+  postgres:
+    image: postgres
+    tag: '9.4'
+  phpldapadmin:
+    image: osixia/phpldapadmin
+    tag: 'latest'
+  phpmyadmin:
+    image: corbinu/docker-phpmyadmin
+    tag: latest
+
+# These are temporary images that are used by docker-build-base-image
+  php:
+    image: debian
+    tag: jessie
