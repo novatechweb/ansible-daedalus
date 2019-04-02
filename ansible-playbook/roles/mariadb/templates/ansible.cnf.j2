@@ -1,0 +1,7 @@
+[server]
+{% if mariadb_innodb_use_barracuda %}
+innodb_file_per_table
+innodb_file_format=Barracuda
+{% endif %}
+character-set-server={{ mariadb_character_set }}
+collation-server={{ mariadb_collation }}
