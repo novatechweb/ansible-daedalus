@@ -1,0 +1,15 @@
+---
+
+# the name of the image being duilt and used for the container
+svn_image_name: '{{ docker_registry_username }}/svn'
+
+# the name of the container being started
+svn_container_name: '{{ docker_name_prefix }}svn'
+
+# the name of the data-volume used by the container
+svn_dv_name: '{{ docker_name_prefix }}svn_DV'
+
+# restore directories to temporarly store data being restored into docker containers
+svn_docker_backup_dir: '{{ docker_backup_dir }}/SVN'
+host_svn_docker_restore_dir: '{{ bacula_dest }}{{ svn_docker_backup_dir }}'
+

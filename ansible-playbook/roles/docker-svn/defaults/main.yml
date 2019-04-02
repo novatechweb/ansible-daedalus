@@ -1,0 +1,15 @@
+---
+
+# The hostname passed as an envirnment variable into the container
+container_addr_map:
+  svn:
+    ip_addr: '127.0.0.1'
+    hostname: svn.example.com
+
+# the port mappings used when starting the container
+container_port_map:
+  svn:
+    port_args: '-P'
+
+# The repositories that will be created/imported durring a data-volume restore
+svn_repos: 'example'
