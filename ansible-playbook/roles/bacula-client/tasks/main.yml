@@ -1,0 +1,16 @@
+---
+- assert:
+    that:
+    - bacula_director_password is defined
+    - bacula_monitor_password is defined
+- name: Install/setup Bacula Client
+  yum: name={{ item }} state=present
+  with_items:
+    - bacula-client
+- name: Configure Bacula Client
+  template: src=bacula-fd.conf.j2 dest={{ bacula_client_config_dir }}/bacula-fd.conf
+          owner=bacula group=bacula mode=0640 backup=yes
+- name: Test Bacula client configuration
+  command: /usr/sbin/bacula-fd -t -c {{ bacula_client_config_dir }}/bacula-fd.conf
+- name: Enable and start Bacula Client
+  service: name=bacula-fd enabled=yes state=started
