@@ -1,0 +1,8 @@
+---
+bacula_director_config_dir: "/etc/bacula"
+bacula_client_address: 127.0.0.1
+
+# must pass in the following variables
+# bacula_director_password: ''
+# bacula_monitor_password: ''
+# mariadb_bacula_password: ''

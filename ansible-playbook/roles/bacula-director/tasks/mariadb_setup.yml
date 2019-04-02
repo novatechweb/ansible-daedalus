@@ -1,0 +1,13 @@
+---
+- name: Create bacula mysql user
+  shell: mysql -u root -e "CREATE USER 'bacula'@'localhost';"
+- name: Set bacula mysql user password
+  shell: mysql -u root -e "SET PASSWORD FOR 'bacula'@'localhost' = PASSWORD(\"{{ mariadb_bacula_password }}\");"
+- name: Flush mysql privileges
+  shell: mysql -u root -e "FLUSH PRIVILEGES;"
+- name: Grant mysql privileges
+  shell: /usr/libexec/bacula/grant_mysql_privileges -u root
+- name: Create mysql database
+  shell: /usr/libexec/bacula/create_mysql_database -u root
+- name: Make mysql tables
+  shell: /usr/libexec/bacula/make_mysql_tables -u root
