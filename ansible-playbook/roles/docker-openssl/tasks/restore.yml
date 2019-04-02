@@ -1,0 +1,55 @@
+---
+# file: roles/docker-openssl/tasks/restore.yaml
+
+# *****************************************************************************
+# Get data from tape
+
+- name: exists - openssl archive
+  stat:
+    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    get_checksum: False
+    get_md5: False
+  register: st_openssl_backup_file
+
+- name: data from tape
+  bacula:
+    command: restore
+    storage: '{{ bacula_storage }}'
+    fileset: '{{ bacula_fileset }}'
+    dest: '{{ bacula_dest }}'
+    path_to_restore: '{{ openssl_docker_backup_dir }}'
+  when: st_openssl_backup_file.stat.exists == False
+
+- name: Set permissions for data-volume data
+  file:
+    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    state: touch
+    owner: root
+    group: root
+    mode: 'u=rw,g=rw,o='
+
+- name: exists - openssl archive
+  stat:
+    path: '{{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }}'
+    get_checksum: False
+    get_md5: False
+  register: st_openssl_backup_file
+
+# *****************************************************************************
+# restore the archive
+
+- name: extract archive
+  shell: "cat {{ host_openssl_docker_restore_dir }}{{ openssl_backup_file }} | docker run -i --rm --volumes-from {{ openssl_dv_name }} {{ openssl_image_name }}:{{ docker_image_tag }} extract"
+  when: st_openssl_backup_file.stat.exists == True
+
+# *****************************************************************************
+# cleanup
+
+- name: remove - openssl archive
+  file:
+    path: '{{ host_openssl_docker_restore_dir }}'
+    state: absent
+
+- name: State file
+  shell: 'date --rfc-3339=seconds > {{ docker_restore_config_base_dir }}/{{ openssl_dv_name }}/restore.date.txt'
+  when: st_openssl_restore.stat.exists == False

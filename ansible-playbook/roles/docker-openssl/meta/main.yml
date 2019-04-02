@@ -1,0 +1,8 @@
+---
+dependencies:
+
+- name: docker-common as a dependency
+  role: docker-common
+
+- name: docker-pull-images as a dependency
+  role: docker-pull-images
