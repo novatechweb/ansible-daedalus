@@ -1,0 +1,34 @@
+- name: Create temp directory for policy creation
+  command: mktemp -d /tmp/ansible-docker-log_rotate.XXXXXXXX
+  register: docker_tmp_dir
+
+- name: Copy docker_log_rotate type enforcement file
+  copy:
+    src: docker_log_rotate.te
+    dest: '{{ docker_tmp_dir.stdout }}/docker_log_rotate.te'
+    owner: root
+    group: root
+    mode: 'u=rw,g=r,o='
+
+- name: Run checkmodule on docker_log_rotate.te
+  command: /usr/bin/checkmodule -M -m -o docker_log_rotate.mod docker_log_rotate.te
+  args:
+    chdir: '{{ docker_tmp_dir.stdout }}'
+  when: ansible_os_family == "RedHat"
+
+- name: Build docker_log_rotate module
+  command: /usr/bin/semodule_package -o docker_log_rotate.pp -m docker_log_rotate.mod
+  args:
+    chdir: '{{ docker_tmp_dir.stdout }}'
+  when: ansible_os_family == "RedHat"
+
+- name: Install docker_log_rotate module
+  command: /usr/sbin/semodule -i docker_log_rotate.pp
+  args:
+    chdir: '{{ docker_tmp_dir.stdout }}'
+  when: ansible_os_family == "RedHat"
+
+- name: Delete temp directory
+  file:
+    path: '{{ docker_tmp_dir.stdout }}'
+    state: absent
