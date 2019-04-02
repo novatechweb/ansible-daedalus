@@ -1,0 +1,22 @@
+---
+- name: Check for volume
+  command: /usr/bin/virsh vol-info --pool {{ vm_pool }} {{ vm_vol }}
+  register: volinfo
+  ignore_errors: True
+- name: Check for vm image
+  stat: path={{ bacula_dest }}/var/lib/libvirt/backup/{{ vm_name }}/{{ vm_image }}
+  register: vmimage
+  when: volinfo.stdout.find('Capacity') == -1
+- name: Restore image
+  bacula: command=restore
+          storage="{{ bacula_storage }}"
+          fileset="{{ bacula_fileset }}"
+          path_to_restore="/var/lib/libvirt/backup/{{ vm_name }}"
+          dest="{{ bacula_dest }}"
+  when: volinfo.stdout.find('Capacity') == -1 and vmimage.stat.exists == false
+- name: Create volume
+  command: /usr/bin/virsh vol-create-as --pool {{ vm_pool }} --name {{ vm_vol }} --capacity {{ vm_capacity }}
+  when: volinfo.stdout.find('Capacity') == -1
+- name: Upload image to volume
+  command: /usr/bin/virsh vol-upload --pool {{ vm_pool }} --vol {{ vm_vol }} --file {{ bacula_dest }}/var/lib/libvirt/backup/{{ vm_name }}/{{ vm_image }}
+  when: vm_image is defined and volinfo.stdout.find('Capacity') == -1
