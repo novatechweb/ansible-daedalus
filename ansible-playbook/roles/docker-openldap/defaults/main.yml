@@ -1,0 +1,23 @@
+---
+
+# The hostname passed as an envirnment variable into the container
+container_addr_map:
+  ldap:
+    ip_addr: '127.0.0.1'
+    hostname: ldap.example.com
+  phpldapadmin:
+    ip_addr: '127.0.0.1'
+    hostname: ldap.example.com
+
+# the port mappings used when starting the container
+container_port_map:
+  ldap:
+    port_args: '-P'
+  phpldapadmin:
+    port_args: '-P'
+
+openldap_backup_files:
+  - ldif_file: LDAP_database_0000.ldif
+    dbnum: 0
+  - ldif_file: LDAP_database_0001.ldif
+    dbnum: 1
