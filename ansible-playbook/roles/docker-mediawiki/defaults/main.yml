@@ -1,0 +1,19 @@
+---
+
+# The hostname passed as an envirnment variable into the container
+container_addr_map:
+  wiki:
+    ip_addr: '127.0.0.1'
+    hostname: wiki.example.com
+
+# the port mappings used when starting the container
+container_port_map:
+  wiki:
+    port_args: '-P'
+
+# database usernames and passwords
+wiki_db_user: novatech
+
+# must pass in the following variables
+# wiki_db_root_password: ''
+# wiki_db_password: ''
