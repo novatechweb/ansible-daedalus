@@ -1,0 +1,30 @@
+---
+
+#docker_project_repository: https://github.com/JosephLutz/docker-project.git
+
+# the git repositoryies to check out for building the docker containers
+docker_projects:
+  - name: docker-openldap
+    repo: https://github.com/novatechweb/docker-openldap.git
+  - name: docker-mediawiki
+    repo: https://github.com/novatechweb/docker-mediawiki.git
+  - name: docker-gitlab
+    repo: https://github.com/novatechweb/docker-gitlab.git
+  - name: docker-openssl
+    repo: https://github.com/novatechweb/docker-openssl.git
+  - name: docker-svn
+    repo: https://github.com/novatechweb/docker-svn.git
+  - name: docker-mantisbt
+    repo: https://github.com/novatechweb/docker-mantisbt.git
+  - name: docker-mysql-data
+    repo: https://github.com/novatechweb/docker-mysql-data.git
+  - name: docker-exim4
+    repo: https://github.com/novatechweb/docker-exim4.git
+
+# the base directory where the docker projects will be checked out
+docker_projects_dir: '/opt/docker/{{ docker_image_tag }}'
+docker_restore_config_base_dir: '/etc/docker_container.conf/{{ docker_image_tag }}'
+
+# restore directories to temporarly store data being restored into docker containers
+docker_backup_dir: '/tmp/docker'
+docker_restore_dir: '{{ bacula_dest }}{{ docker_backup_dir }}'
