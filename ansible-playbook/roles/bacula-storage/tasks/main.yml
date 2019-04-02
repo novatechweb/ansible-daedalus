@@ -1,0 +1,23 @@
+---
+- assert:
+    that:
+    - bacula_director_password is defined
+    - bacula_monitor_password is defined
+- name: Install/setup Bacula Storage
+  yum: name={{ item }} state=present
+  with_items:
+    - bacula-storage
+- name: Configure Bacula Storage
+  template: src=bacula-sd.conf.j2 dest={{ bacula_storage_config_dir }}/bacula-sd.conf
+          owner=bacula group=bacula mode=0640 backup=yes
+- name: Check if baculatape selinux module exists
+  stat: path=/etc/selinux/targeted/modules/active/modules/baculatape.pp
+  register: baculatape_pp
+- include: selinux-tape-policy.yml
+  when: baculatape_pp.stat.exists is defined and baculatape_pp.stat.exists == false
+- name: Make sure bacula user is in the tape group
+  user: name=bacula groups=tape append=yes
+- name: Test Bacula Storage configuration
+  command: /usr/sbin/bacula-sd -t -c {{ bacula_storage_config_dir }}/bacula-sd.conf
+- name: Enable and start Bacula Storage
+  service: name=bacula-sd enabled=yes state=started
