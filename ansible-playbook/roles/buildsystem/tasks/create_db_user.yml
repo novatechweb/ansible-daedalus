@@ -1,0 +1,18 @@
+---
+- name: Get users in db
+  shell: mysql -h{{ db_host }} -u{{ db_admin_user }} -p{{ db_admin_user_password }} -e"SELECT user FROM mysql.user;"
+  register: users
+
+- name: DROP user
+  when: users.stdout.find(db_new_user) != -1
+  shell: mysql -h{{ db_host }} -u{{ db_admin_user }} -p{{ db_admin_user_password }} -e"DROP USER '{{ db_new_user }}';"
+
+- name: Create user
+  shell: mysql -h{{ db_host }} -u{{ db_admin_user }} -p{{ db_admin_user_password }} -e"CREATE USER '{{ db_new_user }}' IDENTIFIED BY '{{ db_new_user_password }}';"
+
+- name: Grant user permissions
+  shell: mysql -h{{ db_host }} -u{{ db_admin_user }} -p{{ db_admin_user_password }} -e"GRANT {{ item }} TO '{{ db_new_user }}'{{ db_grant_cmd_end }}"
+  with_items: "{{ db_new_user_permissions }}"
+
+- name: Flush privilages
+  shell: mysql -h{{ db_host }} -u{{ db_admin_user }} -p{{ db_admin_user_password }} -e"FLUSH TABLES;FLUSH privileges;"
