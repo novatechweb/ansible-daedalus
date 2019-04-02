@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# This script deletes a catalog dump
+#
+db_name=bacula
+
+rm -f /var/spool/bacula/${db_name}.sql
+
+/usr/libexec/bacula/bacula-bootstrap-backup
